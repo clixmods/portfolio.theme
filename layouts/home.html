@@ -24,8 +24,8 @@
             <a href="#competences" class="nav-item" data-section="competences">
                 <span class="nav-icon">⚡</span> Compétences
             </a>
-            <a href="#cv" class="nav-item" data-section="cv">
-                <span class="nav-icon">📄</span> CV
+            <a href="#blog" class="nav-item" data-section="blog">
+                <span class="nav-icon">�</span> Blog
             </a>
             <a href="#projets" class="nav-item" data-section="projets">
                 <span class="nav-icon">💼</span> Projets
@@ -193,9 +193,49 @@
                 </div>
             </section>
             
-            <!-- Section Recommandations -->
-            <section id="cv">
-                {{ partial "testimonials.html" . }}
+            <!-- Section Blog -->
+            <section id="blog">
+                <div class="projects-section">
+                    <div class="projects-header">
+                        <h2>Articles de Blog</h2>
+                        <p class="projects-subtitle">
+                            Découvrez mes derniers articles et réflexions sur le développement web et les nouvelles technologies [BLOG]
+                        </p>
+                    </div>
+
+                    <!-- Blog Grid -->
+                    <div class="projects-grid">
+                        {{ range first 3 (where site.RegularPages "Section" "posts") }}
+                        <div class="project-card blog-card">
+                            <div class="project-image">
+                                <div class="blog-image-placeholder">
+                                    <span class="blog-icon">[BLOG]</span>
+                                </div>
+                                <div class="project-overlay">
+                                    <div class="project-tags">
+                                        {{ range .Params.tags }}
+                                        <span class="project-tag">{{ . }}</span>
+                                        {{ end }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-content">
+                                <div class="post-date">{{ .Date.Format "02 Jan 2006" }}</div>
+                                <h3 class="project-title">{{ .Title }}</h3>
+                                <p class="project-subtitle">{{ .Description }}</p>
+                                <p class="project-description">{{ .Summary | truncate 120 }}</p>
+                                <div class="project-technologies">
+                                    <a href="{{ .Permalink }}" class="read-more-btn">Lire la suite</a>
+                                </div>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                    
+                    <div class="blog-footer">
+                        <a href="/posts" class="view-all-posts">Voir tous les articles</a>
+                    </div>
+                </div>
             </section>
             
             <!-- Section Projects -->
