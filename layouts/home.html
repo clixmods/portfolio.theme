@@ -1,7 +1,188 @@
-{{ define "main" }}
-  {{ .Content }}
-  {{ range site.RegularPages }}
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-    {{ .Summary }}
-  {{ end }}
+{{ define "main" }}            
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }}</title>
+    {{ $style := resources.Get "css/style.css" | resources.Minify }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-title">
+                <h2>Portfolio</h2>
+            </div>
+            <a href="#" class="nav-item active">
+                <span class="nav-icon">👤</span> Profil
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">�️</span> Compétences
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📄</span> CV
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💼</span> Projets
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🏆</span> Expériences
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📧</span> Contact
+            </a>
+        </nav>
+        
+        <main class="main-content">
+            <div class="profile-section">
+                <img src="/images/profile.jpg" alt="Clément GARCIA" class="profile-image">
+                
+                <div class="profile-info">
+                    <p class="greeting">Bonjour !</p>
+                    <h1>Je suis <span class="name">Clément GARCIA</span></h1>
+                    <p class="title">Étudiant BUT 3 IUT Montpellier-Sète<br>Développeur passionné en quête de nouvelles opportunités</p>
+                    
+                    <p class="bio">
+                        Étudiant en BUT 3 IUT Montpellier-Sète, passionné par le développement logiciel et les nouvelles technologies. 
+                        Désireux de piloter une équipe de développeurs et d'orienter les projets vers l'excellence.
+                    </p>
+                    
+                    <div class="info-section">
+                        <h3>Informations Supplémentaires</h3>
+                        <div class="info-item">
+                            <span class="info-label">Email</span>
+                            <span>: clement.g.developer@gmail.com</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">LinkedIn</span>
+                            <span>: linkedin.com/in/clementg4</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Localisation</span>
+                            <span>: Montpellier</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Formation</span>
+                            <span>: BUT 3 Informatique - IUT Montpellier-Sète</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Spécialité</span>
+                            <span>: Développement C#, Unity, SQL</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Expérience</span>
+                            <span>: 4+ ans de développement</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skills-section">
+                        <h3>Compétences Techniques</h3>
+                        
+                        <div class="skills-category">
+                            <h4>Langages de Programmation</h4>
+                            <div class="skills-grid">
+                                <div class="skill-block">
+                                    <span class="skill-icon">🔷</span>
+                                    <span class="skill-name">C#</span>
+                                    <span class="skill-level">4 ans</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">🐍</span>
+                                    <span class="skill-name">Python</span>
+                                    <span class="skill-level">2 ans</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">☕</span>
+                                    <span class="skill-name">JavaScript</span>
+                                    <span class="skill-level">2 ans</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">🗄️</span>
+                                    <span class="skill-name">SQL</span>
+                                    <span class="skill-level">2 ans</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">🌐</span>
+                                    <span class="skill-name">PHP</span>
+                                    <span class="skill-level">2 ans</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">📱</span>
+                                    <span class="skill-name">Lua</span>
+                                    <span class="skill-level">1 an</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">🔧</span>
+                                    <span class="skill-name">HTML</span>
+                                    <span class="skill-level">6 mois</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="skills-category">
+                            <h4>Moteurs de Jeu & Technologies</h4>
+                            <div class="skills-grid">
+                                <div class="skill-block">
+                                    <span class="skill-icon">🎮</span>
+                                    <span class="skill-name">Unity</span>
+                                    <span class="skill-level">Moteur Unity</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">📦</span>
+                                    <span class="skill-name">.NET</span>
+                                    <span class="skill-level">Framework</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">🖥️</span>
+                                    <span class="skill-name">Blazor</span>
+                                    <span class="skill-level">Framework Web</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="skills-category">
+                            <h4>Outils & Méthodologies</h4>
+                            <div class="skills-grid">
+                                <div class="skill-block">
+                                    <span class="skill-icon">📊</span>
+                                    <span class="skill-name">Gameplay</span>
+                                    <span class="skill-level">Conception</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">🎨</span>
+                                    <span class="skill-name">UI/UX</span>
+                                    <span class="skill-level">Design</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">🔧</span>
+                                    <span class="skill-name">Outils prod.</span>
+                                    <span class="skill-level">Développement</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">🔍</span>
+                                    <span class="skill-name">Tests</span>
+                                    <span class="skill-level">Résolution</span>
+                                </div>
+                                <div class="skill-block">
+                                    <span class="skill-icon">📱</span>
+                                    <span class="skill-name">Responsive</span>
+                                    <span class="skill-level">Web Design</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">🐦</a>
+                        <a href="#">💼</a>
+                        <a href="#">📷</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
 {{ end }}
+
