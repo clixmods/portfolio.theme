@@ -1,0 +1,84 @@
+<section class="education-section">
+    <div class="education-header">
+        <h2>Formation & Certifications</h2>
+        <p class="education-subtitle">
+            Mon parcours académique et professionnel, construisant les fondations de mon expertise technique
+        </p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="education-tabs">
+        <button class="edu-tab-btn active" data-category="education">Formation</button>
+        <button class="edu-tab-btn" data-category="certifications">Certifications</button>
+    </div>
+
+    <!-- Education Timeline -->
+    <div class="timeline-container" id="education-timeline">
+        <div class="timeline-line"></div>
+        
+        {{ range $index, $edu := .Site.Data.education.education }}
+        <div class="timeline-item education-item" data-category="education">
+            <div class="timeline-marker" style="background-color: {{ $edu.color }};">
+                <span class="timeline-icon">{{ $edu.icon }}</span>
+            </div>
+            
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div class="timeline-period">{{ $edu.period }}</div>
+                        <div class="timeline-status status-{{ lower $edu.status }}">{{ $edu.status }}</div>
+                    </div>
+                    
+                    <h3 class="timeline-title">{{ $edu.title }}</h3>
+                    <h4 class="timeline-institution">{{ $edu.institution }}</h4>
+                    <div class="timeline-location">📍 {{ $edu.location }}</div>
+                    
+                    <p class="timeline-description">{{ $edu.description }}</p>
+                    
+                    <div class="timeline-details">
+                        <div class="timeline-grade">
+                            <strong>Résultat :</strong> {{ $edu.grade }}
+                        </div>
+                        
+                        <div class="timeline-skills">
+                            <strong>Compétences acquises :</strong>
+                            <div class="skills-tags">
+                                {{ range $edu.skills }}
+                                <span class="skill-tag">{{ . }}</span>
+                                {{ end }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+
+    <!-- Certifications Timeline -->
+    <div class="timeline-container" id="certifications-timeline" style="display: none;">
+        <div class="timeline-line"></div>
+        
+        {{ range $index, $cert := .Site.Data.education.certifications }}
+        <div class="timeline-item certification-item" data-category="certifications">
+            <div class="timeline-marker" style="background-color: {{ $cert.color }};">
+                <span class="timeline-icon">{{ $cert.icon }}</span>
+            </div>
+            
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div class="timeline-period">{{ $cert.date }}</div>
+                        <div class="timeline-status status-{{ lower $cert.status }}">{{ $cert.status }}</div>
+                    </div>
+                    
+                    <h3 class="timeline-title">{{ $cert.title }}</h3>
+                    <h4 class="timeline-institution">{{ $cert.issuer }}</h4>
+                    
+                    <p class="timeline-description">{{ $cert.description }}</p>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>

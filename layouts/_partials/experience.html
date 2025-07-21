@@ -1,0 +1,159 @@
+<section class="experience-section">
+    <div class="experience-header">
+        <h2>Expérience Professionnelle</h2>
+        <p class="experience-subtitle">
+            Mon parcours professionnel, des projets concrets aux compétences développées en entreprise
+        </p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="experience-tabs">
+        <button class="exp-tab-btn active" data-category="experiences">Expériences</button>
+        <button class="exp-tab-btn" data-category="internships">Stages & Recherche</button>
+    </div>
+
+    <!-- Experiences Timeline -->
+    <div class="experience-timeline" id="experiences-timeline">
+        {{ range $index, $exp := .Site.Data.experience.experiences }}
+        <div class="experience-card {{ if eq $exp.status "current" }}current{{ end }}">
+            <div class="experience-header-card">
+                <div class="company-info">
+                    <div class="company-logo">
+                        <img src="{{ $exp.logo }}" alt="{{ $exp.company }}" onerror="this.src='/images/placeholder-company.jpg'">
+                    </div>
+                    <div class="company-details">
+                        <h3 class="job-title">{{ $exp.title }}</h3>
+                        <h4 class="company-name">{{ $exp.company }}</h4>
+                        <div class="job-meta">
+                            <span class="job-period">{{ $exp.period }}</span>
+                            <span class="job-duration">{{ $exp.duration }}</span>
+                        </div>
+                        <div class="job-info">
+                            <span class="job-type">{{ $exp.type }}</span>
+                            <span class="job-location">📍 {{ $exp.location }}</span>
+                        </div>
+                    </div>
+                </div>
+                {{ if eq $exp.status "current" }}
+                <div class="current-badge">En cours</div>
+                {{ end }}
+            </div>
+
+            <div class="experience-content">
+                <p class="experience-description">{{ $exp.description }}</p>
+
+                {{ if $exp.projects }}
+                <div class="projects-section">
+                    <h5>Projets principaux :</h5>
+                    {{ range $exp.projects }}
+                    <div class="project-item">
+                        <h6 class="project-name">{{ .name }}</h6>
+                        <p class="project-desc">{{ .description }}</p>
+                        {{ if .tasks }}
+                        <ul class="project-tasks">
+                            {{ range .tasks }}
+                            <li>{{ . }}</li>
+                            {{ end }}
+                        </ul>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </div>
+                {{ else if $exp.tasks }}
+                <div class="tasks-section">
+                    <h5>Responsabilités :</h5>
+                    <ul class="experience-tasks">
+                        {{ range $exp.tasks }}
+                        <li>{{ . }}</li>
+                        {{ end }}
+                    </ul>
+                </div>
+                {{ end }}
+
+                <div class="experience-skills">
+                    <h5>Compétences développées :</h5>
+                    <div class="skills-tags">
+                        {{ range $exp.skills }}
+                        <span class="skill-tag">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+
+                {{ if $exp.technologies }}
+                <div class="experience-technologies">
+                    <h5>Technologies utilisées :</h5>
+                    <div class="tech-chips">
+                        {{ range $exp.technologies }}
+                        <span class="tech-chip">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+    </div>
+
+    <!-- Internships Timeline -->
+    <div class="experience-timeline" id="internships-timeline" style="display: none;">
+        {{ range $index, $int := .Site.Data.experience.internships }}
+        <div class="experience-card seeking">
+            <div class="experience-header-card">
+                <div class="company-info">
+                    <div class="company-logo">
+                        <div class="seeking-icon">🔍</div>
+                    </div>
+                    <div class="company-details">
+                        <h3 class="job-title">{{ $int.title }}</h3>
+                        <h4 class="company-name">{{ $int.company }}</h4>
+                        <div class="job-meta">
+                            <span class="job-period">{{ $int.period }}</span>
+                            <span class="job-duration">{{ $int.duration }}</span>
+                        </div>
+                        <div class="job-info">
+                            <span class="job-type">{{ $int.type }}</span>
+                            <span class="job-location">📍 {{ $int.location }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="seeking-badge">Recherche active</div>
+            </div>
+
+            <div class="experience-content">
+                <p class="experience-description">{{ $int.description }}</p>
+
+                {{ if $int.requirements }}
+                <div class="requirements-section">
+                    <h5>Recherché :</h5>
+                    <ul class="requirements-list">
+                        {{ range $int.requirements }}
+                        <li>{{ . }}</li>
+                        {{ end }}
+                    </ul>
+                </div>
+                {{ end }}
+
+                <div class="experience-skills">
+                    <h5>Compétences à mettre en œuvre :</h5>
+                    <div class="skills-tags">
+                        {{ range $int.skills }}
+                        <span class="skill-tag">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+
+                {{ if $int.technologies }}
+                <div class="experience-technologies">
+                    <h5>Technologies souhaitées :</h5>
+                    <div class="tech-chips">
+                        {{ range $int.technologies }}
+                        <span class="tech-chip">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>

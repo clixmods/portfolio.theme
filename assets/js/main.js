@@ -91,6 +91,146 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Education Section Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const eduTabBtns = document.querySelectorAll('.edu-tab-btn');
+    const educationTimeline = document.getElementById('education-timeline');
+    const certificationsTimeline = document.getElementById('certifications-timeline');
+    
+    eduTabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const category = btn.getAttribute('data-category');
+            
+            // Update active tab
+            eduTabBtns.forEach(tab => tab.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Show/hide timelines with animation
+            if (category === 'education') {
+                // Hide certifications
+                if (certificationsTimeline) {
+                    certificationsTimeline.style.opacity = '0';
+                    certificationsTimeline.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        certificationsTimeline.style.display = 'none';
+                    }, 300);
+                }
+                
+                // Show education
+                if (educationTimeline) {
+                    setTimeout(() => {
+                        educationTimeline.style.display = 'block';
+                        setTimeout(() => {
+                            educationTimeline.style.opacity = '1';
+                            educationTimeline.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, 300);
+                }
+            } else if (category === 'certifications') {
+                // Hide education
+                if (educationTimeline) {
+                    educationTimeline.style.opacity = '0';
+                    educationTimeline.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        educationTimeline.style.display = 'none';
+                    }, 300);
+                }
+                
+                // Show certifications
+                if (certificationsTimeline) {
+                    setTimeout(() => {
+                        certificationsTimeline.style.display = 'block';
+                        setTimeout(() => {
+                            certificationsTimeline.style.opacity = '1';
+                            certificationsTimeline.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, 300);
+                }
+            }
+        });
+    });
+    
+    // Initialize timeline animations
+    const timelines = [educationTimeline, certificationsTimeline];
+    timelines.forEach(timeline => {
+        if (timeline) {
+            timeline.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            timeline.style.opacity = timeline.id === 'education-timeline' ? '1' : '0';
+            timeline.style.transform = 'translateY(0)';
+        }
+    });
+});
+
+// Experience Section Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const expTabBtns = document.querySelectorAll('.exp-tab-btn');
+    const experiencesTimeline = document.getElementById('experiences-timeline');
+    const internshipsTimeline = document.getElementById('internships-timeline');
+    
+    expTabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const category = btn.getAttribute('data-category');
+            
+            // Update active tab
+            expTabBtns.forEach(tab => tab.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Show/hide timelines with animation
+            if (category === 'experiences') {
+                // Hide internships
+                if (internshipsTimeline) {
+                    internshipsTimeline.style.opacity = '0';
+                    internshipsTimeline.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        internshipsTimeline.style.display = 'none';
+                    }, 300);
+                }
+                
+                // Show experiences
+                if (experiencesTimeline) {
+                    setTimeout(() => {
+                        experiencesTimeline.style.display = 'block';
+                        setTimeout(() => {
+                            experiencesTimeline.style.opacity = '1';
+                            experiencesTimeline.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, 300);
+                }
+            } else if (category === 'internships') {
+                // Hide experiences
+                if (experiencesTimeline) {
+                    experiencesTimeline.style.opacity = '0';
+                    experiencesTimeline.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        experiencesTimeline.style.display = 'none';
+                    }, 300);
+                }
+                
+                // Show internships
+                if (internshipsTimeline) {
+                    setTimeout(() => {
+                        internshipsTimeline.style.display = 'block';
+                        setTimeout(() => {
+                            internshipsTimeline.style.opacity = '1';
+                            internshipsTimeline.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, 300);
+                }
+            }
+        });
+    });
+    
+    // Initialize timeline animations
+    const expTimelines = [experiencesTimeline, internshipsTimeline];
+    expTimelines.forEach(timeline => {
+        if (timeline) {
+            timeline.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            timeline.style.opacity = timeline.id === 'experiences-timeline' ? '1' : '0';
+            timeline.style.transform = 'translateY(0)';
+        }
+    });
+});
+
 // Testimonials Slider
 document.addEventListener('DOMContentLoaded', function() {
     const slider = document.querySelector('.testimonials-slider');
