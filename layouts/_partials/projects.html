@@ -1,0 +1,116 @@
+<section class="projects-section">
+    <div class="projects-header">
+        <h2>Projects</h2>
+        <p class="projects-subtitle">
+            Building user-friendly applications that simplify lives, solving challenges with innovation
+            —because great products are never built alone. 🤝
+        </p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="projects-tabs">
+        <button class="tab-btn active" data-category="projects">Projects</button>
+        <button class="tab-btn" data-category="achievements">Achievements</button>
+        <button class="tab-btn" data-category="hobbies">Hobbies</button>
+    </div>
+
+    <!-- Technology Filter Badges -->
+    <div class="tech-filters">
+        <span class="tech-badge active" data-tech="all">All</span>
+        <span class="tech-badge" data-tech="React">🔵 React</span>
+        <span class="tech-badge" data-tech="Redux">🟢 Redux</span>
+        <span class="tech-badge" data-tech="TypeScript">🔷 TypeScript</span>
+        <span class="tech-badge" data-tech="AWS">🟣 AWS</span>
+        <span class="tech-badge" data-tech="Firebase">🟡 Firebase</span>
+        <span class="tech-badge" data-tech="PostMan">🔴 PostMan</span>
+        <span class="tech-badge" data-tech="MongoDB">🟢 MongoDB</span>
+    </div>
+
+    <!-- Description Text -->
+    <div class="projects-description">
+        <p id="section-description">This section contains the projects completed by me, using major Technologies.</p>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="projects-grid" id="projects-grid">
+        <!-- Projects will be dynamically populated here -->
+        {{ range .Site.Data.projects.projects }}
+        <div class="project-card" data-category="projects" data-technologies='{{ delimit .technologies "," }}'>
+            <div class="project-image">
+                <img src="{{ .image }}" alt="{{ .title }}" onerror="this.src='/images/placeholder-project.jpg'">
+                <div class="project-overlay">
+                    <div class="project-tags">
+                        {{ range .tags }}
+                        <span class="project-tag">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            <div class="project-content">
+                <h3 class="project-title">{{ .title }}</h3>
+                <p class="project-subtitle">{{ .subtitle }}</p>
+                <p class="project-description">{{ .description }}</p>
+                <div class="project-technologies">
+                    {{ range .technologies }}
+                    <span class="tech-chip">{{ . }}</span>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+        {{ end }}
+
+        {{ range .Site.Data.projects.achievements }}
+        <div class="project-card" data-category="achievements" data-technologies='{{ delimit .technologies "," }}' style="display: none;">
+            <div class="project-image">
+                <img src="{{ .image }}" alt="{{ .title }}" onerror="this.src='/images/placeholder-achievement.jpg'">
+                <div class="project-overlay">
+                    <div class="project-tags">
+                        {{ range .tags }}
+                        <span class="project-tag">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            <div class="project-content">
+                <h3 class="project-title">{{ .title }}</h3>
+                <p class="project-subtitle">{{ .subtitle }}</p>
+                <p class="project-description">{{ .description }}</p>
+                {{ if .technologies }}
+                <div class="project-technologies">
+                    {{ range .technologies }}
+                    <span class="tech-chip">{{ . }}</span>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+
+        {{ range .Site.Data.projects.hobbies }}
+        <div class="project-card" data-category="hobbies" data-technologies='{{ delimit .technologies "," }}' style="display: none;">
+            <div class="project-image">
+                <img src="{{ .image }}" alt="{{ .title }}" onerror="this.src='/images/placeholder-hobby.jpg'">
+                <div class="project-overlay">
+                    <div class="project-tags">
+                        {{ range .tags }}
+                        <span class="project-tag">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            <div class="project-content">
+                <h3 class="project-title">{{ .title }}</h3>
+                <p class="project-subtitle">{{ .subtitle }}</p>
+                <p class="project-description">{{ .description }}</p>
+                {{ if .technologies }}
+                <div class="project-technologies">
+                    {{ range .technologies }}
+                    <span class="tech-chip">{{ . }}</span>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>
