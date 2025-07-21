@@ -1,0 +1,40 @@
+<section class="testimonials-section">
+    <h3>Recommandations</h3>
+    
+    <div class="testimonials-slider">
+        <div class="testimonials-track">
+            {{ range .Site.Data.testimonials.testimonials }}
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="rating">
+                        {{ range seq .rating }}
+                        <span class="star">★</span>
+                        {{ end }}
+                    </div>
+                    <p class="testimonial-text">
+                        "{{ .text }}"
+                    </p>
+                    <div class="testimonial-author">
+                        <img src="{{ .avatar }}" alt="{{ .name }}" class="testimonial-avatar" onerror="this.style.display='none'">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">{{ .name }}</div>
+                            <div class="testimonial-position">{{ .position }}</div>
+                            <div class="testimonial-company">{{ .company }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+        
+        <div class="slider-controls">
+            <button class="slider-btn prev">‹</button>
+            <div class="slider-indicators">
+                {{ range $index, $testimonial := .Site.Data.testimonials.testimonials }}
+                <span class="indicator{{ if eq $index 0 }} active{{ end }}"></span>
+                {{ end }}
+            </div>
+            <button class="slider-btn next">›</button>
+        </div>
+    </div>
+</section>

@@ -172,6 +172,9 @@
                         </div>
                     </div>
                     
+                    <!-- Section Recommandations -->
+                    {{ partial "testimonials.html" . }}
+                    
                     <div class="social-links">
                         <a href="#">📘</a>
                         <a href="#">🐦</a>
@@ -182,6 +185,9 @@
             </div>
         </main>
     </div>
+    
+    {{ $js := resources.Get "js/main.js" | js.Build | resources.Minify }}
+    <script src="{{ $js.RelPermalink }}"></script>
 </body>
 </html>
 {{ end }}
