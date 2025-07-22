@@ -11,11 +11,6 @@
             {{ range .Site.Data.testimonials.testimonials }}
             <div class="testimonial-card aero-glass">
                 <div class="testimonial-content">
-                    <div class="rating">
-                        {{ range seq .rating }}
-                        <span class="star">★</span>
-                        {{ end }}
-                    </div>
                     <p class="testimonial-text">
                         "{{ .text }}"
                     </p>
