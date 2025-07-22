@@ -1,10 +1,15 @@
-<section class="testimonials-section">
-    <h3>Recommandations</h3>
+<div class="testimonials-section">
+    <div class="section-header">
+        <h2>Recommandations</h2>
+        <p class="section-subtitle">
+            Ce que mes collaborateurs et clients disent de mon travail
+        </p>
+    </div>
     
     <div class="testimonials-slider">
         <div class="testimonials-track">
             {{ range .Site.Data.testimonials.testimonials }}
-            <div class="testimonial-card">
+            <div class="testimonial-card aero-glass">
                 <div class="testimonial-content">
                     <div class="rating">
                         {{ range seq .rating }}
@@ -37,4 +42,4 @@
             <button class="slider-btn next">›</button>
         </div>
     </div>
-</section>
+</div>

@@ -842,6 +842,24 @@ body::after {
     width: 100%;
 }
 
+.testimonials-section .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.testimonials-section .section-header h2 {
+    color: #4fd1c7;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.testimonials-section .section-subtitle {
+    color: #d1d5db;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
 .testimonials-section h3 {
     color: #4fd1c7;
     margin-bottom: 2rem;
