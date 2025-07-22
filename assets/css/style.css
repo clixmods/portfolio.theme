@@ -314,59 +314,6 @@ body {
     border-radius: 0 20px 20px 0;
 }
 
-.profile-section { 
-    display: flex; 
-    gap: 2rem; 
-    align-items: flex-start; 
-    width: 100%;
-}
-
-.profile-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.profile-image { 
-    width: 250px; 
-    min-width: 250px;
-    height: 320px; 
-    border-radius: 12px; 
-    object-fit: cover; 
-    border: 3px solid #4fd1c7;
-    box-shadow: 0 8px 32px rgba(79, 209, 199, 0.3);
-}
-
-.profile-info { 
-    flex: 1;
-    min-width: 0;
-}
-
-.profile-info h1 { 
-    font-size: 2.2rem; 
-    margin-bottom: 1rem; 
-    line-height: 1.2;
-}
-
-.profile-info h1 .name { 
-    color: #4fd1c7; 
-}
-
-.profile-info .title { 
-    color: #a0a0a0; 
-    margin-bottom: 1.5rem; 
-    font-size: 1.1rem;
-    line-height: 1.4;
-}
-
-.profile-info .bio { 
-    line-height: 1.6; 
-    margin-bottom: 2rem; 
-    color: #d1d5db;
-    font-size: 1rem;
-}
-
 .info-section { 
     background: rgba(55, 65, 81, 0.6);
     backdrop-filter: blur(15px) saturate(180%);
@@ -689,18 +636,6 @@ body {
         padding: 1.5rem;
         width: calc(100% - 250px);
     }
-    
-    .profile-section {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    
-    .profile-image {
-        width: 200px;
-        min-width: 200px;
-        height: 250px;
-        align-self: center;
-    }
 }
 
 @media (max-width: 768px) {
@@ -720,21 +655,6 @@ body {
     
     .container {
         flex-direction: column;
-    }
-    
-    .profile-section {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-    }
-    
-    .profile-left {
-        align-items: center;
-        width: 100%;
-    }
-    
-    .profile-info h1 {
-        font-size: 1.8rem;
     }
     
     .skills-grid {
@@ -791,16 +711,6 @@ body {
 }
 
 @media (max-width: 480px) {
-    .profile-image {
-        width: 150px;
-        min-width: 150px;
-        height: 190px;
-    }
-    
-    .profile-info h1 {
-        font-size: 1.5rem;
-    }
-    
     .sidebar {
         padding: 0.5rem;
     }

@@ -1,0 +1,238 @@
+/**
+ * PROFILE SECTION STYLES
+ * 
+ * This file contains all styles related to the profile section of the portfolio website.
+ * It includes styles for the profile image, personal information, and responsive design
+ * adaptations for different screen sizes.
+ * 
+ * Author: Portfolio Theme
+ * Date: 2025
+ */
+
+/* ==========================================================================
+   MAIN PROFILE SECTION
+   ========================================================================== */
+
+/**
+ * Profile Section Container
+ * 
+ * Main container for the profile section that holds both the profile image
+ * and the profile information side by side on desktop layouts.
+ */
+.profile-section { 
+    display: flex; 
+    gap: 2rem; 
+    align-items: flex-start; 
+    width: 100%;
+}
+
+/**
+ * Profile Left Column
+ * 
+ * Container for the profile image and any additional elements
+ * positioned on the left side of the profile section.
+ */
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+/**
+ * Profile Image
+ * 
+ * Styled profile picture with rounded corners, border, and shadow effects.
+ * Features:
+ * - Fixed dimensions for consistent layout
+ * - Cyan border matching the theme color
+ * - Subtle glow effect with box-shadow
+ * - Object-fit: cover to maintain aspect ratio
+ */
+.profile-image { 
+    width: 250px; 
+    min-width: 250px;
+    height: 320px; 
+    border-radius: 12px; 
+    object-fit: cover; 
+    border: 3px solid #4fd1c7;
+    box-shadow: 0 8px 32px rgba(79, 209, 199, 0.3);
+}
+
+/* ==========================================================================
+   PROFILE INFORMATION
+   ========================================================================== */
+
+/**
+ * Profile Information Container
+ * 
+ * Container for all text-based profile information including name,
+ * title, and biography. Uses flex: 1 to take remaining space.
+ */
+.profile-info { 
+    flex: 1;
+    min-width: 0;
+}
+
+/**
+ * Profile Main Heading
+ * 
+ * Large heading containing the person's name and any additional text.
+ * Optimized for readability with proper line-height.
+ */
+.profile-info h1 { 
+    font-size: 2.2rem; 
+    margin-bottom: 1rem; 
+    line-height: 1.2;
+}
+
+/**
+ * Name Highlight
+ * 
+ * Special styling for the name portion within the main heading.
+ * Uses the theme's primary color (cyan) for emphasis.
+ */
+.profile-info h1 .name { 
+    color: #4fd1c7; 
+}
+
+/**
+ * Professional Title
+ * 
+ * Subtitle displaying the person's professional role or title.
+ * Uses muted gray color for visual hierarchy.
+ */
+.profile-info .title { 
+    color: #a0a0a0; 
+    margin-bottom: 1.5rem; 
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+/**
+ * Biography Text
+ * 
+ * Main descriptive text about the person. Optimized for readability
+ * with proper line-height and color contrast.
+ */
+.profile-info .bio { 
+    line-height: 1.6; 
+    margin-bottom: 2rem; 
+    color: #d1d5db;
+    font-size: 1rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/**
+ * Tablet Layout (1024px and below)
+ * 
+ * Adjustments for medium-sized screens:
+ * - Stack profile elements vertically
+ * - Reduce image size
+ * - Center-align profile image
+ */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .profile-section {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .profile-image {
+        width: 200px;
+        min-width: 200px;
+        height: 250px;
+        align-self: center;
+    }
+}
+
+/**
+ * Mobile Layout (768px and below)
+ * 
+ * Mobile-first responsive design:
+ * - Full-width layout
+ * - Center-aligned content
+ * - Reduced font sizes for better mobile experience
+ */
+@media (max-width: 768px) {
+    .profile-section {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+    
+    .profile-left {
+        align-items: center;
+        width: 100%;
+    }
+    
+    .profile-info h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/**
+ * Small Mobile Layout (480px and below)
+ * 
+ * Optimizations for very small screens:
+ * - Further reduced image size
+ * - Smaller typography
+ * - Compact spacing
+ */
+@media (max-width: 480px) {
+    .profile-image {
+        width: 150px;
+        min-width: 150px;
+        height: 190px;
+    }
+    
+    .profile-info h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+/**
+ * Profile Image Variants
+ * 
+ * Additional utility classes for different profile image styles
+ * that can be applied as needed.
+ */
+.profile-image--rounded {
+    border-radius: 50%;
+}
+
+.profile-image--square {
+    border-radius: 8px;
+}
+
+.profile-image--no-border {
+    border: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/**
+ * Profile Info Variants
+ * 
+ * Additional layout options for profile information section.
+ */
+.profile-info--centered {
+    text-align: center;
+}
+
+.profile-info--compact {
+    gap: 1rem;
+}
+
+.profile-info--compact .title {
+    margin-bottom: 1rem;
+}
+
+.profile-info--compact .bio {
+    margin-bottom: 1.5rem;
+}
