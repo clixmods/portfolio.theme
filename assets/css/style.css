@@ -1105,12 +1105,24 @@ body::after {
     font-weight: 500;
 }
 
+.tech-badge[style*="--tech-color"] {
+    border-color: rgba(var(--tech-color-rgb), 0.3);
+}
+
 .tech-badge.active,
 .tech-badge:hover {
     background: rgba(79, 209, 199, 0.2);
     color: #4fd1c7;
     border-color: rgba(79, 209, 199, 0.6);
     box-shadow: 0 2px 10px rgba(79, 209, 199, 0.2);
+}
+
+.tech-badge[style*="--tech-color"].active,
+.tech-badge[style*="--tech-color"]:hover {
+    background: rgba(var(--tech-color-rgb), 0.2);
+    color: var(--tech-color);
+    border-color: rgba(var(--tech-color-rgb), 0.6);
+    box-shadow: 0 2px 10px rgba(var(--tech-color-rgb), 0.2);
 }
 
 /* Projects Description */
