@@ -9,9 +9,9 @@
 
     <!-- Navigation Tabs -->
     <div class="projects-tabs">
-        <button class="tab-btn active" data-category="projects">Projects</button>
-        <button class="tab-btn" data-category="achievements">Achievements</button>
-        <button class="tab-btn" data-category="hobbies">Hobbies</button>
+        <button class="tab-btn active" data-category="games">Games</button>
+        <button class="tab-btn" data-category="apps-web">Apps/Web</button>
+        <button class="tab-btn" data-category="mods-tools">Mods & Tools</button>
     </div>
 
     <!-- Technology Filter Badges -->
@@ -26,89 +26,118 @@
 
     <!-- Description Text -->
     <div class="projects-description">
-        <p id="section-description">This section contains the projects completed by me, using major Technologies.</p>
+        <p id="section-description">Découvrez mes projets organisés par secteur d'expertise : jeux vidéo, applications web et outils de développement.</p>
     </div>
 
     <!-- Projects Grid -->
     <div class="projects-grid" id="projects-grid">
-        <!-- Projects will be dynamically populated here -->
-        {{ range .Site.Data.projects.projects }}
-        <div class="project-card" data-category="projects" data-technologies='{{ delimit .technologies "," }}'>
+        <!-- Games Projects -->
+        {{ range where .Site.RegularPages "Section" "projects" }}
+        {{ if and .Params.featured (eq .Params.sector "games") }}
+        <div class="project-card" data-category="games" data-technologies='{{ delimit .Params.technologies "," }}'>
             <div class="project-image">
-                <img src="{{ .image }}" alt="{{ .title }}" onerror="this.src='/images/placeholder-project.jpg'">
+                <img src="{{ .Params.image | default "/images/placeholder-project.jpg" }}" alt="{{ .Title }}" onerror="this.src='/images/placeholder-project.jpg'">
                 <div class="project-overlay">
                     <div class="project-tags">
-                        {{ range .tags }}
+                        {{ range .Params.tags }}
                         <span class="project-tag">{{ . }}</span>
                         {{ end }}
                     </div>
                 </div>
             </div>
             <div class="project-content">
-                <h3 class="project-title">{{ .title }}</h3>
-                <p class="project-subtitle">{{ .subtitle }}</p>
-                <p class="project-description">{{ .description }}</p>
+                <h3 class="project-title">
+                    <a href="{{ .Permalink }}" class="project-link">{{ .Title }}</a>
+                </h3>
+                <p class="project-subtitle">{{ .Params.subtitle }}</p>
+                <p class="project-description">{{ .Params.description }}</p>
                 <div class="project-technologies">
-                    {{ range .technologies }}
+                    {{ range .Params.technologies }}
                     <span class="tech-chip">{{ . }}</span>
                     {{ end }}
                 </div>
+                <div class="project-actions">
+                    <a href="{{ .Permalink }}" class="btn-primary">Voir le projet</a>
+                </div>
             </div>
         </div>
+        {{ end }}
         {{ end }}
 
-        {{ range .Site.Data.projects.achievements }}
-        <div class="project-card" data-category="achievements" data-technologies='{{ delimit .technologies "," }}' style="display: none;">
+        <!-- Apps/Web Projects -->
+        {{ range where .Site.RegularPages "Section" "projects" }}
+        {{ if and .Params.featured (eq .Params.sector "apps-web") }}
+        <div class="project-card" data-category="apps-web" data-technologies='{{ delimit .Params.technologies "," }}' style="display: none;">
             <div class="project-image">
-                <img src="{{ .image }}" alt="{{ .title }}" onerror="this.src='/images/placeholder-achievement.jpg'">
+                <img src="{{ .Params.image | default "/images/placeholder-project.jpg" }}" alt="{{ .Title }}" onerror="this.src='/images/placeholder-project.jpg'">
                 <div class="project-overlay">
                     <div class="project-tags">
-                        {{ range .tags }}
+                        {{ range .Params.tags }}
                         <span class="project-tag">{{ . }}</span>
                         {{ end }}
                     </div>
                 </div>
             </div>
             <div class="project-content">
-                <h3 class="project-title">{{ .title }}</h3>
-                <p class="project-subtitle">{{ .subtitle }}</p>
-                <p class="project-description">{{ .description }}</p>
-                {{ if .technologies }}
+                <h3 class="project-title">
+                    <a href="{{ .Permalink }}" class="project-link">{{ .Title }}</a>
+                </h3>
+                <p class="project-subtitle">{{ .Params.subtitle }}</p>
+                <p class="project-description">{{ .Params.description }}</p>
                 <div class="project-technologies">
-                    {{ range .technologies }}
+                    {{ range .Params.technologies }}
                     <span class="tech-chip">{{ . }}</span>
                     {{ end }}
                 </div>
-                {{ end }}
+                <div class="project-actions">
+                    <a href="{{ .Permalink }}" class="btn-primary">Voir le projet</a>
+                </div>
             </div>
         </div>
+        {{ end }}
         {{ end }}
 
-        {{ range .Site.Data.projects.hobbies }}
-        <div class="project-card" data-category="hobbies" data-technologies='{{ delimit .technologies "," }}' style="display: none;">
+        <!-- Mods & Tools Projects -->
+        {{ range where .Site.RegularPages "Section" "projects" }}
+        {{ if and .Params.featured (eq .Params.sector "mods-tools") }}
+        <div class="project-card" data-category="mods-tools" data-technologies='{{ delimit .Params.technologies "," }}' style="display: none;">
             <div class="project-image">
-                <img src="{{ .image }}" alt="{{ .title }}" onerror="this.src='/images/placeholder-hobby.jpg'">
+                <img src="{{ .Params.image | default "/images/placeholder-project.jpg" }}" alt="{{ .Title }}" onerror="this.src='/images/placeholder-project.jpg'">
                 <div class="project-overlay">
                     <div class="project-tags">
-                        {{ range .tags }}
+                        {{ range .Params.tags }}
                         <span class="project-tag">{{ . }}</span>
                         {{ end }}
                     </div>
                 </div>
             </div>
             <div class="project-content">
-                <h3 class="project-title">{{ .title }}</h3>
-                <p class="project-subtitle">{{ .subtitle }}</p>
-                <p class="project-description">{{ .description }}</p>
-                {{ if .technologies }}
+                <h3 class="project-title">
+                    <a href="{{ .Permalink }}" class="project-link">{{ .Title }}</a>
+                </h3>
+                <p class="project-subtitle">{{ .Params.subtitle }}</p>
+                <p class="project-description">{{ .Params.description }}</p>
                 <div class="project-technologies">
-                    {{ range .technologies }}
+                    {{ range .Params.technologies }}
                     <span class="tech-chip">{{ . }}</span>
                     {{ end }}
                 </div>
-                {{ end }}
+                <div class="project-actions">
+                    <a href="{{ .Permalink }}" class="btn-primary">Voir le projet</a>
+                </div>
             </div>
         </div>
         {{ end }}
+        {{ end }}
+    </div>
+    
+    <!-- See All Projects Button -->
+    <div class="projects-see-all">
+        <a href="/projects/" class="btn-see-all">
+            <span>Voir tous les projets</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
     </div>
 </section>

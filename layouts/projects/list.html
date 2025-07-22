@@ -1,0 +1,145 @@
+{{ define "main" }}
+<!-- Inclusion du CSS PS5 Projects -->
+{{ $ps5CSS := resources.Get "css/ps5-projects.css" }}
+<link rel="stylesheet" href="{{ $ps5CSS.RelPermalink }}">
+
+<div class="ps5-projects-page">
+    <!-- Header avec effet parallax -->
+    <header class="ps5-header">
+        <div class="ps5-header-bg"></div>
+        <div class="ps5-header-content">
+            <h1 class="ps5-title">{{ .Title }}</h1>
+            {{ if .Content }}
+            <div class="ps5-description">
+                {{ .Content }}
+            </div>
+            {{ end }}
+        </div>
+        <div class="ps5-header-gradient"></div>
+    </header>
+    
+    <!-- Navigation par secteurs style PS5 -->
+    <nav class="ps5-sectors">
+        <div class="ps5-sectors-container">
+            <button class="ps5-sector-btn active" data-sector="all">
+                <span class="ps5-sector-icon">🎮</span>
+                <span class="ps5-sector-label">Tous les projets</span>
+            </button>
+            <button class="ps5-sector-btn" data-sector="games">
+                <span class="ps5-sector-icon">🎯</span>
+                <span class="ps5-sector-label">Games</span>
+            </button>
+            <button class="ps5-sector-btn" data-sector="apps-web">
+                <span class="ps5-sector-icon">🌐</span>
+                <span class="ps5-sector-label">Apps/Web</span>
+            </button>
+            <button class="ps5-sector-btn" data-sector="mods-tools">
+                <span class="ps5-sector-icon">🛠️</span>
+                <span class="ps5-sector-label">Mods & Tools</span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Grille de tuiles projets style PS5 -->
+    <div class="ps5-projects-tiles">
+        {{ range where .Site.RegularPages "Section" "projects" }}
+        {{ if not (eq .File.LogicalName "_index.md") }}
+        <article class="ps5-project-tile" data-sector="{{ .Params.sector }}">
+            <!-- Image de fond -->
+            <div class="ps5-tile-image">
+                <img src="{{ .Params.image | default "/images/placeholder-project.jpg" }}" alt="{{ .Title }}" loading="lazy">
+                <div class="ps5-tile-overlay"></div>
+                
+                <!-- Badge featured -->
+                {{ if .Params.featured }}
+                <div class="ps5-tile-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                {{ end }}
+                
+                <!-- Icône secteur -->
+                <div class="ps5-tile-sector-icon">
+                    {{ if eq .Params.sector "games" }}🎮{{ end }}
+                    {{ if eq .Params.sector "apps-web" }}🌐{{ end }}
+                    {{ if eq .Params.sector "mods-tools" }}🛠️{{ end }}
+                </div>
+            </div>
+            
+            <!-- Titre de la tuile -->
+            <div class="ps5-tile-content">
+                <h3 class="ps5-tile-title">{{ .Title }}</h3>
+                {{ if .Params.subtitle }}
+                <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
+                {{ end }}
+            </div>
+            
+            <!-- Overlay d'informations au hover -->
+            <div class="ps5-tile-info">
+                <div class="ps5-tile-info-content">
+                    <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
+                    {{ if .Params.subtitle }}
+                    <p class="ps5-tile-info-subtitle">{{ .Params.subtitle }}</p>
+                    {{ end }}
+                    
+                    <p class="ps5-tile-description">{{ .Params.description | truncate 120 }}</p>
+                    
+                    <!-- Technologies principales -->
+                    {{ if .Params.technologies }}
+                    <div class="ps5-tile-tech">
+                        {{ range first 3 .Params.technologies }}
+                        <span class="ps5-tile-tech-item">{{ . }}</span>
+                        {{ end }}
+                        {{ if gt (len .Params.technologies) 3 }}
+                        <span class="ps5-tile-tech-more">+{{ sub (len .Params.technologies) 3 }}</span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                    
+                    <div class="ps5-tile-meta">
+                        <time class="ps5-tile-date">{{ .Date | time.Format "Jan 2006" }}</time>
+                        <a href="{{ .Permalink }}" class="ps5-tile-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Ouvrir
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lien principal -->
+            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="Voir {{ .Title }}"></a>
+        </article>
+        {{ end }}
+        {{ end }}
+    </div>
+    
+    <!-- Footer avec stats style PS5 -->
+    <footer class="ps5-footer">
+        <div class="ps5-stats">
+            <div class="ps5-stat">
+                <span class="ps5-stat-number">{{ len (where .Site.RegularPages "Section" "projects") }}</span>
+                <span class="ps5-stat-label">Projets total</span>
+            </div>
+            <div class="ps5-stat">
+                <span class="ps5-stat-number">{{ len (where (where .Site.RegularPages "Section" "projects") ".Params.sector" "games") }}</span>
+                <span class="ps5-stat-label">Games</span>
+            </div>
+            <div class="ps5-stat">
+                <span class="ps5-stat-number">{{ len (where (where .Site.RegularPages "Section" "projects") ".Params.sector" "apps-web") }}</span>
+                <span class="ps5-stat-label">Apps/Web</span>
+            </div>
+            <div class="ps5-stat">
+                <span class="ps5-stat-number">{{ len (where (where .Site.RegularPages "Section" "projects") ".Params.sector" "mods-tools") }}</span>
+                <span class="ps5-stat-label">Mods & Tools</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- Inclusion du JS PS5 Projects -->
+{{ $ps5JS := resources.Get "js/ps5-projects.js" }}
+<script src="{{ $ps5JS.RelPermalink }}"></script>
+{{ end }}

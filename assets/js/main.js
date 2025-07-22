@@ -123,9 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const sectionDescription = document.getElementById('section-description');
     
     const descriptions = {
-        projects: "This section contains the projects completed by me, using major Technologies.",
-        achievements: "Recognition and certifications earned throughout my professional journey.",
-        hobbies: "Personal projects and interests that fuel my passion for development."
+        games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
+        "apps-web": "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
+        "mods-tools": "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs."
     };
     
     tabBtns.forEach(btn => {
