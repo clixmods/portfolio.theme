@@ -1,0 +1,699 @@
+/**
+ * EXPERIENCE SECTION STYLES
+ * ========================
+ * 
+ * This file contains all CSS styles related to the experience section of the portfolio.
+ * It includes styles for experience cards, tabs, timelines, and responsive design.
+ * 
+ * Dependencies:
+ * - Main color scheme variables from style.css
+ * - Backdrop filter support for modern glass morphism effects
+ * 
+ * Components included:
+ * - Experience section layout
+ * - Experience header and subtitle
+ * - Experience navigation tabs
+ * - Experience timeline container
+ * - Experience cards with glass morphism
+ * - Company information display
+ * - Job details and metadata
+ * - Status badges (current/seeking)
+ * - Project sections within experience
+ * - Skills and technologies tags
+ * - Responsive breakpoints for mobile/tablet
+ * 
+ * Color Palette:
+ * - Primary: #4fd1c7 (Teal)
+ * - Text Primary: #fff (White)
+ * - Text Secondary: #a0a0a0 (Light Gray)
+ * - Text Tertiary: #d1d5db (Lighter Gray)
+ * - Background: rgba(55, 65, 81, 0.7) (Dark Glass)
+ * - Accent: #fbbf24 (Amber for seeking status)
+ * - Success: #22c55e (Green for current status)
+ */
+
+/* ===================================
+   EXPERIENCE SECTION - MAIN CONTAINER
+   =================================== */
+
+/**
+ * Main container for the experience section
+ * Provides consistent spacing and full width layout
+ */
+.experience-section {
+    margin: 4rem 0;
+    width: 100%;
+}
+
+/* ===================================
+   EXPERIENCE HEADER
+   =================================== */
+
+/**
+ * Header container with centered text alignment
+ * Contains the main title and subtitle for the experience section
+ */
+.experience-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/**
+ * Main heading for the experience section
+ * Large, bold title with consistent typography
+ */
+.experience-header h2 {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/**
+ * Subtitle text providing additional context
+ * Muted color with limited width for better readability
+ */
+.experience-subtitle {
+    color: #a0a0a0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ===================================
+   EXPERIENCE NAVIGATION TABS
+   =================================== */
+
+/**
+ * Tab container with glass morphism effect
+ * Provides navigation between different experience categories
+ */
+.experience-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem;
+    margin-bottom: 3rem;
+    background: rgba(55, 65, 81, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 25px;
+    padding: 0.3rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(79, 209, 199, 0.2);
+}
+
+/**
+ * Individual tab button styling
+ * Transparent by default with smooth transitions
+ */
+.exp-tab-btn {
+    background: transparent;
+    border: none;
+    color: #a0a0a0;
+    padding: 0.8rem 2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/**
+ * Active tab button with gradient background
+ * Highlighted state with teal gradient and shadow
+ */
+.exp-tab-btn.active {
+    background: linear-gradient(135deg, rgba(79, 209, 199, 0.8), rgba(79, 209, 199, 0.6));
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(79, 209, 199, 0.3);
+}
+
+/**
+ * Hover state for inactive tab buttons
+ * Subtle color change and background tint
+ */
+.exp-tab-btn:hover:not(.active) {
+    color: #4fd1c7;
+    background: rgba(79, 209, 199, 0.1);
+}
+
+/* ===================================
+   EXPERIENCE TIMELINE CONTAINER
+   =================================== */
+
+/**
+ * Timeline container with centered layout
+ * Provides structure for experience cards with smooth transitions
+ */
+.experience-timeline {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ===================================
+   EXPERIENCE CARDS
+   =================================== */
+
+/**
+ * Individual experience card with glass morphism effect
+ * Modern design with backdrop blur and subtle shadows
+ */
+.experience-card {
+    background: rgba(55, 65, 81, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(79, 209, 199, 0.3);
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+/**
+ * Hover effect for experience cards
+ * Elevates card with enhanced shadows and border glow
+ */
+.experience-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 12px 40px rgba(79, 209, 199, 0.15),
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: rgba(79, 209, 199, 0.5);
+}
+
+/**
+ * Current position highlight
+ * Enhanced border and glow effect for active positions
+ */
+.experience-card.current {
+    border-color: rgba(79, 209, 199, 0.6);
+    box-shadow: 
+        0 8px 32px rgba(79, 209, 199, 0.2),
+        0 0 20px rgba(79, 209, 199, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/**
+ * Job seeking status highlight
+ * Amber accent for positions being sought
+ */
+.experience-card.seeking {
+    border-color: rgba(251, 191, 36, 0.5);
+    box-shadow: 
+        0 8px 32px rgba(251, 191, 36, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ===================================
+   EXPERIENCE CARD HEADER
+   =================================== */
+
+/**
+ * Header section of experience cards
+ * Contains company info and job details in a flex layout
+ */
+.experience-header-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 2rem;
+    border-bottom: 1px solid rgba(79, 209, 199, 0.2);
+}
+
+/**
+ * Company information container
+ * Groups company logo and details together
+ */
+.company-info {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    flex: 1;
+}
+
+/**
+ * Company logo container with consistent sizing
+ * Rounded corners with teal border accent
+ */
+.company-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(79, 209, 199, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(79, 209, 199, 0.3);
+}
+
+/**
+ * Company logo image styling
+ * Ensures proper fit and coverage within container
+ */
+.company-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/**
+ * Icon for job seeking status
+ * Amber colored icon to indicate seeking status
+ */
+.seeking-icon {
+    font-size: 1.8rem;
+    color: #fbbf24;
+}
+
+/**
+ * Company details container
+ * Flexible container for job information
+ */
+.company-details {
+    flex: 1;
+}
+
+/**
+ * Job title styling
+ * Primary heading for the position
+ */
+.job-title {
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+/**
+ * Company name with teal accent
+ * Secondary heading with brand color
+ */
+.company-name {
+    color: #4fd1c7;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+}
+
+/**
+ * Job metadata container
+ * Flexible layout for job details like period and duration
+ */
+.job-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/**
+ * Job period badge
+ * Highlighted date range with teal styling
+ */
+.job-period {
+    background: rgba(79, 209, 199, 0.2);
+    color: #4fd1c7;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(79, 209, 199, 0.3);
+}
+
+/**
+ * Job duration text
+ * Muted text showing length of employment
+ */
+.job-duration {
+    color: #a0a0a0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.3rem 0;
+}
+
+/**
+ * Additional job information container
+ * Vertical layout for job type and location
+ */
+.job-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+/**
+ * Job type information
+ * Employment type (full-time, contract, etc.)
+ */
+.job-type {
+    color: #d1d5db;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/**
+ * Job location information
+ * Geographic location or remote status
+ */
+.job-location {
+    color: #a0a0a0;
+    font-size: 0.85rem;
+}
+
+/* ===================================
+   STATUS BADGES
+   =================================== */
+
+/**
+ * Base styling for status badges
+ * Common properties for current and seeking badges
+ */
+.current-badge,
+.seeking-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/**
+ * Current position badge
+ * Green styling with pulsing animation
+ */
+.current-badge {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    animation: pulse-current 2s ease-in-out infinite;
+}
+
+/**
+ * Job seeking badge
+ * Amber styling with pulsing animation
+ */
+.seeking-badge {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    animation: pulse-seeking 2s ease-in-out infinite;
+}
+
+/**
+ * Pulsing animation for current position badge
+ * Subtle glow effect to indicate active status
+ */
+@keyframes pulse-current {
+    0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }
+}
+
+/**
+ * Pulsing animation for seeking badge
+ * Amber glow effect to draw attention
+ */
+@keyframes pulse-seeking {
+    0%, 100% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.6); }
+}
+
+/* ===================================
+   EXPERIENCE CONTENT
+   =================================== */
+
+/**
+ * Main content area of experience cards
+ * Contains detailed information about the position
+ */
+.experience-content {
+    padding: 2rem;
+}
+
+/**
+ * Job description text
+ * Overview paragraph with comfortable line spacing
+ */
+.experience-description {
+    color: #d1d5db;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/**
+ * Content sections spacing
+ * Consistent spacing between different content areas
+ */
+.projects-section,
+.tasks-section,
+.requirements-section {
+    margin-bottom: 2rem;
+}
+
+/**
+ * Section headings within experience content
+ * Teal colored headings for content organization
+ */
+.projects-section h5,
+.tasks-section h5,
+.requirements-section h5,
+.experience-skills h5,
+.experience-technologies h5 {
+    color: #4fd1c7;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/**
+ * Project item containers
+ * Individual project cards within experience entries
+ */
+.project-item {
+    background: rgba(79, 209, 199, 0.05);
+    border: 1px solid rgba(79, 209, 199, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/**
+ * Project name styling
+ * Bold heading for individual projects
+ */
+.project-name {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/**
+ * Project description
+ * Italicized description text with muted color
+ */
+.project-desc {
+    color: #a0a0a0;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+/**
+ * Task and requirement lists
+ * Clean list styling without default bullets
+ */
+.project-tasks,
+.experience-tasks,
+.requirements-list {
+    list-style: none;
+    padding: 0;
+}
+
+/**
+ * Individual task/requirement items
+ * Custom bullet points with consistent spacing
+ */
+.project-tasks li,
+.experience-tasks li,
+.requirements-list li {
+    color: #d1d5db;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+/**
+ * Custom bullet points for lists
+ * Teal colored arrow markers
+ */
+.project-tasks li::before,
+.experience-tasks li::before,
+.requirements-list li::before {
+    content: "▸";
+    color: #4fd1c7;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* ===================================
+   SKILLS AND TECHNOLOGIES
+   =================================== */
+
+/**
+ * Skills and technologies sections
+ * Consistent spacing for tag containers
+ */
+.experience-skills,
+.experience-technologies {
+    margin-top: 1.5rem;
+}
+
+/**
+ * Tag containers for skills and technologies
+ * Flexible layout with wrapping and consistent gaps
+ */
+.skills-tags,
+.tech-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/**
+ * Individual skill tags
+ * Teal themed badges for skills
+ */
+.skill-tag {
+    background: rgba(79, 209, 199, 0.2);
+    color: #4fd1c7;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(79, 209, 199, 0.3);
+}
+
+/**
+ * Technology chips
+ * Purple themed badges for technologies
+ */
+.tech-chip {
+    background: rgba(99, 102, 241, 0.2);
+    color: #a5a3ff;
+    padding: 0.3rem 0.7rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+/* ===================================
+   RESPONSIVE DESIGN - MOBILE & TABLET
+   =================================== */
+
+/**
+ * Mobile and tablet responsive adjustments
+ * Optimized layout for smaller screens
+ */
+@media (max-width: 768px) {
+    /**
+     * Smaller header font for mobile
+     */
+    .experience-header h2 {
+        font-size: 2.5rem;
+    }
+    
+    /**
+     * Vertical tab layout for mobile
+     * Stacked tabs with full width
+     */
+    .experience-tabs {
+        flex-direction: column;
+        width: 100%;
+        border-radius: 15px;
+    }
+    
+    /**
+     * Mobile tab button adjustments
+     * Reduced border radius and added margins
+     */
+    .exp-tab-btn {
+        border-radius: 10px;
+        margin: 0.1rem;
+    }
+    
+    /**
+     * Vertical header card layout for mobile
+     * Stacked layout instead of side-by-side
+     */
+    .experience-header-card {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    /**
+     * Centered company info on mobile
+     * Vertical layout with centered alignment
+     */
+    .company-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    /**
+     * Larger company logo on mobile
+     * Increased size for better visibility
+     */
+    .company-logo {
+        width: 80px;
+        height: 80px;
+    }
+    
+    /**
+     * Centered job metadata on mobile
+     */
+    .job-meta {
+        justify-content: center;
+    }
+    
+    /**
+     * Centered badges on mobile
+     */
+    .current-badge,
+    .seeking-badge {
+        align-self: center;
+    }
+    
+    /**
+     * Reduced padding for mobile content
+     */
+    .experience-content {
+        padding: 1.5rem;
+    }
+    
+    /**
+     * Smaller project item padding on mobile
+     */
+    .project-item {
+        padding: 1.2rem;
+    }
+}
