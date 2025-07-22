@@ -1,0 +1,32 @@
+# Profile section
+i_am: "Je suis"
+download_resume: "Télécharger le CV"
+additional_info: "Informations Supplémentaires"
+
+# Contact section
+email: "Email"
+location: "Localisation"
+education: "Formation"
+specialty: "Spécialité"
+experience: "Expérience"
+status: "Statut"
+
+# Skills section
+technical_skills: "Compétences techniques"
+
+# Blog section
+blog_articles: "Articles de Blog"
+blog_subtitle: "Découvrez mes derniers articles et réflexions sur le développement web et les nouvelles technologies"
+read_more: "Lire la suite"
+view_all_posts: "Voir tous les articles"
+
+# Contact form
+contact_me: "Contactez-moi"
+contact_subtitle: "N'hésitez pas à me contacter pour discuter de vos projets ou opportunités !"
+send_message: "Envoyez-moi un message"
+name: "Nom"
+subject: "Sujet"
+message: "Message"
+choose_subject: "Choisissez un sujet"
+message_placeholder: "Décrivez votre projet ou votre proposition..."
+find_me_on: "Retrouvez-moi sur"

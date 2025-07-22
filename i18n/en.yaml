@@ -1,0 +1,32 @@
+# Profile section
+i_am: "I am"
+download_resume: "Download Resume"
+additional_info: "Additional Information"
+
+# Contact section
+email: "Email"
+location: "Location"
+education: "Education"
+specialty: "Specialty"
+experience: "Experience"
+status: "Status"
+
+# Skills section
+technical_skills: "Technical Skills"
+
+# Blog section
+blog_articles: "Blog Articles"
+blog_subtitle: "Discover my latest articles and thoughts on web development and new technologies"
+read_more: "Read more"
+view_all_posts: "View all posts"
+
+# Contact form
+contact_me: "Contact me"
+contact_subtitle: "Feel free to contact me to discuss your projects or opportunities!"
+send_message: "Send me a message"
+name: "Name"
+subject: "Subject"
+message: "Message"
+choose_subject: "Choose a subject"
+message_placeholder: "Describe your project or proposal..."
+find_me_on: "Find me on"

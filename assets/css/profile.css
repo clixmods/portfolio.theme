@@ -72,6 +72,18 @@
 .profile-info { 
     flex: 1;
     min-width: 0;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/**
+ * Greeting Text
+ * 
+ * Initial greeting message with bright, welcoming color.
+ */
+.profile-info .greeting {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
 }
 
 /**
@@ -84,6 +96,7 @@
     font-size: 2.2rem; 
     margin-bottom: 1rem; 
     line-height: 1.2;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 /**
@@ -100,13 +113,14 @@
  * Professional Title
  * 
  * Subtitle displaying the person's professional role or title.
- * Uses muted gray color for visual hierarchy.
+ * Uses bright color for better visibility on dark background.
  */
 .profile-info .title { 
-    color: #a0a0a0; 
+    color: rgba(255, 255, 255, 0.85); 
     margin-bottom: 1.5rem; 
     font-size: 1.1rem;
     line-height: 1.4;
+    font-weight: 500;
 }
 
 /**
@@ -118,7 +132,7 @@
 .profile-info .bio { 
     line-height: 1.6; 
     margin-bottom: 2rem; 
-    color: #d1d5db;
+    color: rgba(255, 255, 255, 0.8);
     font-size: 1rem;
 }
 

@@ -1,0 +1,11 @@
+<nav class="sidebar">
+    <div class="sidebar-title">
+        <h2>{{ .Site.Data.config.site.title | default "Portfolio" }}</h2>
+    </div>
+    
+    {{ range .Site.Data.config.navigation }}
+    <a href="#{{ .anchor }}" class="nav-item{{ if .active }} active{{ end }}" data-section="{{ .anchor }}">
+        <span class="nav-icon">{{ .icon }}</span> {{ .label }}
+    </a>
+    {{ end }}
+</nav>

@@ -1,0 +1,15 @@
+<section id="contact" class="contact-section">
+    <div class="contact-container">
+        <div class="contact-header">
+            <h2>{{ i18n "contact_me" | default "Contactez-moi" }}</h2>
+            <p>{{ i18n "contact_subtitle" | default "N'hésitez pas à me contacter pour discuter de vos projets ou opportunités !" }}</p>
+        </div>
+        
+        <div class="contact-content">
+            {{ partial "contact-info.html" . }}
+            {{ partial "contact-form.html" . }}
+        </div>
+        
+        {{ partial "social-links.html" . }}
+    </div>
+</section>

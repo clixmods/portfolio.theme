@@ -1,0 +1,43 @@
+<section id="profil" class="profile-section">
+    {{ with .Site.Data.profile.profile }}
+    <div class="profile-left">
+        <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="profile-image">
+        
+        <div class="download-resume-container">
+            <a href="{{ .media.resumeFile }}" download="{{ .media.resumeFilename }}" class="download-resume-btn">
+                <span class="btn-icon">📄</span>
+                <span class="btn-text">{{ i18n "download_resume" | default "Download Resume" }}</span>
+                <span class="btn-arrow">⬇</span>
+            </a>
+        </div>
+    </div>
+    
+    <div class="profile-info">
+        <p class="greeting">{{ .personal.greeting }}</p>
+        <h1>{{ i18n "i_am" | default "Je suis" }} <span class="name">{{ .personal.fullName }}</span></h1>
+        <p class="title">{{ .personal.title }}<br>{{ .personal.subtitle }}</p>
+        
+        <p class="bio">{{ .personal.bio }}</p>
+        
+        <div class="info-section aero-glass">
+            <h3>{{ i18n "additional_info" | default "Informations Supplémentaires" }}</h3>
+            
+            {{ $infoItems := slice 
+                (dict "label" (i18n "email" | default "Email") "value" .contact.email)
+                (dict "label" "LinkedIn" "value" .contact.linkedin)
+                (dict "label" (i18n "location" | default "Localisation") "value" .contact.location)
+                (dict "label" (i18n "education" | default "Formation") "value" .details.formation)
+                (dict "label" (i18n "specialty" | default "Spécialité") "value" .details.speciality)
+                (dict "label" (i18n "experience" | default "Expérience") "value" .details.experience)
+            }}
+            
+            {{ range $infoItems }}
+            <div class="info-item">
+                <span class="info-label">{{ .label }}</span>
+                <span>: {{ .value }}</span>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
+</section>

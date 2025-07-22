@@ -74,6 +74,19 @@
 }
 
 /**
+ * Sidebar title heading
+ * 
+ * Ensures the h2 element inherits the bright colors and styling.
+ */
+.sidebar-title h2 {
+    color: #4fd1c7;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(79, 209, 199, 0.5);
+}
+
+/**
  * Animated shimmer effect for sidebar title
  * 
  * Creates a moving light reflection effect that sweeps across

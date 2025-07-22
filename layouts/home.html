@@ -1,305 +1,40 @@
 {{ define "main" }}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }}</title>
-    {{ $style := resources.Get "css/style.css" }}
-    {{ if $style }}
-        {{ $style = $style | resources.Minify }}
-        <link rel="stylesheet" href="{{ $style.RelPermalink }}">
-    {{ end }}
-    {{ $background := resources.Get "css/background.css" }}
-    {{ if $background }}
-        {{ $background = $background | resources.Minify }}
-        <link rel="stylesheet" href="{{ $background.RelPermalink }}">
-    {{ end }}
-</head>
-<body>
-    <div class="container">
-        <!-- Progress bar pour indiquer le défilement -->
-        <div class="scroll-progress">
-            <div class="scroll-progress-bar"></div>
-        </div>
-        
-        <nav class="sidebar">
-            <div class="sidebar-title">
-                <h2>Portfolio</h2>
-            </div>
-            <a href="#profil" class="nav-item active" data-section="profil">
-                <span class="nav-icon">👤</span> Profil
-            </a>
-            <a href="#competences" class="nav-item" data-section="competences">
-                <span class="nav-icon">⚡</span> Compétences
-            </a>
-            <a href="#blog" class="nav-item" data-section="blog">
-                <span class="nav-icon">�</span> Blog
-            </a>
-            <a href="#projets" class="nav-item" data-section="projets">
-                <span class="nav-icon">💼</span> Projets
-            </a>
-            <a href="#formation" class="nav-item" data-section="formation">
-                <span class="nav-icon">🎓</span> Formation
-            </a>
-            <a href="#experiences" class="nav-item" data-section="experiences">
-                <span class="nav-icon">🏆</span> Expériences
-            </a>
-            <a href="#contact" class="nav-item" data-section="contact">
-                <span class="nav-icon">📧</span> Contact
-            </a>
-        </nav>
-        
-        <main class="main-content">
-            <section id="profil" class="profile-section">
-                {{ with .Site.Data.profile.profile }}
-                <div class="profile-left">
-                    <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="profile-image">
-                    
-                    <div class="download-resume-container">
-                        <a href="{{ .media.resumeFile }}" download="{{ .media.resumeFilename }}" class="download-resume-btn">
-                            <span class="btn-icon">📄</span>
-                            <span class="btn-text">Download Resume</span>
-                            <span class="btn-arrow">⬇</span>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="profile-info">
-                    <p class="greeting">{{ .personal.greeting }}</p>
-                    <h1>Je suis <span class="name">{{ .personal.fullName }}</span></h1>
-                    <p class="title">{{ .personal.title }}<br>{{ .personal.subtitle }}</p>
-                    
-                    <p class="bio">
-                        {{ .personal.bio }}
-                    </p>
-                    
-                    <div class="info-section aero-glass">
-                        <h3>Informations Supplémentaires</h3>
-                        <div class="info-item">
-                            <span class="info-label">Email</span>
-                            <span>: {{ .contact.email }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">LinkedIn</span>
-                            <span>: {{ .contact.linkedin }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Localisation</span>
-                            <span>: {{ .contact.location }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Formation</span>
-                            <span>: {{ .details.formation }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Spécialité</span>
-                            <span>: {{ .details.speciality }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Expérience</span>
-                            <span>: {{ .details.experience }}</span>
-                        </div>
-                    </div>
-                </div>
-                {{ end }}
-            </section>
-            
-            <!-- Section Compétences -->
-            <section id="competences" class="skills-section">
-                <h3>Compétences techniques</h3>
-                
-                {{ with .Site.Data.skills.skills.categories }}
-                    {{ range . }}
-                    <div class="skills-category">
-                        <h4>{{ .title }}</h4>
-                        <div class="skills-grid">
-                            {{ range .skills }}
-                            <div class="skill-block">
-                                <span class="skill-icon">{{ .icon }}</span>
-                                <span class="skill-name">{{ .name }}</span>
-                                <span class="skill-level">{{ .level }}</span>
-                            </div>
-                            {{ end }}
-                        </div>
-                    </div>
-                    {{ end }}
-                {{ end }}
-            </section>
-            
-            <!-- Section Blog -->
-            <section id="blog">
-                <div class="projects-section">
-                    <div class="projects-header">
-                        <h2>Articles de Blog</h2>
-                        <p class="projects-subtitle">
-                            Découvrez mes derniers articles et réflexions sur le développement web et les nouvelles technologies [BLOG]
-                        </p>
-                    </div>
-
-                    <!-- Blog Grid -->
-                    <div class="projects-grid">
-                        {{ range first 3 (where site.RegularPages "Section" "posts") }}
-                        <div class="project-card blog-card">
-                            <div class="project-image">
-                                <div class="blog-image-placeholder">
-                                    <span class="blog-icon">[BLOG]</span>
-                                </div>
-                                <div class="project-overlay">
-                                    <div class="project-tags">
-                                        {{ range .Params.tags }}
-                                        <span class="project-tag">{{ . }}</span>
-                                        {{ end }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="project-content">
-                                <div class="post-date">{{ .Date.Format "02 Jan 2006" }}</div>
-                                <h3 class="project-title">{{ .Title }}</h3>
-                                <p class="project-subtitle">{{ .Description }}</p>
-                                <p class="project-description">{{ .Summary | truncate 120 }}</p>
-                                <div class="project-technologies">
-                                    <a href="{{ .Permalink }}" class="read-more-btn">Lire la suite</a>
-                                </div>
-                            </div>
-                        </div>
-                        {{ end }}
-                    </div>
-                    
-                    <div class="blog-footer">
-                        <a href="/posts" class="view-all-posts">Voir tous les articles</a>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Section Projects -->
-            <section id="projets">
-                {{ partial "projects.html" . }}
-            </section>
-            
-            <!-- Section Formation -->
-            <section id="formation">
-                {{ partial "education.html" . }}
-            </section>
-            
-            <!-- Section Expérience -->
-            <section id="experiences">
-                {{ partial "experience.html" . }}
-            </section>
-            
-            <!-- Section Recommandations -->
-            <section id="recommandations">
-                {{ partial "testimonials.html" . }}
-            </section>
-            
-            <!-- Section Contact -->
-            <section id="contact" class="contact-section">
-                <div class="contact-container">
-                    <div class="contact-header">
-                        <h2>Contactez-moi</h2>
-                        <p>N'hésitez pas à me contacter pour discuter de vos projets ou opportunités !</p>
-                    </div>
-                    
-                    <div class="contact-content">
-                        <div class="contact-info">
-                            <div class="contact-item aero-glass">
-                                <div class="contact-icon">📧</div>
-                                <div class="contact-details">
-                                    <h4>Email</h4>
-                                    <a href="mailto:clement.g.developer@gmail.com">clement.g.developer@gmail.com</a>
-                                </div>
-                            </div>
-                            
-                            <div class="contact-item aero-glass">
-                                <div class="contact-icon">💼</div>
-                                <div class="contact-details">
-                                    <h4>LinkedIn</h4>
-                                    <a href="https://linkedin.com/in/clementg4" target="_blank">linkedin.com/in/clementg4</a>
-                                </div>
-                            </div>
-                            
-                            <div class="contact-item aero-glass">
-                                <div class="contact-icon">📍</div>
-                                <div class="contact-details">
-                                    <h4>Localisation</h4>
-                                    <span>Montpellier, France</span>
-                                </div>
-                            </div>
-                            
-                            <div class="contact-item aero-glass">
-                                <div class="contact-icon">🎓</div>
-                                <div class="contact-details">
-                                    <h4>Statut</h4>
-                                    <span>Étudiant BUT 3 - Recherche stage/alternance</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-form-container aero-glass">
-                            <h3>Envoyez-moi un message</h3>
-                            <form class="contact-form" id="contactForm">
-                                <div class="form-group">
-                                    <label for="name">Nom *</label>
-                                    <input type="text" id="name" name="name" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="email">Email *</label>
-                                    <input type="email" id="email" name="email" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="subject">Sujet</label>
-                                    <select id="subject" name="subject">
-                                        <option value="">Choisissez un sujet</option>
-                                        <option value="stage">Proposition de stage</option>
-                                        <option value="alternance">Proposition d'alternance</option>
-                                        <option value="projet">Collaboration projet</option>
-                                        <option value="freelance">Mission freelance</option>
-                                        <option value="autre">Autre</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="message">Message *</label>
-                                    <textarea id="message" name="message" rows="5" required placeholder="Décrivez votre projet ou votre proposition..."></textarea>
-                                </div>
-                                
-                                <button type="submit" class="submit-btn">
-                                    <span>Envoyer le message</span>
-                                    <div class="btn-icon">📤</div>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <div class="social-links">
-                        <h3>Retrouvez-moi sur</h3>
-                        <div class="social-icons">
-                            <a href="https://linkedin.com/in/clementg4" target="_blank" class="social-icon aero-glass" title="LinkedIn">
-                                �
-                            </a>
-                            <a href="https://github.com/clixmods" target="_blank" class="social-icon aero-glass" title="GitHub">
-                                �
-                            </a>
-                            <a href="mailto:clement.g.developer@gmail.com" class="social-icon aero-glass" title="Email">
-                                �
-                            </a>
-                            <a href="#" class="social-icon aero-glass" title="Discord">
-                                🎮
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
+<div class="container">
+    <!-- Progress bar pour indiquer le défilement -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar"></div>
     </div>
     
-    {{ $js := resources.Get "js/main.js" }}
-    {{ if $js }}
-        {{ $js = $js | js.Build | resources.Minify }}
-        <script src="{{ $js.RelPermalink }}"></script>
-    {{ end }}
-</body>
-</html>
+    {{ partial "sidebar.html" . }}
+    
+    <main class="main-content">
+        {{ partial "profile.html" . }}
+        {{ partial "skills.html" . }}
+        {{ partial "blog.html" . }}
+        
+        <!-- Section Projects -->
+        <section id="projets">
+            {{ partial "projects.html" . }}
+        </section>
+        
+        <!-- Section Formation -->
+        <section id="formation">
+            {{ partial "education.html" . }}
+        </section>
+        
+        <!-- Section Expérience -->
+        <section id="experiences">
+            {{ partial "experience.html" . }}
+        </section>
+        
+        <!-- Section Recommandations -->
+        <section id="recommandations">
+            {{ partial "testimonials.html" . }}
+        </section>
+        
+        {{ partial "contact.html" . }}
+    </main>
+</div>
+    
 {{ end }}
 

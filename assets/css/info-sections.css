@@ -52,17 +52,27 @@
     display: flex; 
     margin-bottom: 0.8rem; 
     align-items: center;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /**
  * Information label styling
  * 
- * Sets fixed width and muted color for consistency across labels.
+ * Sets fixed width and bright color for better visibility on dark background.
  */
 .info-label { 
     width: 140px; 
-    color: #a0a0a0; 
+    color: rgba(255, 255, 255, 0.7); 
     font-weight: 500;
+}
+
+/**
+ * Information value styling
+ * 
+ * Main text content with bright color for readability.
+ */
+.info-item span:not(.info-label) {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 /* ============================================================================

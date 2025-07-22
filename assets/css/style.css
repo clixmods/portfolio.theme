@@ -224,6 +224,7 @@ body {
 
 .main-content { 
     flex: 1; 
+    margin-left: 280px; /* Compense la largeur de la sidebar */
     background: rgba(26, 26, 26, 0.6);
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
