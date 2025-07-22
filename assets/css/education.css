@@ -190,20 +190,23 @@
 .timeline-card::before {
     content: '';
     position: absolute;
-    top: 30px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 0;
     height: 0;
     border: 15px solid transparent;
 }
 
+/* Les éléments impairs sont à gauche, la flèche pointe vers la droite */
 .timeline-item:nth-child(odd) .timeline-card::before {
     right: -30px;
-    border-left-color: rgba(79, 209, 199, 0.3);
+    border-left-color: rgba(55, 65, 81, 0.9);
 }
 
+/* Les éléments pairs sont à droite, la flèche pointe vers la gauche */
 .timeline-item:nth-child(even) .timeline-card::before {
     left: -30px;
-    border-right-color: rgba(79, 209, 199, 0.3);
+    border-right-color: rgba(55, 65, 81, 0.9);
 }
 
 /* Timeline Header */
