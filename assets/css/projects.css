@@ -1,0 +1,575 @@
+/**
+ * ========================================
+ * PROJECTS SECTION CSS
+ * ========================================
+ * 
+ * This file contains all CSS styles for the projects section of the portfolio.
+ * It includes:
+ * - Main projects section layout
+ * - Navigation tabs and filters
+ * - Project cards and grid layout
+ * - Technology badges and chips
+ * - Hover effects and animations
+ * - Responsive design for mobile devices
+ * 
+ * Author: Portfolio Theme
+ * Version: 1.0
+ * Last Updated: July 2025
+ */
+
+/* ========================================
+   MAIN PROJECTS SECTION
+   ======================================== */
+
+/**
+ * Main container for the projects section
+ * Sets up spacing and layout for the entire projects area
+ */
+.projects-section {
+    margin: 4rem 0;
+    width: 100%;
+}
+
+/**
+ * Header section containing title and subtitle
+ * Centers content and provides proper spacing
+ */
+.projects-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/**
+ * Main projects title styling
+ * Large, bold text with white color
+ */
+.projects-header h2 {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/**
+ * Subtitle text below the main title
+ * Provides description with muted color and constrained width
+ */
+.projects-subtitle {
+    color: #a0a0a0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/**
+ * Description paragraph styling
+ * Additional descriptive text for the projects section
+ */
+.projects-description {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.projects-description p {
+    color: #d1d5db;
+    font-size: 1rem;
+}
+
+/* ========================================
+   NAVIGATION TABS
+   ======================================== */
+
+/**
+ * Container for navigation tabs
+ * Creates a glassmorphism effect with centered layout
+ */
+.projects-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem;
+    margin-bottom: 2rem;
+    background: rgba(55, 65, 81, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 25px;
+    padding: 0.3rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(79, 209, 199, 0.2);
+}
+
+/**
+ * Individual tab button styling
+ * Transparent by default with smooth transitions
+ */
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #a0a0a0;
+    padding: 0.8rem 2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/**
+ * Active tab state
+ * Applies gradient background and glowing effect
+ */
+.tab-btn.active {
+    background: linear-gradient(135deg, rgba(79, 209, 199, 0.8), rgba(79, 209, 199, 0.6));
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(79, 209, 199, 0.3);
+}
+
+/**
+ * Tab hover state (only for non-active tabs)
+ * Subtle highlight effect on hover
+ */
+.tab-btn:hover:not(.active) {
+    color: #4fd1c7;
+    background: rgba(79, 209, 199, 0.1);
+}
+
+/* ========================================
+   TECHNOLOGY FILTER BADGES
+   ======================================== */
+
+/**
+ * Container for technology filter badges
+ * Flexbox layout with wrapping and center alignment
+ */
+.tech-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+/**
+ * Individual technology badge styling
+ * Glassmorphism effect with rounded corners
+ */
+.tech-badge {
+    background: rgba(55, 65, 81, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(79, 209, 199, 0.3);
+    color: #a0a0a0;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+/**
+ * Technology badges with custom colors
+ * Uses CSS custom properties for dynamic coloring
+ */
+.tech-badge[style*="--tech-color"] {
+    border-color: rgba(var(--tech-color-rgb), 0.3);
+}
+
+/**
+ * Active and hover states for technology badges
+ * Default theme color highlighting
+ */
+.tech-badge.active,
+.tech-badge:hover {
+    background: rgba(79, 209, 199, 0.2);
+    color: #4fd1c7;
+    border-color: rgba(79, 209, 199, 0.6);
+    box-shadow: 0 2px 10px rgba(79, 209, 199, 0.2);
+}
+
+/**
+ * Active and hover states for custom colored badges
+ * Uses technology-specific colors when available
+ */
+.tech-badge[style*="--tech-color"].active,
+.tech-badge[style*="--tech-color"]:hover {
+    background: rgba(var(--tech-color-rgb), 0.2);
+    color: var(--tech-color);
+    border-color: rgba(var(--tech-color-rgb), 0.6);
+    box-shadow: 0 2px 10px rgba(var(--tech-color-rgb), 0.2);
+}
+
+/* ========================================
+   PROJECTS GRID LAYOUT
+   ======================================== */
+
+/**
+ * Grid container for project cards
+ * Responsive grid that adapts to screen size
+ */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* ========================================
+   PROJECT CARDS
+   ======================================== */
+
+/**
+ * Individual project card styling
+ * Glassmorphism card with shadow and border effects
+ */
+.project-card {
+    background: rgba(55, 65, 81, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(79, 209, 199, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/**
+ * Project card hover effect
+ * Elevates card and enhances border glow
+ */
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 12px 40px rgba(79, 209, 199, 0.15),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+    border-color: rgba(79, 209, 199, 0.4);
+}
+
+/* ========================================
+   PROJECT CARD IMAGES
+   ======================================== */
+
+/**
+ * Project image container
+ * Fixed height with gradient background fallback
+ */
+.project-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(79, 209, 199, 0.1), rgba(55, 65, 81, 0.3));
+}
+
+/**
+ * Project image styling
+ * Full coverage with smooth scaling transition
+ */
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/**
+ * Image zoom effect on card hover
+ * Subtle scale increase for visual interest
+ */
+.project-card:hover .project-image img {
+    transform: scale(1.05);
+}
+
+/**
+ * Overlay for project images
+ * Gradient overlay for better text readability
+ */
+.project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+}
+
+/**
+ * Container for project tags on image overlay
+ * Flexible layout for multiple tags
+ */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/**
+ * Individual project tag styling
+ * Bright, prominent tags for quick identification
+ */
+.project-tag {
+    background: rgba(79, 209, 199, 0.8);
+    color: #fff;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* ========================================
+   PROJECT CARD CONTENT
+   ======================================== */
+
+/**
+ * Content area of project cards
+ * Padding and layout for text content
+ */
+.project-content {
+    padding: 1.5rem;
+}
+
+/**
+ * Project title styling
+ * Large, bold white text for prominence
+ */
+.project-title {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+/**
+ * Project subtitle styling
+ * Accent colored text for project type/category
+ */
+.project-subtitle {
+    color: #4fd1c7;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    text-transform: lowercase;
+}
+
+/**
+ * Project description text
+ * Clear, readable description with proper spacing
+ */
+.project-description {
+    color: #d1d5db;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/**
+ * Container for technology chips
+ * Flexible layout for technology indicators
+ */
+.project-technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+/**
+ * Individual technology chip styling
+ * Small badges showing used technologies
+ */
+.tech-chip {
+    background: rgba(79, 209, 199, 0.2);
+    color: #4fd1c7;
+    padding: 0.3rem 0.6rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(79, 209, 199, 0.3);
+}
+
+/* ========================================
+   BLOG CARD SPECIFIC STYLES
+   ======================================== */
+
+/**
+ * Blog card image styling
+ * Special styling for blog posts without images
+ */
+.blog-card .project-image {
+    background: linear-gradient(135deg, rgba(79, 209, 199, 0.1), rgba(55, 65, 81, 0.3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/**
+ * Placeholder for blog images
+ * Centers content when no image is available
+ */
+.blog-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/**
+ * Blog icon styling
+ * Large icon for blog post placeholders
+ */
+.blog-icon {
+    font-size: 3rem;
+    opacity: 0.6;
+}
+
+/**
+ * Post date styling
+ * Accent colored date for blog posts
+ */
+.post-date {
+    font-size: 0.9rem;
+    color: #4fd1c7;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - TABLET
+   ======================================== */
+
+/**
+ * Tablet breakpoint (768px and below)
+ * Adjusts layout for medium-sized screens
+ */
+@media (max-width: 768px) {
+    /**
+     * Smaller header title for tablets
+     */
+    .projects-header h2 {
+        font-size: 2.5rem;
+    }
+    
+    /**
+     * Vertical tab layout for better mobile UX
+     */
+    .projects-tabs {
+        flex-direction: column;
+        width: 100%;
+        border-radius: 15px;
+    }
+    
+    /**
+     * Adjusted tab button styling for vertical layout
+     */
+    .tab-btn {
+        border-radius: 10px;
+        margin: 0.1rem;
+    }
+    
+    /**
+     * Added padding for technology filters on smaller screens
+     */
+    .tech-filters {
+        padding: 0 1rem;
+    }
+    
+    /**
+     * Single column grid for better mobile viewing
+     */
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    /**
+     * Smaller border radius for mobile cards
+     */
+    .project-card {
+        border-radius: 15px;
+    }
+    
+    /**
+     * Reduced image height for mobile screens
+     */
+    .project-image {
+        height: 180px;
+    }
+    
+    /**
+     * Reduced padding for mobile content
+     */
+    .project-content {
+        padding: 1.2rem;
+    }
+    
+    /**
+     * Blog footer spacing adjustment
+     */
+    .blog-footer {
+        margin-top: 2rem;
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - MOBILE
+   ======================================== */
+
+/**
+ * Mobile breakpoint (480px and below)
+ * Optimized for small mobile screens
+ */
+@media (max-width: 480px) {
+    /**
+     * Even smaller header for mobile devices
+     */
+    .projects-header h2 {
+        font-size: 2rem;
+    }
+    
+    /**
+     * Adjusted subtitle with padding for mobile
+     */
+    .projects-subtitle {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+    
+    /**
+     * Reduced filter padding for small screens
+     */
+    .tech-filters {
+        padding: 0 0.5rem;
+    }
+    
+    /**
+     * Smaller technology badges for mobile
+     */
+    .tech-badge {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    /**
+     * Minimal padding for mobile project content
+     */
+    .project-content {
+        padding: 1rem;
+    }
+    
+    /**
+     * Smaller project title for mobile screens
+     */
+    .project-title {
+        font-size: 1.1rem;
+    }
+}
