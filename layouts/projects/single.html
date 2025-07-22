@@ -1,9 +1,11 @@
 {{ define "main" }}
-<article class="project-detail">
-    <!-- Project Header -->
-    <header class="project-header">
-        <div class="project-meta">
-            <nav class="breadcrumb">
+<!-- Project Hero Section -->
+<section class="project-hero" {{ if .Params.image }}style="background-image: url('{{ .Params.image }}')"{{ end }}>
+    <div class="project-hero-overlay"></div>
+    <div class="project-hero-content">
+        <div class="project-hero-container">
+            <!-- Breadcrumb -->
+            <nav class="project-breadcrumb">
                 <a href="/">Accueil</a>
                 <span>/</span>
                 <a href="/projects/">Projets</a>
@@ -11,83 +13,115 @@
                 <span class="current">{{ .Title }}</span>
             </nav>
             
-            {{ if .Params.subtitle }}
-            <p class="project-subtitle">{{ .Params.subtitle }}</p>
-            {{ end }}
-        </div>
-        
-        <h1 class="project-title">{{ .Title }}</h1>
-        
-        {{ if .Params.description }}
-        <p class="project-description">{{ .Params.description }}</p>
-        {{ end }}
-        
-        <!-- Project Info -->
-        <div class="project-info">
-            <div class="project-date">
-                <span class="info-label">Date</span>
-                <time datetime="{{ .Date | time.Format "2006-01-02" }}">
-                    {{ .Date | time.Format "January 2006" }}
-                </time>
-            </div>
-            
-            {{ if .Params.technologies }}
-            <div class="project-technologies-info">
-                <span class="info-label">Technologies</span>
-                <div class="tech-list">
-                    {{ range .Params.technologies }}
-                    <span class="tech-chip">{{ . }}</span>
+            <!-- Project Info -->
+            <div class="project-hero-info">
+                {{ if .Params.subtitle }}
+                <p class="project-subtitle">{{ .Params.subtitle }}</p>
+                {{ end }}
+                
+                <h1 class="project-title">{{ .Title }}</h1>
+                
+                {{ if .Params.description }}
+                <p class="project-description">{{ .Params.description }}</p>
+                {{ end }}
+                
+                <!-- Project detailed description from content -->
+                <div class="project-detailed-description">
+                    {{ with .Summary }}
+                        {{ . }}
                     {{ end }}
                 </div>
-            </div>
-            {{ end }}
-            
-            {{ if .Params.tags }}
-            <div class="project-tags-info">
-                <span class="info-label">Tags</span>
-                <div class="tags-list">
-                    {{ range .Params.tags }}
-                    <span class="tag-chip">{{ . }}</span>
+                
+                <!-- Meta Information -->
+                <div class="project-meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-label">Date</span>
+                        <time datetime="{{ .Date | time.Format "2006-01-02" }}" class="meta-value">
+                            {{ .Date | time.Format "January 2006" }}
+                        </time>
+                    </div>
+                    
+                    {{ if .Params.status }}
+                    <div class="meta-item">
+                        <span class="meta-label">Statut</span>
+                        <span class="meta-value status-{{ .Params.status | lower }}">{{ .Params.status }}</span>
+                    </div>
+                    {{ end }}
+                    
+                    {{ if .Params.link }}
+                    <div class="meta-item">
+                        <span class="meta-label">Lien</span>
+                        <a href="{{ .Params.link }}" target="_blank" class="meta-value project-link">
+                            Voir le projet <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                            </svg>
+                        </a>
+                    </div>
                     {{ end }}
                 </div>
+                
+                <!-- Technologies -->
+                {{ if .Params.technologies }}
+                <div class="project-technologies">
+                    <span class="tech-label">Technologies</span>
+                    <div class="tech-pills">
+                        {{ range .Params.technologies }}
+                        <span class="tech-pill">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+                {{ end }}
+                
+                <!-- Tags -->
+                {{ if .Params.tags }}
+                <div class="project-tags">
+                    <span class="tags-label">Tags</span>
+                    <div class="tag-pills">
+                        {{ range .Params.tags }}
+                        <span class="tag-pill">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                </div>
+                {{ end }}
             </div>
-            {{ end }}
         </div>
-    </header>
-    
-    <!-- Project Image -->
-    {{ if .Params.image }}
-    <div class="project-image-hero">
-        <img src="{{ .Params.image }}" alt="{{ .Title }}" class="project-hero-img">
-    </div>
-    {{ end }}
-    
-    <!-- Project Content -->
-    <div class="project-content">
-        {{ .Content }}
     </div>
     
-    <!-- Navigation -->
-    <nav class="project-navigation">
-        <div class="nav-links">
-            {{ with .PrevInSection }}
-            <a href="{{ .Permalink }}" class="nav-link prev">
-                <span class="nav-direction">← Projet précédent</span>
-                <span class="nav-title">{{ .Title }}</span>
-            </a>
-            {{ end }}
-            
-            {{ with .NextInSection }}
-            <a href="{{ .Permalink }}" class="nav-link next">
-                <span class="nav-direction">Projet suivant →</span>
-                <span class="nav-title">{{ .Title }}</span>
-            </a>
-            {{ end }}
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<!-- Project Content -->
+<article class="project-detail">
+    <div class="project-content-container">
+        <div class="project-content">
+            {{ .Content }}
         </div>
         
-        <div class="back-to-projects">
-            <a href="/projects/" class="btn-secondary">← Retour aux projets</a>
-        </div>
-    </nav>
+        <!-- Navigation -->
+        <nav class="project-navigation">
+            <div class="nav-links">
+                {{ with .PrevInSection }}
+                <a href="{{ .Permalink }}" class="nav-link prev">
+                    <span class="nav-direction">← Projet précédent</span>
+                    <span class="nav-title">{{ .Title }}</span>
+                </a>
+                {{ end }}
+                
+                {{ with .NextInSection }}
+                <a href="{{ .Permalink }}" class="nav-link next">
+                    <span class="nav-direction">Projet suivant →</span>
+                    <span class="nav-title">{{ .Title }}</span>
+                </a>
+                {{ end }}
+            </div>
+            
+            <div class="back-to-projects">
+                <a href="/projects/" class="btn-secondary">← Retour aux projets</a>
+            </div>
+        </nav>
+    </div>
 </article>
 {{ end }}

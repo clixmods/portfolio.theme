@@ -3,50 +3,564 @@
  * PROJECT DETAIL PAGE CSS
  * ========================================
  * 
- * Styles for individual project pages
- * Includes header, content, navigation, and responsive design
+ * Styles for individual project pages with hero header
+ * Includes hero section, content, navigation, and responsive design
  */
 
 /* ========================================
-   PROJECT DETAIL MAIN CONTAINER
+   PROJECT HERO SECTION
    ======================================== */
 
-.project-detail {
+.project-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.project-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.5) 40%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
+    z-index: 1;
+}
+
+.project-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(52, 152, 219, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(155, 89, 182, 0.08) 0%, transparent 40%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.project-hero-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.project-hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.project-content-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem 1rem;
-    color: #fff;
+    padding: 0 2rem;
 }
 
 /* ========================================
-   PROJECT HEADER
+   BREADCRUMB
    ======================================== */
 
-.project-header {
-    margin-bottom: 3rem;
-}
-
-.breadcrumb {
+.project-breadcrumb {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     font-size: 0.9rem;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
-.breadcrumb a {
-    color: #3498db;
+.project-breadcrumb a {
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     transition: color 0.3s ease;
+    font-weight: 500;
 }
 
-.breadcrumb a:hover {
-    color: #2980b9;
+.project-breadcrumb a:hover {
+    color: #3498db;
 }
 
-.breadcrumb span {
-    color: #666;
+.project-breadcrumb span {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.project-breadcrumb .current {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+}
+
+/* ========================================
+   PROJECT HERO INFO
+   ======================================== */
+
+.project-hero-info {
+    max-width: 800px;
+}
+
+.project-subtitle {
+    color: #3498db;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    letter-spacing: 0.5px;
+}
+
+.project-title {
+    color: #fff;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 0 0 1.5rem 0;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.project-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 0 0 2rem 0;
+    max-width: 600px;
+}
+
+.project-detailed-description {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin: 0 0 3rem 0;
+    max-width: 700px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid #3498db;
+    backdrop-filter: blur(10px);
+}
+
+/* ========================================
+   META INFORMATION GRID
+   ======================================== */
+
+.project-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.meta-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.meta-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.meta-value {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    display: block;
+}
+
+.project-link {
+    color: #3498db !important;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.project-link:hover {
+    color: #2980b9 !important;
+    transform: translateX(2px);
+}
+
+.status-terminé {
+    color: #2ecc71;
+}
+
+.status-en-cours {
+    color: #f39c12;
+}
+
+.status-abandonné {
+    color: #e74c3c;
+}
+
+/* ========================================
+   TECHNOLOGIES AND TAGS
+   ======================================== */
+
+.project-technologies,
+.project-tags {
+    margin-bottom: 1.5rem;
+}
+
+.tech-label,
+.tags-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+}
+
+.tech-pills,
+.tag-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-pill {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
+}
+
+.tag-pill {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* ========================================
+   SCROLL INDICATOR
+   ======================================== */
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    animation: bounce 2s infinite;
+}
+
+.scroll-arrow {
+    width: 24px;
+    height: 24px;
+    border-right: 2px solid rgba(255, 255, 255, 0.8);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+    transform: rotate(45deg);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* ========================================
+   PROJECT DETAIL CONTENT
+   ======================================== */
+
+.project-detail {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 4rem 0;
+    position: relative;
+    width: 100%;
+    margin: 0;
+}
+
+.project-content {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.project-content h1,
+.project-content h2,
+.project-content h3,
+.project-content h4 {
+    color: #fff;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.project-content h1 {
+    font-size: 2.5rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+.project-content h2 {
+    font-size: 2rem;
+    color: #3498db;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.project-content h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+    border-radius: 2px;
+}
+
+.project-content h3 {
+    font-size: 1.5rem;
+    color: #ecf0f1;
+}
+
+.project-content p {
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.project-content ul,
+.project-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.project-content li {
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.project-content strong {
+    color: #3498db;
+    font-weight: 600;
+}
+
+.project-content em {
+    color: #f39c12;
+    font-style: italic;
+}
+
+.project-content blockquote {
+    border-left: 4px solid #3498db;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(52, 152, 219, 0.05);
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.project-content code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    color: #e74c3c;
+}
+
+.project-content pre {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 2rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-content pre code {
+    background: transparent;
+    padding: 0;
+    color: #ecf0f1;
+}
+
+/* ========================================
+   PROJECT NAVIGATION
+   ======================================== */
+
+.project-navigation {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.nav-link {
+    display: block;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.nav-link:hover {
+    background: rgba(52, 152, 219, 0.1);
+    border-color: #3498db;
+    transform: translateY(-2px);
+}
+
+.nav-direction {
+    display: block;
+    color: #3498db;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.nav-title {
+    display: block;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.back-to-projects {
+    text-align: center;
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #3498db;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .project-hero {
+        min-height: 80vh;
+        background-attachment: scroll;
+    }
+    
+    .project-hero-container,
+    .project-content-container {
+        padding: 0 1rem;
+    }
+    
+    .project-title {
+        font-size: 2.5rem;
+    }
+    
+    .project-description {
+        font-size: 1.1rem;
+    }
+    
+    .project-meta-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .tech-pills,
+    .tag-pills {
+        gap: 0.3rem;
+    }
+    
+    .tech-pill,
+    .tag-pill {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .nav-links {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .project-content h1 {
+        font-size: 2rem;
+    }
+    
+    .project-content h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-hero {
+        min-height: 70vh;
+    }
+    
+    .project-title {
+        font-size: 2rem;
+    }
+    
+    .project-description {
+        font-size: 1rem;
+    }
+    
+    .project-breadcrumb {
+        font-size: 0.8rem;
+        flex-wrap: wrap;
+    }
+    
+    .scroll-indicator {
+        bottom: 1rem;
+    }
 }
 
 .breadcrumb .current {

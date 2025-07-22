@@ -4,22 +4,8 @@
 <link rel="stylesheet" href="{{ $ps5CSS.RelPermalink }}">
 
 <div class="ps5-projects-page">
-    <!-- Header avec effet parallax -->
-    <header class="ps5-header">
-        <div class="ps5-header-bg"></div>
-        <div class="ps5-header-content">
-            <h1 class="ps5-title">{{ .Title }}</h1>
-            {{ if .Content }}
-            <div class="ps5-description">
-                {{ .Content }}
-            </div>
-            {{ end }}
-        </div>
-        <div class="ps5-header-gradient"></div>
-    </header>
-    
-    <!-- Navigation par secteurs style PS5 -->
-    <nav class="ps5-sectors">
+    <!-- Navigation par secteurs en haut style PS5 -->
+    <nav class="ps5-sectors ps5-sectors-top">
         <div class="ps5-sectors-container">
             <button class="ps5-sector-btn active" data-sector="all">
                 <span class="ps5-sector-icon">🎮</span>
@@ -39,6 +25,20 @@
             </button>
         </div>
     </nav>
+
+    <!-- Header avec effet parallax -->
+    <header class="ps5-header">
+        <div class="ps5-header-bg"></div>
+        <div class="ps5-header-content">
+            <h1 class="ps5-title">{{ .Title }}</h1>
+            {{ if .Content }}
+            <div class="ps5-description">
+                {{ .Content }}
+            </div>
+            {{ end }}
+        </div>
+        <div class="ps5-header-gradient"></div>
+    </header>
     
     <!-- Grille de tuiles projets style PS5 -->
     <div class="ps5-projects-tiles">
