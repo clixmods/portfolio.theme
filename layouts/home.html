@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Title }}</title>
-    {{ $style := resources.Get "css/style.css" | resources.Minify }}
-    <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    {{ $style := resources.Get "css/style.css" }}
+    {{ if $style }}
+        {{ $style = $style | resources.Minify }}
+        <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    {{ end }}
+    {{ $background := resources.Get "css/background.css" }}
+    {{ if $background }}
+        {{ $background = $background | resources.Minify }}
+        <link rel="stylesheet" href="{{ $background.RelPermalink }}">
+    {{ end }}
 </head>
 <body>
     <div class="container">
@@ -286,8 +294,11 @@
         </main>
     </div>
     
-    {{ $js := resources.Get "js/main.js" | js.Build | resources.Minify }}
-    <script src="{{ $js.RelPermalink }}"></script>
+    {{ $js := resources.Get "js/main.js" }}
+    {{ if $js }}
+        {{ $js = $js | js.Build | resources.Minify }}
+        <script src="{{ $js.RelPermalink }}"></script>
+    {{ end }}
 </body>
 </html>
 {{ end }}
