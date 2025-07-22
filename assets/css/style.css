@@ -232,6 +232,7 @@ body {
     min-height: 100vh;
     border: 1px solid rgba(79, 209, 199, 0.1);
     border-radius: 0 20px 20px 0;
+    transition: margin-left 0.3s ease; /* Transition smooth pour le toggle sidebar */
 }
 
 /* Info section styles moved to info-sections.css */

@@ -509,3 +509,137 @@
 .social-links a:hover { 
     color: #4fd1c7; 
 }
+
+/* ============================================================================
+   SIDEBAR TOGGLE BUTTON
+   ============================================================================ */
+
+/**
+ * Toggle button for hiding/showing the sidebar
+ * 
+ * Creates a hamburger-style button positioned on the right edge
+ * of the sidebar, vertically centered, with futuristic styling.
+ */
+.sidebar-toggle-btn {
+    position: fixed;
+    top: 50%;
+    left: 260px; /* Positionné près du bord droit de la sidebar (280px - 20px) */
+    transform: translateY(-50%);
+    z-index: 1001;
+    background: rgba(79, 209, 199, 0.1);
+    border: 2px solid #4fd1c7;
+    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(79, 209, 199, 0.3);
+}
+
+.sidebar-toggle-btn:hover {
+    background: rgba(79, 209, 199, 0.2);
+    box-shadow: 0 0 25px rgba(79, 209, 199, 0.5);
+    transform: translateY(-50%) scale(1.05); /* Combine les deux transformations */
+}
+
+/**
+ * Hamburger lines for the toggle button
+ */
+.hamburger-line {
+    width: 24px;
+    height: 2px;
+    background: #4fd1c7;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+/**
+ * Animated hamburger transformation when sidebar is hidden
+ */
+.sidebar-hidden .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.sidebar-hidden .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.sidebar-hidden .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ============================================================================
+   SIDEBAR HIDDEN STATE
+   ============================================================================ */
+
+/**
+ * Sidebar hidden state
+ * 
+ * When the sidebar is hidden, it slides out to the left
+ * and the main content expands to fill the space.
+ */
+.sidebar-hidden .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.sidebar {
+    transition: transform 0.3s ease;
+}
+
+/**
+ * Toggle button position when sidebar is hidden
+ */
+.sidebar-hidden .sidebar-toggle-btn {
+    left: 20px; /* Se déplace vers le bord gauche quand la sidebar est cachée */
+}
+
+/**
+ * Main content adjustment when sidebar is hidden
+ */
+.sidebar-hidden .main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content {
+    transition: margin-left 0.3s ease;
+}
+
+/**
+ * Container adjustment when sidebar is hidden
+ */
+.sidebar-hidden .container {
+    padding-left: 0;
+}
+
+/* ============================================================================
+   RESPONSIVE ADJUSTMENTS FOR TOGGLE
+   ============================================================================ */
+
+/**
+ * Mobile responsive adjustments for the toggle button
+ */
+@media (max-width: 768px) {
+    .sidebar-toggle-btn {
+        top: 20px;
+        left: 15px;
+        width: 45px;
+        height: 45px;
+        transform: none; /* Pas de centrage vertical sur mobile */
+    }
+    
+    .sidebar-hidden .sidebar-toggle-btn {
+        left: 15px;
+    }
+    
+    .hamburger-line {
+        width: 20px;
+    }
+}
