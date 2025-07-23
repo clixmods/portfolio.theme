@@ -85,8 +85,10 @@
                         {{ range .Params.notable_facts }}
                         <div class="fact-card-hero">
                             <div class="fact-icon-hero {{ .type }}">{{ .icon }}</div>
-                            <div class="fact-value-hero">{{ .value | safeHTML }}</div>
-                            <div class="fact-label-hero">{{ .label }}</div>
+                            <div class="fact-content-hero">
+                                <div class="fact-value-hero">{{ .value | safeHTML }}</div>
+                                <div class="fact-label-hero">{{ .label }}</div>
+                            </div>
                         </div>
                         {{ end }}
                     </div>
