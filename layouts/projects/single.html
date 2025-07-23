@@ -3,55 +3,49 @@
 <section class="project-hero" {{ if .Params.image }}style="background-image: url('{{ .Params.image }}')"{{ end }}>
     <div class="project-hero-overlay"></div>
     <div class="project-hero-content">
-        <div class="project-hero-container">
-            <!-- Breadcrumb -->
-            <nav class="project-breadcrumb">
-                <a href="/">Accueil</a>
-                <span>/</span>
-                <a href="/projects/">Projets</a>
-                <span>/</span>
-                <span class="current">{{ .Title }}</span>
-            </nav>
-            
-            <!-- Project Info -->
-            <div class="project-hero-info">
-                {{ if .Params.subtitle }}
-                <p class="project-subtitle">{{ .Params.subtitle }}</p>
-                {{ end }}
-                
-                <h1 class="project-title">{{ .Title }}</h1>
-                
-                {{ if .Params.description }}
-                <p class="project-description">{{ .Params.description }}</p>
-                {{ end }}
-                
-                <!-- Project detailed description from content -->
-                <div class="project-detailed-description">
-                    {{ with .Summary }}
-                        {{ . }}
-                    {{ end }}
-                </div>
+        <!-- Top Section: Back Button -->
+        <div class="project-hero-top">
+            <!-- Back to Portfolio Button -->
+            <div class="project-back-button">
+                <a href="/projects/" class="btn-back-portfolio">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+                    </svg>
+                    Retour au portfolio
+                </a>
+            </div>
+        </div>
+        
+        <!-- Bottom Section: Project Info Block -->
+        <div class="project-description-block">
+            <h2 class="project-name-bottom">{{ .Title }}</h2>
+            <div class="description-content">
+                <h3 class="description-title">Informations du projet</h3>
                 
                 <!-- Meta Information -->
-                <div class="project-meta-grid">
-                    <div class="meta-item">
-                        <span class="meta-label">Date</span>
-                        <time datetime="{{ .Date | time.Format "2006-01-02" }}" class="meta-value">
-                            {{ .Date | time.Format "January 2006" }}
-                        </time>
+                <div class="project-meta-bottom">
+                    <div class="meta-item-bottom">
+                        <span class="meta-label-bottom">Date</span>
+                        <span class="meta-value-bottom">{{ .Date | time.Format "January 2006" }}</span>
                     </div>
                     
                     {{ if .Params.status }}
-                    <div class="meta-item">
-                        <span class="meta-label">Statut</span>
-                        <span class="meta-value status-{{ .Params.status | lower }}">{{ .Params.status }}</span>
+                    <div class="meta-item-bottom">
+                        <span class="meta-label-bottom">Statut</span>
+                        <span class="meta-value-bottom status-{{ .Params.status | lower }}">{{ .Params.status }}</span>
+                    </div>
+                    {{ end }}
+                    
+                    {{ if .Params.sector }}
+                    <div class="meta-item-bottom">
+                        <span class="meta-label-bottom">Secteur</span>
+                        <span class="meta-value-bottom">{{ .Params.sector }}</span>
                     </div>
                     {{ end }}
                     
                     {{ if .Params.link }}
-                    <div class="meta-item">
-                        <span class="meta-label">Lien</span>
-                        <a href="{{ .Params.link }}" target="_blank" class="meta-value project-link">
+                    <div class="meta-item-bottom">
+                        <a href="{{ .Params.link }}" target="_blank" class="project-link-bottom">
                             Voir le projet <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
                             </svg>
@@ -60,30 +54,19 @@
                     {{ end }}
                 </div>
                 
-                <!-- Technologies -->
+                <!-- Technologies Pills -->
                 {{ if .Params.technologies }}
-                <div class="project-technologies">
-                    <span class="tech-label">Technologies</span>
-                    <div class="tech-pills">
+                <div class="project-technologies-bottom">
+                    <span class="tech-label-bottom">Technologies</span>
+                    <div class="tech-pills-bottom">
                         {{ range .Params.technologies }}
-                        <span class="tech-pill">{{ . }}</span>
-                        {{ end }}
-                    </div>
-                </div>
-                {{ end }}
-                
-                <!-- Tags -->
-                {{ if .Params.tags }}
-                <div class="project-tags">
-                    <span class="tags-label">Tags</span>
-                    <div class="tag-pills">
-                        {{ range .Params.tags }}
-                        <span class="tag-pill">{{ . }}</span>
+                        <span class="tech-pill-bottom">{{ . }}</span>
                         {{ end }}
                     </div>
                 </div>
                 {{ end }}
             </div>
+        </div>
         </div>
     </div>
     
@@ -94,6 +77,7 @@
 </section>
 
 <!-- Project Content -->
+<div class="hero-to-content-transition"></div>
 <article class="project-detail">
     <div class="project-content-container">
         <div class="project-content">
