@@ -680,3 +680,48 @@ function initializeSidebarToggle() {
 document.addEventListener('DOMContentLoaded', function() {
     initializeSidebarToggle();
 });
+
+// Project Actions - Show More functionality
+function showMoreActions(button) {
+    console.log('showMoreActions called', button);
+    
+    // Recherche directe de la popup dans tout le document
+    const popup = document.querySelector('.actions-popup');
+    
+    console.log('popup found:', popup);
+    
+    if (popup) {
+        popup.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        console.log('popup shown');
+    } else {
+        console.error('Popup not found!');
+        // Afficher toutes les popups disponibles pour débug
+        console.log('All elements with actions-popup class:', document.querySelectorAll('.actions-popup'));
+        console.log('Button parent:', button.parentElement);
+        console.log('Button parent children:', button.parentElement.children);
+    }
+}
+
+function hideMoreActions(element) {
+    // Remonter jusqu'à trouver la popup
+    let popup = element.closest('.actions-popup');
+    if (!popup) {
+        popup = element.parentElement.querySelector('.actions-popup');
+    }
+    
+    if (popup) {
+        popup.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+// Fermer le popup avec Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const openPopup = document.querySelector('.actions-popup[style*="flex"]');
+        if (openPopup) {
+            hideMoreActions(openPopup);
+        }
+    }
+});
