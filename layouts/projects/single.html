@@ -17,50 +17,77 @@
         </div>
         
         <!-- Bottom Section: Project Info Block -->
-        <div class="project-description-block">
-            <h2 class="project-name-bottom">{{ .Title }}</h2>
-            <div class="description-content">
-                <h3 class="description-title">Informations du projet</h3>
-                
-                <!-- Meta Information -->
-                <div class="project-meta-bottom">
-                    <div class="meta-item-bottom">
-                        <span class="meta-label-bottom">Date</span>
-                        <span class="meta-value-bottom">{{ .Date | time.Format "January 2006" }}</span>
+        <div class="project-hero-bottom">
+            <div class="project-info-grid">
+                <!-- Left: Project Description Block -->
+                <div class="project-description-block">
+                    {{ if .Params.logo }}
+                    <div class="project-logo-bottom">
+                        <img src="{{ .Params.logo }}" alt="{{ .Title }}" class="project-logo-img">
                     </div>
-                    
-                    {{ if .Params.status }}
-                    <div class="meta-item-bottom">
-                        <span class="meta-label-bottom">Statut</span>
-                        <span class="meta-value-bottom status-{{ .Params.status | lower }}">{{ .Params.status }}</span>
-                    </div>
+                    {{ else }}
+                    <h2 class="project-name-bottom">{{ .Title }}</h2>
                     {{ end }}
-                    
-                    {{ if .Params.sector }}
-                    <div class="meta-item-bottom">
-                        <span class="meta-label-bottom">Secteur</span>
-                        <span class="meta-value-bottom">{{ .Params.sector }}</span>
+                    <div class="description-content">
+                        <h3 class="description-title">Informations du projet</h3>
+                        
+                        <!-- Meta Information -->
+                        <div class="project-meta-bottom">
+                            <div class="meta-item-bottom">
+                                <span class="meta-label-bottom">Date</span>
+                                <span class="meta-value-bottom">{{ .Date | time.Format "January 2006" }}</span>
+                            </div>
+                            
+                            {{ if .Params.status }}
+                            <div class="meta-item-bottom">
+                                <span class="meta-label-bottom">Statut</span>
+                                <span class="meta-value-bottom status-{{ .Params.status | lower }}">{{ .Params.status }}</span>
+                            </div>
+                            {{ end }}
+                            
+                            {{ if .Params.sector }}
+                            <div class="meta-item-bottom">
+                                <span class="meta-label-bottom">Secteur</span>
+                                <span class="meta-value-bottom">{{ .Params.sector }}</span>
+                            </div>
+                            {{ end }}
+                            
+                            {{ if .Params.link }}
+                            <div class="meta-item-bottom">
+                                <a href="{{ .Params.link }}" target="_blank" class="project-link-bottom">
+                                    Voir le projet <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                                    </svg>
+                                </a>
+                            </div>
+                            {{ end }}
+                        </div>
+                        
+                        <!-- Technologies Pills -->
+                        {{ if .Params.technologies }}
+                        <div class="project-technologies-bottom">
+                            <span class="tech-label-bottom">Technologies</span>
+                            <div class="tech-pills-bottom">
+                                {{ range .Params.technologies }}
+                                <span class="tech-pill-bottom">{{ . }}</span>
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{ end }}
                     </div>
-                    {{ end }}
-                    
-                    {{ if .Params.link }}
-                    <div class="meta-item-bottom">
-                        <a href="{{ .Params.link }}" target="_blank" class="project-link-bottom">
-                            Voir le projet <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
-                            </svg>
-                        </a>
-                    </div>
-                    {{ end }}
                 </div>
                 
-                <!-- Technologies Pills -->
-                {{ if .Params.technologies }}
-                <div class="project-technologies-bottom">
-                    <span class="tech-label-bottom">Technologies</span>
-                    <div class="tech-pills-bottom">
-                        {{ range .Params.technologies }}
-                        <span class="tech-pill-bottom">{{ . }}</span>
+                <!-- Right: Notable Facts -->
+                {{ if .Params.notable_facts }}
+                <div class="project-notable-facts-hero">
+                    <div class="notable-facts-content">
+                        <h3 class="notable-facts-title-hero">Faits notables</h3>
+                        {{ range .Params.notable_facts }}
+                        <div class="fact-card-hero">
+                            <div class="fact-icon-hero {{ .type }}">{{ .icon }}</div>
+                            <div class="fact-value-hero">{{ .value | safeHTML }}</div>
+                            <div class="fact-label-hero">{{ .label }}</div>
+                        </div>
                         {{ end }}
                     </div>
                 </div>
@@ -79,33 +106,50 @@
 <!-- Project Content -->
 <div class="hero-to-content-transition"></div>
 <article class="project-detail">
-    <div class="project-content-container">
+    <div class="project-detail-wrapper">
+        <!-- Main Content -->
         <div class="project-content">
             {{ .Content }}
+            
+            <!-- Navigation -->
+            <nav class="project-navigation">
+                <div class="nav-links">
+                    {{ with .PrevInSection }}
+                    <a href="{{ .Permalink }}" class="nav-link prev">
+                        <span class="nav-direction">← Projet précédent</span>
+                        <span class="nav-title">{{ .Title }}</span>
+                    </a>
+                    {{ end }}
+                    
+                    {{ with .NextInSection }}
+                    <a href="{{ .Permalink }}" class="nav-link next">
+                        <span class="nav-direction">Projet suivant →</span>
+                        <span class="nav-title">{{ .Title }}</span>
+                    </a>
+                    {{ end }}
+                </div>
+                
+                <div class="back-to-projects">
+                    <a href="/projects/" class="btn-secondary">← Retour aux projets</a>
+                </div>
+            </nav>
         </div>
         
-        <!-- Navigation -->
-        <nav class="project-navigation">
-            <div class="nav-links">
-                {{ with .PrevInSection }}
-                <a href="{{ .Permalink }}" class="nav-link prev">
-                    <span class="nav-direction">← Projet précédent</span>
-                    <span class="nav-title">{{ .Title }}</span>
-                </a>
-                {{ end }}
-                
-                {{ with .NextInSection }}
-                <a href="{{ .Permalink }}" class="nav-link next">
-                    <span class="nav-direction">Projet suivant →</span>
-                    <span class="nav-title">{{ .Title }}</span>
-                </a>
+        <!-- Sidebar with Notable Facts -->
+        {{ if .Params.notable_facts }}
+        <aside class="project-sidebar">
+            <div class="notable-facts">
+                <h3 class="notable-facts-title">Faits notables</h3>
+                {{ range .Params.notable_facts }}
+                <div class="fact-card">
+                    <div class="fact-icon {{ .type }}">{{ .icon }}</div>
+                    <div class="fact-value">{{ .value | safeHTML }}</div>
+                    <div class="fact-label">{{ .label }}</div>
+                </div>
                 {{ end }}
             </div>
-            
-            <div class="back-to-projects">
-                <a href="/projects/" class="btn-secondary">← Retour aux projets</a>
-            </div>
-        </nav>
+        </aside>
+        {{ end }}
     </div>
 </article>
 {{ end }}

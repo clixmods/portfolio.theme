@@ -230,13 +230,30 @@
    PROJECT INFO BLOCK - BOTTOM LEFT
    ======================================== */
 
-.project-description-block {
+.project-hero-bottom {
     position: relative;
     z-index: 10;
     align-self: flex-start;
-    max-width: 450px;
+    width: 100%;
+    padding: 0;
+}
+
+.project-info-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    width: 100%;
+    align-items: end;
+    justify-content: space-between;
+}
+
+.project-description-block {
+    position: relative;
+    z-index: 10;
+    max-width: none;
     margin: 0;
-    padding: 0 2rem;
+    padding: 0 2rem 0 2rem;
+    max-width: 500px;
 }
 
 .project-name-bottom {
@@ -247,15 +264,26 @@
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
+.project-logo-bottom {
+    margin: 0 0 1rem 0;
+}
+
+.project-logo-img {
+    max-height: 250px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.5));
+}
+
+
 .description-content {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
+    background: rgba(20, 24, 32, 0.5);
+    backdrop-filter: blur(5px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
     position: relative;
     overflow: hidden;
 }
@@ -269,7 +297,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(20, 24, 32, 0.18);
     border-radius: 16px;
     z-index: -1;
 }
@@ -360,6 +388,285 @@
     font-weight: 600;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 2px 6px rgba(52, 152, 219, 0.3);
+}
+
+/* ========================================
+   NOTABLE FACTS IN HERO
+   ======================================== */
+
+.project-notable-facts-hero {
+    position: relative;
+    z-index: 10;
+    width: 350px;
+    padding: 0 2rem 0 0;
+}
+
+.notable-facts-content {
+    background: rgba(20, 24, 32, 0.5);
+    backdrop-filter: blur(5px);
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.notable-facts-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(20, 24, 32, 0.18);
+    border-radius: 16px;
+    z-index: -1;
+}
+
+.notable-facts-title-hero {
+    color: #4fd1c7;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.notable-facts-title-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 2rem;
+    height: 2px;
+    background: linear-gradient(90deg, #4fd1c7, #7be3db);
+    border-radius: 1px;
+}
+
+.fact-card-hero {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.fact-card-hero:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.fact-card-hero:hover {
+    transform: translateX(4px);
+}
+
+.fact-icon-hero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(135deg, #4fd1c7, #7be3db);
+    border-radius: 50%;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.fact-value-hero {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+}
+
+.fact-value-hero .highlight {
+    color: #4fd1c7;
+    font-weight: 800;
+}
+
+.fact-label-hero {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Variantes d'icônes pour les faits dans le hero */
+.fact-icon-hero.downloads {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.fact-icon-hero.duration {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+.fact-icon-hero.award {
+    background: linear-gradient(135deg, #f1c40f, #f39c12);
+}
+
+.fact-icon-hero.team {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.fact-icon-hero.feature {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+/* ========================================
+   PROJECT NOTABLE FACTS SIDEBAR
+   ======================================== */
+
+.project-sidebar {
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out 0.5s forwards;
+}
+
+.notable-facts {
+    margin-bottom: 2rem;
+}
+
+.notable-facts-title {
+    color: #4fd1c7;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.notable-facts-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 2rem;
+    height: 2px;
+    background: linear-gradient(90deg, #4fd1c7, #7be3db);
+    border-radius: 1px;
+}
+
+.fact-card {
+    background: rgba(20, 24, 32, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.fact-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(79, 209, 199, 0.3);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(79, 209, 199, 0.1);
+}
+
+.fact-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #4fd1c7, #7be3db);
+    border-radius: 0 2px 2px 0;
+}
+
+.fact-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(20, 24, 32, 0.15);
+    border-radius: 16px;
+    z-index: -1;
+}
+
+.fact-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(135deg, #4fd1c7, #7be3db);
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.fact-value {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.fact-value .highlight {
+    color: #4fd1c7;
+    font-weight: 800;
+}
+
+.fact-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Variantes d'icônes pour différents types de faits */
+.fact-icon.downloads {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.fact-icon.duration {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+.fact-icon.award {
+    background: linear-gradient(135deg, #f1c40f, #f39c12);
+}
+
+.fact-icon.team {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.fact-icon.feature {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+/* Animation pour les valeurs numériques */
+.fact-value.animate-number {
+    animation: countUp 2s ease-out;
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ========================================
@@ -472,6 +779,17 @@
     margin: 0;
 }
 
+.project-detail-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+}
+
 /* Fond animé similaire au portfolio principal */
 .project-detail::before {
     content: '';
@@ -512,8 +830,8 @@
 }
 
 .project-content {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
     line-height: 1.7;
     opacity: 0;
     transform: translateY(30px);
@@ -736,6 +1054,27 @@
         padding: 0 1rem;
     }
     
+    .project-detail-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1rem;
+    }
+    
+    .project-info-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0;
+    }
+    
+    .project-notable-facts-hero {
+        order: -1;
+    }
+    
+    .project-sidebar {
+        position: static;
+        order: -1;
+    }
+    
     .project-title {
         font-size: 2.5rem;
     }
@@ -772,6 +1111,14 @@
     .project-content h2 {
         font-size: 1.5rem;
     }
+    
+    .fact-card {
+        padding: 1.2rem;
+    }
+    
+    .fact-value {
+        font-size: 1.3rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -806,12 +1153,68 @@
         padding: 0 0 3rem 0;
     }
     
+    .project-detail-wrapper {
+        padding: 0 1rem;
+    }
+    
+    .project-info-grid {
+        gap: 1.5rem;
+    }
+    
+    .fact-card-hero {
+        padding: 0.75rem 0;
+    }
+    
+    .fact-icon-hero {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .fact-value-hero {
+        font-size: 1.1rem;
+    }
+    
+    .fact-label-hero {
+        font-size: 0.75rem;
+    }
+    
     .project-content {
         padding-top: 1.5rem;
     }
     
     .scroll-indicator {
         bottom: 1rem;
+    }
+    
+    .project-logo-img {
+        max-height: 160px;
+    }
+    
+    .fact-card {
+        padding: 1rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .fact-icon {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .fact-value {
+        font-size: 1.2rem;
+    }
+    
+    .fact-label {
+        font-size: 0.8rem;
+    }
+    
+    .notable-facts-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
     }
 }
 
