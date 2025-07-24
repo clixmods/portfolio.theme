@@ -1459,7 +1459,6 @@ body::before {
 
  .project-detail {
     /* Semi-transparent overlay with blur to show and blur background hero */
-    background: var(--glass-bg-strong);
     backdrop-filter: blur(var(--blur-intensity));
     -webkit-backdrop-filter: blur(var(--blur-intensity));
     color: var(--text-primary);
