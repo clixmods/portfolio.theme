@@ -8,7 +8,7 @@
     
     <div class="testimonials-slider">
         <div class="testimonials-track">
-            {{ range .Site.Data.testimonials.testimonials }}
+            {{ range .Site.Data.testimonials }}
             <div class="testimonial-card aero-glass">
                 <div class="testimonial-content">
                     <p class="testimonial-text">
@@ -30,7 +30,7 @@
         <div class="slider-controls">
             <button class="slider-btn prev">‹</button>
             <div class="slider-indicators">
-                {{ range $index, $testimonial := .Site.Data.testimonials.testimonials }}
+                {{ range $index, $testimonial := .Site.Data.testimonials }}
                 <span class="indicator{{ if eq $index 0 }} active{{ end }}"></span>
                 {{ end }}
             </div>
