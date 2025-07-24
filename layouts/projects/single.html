@@ -1,6 +1,13 @@
 {{ define "main" }}
 <!-- Project Hero Section -->
-<section class="project-hero" {{ if .Params.image }}style="background-image: url('{{ .Params.image }}')"{{ end }}>
+{{ if .Params.image }}
+<style>
+    body {
+        --hero-bg-image: url('{{ .Params.image }}');
+    }
+</style>
+{{ end }}
+<section class="project-hero">
     <div class="project-hero-overlay"></div>
     <div class="project-hero-content">
         <!-- Top Section: Back Button -->

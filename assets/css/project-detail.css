@@ -262,14 +262,37 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
     overflow: hidden;
     width: 100%;
     margin: 0;
     padding: 0;
+    
+    /* Variables CSS pour l'effet de blur dynamique */
+    --blur-intensity: 0px;
+}
+
+/* Background fixe via pseudo-élément pour ne flouter que l'image */
+body {
+    position: relative;
+    /* pas de background direct */
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--hero-bg-image);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    /* filter removed; blur applied dynamically via JavaScript */
+    filter: none !important;
+    animation: none !important;
+    pointer-events: none;
+    z-index: -10;
 }
 
 .project-hero-overlay {
@@ -647,67 +670,67 @@
 }
 
 .project-action-button.steam {
-    background: linear-gradient(135deg, var(--steam-primary), var(--steam-secondary));
+    background: var(--gradient-blue);
     color: var(--steam-accent);
 }
 
 .project-action-button.steam:hover {
-    background: linear-gradient(135deg, var(--steam-secondary), var(--steam-primary));
+    background: var(--gradient-blue);
     border-color: rgba(102, 192, 244, 0.5);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(102, 192, 244, 0.2);
 }
 
 .project-action-button.github {
-    background: linear-gradient(135deg, var(--github-primary), var(--github-secondary));
+    background: var(--gradient-blue);
     color: var(--github-accent);
 }
 
 .project-action-button.github:hover {
-    background: linear-gradient(135deg, var(--github-secondary), #0d1117);
+    background: var(--gradient-blue);
     border-color: rgba(240, 246, 252, 0.3);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(240, 246, 252, 0.1);
 }
 
 .project-action-button.youtube {
-    background: linear-gradient(135deg, var(--youtube-primary), var(--youtube-secondary));
+    background: var(--gradient-blue);
     color: #fff;
 }
 
 .project-action-button.youtube:hover {
-    background: linear-gradient(135deg, var(--youtube-secondary), #990000);
+    background: var(--gradient-blue);
     border-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 0, 0, 0.3);
 }
 
 .project-action-button.gamepad {
-    background: linear-gradient(135deg, var(--gamepad-primary), var(--gamepad-secondary));
+    background: var(--gradient-teal);
     color: var(--gamepad-accent);
 }
 
 .project-action-button.gamepad:hover {
-    background: linear-gradient(135deg, var(--gamepad-secondary), var(--gamepad-primary));
+    background: var(--gradient-teal);
     border-color: rgba(34, 197, 94, 0.5);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(34, 197, 94, 0.2);
 }
 
 .project-action-button.external-link {
-    background: linear-gradient(135deg, var(--external-primary), var(--external-secondary));
+    background: var(--gradient-blue);
     color: var(--external-accent);
 }
 
 .project-action-button.external-link:hover {
-    background: linear-gradient(135deg, var(--external-secondary), #4338ca);
+    background: var(--gradient-blue);
     border-color: rgba(139, 92, 246, 0.5);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(139, 92, 246, 0.2);
 }
 
 .project-action-button.xbox {
-    background: linear-gradient(135deg, var(--xbox-primary), var(--xbox-secondary));
+    background: var(--gradient-teal);
     color: var(--xbox-accent);
 }
 
 .project-action-button.xbox:hover {
-    background: linear-gradient(135deg, var(--xbox-secondary), #0c5a0c);
+    background: var(--gradient-teal);
     border-color: rgba(16, 124, 16, 0.5);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(16, 124, 16, 0.2);
 }
@@ -1070,7 +1093,7 @@
 }
 
 .tech-pill-bottom {
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-dark));
+    background: var(--gradient-blue);
     color: var(--text-primary);
     padding: 0.2rem 0.6rem;
     border-radius: var(--border-radius-sm);
@@ -1135,23 +1158,23 @@
 
 /* Variantes d'icônes pour les faits dans le hero */
 .fact-icon-hero.downloads {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    background: var(--gradient-blue);
 }
 
 .fact-icon-hero.duration {
-    background: linear-gradient(135deg, #f39c12, #e67e22);
+    background: var(--gradient-teal);
 }
 
 .fact-icon-hero.award {
-    background: linear-gradient(135deg, #f1c40f, #f39c12);
+    background: var(--gradient-blue);
 }
 
 .fact-icon-hero.team {
-    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    background: var(--gradient-teal);
 }
 
 .fact-icon-hero.feature {
-    background: linear-gradient(135deg, #3498db, #2980b9);
+    background: var(--gradient-blue);
 }
 
 /* ========================================
@@ -1260,27 +1283,27 @@
 /* Variantes d'icônes pour différents types de faits - utilisées par hero et sidebar */
 .fact-icon.downloads,
 .fact-icon-hero.downloads {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    background: var(--gradient-blue);
 }
 
 .fact-icon.duration,
 .fact-icon-hero.duration {
-    background: linear-gradient(135deg, #f39c12, #e67e22);
+    background: var(--gradient-teal);
 }
 
 .fact-icon.award,
 .fact-icon-hero.award {
-    background: linear-gradient(135deg, #f1c40f, #f39c12);
+    background: var(--gradient-blue);
 }
 
 .fact-icon.team,
 .fact-icon-hero.team {
-    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    background: var(--gradient-teal);
 }
 
 .fact-icon.feature,
 .fact-icon-hero.feature {
-    background: linear-gradient(135deg, #3498db, #2980b9);
+    background: var(--gradient-blue);
 }
 
 /* Animation pour les valeurs numériques */
@@ -1410,59 +1433,41 @@
 
 .hero-to-content-transition {
     height: 16rem;
-    background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        rgba(26, 26, 26, 0.02) 5%,
-        rgba(26, 26, 26, 0.08) 15%,
-        rgba(26, 26, 26, 0.18) 25%,
-        rgba(26, 26, 26, 0.32) 35%,
-        rgba(26, 26, 26, 0.48) 45%,
-        rgba(26, 26, 26, 0.65) 55%,
-        rgba(26, 26, 26, 0.78) 70%,
-        rgba(26, 26, 26, 0.88) 85%,
-        rgba(26, 26, 26, 0.96) 95%,
-        #1a1a1a 100%
-    );
     position: relative;
     z-index: 2;
-    margin-top: -6rem; /* Superposition plus importante avec le hero */
+    margin-top: -6rem;
     
-    /* Effet de transition fluide */
-    transition: all 0.3s ease-in-out;
+    /* Effet de flou unifié avec CSS variable */
 }
 
-/* Effet de parallax subtil pour la transition */
+/* Masque de transition qui suit le scroll */
 .hero-to-content-transition::before {
     content: '';
     position: absolute;
-    top: 0;
+    top: -10rem; /* Déborde vers le haut sur le hero */
     left: 0;
     right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(0, 123, 255, 0.08) 0%,
-        rgba(0, 123, 255, 0.04) 25%,
-        transparent 50%,
-        rgba(26, 26, 26, 0.02) 75%,
-        rgba(26, 26, 26, 0.08) 100%
-    );
-    opacity: 0.6;
-    z-index: -1;
+    height: calc(100% + 10rem);
+    backdrop-filter: blur(var(--blur-intensity));
+    z-index: 1;
+    pointer-events: none;
 }
 
 /* ========================================
    PROJECT DETAIL CONTENT
    ======================================== */
 
-.project-detail {
-    background: var(--primary-bg);
+ .project-detail {
+    /* Semi-transparent overlay with blur to show and blur background hero */
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
     color: var(--text-primary);
     padding: 0 0 4rem 0;
     position: relative;
     width: 100%;
     margin: 0;
+    z-index: 5; /* Au-dessus du background fixe */
 }
 
 .project-detail-wrapper {
@@ -1475,45 +1480,13 @@
     padding: 0 2rem;
     position: relative;
     z-index: 1;
-}
-
-/* Fond animé similaire au portfolio principal */
-.project-detail::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(79, 209, 199, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(79, 209, 199, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(45, 55, 72, 0.3) 0%, transparent 40%),
-        radial-gradient(circle at 90% 10%, rgba(79, 209, 199, 0.08) 0%, transparent 60%),
-        linear-gradient(135deg, #1a1a1a 0%, #2d3748 50%, #1a1a1a 100%);
-    filter: blur(80px);
-    z-index: -1;
-    animation: backgroundShift 20s ease-in-out infinite;
-}
-
-/* Animation du fond (identique au portfolio) */
-@keyframes backgroundShift {
-    0%, 100% {
-        transform: scale(1) rotate(0deg);
-        filter: blur(80px) hue-rotate(0deg);
-    }
-    25% {
-        transform: scale(1.1) rotate(1deg);
-        filter: blur(90px) hue-rotate(10deg);
-    }
-    50% {
-        transform: scale(1.05) rotate(-1deg);
-        filter: blur(85px) hue-rotate(20deg);
-    }
-    75% {
-        transform: scale(1.08) rotate(0.5deg);
-        filter: blur(75px) hue-rotate(10deg);
-    }
+    /* Transparent wrapper to reveal hero for content blur */
+    background: transparent;
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+    /* Ajout d'une animation d'apparition fluide */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
 }
 
 .project-content {
@@ -1525,7 +1498,7 @@
     animation: fadeInUp 0.8s ease-out 0.3s forwards;
     padding-top: 2rem; /* Espace depuis la transition */
     position: relative;
-    z-index: 1;
+    z-index: 10; /* Au-dessus de tout */
     
     /* Style amélioré cohérent avec le héro */
     background: var(--glass-bg);
@@ -2092,7 +2065,7 @@
     .project-detail-wrapper {
         grid-template-columns: 1fr;
         gap: 2rem;
-        padding: 0 1rem;
+        padding: 0;
     }
     
     .project-info-grid {

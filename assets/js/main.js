@@ -725,3 +725,74 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
+
+/**
+ * PROJECT HERO BLUR EFFECT
+ * 
+ * Gère l'effet de blur progressif du background hero quand on scroll
+ * vers la section de contenu texte
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    const projectHero = document.querySelector('.project-hero');
+    const transitionElement = document.querySelector('.hero-to-content-transition');
+    
+    if (!projectHero || !transitionElement) return;
+    
+    // Récupère l'image de fond du hero et l'applique au body
+    const heroStyle = window.getComputedStyle(projectHero);
+    const bgImage = heroStyle.backgroundImage;
+    
+    if (bgImage && bgImage !== 'none') {
+        document.body.style.setProperty('--hero-bg-image', bgImage);
+    }
+    
+    function updateBlurEffect() {
+        const scrollY = window.scrollY;
+        const heroHeight = projectHero.offsetHeight;
+        const windowHeight = window.innerHeight;
+        
+        // Calcule quand commencer l'effet (quand on commence à voir la transition)
+        const transitionStart = heroHeight - windowHeight * 0.3;
+        const transitionEnd = heroHeight + 300; // Un peu après le début de la transition
+        
+        // Calcule le pourcentage de progression
+        let blurProgress = 0;
+        if (scrollY >= transitionStart && scrollY <= transitionEnd) {
+            blurProgress = (scrollY - transitionStart) / (transitionEnd - transitionStart);
+            blurProgress = Math.max(0, Math.min(1, blurProgress)); // Clamp entre 0 et 1
+        } else if (scrollY > transitionEnd) {
+            blurProgress = 1;
+        }
+        
+        // Applique une courbe d'easing pour un effet plus naturel
+        const easeOutCubic = 1 - Math.pow(1 - blurProgress, 3);
+        
+        // Calcule les valeurs finales
+        const blurValue = easeOutCubic * 20; // Maximum 20px de blur
+        const transitionBlur = easeOutCubic * 5; // Maximum 5px pour la transition
+        
+        // Applique les effets sur le body (background fixe)
+        document.body.style.setProperty('--blur-intensity', `${blurValue}px`);
+        
+        // Applique sur la transition
+        transitionElement.style.setProperty('--transition-blur', `${transitionBlur}px`);
+    }
+    
+    // Événements de scroll optimisés avec throttling
+    let ticking = false;
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateBlurEffect();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick, { passive: true });
+    window.addEventListener('resize', requestTick, { passive: true });
+    
+    // Initialisation
+    updateBlurEffect();
+});
