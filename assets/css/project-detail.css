@@ -296,7 +296,7 @@ body::before {
 }
 
 .project-hero-overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -323,7 +323,7 @@ body::before {
             rgba(26, 26, 26, 0.15) 95%,
             rgba(26, 26, 26, 0.25) 100%
         );
-    z-index: 1;
+    z-index: -5;
 }
 
 .project-hero::before {
