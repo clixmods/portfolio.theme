@@ -2660,6 +2660,10 @@ body::before {
     background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
 }
 
+.info-box-icon.youtube::before {
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+}
+
 .info-box-icon.technical::before {
     background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
 }
@@ -3440,6 +3444,753 @@ body::before {
 }
 
 /* ========================================
+   TESTIMONIALS PREVIEW (BOÎTE FERMÉE)
+   ======================================== */
+
+/* Aperçu des testimonials : affichage rotatif */
+.info-box:not(.expanded) .testimonials-preview {
+    display: block;
+    margin-top: 0.8rem;
+    height: 80px; /* Hauteur pour afficher un testimonial */
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.03) 0%, 
+        rgba(255, 255, 255, 0.01) 100%);
+}
+
+/* Masquer la liste complète quand la box est fermée */
+.info-box.testimonials-box:not(.expanded) .testimonials-list {
+    display: none;
+}
+
+/* Masquer l'aperçu quand la box est ouverte */
+.info-box.testimonials-box.expanded .testimonials-preview {
+    display: none;
+}
+
+/* Container pour la rotation des testimonials */
+.testimonials-rotator {
+    position: relative;
+    height: 100%;
+}
+
+/* Chaque testimonial en mode aperçu */
+.testimonial-preview-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1rem;
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(52, 152, 219, 0.05) 100%);
+    border-radius: var(--border-radius-sm);
+    border-left: 2px solid var(--primary-teal);
+    backdrop-filter: blur(5px);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* Testimonial actif */
+.testimonial-preview-item.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animation de transition entre testimonials */
+.testimonial-preview-item.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.testimonial-preview-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Avatar miniature pour l'aperçu */
+.testimonial-preview-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.testimonial-preview-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-preview-avatar.placeholder {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 0.8rem;
+}
+
+/* Contenu du testimonial en aperçu */
+.testimonial-preview-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.testimonial-preview-quote {
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 0.3rem;
+    font-style: italic;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.testimonial-preview-author {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Note d'étoiles en miniature */
+.testimonial-preview-rating {
+    display: flex;
+    gap: 0.1rem;
+    margin-top: 0.2rem;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+.testimonial-preview-rating .star {
+    color: #ffd700;
+    font-size: 0.7rem;
+}
+
+/* Indicateur de progression */
+.testimonials-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--primary-teal);
+    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+    animation: testimonialProgress 4s linear infinite;
+}
+
+@keyframes testimonialProgress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+/* ========================================
+   YOUTUBE BOX STYLES
+   ======================================== */
+
+/* Liste des vidéos YouTube */
+.youtube-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Item vidéo YouTube */
+.youtube-item {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.02) 100%);
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid #ff0000;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.youtube-item:hover {
+    transform: translateY(-5px);
+    border-left-color: #cc0000;
+    background: linear-gradient(135deg, 
+        rgba(255, 0, 0, 0.08) 0%, 
+        rgba(255, 255, 255, 0.05) 100%);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        0 5px 15px rgba(255, 0, 0, 0.2);
+}
+
+/* Thumbnail de la vidéo */
+.youtube-thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+}
+
+.youtube-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.youtube-item:hover .youtube-thumbnail img {
+    transform: scale(1.05);
+}
+
+/* Bouton play au centre */
+.youtube-play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 0, 0, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.youtube-play-button::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 18px solid white;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    margin-left: 3px;
+}
+
+.youtube-item:hover .youtube-play-button {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: rgba(255, 0, 0, 1);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+/* Durée de la vidéo */
+.youtube-duration {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    backdrop-filter: blur(5px);
+}
+
+/* Informations de la vidéo */
+.youtube-info {
+    padding: 1.2rem;
+}
+
+.youtube-title {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.youtube-description {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 0.8rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.youtube-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.youtube-views,
+.youtube-date {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* Aperçu pour la box fermée */
+.info-box:not(.expanded) .youtube-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.8rem;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, 
+        rgba(255, 0, 0, 0.08) 0%, 
+        rgba(255, 255, 255, 0.03) 100%);
+    border-radius: var(--border-radius-sm);
+    border-left: 2px solid #ff0000;
+}
+
+.youtube-preview-thumbnail {
+    width: 60px;
+    height: 34px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.youtube-preview-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.youtube-preview-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 0, 0, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.youtube-preview-play::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 6px solid white;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    margin-left: 1px;
+}
+
+.youtube-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.youtube-preview-title {
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+    margin-bottom: 0.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.youtube-preview-count {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+/* Masquer la liste complète quand la box est fermée */
+/* youtube-list toujours visible */
+.info-box.youtube-box:not(.expanded) .youtube-list {
+    display: none;
+}
+.info-box.youtube-box.expanded .youtube-list {
+    display: grid;
+}
+
+/* ========================================
+   YOUTUBE SINGLE VIDEO BOX
+   ======================================== */
+.youtube-embed-wrapper {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+.youtube-embed-wrapper iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/* Widget pour une seule vidéo YouTube */
+.youtube-single-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.youtube-single-box .info-box-content {
+    padding: 0;
+    max-height: none;
+}
+
+.youtube-single-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: var(--border-radius-md);
+    transition: all 0.3s ease;
+}
+
+.youtube-single-preview:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.youtube-single-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.youtube-single-preview:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay avec bouton play pour vidéo unique */
+.youtube-single-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(255, 0, 0, 0.1) 50%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.youtube-single-preview:hover .youtube-single-overlay {
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(255, 0, 0, 0.2) 50%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+}
+
+/* Bouton play pour vidéo unique */
+.youtube-single-play {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 0, 0, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.youtube-single-play::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 24px solid white;
+    border-top: 16px solid transparent;
+    border-bottom: 16px solid transparent;
+    margin-left: 4px;
+}
+
+.youtube-single-preview:hover .youtube-single-play {
+    transform: scale(1.1);
+    background: rgba(255, 0, 0, 1);
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(255, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Durée et informations pour vidéo unique */
+.youtube-single-duration {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.youtube-single-title {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 100px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Aperçu pour le widget vidéo unique quand fermé */
+.info-box.youtube-single-box:not(.expanded) .youtube-single-mini {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, 
+        rgba(255, 0, 0, 0.08) 0%, 
+        rgba(255, 255, 255, 0.03) 100%);
+    border-radius: var(--border-radius-sm);
+    border-left: 2px solid #ff0000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.info-box.youtube-single-box:not(.expanded) .youtube-single-mini:hover {
+    background: linear-gradient(135deg, 
+        rgba(255, 0, 0, 0.12) 0%, 
+        rgba(255, 255, 255, 0.05) 100%);
+    transform: translateY(-2px);
+}
+
+.youtube-single-mini-thumbnail {
+    width: 80px;
+    height: 45px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.youtube-single-mini-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.youtube-single-mini-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 0, 0, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.youtube-single-mini-play::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 8px solid white;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    margin-left: 2px;
+}
+
+.youtube-single-mini-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.youtube-single-mini-title {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+    margin-bottom: 0.3rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.youtube-single-mini-duration {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+/* Masquer le contenu complet quand la box est fermée pour le widget unique */
+.info-box.youtube-single-box:not(.expanded) .youtube-single-preview {
+    display: none;
+}
+
+/* Masquer l'aperçu mini quand la box est ouverte */
+.info-box.youtube-single-box.expanded .youtube-single-mini {
+    display: none;
+}
+
+/* ========================================
+   MODAL VIDÉO YOUTUBE
+   ======================================== */
+
+.youtube-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.youtube-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.youtube-modal-content {
+    position: relative;
+    width: 90vw;
+    max-width: 1200px;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    transform: scale(0.8) translateY(50px);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(255, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.youtube-modal.active .youtube-modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.youtube-modal iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Bouton de fermeture amélioré */
+.youtube-modal-close {
+    position: absolute;
+    top: -60px;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.youtube-modal-close:hover {
+    background: rgba(255, 0, 0, 0.8);
+    border-color: rgba(255, 0, 0, 0.8);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+}
+
+.youtube-modal-close::before,
+.youtube-modal-close::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background: white;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+.youtube-modal-close::before {
+    transform: rotate(45deg);
+}
+
+.youtube-modal-close::after {
+    transform: rotate(-45deg);
+}
+
+/* Indicateur de chargement */
+.youtube-modal-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.youtube-modal-content.loading .youtube-modal-loading {
+    opacity: 1;
+}
+
+/* ========================================
    RESPONSIVE DESIGN - INFO BOXES SECTION
    ======================================== */
 
@@ -3554,6 +4305,104 @@ body::before {
     .gallery-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         gap: 0.8rem;
+    }
+    
+    /* Styles responsives pour les testimonials en aperçu */
+    .testimonials-preview {
+        height: 70px; /* Hauteur légèrement réduite sur mobile */
+        margin-top: 0.6rem;
+    }
+    
+    .testimonial-preview-item {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .testimonial-preview-avatar {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .testimonial-preview-quote {
+        font-size: 0.8rem;
+        -webkit-line-clamp: 1; /* Une seule ligne sur mobile */
+        line-clamp: 1;
+    }
+    
+    .testimonial-preview-author {
+        font-size: 0.7rem;
+    }
+    
+    .testimonial-preview-rating .star {
+        font-size: 0.65rem;
+    }
+    
+    /* Styles responsives pour YouTube */
+    .youtube-list {
+        grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+        gap: 1rem;
+    }
+    
+    .youtube-preview {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+    }
+    
+    .youtube-preview-thumbnail {
+        width: 80px;
+        height: 45px;
+        align-self: center;
+    }
+    
+    .youtube-modal-content {
+        width: 95vw;
+        margin: 0 10px;
+    }
+    
+    .youtube-modal-close {
+        top: -45px;
+        width: 35px;
+        height: 35px;
+    }
+    
+    /* Styles responsives pour le widget vidéo unique */
+    .youtube-single-play {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .youtube-single-play::before {
+        border-left: 18px solid white;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        margin-left: 3px;
+    }
+    
+    .youtube-single-title {
+        font-size: 0.9rem;
+        bottom: 8px;
+        left: 8px;
+        right: 80px;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .youtube-single-duration {
+        bottom: 8px;
+        right: 8px;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+    
+    .youtube-single-mini {
+        flex-direction: column;
+        gap: 0.6rem;
+        text-align: center;
+    }
+    
+    .youtube-single-mini-thumbnail {
+        align-self: center;
+        width: 100px;
+        height: 56px;
     }
 }
 

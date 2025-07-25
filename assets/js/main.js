@@ -112,6 +112,11 @@ document.addEventListener('DOMContentLoaded', function() {
     updateScrollProgress();
 });
 
+// Expose functions globally for inline onclick handlers
+window.openYouTubeModal = openYouTubeModal;
+window.closeYouTubeModal = closeYouTubeModal;
+window.toggleInfoBox = toggleInfoBox;
+
 // Projects Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize tech badge colors
@@ -795,4 +800,168 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialisation
     updateBlurEffect();
+});
+
+// ========================================
+// TESTIMONIALS ROTATOR FUNCTIONALITY
+// ========================================
+
+// Gestion de la rotation des testimonials
+function initTestimonialsRotator() {
+    const previewContainers = document.querySelectorAll('.testimonials-rotator');
+    
+    previewContainers.forEach(container => {
+        const items = container.querySelectorAll('.testimonial-preview-item');
+        if (items.length <= 1) return;
+        
+        let currentIndex = 0;
+        let intervalId;
+        
+        function showTestimonial(index) {
+            // Masquer tous les testimonials
+            items.forEach(item => item.classList.remove('active'));
+            
+            // Afficher le testimonial à l'index donné
+            if (items[index]) {
+                items[index].classList.add('active');
+            }
+        }
+        
+        function showNextTestimonial() {
+            // Passer au suivant
+            currentIndex = (currentIndex + 1) % items.length;
+            showTestimonial(currentIndex);
+        }
+        
+        function startRotation() {
+            // S'assurer que le premier testimonial est affiché
+            showTestimonial(0);
+            currentIndex = 0;
+            
+            // Démarrer la rotation automatique
+            intervalId = setInterval(showNextTestimonial, 4000); // 4 secondes par testimonial
+        }
+        
+        function stopRotation() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+        
+        // Vérifier si le conteneur est visible (box fermée)
+        function checkVisibility() {
+            const infoBox = container.closest('.info-box');
+            const isExpanded = infoBox && infoBox.classList.contains('expanded');
+            
+            if (!isExpanded && container.offsetParent !== null) {
+                startRotation();
+            } else {
+                stopRotation();
+            }
+        }
+        
+        // Observer les changements de classe expanded
+        const infoBox = container.closest('.info-box');
+        if (infoBox) {
+            const observer = new MutationObserver(() => {
+                setTimeout(checkVisibility, 100); // Petit délai pour laisser le CSS s'appliquer
+            });
+            
+            observer.observe(infoBox, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        }
+        
+        // Démarrer immédiatement si visible
+        setTimeout(checkVisibility, 500); // Délai initial pour s'assurer que le DOM est prêt
+    });
+}
+// ========================================
+// INFO BOX TOGGLE FUNCTIONALITY
+// ========================================
+// Toggle ouvert/fermé pour les info-box
+function toggleInfoBox(headerElem) {
+    const box = headerElem.closest('.info-box');
+    if (box) {
+        box.classList.toggle('expanded');
+    }
+}
+
+// ========================================
+// YOUTUBE MODAL FUNCTIONALITY
+// ========================================
+
+// Ouvrir le modal YouTube
+function openYouTubeModal(videoId, title) {
+    const modal = document.getElementById('youtubeModal');
+    const iframe = document.getElementById('youtubeIframe');
+    const modalContent = modal.querySelector('.youtube-modal-content');
+    
+    if (modal && iframe && modalContent) {
+        // Afficher l'indicateur de chargement
+        modalContent.classList.add('loading');
+        
+        // Définir la source de l'iframe
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+        
+        // Afficher le modal
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Masquer l'indicateur de chargement après un délai
+        setTimeout(() => {
+            modalContent.classList.remove('loading');
+        }, 1000);
+        
+        // Écouter l'événement de chargement de l'iframe
+        iframe.onload = function() {
+            modalContent.classList.remove('loading');
+        };
+    }
+}
+
+// Fermer le modal YouTube
+function closeYouTubeModal() {
+    const modal = document.getElementById('youtubeModal');
+    const iframe = document.getElementById('youtubeIframe');
+    const modalContent = modal.querySelector('.youtube-modal-content');
+    
+    if (modal && iframe && modalContent) {
+        modal.classList.remove('active');
+        
+        // Délai pour laisser l'animation se terminer avant de supprimer la source
+        setTimeout(() => {
+            iframe.src = '';
+            modalContent.classList.remove('loading');
+        }, 300);
+        
+        document.body.style.overflow = '';
+    }
+}
+
+// Fermer le modal avec la touche Échap
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeYouTubeModal();
+    }
+});
+
+// ========================================
+// INITIALIZATION
+// ========================================
+
+// Initialiser toutes les fonctionnalités au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialiser le rotateur de testimonials
+    initTestimonialsRotator();
+    
+    // Prévenir la propagation des clics sur le contenu du modal
+    const modalContent = document.querySelector('.youtube-modal-content');
+    if (modalContent) {
+        modalContent.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
 });
