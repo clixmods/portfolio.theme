@@ -2770,21 +2770,29 @@ body::before {
     margin-top: 0.5rem;
     overflow: hidden;
 }
+/* Cacher le nombre de contributeurs lorsque fermé */
+.info-box.contributors-box:not(.expanded) .info-box-summary {
+    display: none;
+}
 
 .contributors-preview .contributor-avatars {
     display: flex;
-    margin-left: -0.5rem;
+    /* margin-left removed to prevent first avatar cutoff */
 }
 
 .contributors-preview .contributor-avatar-mini {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    margin-left: -0.5rem;
+    margin-left: 0;
     transition: all 0.3s ease;
     position: relative;
     z-index: 1;
+}
+/* Overlap avatars: only offset subsequent ones */
+.contributors-preview .contributor-avatar-mini + .contributor-avatar-mini {
+    margin-left: -0.75rem;
 }
 
 .contributors-preview .contributor-avatar-mini:hover {
@@ -2810,108 +2818,154 @@ body::before {
     color: white;
 }
 
-/* Aperçu de la galerie : carousel automatique */
-.info-box:not(.expanded) .gallery-preview {
-    margin-top: 0.5rem;
-    height: 60px;
-    overflow: hidden;
-    border-radius: 8px;
+/* ========================================
+   GALLERY BOX - PREVIEW EN PLEIN ÉCRAN QUAND FERMÉE
+   ======================================== */
+
+/* Forcer un aspect ratio 16:9 pour la gallery box */
+.info-box.gallery-box {
     position: relative;
-}
-
-.gallery-preview .gallery-carousel {
-    display: flex;
-    height: 100%;
-    animation: slide 8s infinite linear;
-    gap: 0.5rem;
-}
-
-.gallery-preview .gallery-mini-item {
-    height: 60px;
-    width: 80px;
-    flex-shrink: 0;
-    border-radius: 6px;
     overflow: hidden;
-    position: relative;
+    aspect-ratio: 16/9; /* Force un ratio 16:9 */
+    min-height: unset; /* Annule la min-height par défaut */
 }
 
-.gallery-preview .gallery-mini-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.gallery-preview .gallery-mini-item:hover img {
-    transform: scale(1.1);
-}
-
-.gallery-preview::after {
-    content: '';
+/* La gallery-preview background est visible seulement quand fermée */
+.info-box.gallery-box .gallery-background {
     position: absolute;
     top: 0;
-    right: 0;
-    width: 20px;
+    left: 0;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(24, 28, 38, 0.8));
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
     pointer-events: none;
 }
 
-@keyframes slide {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+.info-box.gallery-box:not(.expanded) .gallery-background {
+    opacity: 1;
 }
 
-/* Aperçu des témoignages */
-.info-box:not(.expanded) .testimonials-preview {
-    margin-top: 0.5rem;
-    display: flex;
-    align-items: center;
+/* Header repositionné en haut à gauche sans fond noir */
+.info-box.gallery-box:not(.expanded) .info-box-header {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 2;
+    background: none; /* Supprime la box noire */
+    backdrop-filter: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 1rem;
+    /* Fond subtil seulement derrière le texte */
+    background: linear-gradient(135deg, 
+        rgba(0, 0, 0, 0.4) 0%, 
+        rgba(0, 0, 0, 0.2) 100%);
+    border-radius: var(--border-radius-md);
+    width: auto;
+    max-width: 70%; /* Limite la largeur pour ne pas prendre tout l'espace */
+}
+
+/* Titre mieux positionné */
+.info-box.gallery-box:not(.expanded) .info-box-title {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.info-box.gallery-box:not(.expanded) .info-box-summary {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+}
+
+/* Masquer l'icône et toggle sur l'état fermé pour plus de propreté */
+.info-box.gallery-box:not(.expanded) .info-box-icon,
+.info-box.gallery-box:not(.expanded) .info-box-toggle {
+    display: none;
+}
+
+/* Simplifier le header layout pour l'état fermé */
+.info-box.gallery-box:not(.expanded) .info-box-header {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 0.5rem;
 }
 
-.testimonials-preview .testimonial-stars {
-    display: flex;
-    color: #ffd700;
-    font-size: 0.8rem;
+/* Animation des images - carousel automatique */
+.info-box.gallery-box .gallery-background .gallery-mini-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
 }
 
-.testimonials-preview .testimonial-count {
-    color: var(--text-muted);
-    font-size: 0.8rem;
+/* Animation CSS pour faire défiler les images */
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item {
+    animation: gallerySlideshow calc(var(--count, 1) * 4s) infinite;
 }
 
-/* Galerie par défaut ouverte */
-.info-box.gallery-box .info-box-content {
-    max-height: 1000px;
-    padding: 1rem 2rem 2rem 2rem;
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(1) { animation-delay: 0s; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(2) { animation-delay: 4s; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(3) { animation-delay: 8s; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(4) { animation-delay: 12s; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(5) { animation-delay: 16s; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(6) { animation-delay: 20s; }
+
+.info-box.gallery-box .gallery-background .gallery-mini-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--border-radius-lg);
+    transition: transform 0.4s ease;
 }
 
-.info-box.gallery-box:not(.expanded) .info-box-content {
-    max-height: 0;
-    padding: 0 2rem;
+/* Effet hover léger */
+.info-box.gallery-box:not(.expanded):hover .gallery-background .gallery-mini-item img {
+    transform: scale(1.02);
 }
 
-/* Contributors Box Styles */
-.contributors-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
+/* S'assurer que le content ne dépasse pas quand expanded */
+.info-box.gallery-box.expanded {
+    aspect-ratio: unset; /* Retire le ratio fixe quand ouvert */
+    min-height: 140px; /* Restaure une hauteur minimum */
 }
 
-.contributor-item {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    padding: 1rem;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.05) 0%, 
-        rgba(255, 255, 255, 0.02) 100%);
-    border-radius: var(--border-radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.info-box.gallery-box.expanded .gallery-background {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Les styles de gallery sont maintenant gérés par .gallery-background pour les boxes fermées
+   et par .gallery-grid pour les boxes ouvertes */
+
+/* Fade animation keyframes */
+@keyframes fade {
+    0%, 20% { opacity: 1; }
+    25%, 95% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Animation pour le slideshow de la galerie */
+@keyframes gallerySlideshow {
+    0%, 15% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    20%, 80% { 
+        opacity: 0; 
+        transform: scale(1.05);
+    }
+    85%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
 }
 
 .contributor-item:hover {
@@ -3471,19 +3525,32 @@ body::before {
         padding: 1rem 1.5rem 1.5rem 1.5rem;
     }
     
-    /* Aperçus responsives */
+    /* Responsive pour la gallery box */
+    .info-box.gallery-box:not(.expanded) .info-box-header {
+        top: 0.5rem;
+        left: 0.5rem;
+        right: 0.5rem;
+        padding: 0.75rem;
+        max-width: 80%; /* Plus large sur mobile */
+    }
+    
+    .info-box.gallery-box:not(.expanded) .info-box-title {
+        font-size: 1rem;
+    }
+    
+    .info-box.gallery-box:not(.expanded) .info-box-summary {
+        font-size: 0.75rem;
+    }
+    
+    /* Aperçus responsives pour la nouvelle structure */
     .contributors-preview .contributor-avatar-mini {
         width: 24px;
         height: 24px;
     }
     
-    .gallery-preview {
-        height: 50px;
-    }
-    
-    .gallery-preview .gallery-mini-item {
-        height: 50px;
-        width: 70px;
+    /* La gallery-background s'adapte automatiquement sur mobile */
+    .info-box.gallery-box .gallery-background {
+        border-radius: var(--border-radius-md);
     }
     
     .gallery-grid {

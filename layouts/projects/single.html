@@ -11,7 +11,7 @@
 <div class="project-hero-overlay"></div>
 <section class="project-hero">
     <div class="project-hero-content">
-        <!-- Top Section: Back Button -->
+        <!-- Top Section: Back            <div class="info-box gallery-box {{ .Params.gallery_size | default "size-large" }}">Button -->
         <div class="project-hero-top">
             <!-- Back to Portfolio Button -->
             <div class="project-back-button">
@@ -356,7 +356,18 @@
 
             <!-- Project Gallery Box -->
             {{ if .Params.gallery }}
-            <div class="info-box gallery-box {{ .Params.gallery_size | default "size-large" }} expanded">
+            <div class="info-box gallery-box {{ .Params.gallery_size | default "size-large" }}">>
+                <!-- Gallery Preview Background pour l'état fermé -->
+                <div class="gallery-preview gallery-background" style="--count: {{ len .Params.gallery }};">
+                    <div class="gallery-carousel">
+                        {{ range $idx, $img := .Params.gallery }}
+                        <div class="gallery-mini-item" style="--i: {{$idx}};">
+                            <img src="{{ $img.thumbnail | default $img.url }}" alt="{{ $img.caption }}" loading="lazy">
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+                
                 <div class="info-box-header" onclick="toggleInfoBox(this)">
                     <div class="info-box-icon gallery">
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -366,16 +377,6 @@
                     <div class="info-box-header-content">
                         <h3 class="info-box-title">Galerie du projet</h3>
                         <div class="info-box-summary">{{ len .Params.gallery }} image{{ if gt (len .Params.gallery) 1 }}s{{ end }}</div>
-                        <!-- Aperçu carousel -->
-                        <div class="gallery-preview">
-                            <div class="gallery-carousel">
-                                {{ range .Params.gallery }}{{ range .Params.gallery }}
-                                <div class="gallery-mini-item">
-                                    <img src="{{ .thumbnail | default .url }}" alt="{{ .caption }}" loading="lazy">
-                                </div>
-                                {{ end }}{{ end }}
-                            </div>
-                        </div>
                     </div>
                     <div class="info-box-toggle">
                         <svg viewBox="0 0 24 24" fill="currentColor">
