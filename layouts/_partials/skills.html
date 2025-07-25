@@ -1,8 +1,8 @@
 <section id="competences" class="skills-section">
     <h3>{{ i18n "technical_skills" | default "Compétences techniques" }}</h3>
     
-    {{ with .Site.Data.skills.skills.categories }}
-        {{ range . }}
+    {{ range .Site.Data.skills }}
+        {{ with .categories }}
         <div class="skills-category">
             <h4>{{ .title }}</h4>
             <div class="skills-grid">

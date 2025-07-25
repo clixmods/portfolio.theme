@@ -14,7 +14,7 @@
 
     <!-- Experiences Timeline -->
     <div class="experience-timeline" id="experiences-timeline">
-        {{ range $index, $exp := .Site.Data.experience.experiences }}
+        {{ range $index, $exp := .Site.Data.experiences }}
         <div class="experience-card {{ if eq $exp.status "current" }}current{{ end }}">
             <div class="experience-header-card">
                 <div class="company-info">
@@ -84,7 +84,17 @@
                     <h5>Technologies utilisées :</h5>
                     <div class="tech-chips">
                         {{ range $exp.technologies }}
-                        <span class="tech-chip">{{ . }}</span>
+                        {{ $techName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.technologies }}
+                        {{ if eq .name $techName }}
+                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="tech-chip">{{ $techName }}</span>
+                        {{ end }}
                         {{ end }}
                     </div>
                 </div>
@@ -96,7 +106,7 @@
 
     <!-- Internships Timeline -->
     <div class="experience-timeline" id="internships-timeline" style="display: none;">
-        {{ range $index, $int := .Site.Data.experience.internships }}
+        {{ range $index, $int := .Site.Data.internships }}
         <div class="experience-card seeking">
             <div class="experience-header-card">
                 <div class="company-info">
@@ -147,7 +157,17 @@
                     <h5>Technologies souhaitées :</h5>
                     <div class="tech-chips">
                         {{ range $int.technologies }}
-                        <span class="tech-chip">{{ . }}</span>
+                        {{ $techName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.technologies }}
+                        {{ if eq .name $techName }}
+                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="tech-chip">{{ $techName }}</span>
+                        {{ end }}
                         {{ end }}
                     </div>
                 </div>

@@ -16,7 +16,7 @@
     <div class="timeline-container" id="education-timeline">
         <div class="timeline-line"></div>
         
-        {{ range $index, $edu := .Site.Data.education.education }}
+        {{ range $index, $edu := .Site.Data.educations }}
         <div class="timeline-item education-item" data-category="education">
             <div class="timeline-marker" style="background-color: {{ $edu.color }};">
                 <span class="timeline-icon">{{ $edu.icon }}</span>
@@ -59,7 +59,7 @@
     <div class="timeline-container" id="certifications-timeline" style="display: none;">
         <div class="timeline-line"></div>
         
-        {{ range $index, $cert := .Site.Data.education.certifications }}
+        {{ range $index, $cert := .Site.Data.certifications }}
         <div class="timeline-item certification-item" data-category="certifications">
             <div class="timeline-marker" style="background-color: {{ $cert.color }};">
                 <span class="timeline-icon">{{ $cert.icon }}</span>

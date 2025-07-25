@@ -17,7 +17,7 @@
     <!-- Technology Filter Badges -->
     <div class="tech-filters">
         <span class="tech-badge active" data-tech="all">All</span>
-        {{ range sort .Site.Data.technologies.technologies "order" }}
+        {{ range sort .Site.Data.technologies "order" }}
         {{ if .enabled }}
         <span class="tech-badge" data-tech="{{ .name }}" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
         {{ end }}
@@ -53,7 +53,17 @@
                 <p class="project-description">{{ .Params.description }}</p>
                 <div class="project-technologies">
                     {{ range .Params.technologies }}
-                    <span class="tech-chip">{{ . }}</span>
+                    {{ $techName := . }}
+                    {{ $found := false }}
+                    {{ range $.Site.Data.technologies }}
+                    {{ if eq .name $techName }}
+                    <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
+                    {{ $found = true }}
+                    {{ end }}
+                    {{ end }}
+                    {{ if not $found }}
+                    <span class="tech-chip">{{ $techName }}</span>
+                    {{ end }}
                     {{ end }}
                 </div>
                 <div class="project-actions">
@@ -86,7 +96,17 @@
                 <p class="project-description">{{ .Params.description }}</p>
                 <div class="project-technologies">
                     {{ range .Params.technologies }}
-                    <span class="tech-chip">{{ . }}</span>
+                    {{ $techName := . }}
+                    {{ $found := false }}
+                    {{ range $.Site.Data.technologies }}
+                    {{ if eq .name $techName }}
+                    <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
+                    {{ $found = true }}
+                    {{ end }}
+                    {{ end }}
+                    {{ if not $found }}
+                    <span class="tech-chip">{{ $techName }}</span>
+                    {{ end }}
                     {{ end }}
                 </div>
                 <div class="project-actions">
@@ -119,7 +139,17 @@
                 <p class="project-description">{{ .Params.description }}</p>
                 <div class="project-technologies">
                     {{ range .Params.technologies }}
-                    <span class="tech-chip">{{ . }}</span>
+                    {{ $techName := . }}
+                    {{ $found := false }}
+                    {{ range $.Site.Data.technologies }}
+                    {{ if eq .name $techName }}
+                    <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
+                    {{ $found = true }}
+                    {{ end }}
+                    {{ end }}
+                    {{ if not $found }}
+                    <span class="tech-chip">{{ $techName }}</span>
+                    {{ end }}
                     {{ end }}
                 </div>
                 <div class="project-actions">

@@ -1,5 +1,5 @@
 <div class="contact-info">
-    {{ with .Site.Data.profile.profile.contact }}
+    {{ with .Site.Data.profile.contact }}
     {{ $contactItems := slice 
         (dict "icon" "📧" "title" (i18n "email" | default "Email") "value" .email "link" (printf "mailto:%s" .email))
         (dict "icon" "💼" "title" "LinkedIn" "value" .linkedin "link" .linkedin "target" "_blank")
