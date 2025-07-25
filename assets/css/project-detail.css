@@ -2859,13 +2859,10 @@ body::before {
     border-radius: 0;
     margin: 0;
     padding: 1rem;
-    /* Fond subtil seulement derrière le texte */
-    background: linear-gradient(135deg, 
-        rgba(0, 0, 0, 0.4) 0%, 
-        rgba(0, 0, 0, 0.2) 100%);
-    border-radius: var(--border-radius-md);
+    /* Pas de fond, on se base seulement sur text-shadow pour la lisibilité */
+    background: none;
     width: auto;
-    max-width: 70%; /* Limite la largeur pour ne pas prendre tout l'espace */
+    max-width: 70%;
 }
 
 /* Titre mieux positionné */
@@ -2895,7 +2892,7 @@ body::before {
     gap: 0.5rem;
 }
 
-/* Animation des images - carousel automatique */
+/* Animation des images - gérée par JavaScript pour un préchargement intelligent */
 .info-box.gallery-box .gallery-background .gallery-mini-item {
     position: absolute;
     top: 0;
@@ -2906,17 +2903,18 @@ body::before {
     transition: opacity 1s ease-in-out;
 }
 
-/* Animation CSS pour faire défiler les images */
-.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item {
-    animation: gallerySlideshow calc(var(--count, 1) * 4s) infinite;
+/* La première image est visible par défaut */
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:first-child {
+    opacity: 1;
 }
 
-.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(1) { animation-delay: 0s; }
-.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(2) { animation-delay: 4s; }
-.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(3) { animation-delay: 8s; }
-.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(4) { animation-delay: 12s; }
-.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(5) { animation-delay: 16s; }
-.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(6) { animation-delay: 20s; }
+/* Supprimer les animations CSS automatiques qui causaient les flashs */
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(1) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(2) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(3) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(4) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(5) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(6) { animation: none; }
 
 .info-box.gallery-box .gallery-background .gallery-mini-item img {
     width: 100%;

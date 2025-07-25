@@ -356,9 +356,10 @@
 
             <!-- Project Gallery Box -->
             {{ if .Params.gallery }}
-            <div class="info-box gallery-box {{ .Params.gallery_size | default "size-large" }}">>
+            <div class="info-box gallery-box {{ .Params.gallery_size | default "size-large" }}" onclick="toggleInfoBox(this)">
                 <!-- Gallery Preview Background pour l'état fermé -->
-                <div class="gallery-preview gallery-background" style="--count: {{ len .Params.gallery }};">
+                <div class="gallery-preview gallery-background"
+                     style="--count: {{ len .Params.gallery }}; background-image: url('{{ (index .Params.gallery 0).thumbnail | default (index .Params.gallery 0).url }}'); background-size: cover; background-position: center;">
                     <div class="gallery-carousel">
                         {{ range $idx, $img := .Params.gallery }}
                         <div class="gallery-mini-item" style="--i: {{$idx}};">
@@ -368,7 +369,7 @@
                     </div>
                 </div>
                 
-                <div class="info-box-header" onclick="toggleInfoBox(this)">
+                <div class="info-box-header">
                     <div class="info-box-icon gallery">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"/>
@@ -673,6 +674,75 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const transition = document.querySelector('.hero-to-content-transition');
+    
+    // Smart gallery slideshow with preloading
+    const galleryBoxes = document.querySelectorAll('.gallery-box:not(.expanded)');
+    
+    galleryBoxes.forEach(function(galleryBox) {
+        const galleryImages = galleryBox.querySelectorAll('.gallery-background .gallery-mini-item img');
+        const imageUrls = Array.from(galleryImages).map(img => img.src);
+        
+        if (imageUrls.length <= 1) return; // Pas de slideshow pour une seule image
+        
+        let currentIndex = 0;
+        let preloadedImages = [];
+        let isPreloaded = false;
+        
+        // Précharger toutes les images
+        function preloadImages() {
+            let loadedCount = 0;
+            
+            imageUrls.forEach(function(url, index) {
+                const img = new Image();
+                img.onload = function() {
+                    preloadedImages[index] = true;
+                    loadedCount++;
+                    
+                    // Toutes les images sont chargées
+                    if (loadedCount === imageUrls.length) {
+                        isPreloaded = true;
+                        startSlideshow();
+                    }
+                };
+                img.src = url;
+            });
+        }
+        
+        // Démarrer le slideshow seulement quand toutes les images sont prêtes
+        function startSlideshow() {
+            // Masquer toutes les images sauf la première
+            galleryImages.forEach(function(img, index) {
+                img.parentElement.style.opacity = index === 0 ? '1' : '0';
+            });
+            
+            // Changer d'image toutes les 4 secondes
+            setInterval(function() {
+                if (galleryBox.classList.contains('expanded')) return; // Arrêter si ouvert
+                
+                const currentImg = galleryImages[currentIndex];
+                const nextIndex = (currentIndex + 1) % galleryImages.length;
+                const nextImg = galleryImages[nextIndex];
+                
+                // Créer une nouvelle image pour s'assurer qu'elle est chargée
+                const preloadImg = new Image();
+                preloadImg.onload = function() {
+                    // L'image suivante est prête, faire la transition
+                    currentImg.parentElement.style.transition = 'opacity 1s ease-in-out';
+                    nextImg.parentElement.style.transition = 'opacity 1s ease-in-out';
+                    
+                    currentImg.parentElement.style.opacity = '0';
+                    nextImg.parentElement.style.opacity = '1';
+                    
+                    // Mettre à jour l'index seulement après la transition
+                    currentIndex = nextIndex;
+                };
+                preloadImg.src = nextImg.src;
+            }, 4000);
+        }
+        
+        // Commencer le préchargement
+        preloadImages();
+    });
     
     // Trigger blur animation after page load
     setTimeout(() => {
