@@ -271,7 +271,7 @@
     --blur-intensity: 8px;
 }
 
-/* Background fixe via pseudo-élément pour ne flouter que l'image */
+/* Background fixe via pseudo-Ã©lÃ©ment pour ne flouter que l'image */
 body {
     position: relative;
     /* pas de background direct */
@@ -314,7 +314,7 @@ body::before {
             rgba(0, 0, 0, 0.2) 40%,
             transparent 70%
         ),
-        /* Dégradé vers le bas pour une transition plus fluide */
+        /* DÃ©gradÃ© vers le bas pour une transition plus fluide */
         linear-gradient(
             to bottom,
             transparent 0%,
@@ -917,7 +917,7 @@ body::before {
     letter-spacing: 0.5px;
 }
 
-/* Couleurs spécialisées pour les icônes dans le popup */
+/* Couleurs spÃ©cialisÃ©es pour les icÃ´nes dans le popup */
 .popup-action-item[href*="steam"] .action-icon {
     background: rgba(102, 192, 244, 0.2);
     color: #66c0f4;
@@ -1156,7 +1156,7 @@ body::before {
     margin: 0;
 }
 
-/* Variantes d'icônes pour les faits dans le hero */
+/* Variantes d'icÃ´nes pour les faits dans le hero */
 .fact-icon-hero.downloads {
     background: var(--gradient-blue);
 }
@@ -1280,7 +1280,7 @@ body::before {
     line-height: 1.4;
 }
 
-/* Variantes d'icônes pour différents types de faits - utilisées par hero et sidebar */
+/* Variantes d'icÃ´nes pour diffÃ©rents types de faits - utilisÃ©es par hero et sidebar */
 .fact-icon.downloads,
 .fact-icon-hero.downloads {
     background: var(--gradient-blue);
@@ -1306,7 +1306,7 @@ body::before {
     background: var(--gradient-blue);
 }
 
-/* Animation pour les valeurs numériques */
+/* Animation pour les valeurs numÃ©riques */
 .fact-value.animate-number {
     animation: countUp 2s ease-out;
 }
@@ -1326,7 +1326,7 @@ body::before {
    STATUS STYLES
    ======================================== */
 
-.status-terminé {
+.status-terminÃ© {
     color: #2ecc71;
 }
 
@@ -1334,7 +1334,7 @@ body::before {
     color: #f39c12;
 }
 
-.status-abandonné {
+.status-abandonnÃ© {
     color: #e74c3c;
 }
 
@@ -1437,7 +1437,7 @@ body::before {
     z-index: 3;
     margin-top: -8rem;
     
-    /* Dégradé de masque pour une transition fluide */
+    /* DÃ©gradÃ© de masque pour une transition fluide */
     background: linear-gradient(180deg, 
         transparent 0%,
         rgba(26, 26, 26, 0.3) 20%,
@@ -1451,7 +1451,7 @@ body::before {
 .hero-to-content-transition::before {
     content: '';
     position: absolute;
-    top: -12rem; /* Déborde vers le haut sur le hero */
+    top: -12rem; /* DÃ©borde vers le haut sur le hero */
     left: 0;
     right: 0;
     height: calc(100% + 12rem);
@@ -1479,7 +1479,7 @@ body::before {
    ======================================== */
 
  .project-detail {
-    /* Background avec un léger dégradé pour une transition douce */
+    /* Background avec un lÃ©ger dÃ©gradÃ© pour une transition douce */
     background: linear-gradient(180deg, 
         rgba(26, 26, 26, 0.5) 0%,
         rgba(26, 26, 26, 0.5) 10%
@@ -1526,7 +1526,7 @@ body::before {
     position: relative;
     z-index: 10; /* Au-dessus de tout */
     
-    /* Style amélioré cohérent avec le héro */
+    /* Style amÃ©liorÃ© cohÃ©rent avec le hÃ©ro */
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
@@ -1628,7 +1628,7 @@ body::before {
 }
 
 .project-content h3::before {
-    content: '▸';
+    content: 'â–¸';
     position: absolute;
     left: 0;
     color: var(--primary-teal);
@@ -1704,7 +1704,7 @@ body::before {
 }
 
 .project-content ul li::before {
-    content: '•';
+    content: 'â€¢';
     position: absolute;
     left: 0;
     color: var(--primary-blue);
@@ -1854,10 +1854,10 @@ body::before {
 }
 
 /* ========================================
-   CONTENU AMÉLIORÉ - COHÉRENCE AVEC HÉRO
+   CONTENU AMÃ‰LIORÃ‰ - COHÃ‰RENCE AVEC HÃ‰RO
    ======================================== */
 
-/* Animation d'apparition séquentielle pour les éléments */
+/* Animation d'apparition sÃ©quentielle pour les Ã©lÃ©ments */
 .project-content > * {
     opacity: 0;
     transform: translateY(20px);
@@ -1882,7 +1882,7 @@ body::before {
     }
 }
 
-/* Sections spécialisées */
+/* Sections spÃ©cialisÃ©es */
 .project-content-section {
     background: var(--glass-bg-lighter);
     border-radius: var(--border-radius-sm);
@@ -1904,14 +1904,14 @@ body::before {
     opacity: 0.6;
 }
 
-/* Effet hover pour les éléments interactifs */
+/* Effet hover pour les Ã©lÃ©ments interactifs */
 .project-content h2:hover,
 .project-content h3:hover {
     transform: translateX(5px);
     transition: transform 0.3s ease;
 }
 
-/* Amélioration de la hiérarchie visuelle */
+/* AmÃ©lioration de la hiÃ©rarchie visuelle */
 .project-content > h2:first-of-type {
     margin-top: 0;
     padding-top: 0;
@@ -1964,7 +1964,7 @@ body::before {
 }
 
 .nav-link {
-    /* Utiliser le même style que les boutons d'action */
+    /* Utiliser le mÃªme style que les boutons d'action */
     display: inline-flex;
     align-items: center;
     gap: var(--gap-sm);
@@ -2032,7 +2032,7 @@ body::before {
 }
 
 .btn-secondary {
-    /* Utiliser le même style que les boutons d'action */
+    /* Utiliser le mÃªme style que les boutons d'action */
     display: inline-flex;
     align-items: center;
     gap: var(--gap-sm);
@@ -2427,7 +2427,7 @@ body::before {
     position: relative;
     z-index: 6; /* Au-dessus des effets de transition */
     overflow: hidden;
-    /* Pas de backdrop-filter pour éviter le conflit avec hero-to-content-transition */
+    /* Pas de backdrop-filter pour Ã©viter le conflit avec hero-to-content-transition */
 }
 
 .project-info-boxes-section::before {
@@ -2450,12 +2450,12 @@ body::before {
 
 .project-info-boxes {
     display: grid;
-    grid-template-columns: repeat(12, 1fr); /* Grid de 12 colonnes pour plus de flexibilité */
+    grid-template-columns: repeat(12, 1fr); /* Grid de 12 colonnes pour plus de flexibilitÃ© */
     gap: 2rem;
     opacity: 0;
     transform: translateY(30px);
     animation: fadeInUp 0.8s ease-out 0.4s forwards;
-    /* Grid auto-flow pour permettre aux éléments expanded de créer de nouvelles lignes */
+    /* Grid auto-flow pour permettre aux Ã©lÃ©ments expanded de crÃ©er de nouvelles lignes */
     grid-auto-flow: row dense; /* Dense pour optimiser l'espace */
 }
 
@@ -2473,15 +2473,15 @@ body::before {
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     transform: translateY(0);
-    /* Pas de backdrop-filter pour éviter le flou indésirable */
+    /* Pas de backdrop-filter pour Ã©viter le flou indÃ©sirable */
     
-    /* Taille par défaut : medium (4 colonnes) */
+    /* Taille par dÃ©faut : medium (4 colonnes) */
     grid-column: span 4;
     min-height: 120px;
 }
 
 /* ========================================
-   TAILLES DES BOÎTES
+   TAILLES DES BOÃŽTES
    ======================================== */
 
 /* Small : 3 colonnes */
@@ -2490,7 +2490,7 @@ body::before {
     min-height: 100px;
 }
 
-/* Medium : 4 colonnes (défaut) */
+/* Medium : 4 colonnes (dÃ©faut) */
 .info-box.size-medium {
     grid-column: span 4;
     min-height: 120px;
@@ -2508,7 +2508,7 @@ body::before {
     min-height: 160px;
 }
 
-/* Boîte expanded prend toute la largeur */
+/* BoÃ®te expanded prend toute la largeur */
 .info-box.expanded {
     grid-column: 1 / -1; /* Prend toute la largeur de la grille */
     transform: translateY(-5px);
@@ -2517,8 +2517,8 @@ body::before {
         0 15px 35px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.15),
         0 0 0 1px rgba(52, 152, 219, 0.2);
-    margin: 1rem 0; /* Espace autour de la boîte expanded */
-    z-index: 10; /* Au-dessus des autres boîtes */
+    margin: 1rem 0; /* Espace autour de la boÃ®te expanded */
+    z-index: 10; /* Au-dessus des autres boÃ®tes */
 }
 
 .info-box::before {
@@ -2747,7 +2747,7 @@ body::before {
     padding: 1.5rem 2rem 2.5rem 2rem;
 }
 
-/* Layout spécial pour les boîtes expanded en pleine largeur */
+/* Layout spÃ©cial pour les boÃ®tes expanded en pleine largeur */
 .info-box.expanded .contributors-list,
 .info-box.expanded .development-time-content,
 .info-box.expanded .technical-specs-list,
@@ -2764,17 +2764,17 @@ body::before {
 }
 
 /* ========================================
-   APERÇUS SPÉCIAUX POUR BOÎTES FERMÉES
+   APERÃ‡US SPÃ‰CIAUX POUR BOÃŽTES FERMÃ‰ES
    ======================================== */
 
-/* Aperçu des contributeurs : avatars horizontaux */
+/* AperÃ§u des contributeurs : avatars horizontaux */
 .info-box:not(.expanded) .contributors-preview {
     display: flex;
     align-items: center;
     margin-top: 0.5rem;
     overflow: hidden;
 }
-/* Cacher le nombre de contributeurs lorsque fermé */
+/* Cacher le nombre de contributeurs lorsque fermÃ© */
 .info-box.contributors-box:not(.expanded) .info-box-summary {
     display: none;
 }
@@ -2823,7 +2823,7 @@ body::before {
 }
 
 /* ========================================
-   GALLERY BOX - PREVIEW EN PLEIN ÉCRAN QUAND FERMÉE
+   GALLERY BOX - PREVIEW EN PLEIN Ã‰CRAN QUAND FERMÃ‰E
    ======================================== */
 
 /* Forcer un aspect ratio 16:9 pour la gallery box */
@@ -2831,10 +2831,10 @@ body::before {
     position: relative;
     overflow: hidden;
     aspect-ratio: 16/9; /* Force un ratio 16:9 */
-    min-height: unset; /* Annule la min-height par défaut */
+    min-height: unset; /* Annule la min-height par dÃ©faut */
 }
 
-/* La gallery-preview background est visible seulement quand fermée */
+/* La gallery-preview background est visible seulement quand fermÃ©e */
 .info-box.gallery-box .gallery-background {
     position: absolute;
     top: 0;
@@ -2851,7 +2851,7 @@ body::before {
     opacity: 1;
 }
 
-/* Header repositionné en haut à gauche sans fond noir */
+/* Header repositionnÃ© en haut Ã  gauche sans fond noir */
 .info-box.gallery-box:not(.expanded) .info-box-header {
     position: absolute;
     top: 1rem;
@@ -2863,13 +2863,13 @@ body::before {
     border-radius: 0;
     margin: 0;
     padding: 1rem;
-    /* Pas de fond, on se base seulement sur text-shadow pour la lisibilité */
+    /* Pas de fond, on se base seulement sur text-shadow pour la lisibilitÃ© */
     background: none;
     width: auto;
     max-width: 70%;
 }
 
-/* Titre mieux positionné */
+/* Titre mieux positionnÃ© */
 .info-box.gallery-box:not(.expanded) .info-box-title {
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
     color: #fff;
@@ -2883,20 +2883,20 @@ body::before {
     font-size: 0.8rem;
 }
 
-/* Masquer l'icône et toggle sur l'état fermé pour plus de propreté */
+/* Masquer l'icÃ´ne et toggle sur l'Ã©tat fermÃ© pour plus de propretÃ© */
 .info-box.gallery-box:not(.expanded) .info-box-icon,
 .info-box.gallery-box:not(.expanded) .info-box-toggle {
     display: none;
 }
 
-/* Simplifier le header layout pour l'état fermé */
+/* Simplifier le header layout pour l'Ã©tat fermÃ© */
 .info-box.gallery-box:not(.expanded) .info-box-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
 }
 
-/* Animation des images - gérée par JavaScript pour un préchargement intelligent */
+/* Animation des images - gÃ©rÃ©e par JavaScript pour un prÃ©chargement intelligent */
 .info-box.gallery-box .gallery-background .gallery-mini-item {
     position: absolute;
     top: 0;
@@ -2907,7 +2907,7 @@ body::before {
     transition: opacity 1s ease-in-out;
 }
 
-/* La première image est visible par défaut */
+/* La premiÃ¨re image est visible par dÃ©faut */
 .info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:first-child {
     opacity: 1;
 }
@@ -2928,12 +2928,12 @@ body::before {
     transition: transform 0.4s ease;
 }
 
-/* Effet hover léger */
+/* Effet hover lÃ©ger */
 .info-box.gallery-box:not(.expanded):hover .gallery-background .gallery-mini-item img {
     transform: scale(1.02);
 }
 
-/* S'assurer que le content ne dépasse pas quand expanded */
+/* S'assurer que le content ne dÃ©passe pas quand expanded */
 .info-box.gallery-box.expanded {
     aspect-ratio: unset; /* Retire le ratio fixe quand ouvert */
     min-height: 140px; /* Restaure une hauteur minimum */
@@ -2944,7 +2944,7 @@ body::before {
     pointer-events: none;
 }
 
-/* Les styles de gallery sont maintenant gérés par .gallery-background pour les boxes fermées
+/* Les styles de gallery sont maintenant gÃ©rÃ©s par .gallery-background pour les boxes fermÃ©es
    et par .gallery-grid pour les boxes ouvertes */
 
 /* Fade animation keyframes */
@@ -3433,41 +3433,44 @@ body::before {
 }
 
 .testimonial-rating {
-    display: flex;
-    gap: 0.2rem;
-    margin-top: 0.5rem;
+    display: none;
 }
 
 .testimonial-rating .star {
-    color: #ffd700;
-    font-size: 0.9rem;
+    display: none;
 }
 
 /* ========================================
-   TESTIMONIALS PREVIEW (BOÎTE FERMÉE)
+   TESTIMONIALS BOX - REMPLISSAGE COMPLET
    ======================================== */
 
-/* Aperçu des testimonials : affichage rotatif */
-.info-box:not(.expanded) .testimonials-preview {
-    display: block;
-    margin-top: 0.8rem;
-    height: 80px; /* Hauteur pour afficher un testimonial */
+/* Widget testimonials - remplissage complet du widget */
+.testimonials-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonials-box .info-box-header {
+    display: none; /* Pas de header pour le widget testimonials en mode full */
+}
+
+.testimonials-box .info-box-content {
+    padding: 0;
+    max-height: none;
+    height: 100%;
+}
+
+/* AperÃ§u testimonials - remplissage complet */
+.testimonials-preview {
+    margin-top: 0;
+    height: 100%; /* Remplir tout le widget */
     overflow: hidden;
     position: relative;
     border-radius: var(--border-radius-sm);
     background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.03) 0%, 
-        rgba(255, 255, 255, 0.01) 100%);
-}
-
-/* Masquer la liste complète quand la box est fermée */
-.info-box.testimonials-box:not(.expanded) .testimonials-list {
-    display: none;
-}
-
-/* Masquer l'aperçu quand la box est ouverte */
-.info-box.testimonials-box.expanded .testimonials-preview {
-    display: none;
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(52, 152, 219, 0.05) 100%);
+    backdrop-filter: blur(10px);
 }
 
 /* Container pour la rotation des testimonials */
@@ -3476,25 +3479,25 @@ body::before {
     height: 100%;
 }
 
-/* Chaque testimonial en mode aperçu */
+/* Chaque testimonial en mode aperÃ§u - REMPLISSAGE COMPLET */
 .testimonial-preview-item {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
     display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.8rem 1rem;
-    background: linear-gradient(135deg, 
-        rgba(79, 209, 199, 0.08) 0%, 
-        rgba(52, 152, 219, 0.05) 100%);
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
     border-radius: var(--border-radius-sm);
-    border-left: 2px solid var(--primary-teal);
-    backdrop-filter: blur(5px);
+    border-left: 3px solid var(--primary-teal);
     transition: all 0.5s ease;
     opacity: 0;
     transform: translateY(10px);
+    height: 100%;
+    box-sizing: border-box;
 }
 
 /* Testimonial actif */
@@ -3514,10 +3517,191 @@ body::before {
     transform: translateY(0);
 }
 
-/* Avatar miniature pour l'aperçu */
+/* Header du testimonial */
+.testimonial-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+/* Avatar en mode preview */
 .testimonial-preview-avatar {
     width: 40px;
     height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-preview-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-preview-avatar.placeholder {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Nom de l'auteur */
+.testimonial-preview-author {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+/* Citation en mode preview */
+.testimonial-preview-quote {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-preview-quote::before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--primary-teal);
+    opacity: 0.3;
+    position: absolute;
+    left: -0.5rem;
+    top: -1rem;
+    font-family: Georgia, serif;
+}
+
+/* Barre de progression */
+.testimonials-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.testimonials-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-teal), var(--primary-blue));
+    width: 0%;
+    animation: testimonial-progress 5s linear infinite;
+}
+
+@keyframes testimonial-progress {
+    0% { width: 0%; }
+    90% { width: 100%; }
+    100% { width: 100%; }
+}
+
+/* ========================================
+   TESTIMONIALS PREVIEW (ANCIEN SYSTÃˆME - GARDÃ‰ POUR COMPATIBILITÃ‰)
+   ======================================== */
+
+/* AperÃ§u des testimonials : affichage rotatif */
+.info-box:not(.expanded) .testimonials-preview {
+    display: block;
+    margin-top: 0;
+    height: 100%; /* Remplir tout le widget */
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.03) 0%, 
+        rgba(255, 255, 255, 0.01) 100%);
+}
+
+/* Masquer la liste complÃ¨te quand la box est fermÃ©e */
+.info-box.testimonials-box:not(.expanded) .testimonials-list {
+    display: none;
+}
+
+/* Masquer le header quand en mode aperÃ§u complet */
+.info-box.testimonials-box:not(.expanded) .info-box-header {
+    display: none;
+}
+
+/* Masquer l'aperÃ§u quand la box est ouverte */
+.info-box.testimonials-box.expanded .testimonials-preview {
+    display: none;
+}
+
+/* Container pour la rotation des testimonials */
+.testimonials-rotator {
+    position: relative;
+    height: 100%;
+}
+
+/* Chaque testimonial en mode aperÃ§u - REMPLISSAGE COMPLET */
+.testimonial-preview-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(52, 152, 219, 0.05) 100%);
+    border-radius: var(--border-radius-sm);
+    border-left: 2px solid var(--primary-teal);
+    backdrop-filter: blur(5px);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Testimonial actif */
+.testimonial-preview-item.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animation de transition entre testimonials */
+.testimonial-preview-item.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.testimonial-preview-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Avatar et author dans un header - CENTRÃ‰ */
+.testimonial-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Avatar miniature pour l'aperÃ§u */
+.testimonial-preview-avatar {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     overflow: hidden;
     border: 2px solid rgba(255, 255, 255, 0.2);
@@ -3540,44 +3724,36 @@ body::before {
     font-size: 0.8rem;
 }
 
-/* Contenu du testimonial en aperçu */
-.testimonial-preview-content {
-    flex: 1;
-    min-width: 0;
-}
-
 .testimonial-preview-quote {
     color: var(--text-primary);
-    font-size: 0.85rem;
-    line-height: 1.4;
-    margin-bottom: 0.3rem;
+    font-size: 1rem;
+    line-height: 1.6;
     font-style: italic;
+    flex: 1;
+    /* Permettre l'affichage de plus de lignes pour le remplissage complet */
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
 }
 
 .testimonial-preview-author {
     color: var(--text-muted);
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: var(--font-weight-semibold);
+    text-align: center;
 }
 
-/* Note d'étoiles en miniature */
+/* Note d'Ã©toiles en miniature - SupprimÃ©e */
 .testimonial-preview-rating {
-    display: flex;
-    gap: 0.1rem;
-    margin-top: 0.2rem;
-    justify-content: flex-end;
-    flex-shrink: 0;
+    display: none;
 }
 
 .testimonial-preview-rating .star {
-    color: #ffd700;
-    font-size: 0.7rem;
+    display: none;
 }
 
 /* Indicateur de progression */
@@ -3600,14 +3776,14 @@ body::before {
    YOUTUBE BOX STYLES
    ======================================== */
 
-/* Liste des vidéos YouTube */
+/* Liste des vidÃ©os YouTube */
 .youtube-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
 }
 
-/* Item vidéo YouTube */
+/* Item vidÃ©o YouTube */
 .youtube-item {
     background: linear-gradient(135deg, 
         rgba(255, 255, 255, 0.05) 0%, 
@@ -3633,7 +3809,7 @@ body::before {
         0 5px 15px rgba(255, 0, 0, 0.2);
 }
 
-/* Thumbnail de la vidéo */
+/* Thumbnail de la vidÃ©o */
 .youtube-thumbnail {
     position: relative;
     width: 100%;
@@ -3687,7 +3863,7 @@ body::before {
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
 }
 
-/* Durée de la vidéo */
+/* DurÃ©e de la vidÃ©o */
 .youtube-duration {
     position: absolute;
     bottom: 8px;
@@ -3701,7 +3877,7 @@ body::before {
     backdrop-filter: blur(5px);
 }
 
-/* Informations de la vidéo */
+/* Informations de la vidÃ©o */
 .youtube-info {
     padding: 1.2rem;
 }
@@ -3741,14 +3917,17 @@ body::before {
     color: var(--text-muted);
 }
 
-.youtube-views,
+.youtube-views {
+    display: none; /* Masquer le compteur de vues */
+}
+
 .youtube-date {
     display: flex;
     align-items: center;
     gap: 0.3rem;
 }
 
-/* Aperçu pour la box fermée */
+/* AperÃ§u pour la box fermÃ©e */
 .info-box:not(.expanded) .youtube-preview {
     display: flex;
     align-items: center;
@@ -3825,7 +4004,7 @@ body::before {
     font-size: 0.75rem;
 }
 
-/* Masquer la liste complète quand la box est fermée */
+/* Masquer la liste complÃ¨te quand la box est fermÃ©e */
 /* youtube-list toujours visible */
 .info-box.youtube-box:not(.expanded) .youtube-list {
     display: none;
@@ -3835,87 +4014,80 @@ body::before {
 }
 
 /* ========================================
-   YOUTUBE SINGLE VIDEO BOX
+   YOUTUBE SINGLE VIDEO BOX - REMPLISSAGE COMPLET
    ======================================== */
-.youtube-embed-wrapper {
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-}
-.youtube-embed-wrapper iframe {
-    width: 100%;
-    height: 100%;
-}
 
-/* Widget pour une seule vidéo YouTube */
+/* Widget pour une seule vidÃ©o YouTube - remplissage complet sans toggle */
 .youtube-single-box {
     position: relative;
     overflow: hidden;
 }
 
+.youtube-single-box .info-box-header {
+    display: none; /* Pas de header pour le widget solo */
+}
+
 .youtube-single-box .info-box-content {
     padding: 0;
     max-height: none;
+    height: 100%;
 }
 
-.youtube-single-preview {
+/* Item vidÃ©o unique - style complet */
+.youtube-single-item {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.02) 100%);
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid #ff0000;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    backdrop-filter: blur(10px);
+    height: 100%;
+}
+
+.youtube-single-item:hover {
+    transform: translateY(-2px);
+    border-left-color: #cc0000;
+    background: linear-gradient(135deg, 
+        rgba(255, 0, 0, 0.08) 0%, 
+        rgba(255, 255, 255, 0.05) 100%);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.2),
+        0 3px 10px rgba(255, 0, 0, 0.15);
+}
+
+/* Thumbnail - remplissage optimisÃ© */
+.youtube-single-thumbnail {
     position: relative;
     width: 100%;
     aspect-ratio: 16/9;
-    cursor: pointer;
     overflow: hidden;
-    border-radius: var(--border-radius-md);
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
 }
 
-.youtube-single-preview:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-}
-
-.youtube-single-preview img {
+.youtube-single-thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.youtube-single-preview:hover img {
-    transform: scale(1.05);
+.youtube-single-item:hover .youtube-single-thumbnail img {
+    transform: scale(1.03);
 }
 
-/* Overlay avec bouton play pour vidéo unique */
-.youtube-single-overlay {
+/* Bouton play - style optimisÃ© */
+.youtube-single-play-button {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(0, 0, 0, 0.3) 0%,
-        rgba(255, 0, 0, 0.1) 50%,
-        rgba(0, 0, 0, 0.3) 100%
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.youtube-single-preview:hover .youtube-single-overlay {
-    background: linear-gradient(
-        135deg,
-        rgba(0, 0, 0, 0.4) 0%,
-        rgba(255, 0, 0, 0.2) 50%,
-        rgba(0, 0, 0, 0.4) 100%
-    );
-}
-
-/* Bouton play pour vidéo unique */
-.youtube-single-play {
-    width: 80px;
-    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
     background: rgba(255, 0, 0, 0.9);
     border-radius: 50%;
     display: flex;
@@ -3927,134 +4099,51 @@ body::before {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-.youtube-single-play::before {
+.youtube-single-play-button::before {
     content: '';
     width: 0;
     height: 0;
-    border-left: 24px solid white;
-    border-top: 16px solid transparent;
-    border-bottom: 16px solid transparent;
+    border-left: 20px solid white;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
     margin-left: 4px;
 }
 
-.youtube-single-preview:hover .youtube-single-play {
-    transform: scale(1.1);
+.youtube-single-item:hover .youtube-single-play-button {
+    transform: translate(-50%, -50%) scale(1.1);
     background: rgba(255, 0, 0, 1);
     box-shadow: 
         0 12px 35px rgba(0, 0, 0, 0.4),
-        0 0 30px rgba(255, 0, 0, 0.5);
+        0 0 30px rgba(255, 0, 0, 0.6);
     border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Durée et informations pour vidéo unique */
+/* DurÃ©e */
 .youtube-single-duration {
     position: absolute;
     bottom: 12px;
     right: 12px;
     background: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 0.4rem 0.8rem;
+    padding: 0.3rem 0.6rem;
     border-radius: 6px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Informations de la vidÃ©o */
+.youtube-single-info {
+    padding: 1.2rem;
+}
+
 .youtube-single-title {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 100px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: var(--font-weight-semibold);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Aperçu pour le widget vidéo unique quand fermé */
-.info-box.youtube-single-box:not(.expanded) .youtube-single-mini {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-top: 0.8rem;
-    padding: 0.8rem;
-    background: linear-gradient(135deg, 
-        rgba(255, 0, 0, 0.08) 0%, 
-        rgba(255, 255, 255, 0.03) 100%);
-    border-radius: var(--border-radius-sm);
-    border-left: 2px solid #ff0000;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.info-box.youtube-single-box:not(.expanded) .youtube-single-mini:hover {
-    background: linear-gradient(135deg, 
-        rgba(255, 0, 0, 0.12) 0%, 
-        rgba(255, 255, 255, 0.05) 100%);
-    transform: translateY(-2px);
-}
-
-.youtube-single-mini-thumbnail {
-    width: 80px;
-    height: 45px;
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-    flex-shrink: 0;
-}
-
-.youtube-single-mini-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.youtube-single-mini-play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 28px;
-    height: 28px;
-    background: rgba(255, 0, 0, 0.9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.youtube-single-mini-play::before {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 8px solid white;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    margin-left: 2px;
-}
-
-.youtube-single-mini-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.youtube-single-mini-title {
     color: var(--text-primary);
-    font-size: 0.9rem;
-    font-weight: var(--font-weight-semibold);
-    line-height: 1.3;
-    margin-bottom: 0.3rem;
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.4;
+    margin-bottom: 0.6rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -4063,23 +4152,45 @@ body::before {
     text-overflow: ellipsis;
 }
 
-.youtube-single-mini-duration {
+.youtube-single-description {
     color: var(--text-muted);
-    font-size: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Masquer le contenu complet quand la box est fermée pour le widget unique */
-.info-box.youtube-single-box:not(.expanded) .youtube-single-preview {
-    display: none;
+.youtube-single-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
 }
 
-/* Masquer l'aperçu mini quand la box est ouverte */
-.info-box.youtube-single-box.expanded .youtube-single-mini {
+.youtube-single-date {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Toujours afficher le contenu complet */
+.youtube-single-box .youtube-single-item {
+    display: block;
+}
+
+/* Masquer les aperÃ§us */
+.youtube-single-box .youtube-single-preview {
     display: none;
 }
 
 /* ========================================
-   MODAL VIDÉO YOUTUBE
+   MODAL VIDÃ‰O YOUTUBE
    ======================================== */
 
 .youtube-modal {
@@ -4130,7 +4241,7 @@ body::before {
     border: none;
 }
 
-/* Bouton de fermeture amélioré */
+/* Bouton de fermeture amÃ©liorÃ© */
 .youtube-modal-close {
     position: absolute;
     top: -60px;
@@ -4210,15 +4321,15 @@ body::before {
     }
     
     .info-box.size-large {
-        grid-column: span 6; /* Large reste à 6 */
+        grid-column: span 6; /* Large reste Ã  6 */
     }
     
     .info-box.size-medium {
-        grid-column: span 4; /* Medium reste à 4 */
+        grid-column: span 4; /* Medium reste Ã  4 */
     }
     
     .info-box.size-small {
-        grid-column: span 3; /* Small reste à 3 */
+        grid-column: span 3; /* Small reste Ã  3 */
     }
 }
 
@@ -4236,7 +4347,7 @@ body::before {
         gap: 1.2rem;
     }
     
-    /* Toutes les boîtes prennent toute la largeur sur mobile */
+    /* Toutes les boÃ®tes prennent toute la largeur sur mobile */
     .info-box {
         grid-column: 1 / -1;
         min-height: auto;
@@ -4291,7 +4402,7 @@ body::before {
         font-size: 0.75rem;
     }
     
-    /* Aperçus responsives pour la nouvelle structure */
+    /* AperÃ§us responsives pour la nouvelle structure */
     .contributors-preview .contributor-avatar-mini {
         width: 24px;
         height: 24px;
@@ -4307,9 +4418,9 @@ body::before {
         gap: 0.8rem;
     }
     
-    /* Styles responsives pour les testimonials en aperçu */
+    /* Styles responsives pour les testimonials en aperÃ§u */
     .testimonials-preview {
-        height: 70px; /* Hauteur légèrement réduite sur mobile */
+        height: 70px; /* Hauteur lÃ©gÃ¨rement rÃ©duite sur mobile */
         margin-top: 0.6rem;
     }
     
@@ -4332,9 +4443,7 @@ body::before {
         font-size: 0.7rem;
     }
     
-    .testimonial-preview-rating .star {
-        font-size: 0.65rem;
-    }
+    /* SupprimÃ©: styles pour les Ã©toiles */
     
     /* Styles responsives pour YouTube */
     .youtube-list {
@@ -4365,7 +4474,7 @@ body::before {
         height: 35px;
     }
     
-    /* Styles responsives pour le widget vidéo unique */
+    /* Styles responsives pour le widget vidÃ©o unique */
     .youtube-single-play {
         width: 60px;
         height: 60px;
@@ -4741,7 +4850,7 @@ body::before {
    DYNAMIC BLUR EFFECTS
    ======================================== */
 
-/* Animation pour l'intensité du flou basée sur le scroll */
+/* Animation pour l'intensitÃ© du flou basÃ©e sur le scroll */
 @keyframes blurFadeIn {
     from {
         backdrop-filter: blur(0px);
@@ -4753,12 +4862,12 @@ body::before {
     }
 }
 
-/* Classe pour déclencher l'animation */
+/* Classe pour dÃ©clencher l'animation */
 .blur-animated .hero-to-content-transition::before {
     animation: blurFadeIn 1.2s ease-out forwards;
 }
 
-/* Amélioration pour les appareils avec performance limitée */
+/* AmÃ©lioration pour les appareils avec performance limitÃ©e */
 @media (prefers-reduced-motion: reduce) {
     .hero-to-content-transition::before {
         backdrop-filter: blur(4px);
@@ -4789,4 +4898,618 @@ body::before {
         font-size: 0.9rem;
         padding: 0.75rem;
     }
+}
+
+/* ========================================
+   TESTIMONIALS BOX - REMPLISSAGE COMPLET
+   ======================================== */
+
+/* Widget testimonials - remplissage complet du widget */
+.testimonials-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonials-box .info-box-header {
+    display: none; /* Pas de header pour le widget testimonials en mode full */
+}
+
+.testimonials-box .info-box-content {
+    padding: 0;
+    max-height: none;
+    height: 100%;
+}
+
+/* Aperçu testimonials - remplissage complet */
+.testimonials-preview {
+    margin-top: 0;
+    height: 100%; /* Remplir tout le widget */
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(52, 152, 219, 0.05) 100%);
+    backdrop-filter: blur(10px);
+}
+
+/* Container pour la rotation des testimonials */
+.testimonials-rotator {
+    position: relative;
+    height: 100%;
+}
+
+/* Chaque testimonial en mode aperçu - REMPLISSAGE COMPLET */
+.testimonial-preview-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-teal);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Testimonial actif */
+.testimonial-preview-item.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animation de transition entre testimonials */
+.testimonial-preview-item.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.testimonial-preview-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Header du testimonial */
+.testimonial-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+/* Avatar en mode preview */
+.testimonial-preview-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-preview-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-preview-avatar.placeholder {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Nom de l'auteur */
+.testimonial-preview-author {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+/* Citation en mode preview */
+.testimonial-preview-quote {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-preview-quote::before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--primary-teal);
+    opacity: 0.3;
+    position: absolute;
+    left: -0.5rem;
+    top: -1rem;
+    font-family: Georgia, serif;
+}
+
+/* Barre de progression */
+.testimonials-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.testimonials-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-teal), var(--primary-blue));
+    width: 0%;
+    animation: testimonial-progress 5s linear infinite;
+}
+
+@keyframes testimonial-progress {
+    0% { width: 0%; }
+    90% { width: 100%; }
+    100% { width: 100%; }
+}
+
+/* ========================================
+   NOUVEAUX WIDGETS - CLIENTS, GRADE, DOWNLOADS, RANKING
+   ======================================== */
+
+/* ========================================
+   CLIENTS BOX STYLES - LOGOS DES ENTREPRISES
+   ======================================== */
+
+/* Liste des clients */
+.clients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Item client individuel */
+.client-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--border-radius-sm);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.client-item:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, 
+        rgba(52, 152, 219, 0.08) 0%, 
+        rgba(255, 255, 255, 0.05) 100%);
+    border-color: rgba(52, 152, 219, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo du client */
+.client-logo {
+    width: 4rem;
+    height: 4rem;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.client-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.client-logo.placeholder {
+    color: white;
+    font-weight: var(--font-weight-bold);
+    font-size: 1.4rem;
+}
+
+/* Informations du client */
+.client-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.client-name {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.client-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 0.2rem;
+}
+
+.client-role {
+    color: var(--primary-teal);
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Aperçu clients dans le header */
+.clients-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.clients-preview-logos {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.client-logo-mini {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.client-logo-mini img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.client-logo-mini.placeholder {
+    color: white;
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+
+.clients-preview-more {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-left: 0.2rem;
+}
+
+/* ========================================
+   GRADE BOX STYLES - NOTES ACADÉMIQUES
+   ======================================== */
+
+/* Contenu principal de la note */
+.grade-content {
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Affichage de la note */
+.grade-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.grade-value {
+    font-size: 3rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-green);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.grade-scale {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Détails de la note */
+.grade-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.grade-subject {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 1.1rem;
+}
+
+.grade-professor, .grade-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.grade-comment {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.8rem;
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-green);
+}
+
+/* Aperçu de la note dans le header */
+.grade-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.grade-preview-value {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-green);
+    min-width: 40px;
+}
+
+.grade-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.grade-preview-subject {
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+    margin-bottom: 0.1rem;
+}
+
+.grade-preview-scale {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+/* ========================================
+   DOWNLOADS BOX STYLES - STATISTIQUES DE TÉLÉCHARGEMENT
+   ======================================== */
+
+/* Contenu principal des téléchargements */
+.downloads-content {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+/* Affichage du nombre total */
+.downloads-display {
+    margin-bottom: 1.5rem;
+}
+
+.downloads-value {
+    font-size: 3rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-blue);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0.5rem;
+}
+
+.downloads-label {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: var(--font-weight-medium);
+}
+
+/* Détails par plateforme */
+.downloads-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.downloads-platform {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-blue);
+}
+
+.downloads-platform-name {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-medium);
+    font-size: 0.9rem;
+}
+
+.downloads-platform-count {
+    color: var(--primary-blue);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+}
+
+/* Date de mise à jour */
+.downloads-last-updated {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Aperçu des téléchargements dans le header */
+.downloads-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.downloads-preview-value {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-blue);
+    min-width: 60px;
+}
+
+.downloads-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.downloads-preview-label {
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+    margin-bottom: 0.1rem;
+}
+
+.downloads-preview-date {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+/* ========================================
+   RANKING BOX STYLES - CLASSEMENTS DE CONCOURS
+   ======================================== */
+
+/* Contenu principal du classement */
+.ranking-content {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+/* Affichage de la position */
+.ranking-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ranking-position {
+    font-size: 3rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-gold);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.ranking-position::after {
+    content: attr(data-suffix);
+    font-size: 1rem;
+    color: var(--text-muted);
+    position: absolute;
+    top: 0.5rem;
+    right: -1rem;
+}
+
+.ranking-total {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Détails du classement */
+.ranking-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.ranking-event {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 1.1rem;
+}
+
+.ranking-category, .ranking-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.ranking-achievement {
+    color: var(--primary-gold);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-semibold);
+    background: rgba(255, 215, 0, 0.1);
+    padding: 0.6rem;
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-gold);
+}
+
+/* Aperçu du classement dans le header */
+.ranking-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.ranking-preview-position {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-gold);
+    position: relative;
+    min-width: 40px;
+}
+
+.ranking-preview-position::after {
+    content: attr(data-suffix);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    position: absolute;
+    top: 0.2rem;
+    right: -0.8rem;
+}
+
+.ranking-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ranking-preview-event {
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+    margin-bottom: 0.1rem;
+}
+
+.ranking-preview-total {
+    color: var(--text-muted);
+    font-size: 0.75rem;
 }
