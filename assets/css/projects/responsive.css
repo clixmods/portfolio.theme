@@ -1,0 +1,1364 @@
+/* ========================================
+   CONTENU AMÃ‰LIORÃ‰ - COHÃ‰RENCE AVEC HÃ‰RO
+   ======================================== */
+
+/* Animation d'apparition sÃ©quentielle pour les Ã©lÃ©ments */
+.project-content > * {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSequence 0.6s ease-out forwards;
+}
+
+.project-content > *:nth-child(1) { animation-delay: 0.1s; }
+.project-content > *:nth-child(2) { animation-delay: 0.2s; }
+.project-content > *:nth-child(3) { animation-delay: 0.3s; }
+.project-content > *:nth-child(4) { animation-delay: 0.4s; }
+.project-content > *:nth-child(5) { animation-delay: 0.5s; }
+.project-content > *:nth-child(n+6) { animation-delay: 0.6s; }
+
+@keyframes fadeInSequence {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sections spÃ©cialisÃ©es */
+.project-content-section {
+    background: var(--glass-bg-lighter);
+    border-radius: var(--border-radius-sm);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border: 1px solid var(--glass-border-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.project-content-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gradient-blue);
+    opacity: 0.6;
+}
+
+/* Effet hover pour les Ã©lÃ©ments interactifs */
+.project-content h2:hover,
+.project-content h3:hover {
+    transform: translateX(5px);
+    transition: transform 0.3s ease;
+}
+
+/* AmÃ©lioration de la hiÃ©rarchie visuelle */
+.project-content > h2:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* ========================================
+   PROJECT NAVIGATION
+   ======================================== */
+
+.project-navigation {
+    margin-top: 4rem;
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+    border-radius: var(--border-radius-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.project-navigation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--glass-bg-light);
+    border-radius: var(--border-radius-md);
+    z-index: -1;
+}
+
+.project-navigation::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--gradient-blue);
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+}
+
+.nav-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.nav-link {
+    /* Utiliser le mÃªme style que les boutons d'action */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    padding: var(--padding-btn);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--border-radius-lg);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    min-height: 44px;
+    /* Glass effect */
+    background: var(--glass-bg);
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+    /* Layout specific */
+    justify-content: center;
+    flex-direction: column;
+    text-align: left;
+    padding: var(--padding-glass);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glass-bg-light);
+    border-radius: var(--border-radius-lg);
+    z-index: -1;
+}
+
+.nav-link:hover {
+    background: var(--primary-blue-bg);
+    border-color: var(--primary-blue-border);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-primary);
+}
+
+.nav-link.next {
+    text-align: right;
+}
+
+.nav-direction {
+    display: block;
+    color: var(--primary-blue);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--gap-sm);
+}
+
+.nav-title {
+    display: block;
+    color: var(--text-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.back-to-projects {
+    text-align: center;
+}
+
+.btn-secondary {
+    /* Utiliser le mÃªme style que les boutons d'action */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    padding: var(--padding-btn);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--border-radius-lg);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    min-height: 44px;
+    /* Glass effect */
+    background: var(--glass-bg);
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+    /* Layout specific */
+    justify-content: center;
+}
+
+.btn-secondary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--glass-bg-light);
+    border-radius: var(--border-radius-lg);
+    z-index: -1;
+}
+
+.btn-secondary:hover {
+    background: var(--primary-blue-bg);
+    border-color: var(--primary-blue-border);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--text-primary);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .project-hero {
+        min-height: 80vh;
+        background-attachment: scroll;
+    }
+    
+    .project-hero-container,
+    .project-content-container {
+        padding: 0 1rem;
+    }
+    
+    .project-detail-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0;
+    }
+    
+    .project-info-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0;
+    }
+    
+    .project-notable-facts-hero {
+        order: -1;
+    }
+    
+    .project-sidebar {
+        position: static;
+        order: -1;
+    }
+    
+    .project-title {
+        font-size: 2.5rem;
+    }
+    
+    .project-description {
+        font-size: 1.1rem;
+    }
+    
+    .project-meta-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .tech-pills,
+    .tag-pills {
+        gap: 0.3rem;
+    }
+    
+    .tech-pill,
+    .tag-pill {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .nav-links {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .project-content {
+        padding: 1.5rem;
+    }
+    
+    .project-content h1 {
+        font-size: 2rem;
+    }
+    
+    .project-content h2 {
+        font-size: 1.5rem;
+        padding: 0.8rem 0 0.8rem 1.5rem;
+    }
+    
+    .project-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .project-content ul,
+    .project-content ol {
+        padding: 1rem;
+    }
+    
+    .project-content pre {
+        padding: 1.5rem;
+    }
+    
+    .project-content blockquote {
+        padding: 1.5rem;
+    }
+    
+    .fact-card {
+        padding: 1.2rem;
+    }
+    
+    .fact-value {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-hero {
+        min-height: 70vh;
+    }
+    
+    .project-title {
+        font-size: 2rem;
+    }
+    
+    .project-description {
+        font-size: 1rem;
+    }
+    
+    .project-back-button {
+        padding-left: 1rem;
+        padding-top: 1rem;
+    }
+    
+    .btn-back-portfolio {
+        font-size: 0.8rem;
+        padding: 0.6rem 1.2rem;
+    }
+    
+    .hero-to-content-transition {
+        height: 12rem;
+        margin-top: -4rem;
+    }
+    
+    .project-detail {
+        padding: 0 0 3rem 0;
+    }
+    
+    .project-detail-wrapper {
+        padding: 0 1rem;
+    }
+    
+    .project-content {
+        padding: 1rem;
+    }
+    
+    .project-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .project-content h2 {
+        font-size: 1.3rem;
+        padding: 0.6rem 0 0.6rem 1rem;
+    }
+    
+    .project-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .project-content p {
+        font-size: 0.95rem;
+        text-align: left;
+    }
+    
+    .project-content p:first-of-type {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+    
+    .project-content ul,
+    .project-content ol {
+        padding: 0.8rem;
+    }
+    
+    .project-content pre {
+        padding: 1rem;
+    }
+    
+    .project-content blockquote {
+        padding: 1rem;
+    }
+    
+    .project-content code {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.85em;
+    }
+    
+    .project-navigation {
+        padding: 1.5rem;
+    }
+    
+    .project-info-grid {
+        gap: 1.5rem;
+    }
+    
+    .fact-card-hero {
+        padding: 0.75rem 0;
+    }
+    
+    .fact-icon-hero {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .fact-value-hero {
+        font-size: 1.1rem;
+    }
+    
+    .fact-label-hero {
+        font-size: 0.75rem;
+    }
+    
+    .project-content {
+        padding-top: 1.5rem;
+    }
+    
+    .scroll-indicator {
+        bottom: 1rem;
+    }
+    
+    .project-logo-img {
+        max-height: 160px;
+    }
+    
+    .project-actions {
+        margin: 1rem 0 1.5rem 0;
+        gap: 0.5rem;
+        flex-direction: column;
+    }
+    
+    .project-action-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        min-height: 40px;
+        flex: none;
+    }
+    
+    .project-action-button svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .fact-card {
+        padding: 1rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .fact-icon {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .fact-value {
+        font-size: 1.2rem;
+    }
+    
+    .fact-label {
+        font-size: 0.8rem;
+    }
+    
+    .notable-facts-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.project-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 1rem 0;
+    line-height: 1.2;
+}
+
+.project-subtitle {
+    font-size: 1.2rem;
+    color: #3498db;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.project-description {
+    font-size: 1.1rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* ========================================
+   PROJECT INFO SECTION
+   ======================================== */
+
+.project-info {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-label {
+    display: block;
+    font-weight: 600;
+    color: #3498db;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.project-date time {
+    color: #fff;
+    font-size: 1rem;
+}
+
+.tech-list, .tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-chip {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-dark));
+    color: var(--text-primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.tag-chip {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   PROJECT INFO BOXES SECTION (BEFORE CONTENT)
+   ======================================== */
+
+.project-info-boxes-section {
+    background: transparent; /* Removed gradient background */
+    border-top: 1px solid var(--glass-border-light);
+    border-bottom: 1px solid var(--glass-border-light);
+    position: relative;
+    z-index: 6; /* Au-dessus des effets de transition */
+    overflow: hidden;
+    /* Pas de backdrop-filter pour Ã©viter le conflit avec hero-to-content-transition */
+}
+
+.project-info-boxes-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.02"><circle cx="30" cy="30" r="1"/></g></svg>');
+    z-index: -1;
+}
+
+.project-info-boxes-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    position: relative;
+}
+
+.project-info-boxes {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); /* Grid de 12 colonnes pour plus de flexibilité */
+    gap: 2rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    /* Utilisation d'un auto-flow row pour permettre aux éléments de se placer naturellement */
+    grid-auto-flow: row;
+    /* Hauteur des lignes adaptative */
+    grid-auto-rows: minmax(120px, auto);
+    /* Assurer un alignement propre */
+    align-items: start;
+    position: relative;
+}
+
+
+.info-box-icon.contributors::before {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.info-box-icon.time::before {
+    background: linear-gradient(135deg, #4fd1c7 0%, #7be3db 100%);
+}
+
+.info-box-icon.gallery::before {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.info-box-icon.technical::before {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+}
+
+.info-box-icon.awards::before {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+.info-box-icon.testimonials::before {
+    background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+}
+
+.info-box-icon.youtube::before {
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+}
+
+.info-box-icon.technical::before {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+}
+
+.info-box-icon.awards::before {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+
+/* Layout spÃ©cial pour les boÃ®tes expanded en pleine largeur */
+.info-box.expanded .contributors-list,
+.info-box.expanded .development-time-content,
+.info-box.expanded .technical-specs-list,
+.info-box.expanded .awards-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.info-box.expanded .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* ========================================
+   APERÃ‡US SPÃ‰CIAUX POUR BOÃŽTES FERMÃ‰ES
+   ======================================== */
+
+/* AperÃ§u des contributeurs : avatars horizontaux */
+.info-box:not(.expanded) .contributors-preview {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+/* Cacher le nombre de contributeurs lorsque fermÃ© */
+.info-box.contributors-box:not(.expanded) .info-box-summary {
+    display: none;
+}
+
+.contributors-preview .contributor-avatars {
+    display: flex;
+    /* margin-left removed to prevent first avatar cutoff */
+}
+
+.contributors-preview .contributor-avatar-mini {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    margin-left: 0;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+/* Overlap avatars: only offset subsequent ones */
+.contributors-preview .contributor-avatar-mini + .contributor-avatar-mini {
+    margin-left: -0.75rem;
+}
+
+.contributors-preview .contributor-avatar-mini:hover {
+    transform: translateY(-2px) scale(1.1);
+    z-index: 2;
+    border-color: var(--primary-blue);
+}
+
+.contributors-preview .contributor-avatar-mini img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.contributors-preview .contributor-avatar-mini.placeholder {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* ========================================
+   GALLERY BOX - PREVIEW EN PLEIN Ã‰CRAN QUAND FERMÃ‰E
+   ======================================== */
+
+/* Forcer un aspect ratio 16:9 pour la gallery box */
+.info-box.gallery-box {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16/9; /* Force un ratio 16:9 */
+    min-height: unset; /* Annule la min-height par dÃ©faut */
+}
+
+/* La gallery-preview background est visible seulement quand fermÃ©e */
+.info-box.gallery-box .gallery-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.info-box.gallery-box:not(.expanded) .gallery-background {
+    opacity: 1;
+}
+
+/* Header repositionnÃ© en haut Ã  gauche sans fond noir */
+.info-box.gallery-box:not(.expanded) .info-box-header {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 2;
+    background: none; /* Supprime la box noire */
+    backdrop-filter: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 1rem;
+    /* Pas de fond, on se base seulement sur text-shadow pour la lisibilitÃ© */
+    background: none;
+    width: auto;
+    max-width: 70%;
+}
+
+/* Titre mieux positionnÃ© */
+.info-box.gallery-box:not(.expanded) .info-box-title {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.info-box.gallery-box:not(.expanded) .info-box-summary {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+}
+
+/* Masquer l'icÃ´ne et toggle sur l'Ã©tat fermÃ© pour plus de propretÃ© */
+.info-box.gallery-box:not(.expanded) .info-box-icon,
+.info-box.gallery-box:not(.expanded) .info-box-toggle {
+    display: none;
+}
+
+/* Simplifier le header layout pour l'Ã©tat fermÃ© */
+.info-box.gallery-box:not(.expanded) .info-box-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+/* Animation des images - gÃ©rÃ©e par JavaScript pour un prÃ©chargement intelligent */
+.info-box.gallery-box .gallery-background .gallery-mini-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+/* La premiÃ¨re image est visible par dÃ©faut */
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:first-child {
+    opacity: 1;
+}
+
+/* Supprimer les animations CSS automatiques qui causaient les flashs */
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(1) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(2) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(3) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(4) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(5) { animation: none; }
+.info-box.gallery-box:not(.expanded) .gallery-background .gallery-mini-item:nth-child(6) { animation: none; }
+
+.info-box.gallery-box .gallery-background .gallery-mini-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--border-radius-lg);
+    transition: transform 0.4s ease;
+}
+
+/* Effet hover lÃ©ger */
+.info-box.gallery-box:not(.expanded):hover .gallery-background .gallery-mini-item img {
+    transform: scale(1.02);
+}
+
+/* S'assurer que le content ne dÃ©passe pas quand expanded */
+.info-box.gallery-box.expanded {
+    aspect-ratio: unset; /* Retire le ratio fixe quand ouvert */
+    min-height: 140px; /* Restaure une hauteur minimum */
+}
+
+.info-box.gallery-box.expanded .gallery-background {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Les styles de gallery sont maintenant gÃ©rÃ©s par .gallery-background pour les boxes fermÃ©es
+   et par .gallery-grid pour les boxes ouvertes */
+
+/* Fade animation keyframes */
+@keyframes fade {
+    0%, 20% { opacity: 1; }
+    25%, 95% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Animation pour le slideshow de la galerie */
+@keyframes gallerySlideshow {
+    0%, 15% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    20%, 80% { 
+        opacity: 0; 
+        transform: scale(1.05);
+    }
+    85%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+}
+
+
+
+/* ========================================
+   YOUTUBE BOX STYLES
+   ======================================== */
+
+/* Liste des vidÃ©os YouTube */
+.youtube-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+
+/* Masquer la liste complÃ¨te quand la box est fermÃ©e */
+/* youtube-list toujours visible */
+.info-box.youtube-box:not(.expanded) .youtube-list {
+    display: none;
+}
+.info-box.youtube-box.expanded .youtube-list {
+    display: grid;
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN - INFO BOXES SECTION
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .project-info-boxes-wrapper {
+        padding: 2.5rem 1.5rem;
+    }
+    
+    .project-info-boxes {
+        grid-template-columns: repeat(8, 1fr); /* 8 colonnes sur tablette */
+        gap: 1.5rem;
+    }
+    
+    /* Ajustement des tailles sur tablette */
+    .info-box.size-xl {
+        grid-column: span 8; /* XL prend toute la largeur */
+    }
+    
+    .info-box.size-large {
+        grid-column: span 6; /* Large reste Ã  6 */
+    }
+    
+    .info-box.size-medium {
+        grid-column: span 4; /* Medium reste Ã  4 */
+    }
+    
+    .info-box.size-small {
+        grid-column: span 3; /* Small reste Ã  3 */
+    }
+}
+
+@media (max-width: 768px) {
+    .project-info-boxes-section {
+        margin: 0 -1rem;
+    }
+    
+    .project-info-boxes-wrapper {
+        padding: 2rem 1rem;
+    }
+    
+    .project-info-boxes {
+        grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+        gap: 1.2rem;
+        /* Simplifier le layout sur mobile */
+        grid-auto-flow: row;
+    }
+    
+    /* Toutes les boîtes prennent toute la largeur sur mobile */
+    .info-box {
+        grid-column: 1 / -1 !important;
+        min-height: auto;
+        /* Simplifier les transitions sur mobile */
+        transition: all 0.3s ease;
+    }
+    
+    /* Comportement spécial pour les widgets expanded sur mobile */
+    .info-box.expanded {
+        margin: 1rem 0;
+        padding: 0; /* Pas de padding sur le container */
+        /* Réduire l'élévation sur mobile */
+        transform: translateY(-2px);
+        box-shadow: 
+            0 15px 35px rgba(0, 0, 0, 0.4),
+            0 8px 20px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    
+    /* S'assurer que header et content prennent toute la largeur sur mobile */
+    .info-box.expanded .info-box-header,
+    .info-box.expanded .info-box-content {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Désactiver certaines animations complexes sur mobile */
+    .info-box.expanding,
+    .info-box.collapsing {
+        animation: none;
+    }
+    
+    .info-box-header {
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+    
+    .info-box-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.2rem;
+    }
+    
+    .info-box-icon svg {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+    
+    .info-box-title {
+        font-size: 1.1rem;
+    }
+    
+    .info-box-content {
+        padding: 0 1.5rem;
+    }
+    
+    .info-box.expanded .info-box-content {
+        padding: 1rem 1.5rem 1.5rem 1.5rem;
+    }
+    
+    .info-box.gallery-box .info-box-content {
+        padding: 1rem 1.5rem 1.5rem 1.5rem;
+    }
+    
+    /* Responsive pour la gallery box */
+    .info-box.gallery-box:not(.expanded) .info-box-header {
+        top: 0.5rem;
+        left: 0.5rem;
+        right: 0.5rem;
+        padding: 0.75rem;
+        max-width: 80%; /* Plus large sur mobile */
+    }
+    
+    .info-box.gallery-box:not(.expanded) .info-box-title {
+        font-size: 1rem;
+    }
+    
+    .info-box.gallery-box:not(.expanded) .info-box-summary {
+        font-size: 0.75rem;
+    }
+    
+    /* AperÃ§us responsives pour la nouvelle structure */
+    .contributors-preview .contributor-avatar-mini {
+        width: 24px;
+        height: 24px;
+    }
+    
+    /* La gallery-background s'adapte automatiquement sur mobile */
+    .info-box.gallery-box .gallery-background {
+        border-radius: var(--border-radius-md);
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.8rem;
+    }
+    
+    /* Styles responsives pour les testimonials en aperÃ§u */
+    .testimonials-preview {
+        height: 70px; /* Hauteur lÃ©gÃ¨rement rÃ©duite sur mobile */
+        margin-top: 0.6rem;
+    }
+    
+    .testimonial-preview-item {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .testimonial-preview-avatar {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .testimonial-preview-quote {
+        font-size: 0.8rem;
+        -webkit-line-clamp: 1; /* Une seule ligne sur mobile */
+        line-clamp: 1;
+    }
+    
+    .testimonial-preview-author {
+        font-size: 0.7rem;
+    }
+    
+    /* SupprimÃ©: styles pour les Ã©toiles */
+    
+    /* Styles responsives pour YouTube */
+    .youtube-list {
+        grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+        gap: 1rem;
+    }
+    
+    .youtube-preview {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+    }
+    
+    .youtube-preview-thumbnail {
+        width: 80px;
+        height: 45px;
+        align-self: center;
+    }
+    
+    .youtube-modal-content {
+        width: 95vw;
+        margin: 0 10px;
+    }
+    
+    .youtube-modal-close {
+        top: -45px;
+        width: 35px;
+        height: 35px;
+    }
+    
+    /* Styles responsives pour le widget vidÃ©o unique */
+    .youtube-single-play {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .youtube-single-play::before {
+        border-left: 18px solid white;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        margin-left: 3px;
+    }
+    
+    .youtube-single-title {
+        font-size: 0.9rem;
+        bottom: 8px;
+        left: 8px;
+        right: 80px;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .youtube-single-duration {
+        bottom: 8px;
+        right: 8px;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+    
+    .youtube-single-mini {
+        flex-direction: column;
+        gap: 0.6rem;
+        text-align: center;
+    }
+    
+    .youtube-single-mini-thumbnail {
+        align-self: center;
+        width: 100px;
+        height: 56px;
+    }
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+/* Staggered animation for info boxes */
+.info-box:nth-child(1) { animation-delay: 0.1s; }
+.info-box:nth-child(2) { animation-delay: 0.2s; }
+.info-box:nth-child(3) { animation-delay: 0.3s; }
+.info-box:nth-child(4) { animation-delay: 0.4s; }
+.info-box:nth-child(5) { animation-delay: 0.5s; }
+
+.info-box {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+
+
+/* Technical Specifications Box Styles */
+.technical-specs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.spec-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: var(--glass-bg-lighter);
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-purple, #9b59b6);
+}
+
+.spec-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.spec-value {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+    text-align: right;
+}
+
+
+
+
+/* Responsive Design for Info Boxes */
+@media (max-width: 768px) {
+    .project-info-boxes {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.75rem;
+    }
+    
+    .contributor-item,
+    .award-item {
+        padding: 0.75rem;
+    }
+    
+    .info-box-header {
+        padding: 1.25rem;
+        gap: 0.75rem;
+    }
+    
+    .info-box.expanded .info-box-content {
+        padding: 0 1.25rem 1.25rem 1.25rem;
+    }
+    
+    .info-box-content {
+        padding: 0 1.25rem;
+    }
+    
+    .info-box-icon {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    .info-box-title {
+        font-size: 1rem;
+    }
+    
+    .info-box-summary {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-info-boxes {
+        gap: 0.75rem;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 0.5rem;
+    }
+    
+    .contributor-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .time-stat,
+    .spec-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .spec-value {
+        text-align: left;
+    }
+    
+    .award-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .info-box-header {
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+    
+    .info-box.expanded .info-box-content {
+        padding: 0 1rem 1rem 1rem;
+    }
+    
+    .info-box-content {
+        padding: 0 1rem;
+    }
+    
+    .info-box-icon {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+    
+    .info-box-title {
+        font-size: 0.95rem;
+    }
+    
+    .info-box-summary {
+        font-size: 0.75rem;
+    }
+}
+
+/* ========================================
+   PROJECT NAVIGATION
+   ======================================== */
+
+.project-navigation {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 3rem;
+    margin-top: 3rem;
+}
+
+.back-to-projects {
+    text-align: center;
+}
+
+
+/* ========================================
+   DYNAMIC BLUR EFFECTS
+   ======================================== */
+
+/* Animation pour l'intensitÃ© du flou basÃ©e sur le scroll */
+@keyframes blurFadeIn {
+    from {
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+    }
+    to {
+        backdrop-filter: blur(var(--blur-intensity));
+        -webkit-backdrop-filter: blur(var(--blur-intensity));
+    }
+}
+
+/* Classe pour dÃ©clencher l'animation */
+.blur-animated .hero-to-content-transition::before {
+    animation: blurFadeIn 1.2s ease-out forwards;
+}
+
+/* AmÃ©lioration pour les appareils avec performance limitÃ©e */
+@media (prefers-reduced-motion: reduce) {
+    .hero-to-content-transition::before {
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        animation: none;
+        transition: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .image-modal-content {
+        max-width: 95%;
+        max-height: 95%;
+    }
+    
+    .image-modal img {
+        max-height: 70vh;
+    }
+    
+    .image-modal-close {
+        top: -35px;
+        font-size: 1.5rem;
+        width: 35px;
+        height: 35px;
+    }
+    
+    .image-modal-caption {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+}

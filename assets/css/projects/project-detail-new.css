@@ -1,0 +1,20 @@
+/**
+ * ========================================
+ * PROJECT DETAIL PAGE CSS
+ * ========================================
+ * 
+ * Styles for individual project pages with hero header
+ * Includes hero section, content, navigation, and responsive design
+ * 
+ * This file imports all the modular CSS files for better organization
+ */
+
+/* Import all CSS modules */
+@import url('./variables.css');
+@import url('./utilities.css');
+@import url('./hero.css');
+@import url('./navigation.css');
+@import url('./meta-info.css');
+@import url('./actions.css');
+@import url('./content.css');
+@import url('./responsive.css');

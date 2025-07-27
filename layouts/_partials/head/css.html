@@ -192,7 +192,7 @@
 {{- end }}
 
 {{/* Section-specific widget */}}
-{{- $widgets := resources.Match "css/widgets/*.css" }}
+{{- $widgets := resources.Match "css/shared/widgets/*.css" }}
 {{- range sort $widgets "Name" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
@@ -204,8 +204,20 @@
 {{- end }}
 
 {{/* Section-specific component */}}
-{{- $components := resources.Match "css/components/*.css" }}
+{{- $components := resources.Match "css/shared/components/*.css" }}
 {{- range sort $components "Name" }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* Section-specific project page */}}
+{{- $projects := resources.Match "css/projects/*.css" }}
+{{- range sort $projects "Name" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
   {{- else }}
