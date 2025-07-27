@@ -5,14 +5,15 @@
 /* Testimonials Box - Widget complet */
 .testimonials-box {
     position: relative;
-    overflow: visible; /* allow expanded content overflow */
+    overflow: hidden; /* clip overflow in collapsed state */
 }
 /* Header layout: horizontal alignment like other widgets */
 .info-box.testimonials-box .info-box-header {
     flex-direction: row !important;
-    align-items: center !important;
+    align-items: stretch !important;
     justify-content: flex-start;
-    padding: 1rem 1.5rem;
+    padding: 0 !important;
+    position: relative;
 }
 /* Header content: allow flex item to grow for preview */
 .info-box.testimonials-box .info-box-header-content {
@@ -20,35 +21,66 @@
     display: flex;
     flex-direction: column;
     padding: 0 !important;
+    width: 100%;
+}
+
+/* Title positioning */
+.info-box.testimonials-box .info-box-title {
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
 }
 /* Hide summary count for testimonials widget */
 .info-box.testimonials-box .info-box-summary {
     display: none;
 }
 .info-box.testimonials-box .info-box-icon {
-    margin-right: 1rem;
+    display: none; /* Hide icon to give more space to preview */
 }
 .info-box.testimonials-box .info-box-toggle {
     position: absolute;
     top: 1rem;
     right: 1rem;
+    z-index: 10;
 }
 
 
 .testimonials-box .info-box-content {
-    padding: 0;
-    max-height: none;
-    height: auto; /* let content expand to fit text */
+    padding: 1rem;
+    max-height: 400px; /* Add max height to prevent excessive expansion */
+    height: auto;
+    overflow-y: auto; /* Add scroll for long content */
+}
+
+/* Custom scrollbar for testimonials content */
+.testimonials-box .info-box-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.testimonials-box .info-box-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.testimonials-box .info-box-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
+    border-radius: 3px;
+}
+
+.testimonials-box .info-box-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
 }
 
 
 /* Aperçu testimonials - remplissage complet */
 .testimonials-preview {
-    margin-top: 0;
+    margin: 0;
     height: 100%;
     overflow: hidden;
     position: relative;
-    border-radius: var(--border-radius-sm);
+    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
     background: linear-gradient(135deg, 
         rgba(79, 209, 199, 0.08) 0%, 
         rgba(52, 152, 219, 0.05) 100%);
@@ -74,15 +106,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.5rem; /* Reduced gap between elements */
     padding: 1.5rem;
-    border-radius: var(--border-radius-sm);
-    border-left: 3px solid var(--primary-teal);
+    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+    border-left: none; /* remove left accent border in preview */
     transition: all 0.5s ease;
     opacity: 0;
     transform: translateY(10px);
     height: 100%;
     box-sizing: border-box;
+    overflow: visible; /* allow horizontal overflow so author name is visible */
 }
 
 /* Testimonial actif */
@@ -107,7 +140,7 @@
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; /* Reduced spacing */
 }
 
 /* Avatar en mode preview */
@@ -145,28 +178,21 @@
 }
 
 /* Citation en mode preview */
+/* Citation en mode preview */
 .testimonial-preview-quote {
     color: var(--text-secondary);
     font-size: 1rem;
     line-height: 1.6;
     font-style: italic;
     position: relative;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    text-align: center;
+    display: block;
+    text-align: left;
+    margin: 0;
+    overflow: visible;
+    flex: none;
 }
 
-.testimonial-preview-quote::before {
-    content: '"';
-    font-size: 3rem;
-    color: var(--primary-teal);
-    opacity: 0.3;
-    position: absolute;
-    left: -0.5rem;
-    top: -1rem;
-    font-family: Georgia, serif;
-}
+/* Removed quote marks for cleaner look */
 
 /* Barre de progression */
 .testimonials-progress {
@@ -187,7 +213,7 @@
     height: 100%;
     background: linear-gradient(90deg, var(--primary-teal), var(--primary-blue));
     width: 0%;
-    animation: testimonial-progress 5s linear infinite;
+    animation: testimonial-progress 6s linear infinite; /* Updated to match JS timing */
 }
 
 @keyframes testimonial-progress {
@@ -356,23 +382,25 @@
 }
 
 .info-box.testimonials-box:not(.expanded) .info-box-header {
-    padding: 1rem 1.5rem !important; /* Override base padding */
-    min-height: auto;
+    padding: 0 !important; /* Remove padding to let preview fill */
+    min-height: 120px; /* Set minimum height for preview */
     align-items: stretch !important; /* Allow content to fill */
 }
 
 .info-box.testimonials-box:not(.expanded) .info-box-header-content {
+    padding: 0 !important; /* Remove all padding to let preview manage its own spacing */
     display: flex !important;
     flex-direction: column !important;
     justify-content: center;
     min-height: auto !important; /* Remove fixed height */
+    width: 100% !important;
 }
 
 .info-box.testimonials-box:not(.expanded) .testimonials-preview {
     flex: 1 !important;
     height: 100% !important;
-    min-height: 80px !important;
-    padding: 0;
+    min-height: 120px !important;
+    padding: 1rem !important; /* uniform border spacing */
     margin: 0;
     display: flex;
     align-items: center;
@@ -383,14 +411,15 @@
     width: 100%;
 }
 
-.info.box.testimonials-box:not(.expanded) .testimonial-preview-item {
-    padding: 1rem;
-    gap: 0.75rem;
+.info-box.testimonials-box:not(.expanded) .testimonial-preview-item {
+    padding: 1rem !important; /* uniform padding for consistent text borders */
+    gap: 0.5rem;
     justify-content: center;
+    overflow: visible; /* ensure text not cut */
 }
 
 .info-box.testimonials-box:not(.expanded) .testimonial-preview-header {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem; /* Consistent reduced spacing */
 }
 
 .info-box.testimonials-box:not(.expanded) .testimonial-preview-quote {
@@ -406,9 +435,143 @@
 .info-box.testimonials-box:not(.expanded) {
     min-height: auto !important;
 }
-.info-box.testimonials-box:not(.expanded) .testimonials-preview {
-    min-height: 160px !important;
-    height: auto !important;
-    padding: 1rem;
+
+/* Clip overflow in expanded state to respect border radius */
+.info-box.testimonials-box.expanded {
+    overflow: hidden !important; /* clip overflow in expanded state */
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Mobile devices (up to 768px) */
+@media (max-width: 768px) {
+    /* Reduce title padding on mobile */
+    .info-box.testimonials-box .info-box-title {
+        padding: 0.75rem 1rem 0.5rem 1rem;
+        font-size: 1rem;
+    }
+    
+    /* Adjust toggle position for smaller screens */
+    .info-box.testimonials-box .info-box-toggle {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+    
+    /* Reduce preview padding on mobile */
+    .info-box.testimonials-box:not(.expanded) .testimonials-preview {
+        padding: 0.75rem !important;
+        min-height: 100px !important;
+    }
+    
+    /* Smaller preview item padding */
+    .info-box.testimonials-box:not(.expanded) .testimonial-preview-item {
+        padding: 0.75rem !important;
+        gap: 0.4rem;
+    }
+    
+    /* Smaller avatar on mobile */
+    .testimonial-preview-avatar {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .testimonial-preview-avatar.placeholder {
+        font-size: 0.8rem;
+    }
+    
+    /* Adjust text sizes for mobile */
+    .testimonial-preview-author {
+        font-size: 0.8rem;
+    }
+    
+    .info-box.testimonials-box:not(.expanded) .testimonial-preview-quote {
+        font-size: 0.8rem !important;
+        line-height: 1.3 !important;
+    }
+    
+    /* Reduce header spacing on mobile */
+    .testimonial-preview-header {
+        gap: 0.6rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    /* Adjust expanded content padding */
+    .testimonials-box .info-box-content {
+        padding: 0.75rem;
+        max-height: 300px;
+    }
+    
+    /* Smaller testimonial items in expanded view */
+    .testimonial-item {
+        padding: 1rem;
+    }
+    
+    .testimonial-quote {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    .testimonial-avatar {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Very small devices (up to 480px) */
+@media (max-width: 480px) {
+    /* Further reduce spacing for very small screens */
+    .info-box.testimonials-box .info-box-title {
+        padding: 0.5rem 0.75rem 0.25rem 0.75rem;
+        font-size: 0.95rem;
+    }
+    
+    .info-box.testimonials-box .info-box-toggle {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+    
+    .info-box.testimonials-box:not(.expanded) .testimonials-preview {
+        padding: 0.5rem !important;
+        min-height: 90px !important;
+    }
+    
+    .info-box.testimonials-box:not(.expanded) .testimonial-preview-item {
+        padding: 0.5rem !important;
+        gap: 0.3rem;
+    }
+    
+    .testimonial-preview-avatar {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .testimonial-preview-author {
+        font-size: 0.75rem;
+    }
+    
+    .info-box.testimonials-box:not(.expanded) .testimonial-preview-quote {
+        font-size: 0.75rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    .testimonial-preview-header {
+        gap: 0.5rem;
+        margin-bottom: 0.3rem;
+    }
+}
+
+/* Large screens optimization */
+@media (min-width: 1200px) {
+    /* Increase content area for larger screens */
+    .testimonials-box .info-box-content {
+        max-height: 500px;
+    }
+    
+    /* Slightly larger preview on big screens */
+    .info-box.testimonials-box:not(.expanded) .testimonials-preview {
+        min-height: 140px !important;
+    }
 }
 

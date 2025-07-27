@@ -834,12 +834,18 @@ function initTestimonialsRotator() {
         }
         
         function startRotation() {
+            // Arrêter toute rotation existante pour éviter les conflits
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+            
             // S'assurer que le premier testimonial est affiché
             showTestimonial(0);
             currentIndex = 0;
             
-            // Démarrer la rotation automatique
-            intervalId = setInterval(showNextTestimonial, 4000); // 4 secondes par testimonial
+            // Démarrer la rotation automatique avec un délai plus long
+            intervalId = setInterval(showNextTestimonial, 6000); // 6 secondes par testimonial
         }
         
         function stopRotation() {
@@ -854,9 +860,14 @@ function initTestimonialsRotator() {
             const infoBox = container.closest('.info-box');
             const isTestimonialsBox = infoBox && infoBox.classList.contains('testimonials-box');
             
-            // Pour la testimonials-box, toujours démarrer la rotation
+            // Pour la testimonials-box, démarrer la rotation seulement si fermée
             if (isTestimonialsBox) {
-                startRotation();
+                const isExpanded = infoBox.classList.contains('expanded');
+                if (!isExpanded) {
+                    startRotation();
+                } else {
+                    stopRotation();
+                }
                 return;
             }
             
