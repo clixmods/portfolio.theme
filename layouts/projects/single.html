@@ -507,7 +507,7 @@
                                         </div>
                                         <div class="testimonial-preview-author">{{ $testimonial.name }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}</div>
                                     </div>
-                                    <div class="testimonial-preview-quote">{{ $testimonial.content }}</div>
+                                <div class="testimonial-preview-quote">{{ $testimonial.quote }}</div>
                                 </div>
                                 {{ end }}
                             </div>
@@ -525,7 +525,7 @@
                     <div class="testimonials-list">
                         {{ range .Params.testimonials }}
                         <div class="testimonial-item">
-                            <div class="testimonial-quote">{{ .content }}</div>
+                        <div class="testimonial-quote">{{ .quote }}</div>
                             <div class="testimonial-author">
                                 <div class="testimonial-avatar {{ if not .avatar }}placeholder{{ end }}">
                                     {{ if .avatar }}

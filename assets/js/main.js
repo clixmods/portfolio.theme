@@ -849,9 +849,18 @@ function initTestimonialsRotator() {
             }
         }
         
-        // Vérifier si le conteneur est visible (box fermée)
+        // Vérifier si le conteneur est visible
         function checkVisibility() {
             const infoBox = container.closest('.info-box');
+            const isTestimonialsBox = infoBox && infoBox.classList.contains('testimonials-box');
+            
+            // Pour la testimonials-box, toujours démarrer la rotation
+            if (isTestimonialsBox) {
+                startRotation();
+                return;
+            }
+            
+            // Pour les autres boxes, vérifier l'état expanded
             const isExpanded = infoBox && infoBox.classList.contains('expanded');
             
             if (!isExpanded && container.offsetParent !== null) {

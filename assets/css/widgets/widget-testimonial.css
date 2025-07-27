@@ -1,6 +1,192 @@
+/* ========================================
+   TESTIMONIALS WIDGET STYLES
+   ======================================== */
+
+/* Testimonials Box - Widget complet */
+.testimonials-box {
+    position: relative;
+    overflow: visible; /* allow expanded content overflow */
+}
+/* Header layout: stack elements vertically for testimonials */
+.info-box.testimonials-box .info-box-header {
+    flex-direction: column;
+    align-items: stretch;
+}
+/* Header content: full width vertical stack */
+.info-box.testimonials-box .info-box-header-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+}
 
 
-/* Testimonials Box Styles */
+.testimonials-box .info-box-content {
+    padding: 0;
+    max-height: none;
+    height: auto; /* let content expand to fit text */
+}
+
+
+/* Aperçu testimonials - remplissage complet */
+.testimonials-preview {
+    margin-top: 0;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(52, 152, 219, 0.05) 100%);
+    backdrop-filter: blur(10px);
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+}
+
+/* Container pour la rotation des testimonials */
+.testimonials-rotator {
+    position: relative;
+    height: 100%;
+}
+
+/* Chaque testimonial en mode aperçu */
+.testimonial-preview-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-teal);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Testimonial actif */
+.testimonial-preview-item.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animations de transition */
+.testimonial-preview-item.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.testimonial-preview-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Header du testimonial */
+.testimonial-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+/* Avatar en mode preview */
+.testimonial-preview-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-preview-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-preview-avatar.placeholder {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Nom de l'auteur */
+.testimonial-preview-author {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+/* Citation en mode preview */
+.testimonial-preview-quote {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.testimonial-preview-quote::before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--primary-teal);
+    opacity: 0.3;
+    position: absolute;
+    left: -0.5rem;
+    top: -1rem;
+    font-family: Georgia, serif;
+}
+
+/* Barre de progression */
+.testimonials-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.testimonials-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-teal), var(--primary-blue));
+    width: 0%;
+    animation: testimonial-progress 5s linear infinite;
+}
+
+@keyframes testimonial-progress {
+    0% { width: 0%; }
+    90% { width: 100%; }
+    100% { width: 100%; }
+}
+
+/* ========================================
+   TESTIMONIALS LIST (MODE ÉTENDU)
+   ======================================== */
+
+/* Liste des testimonials */
 .testimonials-list {
     display: flex;
     flex-direction: column;
@@ -91,512 +277,65 @@
     font-size: 0.8rem;
 }
 
-.testimonial-rating {
-    display: none;
-}
-
-.testimonial-rating .star {
-    display: none;
-}
-
-/* ========================================
-   TESTIMONIALS BOX - REMPLISSAGE COMPLET
-   ======================================== */
-
-/* Widget testimonials - remplissage complet du widget */
-.testimonials-box {
-    position: relative;
-    overflow: hidden;
-}
-
-.testimonials-box .info-box-header {
-    display: none; /* Pas de header pour le widget testimonials en mode full */
-}
-
-.testimonials-box .info-box-content {
-    padding: 0;
-    max-height: none;
-    height: 100%;
-}
-
-/* AperÃ§u testimonials - remplissage complet */
-.testimonials-preview {
-    margin-top: 0;
-    height: 100%; /* Remplir tout le widget */
-    overflow: hidden;
-    position: relative;
-    border-radius: var(--border-radius-sm);
-    background: linear-gradient(135deg, 
-        rgba(79, 209, 199, 0.08) 0%, 
-        rgba(52, 152, 219, 0.05) 100%);
-    backdrop-filter: blur(10px);
-}
-
-/* Container pour la rotation des testimonials */
-.testimonials-rotator {
-    position: relative;
-    height: 100%;
-}
-
-/* Chaque testimonial en mode aperÃ§u - REMPLISSAGE COMPLET */
-.testimonial-preview-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    border-radius: var(--border-radius-sm);
-    border-left: 3px solid var(--primary-teal);
-    transition: all 0.5s ease;
-    opacity: 0;
-    transform: translateY(10px);
-    height: 100%;
-    box-sizing: border-box;
-}
-
-/* Testimonial actif */
-.testimonial-preview-item.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Animation de transition entre testimonials */
-.testimonial-preview-item.fade-out {
-    opacity: 0;
-    transform: translateY(-10px);
-}
-
-.testimonial-preview-item.fade-in {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Header du testimonial */
-.testimonial-preview-header {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-bottom: 1rem;
-}
-
-/* Avatar en mode preview */
-.testimonial-preview-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.testimonial-preview-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.testimonial-preview-avatar.placeholder {
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-/* Nom de l'auteur */
-.testimonial-preview-author {
-    color: var(--text-primary);
-    font-weight: var(--font-weight-semibold);
-    font-size: 0.9rem;
-    line-height: 1.3;
-}
-
-/* Citation en mode preview */
-.testimonial-preview-quote {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    line-height: 1.6;
-    font-style: italic;
-    position: relative;
-    flex: 1;
-    display: flex;
-    align-items: center;
-}
-
-.testimonial-preview-quote::before {
-    content: '"';
-    font-size: 3rem;
-    color: var(--primary-teal);
-    opacity: 0.3;
-    position: absolute;
-    left: -0.5rem;
-    top: -1rem;
-    font-family: Georgia, serif;
-}
-
-/* Barre de progression */
-.testimonials-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-}
-
-.testimonials-progress::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary-teal), var(--primary-blue));
-    width: 0%;
-    animation: testimonial-progress 5s linear infinite;
-}
-
-@keyframes testimonial-progress {
-    0% { width: 0%; }
-    90% { width: 100%; }
-    100% { width: 100%; }
-}
-
-/* ========================================
-   TESTIMONIALS PREVIEW (ANCIEN SYSTÃˆME - GARDÃ‰ POUR COMPATIBILITÃ‰)
-   ======================================== */
-
-/* AperÃ§u des testimonials : affichage rotatif */
-.info-box:not(.expanded) .testimonials-preview {
-    display: block;
-    margin-top: 0;
-    height: 100%; /* Remplir tout le widget */
-    overflow: hidden;
-    position: relative;
-    border-radius: var(--border-radius-sm);
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.03) 0%, 
-        rgba(255, 255, 255, 0.01) 100%);
-}
-
-/* Masquer la liste complÃ¨te quand la box est fermÃ©e */
-.info-box.testimonials-box:not(.expanded) .testimonials-list {
-    display: none;
-}
-
-/* Masquer le header quand en mode aperÃ§u complet */
-.info-box.testimonials-box:not(.expanded) .info-box-header {
-    display: none;
-}
-
-/* Masquer l'aperÃ§u quand la box est ouverte */
-.info-box.testimonials-box.expanded .testimonials-preview {
-    display: none;
-}
-
-/* Container pour la rotation des testimonials */
-.testimonials-rotator {
-    position: relative;
-    height: 100%;
-}
-
-/* Chaque testimonial en mode aperÃ§u - REMPLISSAGE COMPLET */
-.testimonial-preview-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, 
-        rgba(79, 209, 199, 0.08) 0%, 
-        rgba(52, 152, 219, 0.05) 100%);
-    border-radius: var(--border-radius-sm);
-    border-left: 2px solid var(--primary-teal);
-    backdrop-filter: blur(5px);
-    transition: all 0.5s ease;
-    opacity: 0;
-    transform: translateY(10px);
-    height: 100%;
-    box-sizing: border-box;
-}
-
-/* Testimonial actif */
-.testimonial-preview-item.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Animation de transition entre testimonials */
-.testimonial-preview-item.fade-out {
-    opacity: 0;
-    transform: translateY(-10px);
-}
-
-.testimonial-preview-item.fade-in {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Avatar et author dans un header - CENTRÃ‰ */
-.testimonial-preview-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-}
-
-/* Avatar miniature pour l'aperÃ§u */
-.testimonial-preview-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    flex-shrink: 0;
-}
-
-.testimonial-preview-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.testimonial-preview-avatar.placeholder {
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: white;
-    font-size: 0.8rem;
-}
-
-.testimonial-preview-quote {
-    color: var(--text-primary);
-    font-size: 1rem;
-    line-height: 1.6;
-    font-style: italic;
-    flex: 1;
-    /* Permettre l'affichage de plus de lignes pour le remplissage complet */
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: center;
-}
-
-.testimonial-preview-author {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    font-weight: var(--font-weight-semibold);
-    text-align: center;
-}
-
-/* Note d'Ã©toiles en miniature - SupprimÃ©e */
+/* Masquer les ratings */
+.testimonial-rating,
 .testimonial-preview-rating {
     display: none;
 }
 
+.testimonial-rating .star,
 .testimonial-preview-rating .star {
     display: none;
 }
 
-/* Indicateur de progression */
-.testimonials-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    background: var(--primary-teal);
-    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
-    animation: testimonialProgress 4s linear infinite;
-}
-
-@keyframes testimonialProgress {
-    0% { width: 0%; }
-    100% { width: 100%; }
-}
-
 /* ========================================
-   TESTIMONIALS BOX - REMPLISSAGE COMPLET
+   CONTRÔLES D'AFFICHAGE
    ======================================== */
 
-/* Widget testimonials - remplissage complet du widget */
-.testimonials-box {
-    position: relative;
-    overflow: hidden;
+/* Masquer le contenu quand la box est fermée */
+.info-box.testimonials-box:not(.expanded) .info-box-content {
+    display: none;
 }
 
-.testimonials-box .info-box-header {
-    display: none; /* Pas de header pour le widget testimonials en mode full */
+
+/* Masquer l'aperçu quand la box est ouverte */
+.info-box.testimonials-box.expanded .testimonials-preview {
+    display: none;
 }
 
-.testimonials-box .info-box-content {
-    padding: 0;
-    max-height: none;
-    height: 100%;
+/* Afficher le contenu quand la box est ouverte */
+.info-box.testimonials-box.expanded .info-box-content {
+    display: block;
 }
 
-/* Aperçu testimonials - remplissage complet */
-.testimonials-preview {
-    margin-top: 0;
-    height: 100%; /* Remplir tout le widget */
-    overflow: hidden;
-    position: relative;
-    border-radius: var(--border-radius-sm);
-    background: linear-gradient(135deg, 
-        rgba(79, 209, 199, 0.08) 0%, 
-        rgba(52, 152, 219, 0.05) 100%);
-    backdrop-filter: blur(10px);
-}
-
-/* Container pour la rotation des testimonials */
-.testimonials-rotator {
-    position: relative;
-    height: 100%;
-}
-
-/* Chaque testimonial en mode aperçu - REMPLISSAGE COMPLET */
-.testimonial-preview-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+/* Fermeture - afficher header et toggle */
+.info-box.testimonials-box:not(.expanded) .info-box-toggle {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    border-radius: var(--border-radius-sm);
-    border-left: 3px solid var(--primary-teal);
-    transition: all 0.5s ease;
-    opacity: 0;
-    transform: translateY(10px);
-    height: 100%;
-    box-sizing: border-box;
 }
 
-/* Testimonial actif */
-.testimonial-preview-item.active {
-    opacity: 1;
-    transform: translateY(0);
+/* Fermeture - afficher le contenu preview */
+.info-box.testimonials-box:not(.expanded) .testimonials-preview {
+    display: block;
 }
 
-/* Animation de transition entre testimonials */
-.testimonial-preview-item.fade-out {
-    opacity: 0;
-    transform: translateY(-10px);
+/* Closed state static preview: show only active item */
+.info-box.testimonials-box:not(.expanded) .testimonial-preview-item {
+    position: relative !important;
+    opacity: 1 !important;
+    transform: none !important;
+    height: auto !important;
+}
+.info-box.testimonials-box:not(.expanded) .testimonial-preview-item:not(.active) {
+    display: none !important;
 }
 
-.testimonial-preview-item.fade-in {
-    opacity: 1;
-    transform: translateY(0);
+/* Closed state preview quote full display */
+.info-box.testimonials-box:not(.expanded) .testimonial-preview-quote {
+    display: block !important;
+    flex: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    align-items: flex-start !important;
+    position: static !important;
 }
 
-/* Header du testimonial */
-.testimonial-preview-header {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-bottom: 1rem;
-}
-
-/* Avatar en mode preview */
-.testimonial-preview-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.testimonial-preview-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.testimonial-preview-avatar.placeholder {
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-}
-
-/* Nom de l'auteur */
-.testimonial-preview-author {
-    color: var(--text-primary);
-    font-weight: var(--font-weight-semibold);
-    font-size: 0.9rem;
-    line-height: 1.3;
-}
-
-/* Citation en mode preview */
-.testimonial-preview-quote {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    line-height: 1.6;
-    font-style: italic;
-    position: relative;
-    flex: 1;
-    display: flex;
-    align-items: center;
-}
-
-.testimonial-preview-quote::before {
-    content: '"';
-    font-size: 3rem;
-    color: var(--primary-teal);
-    opacity: 0.3;
-    position: absolute;
-    left: -0.5rem;
-    top: -1rem;
-    font-family: Georgia, serif;
-}
-
-/* Barre de progression */
-.testimonials-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-}
-
-.testimonials-progress::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary-teal), var(--primary-blue));
-    width: 0%;
-    animation: testimonial-progress 5s linear infinite;
-}
-
-@keyframes testimonial-progress {
-    0% { width: 0%; }
-    90% { width: 100%; }
-    100% { width: 100%; }
-}
