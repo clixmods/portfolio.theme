@@ -1,0 +1,102 @@
+/* ========================================
+   DOWNLOADS BOX STYLES - STATISTIQUES DE TÉLÉCHARGEMENT
+   ======================================== */
+
+/* Contenu principal des téléchargements */
+.downloads-content {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+/* Affichage du nombre total */
+.downloads-display {
+    margin-bottom: 1.5rem;
+}
+
+.downloads-value {
+    font-size: 3rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-blue);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0.5rem;
+}
+
+.downloads-label {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: var(--font-weight-medium);
+}
+
+/* Détails par plateforme */
+.downloads-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.downloads-platform {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-blue);
+}
+
+.downloads-platform-name {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-medium);
+    font-size: 0.9rem;
+}
+
+.downloads-platform-count {
+    color: var(--primary-blue);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+}
+
+/* Date de mise à jour */
+.downloads-last-updated {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Aperçu des téléchargements dans le header */
+.downloads-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.downloads-preview-value {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-blue);
+    min-width: 60px;
+}
+
+.downloads-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.downloads-preview-label {
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+    margin-bottom: 0.1rem;
+}
+
+.downloads-preview-date {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}

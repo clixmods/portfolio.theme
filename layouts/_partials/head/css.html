@@ -190,3 +190,27 @@
     {{- end }}
   {{- end }}
 {{- end }}
+
+{{/* Section-specific widget */}}
+{{- $widgets := resources.Match "css/widgets/*.css" }}
+{{- range sort $widgets "Name" }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* Section-specific component */}}
+{{- $components := resources.Match "css/components/*.css" }}
+{{- range sort $components "Name" }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}

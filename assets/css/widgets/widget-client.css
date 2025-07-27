@@ -1,0 +1,133 @@
+/* ========================================
+   NOUVEAUX WIDGETS - CLIENTS, GRADE, DOWNLOADS, RANKING
+   ======================================== */
+
+/* ========================================
+   CLIENTS BOX STYLES - LOGOS DES ENTREPRISES
+   ======================================== */
+
+/* Liste des clients */
+.clients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Item client individuel */
+.client-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--border-radius-sm);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.client-item:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, 
+        rgba(52, 152, 219, 0.08) 0%, 
+        rgba(255, 255, 255, 0.05) 100%);
+    border-color: rgba(52, 152, 219, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo du client */
+.client-logo {
+    width: 4rem;
+    height: 4rem;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.client-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.client-logo.placeholder {
+    color: white;
+    font-weight: var(--font-weight-bold);
+    font-size: 1.4rem;
+}
+
+/* Informations du client */
+.client-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.client-name {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.client-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 0.2rem;
+}
+
+.client-role {
+    color: var(--primary-teal);
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Aperçu clients dans le header */
+.clients-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.clients-preview-logos {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.client-logo-mini {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.client-logo-mini img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.client-logo-mini.placeholder {
+    color: white;
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+
+.clients-preview-more {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-left: 0.2rem;
+}

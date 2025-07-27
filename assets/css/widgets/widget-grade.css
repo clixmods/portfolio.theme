@@ -1,0 +1,93 @@
+/* ========================================
+   GRADE BOX STYLES - NOTES ACADÉMIQUES
+   ======================================== */
+
+/* Contenu principal de la note */
+.grade-content {
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Affichage de la note */
+.grade-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.grade-value {
+    font-size: 3rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-green);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.grade-scale {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Détails de la note */
+.grade-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.grade-subject {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 1.1rem;
+}
+
+.grade-professor, .grade-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.grade-comment {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.8rem;
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-green);
+}
+
+/* Aperçu de la note dans le header */
+.grade-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.grade-preview-value {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-green);
+    min-width: 40px;
+}
+
+.grade-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.grade-preview-subject {
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+    margin-bottom: 0.1rem;
+}
+
+.grade-preview-scale {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}

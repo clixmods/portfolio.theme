@@ -1,0 +1,602 @@
+
+
+/* Testimonials Box Styles */
+.testimonials-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.testimonial-item {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.02) 100%);
+    padding: 1.5rem;
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--primary-teal);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    position: relative;
+}
+
+.testimonial-item:hover {
+    transform: translateY(-2px);
+    border-left-color: var(--primary-blue);
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(255, 255, 255, 0.05) 100%);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-quote {
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-style: italic;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.testimonial-quote::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -0.2rem;
+    font-size: 1.5rem;
+    color: var(--primary-teal);
+    font-weight: bold;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-avatar.placeholder {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.testimonial-info .testimonial-name {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+    margin-bottom: 0.1rem;
+}
+
+.testimonial-info .testimonial-role {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.testimonial-rating {
+    display: none;
+}
+
+.testimonial-rating .star {
+    display: none;
+}
+
+/* ========================================
+   TESTIMONIALS BOX - REMPLISSAGE COMPLET
+   ======================================== */
+
+/* Widget testimonials - remplissage complet du widget */
+.testimonials-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonials-box .info-box-header {
+    display: none; /* Pas de header pour le widget testimonials en mode full */
+}
+
+.testimonials-box .info-box-content {
+    padding: 0;
+    max-height: none;
+    height: 100%;
+}
+
+/* AperÃ§u testimonials - remplissage complet */
+.testimonials-preview {
+    margin-top: 0;
+    height: 100%; /* Remplir tout le widget */
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(52, 152, 219, 0.05) 100%);
+    backdrop-filter: blur(10px);
+}
+
+/* Container pour la rotation des testimonials */
+.testimonials-rotator {
+    position: relative;
+    height: 100%;
+}
+
+/* Chaque testimonial en mode aperÃ§u - REMPLISSAGE COMPLET */
+.testimonial-preview-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-teal);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Testimonial actif */
+.testimonial-preview-item.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animation de transition entre testimonials */
+.testimonial-preview-item.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.testimonial-preview-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Header du testimonial */
+.testimonial-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+/* Avatar en mode preview */
+.testimonial-preview-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-preview-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-preview-avatar.placeholder {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Nom de l'auteur */
+.testimonial-preview-author {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+/* Citation en mode preview */
+.testimonial-preview-quote {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-preview-quote::before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--primary-teal);
+    opacity: 0.3;
+    position: absolute;
+    left: -0.5rem;
+    top: -1rem;
+    font-family: Georgia, serif;
+}
+
+/* Barre de progression */
+.testimonials-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.testimonials-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-teal), var(--primary-blue));
+    width: 0%;
+    animation: testimonial-progress 5s linear infinite;
+}
+
+@keyframes testimonial-progress {
+    0% { width: 0%; }
+    90% { width: 100%; }
+    100% { width: 100%; }
+}
+
+/* ========================================
+   TESTIMONIALS PREVIEW (ANCIEN SYSTÃˆME - GARDÃ‰ POUR COMPATIBILITÃ‰)
+   ======================================== */
+
+/* AperÃ§u des testimonials : affichage rotatif */
+.info-box:not(.expanded) .testimonials-preview {
+    display: block;
+    margin-top: 0;
+    height: 100%; /* Remplir tout le widget */
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.03) 0%, 
+        rgba(255, 255, 255, 0.01) 100%);
+}
+
+/* Masquer la liste complÃ¨te quand la box est fermÃ©e */
+.info-box.testimonials-box:not(.expanded) .testimonials-list {
+    display: none;
+}
+
+/* Masquer le header quand en mode aperÃ§u complet */
+.info-box.testimonials-box:not(.expanded) .info-box-header {
+    display: none;
+}
+
+/* Masquer l'aperÃ§u quand la box est ouverte */
+.info-box.testimonials-box.expanded .testimonials-preview {
+    display: none;
+}
+
+/* Container pour la rotation des testimonials */
+.testimonials-rotator {
+    position: relative;
+    height: 100%;
+}
+
+/* Chaque testimonial en mode aperÃ§u - REMPLISSAGE COMPLET */
+.testimonial-preview-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(52, 152, 219, 0.05) 100%);
+    border-radius: var(--border-radius-sm);
+    border-left: 2px solid var(--primary-teal);
+    backdrop-filter: blur(5px);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Testimonial actif */
+.testimonial-preview-item.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animation de transition entre testimonials */
+.testimonial-preview-item.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.testimonial-preview-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Avatar et author dans un header - CENTRÃ‰ */
+.testimonial-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Avatar miniature pour l'aperÃ§u */
+.testimonial-preview-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.testimonial-preview-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-preview-avatar.placeholder {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 0.8rem;
+}
+
+.testimonial-preview-quote {
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+    flex: 1;
+    /* Permettre l'affichage de plus de lignes pour le remplissage complet */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.testimonial-preview-author {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+}
+
+/* Note d'Ã©toiles en miniature - SupprimÃ©e */
+.testimonial-preview-rating {
+    display: none;
+}
+
+.testimonial-preview-rating .star {
+    display: none;
+}
+
+/* Indicateur de progression */
+.testimonials-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--primary-teal);
+    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+    animation: testimonialProgress 4s linear infinite;
+}
+
+@keyframes testimonialProgress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+/* ========================================
+   TESTIMONIALS BOX - REMPLISSAGE COMPLET
+   ======================================== */
+
+/* Widget testimonials - remplissage complet du widget */
+.testimonials-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonials-box .info-box-header {
+    display: none; /* Pas de header pour le widget testimonials en mode full */
+}
+
+.testimonials-box .info-box-content {
+    padding: 0;
+    max-height: none;
+    height: 100%;
+}
+
+/* Aperçu testimonials - remplissage complet */
+.testimonials-preview {
+    margin-top: 0;
+    height: 100%; /* Remplir tout le widget */
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(52, 152, 219, 0.05) 100%);
+    backdrop-filter: blur(10px);
+}
+
+/* Container pour la rotation des testimonials */
+.testimonials-rotator {
+    position: relative;
+    height: 100%;
+}
+
+/* Chaque testimonial en mode aperçu - REMPLISSAGE COMPLET */
+.testimonial-preview-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-teal);
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Testimonial actif */
+.testimonial-preview-item.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animation de transition entre testimonials */
+.testimonial-preview-item.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.testimonial-preview-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Header du testimonial */
+.testimonial-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+/* Avatar en mode preview */
+.testimonial-preview-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-preview-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-preview-avatar.placeholder {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Nom de l'auteur */
+.testimonial-preview-author {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+    line-height: 1.3;
+}
+
+/* Citation en mode preview */
+.testimonial-preview-quote {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-style: italic;
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-preview-quote::before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--primary-teal);
+    opacity: 0.3;
+    position: absolute;
+    left: -0.5rem;
+    top: -1rem;
+    font-family: Georgia, serif;
+}
+
+/* Barre de progression */
+.testimonials-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.testimonials-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-teal), var(--primary-blue));
+    width: 0%;
+    animation: testimonial-progress 5s linear infinite;
+}
+
+@keyframes testimonial-progress {
+    0% { width: 0%; }
+    90% { width: 100%; }
+    100% { width: 100%; }
+}

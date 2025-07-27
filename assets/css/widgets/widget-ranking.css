@@ -1,0 +1,112 @@
+/* ========================================
+   RANKING BOX STYLES - CLASSEMENTS DE CONCOURS
+   ======================================== */
+
+/* Contenu principal du classement */
+.ranking-content {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+/* Affichage de la position */
+.ranking-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.ranking-position {
+    font-size: 3rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-gold);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.ranking-position::after {
+    content: attr(data-suffix);
+    font-size: 1rem;
+    color: var(--text-muted);
+    position: absolute;
+    top: 0.5rem;
+    right: -1rem;
+}
+
+.ranking-total {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Détails du classement */
+.ranking-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.ranking-event {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: 1.1rem;
+}
+
+.ranking-category, .ranking-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.ranking-achievement {
+    color: var(--primary-gold);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-semibold);
+    background: rgba(255, 215, 0, 0.1);
+    padding: 0.6rem;
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--primary-gold);
+}
+
+/* Aperçu du classement dans le header */
+.ranking-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.ranking-preview-position {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--primary-gold);
+    position: relative;
+    min-width: 40px;
+}
+
+.ranking-preview-position::after {
+    content: attr(data-suffix);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    position: absolute;
+    top: 0.2rem;
+    right: -0.8rem;
+}
+
+.ranking-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ranking-preview-event {
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+    margin-bottom: 0.1rem;
+}
+
+.ranking-preview-total {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
