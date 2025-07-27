@@ -13,11 +13,16 @@
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     transform: translateY(0);
-    /* Pas de backdrop-filter pour Ã©viter le flou indÃ©sirable */
+    /* Pas de backdrop-filter pour éviter le flou indésirable */
     
-    /* Taille par dÃ©faut : medium (4 colonnes) */
+    /* Taille par défaut : medium (4 colonnes) */
     grid-column: span 4;
     min-height: 120px;
+    
+    /* Assurer que les widgets ne se chevauchent pas */
+    contain: layout style;
+    /* Isolation pour éviter les problèmes de z-index */
+    isolation: isolate;
 }
 
 /* ========================================
@@ -48,17 +53,143 @@
     min-height: 160px;
 }
 
-/* BoÃ®te expanded prend toute la largeur */
+/* Boîte expanded - comportement amélioré */
 .info-box.expanded {
-    grid-column: 1 / -1; /* Prend toute la largeur de la grille */
+    /* Positionnement et isolation */
+    position: relative;
+    z-index: 100;
+    /* Prend toute la largeur mais crée son propre espace */
+    grid-column: 1 / -1;
+    grid-row: auto;
+    /* Créer un nouveau contexte de grille interne si supporté */
+    display: block; /* Changer de grid à block pour simplifier */
+    width: 100%; /* S'assurer que le widget prend toute la largeur */
+    /* Espacement et élévation */
+    margin: 1.5rem 0;
+    padding: 0; /* Retirer le padding du container pour laisser les enfants gérer */
     transform: translateY(-5px);
     box-shadow: 
         0 25px 50px rgba(0, 0, 0, 0.5),
         0 15px 35px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.15),
         0 0 0 1px rgba(52, 152, 219, 0.2);
-    margin: 1rem 0; /* Espace autour de la boÃ®te expanded */
-    z-index: 10; /* Au-dessus des autres boÃ®tes */
+    /* Transition fluide pour l'ouverture/fermeture */
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    /* S'assurer que le contenu est visible */
+    min-height: auto;
+    max-height: none;
+    overflow: visible;
+    
+    /* Border pour séparer visuellement */
+    border-color: rgba(52, 152, 219, 0.3);
+    background: linear-gradient(135deg, 
+        rgba(32, 36, 46, 0.98) 0%, 
+        rgba(24, 28, 38, 0.95) 100%);
+}
+
+/* S'assurer que le header et content prennent toute la largeur dans les widgets expanded */
+.info-box.expanded .info-box-header,
+.info-box.expanded .info-box-content {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Fallback pour les navigateurs qui ne supportent pas subgrid */
+@supports not (grid-template-columns: subgrid) {
+    .info-box.expanded {
+        display: block;
+    }
+}
+
+/* Styles pour l'état fermé standard - améliorés */
+.info-box:not(.expanded) {
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    /* S'assurer que les widgets fermés restent dans leur espace */
+    contain: layout style;
+    overflow: hidden;
+    max-height: 400px; /* Limite raisonnable pour éviter les widgets trop hauts */
+}
+
+/* Animation d'ouverture fluide */
+.info-box.expanding {
+    animation: expandBox 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    /* Élever temporairement pendant l'animation */
+    z-index: 150;
+}
+
+/* Animation de fermeture fluide */
+.info-box.collapsing {
+    animation: collapseBox 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    /* Maintenir l'élévation pendant la fermeture */
+    z-index: 50;
+}
+
+/* Amélioration des keyframes pour des transitions plus fluides */
+@keyframes expandBox {
+    0% {
+        grid-column: var(--original-span);
+        margin: 0;
+        padding: 0;
+        z-index: 1;
+        transform: translateY(0) scale(1);
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    30% {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 
+            0 25px 45px rgba(0, 0, 0, 0.45),
+            0 12px 30px rgba(52, 152, 219, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    100% {
+        grid-column: 1 / -1;
+        margin: 1.5rem 0;
+        padding: 0;
+        z-index: 100;
+        transform: translateY(-5px) scale(1);
+        box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.5),
+            0 15px 35px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            0 0 0 1px rgba(52, 152, 219, 0.2);
+    }
+}
+
+@keyframes collapseBox {
+    0% {
+        grid-column: 1 / -1;
+        margin: 1.5rem 0;
+        padding: 0;
+        z-index: 100;
+        transform: translateY(-5px) scale(1);
+        box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.5),
+            0 15px 35px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            0 0 0 1px rgba(52, 152, 219, 0.2);
+    }
+    50% {
+        transform: translateY(-3px) scale(0.98);
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            0 10px 25px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    100% {
+        grid-column: var(--original-span);
+        margin: 0;
+        padding: 0;
+        z-index: 1;
+        transform: translateY(0) scale(1);
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            0 8px 25px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
 }
 
 .info-box::before {

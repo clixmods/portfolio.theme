@@ -2450,13 +2450,18 @@ body::before {
 
 .project-info-boxes {
     display: grid;
-    grid-template-columns: repeat(12, 1fr); /* Grid de 12 colonnes pour plus de flexibilitÃ© */
+    grid-template-columns: repeat(12, 1fr); /* Grid de 12 colonnes pour plus de flexibilité */
     gap: 2rem;
     opacity: 0;
     transform: translateY(30px);
     animation: fadeInUp 0.8s ease-out 0.4s forwards;
-    /* Grid auto-flow pour permettre aux Ã©lÃ©ments expanded de crÃ©er de nouvelles lignes */
-    grid-auto-flow: row dense; /* Dense pour optimiser l'espace */
+    /* Utilisation d'un auto-flow row pour permettre aux éléments de se placer naturellement */
+    grid-auto-flow: row;
+    /* Hauteur des lignes adaptative */
+    grid-auto-rows: minmax(120px, auto);
+    /* Assurer un alignement propre */
+    align-items: start;
+    position: relative;
 }
 
 
@@ -2788,12 +2793,41 @@ body::before {
     .project-info-boxes {
         grid-template-columns: 1fr; /* Une seule colonne sur mobile */
         gap: 1.2rem;
+        /* Simplifier le layout sur mobile */
+        grid-auto-flow: row;
     }
     
-    /* Toutes les boÃ®tes prennent toute la largeur sur mobile */
+    /* Toutes les boîtes prennent toute la largeur sur mobile */
     .info-box {
-        grid-column: 1 / -1;
+        grid-column: 1 / -1 !important;
         min-height: auto;
+        /* Simplifier les transitions sur mobile */
+        transition: all 0.3s ease;
+    }
+    
+    /* Comportement spécial pour les widgets expanded sur mobile */
+    .info-box.expanded {
+        margin: 1rem 0;
+        padding: 0; /* Pas de padding sur le container */
+        /* Réduire l'élévation sur mobile */
+        transform: translateY(-2px);
+        box-shadow: 
+            0 15px 35px rgba(0, 0, 0, 0.4),
+            0 8px 20px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    
+    /* S'assurer que header et content prennent toute la largeur sur mobile */
+    .info-box.expanded .info-box-header,
+    .info-box.expanded .info-box-content {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Désactiver certaines animations complexes sur mobile */
+    .info-box.expanding,
+    .info-box.collapsing {
+        animation: none;
     }
     
     .info-box-header {

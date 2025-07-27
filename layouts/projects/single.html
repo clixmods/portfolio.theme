@@ -951,14 +951,119 @@ function hideMoreActions(element) {
     }
 }
 
+function initializeInfoBoxSystem() {
+    const infoBoxes = document.querySelectorAll('.info-box');
+    
+    infoBoxes.forEach(function(infoBox) {
+        // Stocker la taille originale de chaque widget
+        const computedStyle = window.getComputedStyle(infoBox);
+        const gridColumn = computedStyle.gridColumn;
+        
+        infoBox.setAttribute('data-original-span', gridColumn);
+        infoBox.style.setProperty('--original-span', gridColumn);
+        
+        // Ajouter des gestionnaires d'événements pour les transitions
+        infoBox.addEventListener('transitionstart', function(e) {
+            if (e.propertyName === 'grid-column') {
+                // Marquer le début de la transition de grille
+                infoBox.classList.add('transitioning');
+            }
+        });
+        
+        infoBox.addEventListener('transitionend', function(e) {
+            if (e.propertyName === 'grid-column') {
+                // Marquer la fin de la transition de grille
+                infoBox.classList.remove('transitioning');
+            }
+        });
+        
+        // Optimisation pour les performances : observer les changements de taille
+        if (window.ResizeObserver) {
+            const resizeObserver = new ResizeObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    // Assurer que le widget maintient ses proportions
+                    if (entry.target.classList.contains('expanded')) {
+                        entry.target.style.minHeight = 'auto';
+                    }
+                });
+            });
+            
+            resizeObserver.observe(infoBox);
+        }
+    });
+    
+    // Gestionnaire global pour éviter les conflits entre widgets
+    let currentlyExpanding = null;
+    
+    window.addEventListener('click', function(e) {
+        const header = e.target.closest('.info-box-header');
+        if (header && currentlyExpanding === null) {
+            const infoBox = header.closest('.info-box');
+            if (infoBox.classList.contains('expanding') || infoBox.classList.contains('collapsing')) {
+                return; // Ignorer si déjà en cours d'animation
+            }
+            
+            currentlyExpanding = infoBox;
+            setTimeout(() => {
+                currentlyExpanding = null;
+            }, 500); // Délai de sécurité pour éviter les clics rapides
+        }
+    });
+}
+
 function toggleInfoBox(header) {
     const infoBox = header.closest('.info-box');
     const isExpanded = infoBox.classList.contains('expanded');
     
+    // Vérifier si une animation est déjà en cours
+    if (infoBox.classList.contains('expanding') || infoBox.classList.contains('collapsing')) {
+        return;
+    }
+    
+    // Stocker la taille originale si ce n'est pas déjà fait
+    if (!infoBox.hasAttribute('data-original-span')) {
+        const computedStyle = window.getComputedStyle(infoBox);
+        const gridColumn = computedStyle.gridColumn;
+        infoBox.setAttribute('data-original-span', gridColumn);
+        infoBox.style.setProperty('--original-span', gridColumn);
+    }
+    
     if (isExpanded) {
+        // Fermeture avec animation
+        infoBox.classList.add('collapsing');
         infoBox.classList.remove('expanded');
+        
+        // Scroll vers le widget qui se ferme AVANT qu'il se ferme complètement
+        setTimeout(() => {
+            infoBox.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center',
+                inline: 'nearest'
+            });
+        }, 50); // Scroll presque immédiatement
+        
+        // Retirer la classe d'animation après l'animation
+        setTimeout(() => {
+            infoBox.classList.remove('collapsing');
+        }, 300);
     } else {
+        // Ouverture avec animation
+        infoBox.classList.add('expanding');
         infoBox.classList.add('expanded');
+        
+        // Retirer la classe d'animation après l'animation
+        setTimeout(() => {
+            infoBox.classList.remove('expanding');
+        }, 400);
+        
+        // Scroll vers le widget ouvert APRÈS qu'il commence à s'ouvrir
+        setTimeout(() => {
+            infoBox.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center',
+                inline: 'nearest'
+            });
+        }, 200);
     }
 }
 
@@ -999,6 +1104,9 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const transition = document.querySelector('.hero-to-content-transition');
+    
+    // Initialisation du système de widgets amélioré
+    initializeInfoBoxSystem();
     
     // Smart gallery slideshow with preloading
     const galleryBoxes = document.querySelectorAll('.gallery-box:not(.expanded)');
