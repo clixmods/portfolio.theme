@@ -1,0 +1,176 @@
+
+/* ========================================
+   YOUTUBE SINGLE VIDEO BOX - REMPLISSAGE COMPLET
+   ======================================== */
+
+/* Widget pour une seule vidÃ©o YouTube - remplissage complet sans toggle */
+.youtube-single-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.youtube-single-box .info-box-header {
+    display: none; /* Pas de header pour le widget solo */
+}
+
+.youtube-single-box .info-box-content {
+    padding: 0;
+    max-height: none;
+    height: 100%;
+}
+
+/* Item vidÃ©o unique - style complet */
+.youtube-single-item {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0.02) 100%);
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid #ff0000;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    backdrop-filter: blur(10px);
+    height: 100%;
+}
+
+.youtube-single-item:hover {
+    transform: translateY(-2px);
+    border-left-color: #cc0000;
+    background: linear-gradient(135deg, 
+        rgba(255, 0, 0, 0.08) 0%, 
+        rgba(255, 255, 255, 0.05) 100%);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.2),
+        0 3px 10px rgba(255, 0, 0, 0.15);
+}
+
+/* Thumbnail - remplissage optimisÃ© */
+.youtube-single-thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+}
+
+.youtube-single-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.youtube-single-item:hover .youtube-single-thumbnail img {
+    transform: scale(1.03);
+}
+
+/* Bouton play - style optimisÃ© */
+.youtube-single-play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 0, 0, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.youtube-single-play-button::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 20px solid white;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    margin-left: 4px;
+}
+
+.youtube-single-item:hover .youtube-single-play-button {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: rgba(255, 0, 0, 1);
+    box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(255, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* DurÃ©e */
+.youtube-single-duration {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Informations de la vidÃ©o */
+.youtube-single-info {
+    padding: 1.2rem;
+}
+
+.youtube-single-title {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.4;
+    margin-bottom: 0.6rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.youtube-single-description {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.youtube-single-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.youtube-single-date {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Toujours afficher le contenu complet */
+.youtube-single-box .youtube-single-item {
+    display: block;
+}
+
+/* Masquer les aperÃ§us */
+.youtube-single-box .youtube-single-preview {
+    display: none;
+}
