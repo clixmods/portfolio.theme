@@ -234,7 +234,7 @@
 </section>
 
 <!-- Project Info Boxes Section - Section distincte avant le contenu -->
-{{ if or .Params.contributors .Params.development_time .Params.gallery .Params.technical_specs .Params.awards }}
+{{ if or .Params.contributors .Params.development_time .Params.gallery .Params.galleries .Params.youtube_videos .Params.youtube_galleries .Params.youtube_singles .Params.technical_specs .Params.awards }}
 <section class="project-info-boxes-section">
     <div class="project-info-boxes-wrapper">
         <div class="project-info-boxes">
@@ -359,11 +359,11 @@
             <div class="info-box gallery-box {{ .Params.gallery_size | default "size-large" }}" onclick="toggleInfoBox(this)">
                 <!-- Gallery Preview Background pour l'état fermé -->
                 <div class="gallery-preview gallery-background"
-                     style="--count: {{ len .Params.gallery }}; background-image: url('{{ (index .Params.gallery 0).thumbnail | default (index .Params.gallery 0).url }}'); background-size: cover; background-position: center;">
+                     style="--count: {{ len .Params.gallery }}; background-image: url('{{ (index .Params.gallery 0).url }}'); background-size: cover; background-position: center;">
                     <div class="gallery-carousel">
                         {{ range $idx, $img := .Params.gallery }}
                         <div class="gallery-mini-item" style="--i: {{$idx}};">
-                            <img src="{{ $img.thumbnail | default $img.url }}" alt="{{ $img.caption }}" loading="lazy">
+                            <img src="{{ $img.url }}" alt="{{ $img.caption }}" loading="lazy">
                         </div>
                         {{ end }}
                     </div>
@@ -389,7 +389,7 @@
                     <div class="gallery-grid">
                         {{ range .Params.gallery }}
                         <div class="gallery-item" onclick="openImageModal('{{ .url }}', '{{ .caption }}')">
-                            <img src="{{ .thumbnail | default .url }}" alt="{{ .caption }}" loading="lazy">
+                            <img src="{{ .url }}" alt="{{ .caption }}" loading="lazy">
                             <div class="gallery-overlay">
                                 <div class="gallery-zoom-icon">
                                     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -853,6 +853,182 @@
                             {{ if .Params.ranking.achievement }}
                             <div class="ranking-achievement">{{ .Params.ranking.achievement }}</div>
                             {{ end }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+
+            <!-- Multiple Galleries Boxes -->
+            {{ range $galleryIndex, $gallery := .Params.galleries }}
+            <div class="info-box gallery-box multiple-gallery-{{ $galleryIndex }} {{ $gallery.size | default "size-large" }}" onclick="toggleInfoBox(this)">
+                <!-- Gallery Preview Background pour l'état fermé -->
+                <div class="gallery-preview gallery-background"
+                     style="--count: {{ len $gallery.images }}; background-image: url('{{ (index $gallery.images 0).url }}'); background-size: cover; background-position: center;">
+                    <div class="gallery-carousel">
+                        {{ range $idx, $img := $gallery.images }}
+                        <div class="gallery-mini-item" style="--i: {{$idx}};">
+                            <img src="{{ $img.url }}" alt="{{ $img.caption }}" loading="lazy">
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+                
+                <div class="info-box-header">
+                    <div class="info-box-icon gallery">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"/>
+                        </svg>
+                    </div>
+                    <div class="info-box-header-content">
+                        <h3 class="info-box-title">{{ $gallery.title | default "Galerie d'images" }}</h3>
+                        <div class="info-box-summary">{{ len $gallery.images }} image{{ if gt (len $gallery.images) 1 }}s{{ end }}</div>
+                        {{ if $gallery.description }}
+                        <div class="info-box-description">{{ $gallery.description }}</div>
+                        {{ end }}
+                    </div>
+                    <div class="info-box-toggle">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="info-box-content">
+                    <div class="gallery-grid">
+                        {{ range $gallery.images }}
+                        <div class="gallery-item" onclick="openImageModal('{{ .url }}', '{{ .caption }}')">
+                            <img src="{{ .url }}" alt="{{ .caption }}" loading="lazy">
+                            <div class="gallery-overlay">
+                                <div class="gallery-zoom-icon">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            {{ if .caption }}
+                            <div class="gallery-caption">{{ .caption }}</div>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+
+            <!-- Multiple YouTube Galleries Boxes -->
+            {{ range $ytGalleryIndex, $ytGallery := .Params.youtube_galleries }}
+            <div class="info-box youtube-box multiple-youtube-gallery-{{ $ytGalleryIndex }} {{ $ytGallery.size | default "size-large" }} expanded">
+                <div class="info-box-header" onclick="toggleInfoBox(this)">
+                    <div class="info-box-icon youtube">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </div>
+                    <div class="info-box-header-content">
+                        <h3 class="info-box-title">{{ $ytGallery.title | default "Galerie de vidéos YouTube" }}</h3>
+                        <div class="info-box-summary">{{ len $ytGallery.videos }} vidéo{{ if gt (len $ytGallery.videos) 1 }}s{{ end }}</div>
+                        {{ if $ytGallery.description }}
+                        <div class="info-box-description">{{ $ytGallery.description }}</div>
+                        {{ end }}
+                        <!-- Aperçu de la première vidéo -->
+                        {{ if $ytGallery.videos }}
+                        {{ $firstVideo := index $ytGallery.videos 0 }}
+                        <div class="youtube-preview" onclick="openYouTubeModal('{{ $firstVideo.video_id }}', '{{ $firstVideo.title }}'); event.stopPropagation();" data-video-id="{{ $firstVideo.video_id }}" data-video-title="{{ $firstVideo.title }}">
+                            <div class="youtube-preview-thumbnail">
+                                <img src="https://img.youtube.com/vi/{{ $firstVideo.video_id }}/mqdefault.jpg" alt="{{ $firstVideo.title }}">
+                                <div class="youtube-preview-play"></div>
+                            </div>
+                            <div class="youtube-preview-info">
+                                <div class="youtube-preview-title">{{ $firstVideo.title }}</div>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                    <div class="info-box-toggle">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="info-box-content">
+                    <div class="youtube-list">
+                        {{ range $ytGallery.videos }}
+                        <div class="youtube-item" onclick="event.stopPropagation(); openYouTubeModal('{{ .video_id }}', '{{ .title }}')">
+                            <div class="youtube-thumbnail">
+                                <img src="https://img.youtube.com/vi/{{ .video_id }}/maxresdefault.jpg" alt="{{ .title }}">
+                                <div class="youtube-play-button"></div>
+                                {{ if .duration }}
+                                <div class="youtube-duration">{{ .duration }}</div>
+                                {{ end }}
+                            </div>
+                            <div class="youtube-info">
+                                <h4 class="youtube-title">{{ .title }}</h4>
+                                {{ if .description }}
+                                <p class="youtube-description">{{ .description }}</p>
+                                {{ end }}
+                                <div class="youtube-meta">
+                                    {{ if .date }}
+                                    <div class="youtube-date">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M19,3H18V1H16V3H8V1H6V3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z"/>
+                                        </svg>
+                                        {{ .date }}
+                                    </div>
+                                    {{ end }}
+                                </div>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+
+            <!-- Multiple YouTube Singles Boxes -->
+            {{ range $ytSingleIndex, $ytSingle := .Params.youtube_singles }}
+            <div class="info-box youtube-single-box multiple-youtube-single-{{ $ytSingleIndex }} {{ $ytSingle.size | default "size-medium" }}">
+                <div class="info-box-header" onclick="toggleInfoBox(this)">
+                    <div class="info-box-icon youtube">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </div>
+                    <div class="info-box-header-content">
+                        <h3 class="info-box-title">{{ $ytSingle.title | default "Vidéo YouTube" }}</h3>
+                        {{ if $ytSingle.description }}
+                        <div class="info-box-description">{{ $ytSingle.description }}</div>
+                        {{ end }}
+                    </div>
+                    <div class="info-box-toggle">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="info-box-content">
+                    <div class="youtube-single-item" onclick="event.stopPropagation(); openYouTubeModal('{{ $ytSingle.video_id }}', '{{ $ytSingle.video_title }}')">
+                        <div class="youtube-single-thumbnail">
+                            <img src="https://img.youtube.com/vi/{{ $ytSingle.video_id }}/maxresdefault.jpg" alt="{{ $ytSingle.video_title }}">
+                            <div class="youtube-single-play-button"></div>
+                            {{ if $ytSingle.duration }}
+                            <div class="youtube-single-duration">{{ $ytSingle.duration }}</div>
+                            {{ end }}
+                        </div>
+                        <div class="youtube-single-info">
+                            <h4 class="youtube-single-title">{{ $ytSingle.video_title }}</h4>
+                            {{ if $ytSingle.video_description }}
+                            <p class="youtube-single-description">{{ $ytSingle.video_description }}</p>
+                            {{ end }}
+                            <div class="youtube-single-meta">
+                                {{ if $ytSingle.date }}
+                                <div class="youtube-single-date">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19,3H18V1H16V3H8V1H6V3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z"/>
+                                    </svg>
+                                    {{ $ytSingle.date }}
+                                </div>
+                                {{ end }}
+                            </div>
                         </div>
                     </div>
                 </div>
