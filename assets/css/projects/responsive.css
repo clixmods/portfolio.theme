@@ -605,7 +605,6 @@
     /* Hauteur des lignes adaptative */
     grid-auto-rows: minmax(120px, auto);
     /* Assurer un alignement propre */
-    align-items: start;
     position: relative;
 }
 
@@ -655,7 +654,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
-    align-items: start;
 }
 
 .info-box.expanded .gallery-grid {
