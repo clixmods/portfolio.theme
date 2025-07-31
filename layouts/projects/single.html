@@ -254,11 +254,13 @@
                         <div class="contributors-preview">
                             <div class="contributor-avatars">
                                 {{ range first 4 .Params.contributors }}
-                                <div class="contributor-avatar-mini {{ if not .avatar }}placeholder{{ end }}">
-                                    {{ if .avatar }}
-                                    <img src="{{ .avatar }}" alt="{{ .name }}">
+                                {{ $personSlice := where $.Site.Data.people "id" .person }}
+                                {{ $person := index $personSlice 0 }}
+                                <div class="contributor-avatar-mini {{ if not $person.avatar }}placeholder{{ end }}">
+                                    {{ if $person.avatar }}
+                                    <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
                                     {{ else }}
-                                    <span>{{ substr .name 0 1 | upper }}</span>
+                                    <span>{{ substr $person.name 0 1 | upper }}</span>
                                     {{ end }}
                                 </div>
                                 {{ end }}
@@ -279,18 +281,20 @@
                 <div class="info-box-content">
                     <div class="contributors-list">
                         {{ range .Params.contributors }}
+                        {{ $personSlice := where $.Site.Data.people "id" .person }}
+                        {{ $person := index $personSlice 0 }}
                         <div class="contributor-item">
-                            {{ if .avatar }}
+                            {{ if $person.avatar }}
                             <div class="contributor-avatar">
-                                <img src="{{ .avatar }}" alt="{{ .name }}">
+                                <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
                             </div>
                             {{ else }}
                             <div class="contributor-avatar placeholder">
-                                <span>{{ substr .name 0 1 | upper }}</span>
+                                <span>{{ substr $person.name 0 1 | upper }}</span>
                             </div>
                             {{ end }}
                             <div class="contributor-info">
-                                <div class="contributor-name">{{ .name }}</div>
+                                <div class="contributor-name">{{ $person.name }}</div>
                                 {{ if .role }}
                                 <div class="contributor-role">{{ .role }}</div>
                                 {{ end }}
@@ -490,16 +494,18 @@
                         <div class="testimonials-preview">
                             <div class="testimonials-rotator">
                                 {{ range $index, $testimonial := .Params.testimonials }}
+                                {{ $personSlice := where $.Site.Data.people "id" $testimonial.person }}
+                                {{ $person := index $personSlice 0 }}
                                 <div class="testimonial-preview-item {{ if eq $index 0 }}active{{ end }}" data-index="{{ $index }}">
                                     <div class="testimonial-preview-header">
-                                        <div class="testimonial-preview-avatar {{ if not $testimonial.avatar }}placeholder{{ end }}">
-                                            {{ if $testimonial.avatar }}
-                                            <img src="{{ $testimonial.avatar }}" alt="{{ $testimonial.name }}">
+                                        <div class="testimonial-preview-avatar {{ if not $person.avatar }}placeholder{{ end }}">
+                                            {{ if $person.avatar }}
+                                            <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
                                             {{ else }}
-                                            <span>{{ substr $testimonial.name 0 1 | upper }}</span>
+                                            <span>{{ substr $person.name 0 1 | upper }}</span>
                                             {{ end }}
                                         </div>
-                                        <div class="testimonial-preview-author">{{ $testimonial.name }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}</div>
+                                        <div class="testimonial-preview-author">{{ $person.name }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}</div>
                                     </div>
                                 <div class="testimonial-preview-quote">{{ $testimonial.quote }}</div>
                                 </div>
@@ -518,18 +524,20 @@
                 <div class="info-box-content">
                     <div class="testimonials-list">
                         {{ range .Params.testimonials }}
+                        {{ $personSlice := where $.Site.Data.people "id" .person }}
+                        {{ $person := index $personSlice 0 }}
                         <div class="testimonial-item">
                         <div class="testimonial-quote">{{ .quote }}</div>
                             <div class="testimonial-author">
-                                <div class="testimonial-avatar {{ if not .avatar }}placeholder{{ end }}">
-                                    {{ if .avatar }}
-                                    <img src="{{ .avatar }}" alt="{{ .name }}">
+                                <div class="testimonial-avatar {{ if not $person.avatar }}placeholder{{ end }}">
+                                    {{ if $person.avatar }}
+                                    <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
                                     {{ else }}
-                                    <span>{{ substr .name 0 1 | upper }}</span>
+                                    <span>{{ substr $person.name 0 1 | upper }}</span>
                                     {{ end }}
                                 </div>
                                 <div class="testimonial-info">
-                                    <div class="testimonial-name">{{ .name }}</div>
+                                    <div class="testimonial-name">{{ $person.name }}</div>
                                     {{ if .role }}
                                     <div class="testimonial-role">{{ .role }}</div>
                                     {{ end }}
