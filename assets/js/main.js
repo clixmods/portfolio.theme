@@ -636,56 +636,6 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-// ============================================================================
-// SIDEBAR TOGGLE FUNCTIONALITY
-// ============================================================================
-
-/**
- * Initialize sidebar toggle functionality
- * 
- * Adds event listeners for the sidebar toggle button and handles
- * hiding/showing the sidebar with smooth animations.
- */
-function initializeSidebarToggle() {
-    const toggleBtn = document.getElementById('sidebar-toggle');
-    const body = document.body;
-    
-    if (!toggleBtn) return;
-    
-    // Load saved sidebar state from localStorage
-    const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
-    if (sidebarHidden) {
-        body.classList.add('sidebar-hidden');
-    }
-    
-    // Toggle sidebar on button click
-    toggleBtn.addEventListener('click', function() {
-        body.classList.toggle('sidebar-hidden');
-        
-        // Save state to localStorage
-        const isHidden = body.classList.contains('sidebar-hidden');
-        localStorage.setItem('sidebarHidden', isHidden.toString());
-        
-        // Add haptic feedback for mobile devices
-        if ('vibrate' in navigator) {
-            navigator.vibrate(50);
-        }
-    });
-    
-    // Add keyboard shortcut (Ctrl+B or Cmd+B)
-    document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
-            e.preventDefault();
-            toggleBtn.click();
-        }
-    });
-}
-
-// Initialize sidebar toggle when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initializeSidebarToggle();
-});
-
 // Project Actions - Show More functionality
 function showMoreActions(button) {
     console.log('showMoreActions called', button);

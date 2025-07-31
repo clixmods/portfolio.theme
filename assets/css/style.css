@@ -2,11 +2,8 @@
  * MAIN STYLE CSS
  * 
  * This file imports and orchestrates all CSS components for the portfolio theme.
- * It includes the sidebar navigation and general layout styles.
+ * It includes the navigation and general layout styles.
  */
-
-/* Import sidebar navigation styles */
-@import url('sidebar.css');
 
 /* Navigation and Section Styles */
 html {
@@ -224,15 +221,15 @@ body {
 
 .main-content { 
     flex: 1; 
-    margin-left: 280px; /* Compense la largeur de la sidebar */
+    margin-left: 0; /* Plus de sidebar */
     background: rgba(26, 26, 26, 0.6);
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
     padding: 2rem; 
     min-height: 100vh;
     border: 1px solid rgba(79, 209, 199, 0.1);
-    border-radius: 0 20px 20px 0;
-    transition: margin-left 0.3s ease; /* Transition smooth pour le toggle sidebar */
+    border-radius: 20px;
+    transition: all 0.3s ease;
 }
 
 /* Info section styles moved to info-sections.css */

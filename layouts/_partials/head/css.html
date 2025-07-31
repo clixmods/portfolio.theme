@@ -19,6 +19,19 @@
   {{- end }}
 {{- end }}
 
+{{/* Dock Styles */}}
+{{- with resources.Get "scss/dock.scss" }}
+  {{- with . | toCSS | minify }}
+    {{- if hugo.IsDevelopment }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- else }}
+      {{- with . | fingerprint }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{- with resources.Get "css/background.css" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
@@ -30,15 +43,6 @@
 {{- end }}
 
 {{/* Layout Components */}}
-{{- with resources.Get "css/sidebar.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
 
 {{/* Section-specific Stylesheets */}}
 {{- with resources.Get "css/profile.css" }}
