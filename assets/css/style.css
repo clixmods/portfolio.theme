@@ -222,13 +222,8 @@ body {
 .main-content { 
     flex: 1; 
     margin-left: 0; /* Plus de sidebar */
-    background: rgba(26, 26, 26, 0.6);
-    backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
     padding: 2rem; 
     min-height: 100vh;
-    border: 1px solid rgba(79, 209, 199, 0.1);
-    border-radius: 20px;
     transition: all 0.3s ease;
 }
 
@@ -394,8 +389,4 @@ body {
     }
 }
 
-
-
 /* Blog styles moved to projects.css */
-
-

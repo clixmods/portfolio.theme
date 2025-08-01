@@ -19,25 +19,6 @@
         
         <p class="bio">{{ .personal.bio }}</p>
         
-        <div class="info-section aero-glass">
-            <h3>{{ i18n "additional_info" | default "Informations Supplémentaires" }}</h3>
-            
-            {{ $infoItems := slice 
-                (dict "label" (i18n "email" | default "Email") "value" .contact.email)
-                (dict "label" "LinkedIn" "value" .contact.linkedin)
-                (dict "label" (i18n "location" | default "Localisation") "value" .contact.location)
-                (dict "label" (i18n "education" | default "Formation") "value" .details.formation)
-                (dict "label" (i18n "specialty" | default "Spécialité") "value" .details.speciality)
-                (dict "label" (i18n "experience" | default "Expérience") "value" .details.experience)
-            }}
-            
-            {{ range $infoItems }}
-            <div class="info-item">
-                <span class="info-label">{{ .label }}</span>
-                <span>: {{ .value }}</span>
-            </div>
-            {{ end }}
-        </div>
     </div>
     {{ end }}
 </section>
