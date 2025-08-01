@@ -1,0 +1,286 @@
+/* ========================================
+   HERO BACKGROUND - DEEP SPACE AESTHETIC
+   ======================================== */
+
+/* Variables de personnalisation */
+:root {
+  /* Palette deep space */
+  --bg-top: #001a46;
+  --bg-middle: #0f328c;
+  --bg-bottom: #142f6b;
+  
+  /* Ruban lumineux (vague soyeuse) - Spécifications selon demande */
+  --ribbon-color-bright: rgba(91, 124, 255, 0.12);    /* #5b7cff avec 12% opacité */
+  --ribbon-color-dim: rgba(0, 44, 128, 0.05);         /* #002c80 avec 5% opacité */
+  --ribbon-glow: rgba(91, 124, 255, 0.25);            /* Halo lumineux pour bloom */
+  --ribbon-start-width: 80px;                         /* Épaisseur initiale à gauche */
+  --ribbon-end-width: 40px;                           /* Affinement vers la droite */
+  --ribbon-start-pos: 30%;                            /* Position de départ (30% hauteur) */
+  --ribbon-wave-amplitude: 3px;                       /* Oscillation verticale ±3px */
+  --ribbon-drift-amplitude: 15px;                     /* Dérive horizontale ±15px */
+  --ribbon-cycle-duration: 3.5s;                      /* Cycle complet en 3-4s */
+  
+  /* Particules scintillantes */
+  --particle-color-white: rgba(255, 255, 255, 0.8);      /* Blanc pur */
+  --particle-color-blue: rgba(220, 233, 255, 0.6);       /* Bleu très pâle #dce9ff */
+  --particle-size-min: 1px;
+  --particle-size-max: 30px;
+  --particle-glow: 5px;
+  --sparkle-duration: 2s;
+  --drift-amplitude: 10px;                                /* Dérive calme ±10px */
+  --particle-float-base: 12s;                            /* Mouvement très lent */
+  --particle-drift-base: 18s;
+}
+
+/* Container principal du fond héroïque */
+.hero-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Dégradé deep space vertical */
+.hero-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    var(--bg-top) 0%,           /* Haut : midnight-blue */
+    var(--bg-middle) 60%,       /* Milieu : indigo-royal */
+    var(--bg-bottom) 100%       /* Bas : bleu nuit atténué */
+  );
+  z-index: -3;
+}
+
+/* Vague soyeuse (ruban lumineux fluide) */
+.ribbon-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* SVG de la vague principale */
+.ribbon-wave svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Path de la vague avec dégradé fluide */
+.ribbon-wave-path {
+  fill: url(#ribbonGradient);
+  filter: url(#ribbonGlow);
+  animation: waveFlow var(--ribbon-cycle-duration) ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Calque de glow pour l'effet bloom */
+.ribbon-wave-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.ribbon-wave-glow svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ribbon-wave-glow path {
+  fill: var(--ribbon-glow);
+  filter: blur(8px);
+  animation: waveFlow var(--ribbon-cycle-duration) ease-in-out infinite;
+  animation-delay: 0.1s; /* Léger décalage pour effet organique */
+  transform-origin: center;
+}
+
+/* Animation de la vague : oscillation douce + dérive fluide selon spécifications */
+@keyframes waveFlow {
+  0% {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateX(8px) translateY(-2px) rotate(0.3deg);
+  }
+  50% {
+    transform: translateX(var(--ribbon-drift-amplitude)) translateY(var(--ribbon-wave-amplitude)) rotate(0.6deg);
+  }
+  75% {
+    transform: translateX(8px) translateY(-1px) rotate(0.3deg);
+  }
+  100% {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+  }
+}
+
+/* Animation subtile de changement de teinte (hue-rotate pour shift couleur) */
+@keyframes ribbonHueShift {
+  0%, 100% {
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  50% {
+    filter: hue-rotate(8deg) saturate(1.1);
+  }
+}
+
+/* Appliquer les animations à la vague avec timing optimisé */
+.ribbon-wave-path {
+  animation: 
+    waveFlow var(--ribbon-cycle-duration) ease-in-out infinite,
+    ribbonHueShift 12s ease-in-out infinite;
+}
+
+/* Container pour les particules CSS (fallback) */
+.particles-css {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Particules individuelles avec mouvement délicat et asynchrone */
+.particle {
+  position: absolute;
+  width: var(--particle-size);
+  height: var(--particle-size);
+  border-radius: 50%;
+  pointer-events: none;
+  
+  /* Scintillement délicat + dérive calme autour du point d'origine */
+  animation: 
+    particleSparkle var(--sparkle-duration) ease-in-out infinite,
+    particleDriftCalm var(--drift-duration, 18s) ease-in-out infinite;
+  animation-delay: 
+    var(--delay, 0s),
+    var(--drift-delay, 0s);
+}
+
+/* Particules blanches (blanc pur) */
+.particle--white {
+  background: #ffffff;
+  box-shadow: 0 0 var(--particle-glow) rgba(255, 255, 255, 0.6);
+  
+  /* Scintillement légèrement plus rapide pour les blanches */
+  animation-duration: 
+    calc(var(--sparkle-duration) * 0.9), 
+    var(--drift-duration, 18s);
+}
+
+/* Particules bleues (bleu très pâle) */
+.particle--blue {
+  background: #dce9ff;
+  box-shadow: 0 0 var(--particle-glow) rgba(220, 233, 255, 0.4);
+  
+  /* Scintillement plus lent et doux pour les bleues */
+  animation-duration: 
+    calc(var(--sparkle-duration) * 1.2), 
+    calc(var(--drift-duration, 18s) * 1.1);
+}
+
+/* Particules concentrées près du ruban (plus lumineuses) */
+.particle--near-ribbon {
+  opacity: 1.2;
+  box-shadow: 0 0 calc(var(--particle-glow) * 1.5) currentColor;
+}
+
+/* Particules dispersées (plus subtiles) */
+.particle--dispersed {
+  opacity: 0.8;
+  box-shadow: 0 0 var(--particle-glow) currentColor;
+}
+
+/* Animation de scintillement délicat (opacité 0.4 → 1 → 0.4) */
+@keyframes particleSparkle {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Animation de dérive calme (±10px autour du point d'origine) */
+@keyframes particleDriftCalm {
+  0% {
+    transform: translateX(0px) translateY(0px);
+  }
+  25% {
+    transform: translateX(6px) translateY(-4px);
+  }
+  50% {
+    transform: translateX(-8px) translateY(5px);
+  }
+  75% {
+    transform: translateX(10px) translateY(-3px);
+  }
+  100% {
+    transform: translateX(0px) translateY(0px);
+  }
+}
+
+/* Responsive - Mobile first avec ajustements pour la vague */
+@media (max-width: 768px) {
+  :root {
+    --ribbon-start-width: 60px;      /* Vague plus fine sur mobile */
+    --ribbon-end-width: 30px;
+    --ribbon-wave-amplitude: 2px;    /* Amplitude réduite (±2px) */
+    --ribbon-drift-amplitude: 8px;   /* Dérive réduite (±8px) */
+    --ribbon-cycle-duration: 4s;     /* Cycle plus lent sur mobile */
+    --particle-size: 1.5px;
+    --particle-glow: 3px;
+  }
+}
+
+/* Réduction des animations pour accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-wave-path,
+  .ribbon-wave-glow path {
+    animation: none;
+    transform: translateX(7px) translateY(1px); /* Position statique */
+  }
+}
+
+/* Support pour les petits écrans avec timing optimisé */
+@media (max-width: 480px) {
+  :root {
+    --ribbon-start-width: 50px;     /* Encore plus compact */
+    --ribbon-end-width: 25px;
+    --ribbon-cycle-duration: 5s;    /* Cycle encore plus lent sur très petit écran */
+    --ribbon-wave-amplitude: 1px;   /* Oscillation minimale */
+    --ribbon-drift-amplitude: 5px;  /* Dérive minimale */
+  }
+}
+
+/* Mode haute performance - réduction des effets */
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-wave-glow {
+    display: none;              /* Supprime le blur/glow sur demande */
+  }
+}
