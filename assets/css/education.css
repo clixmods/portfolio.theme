@@ -41,7 +41,7 @@
     display: flex;
     justify-content: center;
     gap: 0.2rem;
-    margin-bottom: 3rem;
+    margin-bottom: 10rem;
     background: rgba(55, 65, 81, 0.5);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -80,14 +80,14 @@
 .timeline-container {
     position: relative;
     max-width: 1000px;
-    margin: 0 auto;
+    margin:  auto;
     padding: 2rem 0;
 }
 
 .timeline-line {
     position: absolute;
     left: 50%;
-    top: 0;
+    top: -110px;
     bottom: 0;
     width: 4px;
     background: linear-gradient(180deg, 
@@ -102,7 +102,7 @@
 /* Timeline Items */
 .timeline-item {
     position: relative;
-    margin-bottom: 3rem;
+    margin-top: -9rem;
     display: flex;
     align-items: center;
     opacity: 0;
