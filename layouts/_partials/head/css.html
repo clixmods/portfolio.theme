@@ -55,6 +55,19 @@
   {{- end }}
 {{- end }}
 
+{{/* Project Wheel Styles */}}
+{{- with resources.Get "scss/project-wheel.scss" }}
+  {{- with . | toCSS | minify }}
+    {{- if hugo.IsDevelopment }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- else }}
+      {{- with . | fingerprint }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{- with resources.Get "css/info-sections.css" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
