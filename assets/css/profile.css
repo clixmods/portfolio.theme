@@ -1,5 +1,5 @@
 /**
- * PROFILE SECTION STYLES
+ * PROFILE SECTION STYLES - HERO LAYOUT
  * 
  * This file contains all styles related to the profile section of the portfolio website.
  * It includes styles for the profile image, personal information, and responsive design
@@ -14,49 +14,58 @@
    ========================================================================== */
 
 /**
- * Profile Section Container
+ * Profile Section Container - Hero Layout
  * 
- * Main container for the profile section that holds both the profile image
- * and the profile information side by side on desktop layouts.
+ * Fullscreen hero section with centered content
  */
 .profile-section { 
-    display: flex; 
-    gap: 2rem; 
-    align-items: flex-start; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     width: 100%;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
 }
 
 /**
- * Profile Left Column
+ * Profile Left Column - Moved to Top in Hero Layout
  * 
- * Container for the profile image and any additional elements
- * positioned on the left side of the profile section.
+ * Container for the profile image and download button
  */
 .profile-left {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
+    margin-bottom: 3rem;
 }
 
 /**
- * Profile Image
+ * Profile Image - Hero Style
  * 
- * Styled profile picture with rounded corners, border, and shadow effects.
- * Features:
- * - Fixed dimensions for consistent layout
- * - Cyan border matching the theme color
- * - Subtle glow effect with box-shadow
- * - Object-fit: cover to maintain aspect ratio
+ * Larger profile picture for hero section with enhanced effects
  */
 .profile-image { 
-    width: 250px; 
-    min-width: 250px;
-    height: 320px; 
-    border-radius: 12px; 
+    width: 300px; 
+    min-width: 300px;
+    height: 300px; 
+    border-radius: 50%; 
     object-fit: cover; 
-    border: 3px solid #4fd1c7;
-    box-shadow: 0 8px 32px rgba(79, 209, 199, 0.3);
+    border: 4px solid #4fd1c7;
+    box-shadow: 
+        0 20px 60px rgba(79, 209, 199, 0.4),
+        0 0 100px rgba(79, 209, 199, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 25px 80px rgba(79, 209, 199, 0.5),
+        0 0 120px rgba(79, 209, 199, 0.3);
 }
 
 /* ==========================================================================
@@ -64,183 +73,233 @@
    ========================================================================== */
 
 /**
- * Profile Information Container
+ * Profile Information Container - Hero Style
  * 
- * Container for all text-based profile information including name,
- * title, and biography. Uses flex: 1 to take remaining space.
+ * Centered content for hero layout
  */
 .profile-info { 
-    flex: 1;
-    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 800px;
     color: rgba(255, 255, 255, 0.9);
 }
 
 /**
- * Greeting Text
+ * Greeting Text - Hero Style
  * 
- * Initial greeting message with bright, welcoming color.
+ * Enhanced greeting with animation effect
  */
 .profile-info .greeting {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    color: #4fd1c7;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease 0.5s forwards;
 }
 
 /**
- * Profile Main Heading
+ * Profile Main Heading - Hero Style
  * 
- * Large heading containing the person's name and any additional text.
- * Optimized for readability with proper line-height.
+ * Large dramatic heading for hero section
  */
 .profile-info h1 { 
-    font-size: 2.2rem; 
-    margin-bottom: 1rem; 
-    line-height: 1.2;
+    font-size: 4rem; 
+    margin-bottom: 1.5rem; 
+    line-height: 1.1;
     color: rgba(255, 255, 255, 0.95);
+    font-weight: 700;
+    opacity: 0;
+    animation: fadeInUp 1s ease 0.7s forwards;
+}
+
+.profile-info h1 .name {
+    background: linear-gradient(135deg, #4fd1c7, #7be3db);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /**
- * Name Highlight
+ * Professional Title - Hero Style
  * 
- * Special styling for the name portion within the main heading.
- * Uses the theme's primary color (cyan) for emphasis.
- */
-.profile-info h1 .name { 
-    color: #4fd1c7; 
-}
-
-/**
- * Professional Title
- * 
- * Subtitle displaying the person's professional role or title.
- * Uses bright color for better visibility on dark background.
+ * Enhanced subtitle for hero layout
  */
 .profile-info .title { 
     color: rgba(255, 255, 255, 0.85); 
-    margin-bottom: 1.5rem; 
-    font-size: 1.1rem;
+    margin-bottom: 2rem; 
+    font-size: 1.8rem;
     line-height: 1.4;
     font-weight: 500;
+    opacity: 0;
+    animation: fadeInUp 1s ease 0.9s forwards;
 }
 
 /**
- * Biography Text
+ * Biography Text - Hero Style
  * 
- * Main descriptive text about the person. Optimized for readability
- * with proper line-height and color contrast.
+ * Enhanced bio text for hero layout
  */
 .profile-info .bio { 
-    line-height: 1.6; 
-    margin-bottom: 2rem; 
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1rem;
+    line-height: 1.7; 
+    margin-bottom: 3rem; 
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.2rem;
+    max-width: 600px;
+    opacity: 0;
+    animation: fadeInUp 1s ease 1.1s forwards;
 }
 
 /* ==========================================================================
-   RESPONSIVE DESIGN
+   ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN - Hero Layout
    ========================================================================== */
 
 /**
- * Tablet Layout (1024px and below)
- * 
- * Adjustments for medium-sized screens:
- * - Stack profile elements vertically
- * - Reduce image size
- * - Center-align profile image
+ * Laptop Layout (1024px and below)
  */
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: 1024px) {
+    .profile-info h1 {
+        font-size: 3.5rem;
+    }
+    
+    .profile-info .title {
+        font-size: 1.6rem;
+    }
+    
+    .profile-image {
+        width: 250px;
+        min-width: 250px;
+        height: 250px;
+    }
+}
+
+/**
+ * Tablet Layout (768px and below)
+ */
+@media (max-width: 768px) {
     .profile-section {
-        flex-direction: column;
-        gap: 1.5rem;
+        padding: 1rem;
+        min-height: 100vh;
+    }
+    
+    .profile-left {
+        margin-bottom: 2rem;
     }
     
     .profile-image {
         width: 200px;
         min-width: 200px;
-        height: 250px;
-        align-self: center;
-    }
-}
-
-/**
- * Mobile Layout (768px and below)
- * 
- * Mobile-first responsive design:
- * - Full-width layout
- * - Center-aligned content
- * - Reduced font sizes for better mobile experience
- */
-@media (max-width: 768px) {
-    .profile-section {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-    }
-    
-    .profile-left {
-        align-items: center;
-        width: 100%;
+        height: 200px;
     }
     
     .profile-info h1 {
-        font-size: 1.8rem;
+        font-size: 2.5rem;
+    }
+    
+    .profile-info .title {
+        font-size: 1.3rem;
+    }
+    
+    .profile-info .bio {
+        font-size: 1.1rem;
     }
 }
 
 /**
  * Small Mobile Layout (480px and below)
- * 
- * Optimizations for very small screens:
- * - Further reduced image size
- * - Smaller typography
- * - Compact spacing
  */
 @media (max-width: 480px) {
+    .profile-section {
+        padding: 0.5rem;
+    }
+    
     .profile-image {
-        width: 150px;
-        min-width: 150px;
-        height: 190px;
+        width: 180px;
+        min-width: 180px;
+        height: 180px;
     }
     
     .profile-info h1 {
-        font-size: 1.5rem;
+        font-size: 2rem;
+    }
+    
+    .profile-info .title {
+        font-size: 1.1rem;
+    }
+    
+    .profile-info .bio {
+        font-size: 1rem;
+    }
+    
+    .profile-info .greeting {
+        font-size: 1.2rem;
     }
 }
 
 /* ==========================================================================
-   UTILITY CLASSES
+   DOWNLOAD BUTTON STYLES
    ========================================================================== */
 
 /**
- * Profile Image Variants
- * 
- * Additional utility classes for different profile image styles
- * that can be applied as needed.
+ * Download Resume Button Container
  */
-.profile-image--rounded {
-    border-radius: 50%;
-}
-
-.profile-image--square {
-    border-radius: 8px;
-}
-
-.profile-image--no-border {
-    border: none;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+.download-resume-container {
+    opacity: 0;
+    animation: fadeInUp 1s ease 1.3s forwards;
 }
 
 /**
- * Profile Info Variants
- * 
- * Additional layout options for profile information section.
+ * Download Resume Button
  */
-.profile-info--centered {
-    text-align: center;
+.download-resume-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #4fd1c7, #7be3db);
+    color: #0a0a0a;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(79, 209, 199, 0.3);
 }
 
-.profile-info--compact {
-    gap: 1rem;
+.download-resume-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(79, 209, 199, 0.4);
+    color: #0a0a0a;
+    text-decoration: none;
+}
+
+.download-resume-btn .btn-icon {
+    font-size: 1.2rem;
+}
+
+.download-resume-btn .btn-arrow {
+    transition: transform 0.3s ease;
+}
+
+.download-resume-btn:hover .btn-arrow {
+    transform: translateY(2px);
 }
 
 .profile-info--compact .title {
