@@ -1,24 +1,75 @@
 <section id="profil" class="profile-section">
     {{ with .Site.Data.profile }}
-    <div class="profile-left">
-        <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="profile-image">
+    <div class="profile-content">
+        <div class="profile-left">
+            <div class="profile-info">
+                <p class="greeting">Bonjour !</p>
+                <h1>Je suis <span class="name">Clément GARCIA</span></h1>
+                <p class="title">Développeur, spécialisé dans <span class="specialty">le jeu vidéo</span>.</p>
+                <p class="cta">Collaborons pour donner vie à vos idées les plus ambitieuses</p>
+                
+                <!-- Social links and download resume together on left -->
+                <div class="social-links">
+                    <a href="https://discord.gg/yourserver" target="_blank" class="social-link" title="Discord">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/clixmods" target="_blank" class="social-link" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/clixmods" target="_blank" class="social-link" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                
+                <div class="download-resume-container">
+                    <a href="{{ .media.resumeFile }}" download="{{ .media.resumeFilename }}" class="download-resume-btn">
+                        <span class="btn-icon">📄</span>
+                        <span class="btn-text">{{ i18n "download_resume" | default "Download Resume" }}</span>
+                        <span class="btn-arrow">⬇</span>
+                    </a>
+                </div>
+            </div>
+        </div>
         
-        <div class="download-resume-container">
-            <a href="{{ .media.resumeFile }}" download="{{ .media.resumeFilename }}" class="download-resume-btn">
-                <span class="btn-icon">📄</span>
-                <span class="btn-text">{{ i18n "download_resume" | default "Download Resume" }}</span>
-                <span class="btn-arrow">⬇</span>
-            </a>
+        <div class="profile-right">
+            <div class="avatar-container">
+                <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="profile-image">
+                
+                <!-- Floating project tiles around avatar -->
+                <div class="floating-projects">
+                    <div class="floating-tile" data-project="unity">🎮</div>
+                    <div class="floating-tile" data-project="web">💻</div>
+                    <div class="floating-tile" data-project="mobile">📱</div>
+                    <div class="floating-tile" data-project="design">🎨</div>
+                    <div class="floating-tile" data-project="code">⚡</div>
+                    <div class="floating-tile" data-project="team">👥</div>
+                    <div class="floating-tile" data-project="innovation">🚀</div>
+                    <div class="floating-tile" data-project="quality">⭐</div>
+                </div>
+            </div>
         </div>
     </div>
     
-    <div class="profile-info">
-        <p class="greeting">{{ .personal.greeting }}</p>
-        <h1>{{ i18n "i_am" | default "Je suis" }} <span class="name">{{ .personal.fullName }}</span></h1>
-        <p class="title">{{ .personal.title }}<br>{{ .personal.subtitle }}</p>
-        
-        <p class="bio">{{ .personal.bio }}</p>
-        
+    <!-- Full-width statistics bar at bottom -->
+    <div class="profile-stats">
+        <div class="stat-item">
+            <div class="stat-number">2.5+</div>
+            <div class="stat-label">Années<br>d'expérience</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Projets<br>complétés</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Clients<br>satisfaits</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Designs<br>UI/UX</div>
+        </div>
     </div>
     {{ end }}
+</section>
+</section>
 </section>

@@ -16,31 +16,75 @@
 /**
  * Profile Section Container - Hero Layout
  * 
- * Fullscreen hero section with centered content
+ * Fullscreen hero section with split layout taking full width
  */
 .profile-section { 
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
-    width: 100%;
-    text-align: center;
-    padding: 2rem;
+    width: 100vw;
+    padding: 0;
     position: relative;
+    margin-left: calc(-50vw + 50%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
 }
 
 /**
- * Profile Left Column - Moved to Top in Hero Layout
+ * Profile Content Container
  * 
- * Container for the profile image and download button
+ * Container for the main split layout content
+ */
+.profile-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    padding: 2rem 8%;
+    gap: 6rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/**
+ * Profile Left Column - Text Content
+ * 
+ * Container for the text content on the left side
  */
 .profile-left {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    flex: 1;
+    order: 1;
+}
+
+/**
+ * Profile Right Column - Image and Button
+ * 
+ * Container for the profile image and download button on the right side
+ */
+.profile-right {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 2rem;
-    margin-bottom: 3rem;
+    flex: 1;
+    order: 2;
+}
+
+/**
+ * Avatar Container
+ * 
+ * Container for the avatar and floating project tiles
+ */
+.avatar-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /**
@@ -59,6 +103,8 @@
         0 20px 60px rgba(79, 209, 199, 0.4),
         0 0 100px rgba(79, 209, 199, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 2;
 }
 
 .profile-image:hover {
@@ -68,6 +114,156 @@
         0 0 120px rgba(79, 209, 199, 0.3);
 }
 
+/**
+ * Floating Projects Around Avatar
+ * 
+ * Animated project tiles that orbit around the profile image
+ */
+.floating-projects {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-tile {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: rgba(79, 209, 199, 0.1);
+    border: 2px solid rgba(79, 209, 199, 0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    backdrop-filter: blur(10px);
+    animation: float 6s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.floating-tile:nth-child(1) { 
+    top: 0%; 
+    left: 50%; 
+    transform: translateX(-50%);
+    animation-delay: 0s;
+}
+
+.floating-tile:nth-child(2) { 
+    top: 15%; 
+    right: 15%; 
+    animation-delay: 0.75s;
+}
+
+.floating-tile:nth-child(3) { 
+    top: 50%; 
+    right: 0%; 
+    transform: translateY(-50%);
+    animation-delay: 1.5s;
+}
+
+.floating-tile:nth-child(4) { 
+    bottom: 15%; 
+    right: 15%; 
+    animation-delay: 2.25s;
+}
+
+.floating-tile:nth-child(5) { 
+    bottom: 0%; 
+    left: 50%; 
+    transform: translateX(-50%);
+    animation-delay: 3s;
+}
+
+.floating-tile:nth-child(6) { 
+    bottom: 15%; 
+    left: 15%; 
+    animation-delay: 3.75s;
+}
+
+.floating-tile:nth-child(7) { 
+    top: 50%; 
+    left: 0%; 
+    transform: translateY(-50%);
+    animation-delay: 4.5s;
+}
+
+.floating-tile:nth-child(8) { 
+    top: 15%; 
+    left: 15%; 
+    animation-delay: 5.25s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.7;
+    }
+    25% {
+        transform: translateY(-10px) rotate(90deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-5px) rotate(180deg);
+        opacity: 0.8;
+    }
+    75% {
+        transform: translateY(-15px) rotate(270deg);
+        opacity: 1;
+    }
+}
+
+/**
+ * Social Links Container
+ * 
+ * Container for social media buttons in the left column with the text
+ */
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease 1.5s forwards;
+    justify-content: flex-start;
+}
+
+/**
+ * Social Link Button
+ * 
+ * Individual social media button styling
+ */
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(79, 209, 199, 0.1);
+    border: 2px solid rgba(79, 209, 199, 0.3);
+    color: #4fd1c7;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.social-link:hover {
+    background: rgba(79, 209, 199, 0.2);
+    border-color: #4fd1c7;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(79, 209, 199, 0.3);
+    color: #7be3db;
+}
+
+.social-link:active {
+    transform: translateY(-1px);
+}
+
 /* ==========================================================================
    PROFILE INFORMATION
    ========================================================================== */
@@ -75,14 +271,15 @@
 /**
  * Profile Information Container - Hero Style
  * 
- * Centered content for hero layout
+ * Left-aligned content for split layout
  */
 .profile-info { 
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    max-width: 800px;
+    align-items: flex-start;
+    text-align: left;
+    max-width: 600px;
+    width: 100%;
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -93,7 +290,7 @@
  */
 .profile-info .greeting {
     color: #4fd1c7;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 500;
     margin-bottom: 1rem;
     opacity: 0;
@@ -106,9 +303,9 @@
  * Large dramatic heading for hero section
  */
 .profile-info h1 { 
-    font-size: 4rem; 
-    margin-bottom: 1.5rem; 
-    line-height: 1.1;
+    font-size: 3.8rem; 
+    margin-bottom: 1.2rem; 
+    line-height: 1.2;
     color: rgba(255, 255, 255, 0.95);
     font-weight: 700;
     opacity: 0;
@@ -123,18 +320,51 @@
 }
 
 /**
- * Professional Title - Hero Style
+ * Professional Title - Hero Style with Animated Gradient
  * 
- * Enhanced subtitle for hero layout
+ * Enhanced subtitle with animated gradient effect
  */
 .profile-info .title { 
-    color: rgba(255, 255, 255, 0.85); 
-    margin-bottom: 2rem; 
+    margin-bottom: 1.5rem; 
     font-size: 1.8rem;
     line-height: 1.4;
-    font-weight: 500;
+    font-weight: 600;
     opacity: 0;
     animation: fadeInUp 1s ease 0.9s forwards;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.profile-info .title .specialty {
+    background: linear-gradient(45deg, #4fd1c7, #7be3db, #4fd1c7, #7be3db);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/**
+ * Call to Action Text
+ * 
+ * Motivational closing text
+ */
+.profile-info .cta {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeInUp 1s ease 1.1s forwards;
+    line-height: 1.5;
 }
 
 /**
@@ -175,6 +405,11 @@
  * Laptop Layout (1024px and below)
  */
 @media (max-width: 1024px) {
+    .profile-section {
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+    
     .profile-info h1 {
         font-size: 3.5rem;
     }
@@ -195,12 +430,28 @@
  */
 @media (max-width: 768px) {
     .profile-section {
+        padding: 0;
+    }
+    
+    .profile-content {
+        flex-direction: column;
+        text-align: center;
         padding: 1rem;
-        min-height: 100vh;
+        gap: 2rem;
     }
     
     .profile-left {
-        margin-bottom: 2rem;
+        order: 2;
+        align-items: center;
+    }
+    
+    .profile-right {
+        order: 1;
+    }
+    
+    .profile-info {
+        align-items: center;
+        text-align: center;
     }
     
     .profile-image {
@@ -220,14 +471,43 @@
     .profile-info .bio {
         font-size: 1.1rem;
     }
+    
+    /* Floating projects responsive - hide on tablet */
+    .floating-projects {
+        display: none;
+    }
+    
+    /* Social links responsive */
+    .social-links {
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    
+    /* Profile stats responsive */
+    .profile-stats {
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
 }
 
 /**
  * Small Mobile Layout (480px and below)
  */
 @media (max-width: 480px) {
-    .profile-section {
+    .profile-content {
         padding: 0.5rem;
+        gap: 1.5rem;
     }
     
     .profile-image {
@@ -251,6 +531,36 @@
     .profile-info .greeting {
         font-size: 1.2rem;
     }
+    
+    /* Social links smaller on mobile */
+    .social-links {
+        gap: 0.8rem;
+    }
+    
+    .social-links a {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    /* Profile stats mobile layout */
+    .profile-stats {
+        gap: 1rem;
+        padding: 0.8rem;
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        min-width: 80px;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+    }
 }
 
 /* ==========================================================================
@@ -263,6 +573,8 @@
 .download-resume-container {
     opacity: 0;
     animation: fadeInUp 1s ease 1.3s forwards;
+    margin-top: 1rem;
+    align-self: flex-start;
 }
 
 /**
@@ -300,6 +612,76 @@
 
 .download-resume-btn:hover .btn-arrow {
     transform: translateY(2px);
+}
+
+/* ==========================================================================
+   STATISTICS SECTION
+   ========================================================================== */
+
+/**
+ * Statistics Container - Full Width Bottom Bar
+ */
+.profile-stats {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.02) 0%, 
+        rgba(79, 209, 199, 0.05) 50%, 
+        rgba(79, 209, 199, 0.1) 100%);
+    border-top: 1px solid rgba(79, 209, 199, 0.2);
+    backdrop-filter: blur(20px);
+    opacity: 0;
+    animation: fadeInUp 1s ease 1.5s forwards;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #4fd1c7, #7be3db);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+    .profile-stats {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .stat-item {
+        align-items: center;
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
 }
 
 .profile-info--compact .title {
