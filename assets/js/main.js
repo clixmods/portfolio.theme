@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Tab switching functionality
     const tabBtns = document.querySelectorAll('.tab-btn');
-    const projectCards = document.querySelectorAll('.project-card');
+    const projectCards = document.querySelectorAll('.ps5-project-tile');
     const sectionDescription = document.getElementById('section-description');
     
     const descriptions = {
@@ -149,17 +149,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show/hide cards based on category
             projectCards.forEach(card => {
                 if (card.getAttribute('data-category') === category) {
-                    card.style.display = 'block';
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 50);
+                    card.style.display = 'flex';
+                    card.classList.remove('hiding');
+                    card.classList.add('showing');
                 } else {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
+                    card.classList.remove('showing');
+                    card.classList.add('hiding');
                     setTimeout(() => {
-                        card.style.display = 'none';
-                    }, 300);
+                        if (card.classList.contains('hiding')) {
+                            card.style.display = 'none';
+                        }
+                    }, 400);
                 }
             });
             
@@ -189,17 +189,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const cardTechnologies = card.getAttribute('data-technologies');
                 
                 if (tech === 'all' || (cardTechnologies && cardTechnologies.includes(tech))) {
-                    card.style.display = 'block';
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 50);
+                    card.style.display = 'flex';
+                    card.classList.remove('hiding');
+                    card.classList.add('showing');
                 } else {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
+                    card.classList.remove('showing');
+                    card.classList.add('hiding');
                     setTimeout(() => {
-                        card.style.display = 'none';
-                    }, 300);
+                        if (card.classList.contains('hiding')) {
+                            card.style.display = 'none';
+                        }
+                    }, 400);
                 }
             });
         });

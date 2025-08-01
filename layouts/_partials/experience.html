@@ -44,20 +44,152 @@
 
                 {{ if $exp.projects }}
                 <div class="projects-section">
-                    <h5>Projets principaux :</h5>
+                    <div class="projects-header">
+                        <h5>Projets principaux :</h5>
+                        <div class="layout-controls">
+                            <button class="layout-btn" data-layout="horizontal" title="Affichage grille">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M3,11H11V3H3M3,21H11V13H3M13,21H21V13H13M13,3V11H21V3"/>
+                                </svg>
+                            </button>
+                            <button class="layout-btn" data-layout="vertical" title="Affichage liste">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M3,5H21V3H3M3,13H21V11H3M3,21H21V19H3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    {{ $layout := $exp.projects_layout | default "horizontal" }}
+                    <div class="projects-container projects-container-{{ $layout }}" data-default-layout="{{ $layout }}">
                     {{ range $exp.projects }}
                     <div class="project-item">
-                        <h6 class="project-name">{{ .name }}</h6>
-                        <p class="project-desc">{{ .description }}</p>
-                        {{ if .tasks }}
-                        <ul class="project-tasks">
-                            {{ range .tasks }}
-                            <li>{{ . }}</li>
+                        <!-- Project tile icon -->
+                        <div class="project-tile-icon">🎯</div>
+                        
+                        {{/* Handle project references */}}
+                        {{ if .project_ref }}
+                            {{/* Get project data from content */}}
+                            {{ $projectPage := $.Site.GetPage (printf "/projects/%s" .project_ref) }}
+                            {{ if $projectPage }}
+                                <!-- Project image from referenced project -->
+                                <div class="project-tile-image">
+                                    {{ if $projectPage.Params.image }}
+                                        <img src="{{ $projectPage.Params.image }}" 
+                                             alt="{{ $projectPage.Title }}" 
+                                             onerror="this.src='/images/placeholder-project.jpg'">
+                                    {{ else }}
+                                        <img src="/images/placeholder-project.jpg" alt="{{ $projectPage.Title }}">
+                                    {{ end }}
+                                    <div class="project-tile-overlay"></div>
+                                </div>
+                                
+                                <!-- Default content (visible by default) -->
+                                <div class="project-tile-content">
+                                    <h6 class="project-name">{{ $projectPage.Title }}</h6>
+                                    <p class="project-desc">{{ $projectPage.Params.description | default $projectPage.Params.subtitle }}</p>
+                                </div>
+                                
+                                <!-- Detailed info (shown on hover) -->
+                                <div class="project-tile-info">
+                                    <div class="project-tile-info-content">
+                                        <h6 class="project-name">{{ $projectPage.Title }}</h6>
+                                        <p class="project-detailed-desc">
+                                            {{ if .role_description }}{{ .role_description }}{{ else }}{{ $projectPage.Params.description }}{{ end }}
+                                        </p>
+                                        
+                                        {{ if $projectPage.Params.technologies }}
+                                        <div class="project-tile-tech">
+                                            {{ range first 4 $projectPage.Params.technologies }}
+                                            <span class="project-tile-tech-item">{{ . }}</span>
+                                            {{ end }}
+                                            {{ if gt (len $projectPage.Params.technologies) 4 }}
+                                            <span class="project-tile-tech-item">+{{ sub (len $projectPage.Params.technologies) 4 }}</span>
+                                            {{ end }}
+                                        </div>
+                                        {{ end }}
+                                        
+                                        <!-- Project actions -->
+                                        <div class="project-tile-actions">
+                                            <a href="{{ $projectPage.RelPermalink }}" class="project-tile-btn">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
+                                                </svg>
+                                                Voir projet
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{ else }}
+                                <!-- Fallback if project not found -->
+                                <div class="project-tile-content">
+                                    <h6 class="project-name">{{ .project_ref }}</h6>
+                                    <p class="project-desc">Projet référencé non trouvé</p>
+                                </div>
                             {{ end }}
-                        </ul>
+                        {{ else }}
+                            {{/* Handle inline project definition */}}
+                            <!-- Project image (placeholder for inline projects) -->
+                            <div class="project-tile-image">
+                                <img src="/images/projects/{{ lower (.name | urlize) }}/thumbnail.jpg" 
+                                     alt="{{ .name }}" 
+                                     onerror="this.src='/images/placeholder-project.jpg'">
+                                <div class="project-tile-overlay"></div>
+                            </div>
+                            
+                            <!-- Default content (visible by default) -->
+                            <div class="project-tile-content">
+                                <h6 class="project-name">{{ .name }}</h6>
+                                <p class="project-desc">{{ .description }}</p>
+                            </div>
+                            
+                            <!-- Detailed info (shown on hover) -->
+                            <div class="project-tile-info">
+                                <div class="project-tile-info-content">
+                                    <h6 class="project-name">{{ .name }}</h6>
+                                    <p class="project-detailed-desc">
+                                        {{ if .role_description }}{{ .role_description }}{{ else }}{{ .description }}{{ end }}
+                                    </p>
+                                    
+                                    {{ if .tasks }}
+                                    <ul class="project-tasks">
+                                        {{ range .tasks }}
+                                        <li>{{ . }}</li>
+                                        {{ end }}
+                                    </ul>
+                                    {{ end }}
+                                    
+                                    {{ if .technologies }}
+                                    <div class="project-tile-tech">
+                                        {{ range .technologies }}
+                                        <span class="project-tile-tech-item">{{ . }}</span>
+                                        {{ end }}
+                                    </div>
+                                    {{ end }}
+                                    
+                                    <!-- Project actions -->
+                                    <div class="project-tile-actions">
+                                        {{ if .link }}
+                                        <a href="{{ .link }}" class="project-tile-btn" target="_blank">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
+                                            </svg>
+                                            Voir projet
+                                        </a>
+                                        {{ else }}
+                                        <span class="project-tile-btn" style="opacity: 0.6;">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.1V11.1C14.8,11.6 14.4,12 13.9,12H10.1C9.6,12 9.2,11.6 9.2,11.1V10.1C9.2,8.6 10.6,7 12,7Z"/>
+                                            </svg>
+                                            Confidentiel
+                                        </span>
+                                        {{ end }}
+                                    </div>
+                                </div>
+                            </div>
                         {{ end }}
                     </div>
                     {{ end }}
+                    </div>
                 </div>
                 {{ else if $exp.tasks }}
                 <div class="tasks-section">
