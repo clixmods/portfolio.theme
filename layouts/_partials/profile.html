@@ -34,34 +34,6 @@
         <div class="profile-right">
             <div class="avatar-container">
                 <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="profile-image">
-                
-                <!-- Floating project tiles around avatar -->
-                <div class="floating-projects">
-                    <a href="/projects/terra-memoria" class="floating-tile layer-front" data-project="terra-memoria" title="Terra Memoria - JRPG Commercial">
-                        <img src="/images/projects/terra-memoria/terra-memoria-logo.png" alt="Terra Memoria" />
-                    </a>
-                    <a href="/projects/my-game-showcase" class="floating-tile layer-middle" data-project="my-game-showcase" title="My Game Showcase - Plateforme Artbooks">
-                        <img src="/images/projects/my-game-showcase/My Game Showcase.webp" alt="My Game Showcase" />
-                    </a>
-                    <a href="/projects/nuketown-zombies" class="floating-tile layer-front" data-project="nuketown-zombies" title="Nuketown Zombies - Mod Black Ops 3">
-                        <img src="/images/projects/nuketown/nuketown-zombies.jpg" alt="Nuketown Zombies" />
-                    </a>
-                    <a href="/projects/unity-editor-tools" class="floating-tile layer-back" data-project="unity-tools" title="Unity Editor Tools - Outils de développement">
-                        <img src="/images/projects/unity-tools.jpg" alt="Unity Tools" />
-                    </a>
-                    <a href="/projects/witchable" class="floating-tile layer-middle" data-project="witchable" title="Witchable - Projet Unity">
-                        🧙‍♀️
-                    </a>
-                    <a href="/projects/stone-keepers" class="floating-tile layer-back" data-project="stone-keepers" title="Stone Keepers - Jeu d'aventure">
-                        �
-                    </a>
-                    <a href="/projects/galaxian" class="floating-tile layer-front" data-project="galaxian" title="Galaxian - Shoot'em up">
-                        🚀
-                    </a>
-                    <a href="/projects/portfolio-widget-system" class="floating-tile layer-middle" data-project="portfolio-widgets" title="Portfolio Widget System">
-                        ⚙️
-                    </a>
-                </div>
             </div>
         </div>
     </div>
@@ -85,106 +57,13 @@
             <div class="stat-label">Designs<br>UI/UX</div>
         </div>
     </div>
-    {{ end }}
+{{- end }}
 </section>
 
 <!-- Profile Interactive JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const profileSection = document.querySelector('.profile-section');
-    const floatingTiles = document.querySelectorAll('.floating-tile');
-    
-    // Project background images mapping
-    const projectBackgrounds = {
-        'terra-memoria': '/images/projects/terra-memoria/terra-memoria-background.jpg',
-        'my-game-showcase': '/images/projects/my-game-showcase/artbook.webp',
-        'nuketown-zombies': '/images/projects/nuketown/nuketown-zombies.jpg',
-        'unity-tools': '/images/projects/unity-tools.jpg'
-    };
-    
-    // Set initial orbital positions with depth and spacing for PS5-style tiles
-    function setOrbitalPositions() {
-        floatingTiles.forEach((tile, index) => {
-            const baseAngle = (index * (360 / floatingTiles.length)) * Math.PI / 180;
-            
-            // Much larger radius to space tiles far from avatar
-            let radius;
-            if (tile.classList.contains('layer-front')) {
-                radius = 280; // Increased from 210
-            } else if (tile.classList.contains('layer-middle')) {
-                radius = 240; // Increased from 170
-            } else {
-                radius = 200; // Increased from 130
-            }
-            
-            // Add slight angle offset for depth variation
-            const angleOffset = tile.classList.contains('layer-back') ? 0.3 : 
-                               tile.classList.contains('layer-middle') ? 0.15 : 0;
-            const angle = baseAngle + angleOffset;
-            
-            const x = Math.cos(angle) * radius;
-            const y = Math.sin(angle) * radius;
-            
-            // Adjusted for new tile dimensions (120x90)
-            tile.style.left = `calc(50% + ${x}px - 60px)`;
-            tile.style.top = `calc(50% + ${y}px - 45px)`;
-            tile.style.animationDelay = `${index * 0.4}s`;
-        });
-    }
-    
-    // Apply orbital positioning
-    setOrbitalPositions();
-    
-    // Add hover effects for floating tiles
-    floatingTiles.forEach(tile => {
-        const projectKey = tile.getAttribute('data-project');
-        
-        tile.addEventListener('mouseenter', function() {
-            // Background effects removed
-            
-            // Bring hovered tile to front and add special effects
-            tile.style.zIndex = '100';
-            tile.style.transform = tile.classList.contains('layer-front') ? 'translateY(-12px) scale(1.15)' :
-                                  tile.classList.contains('layer-middle') ? 'translateY(-10px) scale(1.2)' :
-                                  'translateY(-8px) scale(1.25)';
-            
-            // Dim other tiles based on their depth
-            floatingTiles.forEach(otherTile => {
-                if (otherTile !== tile) {
-                    if (otherTile.classList.contains('layer-back')) {
-                        otherTile.style.opacity = '0.3';
-                        otherTile.style.transform += ' scale(0.75)';
-                    } else if (otherTile.classList.contains('layer-middle')) {
-                        otherTile.style.opacity = '0.4';
-                        otherTile.style.transform += ' scale(0.8)';
-                    } else {
-                        otherTile.style.opacity = '0.5';
-                        otherTile.style.transform += ' scale(0.85)';
-                    }
-                }
-            });
-        });
-        
-        tile.addEventListener('mouseleave', function() {
-            // Background effects removed
-            
-            // Reset hovered tile z-index and transform
-            tile.style.zIndex = '';
-            tile.style.transform = '';
-            
-            // Reset other tiles
-            floatingTiles.forEach(otherTile => {
-                if (otherTile !== tile) {
-                    otherTile.style.opacity = '';
-                    otherTile.style.transform = otherTile.style.transform
-                        .replace(' scale(0.75)', '')
-                        .replace(' scale(0.8)', '')
-                        .replace(' scale(0.85)', '');
-                }
-            });
-        });
-    });
+    // Floating projects functionality removed
+    console.log('Profile section loaded without floating projects');
 });
 </script>
-</section>
-</section>
