@@ -34,42 +34,76 @@
         <!-- Games Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
         {{ if and .Params.featured (eq .Params.sector "games") }}
-        <div class="project-card" data-category="games" data-technologies='{{ delimit .Params.technologies "," }}'>
-            <div class="project-image">
+        <div class="ps5-project-tile" 
+             data-project-id="{{ .File.BaseFileName }}" 
+             data-background-image="{{ .Params.background_image | default .Params.image }}"
+             data-sector="games"
+             data-category="games" 
+             data-technologies='{{ delimit .Params.technologies "," }}'>
+            
+            <!-- Image principale de la tuile -->
+            <div class="ps5-tile-image">
                 <img src="{{ .Params.image | default "/images/placeholder-project.jpg" }}" alt="{{ .Title }}" onerror="this.src='/images/placeholder-project.jpg'">
-                <div class="project-overlay">
-                    <div class="project-tags">
-                        {{ range .Params.tags }}
-                        <span class="project-tag">{{ . }}</span>
+                <div class="ps5-tile-overlay"></div>
+            </div>
+            
+            <!-- Badge featured -->
+            {{ if .Params.featured }}
+            <div class="ps5-tile-badge">★</div>
+            {{ end }}
+            
+            <!-- Icône secteur -->
+            <div class="ps5-tile-sector-icon">🎮</div>
+            
+            <!-- Contenu de base -->
+            <div class="ps5-tile-content">
+                <h3 class="ps5-tile-title">{{ .Title }}</h3>
+                <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
+            </div>
+            
+            <!-- Informations détaillées au hover -->
+            <div class="ps5-tile-info">
+                <div class="ps5-tile-info-content">
+                    <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
+                    <p class="ps5-tile-info-subtitle">{{ .Params.subtitle }}</p>
+                    <p class="ps5-tile-description">{{ .Params.description }}</p>
+                    
+                    <!-- Technologies -->
+                    <div class="ps5-tile-tech">
+                        {{ $techCount := len .Params.technologies }}
+                        {{ range first 3 .Params.technologies }}
+                        {{ $techName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.technologies }}
+                        {{ if eq .name $techName }}
+                        <span class="ps5-tile-tech-item">{{ .icon }} {{ .name }}</span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="ps5-tile-tech-item">{{ $techName }}</span>
+                        {{ end }}
+                        {{ end }}
+                        {{ if gt $techCount 3 }}
+                        <span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>
                         {{ end }}
                     </div>
                 </div>
-            </div>
-            <div class="project-content">
-                <h3 class="project-title">
-                    <a href="{{ .Permalink }}" class="project-link">{{ .Title }}</a>
-                </h3>
-                <p class="project-subtitle">{{ .Params.subtitle }}</p>
-                <p class="project-description">{{ .Params.description }}</p>
-                <div class="project-technologies">
-                    {{ range .Params.technologies }}
-                    {{ $techName := . }}
-                    {{ $found := false }}
-                    {{ range $.Site.Data.technologies }}
-                    {{ if eq .name $techName }}
-                    <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
-                    {{ $found = true }}
-                    {{ end }}
-                    {{ end }}
-                    {{ if not $found }}
-                    <span class="tech-chip">{{ $techName }}</span>
-                    {{ end }}
-                    {{ end }}
-                </div>
-                <div class="project-actions">
-                    <a href="{{ .Permalink }}" class="btn-primary">Voir le projet</a>
+                
+                <!-- Meta informations -->
+                <div class="ps5-tile-meta">
+                    <span class="ps5-tile-date">{{ .Date.Format "2006" }}</span>
+                    <a href="{{ .Permalink }}" class="ps5-tile-btn">
+                        Voir le projet
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
+            
+            <!-- Lien principal invisible -->
+            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="Voir {{ .Title }}"></a>
         </div>
         {{ end }}
         {{ end }}
@@ -77,42 +111,77 @@
         <!-- Apps/Web Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
         {{ if and .Params.featured (eq .Params.sector "apps-web") }}
-        <div class="project-card" data-category="apps-web" data-technologies='{{ delimit .Params.technologies "," }}' style="display: none;">
-            <div class="project-image">
+        <div class="ps5-project-tile" 
+             data-project-id="{{ .File.BaseFileName }}" 
+             data-background-image="{{ .Params.background_image | default .Params.image }}"
+             data-sector="apps-web"
+             data-category="apps-web" 
+             data-technologies='{{ delimit .Params.technologies "," }}'
+             style="display: none;">
+            
+            <!-- Image principale de la tuile -->
+            <div class="ps5-tile-image">
                 <img src="{{ .Params.image | default "/images/placeholder-project.jpg" }}" alt="{{ .Title }}" onerror="this.src='/images/placeholder-project.jpg'">
-                <div class="project-overlay">
-                    <div class="project-tags">
-                        {{ range .Params.tags }}
-                        <span class="project-tag">{{ . }}</span>
+                <div class="ps5-tile-overlay"></div>
+            </div>
+            
+            <!-- Badge featured -->
+            {{ if .Params.featured }}
+            <div class="ps5-tile-badge">★</div>
+            {{ end }}
+            
+            <!-- Icône secteur -->
+            <div class="ps5-tile-sector-icon">🛒</div>
+            
+            <!-- Contenu de base -->
+            <div class="ps5-tile-content">
+                <h3 class="ps5-tile-title">{{ .Title }}</h3>
+                <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
+            </div>
+            
+            <!-- Informations détaillées au hover -->
+            <div class="ps5-tile-info">
+                <div class="ps5-tile-info-content">
+                    <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
+                    <p class="ps5-tile-info-subtitle">{{ .Params.subtitle }}</p>
+                    <p class="ps5-tile-description">{{ .Params.description }}</p>
+                    
+                    <!-- Technologies -->
+                    <div class="ps5-tile-tech">
+                        {{ $techCount := len .Params.technologies }}
+                        {{ range first 3 .Params.technologies }}
+                        {{ $techName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.technologies }}
+                        {{ if eq .name $techName }}
+                        <span class="ps5-tile-tech-item">{{ .icon }} {{ .name }}</span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="ps5-tile-tech-item">{{ $techName }}</span>
+                        {{ end }}
+                        {{ end }}
+                        {{ if gt $techCount 3 }}
+                        <span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>
                         {{ end }}
                     </div>
                 </div>
-            </div>
-            <div class="project-content">
-                <h3 class="project-title">
-                    <a href="{{ .Permalink }}" class="project-link">{{ .Title }}</a>
-                </h3>
-                <p class="project-subtitle">{{ .Params.subtitle }}</p>
-                <p class="project-description">{{ .Params.description }}</p>
-                <div class="project-technologies">
-                    {{ range .Params.technologies }}
-                    {{ $techName := . }}
-                    {{ $found := false }}
-                    {{ range $.Site.Data.technologies }}
-                    {{ if eq .name $techName }}
-                    <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
-                    {{ $found = true }}
-                    {{ end }}
-                    {{ end }}
-                    {{ if not $found }}
-                    <span class="tech-chip">{{ $techName }}</span>
-                    {{ end }}
-                    {{ end }}
-                </div>
-                <div class="project-actions">
-                    <a href="{{ .Permalink }}" class="btn-primary">Voir le projet</a>
+                
+                <!-- Meta informations -->
+                <div class="ps5-tile-meta">
+                    <span class="ps5-tile-date">{{ .Date.Format "2006" }}</span>
+                    <a href="{{ .Permalink }}" class="ps5-tile-btn">
+                        Voir le projet
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
+            
+            <!-- Lien principal invisible -->
+            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="Voir {{ .Title }}"></a>
         </div>
         {{ end }}
         {{ end }}
@@ -120,42 +189,77 @@
         <!-- Mods & Tools Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
         {{ if and .Params.featured (eq .Params.sector "mods-tools") }}
-        <div class="project-card" data-category="mods-tools" data-technologies='{{ delimit .Params.technologies "," }}' style="display: none;">
-            <div class="project-image">
+        <div class="ps5-project-tile" 
+             data-project-id="{{ .File.BaseFileName }}" 
+             data-background-image="{{ .Params.background_image | default .Params.image }}"
+             data-sector="mods-tools"
+             data-category="mods-tools" 
+             data-technologies='{{ delimit .Params.technologies "," }}'
+             style="display: none;">
+            
+            <!-- Image principale de la tuile -->
+            <div class="ps5-tile-image">
                 <img src="{{ .Params.image | default "/images/placeholder-project.jpg" }}" alt="{{ .Title }}" onerror="this.src='/images/placeholder-project.jpg'">
-                <div class="project-overlay">
-                    <div class="project-tags">
-                        {{ range .Params.tags }}
-                        <span class="project-tag">{{ . }}</span>
+                <div class="ps5-tile-overlay"></div>
+            </div>
+            
+            <!-- Badge featured -->
+            {{ if .Params.featured }}
+            <div class="ps5-tile-badge">★</div>
+            {{ end }}
+            
+            <!-- Icône secteur -->
+            <div class="ps5-tile-sector-icon">🔧</div>
+            
+            <!-- Contenu de base -->
+            <div class="ps5-tile-content">
+                <h3 class="ps5-tile-title">{{ .Title }}</h3>
+                <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
+            </div>
+            
+            <!-- Informations détaillées au hover -->
+            <div class="ps5-tile-info">
+                <div class="ps5-tile-info-content">
+                    <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
+                    <p class="ps5-tile-info-subtitle">{{ .Params.subtitle }}</p>
+                    <p class="ps5-tile-description">{{ .Params.description }}</p>
+                    
+                    <!-- Technologies -->
+                    <div class="ps5-tile-tech">
+                        {{ $techCount := len .Params.technologies }}
+                        {{ range first 3 .Params.technologies }}
+                        {{ $techName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.technologies }}
+                        {{ if eq .name $techName }}
+                        <span class="ps5-tile-tech-item">{{ .icon }} {{ .name }}</span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="ps5-tile-tech-item">{{ $techName }}</span>
+                        {{ end }}
+                        {{ end }}
+                        {{ if gt $techCount 3 }}
+                        <span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>
                         {{ end }}
                     </div>
                 </div>
-            </div>
-            <div class="project-content">
-                <h3 class="project-title">
-                    <a href="{{ .Permalink }}" class="project-link">{{ .Title }}</a>
-                </h3>
-                <p class="project-subtitle">{{ .Params.subtitle }}</p>
-                <p class="project-description">{{ .Params.description }}</p>
-                <div class="project-technologies">
-                    {{ range .Params.technologies }}
-                    {{ $techName := . }}
-                    {{ $found := false }}
-                    {{ range $.Site.Data.technologies }}
-                    {{ if eq .name $techName }}
-                    <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
-                    {{ $found = true }}
-                    {{ end }}
-                    {{ end }}
-                    {{ if not $found }}
-                    <span class="tech-chip">{{ $techName }}</span>
-                    {{ end }}
-                    {{ end }}
-                </div>
-                <div class="project-actions">
-                    <a href="{{ .Permalink }}" class="btn-primary">Voir le projet</a>
+                
+                <!-- Meta informations -->
+                <div class="ps5-tile-meta">
+                    <span class="ps5-tile-date">{{ .Date.Format "2006" }}</span>
+                    <a href="{{ .Permalink }}" class="ps5-tile-btn">
+                        Voir le projet
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
+            
+            <!-- Lien principal invisible -->
+            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="Voir {{ .Title }}"></a>
         </div>
         {{ end }}
         {{ end }}
