@@ -1,4 +1,7 @@
 {{ define "main" }}
+<!-- Profile section outside of main container for full width -->
+{{ partial "profile.html" . }}
+
 <div class="container">
     <!-- Progress bar pour indiquer le défilement -->
     <div class="scroll-progress">
@@ -6,7 +9,6 @@
     </div>
     
     <main class="main-content">
-        {{ partial "profile.html" . }}
         {{ partial "skills.html" . }}
         {{ partial "blog.html" . }}
         
