@@ -2,393 +2,204 @@
    HERO BACKGROUND - DEEP SPACE AESTHETIC
    ======================================== */
 
-/* Variables de personnalisation */
 :root {
   /* Palette deep space */
+  --timescale: .25;
   --bg-top: #001a46;
   --bg-middle: #0f328c;
   --bg-bottom: #142f6b;
   
-  /* Rubans lumineux multiples - Animations professionnelles */
-  --ribbon-color-bright: rgba(135, 179, 255, 0.15);       /* #87b3ff avec 15% opacité */
-  --ribbon-color-center: rgba(255, 255, 255, 0.12);       /* Presque blanc au centre */
-  --ribbon-color-dim: rgba(135, 179, 255, 0.08);          /* #87b3ff avec 8% opacité */
-  --ribbon-glow: rgba(135, 179, 255, 0.25);               /* Halo lumineux visible */
-  --ribbon-wave-amplitude: 15px;                          /* Oscillation visible ±15px */
-  --ribbon-drift-amplitude: 30px;                         /* Dérive horizontale ±30px */
-  --ribbon-cycle-duration: 12s;                           /* Cycle plus long pour fluidité */
-  --ribbon-secondary-duration: 18s;                       /* Cycle différent pour second ruban */
-  --ribbon-tertiary-duration: 15s;                        /* Cycle pour troisième ruban */
-  
-  /* Nouveaux timings pour vagues ondulantes */
-  --ribbon-wave-primary: 5.5s;                            /* Vague principale - rapide et fluide */
-  --ribbon-wave-secondary: 7.8s;                          /* Vague secondaire - rythme différent */
-  --ribbon-wave-tertiary: 9.2s;                           /* Vague tertiaire - le plus lent */
-  
-  /* Particules scintillantes */
-  --particle-color-white: rgba(255, 255, 255, 0.8);      /* Blanc pur */
-  --particle-color-blue: rgba(220, 233, 255, 0.6);       /* Bleu très pâle #dce9ff */
-  --particle-size-min: 1px;
-  --particle-size-max: 13px;
+  /* Particules */
+  --particle-size: 4px;
   --particle-glow: 2px;
   --sparkle-duration: 2s;
-  --drift-amplitude: 10px;                                /* Dérive calme ±10px */
-  --particle-float-base: 12s;                            /* Mouvement très lent */
-  --particle-drift-base: 18s;
+  --drift-duration: 18s;
+  
+  /* Animations vagues */
+  --wave-translate-start: -1440px;
+  --wave-translate-end: 0px;
 }
 
-/* Container principal du fond héroïque */
+/* ===== LAYOUT COMPONENTS ===== */
+
 .hero-background {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   z-index: -10;
   overflow: hidden;
   pointer-events: none;
-}
-
-/* Dégradé deep space vertical */
-.hero-background::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    var(--bg-top) 0%,           /* Haut : midnight-blue */
-    var(--bg-middle) 60%,       /* Milieu : indigo-royal */
-    var(--bg-bottom) 100%       /* Bas : bleu nuit atténué */
-  );
-  z-index: -3;
-}
-
-/* Système de rubans multiples avec animations professionnelles */
-.ribbon-wave {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/* SVG des rubans avec z-index en cascade */
-.ribbon-primary {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-}
-
-.ribbon-secondary {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
-
-.ribbon-tertiary {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-/* Animations spécifiques pour chaque ruban avec effet de vague */
-.ribbon-primary-path {
-  animation: 
-    ribbonFlowPrimary var(--ribbon-cycle-duration) ease-in-out infinite,
-    ribbonWave var(--ribbon-wave-primary) ease-in-out infinite,
-    ribbonPulse 8s ease-in-out infinite;
-  transform-origin: center;
-}
-
-.ribbon-secondary-path {
-  animation: 
-    ribbonFlowSecondary var(--ribbon-secondary-duration) ease-in-out infinite,
-    ribbonWaveSecondary var(--ribbon-wave-secondary) ease-in-out infinite,
-    ribbonFloat 20s ease-in-out infinite;
-  transform-origin: center;
-  animation-delay: -6s, -2s, 0s; /* Décalages différents pour chaque animation */
-}
-
-.ribbon-tertiary-path {
-  animation: 
-    ribbonFlowTertiary var(--ribbon-tertiary-duration) ease-in-out infinite,
-    ribbonWaveTertiary var(--ribbon-wave-tertiary) ease-in-out infinite;
-  transform-origin: center;
-  animation-delay: -3s, -4s; /* Autres décalages */
-}
-
-/* Calque de glow avec effets séparés pour chaque ruban */
-.ribbon-wave-glow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.ribbon-wave-glow svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.glow-primary {
-  fill: var(--ribbon-glow);
-  filter: blur(16px);
-  animation: 
-    ribbonFlowPrimary var(--ribbon-cycle-duration) ease-in-out infinite,
-    ribbonWave 6s ease-in-out infinite;
-  transform-origin: center;
-  opacity: 0.8;
-}
-
-.glow-secondary {
-  fill: rgba(135, 179, 255, 0.15);
-  filter: blur(20px);
-  animation: 
-    ribbonFlowSecondary var(--ribbon-secondary-duration) ease-in-out infinite,
-    ribbonWaveSecondary 8s ease-in-out infinite;
-  animation-delay: -6s, -2s;
-  transform-origin: center;
-  opacity: 0.5;
-}
-
-/* Animations professionnelles pour rubans multiples */
-
-/* Animation principale - mouvement fluide et visible */
-@keyframes ribbonFlowPrimary {
-  0% {
-    transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
-  }
-  25% {
-    transform: translateX(15px) translateY(-8px) rotate(0.5deg) scale(1.02);
-  }
-  50% {
-    transform: translateX(var(--ribbon-drift-amplitude)) translateY(var(--ribbon-wave-amplitude)) rotate(1deg) scale(1.05);
-  }
-  75% {
-    transform: translateX(10px) translateY(-5px) rotate(0.3deg) scale(1.02);
-  }
-  100% {
-    transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-middle) 60%, var(--bg-bottom) 100%);
+    z-index: -3;
   }
 }
 
-/* Animation secondaire - mouvement opposé et plus lent */
-@keyframes ribbonFlowSecondary {
-  0% {
-    transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
-  }
-  25% {
-    transform: translateX(-10px) translateY(12px) rotate(-0.3deg) scale(0.98);
-  }
-  50% {
-    transform: translateX(-20px) translateY(8px) rotate(-0.6deg) scale(0.95);
-  }
-  75% {
-    transform: translateX(-5px) translateY(-10px) rotate(-0.2deg) scale(0.98);
-  }
-  100% {
-    transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
-  }
-}
-
-/* Animation tertiaire - mouvement subtil et différent */
-@keyframes ribbonFlowTertiary {
-  0% {
-    transform: translateX(0px) translateY(0px) skewX(0deg);
-  }
-  33% {
-    transform: translateX(8px) translateY(-6px) skewX(0.5deg);
-  }
-  66% {
-    transform: translateX(-12px) translateY(4px) skewX(-0.3deg);
-  }
-  100% {
-    transform: translateX(0px) translateY(0px) skewX(0deg);
-  }
-}
-
-/* Animation de pulsation pour effet vivant */
-@keyframes ribbonPulse {
-  0%, 100% {
-    opacity: 1;
-    filter: brightness(1) saturate(1);
-  }
-  50% {
-    opacity: 0.9;
-    filter: brightness(1.1) saturate(1.2);
-  }
-}
-
-/* Animation de flottement doux */
-@keyframes ribbonFloat {
-  0%, 100% {
-    transform: translateY(0px) scaleY(1);
-  }
-  50% {
-    transform: translateY(-3px) scaleY(1.02);
-  }
-}
-
-/* Animations de vagues ondulantes pour effet fluide */
-
-/* Vague principale - ondulation rythmée avec points d'origine alternés */
-@keyframes ribbonWave {
-  0% {
-    transform: scaleX(1) scaleY(1) skewY(0deg) translateY(0px);
-    transform-origin: 0% 50%;
-  }
-  20% {
-    transform: scaleX(1.03) scaleY(0.97) skewY(0.4deg) translateY(-2px);
-    transform-origin: 30% 60%;
-  }
-  40% {
-    transform: scaleX(0.96) scaleY(1.06) skewY(-0.6deg) translateY(4px);
-    transform-origin: 70% 40%;
-  }
-  60% {
-    transform: scaleX(1.02) scaleY(0.94) skewY(0.3deg) translateY(-1px);
-    transform-origin: 90% 50%;
-  }
-  80% {
-    transform: scaleX(0.98) scaleY(1.04) skewY(-0.2deg) translateY(3px);
-    transform-origin: 60% 30%;
-  }
-  100% {
-    transform: scaleX(1) scaleY(1) skewY(0deg) translateY(0px);
-    transform-origin: 0% 50%;
-  }
-}
-
-/* Vague secondaire - ondulation plus douce avec décalage de phase */
-@keyframes ribbonWaveSecondary {
-  0% {
-    transform: scaleX(1) scaleY(1) skewX(0deg) rotateZ(0deg);
-    transform-origin: 100% 50%;
-  }
-  25% {
-    transform: scaleX(0.98) scaleY(1.04) skewX(-0.3deg) rotateZ(0.1deg);
-    transform-origin: 20% 40%;
-  }
-  50% {
-    transform: scaleX(1.02) scaleY(0.96) skewX(0.5deg) rotateZ(-0.15deg);
-    transform-origin: 80% 60%;
-  }
-  75% {
-    transform: scaleX(0.99) scaleY(1.03) skewX(-0.1deg) rotateZ(0.05deg);
-    transform-origin: 40% 30%;
-  }
-  100% {
-    transform: scaleX(1) scaleY(1) skewX(0deg) rotateZ(0deg);
-    transform-origin: 100% 50%;
-  }
-}
-
-/* Vague tertiaire - ondulation subtile avec rotation douce */
-@keyframes ribbonWaveTertiary {
-  0% {
-    transform: scaleY(1) skewY(0deg) rotateZ(0deg) scaleX(1);
-    transform-origin: 50% 50%;
-  }
-  30% {
-    transform: scaleY(1.025) skewY(-0.15deg) rotateZ(0.08deg) scaleX(0.99);
-    transform-origin: 25% 70%;
-  }
-  60% {
-    transform: scaleY(0.98) skewY(0.25deg) rotateZ(-0.12deg) scaleX(1.01);
-    transform-origin: 75% 30%;
-  }
-  90% {
-    transform: scaleY(1.01) skewY(-0.05deg) rotateZ(0.03deg) scaleX(0.995);
-    transform-origin: 40% 60%;
-  }
-  100% {
-    transform: scaleY(1) skewY(0deg) rotateZ(0deg) scaleX(1);
-    transform-origin: 50% 50%;
-  }
-}
-
-/* Container pour les particules CSS (fallback) */
+.ribbon-wave,
 .particles-css {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ribbon-wave {
+  z-index: -2;
+}
+
+.particles-css {
   z-index: -1;
 }
 
-/* Particules individuelles avec mouvement délicat et asynchrone */
+.waves-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  max-height: 600px;
+  overflow: hidden;
+}
+
+/* ===== WAVE ANIMATIONS ===== */
+
+.wave-parallax > use {
+  animation: move-forever calc(20s * var(--timescale)) linear infinite;
+  &:nth-child(1) {
+    animation-delay: calc(-2s * var(--timescale));
+  }
+  &:nth-child(2) {
+    animation-delay: calc(-4s * var(--timescale));
+  }
+  &:nth-child(3) {
+    animation-delay: calc(-6s * var(--timescale));
+  }
+  &:nth-child(4) {
+    animation-delay: calc(-8s * var(--timescale));
+  }
+}
+
+#wavePattern {
+  animation: move-forever calc(20s * var(--timescale)) linear infinite;
+  animation-delay: calc(-1s * var(--timescale));
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(var(--wave-translate-start),0,0);
+  }
+  100% {
+    transform: translate3d(var(--wave-translate-end),0,0);
+  }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .waves-container {
+    height: 40vh;
+    min-height: 300px;
+    max-height: 400px;
+  }
+
+  .wave-parallax > use {
+    &:nth-child(1) { animation-duration: calc(20s * var(--timescale)); }
+    &:nth-child(2) { animation-duration: calc(28s * var(--timescale)); }
+    &:nth-child(3) { animation-duration: calc(35s * var(--timescale)); }
+    &:nth-child(4) { display: none; }
+  }
+  
+  #wavePattern {
+    animation-duration: calc(28s * var(--timescale));
+    animation-delay: -2s;
+  }
+}
+
+@media (max-width: 480px) {
+  .waves-container {
+    height: 30vh;
+    min-height: 250px;
+  }
+
+  .wave-parallax > use {
+    &:nth-child(1) { animation-duration: calc(25s * var(--timescale)); }
+    &:nth-child(2) { animation-duration: calc(35s * var(--timescale)); }
+    &:nth-child(3),
+    &:nth-child(4) { display: none; }
+  }
+  
+  #wavePattern {
+    animation-duration: calc(35s * var(--timescale));
+    animation-delay: -2s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-parallax > use {
+    animation: none;
+    transform: translateX(5px);
+  }
+  
+  #wavePattern {
+    animation: none;
+    transform: translateX(-5px);
+  }
+  
+  .particle {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+/* ===== PARTICLE SYSTEM ===== */
+
 .particle {
   position: absolute;
   width: var(--particle-size);
   height: var(--particle-size);
   border-radius: 50%;
   pointer-events: none;
-  
-  /* Scintillement délicat + dérive calme autour du point d'origine */
   animation: 
     particleSparkle var(--sparkle-duration) ease-in-out infinite,
-    particleDriftCalm var(--drift-duration, 18s) ease-in-out infinite;
-  animation-delay: 
-    var(--delay, 0s),
-    var(--drift-delay, 0s);
-}
-
-/* Particules blanches (blanc pur) */
-.particle--white {
-  background: #ffffff;
-  box-shadow: 0 0 var(--particle-glow) rgba(255, 255, 255, 0.6);
+    particleDriftCalm var(--drift-duration) ease-in-out infinite;
+  animation-delay: var(--delay, 0s), var(--drift-delay, 0s);
   
-  /* Scintillement légèrement plus rapide pour les blanches */
-  animation-duration: 
-    calc(var(--sparkle-duration) * 0.9), 
-    var(--drift-duration, 18s);
-}
-
-/* Particules bleues (bleu très pâle) */
-.particle--blue {
-  background: #dce9ff;
-  box-shadow: 0 0 var(--particle-glow) rgba(220, 233, 255, 0.4);
+  &--white {
+    background: #ffffff;
+    box-shadow: 0 0 var(--particle-glow) rgba(255, 255, 255, 0.6);
+    animation-duration: calc(var(--sparkle-duration) * 0.9), var(--drift-duration);
+  }
   
-  /* Scintillement plus lent et doux pour les bleues */
-  animation-duration: 
-    calc(var(--sparkle-duration) * 1.2), 
-    calc(var(--drift-duration, 18s) * 1.1);
+  &--blue {
+    background: #dce9ff;
+    box-shadow: 0 0 var(--particle-glow) rgba(220, 233, 255, 0.4);
+    animation-duration: calc(var(--sparkle-duration) * 1.2), calc(var(--drift-duration) * 1.1);
+  }
+  
+  &--near-ribbon {
+    opacity: 1;
+    box-shadow: 0 0 calc(var(--particle-glow) * 1.5) currentColor;
+  }
+  
+  &--dispersed {
+    opacity: 0.8;
+    box-shadow: 0 0 var(--particle-glow) currentColor;
+  }
 }
 
-/* Particules concentrées près du ruban (plus lumineuses) */
-.particle--near-ribbon {
-  opacity: 1.2;
-  box-shadow: 0 0 calc(var(--particle-glow) * 1.5) currentColor;
-}
-
-/* Particules dispersées (plus subtiles) */
-.particle--dispersed {
-  opacity: 0.8;
-  box-shadow: 0 0 var(--particle-glow) currentColor;
-}
-
-/* Animation de scintillement délicat (opacité 0.4 → 1 → 0.4) */
 @keyframes particleSparkle {
   0%, 100% {
     opacity: 0.4;
@@ -400,83 +211,12 @@
   }
 }
 
-/* Animation de dérive calme (±10px autour du point d'origine) */
 @keyframes particleDriftCalm {
-  0% {
-    transform: translateX(0px) translateY(0px);
-  }
-  25% {
-    transform: translateX(6px) translateY(-4px);
-  }
-  50% {
-    transform: translateX(-8px) translateY(5px);
-  }
-  75% {
-    transform: translateX(10px) translateY(-3px);
-  }
-  100% {
-    transform: translateX(0px) translateY(0px);
-  }
+  0% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(6px) translateY(-4px); }
+  50% { transform: translateX(-8px) translateY(5px); }
+  75% { transform: translateX(10px) translateY(-3px); }
+  100% { transform: translateX(0) translateY(0); }
 }
 
-/* Responsive - Adaptation mobile pour rubans multiples */
-@media (max-width: 768px) {
-  :root {
-    --ribbon-wave-amplitude: 8px;     /* Oscillation réduite mais visible */
-    --ribbon-drift-amplitude: 15px;   /* Dérive réduite */
-    --ribbon-cycle-duration: 15s;     /* Cycle plus lent sur mobile */
-    --ribbon-secondary-duration: 20s;
-    --ribbon-tertiary-duration: 18s;
-    --particle-size-min: 1px;
-    --particle-glow: 2px;
-  }
-  
-  /* Réduire le nombre de rubans sur mobile pour performance */
-  .ribbon-tertiary {
-    display: none;
-  }
-}
 
-/* Réduction des animations pour accessibilité */
-@media (prefers-reduced-motion: reduce) {
-  .ribbon-primary-path,
-  .ribbon-secondary-path,
-  .ribbon-tertiary-path,
-  .glow-primary,
-  .glow-secondary {
-    animation: none;
-    transform: translateX(5px) translateY(2px); /* Position statique légèrement décalée */
-  }
-  
-  .ribbon-wave-glow {
-    opacity: 0.3; /* Réduire le glow */
-  }
-}
-
-/* Support pour les petits écrans avec optimisations */
-@media (max-width: 480px) {
-  :root {
-    --ribbon-cycle-duration: 18s;     /* Cycle encore plus lent */
-    --ribbon-secondary-duration: 25s;
-    --ribbon-wave-amplitude: 5px;     /* Oscillation minimale mais visible */
-    --ribbon-drift-amplitude: 10px;   /* Dérive minimale */
-  }
-  
-  /* Masquer le ruban secondaire aussi sur très petits écrans */
-  .ribbon-secondary,
-  .glow-secondary {
-    display: none;
-  }
-}
-
-/* Mode haute performance - optimisations pour performance */
-@media (prefers-reduced-motion: reduce) {
-  .ribbon-wave-glow {
-    display: none; /* Supprime tous les glows */
-  }
-  
-  .ribbon-secondary,
-  .ribbon-tertiary {
-    display: none; /* Garde seulement le ruban principal */
-  }
-}
