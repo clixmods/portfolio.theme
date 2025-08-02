@@ -9,23 +9,28 @@
   --bg-middle: #0f328c;
   --bg-bottom: #142f6b;
   
-  /* Ruban lumineux (vague soyeuse) - Spécifications selon demande */
-  --ribbon-color-bright: rgba(91, 124, 255, 0.12);    /* #5b7cff avec 12% opacité */
-  --ribbon-color-dim: rgba(0, 44, 128, 0.05);         /* #002c80 avec 5% opacité */
-  --ribbon-glow: rgba(91, 124, 255, 0.25);            /* Halo lumineux pour bloom */
-  --ribbon-start-width: 80px;                         /* Épaisseur initiale à gauche */
-  --ribbon-end-width: 40px;                           /* Affinement vers la droite */
-  --ribbon-start-pos: 30%;                            /* Position de départ (30% hauteur) */
-  --ribbon-wave-amplitude: 3px;                       /* Oscillation verticale ±3px */
-  --ribbon-drift-amplitude: 15px;                     /* Dérive horizontale ±15px */
-  --ribbon-cycle-duration: 3.5s;                      /* Cycle complet en 3-4s */
+  /* Rubans lumineux multiples - Animations professionnelles */
+  --ribbon-color-bright: rgba(135, 179, 255, 0.15);       /* #87b3ff avec 15% opacité */
+  --ribbon-color-center: rgba(255, 255, 255, 0.12);       /* Presque blanc au centre */
+  --ribbon-color-dim: rgba(135, 179, 255, 0.08);          /* #87b3ff avec 8% opacité */
+  --ribbon-glow: rgba(135, 179, 255, 0.25);               /* Halo lumineux visible */
+  --ribbon-wave-amplitude: 15px;                          /* Oscillation visible ±15px */
+  --ribbon-drift-amplitude: 30px;                         /* Dérive horizontale ±30px */
+  --ribbon-cycle-duration: 12s;                           /* Cycle plus long pour fluidité */
+  --ribbon-secondary-duration: 18s;                       /* Cycle différent pour second ruban */
+  --ribbon-tertiary-duration: 15s;                        /* Cycle pour troisième ruban */
+  
+  /* Nouveaux timings pour vagues ondulantes */
+  --ribbon-wave-primary: 5.5s;                            /* Vague principale - rapide et fluide */
+  --ribbon-wave-secondary: 7.8s;                          /* Vague secondaire - rythme différent */
+  --ribbon-wave-tertiary: 9.2s;                           /* Vague tertiaire - le plus lent */
   
   /* Particules scintillantes */
   --particle-color-white: rgba(255, 255, 255, 0.8);      /* Blanc pur */
   --particle-color-blue: rgba(220, 233, 255, 0.6);       /* Bleu très pâle #dce9ff */
   --particle-size-min: 1px;
-  --particle-size-max: 30px;
-  --particle-glow: 5px;
+  --particle-size-max: 13px;
+  --particle-glow: 2px;
   --sparkle-duration: 2s;
   --drift-amplitude: 10px;                                /* Dérive calme ±10px */
   --particle-float-base: 12s;                            /* Mouvement très lent */
@@ -61,7 +66,7 @@
   z-index: -3;
 }
 
-/* Vague soyeuse (ruban lumineux fluide) */
+/* Système de rubans multiples avec animations professionnelles */
 .ribbon-wave {
   position: absolute;
   top: 0;
@@ -73,8 +78,26 @@
   overflow: hidden;
 }
 
-/* SVG de la vague principale */
-.ribbon-wave svg {
+/* SVG des rubans avec z-index en cascade */
+.ribbon-primary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+.ribbon-secondary {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.ribbon-tertiary {
   position: absolute;
   top: 0;
   left: 0;
@@ -83,15 +106,33 @@
   z-index: 1;
 }
 
-/* Path de la vague avec dégradé fluide */
-.ribbon-wave-path {
-  fill: url(#ribbonGradient);
-  filter: url(#ribbonGlow);
-  animation: waveFlow var(--ribbon-cycle-duration) ease-in-out infinite;
+/* Animations spécifiques pour chaque ruban avec effet de vague */
+.ribbon-primary-path {
+  animation: 
+    ribbonFlowPrimary var(--ribbon-cycle-duration) ease-in-out infinite,
+    ribbonWave var(--ribbon-wave-primary) ease-in-out infinite,
+    ribbonPulse 8s ease-in-out infinite;
   transform-origin: center;
 }
 
-/* Calque de glow pour l'effet bloom */
+.ribbon-secondary-path {
+  animation: 
+    ribbonFlowSecondary var(--ribbon-secondary-duration) ease-in-out infinite,
+    ribbonWaveSecondary var(--ribbon-wave-secondary) ease-in-out infinite,
+    ribbonFloat 20s ease-in-out infinite;
+  transform-origin: center;
+  animation-delay: -6s, -2s, 0s; /* Décalages différents pour chaque animation */
+}
+
+.ribbon-tertiary-path {
+  animation: 
+    ribbonFlowTertiary var(--ribbon-tertiary-duration) ease-in-out infinite,
+    ribbonWaveTertiary var(--ribbon-wave-tertiary) ease-in-out infinite;
+  transform-origin: center;
+  animation-delay: -3s, -4s; /* Autres décalages */
+}
+
+/* Calque de glow avec effets séparés pour chaque ruban */
 .ribbon-wave-glow {
   position: absolute;
   top: 0;
@@ -109,48 +150,181 @@
   height: 100%;
 }
 
-.ribbon-wave-glow path {
+.glow-primary {
   fill: var(--ribbon-glow);
-  filter: blur(8px);
-  animation: waveFlow var(--ribbon-cycle-duration) ease-in-out infinite;
-  animation-delay: 0.1s; /* Léger décalage pour effet organique */
+  filter: blur(16px);
+  animation: 
+    ribbonFlowPrimary var(--ribbon-cycle-duration) ease-in-out infinite,
+    ribbonWave 6s ease-in-out infinite;
   transform-origin: center;
+  opacity: 0.8;
 }
 
-/* Animation de la vague : oscillation douce + dérive fluide selon spécifications */
-@keyframes waveFlow {
+.glow-secondary {
+  fill: rgba(135, 179, 255, 0.15);
+  filter: blur(20px);
+  animation: 
+    ribbonFlowSecondary var(--ribbon-secondary-duration) ease-in-out infinite,
+    ribbonWaveSecondary 8s ease-in-out infinite;
+  animation-delay: -6s, -2s;
+  transform-origin: center;
+  opacity: 0.5;
+}
+
+/* Animations professionnelles pour rubans multiples */
+
+/* Animation principale - mouvement fluide et visible */
+@keyframes ribbonFlowPrimary {
   0% {
-    transform: translateX(0px) translateY(0px) rotate(0deg);
+    transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
   }
   25% {
-    transform: translateX(8px) translateY(-2px) rotate(0.3deg);
+    transform: translateX(15px) translateY(-8px) rotate(0.5deg) scale(1.02);
   }
   50% {
-    transform: translateX(var(--ribbon-drift-amplitude)) translateY(var(--ribbon-wave-amplitude)) rotate(0.6deg);
+    transform: translateX(var(--ribbon-drift-amplitude)) translateY(var(--ribbon-wave-amplitude)) rotate(1deg) scale(1.05);
   }
   75% {
-    transform: translateX(8px) translateY(-1px) rotate(0.3deg);
+    transform: translateX(10px) translateY(-5px) rotate(0.3deg) scale(1.02);
   }
   100% {
-    transform: translateX(0px) translateY(0px) rotate(0deg);
+    transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
   }
 }
 
-/* Animation subtile de changement de teinte (hue-rotate pour shift couleur) */
-@keyframes ribbonHueShift {
-  0%, 100% {
-    filter: hue-rotate(0deg) saturate(1);
+/* Animation secondaire - mouvement opposé et plus lent */
+@keyframes ribbonFlowSecondary {
+  0% {
+    transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateX(-10px) translateY(12px) rotate(-0.3deg) scale(0.98);
   }
   50% {
-    filter: hue-rotate(8deg) saturate(1.1);
+    transform: translateX(-20px) translateY(8px) rotate(-0.6deg) scale(0.95);
+  }
+  75% {
+    transform: translateX(-5px) translateY(-10px) rotate(-0.2deg) scale(0.98);
+  }
+  100% {
+    transform: translateX(0px) translateY(0px) rotate(0deg) scale(1);
   }
 }
 
-/* Appliquer les animations à la vague avec timing optimisé */
-.ribbon-wave-path {
-  animation: 
-    waveFlow var(--ribbon-cycle-duration) ease-in-out infinite,
-    ribbonHueShift 12s ease-in-out infinite;
+/* Animation tertiaire - mouvement subtil et différent */
+@keyframes ribbonFlowTertiary {
+  0% {
+    transform: translateX(0px) translateY(0px) skewX(0deg);
+  }
+  33% {
+    transform: translateX(8px) translateY(-6px) skewX(0.5deg);
+  }
+  66% {
+    transform: translateX(-12px) translateY(4px) skewX(-0.3deg);
+  }
+  100% {
+    transform: translateX(0px) translateY(0px) skewX(0deg);
+  }
+}
+
+/* Animation de pulsation pour effet vivant */
+@keyframes ribbonPulse {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    opacity: 0.9;
+    filter: brightness(1.1) saturate(1.2);
+  }
+}
+
+/* Animation de flottement doux */
+@keyframes ribbonFloat {
+  0%, 100% {
+    transform: translateY(0px) scaleY(1);
+  }
+  50% {
+    transform: translateY(-3px) scaleY(1.02);
+  }
+}
+
+/* Animations de vagues ondulantes pour effet fluide */
+
+/* Vague principale - ondulation rythmée avec points d'origine alternés */
+@keyframes ribbonWave {
+  0% {
+    transform: scaleX(1) scaleY(1) skewY(0deg) translateY(0px);
+    transform-origin: 0% 50%;
+  }
+  20% {
+    transform: scaleX(1.03) scaleY(0.97) skewY(0.4deg) translateY(-2px);
+    transform-origin: 30% 60%;
+  }
+  40% {
+    transform: scaleX(0.96) scaleY(1.06) skewY(-0.6deg) translateY(4px);
+    transform-origin: 70% 40%;
+  }
+  60% {
+    transform: scaleX(1.02) scaleY(0.94) skewY(0.3deg) translateY(-1px);
+    transform-origin: 90% 50%;
+  }
+  80% {
+    transform: scaleX(0.98) scaleY(1.04) skewY(-0.2deg) translateY(3px);
+    transform-origin: 60% 30%;
+  }
+  100% {
+    transform: scaleX(1) scaleY(1) skewY(0deg) translateY(0px);
+    transform-origin: 0% 50%;
+  }
+}
+
+/* Vague secondaire - ondulation plus douce avec décalage de phase */
+@keyframes ribbonWaveSecondary {
+  0% {
+    transform: scaleX(1) scaleY(1) skewX(0deg) rotateZ(0deg);
+    transform-origin: 100% 50%;
+  }
+  25% {
+    transform: scaleX(0.98) scaleY(1.04) skewX(-0.3deg) rotateZ(0.1deg);
+    transform-origin: 20% 40%;
+  }
+  50% {
+    transform: scaleX(1.02) scaleY(0.96) skewX(0.5deg) rotateZ(-0.15deg);
+    transform-origin: 80% 60%;
+  }
+  75% {
+    transform: scaleX(0.99) scaleY(1.03) skewX(-0.1deg) rotateZ(0.05deg);
+    transform-origin: 40% 30%;
+  }
+  100% {
+    transform: scaleX(1) scaleY(1) skewX(0deg) rotateZ(0deg);
+    transform-origin: 100% 50%;
+  }
+}
+
+/* Vague tertiaire - ondulation subtile avec rotation douce */
+@keyframes ribbonWaveTertiary {
+  0% {
+    transform: scaleY(1) skewY(0deg) rotateZ(0deg) scaleX(1);
+    transform-origin: 50% 50%;
+  }
+  30% {
+    transform: scaleY(1.025) skewY(-0.15deg) rotateZ(0.08deg) scaleX(0.99);
+    transform-origin: 25% 70%;
+  }
+  60% {
+    transform: scaleY(0.98) skewY(0.25deg) rotateZ(-0.12deg) scaleX(1.01);
+    transform-origin: 75% 30%;
+  }
+  90% {
+    transform: scaleY(1.01) skewY(-0.05deg) rotateZ(0.03deg) scaleX(0.995);
+    transform-origin: 40% 60%;
+  }
+  100% {
+    transform: scaleY(1) skewY(0deg) rotateZ(0deg) scaleX(1);
+    transform-origin: 50% 50%;
+  }
 }
 
 /* Container pour les particules CSS (fallback) */
@@ -245,42 +419,64 @@
   }
 }
 
-/* Responsive - Mobile first avec ajustements pour la vague */
+/* Responsive - Adaptation mobile pour rubans multiples */
 @media (max-width: 768px) {
   :root {
-    --ribbon-start-width: 60px;      /* Vague plus fine sur mobile */
-    --ribbon-end-width: 30px;
-    --ribbon-wave-amplitude: 2px;    /* Amplitude réduite (±2px) */
-    --ribbon-drift-amplitude: 8px;   /* Dérive réduite (±8px) */
-    --ribbon-cycle-duration: 4s;     /* Cycle plus lent sur mobile */
-    --particle-size: 1.5px;
-    --particle-glow: 3px;
+    --ribbon-wave-amplitude: 8px;     /* Oscillation réduite mais visible */
+    --ribbon-drift-amplitude: 15px;   /* Dérive réduite */
+    --ribbon-cycle-duration: 15s;     /* Cycle plus lent sur mobile */
+    --ribbon-secondary-duration: 20s;
+    --ribbon-tertiary-duration: 18s;
+    --particle-size-min: 1px;
+    --particle-glow: 2px;
+  }
+  
+  /* Réduire le nombre de rubans sur mobile pour performance */
+  .ribbon-tertiary {
+    display: none;
   }
 }
 
 /* Réduction des animations pour accessibilité */
 @media (prefers-reduced-motion: reduce) {
-  .ribbon-wave-path,
-  .ribbon-wave-glow path {
+  .ribbon-primary-path,
+  .ribbon-secondary-path,
+  .ribbon-tertiary-path,
+  .glow-primary,
+  .glow-secondary {
     animation: none;
-    transform: translateX(7px) translateY(1px); /* Position statique */
+    transform: translateX(5px) translateY(2px); /* Position statique légèrement décalée */
+  }
+  
+  .ribbon-wave-glow {
+    opacity: 0.3; /* Réduire le glow */
   }
 }
 
-/* Support pour les petits écrans avec timing optimisé */
+/* Support pour les petits écrans avec optimisations */
 @media (max-width: 480px) {
   :root {
-    --ribbon-start-width: 50px;     /* Encore plus compact */
-    --ribbon-end-width: 25px;
-    --ribbon-cycle-duration: 5s;    /* Cycle encore plus lent sur très petit écran */
-    --ribbon-wave-amplitude: 1px;   /* Oscillation minimale */
-    --ribbon-drift-amplitude: 5px;  /* Dérive minimale */
+    --ribbon-cycle-duration: 18s;     /* Cycle encore plus lent */
+    --ribbon-secondary-duration: 25s;
+    --ribbon-wave-amplitude: 5px;     /* Oscillation minimale mais visible */
+    --ribbon-drift-amplitude: 10px;   /* Dérive minimale */
+  }
+  
+  /* Masquer le ruban secondaire aussi sur très petits écrans */
+  .ribbon-secondary,
+  .glow-secondary {
+    display: none;
   }
 }
 
-/* Mode haute performance - réduction des effets */
+/* Mode haute performance - optimisations pour performance */
 @media (prefers-reduced-motion: reduce) {
   .ribbon-wave-glow {
-    display: none;              /* Supprime le blur/glow sur demande */
+    display: none; /* Supprime tous les glows */
+  }
+  
+  .ribbon-secondary,
+  .ribbon-tertiary {
+    display: none; /* Garde seulement le ruban principal */
   }
 }
