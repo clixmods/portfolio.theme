@@ -1,9 +1,9 @@
 <!-- Hero Background - Deep Space Aesthetic with Luminous Ribbon -->
 <div id="hero-background" class="hero-background">
-  <!-- Canvas pour les particules -->
+  <!-- Canvas for particles -->
   <canvas id="particles-canvas"></canvas>
   
-  <!-- Masques SVG pour formes organiques -->
+  <!-- SVG masks for organic shapes -->
   <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
     <defs>
       <mask id="organic-mask-1">
@@ -18,12 +18,13 @@
     </defs>
   </svg>
 
-  <!-- Canvas pour les vagues fluides Paper.js -->
+  <!-- Canvas for fluid waves Paper.js -->
   <canvas id="waves-canvas"></canvas>
 </div>
 
-<!-- Styles intégrés pour le hero background -->
+<!-- Inline styles for hero background -->
 <style>
+/* .hero-background styles */
 .hero-background {
   position: fixed;
   top: 0;
@@ -33,32 +34,32 @@
   z-index: -1;
   overflow: hidden;
   
-  /* Gradient radial + linéaire selon les spécifications exactes */
+  /* Radial + linear gradient as per exact specifications */
   background: 
-    /* Dégradé radial très large pour l'éclat principal */
+    /* Very wide radial gradient for main glow */
     radial-gradient(ellipse 280% 280% at 50% 25%, 
-      rgba(10, 30, 84, 0.8) 0%,     /* #0A1E54 - Centre */
+      rgba(10, 30, 84, 0.8) 0%,     /* #0A1E54 - Center */
       rgba(16, 41, 101, 0.6) 25%,   /* #102965 */
       rgba(20, 51, 122, 0.4) 50%,   /* #14337A */
       rgba(27, 70, 144, 0.2) 75%,   /* #1B4690 */
       transparent 100%
     ),
-    /* Dégradé linéaire vertical pour la profondeur */
+    /* Vertical linear gradient for depth */
     linear-gradient(to bottom, 
-      #0A1E54 0%,    /* Bleu nuit saturé */
+      #0A1E54 0%,    /* Saturated night blue */
       #102965 25%, 
       #14337A 50%, 
       #1B4690 75%, 
-      #2449B2 100%   /* Bas extrême */
+      #2449B2 100%   /* Extreme bottom */
     );
   
-  /* Optimisation performance */
+  /* Performance optimization */
   will-change: transform;
   backface-visibility: hidden;
   transform: translateZ(0);
 }
 
-/* Canvas pour les vagues fluides Paper.js */
+/* Canvas for fluid waves Paper.js */
 #waves-canvas {
   position: absolute;
   top: 0;
@@ -71,7 +72,7 @@
   mix-blend-mode: screen;
 }
 
-/* Canvas pour les particules */
+/* Canvas for particles */
 #particles-canvas {
   position: absolute;
   top: 0;
@@ -82,12 +83,12 @@
   z-index: 1;
 }
 
-/* Optimisations performance globales */
+/* Global performance optimizations */
 .hero-background * {
   will-change: transform, opacity;
 }
 
-/* Responsive Design - Optimisé */
+/* Responsive Design - Optimized */
 @media (max-width: 1200px) {
   .hero-background { background-size: 120% 120%; }
   .ribbon-main { height: 100px; top: 38%; }
@@ -115,60 +116,60 @@
   .ribbon-tertiary { height: 25px; top: 40%; }
 }
 
-/* Réduction de mouvement pour accessibilité */
+/* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   #waves-canvas { display: none; }
   #particles-canvas { display: none; }
 }
 
-/* Performance pour écrans haute résolution */
+/* Performance for high resolution screens */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .hero-background { background-attachment: fixed; }
 }
 </style>
 
-<!-- Script pour les vagues fluides Paper.js et les particules -->
+<!-- Script for fluid waves Paper.js and particles -->
 <script src="https://unpkg.com/paper@0.12.17/dist/paper-full.min.js"></script>
 <script>
-// Vérification si les animations sont autorisées
+// Check if animations are allowed
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (!prefersReducedMotion) {
   document.addEventListener('DOMContentLoaded', function() {
     
     /**
-     * Système de vagues fluides inspiré de Paper.js
+     * Fluid waves system inspired by Paper.js
      */
     class FluidWaves {
       constructor() {
         this.canvas = document.getElementById('waves-canvas');
         if (!this.canvas) {
-          console.warn('Canvas waves-canvas non trouvé');
+          console.warn('Canvas waves-canvas not found');
           return;
         }
         
-        // Initialisation Paper.js
+        // Initialize Paper.js
         paper.setup(this.canvas);
         
-        // Configuration des vagues
+        // Waves configuration
         this.h = window.innerHeight;
         this.w = window.innerWidth;
         this.halfH = this.h * 0.5;
-        this.speed = 0.12; // Plus lent pour fluidité
-        this.strokeWidth = 20;
+        this.speed = 0.12; // Slower for smoothness
+        this.strokeWidth = 70;
         this.frequency = 3;
-        this.pathCount = 7; // Plus de vagues
-        this.pathPoints = 24; // Plus de points pour plus de fluidité
+        this.pathCount = 7; // More waves
+        this.pathPoints = 24; // More points for smoothness
         
         this.paths = [];
-        this.offsetRandom = 0.8;
+        this.offsetRandom = 3;
         this.randomOffsets = [];
         this.maxDistRandom = 1.2;
         this.randomDistances = [];
         this.randomHeights = [];
-        this.magnitude = 0.15; // Amplitude des vagues
+        this.magnitude = 0.15; // Wave amplitude
         
-        // Couleurs PS3 style
+        // PS3 style colors
         this.colors = [
           'rgba(255, 255, 255, 0.4)',
           'rgba(200, 240, 255, 0.3)',
@@ -189,34 +190,34 @@ if (!prefersReducedMotion) {
       }
       
       createWaves() {
-        // Nettoyer les anciennes vagues
+        // Clean up old waves
         if (this.paths.length > 0) {
           this.paths.forEach(path => path.remove());
           this.paths = [];
         }
         
-        // Créer les nouvelles vagues
+        // Create new waves
         for (let i = 0; i < this.pathCount; i++) {
           this.randomOffsets[i] = Math.random() * this.offsetRandom;
           this.randomDistances[i] = Math.max(Math.random() * this.maxDistRandom, 0.3);
           this.randomHeights[i] = Math.max(Math.random() + 0.5, 0.3);
           
-          // Créer le chemin Paper.js
+          // Create Paper.js path
           this.paths[i] = new paper.Path();
           this.paths[i].strokeCap = 'round';
           this.paths[i].strokeColor = this.colors[i % this.colors.length];
           this.paths[i].strokeWidth = this.strokeWidth * this.randomDistances[i];
           
-          // Position verticale décalée pour chaque vague
+          // Vertical position offset for each wave
           const baseY = this.halfH + (i - this.pathCount/2) * 40;
           
-          // Ajouter les points de la vague
+          // Add wave points
           for (let v = 0; v < this.pathPoints; v++) {
             const x = this.w * (v / (this.pathPoints - 1));
             this.paths[i].add(new paper.Point(x, baseY));
           }
           
-          // Lisser le chemin
+          // Smooth the path
           this.paths[i].smooth();
         }
       }
@@ -224,26 +225,26 @@ if (!prefersReducedMotion) {
       animate() {
         paper.view.onFrame = (event) => {
           for (let p = 0; p < this.paths.length; p++) {
-            // Boucle à travers les segments du chemin
+            // Loop through path segments
             for (let i = 0; i < this.pathPoints; i++) {
               const segment = this.paths[p].segments[i];
               
-              // Valeur cyclique entre -1 et 1
+              // Cyclic value between -1 and 1
               const timeOffset = event.time * this.speed;
               const positionOffset = (i / this.pathPoints) * this.frequency * this.randomHeights[p];
               const randomOffset = this.randomOffsets[p];
               
               const sinus = Math.sin(timeOffset + positionOffset + randomOffset);
               
-              // Variation de position Y basée sur l'index de la vague
+              // Y position variation based on wave index
               const baseY = this.halfH + (p - this.pathCount/2) * 40;
               const waveAmplitude = this.h * this.magnitude * this.randomHeights[p];
               
-              // Changer la position Y du segment
+              // Change segment Y position
               segment.point.y = baseY + sinus * waveAmplitude;
             }
             
-            // Lisser le chemin à chaque frame
+            // Smooth the path every frame
             this.paths[p].smooth();
           }
         };
@@ -254,10 +255,10 @@ if (!prefersReducedMotion) {
         this.w = window.innerWidth;
         this.halfH = this.h * 0.5;
         
-        // Redimensionner le canvas Paper.js
+        // Resize Paper.js canvas
         paper.view.viewSize = new paper.Size(this.w, this.h);
         
-        // Recréer les vagues avec les nouvelles dimensions
+        // Recreate waves with new dimensions
         this.createWaves();
       }
       
@@ -277,13 +278,13 @@ if (!prefersReducedMotion) {
     }
     
     /**
-     * Système de particules selon les spécifications exactes
+     * Particle system as per exact specifications
      */
     class HeroParticles {
       constructor() {
         this.canvas = document.getElementById('particles-canvas');
         if (!this.canvas) {
-          console.warn('Canvas particles-canvas non trouvé');
+          console.warn('Canvas particles-canvas not found');
           return;
         }
         
@@ -291,20 +292,20 @@ if (!prefersReducedMotion) {
         this.particles = [];
         this.animationId = null;
         
-        // Configuration selon spécifications
+        // Configuration as per specifications
         this.config = {
           count: this.getParticleCount(),
-          colors: ['#FFFFFF', '#B0D2FF', '#D8ECFF'], // Couleurs exactes
-          sizes: [1, 1.5, 2, 2.5, 3], // Rayon 1-3px
+          colors: ['#FFFFFF', '#B0D2FF', '#D8ECFF'], // Exact colors
+          sizes: [1, 1.5, 2, 2.5, 3], // Radius 1-3px
           opacities: [0.4, 0.5, 0.6, 0.7, 0.8], // 40-80%
-          bokehChance: 0.05 // < 5% floutées
+          bokehChance: 0.05 // < 5% blurred
         };
         
         this.init();
       }
       
       getParticleCount() {
-        const baseCount = 150; // Réduit de 300 à 150 pour performance
+        const baseCount = 150; // Reduced from 300 to 150 for performance
         const screenRatio = (window.innerWidth * window.innerHeight) / (1920 * 1080);
         return Math.floor(baseCount * Math.min(screenRatio, 1.2));
       }
@@ -322,19 +323,19 @@ if (!prefersReducedMotion) {
       }
       
       createParticle() {
-        const isNearWaves = Math.random() < 0.4; // 40% près des vagues
+        const isNearWaves = Math.random() < 0.4; // 40% near waves
         let x, y;
         
         if (isNearWaves) {
-          // Distribution concentrée autour des vagues centrales
+          // Distribution concentrated around central waves
           x = Math.random() * this.canvas.width;
-          y = this.canvas.height * 0.4 + (Math.random() - 0.5) * 200; // Zone centrale avec variation
+          y = this.canvas.height * 0.4 + (Math.random() - 0.5) * 200; // Central area with variation
         } else {
-          // Distribution globale dans l'espace
+          // Global distribution in space
           x = Math.random() * this.canvas.width;
           y = Math.random() * (this.canvas.height * 0.8);
           
-          // Densité plus forte en haut à droite
+          // Higher density in top right
           if (Math.random() < 0.6) {
             x = this.canvas.width * 0.3 + Math.random() * this.canvas.width * 0.7;
             y = Math.random() * this.canvas.height * 0.5;
@@ -369,7 +370,7 @@ if (!prefersReducedMotion) {
       updateParticle(particle) {
         particle.age++;
         
-        // Dérive lente
+        // Slow drift
         particle.x += particle.drift.x;
         particle.y += particle.drift.y;
         
@@ -386,7 +387,7 @@ if (!prefersReducedMotion) {
           particle.opacity *= (1 - ageRatio) / 0.1;
         }
         
-        // Recyclage
+        // Recycling
         if (particle.age >= particle.maxAge || 
             particle.x < -50 || particle.x > this.canvas.width + 50 || 
             particle.y < -50 || particle.y > this.canvas.height + 50) {
@@ -398,7 +399,7 @@ if (!prefersReducedMotion) {
         this.ctx.save();
         this.ctx.globalAlpha = particle.opacity;
         
-        // Effet bokeh (sigma=2px selon spécifications)
+        // Bokeh effect (sigma=2px as per specifications)
         if (particle.bokeh) {
           this.ctx.filter = 'blur(2px)';
         }
@@ -407,7 +408,7 @@ if (!prefersReducedMotion) {
         this.ctx.beginPath();
         
         if (particle.shape === 'hexagon') {
-          // Forme hexagonale douce
+          // Soft hexagonal shape
           const sides = 6;
           const angle = Math.PI * 2 / sides;
           this.ctx.moveTo(
@@ -457,16 +458,16 @@ if (!prefersReducedMotion) {
       }
     }
     
-    // Initialisation
+    // Initialization
     try {
       window.fluidWaves = new FluidWaves();
       window.heroParticles = new HeroParticles();
-      console.log('✅ Hero Background avec vagues fluides initialisé avec succès');
+      console.log('✅ Hero Background with fluid waves successfully initialized');
     } catch (error) {
-      console.warn('⚠️ Erreur lors de l\'initialisation du Hero Background:', error);
+      console.warn('⚠️ Error during Hero Background initialization:', error);
     }
   });
 } else {
-  console.log('⚠️ Animations désactivées (prefers-reduced-motion)');
+  console.log('⚠️ Animations disabled (prefers-reduced-motion)');
 }
 </script>
