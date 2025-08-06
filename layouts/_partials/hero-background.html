@@ -3,82 +3,23 @@
   <!-- Canvas pour les particules -->
   <canvas id="particles-canvas"></canvas>
   
-  <!-- Rubans ondulés PS3 style -->
-  <div class="ps3-ribbons">
-    <!-- Groupe principal de rubans -->
-    <div class="ribbon ribbon-main">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-secondary-1">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-secondary-2">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-tertiary">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-extra-1">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-extra-2">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <!-- Groupe supplémentaire pour continuité -->
-    <div class="ribbon ribbon-flow-1">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-flow-2">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-flow-3">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-flow-4">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-flow-5">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-    
-    <div class="ribbon ribbon-flow-6">
-      <div class="ribbon-wave"></div>
-      <div class="ribbon-wave ribbon-wave-delay-1"></div>
-      <div class="ribbon-wave ribbon-wave-delay-2"></div>
-    </div>
-  </div>
+  <!-- Masques SVG pour formes organiques -->
+  <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+    <defs>
+      <mask id="organic-mask-1">
+        <path d="M 0,0 L 100,0 Q 90,15 100,30 Q 85,45 100,60 Q 95,75 100,90 L 100,100 L 0,100 Q 15,85 0,70 Q 25,55 0,40 Q 10,25 0,10 Z" fill="white" transform="scale(5,0.8)"/>
+      </mask>
+      <mask id="organic-mask-2">
+        <path d="M 0,0 L 100,0 Q 95,20 100,35 Q 80,50 100,65 Q 92,80 100,95 L 100,100 L 0,100 Q 20,80 0,65 Q 30,50 0,35 Q 8,20 0,5 Z" fill="white" transform="scale(5,0.8)"/>
+      </mask>
+      <mask id="organic-mask-3">
+        <path d="M 0,0 L 100,0 Q 88,25 100,40 Q 78,55 100,70 Q 90,85 100,100 L 0,100 Q 22,75 0,60 Q 35,45 0,30 Q 12,15 0,0 Z" fill="white" transform="scale(5,0.8)"/>
+      </mask>
+    </defs>
+  </svg>
+
+  <!-- Canvas pour les vagues fluides Paper.js -->
+  <canvas id="waves-canvas"></canvas>
 </div>
 
 <!-- Styles intégrés pour le hero background -->
@@ -117,633 +58,17 @@
   transform: translateZ(0);
 }
 
-/* Conteneur des rubans PS3 */
-.ps3-ribbons {
+/* Canvas pour les vagues fluides Paper.js */
+#waves-canvas {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
   pointer-events: none;
-  z-index: 1;
-}
-
-/* Rubans ondulés style PS3 */
-.ribbon {
-  position: absolute;
-  width: 500%; /* Encore plus large pour un défilement plus fluide */
-  height: 80px;
-  left: -200%; /* Ajusté pour le nouveau width */
-  transform-origin: left center;
+  z-index: 2;
   opacity: 0.8;
-  mix-blend-mode: screen; /* Effet de mélange pour superposition */
-  will-change: transform; /* Optimisation pour l'animation */
-}
-
-/* Effet de chevauchement et d'entrelacement */
-.ribbon::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: inherit;
-  opacity: 0.3;
-  filter: blur(2px);
-  transform: translateY(3px);
-  mix-blend-mode: multiply;
-}
-
-/* Ruban principal - au centre du groupe */
-.ribbon-main {
-  top: 32%;
-  height: 190px;
-  animation: ribbonFlow 20s linear infinite;
-  z-index: 4;
-}
-
-/* Rubans secondaires - chevauchement étroit */
-.ribbon-secondary-1 {
-  top: 35%;
-  height: 80px;
-  animation: ribbonFlow 22s linear infinite;
-  animation-delay: -3s;
-  opacity: 0.7;
-  z-index: 3;
-}
-
-.ribbon-secondary-2 {
-  top: 42%;
-  height: 60px;
-  animation: ribbonFlow 18s linear infinite;
-  animation-delay: -6s;
-  opacity: 0.6;
-  z-index: 2;
-}
-
-.ribbon-tertiary {
-  top: 38%;
-  height: 40px;
-  animation: ribbonFlow 24s linear infinite;
-  animation-delay: -9s;
-  opacity: 0.5;
-  z-index: 1;
-}
-
-/* Rubans supplémentaires pour continuité du défilement */
-.ribbon-extra-1 {
-  top: 30%;
-  height: 50px;
-  animation: ribbonFlow 26s linear infinite;
-  animation-delay: -12s;
-  opacity: 0.4;
-  z-index: 2;
-}
-
-.ribbon-extra-2 {
-  top: 45%;
-  height: 35px;
-  animation: ribbonFlow 19s linear infinite;
-  animation-delay: -15s;
-  opacity: 0.3;
-  z-index: 1;
-}
-
-/* Nouveaux rubans pour flux continu */
-.ribbon-flow-1 {
-  top: 33%;
-  height: 70px;
-  animation: ribbonFlow 21s linear infinite;
-  animation-delay: -2s;
-  opacity: 0.6;
-  z-index: 3;
-}
-
-.ribbon-flow-2 {
-  top: 40%;
-  height: 45px;
-  animation: ribbonFlow 23s linear infinite;
-  animation-delay: -5s;
-  opacity: 0.5;
-  z-index: 2;
-}
-
-.ribbon-flow-3 {
-  top: 36%;
-  height: 55px;
-  animation: ribbonFlow 17s linear infinite;
-  animation-delay: -8s;
-  opacity: 0.4;
-  z-index: 1;
-}
-
-.ribbon-flow-4 {
-  top: 43%;
-  height: 40px;
-  animation: ribbonFlow 25s linear infinite;
-  animation-delay: -11s;
-  opacity: 0.35;
-  z-index: 2;
-}
-
-.ribbon-flow-5 {
-  top: 29%;
-  height: 60px;
-  animation: ribbonFlow 20s linear infinite;
-  animation-delay: -14s;
-  opacity: 0.45;
-  z-index: 1;
-}
-
-.ribbon-flow-6 {
-  top: 46%;
-  height: 30px;
-  animation: ribbonFlow 27s linear infinite;
-  animation-delay: -17s;
-  opacity: 0.3;
-  z-index: 1;
-}
-
-/* Vagues ondulées des rubans - variations pour entrelacement */
-.ribbon-wave {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(159, 201, 255, 0.1) 10%,
-    rgba(191, 223, 255, 0.3) 30%,
-    rgba(159, 201, 255, 0.4) 50%,
-    rgba(191, 223, 255, 0.3) 70%,
-    rgba(159, 201, 255, 0.1) 90%,
-    transparent 100%
-  );
-  border-radius: 50px;
-  transform: skewX(-15deg);
-  filter: blur(1px);
-  
-  /* Ondulations sinusoïdales - version de base avec amplitude augmentée */
-  clip-path: polygon(
-    0% 50%,
-    5% 35%,
-    10% 25%,
-    15% 35%,
-    20% 50%,
-    25% 65%,
-    30% 75%,
-    35% 65%,
-    40% 50%,
-    45% 35%,
-    50% 25%,
-    55% 35%,
-    60% 50%,
-    65% 65%,
-    70% 75%,
-    75% 65%,
-    80% 50%,
-    85% 35%,
-    90% 25%,
-    95% 35%,
-    100% 50%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-/* Variations d'ondulations pour les différents rubans */
-.ribbon-secondary-1 .ribbon-wave {
-  clip-path: polygon(
-    0% 45%,
-    5% 60%,
-    10% 70%,
-    15% 60%,
-    20% 45%,
-    25% 30%,
-    30% 20%,
-    35% 30%,
-    40% 45%,
-    45% 60%,
-    50% 70%,
-    55% 60%,
-    60% 45%,
-    65% 30%,
-    70% 20%,
-    75% 30%,
-    80% 45%,
-    85% 60%,
-    90% 70%,
-    95% 60%,
-    100% 45%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-.ribbon-secondary-2 .ribbon-wave {
-  clip-path: polygon(
-    0% 55%,
-    5% 40%,
-    10% 30%,
-    15% 25%,
-    20% 30%,
-    25% 40%,
-    30% 55%,
-    35% 70%,
-    40% 80%,
-    45% 70%,
-    50% 55%,
-    55% 40%,
-    60% 30%,
-    65% 40%,
-    70% 55%,
-    75% 70%,
-    80% 55%,
-    85% 40%,
-    90% 30%,
-    95% 40%,
-    100% 55%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-.ribbon-tertiary .ribbon-wave {
-  clip-path: polygon(
-    0% 48%,
-    5% 62%,
-    10% 72%,
-    15% 62%,
-    20% 48%,
-    25% 34%,
-    30% 24%,
-    35% 34%,
-    40% 48%,
-    45% 62%,
-    50% 48%,
-    55% 34%,
-    60% 48%,
-    65% 62%,
-    70% 72%,
-    75% 62%,
-    80% 48%,
-    85% 62%,
-    90% 48%,
-    95% 62%,
-    100% 48%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-/* Ondulations pour les rubans supplémentaires */
-.ribbon-extra-1 .ribbon-wave {
-  clip-path: polygon(
-    0% 52%,
-    5% 38%,
-    10% 28%,
-    15% 38%,
-    20% 52%,
-    25% 66%,
-    30% 76%,
-    35% 66%,
-    40% 52%,
-    45% 38%,
-    50% 28%,
-    55% 38%,
-    60% 52%,
-    65% 66%,
-    70% 76%,
-    75% 66%,
-    80% 52%,
-    85% 38%,
-    90% 28%,
-    95% 38%,
-    100% 52%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-.ribbon-extra-2 .ribbon-wave {
-  clip-path: polygon(
-    0% 46%,
-    5% 54%,
-    10% 62%,
-    15% 68%,
-    20% 62%,
-    25% 54%,
-    30% 46%,
-    35% 38%,
-    40% 32%,
-    45% 38%,
-    50% 46%,
-    55% 54%,
-    60% 62%,
-    65% 54%,
-    70% 46%,
-    75% 38%,
-    80% 46%,
-    85% 54%,
-    90% 62%,
-    95% 54%,
-    100% 46%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-/* Ondulations pour les nouveaux rubans de flux */
-.ribbon-flow-1 .ribbon-wave {
-  clip-path: polygon(
-    0% 50%,
-    5% 40%,
-    10% 30%,
-    15% 40%,
-    20% 50%,
-    25% 60%,
-    30% 70%,
-    35% 60%,
-    40% 50%,
-    45% 40%,
-    50% 30%,
-    55% 40%,
-    60% 50%,
-    65% 60%,
-    70% 70%,
-    75% 60%,
-    80% 50%,
-    85% 40%,
-    90% 30%,
-    95% 40%,
-    100% 50%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-.ribbon-flow-2 .ribbon-wave {
-  clip-path: polygon(
-    0% 52%,
-    5% 45%,
-    10% 38%,
-    15% 32%,
-    20% 38%,
-    25% 45%,
-    30% 52%,
-    35% 59%,
-    40% 66%,
-    45% 59%,
-    50% 52%,
-    55% 45%,
-    60% 38%,
-    65% 45%,
-    70% 52%,
-    75% 59%,
-    80% 52%,
-    85% 45%,
-    90% 38%,
-    95% 45%,
-    100% 52%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-.ribbon-flow-3 .ribbon-wave {
-  clip-path: polygon(
-    0% 47%,
-    5% 58%,
-    10% 68%,
-    15% 58%,
-    20% 47%,
-    25% 36%,
-    30% 26%,
-    35% 36%,
-    40% 47%,
-    45% 58%,
-    50% 47%,
-    55% 36%,
-    60% 47%,
-    65% 58%,
-    70% 68%,
-    75% 58%,
-    80% 47%,
-    85% 58%,
-    90% 47%,
-    95% 58%,
-    100% 47%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-.ribbon-flow-4 .ribbon-wave {
-  clip-path: polygon(
-    0% 49%,
-    5% 42%,
-    10% 35%,
-    15% 42%,
-    20% 49%,
-    25% 56%,
-    30% 63%,
-    35% 56%,
-    40% 49%,
-    45% 42%,
-    50% 35%,
-    55% 42%,
-    60% 49%,
-    65% 56%,
-    70% 63%,
-    75% 56%,
-    80% 49%,
-    85% 42%,
-    90% 35%,
-    95% 42%,
-    100% 49%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-.ribbon-flow-5 .ribbon-wave {
-  clip-path: polygon(
-    0% 53%,
-    5% 41%,
-    10% 29%,
-    15% 41%,
-    20% 53%,
-    25% 65%,
-    30% 77%,
-    35% 65%,
-    40% 53%,
-    45% 41%,
-    50% 29%,
-    55% 41%,
-    60% 53%,
-    65% 65%,
-    70% 77%,
-    75% 65%,
-    80% 53%,
-    85% 41%,
-    90% 29%,
-    95% 41%,
-    100% 53%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-.ribbon-flow-6 .ribbon-wave {
-  clip-path: polygon(
-    0% 48%,
-    5% 56%,
-    10% 64%,
-    15% 72%,
-    20% 64%,
-    25% 56%,
-    30% 48%,
-    35% 40%,
-    40% 32%,
-    45% 40%,
-    50% 48%,
-    55% 56%,
-    60% 64%,
-    65% 56%,
-    70% 48%,
-    75% 40%,
-    80% 48%,
-    85% 56%,
-    90% 64%,
-    95% 56%,
-    100% 48%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-/* Délais pour créer l'effet de profondeur et de groupe */
-.ribbon-wave-delay-1 {
-  animation-delay: -2s;
-  opacity: 0.8;
-  transform: skewX(-15deg) translateY(2px) translateX(-5px);
-}
-
-.ribbon-wave-delay-2 {
-  animation-delay: -4s;
-  opacity: 0.6;
-  transform: skewX(-15deg) translateY(4px) translateX(-10px);
-}
-
-/* Délais spécifiques pour chaque ruban pour synchronisation */
-.ribbon-main .ribbon-wave-delay-1 {
-  animation-delay: -1s;
-}
-
-.ribbon-main .ribbon-wave-delay-2 {
-  animation-delay: -3s;
-}
-
-.ribbon-secondary-1 .ribbon-wave-delay-1 {
-  animation-delay: -2.5s;
-}
-
-.ribbon-secondary-1 .ribbon-wave-delay-2 {
-  animation-delay: -4.5s;
-}
-
-.ribbon-secondary-2 .ribbon-wave-delay-1 {
-  animation-delay: -1.5s;
-}
-
-.ribbon-secondary-2 .ribbon-wave-delay-2 {
-  animation-delay: -3.5s;
-}
-
-.ribbon-tertiary .ribbon-wave-delay-1 {
-  animation-delay: -2.8s;
-}
-
-.ribbon-tertiary .ribbon-wave-delay-2 {
-  animation-delay: -4.8s;
-}
-
-/* Délais pour les rubans supplémentaires */
-.ribbon-extra-1 .ribbon-wave-delay-1 {
-  animation-delay: -3.2s;
-}
-
-.ribbon-extra-1 .ribbon-wave-delay-2 {
-  animation-delay: -5.2s;
-}
-
-.ribbon-extra-2 .ribbon-wave-delay-1 {
-  animation-delay: -2.2s;
-}
-
-.ribbon-extra-2 .ribbon-wave-delay-2 {
-  animation-delay: -4.2s;
-}
-
-/* Animation de défilement infini - gauche vers droite uniquement */
-@keyframes ribbonFlow {
-  0% {
-    transform: translateX(-200%);
-  }
-  100% {
-    transform: translateX(200%);
-  }
-}
-
-/* Animation de nage verticale pour faire "nager" les rubans ensemble */
-@keyframes ribbonFloat {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  25% {
-    transform: translateY(-4px);
-  }
-  50% {
-    transform: translateY(2px);
-  }
-  75% {
-    transform: translateY(-2px);
-  }
-}
-
-/* Effet de brillance */
-.ribbon-wave::before {
-  content: '';
-  position: absolute;
-  top: 20%;
-  left: 0;
-  width: 100%;
-  height: 20%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 30%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.1) 70%,
-    transparent 100%
-  );
-  border-radius: 20px;
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0%, 100% {
-    opacity: 0.3;
-    transform: translateX(-10px);
-  }
-  50% {
-    opacity: 0.8;
-    transform: translateX(10px);
-  }
+  mix-blend-mode: screen;
 }
 
 /* Canvas pour les particules */
@@ -762,159 +87,195 @@
   will-change: transform, opacity;
 }
 
-/* Optimisations spécifiques aux rubans */
-.ps3-ribbons {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-.ribbon {
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-.ribbon-wave {
-  will-change: opacity, transform;
-  backface-visibility: hidden;
-}
-
-/* Responsive Design */
+/* Responsive Design - Optimisé */
 @media (max-width: 1200px) {
-  .hero-background {
-    background-size: 120% 120%;
-  }
-  
-  .ribbon-main {
-    height: 100px;
-    top: 38%;
-  }
-  
-  .ribbon-secondary-1 {
-    height: 70px;
-    top: 33%;
-  }
-  
-  .ribbon-secondary-2 {
-    height: 50px;
-    top: 40%;
-  }
-  
-  .ribbon-tertiary {
-    height: 35px;
-    top: 36%;
-  }
+  .hero-background { background-size: 120% 120%; }
+  .ribbon-main { height: 100px; top: 38%; }
+  .ribbon-secondary-1 { height: 70px; top: 33%; }
+  .ribbon-secondary-2 { height: 50px; top: 40%; }
+  .ribbon-tertiary { height: 35px; top: 36%; }
 }
 
 @media (max-width: 768px) {
-  .hero-background {
-    background-size: 150% 150%;
-  }
-  
-  .ribbon-main {
-    height: 80px;
-    top: 40%;
-    animation-duration: 12s;
-  }
-  
-  .ribbon-secondary-1 {
-    height: 60px;
-    top: 36%;
-    animation-duration: 13s;
-  }
-  
-  .ribbon-secondary-2 {
-    height: 40px;
-    top: 42%;
-    animation-duration: 11s;
-  }
-  
-  .ribbon-tertiary {
-    height: 30px;
-    top: 38%;
-    animation-duration: 14s;
-  }
+  .hero-background { background-size: 150% 150%; }
+  .ribbon-main { height: 80px; top: 40%; }
+  .ribbon-secondary-1 { height: 60px; top: 36%; }
+  .ribbon-secondary-2 { height: 40px; top: 42%; }
+  .ribbon-tertiary { height: 30px; top: 38%; }
 }
 
 @media (max-width: 480px) {
-  .hero-background {
-    background-size: 200% 200%;
-    background-position: center top;
+  .hero-background { 
+    background-size: 200% 200%; 
+    background-position: center top; 
   }
-  
-  .ribbon-main {
-    height: 60px;
-    top: 42%;
-  }
-  
-  .ribbon-secondary-1 {
-    height: 45px;
-    top: 38%;
-  }
-  
-  .ribbon-secondary-2 {
-    height: 35px;
-    top: 44%;
-  }
-  
-  .ribbon-tertiary {
-    height: 25px;
-    top: 40%;
-  }
-}
-
-@media (max-width: 768px) {
-  .luminous-ribbon {
-    transform: rotate(-3deg) scale(1.05);
-  }
-  
-  .hero-background {
-    background-size: 150% 150%;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-background {
-    background-size: 200% 200%;
-    background-position: center top;
-  }
-  
-  .luminous-ribbon {
-    transform: rotate(-2deg) scale(1.02);
-  }
+  .ribbon-main { height: 60px; top: 42%; }
+  .ribbon-secondary-1 { height: 45px; top: 38%; }
+  .ribbon-secondary-2 { height: 35px; top: 44%; }
+  .ribbon-tertiary { height: 25px; top: 40%; }
 }
 
 /* Réduction de mouvement pour accessibilité */
 @media (prefers-reduced-motion: reduce) {
-  .ribbon {
-    animation: none;
-    transform: translateX(-50%);
-  }
-  
-  .ribbon-wave::before {
-    animation: none;
-    opacity: 0.5;
-  }
-  
-  #particles-canvas {
-    display: none;
-  }
+  #waves-canvas { display: none; }
+  #particles-canvas { display: none; }
 }
 
 /* Performance pour écrans haute résolution */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .hero-background {
-    background-attachment: fixed;
-  }
+  .hero-background { background-attachment: fixed; }
 }
 </style>
 
-<!-- Script pour les particules -->
+<!-- Script pour les vagues fluides Paper.js et les particules -->
+<script src="https://unpkg.com/paper@0.12.17/dist/paper-full.min.js"></script>
 <script>
 // Vérification si les animations sont autorisées
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (!prefersReducedMotion) {
   document.addEventListener('DOMContentLoaded', function() {
+    
+    /**
+     * Système de vagues fluides inspiré de Paper.js
+     */
+    class FluidWaves {
+      constructor() {
+        this.canvas = document.getElementById('waves-canvas');
+        if (!this.canvas) {
+          console.warn('Canvas waves-canvas non trouvé');
+          return;
+        }
+        
+        // Initialisation Paper.js
+        paper.setup(this.canvas);
+        
+        // Configuration des vagues
+        this.h = window.innerHeight;
+        this.w = window.innerWidth;
+        this.halfH = this.h * 0.5;
+        this.speed = 0.12; // Plus lent pour fluidité
+        this.strokeWidth = 20;
+        this.frequency = 3;
+        this.pathCount = 7; // Plus de vagues
+        this.pathPoints = 24; // Plus de points pour plus de fluidité
+        
+        this.paths = [];
+        this.offsetRandom = 0.8;
+        this.randomOffsets = [];
+        this.maxDistRandom = 1.2;
+        this.randomDistances = [];
+        this.randomHeights = [];
+        this.magnitude = 0.15; // Amplitude des vagues
+        
+        // Couleurs PS3 style
+        this.colors = [
+          'rgba(255, 255, 255, 0.4)',
+          'rgba(200, 240, 255, 0.3)',
+          'rgba(180, 230, 255, 0.35)',
+          'rgba(150, 220, 255, 0.25)',
+          'rgba(120, 200, 255, 0.2)',
+          'rgba(100, 180, 255, 0.15)',
+          'rgba(80, 160, 255, 0.1)'
+        ];
+        
+        this.init();
+      }
+      
+      init() {
+        this.createWaves();
+        this.setupEvents();
+        this.animate();
+      }
+      
+      createWaves() {
+        // Nettoyer les anciennes vagues
+        if (this.paths.length > 0) {
+          this.paths.forEach(path => path.remove());
+          this.paths = [];
+        }
+        
+        // Créer les nouvelles vagues
+        for (let i = 0; i < this.pathCount; i++) {
+          this.randomOffsets[i] = Math.random() * this.offsetRandom;
+          this.randomDistances[i] = Math.max(Math.random() * this.maxDistRandom, 0.3);
+          this.randomHeights[i] = Math.max(Math.random() + 0.5, 0.3);
+          
+          // Créer le chemin Paper.js
+          this.paths[i] = new paper.Path();
+          this.paths[i].strokeCap = 'round';
+          this.paths[i].strokeColor = this.colors[i % this.colors.length];
+          this.paths[i].strokeWidth = this.strokeWidth * this.randomDistances[i];
+          
+          // Position verticale décalée pour chaque vague
+          const baseY = this.halfH + (i - this.pathCount/2) * 40;
+          
+          // Ajouter les points de la vague
+          for (let v = 0; v < this.pathPoints; v++) {
+            const x = this.w * (v / (this.pathPoints - 1));
+            this.paths[i].add(new paper.Point(x, baseY));
+          }
+          
+          // Lisser le chemin
+          this.paths[i].smooth();
+        }
+      }
+      
+      animate() {
+        paper.view.onFrame = (event) => {
+          for (let p = 0; p < this.paths.length; p++) {
+            // Boucle à travers les segments du chemin
+            for (let i = 0; i < this.pathPoints; i++) {
+              const segment = this.paths[p].segments[i];
+              
+              // Valeur cyclique entre -1 et 1
+              const timeOffset = event.time * this.speed;
+              const positionOffset = (i / this.pathPoints) * this.frequency * this.randomHeights[p];
+              const randomOffset = this.randomOffsets[p];
+              
+              const sinus = Math.sin(timeOffset + positionOffset + randomOffset);
+              
+              // Variation de position Y basée sur l'index de la vague
+              const baseY = this.halfH + (p - this.pathCount/2) * 40;
+              const waveAmplitude = this.h * this.magnitude * this.randomHeights[p];
+              
+              // Changer la position Y du segment
+              segment.point.y = baseY + sinus * waveAmplitude;
+            }
+            
+            // Lisser le chemin à chaque frame
+            this.paths[p].smooth();
+          }
+        };
+      }
+      
+      resize() {
+        this.h = window.innerHeight;
+        this.w = window.innerWidth;
+        this.halfH = this.h * 0.5;
+        
+        // Redimensionner le canvas Paper.js
+        paper.view.viewSize = new paper.Size(this.w, this.h);
+        
+        // Recréer les vagues avec les nouvelles dimensions
+        this.createWaves();
+      }
+      
+      setupEvents() {
+        window.addEventListener('resize', () => {
+          this.resize();
+        });
+        
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            paper.view.pause();
+          } else if (!document.hidden) {
+            paper.view.play();
+          }
+        });
+      }
+    }
+    
     /**
      * Système de particules selon les spécifications exactes
      */
@@ -936,15 +297,14 @@ if (!prefersReducedMotion) {
           colors: ['#FFFFFF', '#B0D2FF', '#D8ECFF'], // Couleurs exactes
           sizes: [1, 1.5, 2, 2.5, 3], // Rayon 1-3px
           opacities: [0.4, 0.5, 0.6, 0.7, 0.8], // 40-80%
-          bokehChance: 0.05, // < 5% floutées
-          ribbonDistribution: 0.6 // 60% près du ruban
+          bokehChance: 0.05 // < 5% floutées
         };
         
         this.init();
       }
       
       getParticleCount() {
-        const baseCount = 300; // Base 250-350
+        const baseCount = 150; // Réduit de 300 à 150 pour performance
         const screenRatio = (window.innerWidth * window.innerHeight) / (1920 * 1080);
         return Math.floor(baseCount * Math.min(screenRatio, 1.2));
       }
@@ -961,39 +321,23 @@ if (!prefersReducedMotion) {
         this.canvas.height = window.innerHeight;
       }
       
-      getPointOnRibbon(t) {
-        // Courbe Bézier selon spécifications : P0(-10%, 55%), P1(45%, 40%), P2(110%, 30%)
-        const p0 = { x: -0.1, y: 0.55 };
-        const p1 = { x: 0.45, y: 0.40 };
-        const p2 = { x: 1.1, y: 0.30 };
-        const invT = 1 - t;
-        
-        return {
-          x: (invT * invT * p0.x + 2 * invT * t * p1.x + t * t * p2.x) * this.canvas.width,
-          y: (invT * invT * p0.y + 2 * invT * t * p1.y + t * t * p2.y) * this.canvas.height
-        };
-      }
-      
       createParticle() {
-        const isNearRibbon = Math.random() < this.config.ribbonDistribution;
+        const isNearWaves = Math.random() < 0.4; // 40% près des vagues
         let x, y;
         
-        if (isNearRibbon) {
-          // Distribution concentrée autour du ruban avec ondulation ±25px
-          const t = Math.random();
-          const ribbonPoint = this.getPointOnRibbon(t);
-          
-          x = ribbonPoint.x + (Math.random() - 0.5) * 200;
-          y = ribbonPoint.y + (Math.random() - 0.5) * 150 + Math.sin(t * Math.PI * 4) * 25;
-        } else {
-          // Distribution quadrant supérieur droit
+        if (isNearWaves) {
+          // Distribution concentrée autour des vagues centrales
           x = Math.random() * this.canvas.width;
-          y = Math.random() * (this.canvas.height * 0.6);
+          y = this.canvas.height * 0.4 + (Math.random() - 0.5) * 200; // Zone centrale avec variation
+        } else {
+          // Distribution globale dans l'espace
+          x = Math.random() * this.canvas.width;
+          y = Math.random() * (this.canvas.height * 0.8);
           
           // Densité plus forte en haut à droite
-          if (Math.random() < 0.7) {
+          if (Math.random() < 0.6) {
             x = this.canvas.width * 0.3 + Math.random() * this.canvas.width * 0.7;
-            y = Math.random() * this.canvas.height * 0.4;
+            y = Math.random() * this.canvas.height * 0.5;
           }
         }
         
@@ -1115,8 +459,9 @@ if (!prefersReducedMotion) {
     
     // Initialisation
     try {
+      window.fluidWaves = new FluidWaves();
       window.heroParticles = new HeroParticles();
-      console.log('✅ Hero Background initialisé avec succès');
+      console.log('✅ Hero Background avec vagues fluides initialisé avec succès');
     } catch (error) {
       console.warn('⚠️ Erreur lors de l\'initialisation du Hero Background:', error);
     }
