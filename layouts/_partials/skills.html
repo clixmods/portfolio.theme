@@ -1,20 +1,28 @@
 <section id="competences" class="skills-section">
-    <h3>{{ i18n "technical_skills" | default "Compétences techniques" }}</h3>
+    <div class="skills-header">
+        <h2>{{ i18n "technical_skills" | default "Compétences techniques" }}</h2>
+        <p class="skills-subtitle">
+            Maîtrise des technologies modernes pour créer des expériences utilisateur exceptionnelles
+            et des solutions techniques robustes. 💻
+        </p>
+    </div>
     
-    {{ range .Site.Data.skills }}
-        {{ with .categories }}
-        <div class="skills-category">
-            <h4>{{ .title }}</h4>
-            <div class="skills-grid">
-                {{ range .skills }}
-                <div class="skill-block">
-                    <span class="skill-icon">{{ .icon }}</span>
-                    <span class="skill-name">{{ .name }}</span>
-                    <span class="skill-level">{{ .level }}</span>
+    <div class="skills-categories-grid">
+        {{ range .Site.Data.skills }}
+            {{ with .categories }}
+            <div class="skills-category">
+                <h4>{{ .title }}</h4>
+                <div class="skills-grid">
+                    {{ range .skills }}
+                    <div class="skill-block">
+                        <span class="skill-icon">{{ .icon }}</span>
+                        <span class="skill-name">{{ .name }}</span>
+                        <span class="skill-level">{{ .level }}</span>
+                    </div>
+                    {{ end }}
                 </div>
-                {{ end }}
             </div>
-        </div>
+            {{ end }}
         {{ end }}
-    {{ end }}
+    </div>
 </section>

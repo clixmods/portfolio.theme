@@ -254,6 +254,26 @@ body {
     width: 100%;
 }
 
+.skills-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.skills-header h2 {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.skills-subtitle {
+    color: #a0a0a0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 .skills-section h3 {
     color: #4fd1c7;
     margin-bottom: 1.5rem;
@@ -264,31 +284,61 @@ body {
 
 /* Experience styles moved to experience.css */
 
+.skills-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .skills-category {
-    margin-bottom: 2rem;
-    width: 100%;
+    background: rgba(55, 65, 81, 0.4);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(79, 209, 199, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(79, 209, 199, 0.05);
+}
+
+.skills-category:hover {
+    background: rgba(55, 65, 81, 0.6);
+    border-color: rgba(79, 209, 199, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.2),
+        0 0 30px rgba(79, 209, 199, 0.15);
 }
 
 .skills-category h4 {
     color: #fff;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
+    text-align: center;
+    border-bottom: 2px solid rgba(79, 209, 199, 0.3);
+    padding-bottom: 0.75rem;
 }
 
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 120px);
-    gap: 0.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.75rem;
     width: 100%;
-    justify-content: start;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 .skill-block {
-    background: rgba(55, 65, 81, 0.7);
+    background: rgba(75, 85, 99, 0.5);
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
-    border: 1px solid rgba(79, 209, 199, 0.2);
+    border: 1px solid rgba(79, 209, 199, 0.3);
     border-radius: 12px;
     padding: 0.75rem;
     display: flex;
@@ -300,17 +350,17 @@ body {
     transition: all 0.3s ease;
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    width: 120px;
-    height: 120px;
+    min-height: 100px;
+    aspect-ratio: 1;
 }
 
 .skill-block:hover {
-    background: rgba(75, 85, 99, 0.8);
-    border-color: rgba(79, 209, 199, 0.6);
-    transform: translateY(-2px);
+    background: rgba(79, 209, 199, 0.3);
+    border-color: rgba(79, 209, 199, 0.8);
+    transform: translateY(-2px) scale(1.05);
     box-shadow: 
-        0 8px 25px rgba(79, 209, 199, 0.2),
-        0 0 20px rgba(79, 209, 199, 0.1);
+        0 8px 25px rgba(79, 209, 199, 0.3),
+        0 0 25px rgba(79, 209, 199, 0.2);
 }
 
 .skill-icon {
@@ -336,16 +386,29 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .skills-categories-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 1.5rem;
+    }
+    
+    .skills-category {
+        padding: 1.5rem;
+    }
+    
+    .skills-category h4 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    
     .skills-grid {
-        grid-template-columns: repeat(auto-fill, 100px);
-        gap: 0.2rem;
-        justify-content: start;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 0.5rem;
     }
     
     .skill-block {
         padding: 0.6rem;
-        width: 100px;
-        height: 100px;
+        min-height: 80px;
         gap: 0.2rem;
     }
     
@@ -362,9 +425,13 @@ body {
     .skill-level {
         font-size: 0.65rem;
     }
-}
-
-@media (max-width: 768px) {
+    
+    /* Skills header responsive styles */
+    .skills-header h2 {
+        font-size: 2.5rem;
+    }
+    
+    /* Contact section responsive styles */
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -386,6 +453,39 @@ body {
         width: 50px;
         height: 50px;
         font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+    .skills-categories-grid {
+        gap: 1.5rem;
+    }
+    
+    .skills-category {
+        padding: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-header h2 {
+        font-size: 2rem;
+    }
+    
+    .skills-subtitle {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .skills-categories-grid {
+        gap: 1rem;
+    }
+    
+    .skills-category {
+        padding: 1rem;
+    }
+    
+    .skills-category h4 {
+        font-size: 1rem;
     }
 }
 

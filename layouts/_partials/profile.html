@@ -4,29 +4,31 @@
         <div class="profile-left">
             <div class="profile-info">
                 <p class="greeting">Bonjour !</p>
-                <h1>Je suis <span class="name">Clément GARCIA</span></h1>
-                <p class="title">Développeur, spécialisé dans <span class="specialty">le jeu vidéo</span>.</p>
+                <h1>Je suis Clément <span class="name">"Clix"</span> GARCIA</h1>
+                <p class="title"><span class="specialty">Développeur</span>, spécialisé dans <span class="specialty">le jeu vidéo</span>.</p>
                 <p class="cta">Collaborons pour donner vie à vos idées les plus ambitieuses</p>
                 
-                <!-- Social links and download resume together on left -->
-                <div class="social-links">
-                    <a href="https://discord.gg/yourserver" target="_blank" class="social-link" title="Discord">
-                        <i class="fab fa-discord"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/clixmods" target="_blank" class="social-link" title="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="https://github.com/clixmods" target="_blank" class="social-link" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                </div>
-                
-                <div class="download-resume-container">
-                    <a href="{{ .media.resumeFile }}" download="{{ .media.resumeFilename }}" class="download-resume-btn">
-                        <span class="btn-icon">📄</span>
-                        <span class="btn-text">{{ i18n "download_resume" | default "Download Resume" }}</span>
-                        <span class="btn-arrow">⬇</span>
-                    </a>
+                <!-- Download resume and social links together on left -->
+                <div class="actions-container">
+                    <div class="download-resume-container">
+                        <a href="{{ .media.resumeFile }}" download="{{ .media.resumeFilename }}" class="download-resume-btn">
+                            <span class="btn-icon">📄</span>
+                            <span class="btn-text">{{ i18n "download_resume" | default "Download Resume" }}</span>
+                            <span class="btn-arrow">⬇</span>
+                        </a>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://discord.gg/yourserver" target="_blank" class="social-link" title="Discord">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/clixmods" target="_blank" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/clixmods" target="_blank" class="social-link" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,20 +43,20 @@
     <!-- Full-width statistics bar at bottom -->
     <div class="profile-stats">
         <div class="stat-item">
-            <div class="stat-number">2.5+</div>
-            <div class="stat-label">Années<br>d'expérience</div>
+            <div class="stat-number">Junior</div>
+            <div class="stat-label">2 Années<br>d'expérience professionnel</div>
         </div>
         <div class="stat-item">
-            <div class="stat-number">10+</div>
-            <div class="stat-label">Projets<br>complétés</div>
+            <div class="stat-number">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "games") }}</div>
+            <div class="stat-label">Jeux</div>
         </div>
         <div class="stat-item">
-            <div class="stat-number">5+</div>
-            <div class="stat-label">Clients<br>satisfaits</div>
+            <div class="stat-number">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "apps-web") }}</div>
+            <div class="stat-label">Apps/Web</div>
         </div>
         <div class="stat-item">
-            <div class="stat-number">10+</div>
-            <div class="stat-label">Designs<br>UI/UX</div>
+            <div class="stat-number">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "mods-tools") }}</div>
+            <div class="stat-label">Mods & Tools</div>
         </div>
     </div>
 {{- end }}
