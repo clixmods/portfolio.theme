@@ -1,11 +1,11 @@
 /* Variables CSS pour le dock */
 :root {
-  --dock-bg: rgba(10, 13, 20, 0.85);
-  --dock-accent: #00E8E0;
+  --dock-bg: rgba(47, 47, 47, 0.35);
+  --dock-accent: #000000;
   --dock-shadow: rgba(0, 0, 0, 0.4);
   --dock-border: rgba(255, 255, 255, 0.40);
   --dock-text: #F4F4F5;
-  --dock-radius: 32px;
+  --dock-radius: 48px;
   --dock-blur: 10px;
   --dock-height-desktop: 72px;
   --dock-height-mobile: 64px;
@@ -49,10 +49,7 @@
   -webkit-backdrop-filter: blur(var(--dock-blur));
   border-radius: var(--dock-radius);
   border: 1px solid var(--dock-border);
-  box-shadow: 
-    0 4px 10px var(--dock-shadow),
-    0 0 6px var(--dock-accent);
-  
+
   /* Support fallback pour navigateurs plus anciens */
   @supports not (backdrop-filter: blur(10px)) {
     background: rgba(10, 13, 20, 0.95);

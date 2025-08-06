@@ -16,7 +16,7 @@
 {{- end }}
 
 {{/* Dock Script */}}
-{{- with resources.Get "js/dock.js" }}
+{{- with resources.Get "js/dock-clean.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
