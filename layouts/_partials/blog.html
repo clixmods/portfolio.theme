@@ -1,44 +1,54 @@
 <section id="blog">
-    <div class="projects-section">
-        <div class="projects-header">
+    <div class="blog-section">
+        <div class="blog-header">
             <h2>{{ i18n "blog_articles" | default "Articles de Blog" }}</h2>
-            <p class="projects-subtitle">
-                {{ i18n "blog_subtitle" | default "Découvrez mes derniers articles et réflexions sur le développement web et les nouvelles technologies" }} [BLOG]
+            <p class="blog-subtitle">
+                {{ i18n "blog_subtitle" | default "Découvrez mes derniers articles et réflexions sur le développement web et les nouvelles technologies" }}
             </p>
         </div>
 
         <!-- Blog Grid -->
-        <div class="projects-grid">
+        <div class="blog-grid">
             {{ $blogLimit := .Site.Data.config.blog.homeLimit | default 3 }}
             {{ range first $blogLimit (where site.RegularPages "Section" "posts") }}
-            <div class="project-card blog-card">
-                <div class="project-image">
+            <article class="blog-card">
+                <div class="blog-image">
                     <div class="blog-image-placeholder">
-                        <span class="blog-icon">[BLOG]</span>
+                        <span class="blog-icon">📝</span>
                     </div>
-                    <div class="project-overlay">
-                        <div class="project-tags">
-                            {{ range .Params.tags }}
-                            <span class="project-tag">{{ . }}</span>
-                            {{ end }}
-                        </div>
+                    {{ if .Params.tags }}
+                    <div class="blog-tags">
+                        {{ range first 3 .Params.tags }}
+                        <span class="blog-tag">{{ . }}</span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </div>
+                <div class="blog-content">
+                    <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                        {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "02 Jan 2006") }}
+                    </time>
+                    <h3 class="blog-title">
+                        <a href="{{ .Permalink }}" class="blog-title-link">{{ .Title }}</a>
+                    </h3>
+                    {{ if .Description }}
+                    <p class="blog-subtitle">{{ .Description }}</p>
+                    {{ end }}
+                    <p class="blog-description">{{ .Summary | truncate 120 }}</p>
+                    <div class="blog-actions">
+                        <a href="{{ .Permalink }}" class="read-more-btn">
+                            {{ i18n "read_more" | default "Lire la suite" }}
+                        </a>
                     </div>
                 </div>
-                <div class="project-content">
-                    <div class="post-date">{{ .Date.Format (.Site.Data.config.blog.dateFormat | default "02 Jan 2006") }}</div>
-                    <h3 class="project-title">{{ .Title }}</h3>
-                    <p class="project-subtitle">{{ .Description }}</p>
-                    <p class="project-description">{{ .Summary | truncate 120 }}</p>
-                    <div class="project-technologies">
-                        <a href="{{ .Permalink }}" class="read-more-btn">{{ i18n "read_more" | default "Lire la suite" }}</a>
-                    </div>
-                </div>
-            </div>
+            </article>
             {{ end }}
         </div>
         
         <div class="blog-footer">
-            <a href="/posts" class="view-all-posts">{{ i18n "view_all_posts" | default "Voir tous les articles" }}</a>
+            <a href="/posts" class="view-all-posts">
+                {{ i18n "view_all_posts" | default "Voir tous les articles" }}
+            </a>
         </div>
     </div>
 </section>
