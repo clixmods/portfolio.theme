@@ -26,6 +26,17 @@
   {{- end }}
 {{- end }}
 
+{{/* Trophies System Script */}}
+{{- with resources.Get "js/trophies.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Dock Script */}}
 {{- with resources.Get "js/dock-clean.js" }}
   {{- if hugo.IsDevelopment }}
