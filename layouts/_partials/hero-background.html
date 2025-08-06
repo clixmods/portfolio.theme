@@ -1,0 +1,407 @@
+<!-- Hero Background - Deep Space Aesthetic with Luminous Ribbon -->
+<div id="hero-background" class="hero-background">
+  <!-- Canvas pour les particules -->
+  <canvas id="particles-canvas"></canvas>
+  
+  <!-- Ruban lumineux SVG -->
+  <svg class="luminous-ribbon" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Gradient pour le ruban -->
+      <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#9FC9FF;stop-opacity:0.15" />
+        <stop offset="50%" style="stop-color:#BFDFFF;stop-opacity:0.25" />
+        <stop offset="100%" style="stop-color:#9FC9FF;stop-opacity:0.15" />
+      </linearGradient>
+      
+      <!-- Filtre de flou directionnel -->
+      <filter id="motionBlur">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
+        <feOffset dx="1" dy="-0.5" result="offset" />
+      </filter>
+    </defs>
+    
+    <!-- Rubans superposés pour effet de soie -->
+    <g class="ribbon-group">
+      <!-- Ruban principal -->
+      <path id="mainRibbon" 
+            d="M -192 594 Q 864 432 2112 324" 
+            stroke="url(#ribbonGradient)" 
+            stroke-width="60" 
+            fill="none" 
+            filter="url(#motionBlur)" />
+      
+      <!-- Rubans secondaires pour l'effet stratifié -->
+      <path d="M -192 592 Q 864 430 2112 322" 
+            stroke="url(#ribbonGradient)" 
+            stroke-width="45" 
+            fill="none" 
+            opacity="0.8" 
+            filter="url(#motionBlur)" />
+      
+      <path d="M -192 596 Q 864 434 2112 326" 
+            stroke="url(#ribbonGradient)" 
+            stroke-width="35" 
+            fill="none" 
+            opacity="0.6" 
+            filter="url(#motionBlur)" />
+      
+      <path d="M -192 590 Q 864 428 2112 320" 
+            stroke="url(#ribbonGradient)" 
+            stroke-width="25" 
+            fill="none" 
+            opacity="0.4" 
+            filter="url(#motionBlur)" />
+    </g>
+  </svg>
+</div>
+
+<!-- Styles intégrés pour le hero background -->
+<style>
+.hero-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  
+  /* Gradient radial + linéaire selon les spécifications exactes */
+  background: 
+    /* Dégradé radial très large pour l'éclat principal */
+    radial-gradient(ellipse 280% 280% at 50% 25%, 
+      rgba(10, 30, 84, 0.8) 0%,     /* #0A1E54 - Centre */
+      rgba(16, 41, 101, 0.6) 25%,   /* #102965 */
+      rgba(20, 51, 122, 0.4) 50%,   /* #14337A */
+      rgba(27, 70, 144, 0.2) 75%,   /* #1B4690 */
+      transparent 100%
+    ),
+    /* Dégradé linéaire vertical pour la profondeur */
+    linear-gradient(to bottom, 
+      #0A1E54 0%,    /* Bleu nuit saturé */
+      #102965 25%, 
+      #14337A 50%, 
+      #1B4690 75%, 
+      #2449B2 100%   /* Bas extrême */
+    );
+  
+  /* Optimisation performance */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* SVG Ruban lumineux */
+.luminous-ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: screen; /* Mode additif pour brillance */
+  transform: rotate(-5deg) scale(1.1); /* Inclinaison légère */
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+/* Groupe de rubans pour effet de soie superposée */
+.ribbon-group {
+  animation: ribbonFlow 8s ease-in-out infinite alternate;
+}
+
+/* Animation du ruban - mouvement suggéré vers haut-droite */
+@keyframes ribbonFlow {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-15px) translateX(10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-8px) translateX(5px);
+    opacity: 0.9;
+  }
+}
+
+/* Canvas pour les particules */
+#particles-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Optimisations performance globales */
+.hero-background * {
+  will-change: transform, opacity;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .hero-background {
+    background-size: 120% 120%;
+  }
+}
+
+@media (max-width: 768px) {
+  .luminous-ribbon {
+    transform: rotate(-3deg) scale(1.05);
+  }
+  
+  .hero-background {
+    background-size: 150% 150%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-background {
+    background-size: 200% 200%;
+    background-position: center top;
+  }
+  
+  .luminous-ribbon {
+    transform: rotate(-2deg) scale(1.02);
+  }
+}
+
+/* Réduction de mouvement pour accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-group {
+    animation: none;
+  }
+  
+  #particles-canvas {
+    display: none;
+  }
+}
+
+/* Performance pour écrans haute résolution */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .hero-background {
+    background-attachment: fixed;
+  }
+}
+</style>
+
+<!-- Script pour les particules -->
+<script>
+// Vérification si les animations sont autorisées
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!prefersReducedMotion) {
+  document.addEventListener('DOMContentLoaded', function() {
+    /**
+     * Système de particules selon les spécifications exactes
+     */
+    class HeroParticles {
+      constructor() {
+        this.canvas = document.getElementById('particles-canvas');
+        if (!this.canvas) {
+          console.warn('Canvas particles-canvas non trouvé');
+          return;
+        }
+        
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.animationId = null;
+        
+        // Configuration selon spécifications
+        this.config = {
+          count: this.getParticleCount(),
+          colors: ['#FFFFFF', '#B0D2FF', '#D8ECFF'], // Couleurs exactes
+          sizes: [1, 1.5, 2, 2.5, 3], // Rayon 1-3px
+          opacities: [0.4, 0.5, 0.6, 0.7, 0.8], // 40-80%
+          bokehChance: 0.05, // < 5% floutées
+          ribbonDistribution: 0.6 // 60% près du ruban
+        };
+        
+        this.init();
+      }
+      
+      getParticleCount() {
+        const baseCount = 300; // Base 250-350
+        const screenRatio = (window.innerWidth * window.innerHeight) / (1920 * 1080);
+        return Math.floor(baseCount * Math.min(screenRatio, 1.2));
+      }
+      
+      init() {
+        this.resizeCanvas();
+        this.createParticles();
+        this.setupEvents();
+        this.animate();
+      }
+      
+      resizeCanvas() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+      }
+      
+      getPointOnRibbon(t) {
+        // Courbe Bézier selon spécifications : P0(-10%, 55%), P1(45%, 40%), P2(110%, 30%)
+        const p0 = { x: -0.1, y: 0.55 };
+        const p1 = { x: 0.45, y: 0.40 };
+        const p2 = { x: 1.1, y: 0.30 };
+        const invT = 1 - t;
+        
+        return {
+          x: (invT * invT * p0.x + 2 * invT * t * p1.x + t * t * p2.x) * this.canvas.width,
+          y: (invT * invT * p0.y + 2 * invT * t * p1.y + t * t * p2.y) * this.canvas.height
+        };
+      }
+      
+      createParticle() {
+        const isNearRibbon = Math.random() < this.config.ribbonDistribution;
+        let x, y;
+        
+        if (isNearRibbon) {
+          // Distribution concentrée autour du ruban avec ondulation ±25px
+          const t = Math.random();
+          const ribbonPoint = this.getPointOnRibbon(t);
+          
+          x = ribbonPoint.x + (Math.random() - 0.5) * 200;
+          y = ribbonPoint.y + (Math.random() - 0.5) * 150 + Math.sin(t * Math.PI * 4) * 25;
+        } else {
+          // Distribution quadrant supérieur droit
+          x = Math.random() * this.canvas.width;
+          y = Math.random() * (this.canvas.height * 0.6);
+          
+          // Densité plus forte en haut à droite
+          if (Math.random() < 0.7) {
+            x = this.canvas.width * 0.3 + Math.random() * this.canvas.width * 0.7;
+            y = Math.random() * this.canvas.height * 0.4;
+          }
+        }
+        
+        return {
+          x, y,
+          size: this.config.sizes[Math.floor(Math.random() * this.config.sizes.length)],
+          color: this.config.colors[Math.floor(Math.random() * this.config.colors.length)],
+          baseOpacity: this.config.opacities[Math.floor(Math.random() * this.config.opacities.length)],
+          opacity: 0,
+          bokeh: Math.random() < this.config.bokehChance,
+          drift: {
+            x: (Math.random() - 0.5) * 0.2,
+            y: (Math.random() - 0.5) * 0.2
+          },
+          pulse: Math.random() * Math.PI * 2,
+          age: 0,
+          maxAge: 1000 + Math.random() * 2000,
+          shape: Math.random() < 0.3 ? 'hexagon' : 'circle'
+        };
+      }
+      
+      createParticles() {
+        this.particles = [];
+        for (let i = 0; i < this.config.count; i++) {
+          this.particles.push(this.createParticle());
+        }
+      }
+      
+      updateParticle(particle) {
+        particle.age++;
+        
+        // Dérive lente
+        particle.x += particle.drift.x;
+        particle.y += particle.drift.y;
+        
+        // Pulsation
+        particle.pulse += 0.02;
+        const pulseOffset = Math.sin(particle.pulse) * 0.1;
+        particle.opacity = Math.max(0.1, Math.min(1, particle.baseOpacity + pulseOffset));
+        
+        // Fade in/out
+        const ageRatio = particle.age / particle.maxAge;
+        if (ageRatio < 0.1) {
+          particle.opacity *= ageRatio / 0.1;
+        } else if (ageRatio > 0.9) {
+          particle.opacity *= (1 - ageRatio) / 0.1;
+        }
+        
+        // Recyclage
+        if (particle.age >= particle.maxAge || 
+            particle.x < -50 || particle.x > this.canvas.width + 50 || 
+            particle.y < -50 || particle.y > this.canvas.height + 50) {
+          Object.assign(particle, this.createParticle());
+        }
+      }
+      
+      drawParticle(particle) {
+        this.ctx.save();
+        this.ctx.globalAlpha = particle.opacity;
+        
+        // Effet bokeh (sigma=2px selon spécifications)
+        if (particle.bokeh) {
+          this.ctx.filter = 'blur(2px)';
+        }
+        
+        this.ctx.fillStyle = particle.color;
+        this.ctx.beginPath();
+        
+        if (particle.shape === 'hexagon') {
+          // Forme hexagonale douce
+          const sides = 6;
+          const angle = Math.PI * 2 / sides;
+          this.ctx.moveTo(
+            particle.x + particle.size * Math.cos(0),
+            particle.y + particle.size * Math.sin(0)
+          );
+          for (let i = 1; i <= sides; i++) {
+            this.ctx.lineTo(
+              particle.x + particle.size * Math.cos(i * angle),
+              particle.y + particle.size * Math.sin(i * angle)
+            );
+          }
+        } else {
+          this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        }
+        
+        this.ctx.fill();
+        this.ctx.restore();
+      }
+      
+      animate() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        this.particles.forEach(particle => {
+          this.updateParticle(particle);
+          this.drawParticle(particle);
+        });
+        
+        this.animationId = requestAnimationFrame(this.animate.bind(this));
+      }
+      
+      setupEvents() {
+        window.addEventListener('resize', () => {
+          this.resizeCanvas();
+          this.config.count = this.getParticleCount();
+          this.createParticles();
+        });
+        
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden && this.animationId) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+          } else if (!document.hidden && !this.animationId) {
+            this.animate();
+          }
+        });
+      }
+    }
+    
+    // Initialisation
+    try {
+      window.heroParticles = new HeroParticles();
+      console.log('✅ Hero Background initialisé avec succès');
+    } catch (error) {
+      console.warn('⚠️ Erreur lors de l\'initialisation du Hero Background:', error);
+    }
+  });
+} else {
+  console.log('⚠️ Animations désactivées (prefers-reduced-motion)');
+}
+</script>
