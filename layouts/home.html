@@ -9,28 +9,38 @@
     </div>
     
     <main class="main-content">
-        {{ partial "skills.html" . }}
-        {{ partial "blog.html" . }}
-        
-        <!-- Section Projects -->
-        <section id="projets">
-            {{ partial "projects.html" . }}
-        </section>
-        
-        <!-- Section Formation -->
-        <section id="formation">
-            {{ partial "education.html" . }}
-        </section>
-        
-        <!-- Section Expérience -->
-        <section id="experiences">
-            {{ partial "experience.html" . }}
-        </section>
-        
+
         <!-- Section Recommandations -->
         <section id="recommandations">
             {{ partial "testimonials.html" . }}
         </section>
+
+        {{ partial "skills.html" . }}
+
+        <!-- Section Expérience -->
+        <section id="experiences">
+            {{ partial "experience.html" . }}
+        </section>
+
+        <!-- Section Projects -->
+        <section id="projets">
+            {{ partial "projects.html" . }}
+        </section>
+
+          <!-- Section Formation -->
+        <section id="formation">
+            {{ partial "education.html" . }}
+        </section>
+
+        {{ partial "blog.html" . }}
+        
+        
+        
+      
+        
+        
+        
+        
     </main>
 </div>
     
