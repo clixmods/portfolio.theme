@@ -220,7 +220,7 @@
                         {{ $found := false }}
                         {{ range $.Site.Data.technologies }}
                         {{ if eq .name $techName }}
-                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
+                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
                         {{ $found = true }}
                         {{ end }}
                         {{ end }}
@@ -293,7 +293,7 @@
                         {{ $found := false }}
                         {{ range $.Site.Data.technologies }}
                         {{ if eq .name $techName }}
-                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ .icon }} {{ .name }}</span>
+                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
                         {{ $found = true }}
                         {{ end }}
                         {{ end }}

@@ -19,6 +19,9 @@
   {{- end }}
 {{- end }}
 
+{{/* Tech Icons Styles */}}
+<link rel="stylesheet" href="/css/tech-icons.css">
+
 {{/* Top Bar Styles */}}
 {{- with resources.Get "scss/top-bar.scss" }}
   {{- with . | toCSS | minify }}

@@ -15,7 +15,13 @@
                 <div class="skills-grid">
                     {{ range .skills }}
                     <div class="skill-block">
-                        <span class="skill-icon">{{ .icon }}</span>
+                        <span class="skill-icon">
+                            {{ if .iconSvg }}
+                              <img src="{{ .iconSvg }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                            {{ else }}
+                              <span class="tech-icon-emoji">{{ .icon }}</span>
+                            {{ end }}
+                        </span>
                         <span class="skill-name">{{ .name }}</span>
                         <span class="skill-level">{{ .level }}</span>
                     </div>
