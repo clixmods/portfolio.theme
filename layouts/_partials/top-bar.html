@@ -64,17 +64,68 @@
           </div>
         </button>
         
-        <!-- Dropdown trophées -->
-        <div class="trophies-dropdown" id="trophies-dropdown">
-          <div class="trophies-header">
-            <span>🏆 Mes Trophées</span>
-            <span class="trophy-progress-text" id="trophy-progress-text">0/12</span>
-          </div>
-          <div class="trophies-list" id="trophies-list">
-            <!-- Les trophées seront générés par JavaScript -->
-          </div>
-          <div class="trophies-footer">
-            <span class="explore-hint">Explorez le site pour débloquer plus de trophées !</span>
+        <!-- Popup trophées plein écran -->
+        <div class="trophies-modal" id="trophies-modal">
+          <div class="trophies-modal-overlay"></div>
+          <div class="trophies-modal-content">
+            <div class="trophies-modal-header">
+              <div class="modal-title-section">
+                <h2 class="modal-title">🏆 Collection de Trophées</h2>
+                <p class="modal-subtitle">Vos accomplissements en explorant le portfolio</p>
+              </div>
+              <div class="modal-progress-section">
+                <div class="overall-progress">
+                  <span class="progress-label">Progression globale</span>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar-bg">
+                      <div class="progress-bar-fill" id="modal-progress-bar"></div>
+                    </div>
+                    <span class="progress-text" id="modal-progress-text">0/10</span>
+                  </div>
+                </div>
+              </div>
+              <button class="modal-close-btn" id="trophies-modal-close" aria-label="Fermer">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            
+            <div class="trophies-modal-body">
+              <div class="trophies-grid" id="trophies-grid">
+                <!-- Les trophées seront générés par JavaScript -->
+              </div>
+            </div>
+            
+            <div class="trophies-modal-footer">
+              <div class="footer-stats">
+                <div class="stat-item">
+                  <span class="stat-icon">🥉</span>
+                  <span class="stat-label">Communs</span>
+                  <span class="stat-value" id="common-count">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-icon">🥈</span>
+                  <span class="stat-label">Rares</span>
+                  <span class="stat-value" id="rare-count">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-icon">🥇</span>
+                  <span class="stat-label">Épiques</span>
+                  <span class="stat-value" id="epic-count">0</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-icon">💎</span>
+                  <span class="stat-label">Légendaires</span>
+                  <span class="stat-value" id="legendary-count">0</span>
+                </div>
+              </div>
+              <div class="footer-hint">
+                <span class="hint-icon">💡</span>
+                <span>Continuez à explorer pour débloquer plus de trophées !</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

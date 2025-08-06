@@ -832,19 +832,35 @@
     }
 
     setupEventListeners() {
-      // Toggle dropdown
+      // Toggle modal plein écran
       const trophiesBtn = document.querySelector('.trophies-btn');
-      const dropdown = document.querySelector('.trophies-dropdown');
+      const modal = document.querySelector('.trophies-modal');
+      const closeBtn = document.querySelector('#trophies-modal-close');
+      const overlay = document.querySelector('.trophies-modal-overlay');
       
-      if (trophiesBtn && dropdown) {
+      if (trophiesBtn && modal) {
         trophiesBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          dropdown.classList.toggle('active');
+          this.openModal();
         });
 
-        document.addEventListener('click', (e) => {
-          if (!dropdown.contains(e.target) && !trophiesBtn.contains(e.target)) {
-            dropdown.classList.remove('active');
+        // Fermer la modal
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => {
+            this.closeModal();
+          });
+        }
+
+        if (overlay) {
+          overlay.addEventListener('click', () => {
+            this.closeModal();
+          });
+        }
+
+        // Fermer avec Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.classList.contains('active')) {
+            this.closeModal();
           }
         });
       }
@@ -878,6 +894,25 @@
           }
         });
       });
+    }
+
+    openModal() {
+      const modal = document.querySelector('.trophies-modal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        this.renderModalTrophies();
+        this.updateModalProgress();
+        this.updateStats();
+      }
+    }
+
+    closeModal() {
+      const modal = document.querySelector('.trophies-modal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
     }
 
     trackVisit() {
@@ -975,29 +1010,45 @@
     }
 
     renderTrophies() {
+      // Render pour le petit dropdown (optionnel, peut être supprimé)
       const trophiesList = document.querySelector('.trophies-list');
-      if (!trophiesList) return;
+      if (trophiesList) {
+        trophiesList.innerHTML = '<div style="padding: 16px; text-align: center; color: rgba(255,255,255,0.7);">Cliquez sur le bouton trophée pour voir vos récompenses !</div>';
+      }
+    }
 
-      trophiesList.innerHTML = this.trophies.map(trophy => {
+    renderModalTrophies() {
+      const trophiesGrid = document.querySelector('.trophies-grid');
+      if (!trophiesGrid) return;
+
+      trophiesGrid.innerHTML = this.trophies.map(trophy => {
         const isUnlocked = this.unlockedTrophies.includes(trophy.id);
         const unlockedDate = isUnlocked ? localStorage.getItem(`trophy_${trophy.id}_date`) || 'Récemment' : null;
         
         return `
-          <div class="trophy-item ${isUnlocked ? 'unlocked' : 'locked'}">
-            <div class="trophy-icon ${isUnlocked ? 'unlocked' : 'locked'}">
-              ${isUnlocked ? trophy.icon : '🔒'}
-            </div>
-            <div class="trophy-content">
-              <div class="trophy-title">${isUnlocked ? trophy.name : '???'}</div>
-              <div class="trophy-description">
-                ${isUnlocked ? trophy.description : 'Trophée verrouillé'}
+          <div class="trophy-card ${isUnlocked ? 'unlocked' : 'locked'}">
+            <div class="trophy-card-header">
+              <div class="trophy-card-icon ${isUnlocked ? 'unlocked' : 'locked'}">
+                ${isUnlocked ? trophy.icon : '🔒'}
               </div>
-              <div class="trophy-requirement">${trophy.requirement}</div>
-              ${isUnlocked && unlockedDate ? `<div class="trophy-date">Débloqué: ${unlockedDate}</div>` : ''}
+              <div class="trophy-card-info">
+                <h3 class="trophy-card-title">${isUnlocked ? trophy.name : 'Trophée Mystère'}</h3>
+                <span class="trophy-card-rarity ${trophy.rarity}">
+                  ${trophy.rarity.toUpperCase()}
+                </span>
+              </div>
             </div>
-            <div class="trophy-rarity ${trophy.rarity}">
-              ${trophy.rarity.toUpperCase()}
+            <div class="trophy-card-description">
+              ${isUnlocked ? trophy.description : 'Ce trophée est encore verrouillé. Continuez à explorer pour le découvrir !'}
             </div>
+            <div class="trophy-card-requirement">
+              ${trophy.requirement}
+            </div>
+            ${isUnlocked && unlockedDate ? `
+              <div class="trophy-card-date">
+                Débloqué le ${unlockedDate}
+              </div>
+            ` : ''}
           </div>
         `;
       }).join('');
@@ -1021,6 +1072,48 @@
       if (countElement) {
         countElement.textContent = `${this.unlockedTrophies.length}/${this.trophies.length}`;
       }
+    }
+
+    updateModalProgress() {
+      const modalProgressBar = document.querySelector('#modal-progress-bar');
+      const modalProgressText = document.querySelector('#modal-progress-text');
+      
+      const progress = (this.unlockedTrophies.length / this.trophies.length) * 100;
+      
+      if (modalProgressBar) {
+        modalProgressBar.style.width = `${progress}%`;
+      }
+      
+      if (modalProgressText) {
+        modalProgressText.textContent = `${this.unlockedTrophies.length}/${this.trophies.length}`;
+      }
+    }
+
+    updateStats() {
+      const rarityStats = {
+        common: 0,
+        rare: 0,
+        epic: 0,
+        legendary: 0
+      };
+
+      this.unlockedTrophies.forEach(trophyId => {
+        const trophy = this.trophies.find(t => t.id === trophyId);
+        if (trophy && rarityStats.hasOwnProperty(trophy.rarity)) {
+          rarityStats[trophy.rarity]++;
+        }
+      });
+
+      // Update stat elements
+      const commonCount = document.querySelector('#common-count');
+      const rareCount = document.querySelector('#rare-count');
+      const epicCount = document.querySelector('#epic-count');
+      const legendaryCount = document.querySelector('#legendary-count');
+
+      if (commonCount) commonCount.textContent = rarityStats.common;
+      if (rareCount) rareCount.textContent = rarityStats.rare;
+      if (epicCount) epicCount.textContent = rarityStats.epic;
+      if (legendaryCount) legendaryCount.textContent = rarityStats.legendary;
     }
   }
 
