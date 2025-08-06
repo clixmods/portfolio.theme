@@ -15,6 +15,17 @@
   {{- end }}
 {{- end }}
 
+{{/* Top Bar Script */}}
+{{- with resources.Get "js/top-bar.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Dock Script */}}
 {{- with resources.Get "js/dock-clean.js" }}
   {{- if hugo.IsDevelopment }}
