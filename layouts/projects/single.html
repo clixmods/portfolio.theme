@@ -6,25 +6,16 @@
         --hero-bg-image: url('{{ .Params.image }}');
     }
 </style>
+<script>
+    // Ajouter la classe project-page au body pour gérer les z-index des canvas
+    document.body.classList.add('project-page');
+</script>
 {{ end }}
 <!-- Fixed Background Overlay -->
 <div class="project-hero-overlay"></div>
 <section class="project-hero">
-    <div class="project-hero-content">
-        <!-- Top Section: Back            <div class="info-box gallery-box {{ .Params.gallery_size | default "size-large" }}">Button -->
-        <div class="project-hero-top">
-            <!-- Back to Portfolio Button -->
-            <div class="project-back-button">
-                <a href="/projects/" class="btn-back-portfolio">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
-                    </svg>
-                    Retour au portfolio
-                </a>
-            </div>
-        </div>
-        
-        <!-- Bottom Section: Project Info Block -->
+    <div class="project-hero-content no-top">
+        <!-- Project Info Block centré -->
         <div class="project-hero-bottom">
             <div class="project-info-grid">
                 <!-- Left: Project Description Block -->

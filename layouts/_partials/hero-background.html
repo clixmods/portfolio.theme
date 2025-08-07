@@ -31,7 +31,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1;
+  z-index: -20; /* Plus bas que l'image de background du projet */
   overflow: hidden;
   
   /* Radial + linear gradient as per exact specifications */
@@ -67,7 +67,7 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 2;
+  z-index: -18; /* Plus bas que l'image de background du projet */
   opacity: 0.8;
   mix-blend-mode: screen;
 }
@@ -80,7 +80,7 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: -15; /* Plus bas que l'image de background du projet */
 }
 
 /* Global performance optimizations */

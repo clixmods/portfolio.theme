@@ -12,9 +12,19 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    
+
     /* Variables CSS pour l'effet de blur dynamique */
     --blur-intensity: 8px;
+}
+
+/* S'assurer que les canvas de background sont en arrière-plan sur les pages de projet */
+.project-page #particles-canvas,
+.project-page #waves-canvas {
+    z-index: -25 !important;
+}
+
+.project-page .hero-background {
+    z-index: -30 !important;
 }
 
 /* Background fixe via pseudo-Ã©lÃ©ment pour ne flouter que l'image */
@@ -95,6 +105,12 @@ body::before {
     justify-content: space-between;
     padding: 2rem 0;
     min-height: 60vh;
+}
+
+/* Classe pour coller le contenu en bas quand il n'y a pas de section top */
+.project-hero-content.no-top {
+    justify-content: flex-end;
+    padding-bottom: 2rem; /* Espace minimal en bas pour éviter le dock */
 }
 
 .project-hero-top {
