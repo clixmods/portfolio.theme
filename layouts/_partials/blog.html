@@ -1,4 +1,4 @@
-<section id="blog">
+<section id="blog" class="blog-theme">
     <div class="blog-section">
         <div class="blog-header">
             <h2>{{ i18n "blog_articles" | default "Articles de Blog" }}</h2>
@@ -12,39 +12,65 @@
             {{ $blogLimit := .Site.Data.config.blog.homeLimit | default 3 }}
             {{ range first $blogLimit (where site.RegularPages "Section" "posts") }}
             <article class="blog-card">
+                <!-- Blog Category (top left) -->
+                {{ if .Params.category }}
+                <span class="post-category">{{ .Params.category | title }}</span>
+                {{ end }}
+                
+                <!-- Reading Time (top right) -->
+                {{ if .ReadingTime }}
+                <div class="blog-reading-time">{{ .ReadingTime }} min de lecture</div>
+                {{ end }}
+
                 <div class="blog-image">
+                    {{ if .Params.image }}
+                    <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
+                    {{ else }}
                     <div class="blog-image-placeholder">
-                        <span class="blog-icon">📝</span>
-                    </div>
-                    {{ if .Params.tags }}
-                    <div class="blog-tags">
-                        {{ range first 3 .Params.tags }}
-                        <span class="blog-tag">{{ . }}</span>
-                        {{ end }}
+                        <div class="blog-icon">
+                            {{ if eq (.Params.category | default "tech") "tech" }}🔧
+                            {{ else if eq (.Params.category | default "tech") "dev" }}�
+                            {{ else if eq (.Params.category | default "tech") "design" }}🎨
+                            {{ else if eq (.Params.category | default "tech") "opinion" }}💭
+                            {{ else }}📝{{ end }}
+                        </div>
                     </div>
                     {{ end }}
                 </div>
+                
                 <div class="blog-content">
-                    <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                        {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "02 Jan 2006") }}
-                    </time>
+                    <!-- Blog Title -->
                     <h3 class="blog-title">
                         <a href="{{ .Permalink }}" class="blog-title-link">{{ .Title }}</a>
                     </h3>
-                    {{ if .Description }}
-                    <p class="blog-subtitle">{{ .Description }}</p>
-                    {{ end }}
-                    <p class="blog-description">{{ .Summary | truncate 120 }}</p>
-                    <div class="blog-actions">
-                        <a href="{{ .Permalink }}" class="read-more-btn">
-                            {{ i18n "read_more" | default "Lire la suite" }}
-                        </a>
-                    </div>
+                    
+                    <!-- Blog Description -->
+                    <p class="blog-description">
+                        {{ if .Params.description }}
+                            {{ .Params.description | truncate 120 "..." }}
+                        {{ else }}
+                            {{ .Summary | truncate 120 "..." }}
+                        {{ end }}
+                    </p>
+                </div>
+
+                <!-- Blog Footer -->
+                <div class="blog-card-footer">
+                    <!-- Date (bottom left) -->
+                    <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                        {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "02 Jan 2006") }}
+                    </time>
+                    
+                    <!-- Read Article Button (bottom right) -->
+                    <a href="{{ .Permalink }}" class="read-more-btn">
+                        {{ i18n "read_more" | default "Lire la suite" }}
+                    </a>
                 </div>
             </article>
             {{ end }}
         </div>
         
+        <!-- Blog Footer -->
         <div class="blog-footer">
             <a href="/posts" class="view-all-posts">
                 {{ i18n "view_all_posts" | default "Voir tous les articles" }}

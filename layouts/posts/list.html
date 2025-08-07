@@ -1,0 +1,264 @@
+{{ define "main" }}
+<div class="blog-theme posts-list-page">
+    <!-- Blog Header -->
+    <header class="blog-header">
+        <h1>{{ .Title | default "Blog" }}</h1>
+        <p class="blog-subtitle">
+            {{ .Params.description | default "Découvrez tous mes articles et réflexions sur le développement, les technologies et l'innovation" }}
+        </p>
+    </header>
+
+    <!-- Blog Navigation Tabs -->
+    <div class="blog-tabs">
+        <button class="blog-tab-btn active" data-category="all">
+            <span>Tous</span>
+        </button>
+        <button class="blog-tab-btn" data-category="tech">
+            <span>Tech</span>
+        </button>
+        <button class="blog-tab-btn" data-category="dev">
+            <span>Développement</span>
+        </button>
+        <button class="blog-tab-btn" data-category="design">
+            <span>Design</span>
+        </button>
+        <button class="blog-tab-btn" data-category="opinion">
+            <span>Opinion</span>
+        </button>
+    </div>
+
+    <!-- Blog Filter Controls -->
+    <div class="blog-filter-controls">
+        <div class="blog-filter-section">
+            <span class="blog-filter-label">Filtrer par :</span>
+            {{ $allTags := slice }}
+            {{ range where .Site.RegularPages "Section" "posts" }}
+                {{ range .Params.tags }}
+                    {{ $allTags = $allTags | append . }}
+                {{ end }}
+            {{ end }}
+            {{ $uniqueTags := $allTags | uniq | sort }}
+            {{ range first 8 $uniqueTags }}
+            <button class="blog-tag-filter" data-tag="{{ . | urlize }}">{{ . }}</button>
+            {{ end }}
+            <button class="blog-clear-filters">Effacer</button>
+        </div>
+    </div>
+
+    <!-- Blog Sort Controls -->
+    <div class="blog-sort-controls">
+        <label for="blog-sort" class="blog-filter-label">Trier par :</label>
+        <select id="blog-sort" class="blog-sort-select">
+            <option value="date-desc">Plus récent</option>
+            <option value="date-asc">Plus ancien</option>
+            <option value="title-asc">Titre A-Z</option>
+            <option value="title-desc">Titre Z-A</option>
+        </select>
+    </div>
+
+    <!-- Blog Search -->
+    <div class="blog-search">
+        <input type="text" 
+               class="blog-search-input" 
+               placeholder="Rechercher un article..." 
+               id="blog-search-input">
+    </div>
+
+    <!-- Blog Grid -->
+    <main class="blog-grid" id="blog-posts-grid">
+        {{ range .Pages }}
+        <article class="blog-card" 
+                 data-category="{{ .Params.category | default "tech" | lower }}"
+                 data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," }}{{ end }}"
+                 data-date="{{ .Date.Format "2006-01-02" }}"
+                 data-title="{{ .Title | lower }}">
+            
+            <!-- Blog Category (top left) -->
+            {{ if .Params.category }}
+            <span class="post-category">{{ .Params.category | title }}</span>
+            {{ end }}
+            
+            <!-- Reading Time (top right) -->
+            {{ if .ReadingTime }}
+            <div class="blog-reading-time">{{ .ReadingTime }} min de lecture</div>
+            {{ end }}
+
+            <!-- Blog Image -->
+            <div class="blog-image">
+                {{ if .Params.image }}
+                <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
+                {{ else }}
+                <div class="blog-image-placeholder">
+                    <div class="blog-icon">
+                        {{ if eq (.Params.category | default "tech") "tech" }}🔧
+                        {{ else if eq (.Params.category | default "tech") "dev" }}💻
+                        {{ else if eq (.Params.category | default "tech") "design" }}🎨
+                        {{ else if eq (.Params.category | default "tech") "opinion" }}💭
+                        {{ else }}📝{{ end }}
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+
+            <!-- Blog Content -->
+            <div class="blog-content">
+                <!-- Blog Title -->
+                <h2 class="blog-title">
+                    <a href="{{ .Permalink }}" class="blog-title-link">{{ .Title }}</a>
+                </h2>
+
+                <!-- Blog Description -->
+                <p class="blog-description">
+                    {{ if .Params.description }}
+                        {{ .Params.description | truncate 150 "..." }}
+                    {{ else }}
+                        {{ .Summary | truncate 150 "..." }}
+                    {{ end }}
+                </p>
+            </div>
+
+            <!-- Blog Footer -->
+            <div class="blog-card-footer">
+                <!-- Date (bottom left) -->
+                <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                    {{ .Date.Format "02 Jan 2006" }}
+                </time>
+                
+                <!-- Read Article Button (bottom right) -->
+                <a href="{{ .Permalink }}" class="read-more-btn">
+                    Lire l'article
+                </a>
+            </div>
+        </article>
+        {{ end }}
+    </main>
+
+    <!-- Blog Footer -->
+    <footer class="blog-footer">
+        <div class="blog-stats">
+            <p>{{ len .Pages }} articles publiés</p>
+        </div>
+    </footer>
+</div>
+
+<!-- Blog JavaScript for filtering and search -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const grid = document.getElementById('blog-posts-grid');
+    const cards = grid.querySelectorAll('.blog-card');
+    const tabBtns = document.querySelectorAll('.blog-tab-btn');
+    const tagFilters = document.querySelectorAll('.blog-tag-filter');
+    const clearFilters = document.querySelector('.blog-clear-filters');
+    const sortSelect = document.getElementById('blog-sort');
+    const searchInput = document.getElementById('blog-search-input');
+    
+    let activeCategory = 'all';
+    let activeTags = new Set();
+    let searchTerm = '';
+
+    // Category filtering
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            activeCategory = this.dataset.category;
+            filterPosts();
+        });
+    });
+
+    // Tag filtering
+    tagFilters.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tag = this.dataset.tag;
+            if (activeTags.has(tag)) {
+                activeTags.delete(tag);
+                this.classList.remove('active');
+            } else {
+                activeTags.add(tag);
+                this.classList.add('active');
+            }
+            filterPosts();
+        });
+    });
+
+    // Clear filters
+    clearFilters.addEventListener('click', function() {
+        activeTags.clear();
+        tagFilters.forEach(btn => btn.classList.remove('active'));
+        filterPosts();
+    });
+
+    // Search
+    searchInput.addEventListener('input', function() {
+        searchTerm = this.value.toLowerCase();
+        filterPosts();
+    });
+
+    // Sort
+    sortSelect.addEventListener('change', function() {
+        sortPosts(this.value);
+    });
+
+    function filterPosts() {
+        cards.forEach(card => {
+            const category = card.dataset.category;
+            const tags = card.dataset.tags.split(',');
+            const title = card.dataset.title;
+            
+            let showCard = true;
+            
+            // Category filter
+            if (activeCategory !== 'all' && category !== activeCategory) {
+                showCard = false;
+            }
+            
+            // Tag filter
+            if (activeTags.size > 0) {
+                const hasMatchingTag = [...activeTags].some(tag => 
+                    tags.some(cardTag => cardTag.toLowerCase().includes(tag))
+                );
+                if (!hasMatchingTag) {
+                    showCard = false;
+                }
+            }
+            
+            // Search filter
+            if (searchTerm && !title.includes(searchTerm)) {
+                showCard = false;
+            }
+            
+            card.style.display = showCard ? 'flex' : 'none';
+            
+            if (showCard) {
+                card.classList.add('filtered-in');
+                card.classList.remove('filtered-out');
+            } else {
+                card.classList.add('filtered-out');
+                card.classList.remove('filtered-in');
+            }
+        });
+    }
+
+    function sortPosts(sortBy) {
+        const cardsArray = Array.from(cards);
+        
+        cardsArray.sort((a, b) => {
+            switch (sortBy) {
+                case 'date-desc':
+                    return new Date(b.dataset.date) - new Date(a.dataset.date);
+                case 'date-asc':
+                    return new Date(a.dataset.date) - new Date(b.dataset.date);
+                case 'title-asc':
+                    return a.dataset.title.localeCompare(b.dataset.title);
+                case 'title-desc':
+                    return b.dataset.title.localeCompare(a.dataset.title);
+                default:
+                    return 0;
+            }
+        });
+        
+        cardsArray.forEach(card => grid.appendChild(card));
+    }
+});
+</script>
+{{ end }}

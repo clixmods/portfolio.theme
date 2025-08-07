@@ -1,0 +1,192 @@
+{{ define "main" }}
+<div class="blog-theme blog-single-page">
+    <!-- Blog Article Header -->
+    <header class="blog-article-header">
+        <div class="blog-article-meta">
+            <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "02 Jan 2006" }}
+            </time>
+            {{ if .Params.category }}
+            <span class="post-category">{{ .Params.category | title }}</span>
+            {{ end }}
+            {{ if .ReadingTime }}
+            <span class="blog-reading-time">{{ .ReadingTime }} min de lecture</span>
+            {{ end }}
+        </div>
+
+        <h1 class="blog-article-title">{{ .Title }}</h1>
+        
+        {{ if .Params.subtitle }}
+        <p class="blog-article-subtitle">{{ .Params.subtitle }}</p>
+        {{ end }}
+
+        {{ if .Params.tags }}
+        <div class="blog-article-tags">
+            {{ range .Params.tags }}
+            <span class="blog-tag">{{ . }}</span>
+            {{ end }}
+        </div>
+        {{ end }}
+
+        <!-- Featured Image -->
+        {{ if .Params.image }}
+        <div class="blog-article-image">
+            <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
+        </div>
+        {{ end }}
+    </header>
+
+    <!-- Blog Article Content -->
+    <main class="blog-article-content">
+        <div class="blog-content-wrapper">
+            {{ .Content }}
+        </div>
+
+        <!-- Technologies Used (if applicable) -->
+        {{ if .Params.technologies }}
+        <div class="blog-article-technologies">
+            <h3>Technologies utilisées</h3>
+            <div class="blog-technologies">
+                {{ range .Params.technologies }}
+                <span class="tech-chip">{{ . }}</span>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+
+        <!-- External Links -->
+        {{ if or .Params.demo_link .Params.github_link .Params.external_link }}
+        <div class="blog-article-links">
+            <h3>Liens utiles</h3>
+            <div class="blog-actions">
+                {{ if .Params.demo_link }}
+                <a href="{{ .Params.demo_link }}" 
+                   class="read-more-btn" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    🚀 Voir la démo
+                </a>
+                {{ end }}
+                {{ if .Params.github_link }}
+                <a href="{{ .Params.github_link }}" 
+                   class="read-more-btn" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    📚 Code source
+                </a>
+                {{ end }}
+                {{ if .Params.external_link }}
+                <a href="{{ .Params.external_link }}" 
+                   class="read-more-btn" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    🔗 Lien externe
+                </a>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+    </main>
+
+    <!-- Blog Article Footer -->
+    <footer class="blog-article-footer">
+        <!-- Author Info -->
+        <div class="blog-author-info">
+            <div class="blog-author-content">
+                <h3>À propos de l'auteur</h3>
+                <p>{{ .Site.Data.profile.bio | default "Développeur passionné par les nouvelles technologies et l'innovation." }}</p>
+            </div>
+        </div>
+
+        <!-- Share Section -->
+        <div class="blog-share-section">
+            <h3>Partager cet article</h3>
+            <div class="blog-share-buttons">
+                <a href="https://twitter.com/intent/tweet?text={{ .Title }}&url={{ .Permalink }}" 
+                   class="read-more-btn" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    🐦 Twitter
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink }}" 
+                   class="read-more-btn" 
+                   target="_blank" 
+                   rel="noopener noreferrer">
+                    💼 LinkedIn
+                </a>
+                <button class="read-more-btn" onclick="copyToClipboard('{{ .Permalink }}')">
+                    📋 Copier le lien
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation to Previous/Next Posts -->
+        <nav class="blog-post-navigation">
+            {{ with .PrevInSection }}
+            <div class="blog-nav-item blog-nav-prev">
+                <span class="blog-nav-label">Article précédent</span>
+                <a href="{{ .Permalink }}" class="blog-nav-link">
+                    <h4>{{ .Title }}</h4>
+                    <time>{{ .Date.Format "02 Jan 2006" }}</time>
+                </a>
+            </div>
+            {{ end }}
+
+            {{ with .NextInSection }}
+            <div class="blog-nav-item blog-nav-next">
+                <span class="blog-nav-label">Article suivant</span>
+                <a href="{{ .Permalink }}" class="blog-nav-link">
+                    <h4>{{ .Title }}</h4>
+                    <time>{{ .Date.Format "02 Jan 2006" }}</time>
+                </a>
+            </div>
+            {{ end }}
+        </nav>
+
+        <!-- Related Posts -->
+        {{ $related := .Site.RegularPages.Related . }}
+        {{ with $related }}
+        <section class="blog-related-posts">
+            <h3>Articles similaires</h3>
+            <div class="blog-related-grid">
+                {{ range first 3 . }}
+                <article class="blog-related-card">
+                    <div class="blog-related-image">
+                        {{ if .Params.image }}
+                        <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
+                        {{ else }}
+                        <div class="blog-image-placeholder">
+                            <div class="blog-icon">📝</div>
+                        </div>
+                        {{ end }}
+                    </div>
+                    <div class="blog-related-content">
+                        <time class="post-date">{{ .Date.Format "02 Jan" }}</time>
+                        <h4><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
+                        <p>{{ .Summary | truncate 80 }}</p>
+                    </div>
+                </article>
+                {{ end }}
+            </div>
+        </section>
+        {{ end }}
+
+        <!-- Back to Blog -->
+        <div class="blog-back-to-list">
+            <a href="/posts" class="view-all-posts">
+                ← Retour au blog
+            </a>
+        </div>
+    </footer>
+</div>
+
+<!-- JavaScript for copy functionality -->
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        // You could add a toast notification here
+        console.log('Lien copié dans le presse-papier');
+    });
+}
+</script>
+{{ end }}
