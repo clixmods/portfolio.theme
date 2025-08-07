@@ -393,6 +393,41 @@ body {
   position: relative;
   min-width: 36px !important;
   padding: 8px !important;
+  
+  /* S'assurer que les styles de base sont appliqués */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: var(--top-bar-text);
+  cursor: pointer;
+  transition: all var(--top-bar-transition);
+  
+  /* Focus et accessibilité */
+  &:focus {
+    outline: 2px solid var(--top-bar-accent);
+    outline-offset: 2px;
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  /* État hover */
+  &:hover {
+    background: var(--top-bar-hover);
+    color: var(--top-bar-accent);
+    transform: translateY(-1px);
+  }
+  
+  /* État actif */
+  &:active {
+    transform: translateY(0);
+    background: var(--top-bar-active);
+  }
 }
 
 .theme-icon {
@@ -982,8 +1017,10 @@ body {
     display: none;
   }
   
+  /* Le theme-toggle doit rester visible - ne pas le masquer */
   .theme-toggle {
-    display: none;
+    min-width: 32px !important;
+    padding: 6px !important;
   }
   
   .top-bar-right {

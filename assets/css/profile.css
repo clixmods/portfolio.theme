@@ -87,6 +87,7 @@ main,
     width: 100%;
     min-width: 100vw;
     box-sizing: border-box;
+    min-height: calc(100vh - 320px); /* Reserve space for stats at bottom */
 }
 
 /**
@@ -385,13 +386,25 @@ main,
     
     /* Profile stats responsive */
     .profile-stats {
-        justify-content: center;
-        gap: 1.5rem;
-        padding: 1rem;
+        bottom: 140px;
+        transform: translateX(-50%);
+        gap: 2rem;
+        padding: 1.2rem 2rem;
+        min-width: 400px;
+        max-width: 90%;
+    }
+    
+    .stat-item {
+        padding: 0.8rem 1rem;
+        min-width: 80px;
     }
     
     .stat-number {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
     }
 }
 
@@ -428,13 +441,18 @@ main,
     
     /* Profile stats mobile layout */
     .profile-stats {
+        bottom: 120px;
+        transform: translateX(-50%);
         gap: 1rem;
-        padding: 0.8rem;
+        padding: 1rem 1.5rem;
+        min-width: 320px;
+        max-width: 95%;
         flex-wrap: wrap;
     }
     
     .stat-item {
-        min-width: 80px;
+        padding: 0.7rem 0.8rem;
+        min-width: 70px;
     }
     
     .stat-number {
@@ -442,7 +460,7 @@ main,
     }
     
     .stat-label {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
     }
 }
 
@@ -451,27 +469,32 @@ main,
    ========================================================================== */
 
 /**
- * Statistics Container - Full Width Bottom Bar
+ * Statistics Container - Floating Horizontal Bar
  */
 .profile-stats {
-    position: absolute;
-    bottom: 120px; /* Above the dock */
-    left: 0;
-    right: 0;
-    width: 100%;
+    position: fixed;
+    bottom: 160px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 4rem;
-    padding: 2rem;
+    gap: 3rem;
+    padding: 1.5rem 3rem;
     background: linear-gradient(135deg, 
-        rgba(79, 209, 199, 0.02) 0%, 
-        rgba(79, 209, 199, 0.05) 50%, 
-        rgba(79, 209, 199, 0.1) 100%);
-    border-top: 1px solid rgba(79, 209, 199, 0.2);
+        rgba(79, 209, 199, 0.08) 0%, 
+        rgba(79, 209, 199, 0.03) 100%);
+    border: 1px solid rgba(79, 209, 199, 0.2);
+    border-radius: 25px;
     backdrop-filter: blur(20px);
     opacity: 0;
     animation: fadeInUp 1s ease 1.5s forwards;
+    box-shadow: 
+        0 10px 40px rgba(79, 209, 199, 0.15),
+        0 0 60px rgba(79, 209, 199, 0.05);
+    min-width: 600px;
+    max-width: 80%;
+    z-index: 10;
 }
 
 .stat-item {
@@ -479,11 +502,24 @@ main,
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding: 1rem 1.5rem;
+    background: rgba(79, 209, 199, 0.05);
+    border-radius: 18px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(79, 209, 199, 0.15);
+    min-width: 120px;
+}
+
+.stat-item:hover {
+    background: rgba(79, 209, 199, 0.12);
+    border-color: rgba(79, 209, 199, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(79, 209, 199, 0.2);
 }
 
 .stat-number {
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: 2.2rem;
+    font-weight: 800;
     color: rgba(255, 255, 255, 0.95);
     line-height: 1;
     margin-bottom: 0.5rem;
@@ -494,25 +530,34 @@ main,
 }
 
 .stat-label {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
     font-weight: 500;
-    line-height: 1.2;
+    line-height: 1.3;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
     .profile-stats {
-        justify-content: center;
-        gap: 1.5rem;
+        bottom: 140px;
+        transform: translateX(-50%);
+        gap: 2rem;
+        padding: 1.2rem 2rem;
+        min-width: 400px;
+        max-width: 90%;
     }
     
     .stat-item {
-        align-items: center;
-        text-align: center;
+        padding: 0.8rem 1rem;
+        min-width: 80px;
     }
     
     .stat-number {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
     }
 }
 
