@@ -485,33 +485,33 @@
 
             <!-- Testimonials Box -->
             {{ if .Params.testimonials }}
-            <div class="info-box testimonials-box {{ .Params.testimonials_size | default "size-large" }}">
+            <div class="info-box widget-testimonials-box {{ .Params.testimonials_size | default "size-large" }}">
                 <div class="info-box-header" onclick="toggleInfoBox(this)">
                     <div class="info-box-header-content">
                         <h3 class="info-box-title">Témoignages</h3>
                         <!-- Aperçu rotatif des testimonials -->
                         {{ if .Params.testimonials }}
-                        <div class="testimonials-preview">
-                            <div class="testimonials-rotator">
+                        <div class="widget-testimonials-preview">
+                            <div class="widget-testimonials-rotator">
                                 {{ range $index, $testimonial := .Params.testimonials }}
                                 {{ $personSlice := where $.Site.Data.people "id" $testimonial.person }}
                                 {{ $person := index $personSlice 0 }}
-                                <div class="testimonial-preview-item {{ if eq $index 0 }}active{{ end }}" data-index="{{ $index }}">
-                                    <div class="testimonial-preview-header">
-                                        <div class="testimonial-preview-avatar {{ if not $person.avatar }}placeholder{{ end }}">
+                                <div class="widget-testimonial-preview-item {{ if eq $index 0 }}active{{ end }}" data-index="{{ $index }}">
+                                    <div class="widget-testimonial-preview-header">
+                                        <div class="widget-testimonial-preview-avatar {{ if not $person.avatar }}placeholder{{ end }}">
                                             {{ if $person.avatar }}
                                             <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
                                             {{ else }}
                                             <span>{{ substr $person.name 0 1 | upper }}</span>
                                             {{ end }}
                                         </div>
-                                        <div class="testimonial-preview-author">{{ $person.name }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}</div>
+                                        <div class="widget-testimonial-preview-author">{{ $person.name }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}</div>
                                     </div>
-                                <div class="testimonial-preview-quote">{{ $testimonial.quote }}</div>
+                                <div class="widget-testimonial-preview-quote">{{ $testimonial.quote }}</div>
                                 </div>
                                 {{ end }}
                             </div>
-                            <div class="testimonials-progress"></div>
+                            <div class="widget-testimonials-progress"></div>
                         </div>
                         {{ end }}
                     </div>
@@ -522,24 +522,24 @@
                     </div>
                 </div>
                 <div class="info-box-content">
-                    <div class="testimonials-list">
+                    <div class="widget-testimonials-list">
                         {{ range .Params.testimonials }}
                         {{ $personSlice := where $.Site.Data.people "id" .person }}
                         {{ $person := index $personSlice 0 }}
-                        <div class="testimonial-item">
-                        <div class="testimonial-quote">{{ .quote }}</div>
-                            <div class="testimonial-author">
-                                <div class="testimonial-avatar {{ if not $person.avatar }}placeholder{{ end }}">
+                        <div class="widget-testimonial-item">
+                        <div class="widget-testimonial-quote">{{ .quote }}</div>
+                            <div class="widget-testimonial-author">
+                                <div class="widget-testimonial-avatar {{ if not $person.avatar }}placeholder{{ end }}">
                                     {{ if $person.avatar }}
                                     <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
                                     {{ else }}
                                     <span>{{ substr $person.name 0 1 | upper }}</span>
                                     {{ end }}
                                 </div>
-                                <div class="testimonial-info">
-                                    <div class="testimonial-name">{{ $person.name }}</div>
+                                <div class="widget-testimonial-info">
+                                    <div class="widget-testimonial-name">{{ $person.name }}</div>
                                     {{ if .role }}
-                                    <div class="testimonial-role">{{ .role }}</div>
+                                    <div class="widget-testimonial-role">{{ .role }}</div>
                                     {{ end }}
                                 </div>
                             </div>
