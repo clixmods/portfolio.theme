@@ -1,11 +1,20 @@
 <!-- Top Bar - Style macOS -->
 <nav id="top-bar" role="navigation" aria-label="Barre d'outils principale">
   <div class="top-bar-container">
-    <!-- Section gauche - Logo/Nom -->
+    <!-- Section gauche - Avatar et Nom -->
     <div class="top-bar-left">
       <a href="{{ "/" | relURL }}" class="top-bar-logo" aria-label="Retour à l'accueil">
+        <div class="avatar-container">
+          <img src="/images/avatar6.svg" alt="Avatar Clix" class="user-avatar">
+        </div>
         <span class="logo-text">Clix</span>
       </a>
+      
+      <!-- Indicateur de page actuelle -->
+      <div class="current-page-indicator">
+        <span class="page-dot"></span>
+        <span class="page-name">{{ if .IsHome }}Accueil{{ else if eq .Section "projects" }}Projets{{ else if eq .Section "posts" }}Blog{{ else }}{{ .Title }}{{ end }}</span>
+      </div>
     </div>
     
     <!-- Section centrale - Actions principales -->
@@ -51,12 +60,6 @@
     
     <!-- Section droite - Sélecteur de langue, page actuelle et heure -->
     <div class="top-bar-right">
-      <!-- Indicateur de page actuelle -->
-      <div class="current-page-indicator">
-        <span class="page-dot"></span>
-        <span class="page-name">{{ if .IsHome }}Accueil{{ else if eq .Section "projects" }}Projets{{ else if eq .Section "posts" }}Blog{{ else }}{{ .Title }}{{ end }}</span>
-      </div>
-      
       <!-- Système de trophées -->
       <div class="trophies-container">
         <button class="top-bar-button trophies-btn" 
@@ -224,13 +227,12 @@
           </a>
         </div>
       </div>
-      
+    </div>
+    
+    <!-- Section très à droite - Horloge -->
+    <div class="top-bar-far-right">
       <!-- Horloge -->
       <div class="top-bar-clock">
-        <svg class="top-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
         <span class="clock-time" id="clock-time">--:--</span>
       </div>
     </div>

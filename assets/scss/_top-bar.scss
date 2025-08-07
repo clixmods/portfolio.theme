@@ -99,7 +99,8 @@ body {
   height: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--top-bar-spacing);
+  padding: 0 4px;
+  gap: 8px;
 }
 
 /* ========================================
@@ -108,19 +109,42 @@ body {
 
 .top-bar-left {
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .top-bar-logo {
   display: flex;
   align-items: center;
-  padding: 8px 16px;
+  gap: 10px;
+  padding: 6px 12px;
   border-radius: 8px;
   text-decoration: none;
   transition: all var(--top-bar-transition);
   
   &:hover {
     background: var(--top-bar-hover);
+    transform: translateY(-1px);
   }
+}
+
+.top-bar-logo .avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--top-bar-accent);
+  background: rgba(79, 209, 199, 0.1);
+}
+
+.top-bar-logo .user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .logo-text {
@@ -146,6 +170,7 @@ body {
 .top-bar-actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
@@ -205,6 +230,48 @@ body {
   transition: stroke var(--top-bar-transition);
 }
 
+/* Icône spécifique pour les trophées */
+.top-bar-right .trophies-container .trophies-btn .top-bar-icon {
+  width: 20px;
+  height: 20px;
+  stroke: #FFD700;
+  fill: none;
+  opacity: 1;
+}
+
+.top-bar-right .trophies-container .trophies-btn:hover .top-bar-icon {
+  stroke: #FFA500;
+}
+
+/* Override du layout vertical des trophées pour un layout horizontal */
+.top-bar-right .trophies-container .trophies-btn {
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  justify-content: flex-start !important;
+}
+
+/* Forcer l'ordre des éléments dans le bouton trophées */
+.top-bar-right .trophies-container .trophies-btn .top-bar-icon {
+  order: 1 !important;
+  flex-shrink: 0 !important;
+}
+
+.top-bar-right .trophies-container .trophies-btn .trophy-count {
+  order: 2 !important;
+  flex-shrink: 0 !important;
+}
+
+.top-bar-right .trophies-container .trophies-btn .trophy-progress {
+  order: 3 !important;
+  position: absolute !important;
+  bottom: 2px !important;
+  left: 8px !important;
+  right: 8px !important;
+  width: calc(100% - 16px) !important;
+  height: 2px !important;
+}
+
 /* Texte des boutons */
 .button-text {
   font-size: 0.875rem;
@@ -251,7 +318,15 @@ body {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
+}
+
+/* Section très à droite - Horloge séparée */
+.top-bar-far-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }
 
 /* Indicateur de page actuelle */
@@ -260,9 +335,9 @@ body {
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: none;
 }
 
 .page-dot {
@@ -296,13 +371,12 @@ body {
 .top-bar-clock {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  min-width: 80px;
   justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  min-width: auto;
+  margin-left: 8px;
 }
 
 .clock-time {
@@ -737,7 +811,9 @@ body {
 /* Tablette */
 @media (max-width: 1024px) {
   .top-bar-container {
-    padding: 0 var(--top-bar-spacing);
+    padding: 0 3px;
+    gap: 6px;
+    align-items: center;
   }
   
   .button-text {
@@ -754,7 +830,18 @@ body {
   }
   
   .top-bar-right {
-    gap: 8px;
+    gap: 4px;
+    align-items: center;
+  }
+  
+  .top-bar-left {
+    gap: 6px;
+    align-items: center;
+  }
+  
+  .top-bar-far-right {
+    margin-left: 6px;
+    align-items: center;
   }
 }
 
@@ -769,18 +856,23 @@ body {
   }
   
   .top-bar-container {
-    padding: 0 8px;
+    padding: 0 2px;
+    align-items: center;
   }
   
   .top-bar-actions {
     gap: 2px;
     padding: 2px;
+    align-items: center;
+    justify-content: center;
   }
   
   .top-bar-button {
     min-width: 32px;
     height: 32px;
     padding: 6px;
+    align-items: center;
+    justify-content: center;
   }
   
   .logo-text {
@@ -796,12 +888,32 @@ body {
   }
   
   .top-bar-right {
+    gap: 4px;
+    align-items: center;
+  }
+  
+  .top-bar-left {
     gap: 6px;
+    align-items: center;
+  }
+  
+  .top-bar-far-right {
+    margin-left: 4px;
+    align-items: center;
+  }
+  
+  .top-bar-clock {
+    margin-left: 2px;
   }
   
   .current-page-indicator,
   .top-bar-clock {
     padding: 4px 8px;
+  }
+  
+  .top-bar-clock {
+    min-width: auto;
+    margin-left: 8px;
   }
   
   .clock-time {
@@ -831,7 +943,34 @@ body {
 /* Très petits écrans */
 @media (max-width: 480px) {
   .top-bar-container {
-    padding: 0 6px;
+    padding: 0 1px;
+    gap: 2px;
+    align-items: center;
+  }
+  
+  .top-bar-left {
+    gap: 4px;
+    align-items: center;
+  }
+  
+  .top-bar-far-right {
+    margin-left: 2px;
+    align-items: center;
+  }
+  
+  .top-bar-clock {
+    padding: 0;
+    min-width: auto;
+    margin-left: 1px;
+  }
+  
+  .top-bar-logo .avatar-container {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .logo-text {
+    font-size: 1rem;
   }
   
   /* Masquer certains éléments sur très petits écrans */
