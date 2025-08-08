@@ -1,15 +1,13 @@
 <section class="experience-section">
     <div class="experience-header">
-        <h2>Expérience Professionnelle</h2>
-        <p class="experience-subtitle">
-            Mon parcours professionnel, des projets concrets aux compétences développées en entreprise
-        </p>
+    <h2>{{ i18n "experience_title" | default "Expérience Professionnelle" }}</h2>
+    <p class="experience-subtitle">{{ i18n "experience_subtitle" | default "Mon parcours professionnel, des projets concrets aux compétences développées en entreprise" }}</p>
     </div>
 
     <!-- Navigation Tabs -->
     <div class="experience-tabs">
-        <button class="exp-tab-btn active" data-category="experiences">Expériences</button>
-        <button class="exp-tab-btn" data-category="internships">Stages & Recherche</button>
+    <button class="exp-tab-btn active" data-category="experiences">{{ i18n "experiences" | default "Expériences" }}</button>
+    <button class="exp-tab-btn" data-category="internships">{{ i18n "internships" | default "Stages & Recherche" }}</button>
     </div>
 
     <!-- Experiences Timeline -->
@@ -35,7 +33,7 @@
                     </div>
                 </div>
                 {{ if eq $exp.status "current" }}
-                <div class="current-badge">En cours</div>
+                <div class="current-badge">{{ i18n "in_progress" | default "En cours" }}</div>
                 {{ end }}
             </div>
 
@@ -45,14 +43,14 @@
                 {{ if $exp.projects }}
                 <div class="projects-section">
                     <div class="projects-header">
-                        <h5>Projets principaux :</h5>
+                        <h5>{{ i18n "main_projects" | default "Projets principaux :" }}</h5>
                         <div class="layout-controls">
-                            <button class="layout-btn" data-layout="horizontal" title="Affichage grille">
+                            <button class="layout-btn" data-layout="horizontal" title="{{ i18n "grid_view" | default "Affichage grille" }}">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M3,11H11V3H3M3,21H11V13H3M13,21H21V13H13M13,3V11H21V3"/>
                                 </svg>
                             </button>
-                            <button class="layout-btn" data-layout="vertical" title="Affichage liste">
+                            <button class="layout-btn" data-layout="vertical" title="{{ i18n "list_view" | default "Affichage liste" }}">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M3,5H21V3H3M3,13H21V11H3M3,21H21V19H3"/>
                                 </svg>
@@ -114,7 +112,7 @@
                                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                                                     <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
                                                 </svg>
-                                                Voir projet
+                                                {{ i18n "see_project" | default "Voir projet" }}
                                             </a>
                                         </div>
                                     </div>
@@ -123,7 +121,7 @@
                                 <!-- Fallback if project not found -->
                                 <div class="project-tile-content">
                                     <h6 class="project-name">{{ .project_ref }}</h6>
-                                    <p class="project-desc">Projet référencé non trouvé</p>
+                                    <p class="project-desc">{{ i18n "project_not_found" | default "Projet référencé non trouvé" }}</p>
                                 </div>
                             {{ end }}
                         {{ else }}
@@ -173,14 +171,14 @@
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
                                             </svg>
-                                            Voir projet
+                                            {{ i18n "see_project" | default "Voir projet" }}
                                         </a>
                                         {{ else }}
                                         <span class="project-tile-btn" style="opacity: 0.6;">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.1V11.1C14.8,11.6 14.4,12 13.9,12H10.1C9.6,12 9.2,11.6 9.2,11.1V10.1C9.2,8.6 10.6,7 12,7Z"/>
                                             </svg>
-                                            Confidentiel
+                                            {{ i18n "confidential" | default "Confidentiel" }}
                                         </span>
                                         {{ end }}
                                     </div>
@@ -193,7 +191,7 @@
                 </div>
                 {{ else if $exp.tasks }}
                 <div class="tasks-section">
-                    <h5>Responsabilités :</h5>
+                    <h5>{{ i18n "responsibilities" | default "Responsabilités :" }}</h5>
                     <ul class="experience-tasks">
                         {{ range $exp.tasks }}
                         <li>{{ . }}</li>
@@ -203,7 +201,7 @@
                 {{ end }}
 
                 <div class="experience-skills">
-                    <h5>Compétences développées :</h5>
+                    <h5>{{ i18n "skills_developed" | default "Compétences développées :" }}</h5>
                     <div class="skills-tags">
                         {{ range $exp.skills }}
                         <span class="skill-tag">{{ . }}</span>
@@ -213,7 +211,7 @@
 
                 {{ if $exp.technologies }}
                 <div class="experience-technologies">
-                    <h5>Technologies utilisées :</h5>
+                    <h5>{{ i18n "technologies_used" | default "Technologies utilisées :" }}</h5>
                     <div class="tech-chips">
                         {{ range $exp.technologies }}
                         {{ $techName := . }}
@@ -258,7 +256,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="seeking-badge">Recherche active</div>
+                <div class="seeking-badge">{{ i18n "actively_seeking" | default "Recherche active" }}</div>
             </div>
 
             <div class="experience-content">
@@ -266,7 +264,7 @@
 
                 {{ if $int.requirements }}
                 <div class="requirements-section">
-                    <h5>Recherché :</h5>
+                    <h5>{{ i18n "looking_for" | default "Recherché :" }}</h5>
                     <ul class="requirements-list">
                         {{ range $int.requirements }}
                         <li>{{ . }}</li>
@@ -276,7 +274,7 @@
                 {{ end }}
 
                 <div class="experience-skills">
-                    <h5>Compétences à mettre en œuvre :</h5>
+                    <h5>{{ i18n "skills_to_apply" | default "Compétences à mettre en œuvre :" }}</h5>
                     <div class="skills-tags">
                         {{ range $int.skills }}
                         <span class="skill-tag">{{ . }}</span>
@@ -286,7 +284,7 @@
 
                 {{ if $int.technologies }}
                 <div class="experience-technologies">
-                    <h5>Technologies souhaitées :</h5>
+                    <h5>{{ i18n "preferred_technologies" | default "Technologies souhaitées :" }}</h5>
                     <div class="tech-chips">
                         {{ range $int.technologies }}
                         {{ $techName := . }}

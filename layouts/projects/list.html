@@ -9,7 +9,7 @@
         <div class="ps5-sectors-container">
             <button class="ps5-sector-btn active" data-sector="all">
                 <span class="ps5-sector-icon">🎮</span>
-                <span class="ps5-sector-label">Tous les projets</span>
+                <span class="ps5-sector-label">{{ i18n "all_projects" | default "Tous les projets" }}</span>
             </button>
             <button class="ps5-sector-btn" data-sector="games">
                 <span class="ps5-sector-icon">🎯</span>
@@ -103,7 +103,7 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
-                            Ouvrir
+                            {{ i18n "open" | default "Ouvrir" }}
                         </a>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
         <div class="ps5-stats">
             <div class="ps5-stat">
                 <span class="ps5-stat-number">{{ len (where .Site.RegularPages "Section" "projects") }}</span>
-                <span class="ps5-stat-label">Projets total</span>
+                <span class="ps5-stat-label">{{ i18n "total_projects" | default "Projets total" }}</span>
             </div>
             <div class="ps5-stat">
                 <span class="ps5-stat-number">{{ len (where (where .Site.RegularPages "Section" "projects") ".Params.sector" "games") }}</span>

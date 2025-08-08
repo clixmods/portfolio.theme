@@ -4,13 +4,13 @@
     <header class="blog-article-header">
         <div class="blog-article-meta">
             <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                {{ .Date.Format "02 Jan 2006" }}
+                {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "02 Jan 2006") }}
             </time>
             {{ if .Params.category }}
             <span class="post-category">{{ .Params.category | title }}</span>
             {{ end }}
             {{ if .ReadingTime }}
-            <span class="blog-reading-time">{{ .ReadingTime }} min de lecture</span>
+            <span class="blog-reading-time">{{ .ReadingTime }} {{ i18n "reading_minutes" | default "min de lecture" }}</span>
             {{ end }}
         </div>
 
@@ -45,7 +45,7 @@
         <!-- Technologies Used (if applicable) -->
         {{ if .Params.technologies }}
         <div class="blog-article-technologies">
-            <h3>Technologies utilisées</h3>
+            <h3>{{ i18n "technologies_used" | default "Technologies utilisées" }}</h3>
             <div class="blog-technologies">
                 {{ range .Params.technologies }}
                 <span class="tech-chip">{{ . }}</span>
@@ -57,14 +57,14 @@
         <!-- External Links -->
         {{ if or .Params.demo_link .Params.github_link .Params.external_link }}
         <div class="blog-article-links">
-            <h3>Liens utiles</h3>
+            <h3>{{ i18n "useful_links" | default "Liens utiles" }}</h3>
             <div class="blog-actions">
                 {{ if .Params.demo_link }}
                 <a href="{{ .Params.demo_link }}" 
                    class="read-more-btn" 
                    target="_blank" 
                    rel="noopener noreferrer">
-                    🚀 Voir la démo
+                    🚀 {{ i18n "view_demo" | default "Voir la démo" }}
                 </a>
                 {{ end }}
                 {{ if .Params.github_link }}
@@ -72,7 +72,7 @@
                    class="read-more-btn" 
                    target="_blank" 
                    rel="noopener noreferrer">
-                    📚 Code source
+                    📚 {{ i18n "source_code" | default "Code source" }}
                 </a>
                 {{ end }}
                 {{ if .Params.external_link }}
@@ -80,7 +80,7 @@
                    class="read-more-btn" 
                    target="_blank" 
                    rel="noopener noreferrer">
-                    🔗 Lien externe
+                    🔗 {{ i18n "external_link" | default "Lien externe" }}
                 </a>
                 {{ end }}
             </div>
@@ -93,14 +93,14 @@
         <!-- Author Info -->
         <div class="blog-author-info">
             <div class="blog-author-content">
-                <h3>À propos de l'auteur</h3>
-                <p>{{ .Site.Data.profile.bio | default "Développeur passionné par les nouvelles technologies et l'innovation." }}</p>
+                <h3>{{ i18n "about_author" | default "À propos de l'auteur" }}</h3>
+                <p>{{ .Site.Data.profile.bio | default (i18n "author_bio_default" | default "Développeur passionné par les nouvelles technologies et l'innovation.") }}</p>
             </div>
         </div>
 
         <!-- Share Section -->
         <div class="blog-share-section">
-            <h3>Partager cet article</h3>
+            <h3>{{ i18n "share_article" | default "Partager cet article" }}</h3>
             <div class="blog-share-buttons">
                 <a href="https://twitter.com/intent/tweet?text={{ .Title }}&url={{ .Permalink }}" 
                    class="read-more-btn" 
@@ -115,7 +115,7 @@
                     💼 LinkedIn
                 </a>
                 <button class="read-more-btn" onclick="copyToClipboard('{{ .Permalink }}')">
-                    📋 Copier le lien
+                    📋 {{ i18n "copy_link" | default "Copier le lien" }}
                 </button>
             </div>
         </div>
@@ -124,7 +124,7 @@
         <nav class="blog-post-navigation">
             {{ with .PrevInSection }}
             <div class="blog-nav-item blog-nav-prev">
-                <span class="blog-nav-label">Article précédent</span>
+                <span class="blog-nav-label">{{ i18n "previous_article" | default "Article précédent" }}</span>
                 <a href="{{ .Permalink }}" class="blog-nav-link">
                     <h4>{{ .Title }}</h4>
                     <time>{{ .Date.Format "02 Jan 2006" }}</time>
@@ -134,7 +134,7 @@
 
             {{ with .NextInSection }}
             <div class="blog-nav-item blog-nav-next">
-                <span class="blog-nav-label">Article suivant</span>
+                <span class="blog-nav-label">{{ i18n "next_article" | default "Article suivant" }}</span>
                 <a href="{{ .Permalink }}" class="blog-nav-link">
                     <h4>{{ .Title }}</h4>
                     <time>{{ .Date.Format "02 Jan 2006" }}</time>
@@ -147,7 +147,7 @@
         {{ $related := .Site.RegularPages.Related . }}
         {{ with $related }}
         <section class="blog-related-posts">
-            <h3>Articles similaires</h3>
+            <h3>{{ i18n "related_posts" | default "Articles similaires" }}</h3>
             <div class="blog-related-grid">
                 {{ range first 3 . }}
                 <article class="blog-related-card">
@@ -173,8 +173,8 @@
 
         <!-- Back to Blog -->
         <div class="blog-back-to-list">
-            <a href="/posts" class="view-all-posts">
-                ← Retour au blog
+            <a href="{{ "/posts" | relLangURL }}" class="view-all-posts">
+                ← {{ i18n "back_to_blog" | default "Retour au blog" }}
             </a>
         </div>
     </footer>

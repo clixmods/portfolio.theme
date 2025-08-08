@@ -3,10 +3,10 @@
     <div class="profile-content">
         <div class="profile-left">
             <div class="profile-info">
-                <p class="greeting">Bonjour !</p>
-                <h1>Je suis Clément <span class="name">"Clix"</span> GARCIA</h1>
-                <p class="title"><span class="specialty">Développeur</span>, spécialisé dans <span class="specialty">le jeu vidéo</span>.</p>
-                <p class="cta">Collaborons pour donner vie à vos idées les plus ambitieuses</p>
+                <p class="greeting">{{ i18n "greeting" | default .personal.greeting }}</p>
+                <h1>{{ i18n "i_am" | default "Je suis" }} {{ .personal.firstName }} <span class="name">"Clix"</span> {{ .personal.lastName }}</h1>
+                <p class="title">{{ with .personal.title }}{{ . }}{{ end }}</p>
+                {{ with .personal.subtitle }}<p class="cta">{{ . }}</p>{{ end }}
             </div>
         </div>
         
@@ -20,20 +20,20 @@
     <!-- Horizontal stats bar in the middle bottom -->
     <div class="profile-stats">
         <div class="stat-item">
-            <div class="stat-number">Junior</div>
-            <div class="stat-label">2 Années<br>d'expérience professionnel</div>
+            <div class="stat-number">{{ i18n "level_junior" | default "Junior" }}</div>
+            <div class="stat-label">{{ i18n "years_experience" | default "2 années<br>d'expérience professionnel" | safeHTML }}</div>
         </div>
         <div class="stat-item">
             <div class="stat-number">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "games") }}</div>
-            <div class="stat-label">Jeux</div>
+            <div class="stat-label">{{ i18n "games" | default "Jeux" }}</div>
         </div>
         <div class="stat-item">
             <div class="stat-number">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "apps-web") }}</div>
-            <div class="stat-label">Apps/Web</div>
+            <div class="stat-label">{{ i18n "apps_web" | default "Apps/Web" }}</div>
         </div>
         <div class="stat-item">
             <div class="stat-number">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "mods-tools") }}</div>
-            <div class="stat-label">Mods & Tools</div>
+            <div class="stat-label">{{ i18n "mods_tools" | default "Mods & Tools" }}</div>
         </div>
     </div>
     </div>

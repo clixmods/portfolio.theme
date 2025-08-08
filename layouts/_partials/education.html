@@ -1,15 +1,13 @@
 <section class="education-section">
     <div class="education-header">
-        <h2>Formation & Certifications</h2>
-        <p class="education-subtitle">
-            Mon parcours académique et professionnel, construisant les fondations de mon expertise technique
-        </p>
+    <h2>{{ i18n "education_title" | default "Formation & Certifications" }}</h2>
+    <p class="education-subtitle">{{ i18n "education_subtitle" | default "Mon parcours académique et professionnel, construisant les fondations de mon expertise technique" }}</p>
     </div>
 
     <!-- Navigation Tabs -->
     <div class="education-tabs">
-        <button class="edu-tab-btn active" data-category="education">Formation</button>
-        <button class="edu-tab-btn" data-category="certifications">Certifications</button>
+    <button class="edu-tab-btn active" data-category="education">{{ i18n "education" | default "Formation" }}</button>
+    <button class="edu-tab-btn" data-category="certifications">{{ i18n "certifications" | default "Certifications" }}</button>
     </div>
 
     <!-- Education Timeline -->
@@ -37,11 +35,11 @@
                     
                     <div class="timeline-details">
                         <div class="timeline-grade">
-                            <strong>Résultat :</strong> {{ $edu.grade }}
+                            <strong>{{ i18n "grade" | default "Résultat :" }}</strong> {{ $edu.grade }}
                         </div>
                         
                         <div class="timeline-skills">
-                            <strong>Compétences acquises :</strong>
+                            <strong>{{ i18n "skills_acquired" | default "Compétences acquises :" }}</strong>
                             <div class="skills-tags">
                                 {{ range $edu.skills }}
                                 <span class="skill-tag">{{ . }}</span>

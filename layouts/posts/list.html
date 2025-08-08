@@ -2,35 +2,35 @@
 <div class="blog-theme posts-list-page">
     <!-- Blog Header -->
     <header class="blog-header">
-        <h1>{{ .Title | default "Blog" }}</h1>
+    <h1>{{ .Title | default (i18n "blog" | default "Blog") }}</h1>
         <p class="blog-subtitle">
-            {{ .Params.description | default "Découvrez tous mes articles et réflexions sur le développement, les technologies et l'innovation" }}
+            {{ .Params.description | default (i18n "blog_list_subtitle" | default "Découvrez tous mes articles et réflexions sur le développement, les technologies et l'innovation") }}
         </p>
     </header>
 
     <!-- Blog Navigation Tabs -->
     <div class="blog-tabs">
         <button class="blog-tab-btn active" data-category="all">
-            <span>Tous</span>
+            <span>{{ i18n "all" | default "Tous" }}</span>
         </button>
         <button class="blog-tab-btn" data-category="tech">
-            <span>Tech</span>
+            <span>{{ i18n "category_tech" | default "Tech" }}</span>
         </button>
         <button class="blog-tab-btn" data-category="dev">
-            <span>Développement</span>
+            <span>{{ i18n "category_dev" | default "Développement" }}</span>
         </button>
         <button class="blog-tab-btn" data-category="design">
-            <span>Design</span>
+            <span>{{ i18n "category_design" | default "Design" }}</span>
         </button>
         <button class="blog-tab-btn" data-category="opinion">
-            <span>Opinion</span>
+            <span>{{ i18n "category_opinion" | default "Opinion" }}</span>
         </button>
     </div>
 
     <!-- Blog Filter Controls -->
     <div class="blog-filter-controls">
         <div class="blog-filter-section">
-            <span class="blog-filter-label">Filtrer par :</span>
+            <span class="blog-filter-label">{{ i18n "filter_by" | default "Filtrer par :" }}</span>
             {{ $allTags := slice }}
             {{ range where .Site.RegularPages "Section" "posts" }}
                 {{ range .Params.tags }}
@@ -41,18 +41,18 @@
             {{ range first 8 $uniqueTags }}
             <button class="blog-tag-filter" data-tag="{{ . | urlize }}">{{ . }}</button>
             {{ end }}
-            <button class="blog-clear-filters">Effacer</button>
+            <button class="blog-clear-filters">{{ i18n "clear_all" | default "Effacer" }}</button>
         </div>
     </div>
 
     <!-- Blog Sort Controls -->
     <div class="blog-sort-controls">
-        <label for="blog-sort" class="blog-filter-label">Trier par :</label>
+    <label for="blog-sort" class="blog-filter-label">{{ i18n "sort_by" | default "Trier par :" }}</label>
         <select id="blog-sort" class="blog-sort-select">
-            <option value="date-desc">Plus récent</option>
-            <option value="date-asc">Plus ancien</option>
-            <option value="title-asc">Titre A-Z</option>
-            <option value="title-desc">Titre Z-A</option>
+            <option value="date-desc">{{ i18n "newest" | default "Plus récent" }}</option>
+            <option value="date-asc">{{ i18n "oldest" | default "Plus ancien" }}</option>
+            <option value="title-asc">{{ i18n "title_az" | default "Titre A-Z" }}</option>
+            <option value="title-desc">{{ i18n "title_za" | default "Titre Z-A" }}</option>
         </select>
     </div>
 
@@ -60,7 +60,7 @@
     <div class="blog-search">
         <input type="text" 
                class="blog-search-input" 
-               placeholder="Rechercher un article..." 
+               placeholder="{{ i18n "search_posts" | default "Rechercher un article..." }}" 
                id="blog-search-input">
     </div>
 
@@ -80,7 +80,7 @@
             
             <!-- Reading Time (top right) -->
             {{ if .ReadingTime }}
-            <div class="blog-reading-time">{{ .ReadingTime }} min de lecture</div>
+            <div class="blog-reading-time">{{ .ReadingTime }} {{ i18n "reading_minutes" | default "min de lecture" }}</div>
             {{ end }}
 
             <!-- Blog Image -->
@@ -121,12 +121,12 @@
             <div class="blog-card-footer">
                 <!-- Date (bottom left) -->
                 <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                    {{ .Date.Format "02 Jan 2006" }}
+                    {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "02 Jan 2006") }}
                 </time>
                 
                 <!-- Read Article Button (bottom right) -->
                 <a href="{{ .Permalink }}" class="read-more-btn">
-                    Lire l'article
+                    {{ i18n "read_article" | default "Lire l'article" }}
                 </a>
             </div>
         </article>
@@ -136,7 +136,7 @@
     <!-- Blog Footer -->
     <footer class="blog-footer">
         <div class="blog-stats">
-            <p>{{ len .Pages }} articles publiés</p>
+            <p>{{ len .Pages }} {{ i18n "posts_published" | default "articles publiés" }}</p>
         </div>
     </footer>
 </div>

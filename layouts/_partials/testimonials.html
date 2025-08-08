@@ -1,8 +1,8 @@
 <div class="testimonials-section">
     <div class="section-header">
-        <h2>Recommandations</h2>
+    <h2>{{ i18n "testimonials" | default "Recommandations" }}</h2>
         <p class="section-subtitle">
-            Ce que mes collaborateurs et clients disent de mon travail
+            {{ i18n "testimonials_subtitle" | default "Ce que mes collaborateurs et clients disent de mon travail" }}
         </p>
     </div>
     
@@ -28,13 +28,13 @@
         </div>
         
         <div class="slider-controls">
-            <button class="slider-btn prev">‹</button>
+            <button class="slider-btn prev" aria-label="{{ i18n "previous" | default "Précédent" }}">‹</button>
             <div class="slider-indicators">
                 {{ range $index, $testimonial := .Site.Data.testimonials }}
                 <span class="indicator{{ if eq $index 0 }} active{{ end }}"></span>
                 {{ end }}
             </div>
-            <button class="slider-btn next">›</button>
+            <button class="slider-btn next" aria-label="{{ i18n "next" | default "Suivant" }}">›</button>
         </div>
     </div>
 </div>

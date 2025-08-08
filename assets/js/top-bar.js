@@ -101,11 +101,19 @@
    */
   function handleLanguageSelection(event) {
     event.preventDefault();
-    
+
     const selectedOption = event.currentTarget;
     const selectedLang = selectedOption.dataset.lang;
     const selectedText = selectedOption.querySelector('span:last-child').textContent;
     
+    // Persiste la langue préférée
+    try {
+      localStorage.setItem('preferredLang', selectedLang);
+      document.cookie = `preferredLang=${selectedLang};path=/;max-age=${60 * 60 * 24 * 365}`;
+    } catch (e) {
+      // ignore storage errors
+    }
+
     // Mise à jour du bouton actuel
     const currentLangText = languageBtn.querySelector('.button-text');
     if (currentLangText) {
@@ -117,11 +125,15 @@
     allOptions.forEach(option => option.classList.remove('active'));
     selectedOption.classList.add('active');
     
-    // Fermer le dropdown
+    // Fermer le dropdown (navigation immédiate ensuite)
     closeLanguageDropdown();
-    
-    // Ici, vous pourrez ajouter la logique de changement de langue
-    console.log(`Langue sélectionnée: ${selectedLang}`);
+
+    // Navigation vers la page de la langue choisie
+    const href = selectedOption.getAttribute('href');
+    if (href) {
+      window.location.href = href;
+      return;
+    }
     
     // Feedback tactile
     if (navigator.vibrate) {
@@ -629,6 +641,9 @@
     
     // Initialisation du thème
     initTheme();
+
+  // Préférence de langue: redirection si nécessaire
+  initLanguagePreference();
     
     // Attache les event listeners
     attachEventListeners();
@@ -663,6 +678,38 @@
       document.addEventListener('DOMContentLoaded', initTopBar);
     } else {
       initTopBar();
+    }
+  }
+
+  /**
+   * Initialise/force la langue préférée de l'utilisateur
+   * - Stocke la langue actuelle si aucune préférence
+   * - Redirige vers la page équivalente dans la langue préférée si différente
+   */
+  function initLanguagePreference() {
+    try {
+      const htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+      const current = htmlLang.includes('-') ? htmlLang.split('-')[0] : htmlLang || (languageBtn ? languageBtn.textContent.trim().toLowerCase() : 'fr');
+      let preferred = localStorage.getItem('preferredLang');
+
+      if (!preferred) {
+        // Définir par défaut la langue actuelle
+        preferred = current || 'fr';
+        localStorage.setItem('preferredLang', preferred);
+        document.cookie = `preferredLang=${preferred};path=/;max-age=${60 * 60 * 24 * 365}`;
+        return;
+      }
+
+      // Si la préférence diffère de la langue actuelle, redirige vers le lien adéquat dans le menu
+      if (preferred && current && preferred !== current && languageDropdown) {
+        const target = languageDropdown.querySelector(`.language-option[data-lang="${preferred}"]`);
+        if (target && target.getAttribute('href')) {
+          // Utilise replace pour éviter une boucle arrière
+          window.location.replace(target.getAttribute('href'));
+        }
+      }
+    } catch (e) {
+      // pas de redirection si stockage indisponible
     }
   }
   

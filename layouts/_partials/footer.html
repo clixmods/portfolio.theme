@@ -13,7 +13,7 @@
             </svg>
           </div>
           <div class="card-text">
-            <span class="card-label">Propulsé par</span>
+            <span class="card-label">{{ i18n "powered_by" | default "Propulsé par" }}</span>
             <a href="https://gohugo.io" target="_blank" rel="noopener" class="card-link">Hugo.io</a>
           </div>
         </div>
@@ -28,7 +28,7 @@
             </svg>
           </div>
           <div class="card-text">
-            <span class="card-label">Designé par</span>
+            <span class="card-label">{{ i18n "designed_by" | default "Designé par" }}</span>
             <span class="card-designer">Clément GARCIA</span>
           </div>
         </div>
@@ -43,7 +43,7 @@
             </svg>
           </div>
           <div class="card-text">
-            <span class="card-label">Thème</span>
+            <span class="card-label">{{ i18n "theme" | default "Thème" }}</span>
             <span class="card-designer">WaveGlass</span>
           </div>
         </div>
@@ -58,9 +58,9 @@
             </svg>
           </div>
           <div class="card-text">
-            <span class="card-label">Open Source</span>
+            <span class="card-label">{{ i18n "open_source" | default "Open Source" }}</span>
             <a href="https://github.com/clixmods/portfolio" target="_blank" rel="noopener" class="card-link">
-              Voir sur GitHub
+              {{ i18n "view_on_github" | default "Voir sur GitHub" }}
             </a>
           </div>
         </div>
@@ -83,12 +83,12 @@
         <!-- Gauche : Copyright et localisation -->
         <div class="footer-left-section">
           <span class="copyright">&copy; {{ now.Year }} Clément GARCIA</span>
-          <span class="location">Développeur Full-Stack • France</span>
+          <span class="location">{{ i18n "footer_role_location" | default "Développeur Full-Stack • France" }}</span>
         </div>
         
         <!-- Droite : Thème -->
         <div class="footer-tech-info">
-          <span class="tech-label">Thème</span>
+          <span class="tech-label">{{ i18n "theme" | default "Thème" }}</span>
           <span class="theme-name">WaveGlass</span>
         </div>
       </div>
