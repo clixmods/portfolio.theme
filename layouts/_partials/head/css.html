@@ -293,3 +293,18 @@
     {{- end }}
   {{- end }}
 {{- end }}
+
+{{/* CV page styles (chargés uniquement sur la page CV) */}}
+{{- if or (eq .Layout "cv") (and .File (in .File.Path "/cv")) }}
+  {{- with resources.Get "scss/cv.scss" }}
+    {{- with . | toCSS | minify }}
+      {{- if hugo.IsDevelopment }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}">
+      {{- else }}
+        {{- with . | fingerprint }}
+          <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}

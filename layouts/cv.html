@@ -1,0 +1,191 @@
+{{ define "main" }}
+  {{/* CV Page - utilise les données de /data */}}
+  {{ $profile := site.Data.profile }}
+  {{ $experiences := site.Data.experiences }}
+  {{ $educations := site.Data.educations }}
+  {{ $skills := site.Data.skills }}
+  {{ $certs := site.Data.certifications }}
+
+  <style media="print">
+    /* Forcer la disparition de la chrome du site lors de l'impression */
+    #top-bar, #dock, #hero-background, footer, .contact-modal, .toast-container, .trophies-modal { display: none !important; }
+    body { background: #fff !important; }
+    main { margin: 0 !important; padding: 0 !important; }
+    .cv-page { box-shadow: none !important; margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+    .cv-export { display: none !important; }
+  </style>
+
+  {{ $cvStyle := or .Params.cvStyle "twocol" }}
+  {{ $cvAccent := or .Params.cvAccent "#111111" }}
+  <section class="cv-page cv--{{ $cvStyle }}" id="cv" style="--cv-accent: {{ $cvAccent }};">
+    <header class="cv-header">
+      <div class="cv-identite">
+        <div class="cv-id-row">
+          {{ with $profile.media.profileImage }}
+            <img class="cv-avatar cv-avatar--header" src="{{ . }}" alt="{{ $profile.personal.fullName }}">
+          {{ end }}
+          <div>
+            <h1>{{ or $profile.personal.fullName (printf "%s %s" $profile.personal.firstName $profile.personal.lastName) }}</h1>
+            {{ with $profile.contact.status }}<p class="cv-title">{{ . }}</p>{{ end }}
+            {{ with $profile.personal.subtitle }}<p class="cv-subtag">{{ . }}</p>{{ end }}
+          </div>
+        </div>
+      </div>
+      <div class="cv-coordonnees">
+        <ul class="cv-contact-list">
+          {{ with $profile.contact.email }}<li>{{ . }}</li>{{ end }}
+          {{ with $profile.contact.linkedin }}<li><a href="https://{{ . }}" target="_blank" rel="noopener">{{ . }}</a></li>{{ end }}
+          {{ with $profile.contact.location }}<li>{{ . }}</li>{{ end }}
+          {{ with $profile.contact.phone }}<li>{{ . }}</li>{{ end }}
+        </ul>
+        <button class="cv-export" onclick="window.print()">🖨️ Exporter en PDF</button>
+      </div>
+    </header>
+
+    <div class="cv-grid">
+      <div class="cv-col cv-col-left">
+        <section class="cv-section cv-summary">
+          <div class="cv-summary-top">
+            <div class="cv-summary-text">
+              {{ with $profile.personal.title }}<p class="cv-item-desc">{{ . }}</p>{{ end }}
+            </div>
+          </div>
+          {{ $gamedev := first 1 (where $skills "categories.id" "gamedev") }}
+          {{ with index $gamedev 0 }}
+            {{ $cat := .categories }}
+            <ul class="cv-summary-bullets">
+              <li>Développeur logiciel et de jeu vidéo passionné</li>
+              <li>Expertise dans :
+                <ul>
+                  {{ range first 4 $cat.skills }}<li>{{ .name }}</li>{{ end }}
+                </ul>
+              </li>
+            </ul>
+          {{ end }}
+        </section>
+
+    {{ $langs := first 1 (where $skills "categories.id" "languages") }}
+        {{ with index $langs 0 }}
+          <section class="cv-section">
+            <h2>Langage Prog.</h2>
+            <ul class="cv-list">
+      {{ range first 6 .categories.skills }}
+                <li class="cv-item">
+                  <div class="cv-item-header">
+                    <strong>{{ .name }}</strong>
+                    {{ with .level }}<span class="cv-item-period">{{ . }}</span>{{ end }}
+                  </div>
+                </li>
+              {{ end }}
+            </ul>
+          </section>
+        {{ end }}
+
+    {{ if $educations }}
+          <section class="cv-section">
+            <h2>Formations</h2>
+            <ul class="cv-list">
+      {{ range first 2 $educations }}
+                <li class="cv-item">
+                  <div class="cv-item-header">
+                    <strong>{{ .title }}</strong> — <span>{{ .institution }}</span>
+                    <span class="cv-item-period">{{ .period }}</span>
+                  </div>
+                </li>
+              {{ end }}
+            </ul>
+          </section>
+        {{ end }}
+      </div>
+      <div class="cv-col cv-col-right">
+        {{ if $skills }}
+          <section class="cv-section">
+            <h2>Compétences</h2>
+            {{ $gamedevCat := index (first 1 (where $skills "categories.id" "gamedev")) 0 }}
+            {{ $managementCat := index (first 1 (where $skills "categories.id" "management")) 0 }}
+            <div class="cv-skill-split">
+              <div class="cv-skill-col">
+                <h3>Techniques</h3>
+                <ul class="cv-tags cv-skill-chips">
+                  {{ with $gamedevCat }}
+                    {{ range first 5 .categories.skills }}<li>{{ .name }}</li>{{ end }}
+                  {{ end }}
+                </ul>
+              </div>
+              <div class="cv-skill-col">
+                <h3>Travail</h3>
+                <ul class="cv-tags cv-skill-chips">
+                  {{ with $managementCat }}
+                    {{ range first 5 .categories.skills }}<li>{{ .name }}</li>{{ end }}
+                  {{ end }}
+                </ul>
+              </div>
+            </div>
+          </section>
+        {{ end }}
+
+        {{ if $experiences }}
+          <section class="cv-section">
+            <h2>Expériences Pro.</h2>
+            <ul class="cv-list">
+              {{ range $i, $exp := first 1 $experiences }}
+                <li class="cv-item">
+                  <div class="cv-item-header">
+                    <strong>{{ $exp.title }}</strong> — <span>{{ $exp.company }}</span>
+                    <span class="cv-item-period">{{ $exp.period }}{{ with $exp.duration }} · {{ . }}{{ end }}</span>
+                  </div>
+                  {{ with $exp.description }}<p class="cv-item-desc">{{ . | truncate 160 }}</p>{{ end }}
+                  {{ if and (eq $i 0) (gt (len $exp.projects) 0) }}
+                    {{ $pref := index $exp.projects 0 }}
+                    {{ $proj := $.Site.GetPage (printf "/projects/%s" $pref.project_ref) }}
+                    {{ with $proj }}
+                      {{ $img := .Params.image }}
+                      {{ if $img }}
+                        <img class="cv-thumb" src="{{ $img }}" alt="{{ .Title }}">
+                      {{ end }}
+                    {{ end }}
+                  {{ end }}
+                </li>
+              {{ end }}
+            </ul>
+          </section>
+        {{ end }}
+
+  {{ $allProjects := where .Site.RegularPages "Section" "projects" }}
+  {{ $apps := where $allProjects ".Params.sector" "apps-web" }}
+        {{ if $apps }}
+          <section class="cv-section">
+            <h2>Projets Informatique</h2>
+            <ul class="cv-list">
+              {{ range first 2 $apps }}
+                <li class="cv-item">
+                  <div class="cv-item-header">
+                    <strong>{{ .Title }}</strong>
+                    {{ with .Params.period }}<span class="cv-item-period">{{ . }}</span>{{ end }}
+                  </div>
+                  {{ with .Params.description }}<p class="cv-item-desc">{{ . | plainify | truncate 120 }}</p>{{ end }}
+                </li>
+              {{ end }}
+            </ul>
+          </section>
+        {{ end }}
+
+        {{ if $certs }}
+          <section class="cv-section">
+            <h2>Certifications</h2>
+            <ul class="cv-list">
+              {{ range first 2 $certs }}
+                <li class="cv-item">
+                  <div class="cv-item-header">
+                    <strong>{{ .title }}</strong> — <span>{{ .issuer }}</span>
+                    <span class="cv-item-period">{{ .date }}</span>
+                  </div>
+                </li>
+              {{ end }}
+            </ul>
+          </section>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
