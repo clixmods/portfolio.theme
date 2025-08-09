@@ -74,3 +74,42 @@
   --blog-badge-gradient-hover: linear-gradient(135deg, var(--blog-accent-25), var(--blog-accent-15));
   --blog-shimmer: linear-gradient(90deg, transparent, var(--blog-accent-05), transparent);
 }
+
+/* ========================================
+   Aperçu Blog intégré dans la page Portfolio
+   (data-page="portfolio") – on redéfinit localement les variables
+   pour éviter d'utiliser les fallbacks sombres et permettre le thème clair.
+   ======================================== */
+:root[data-page="portfolio"] .blog-theme {
+  --blog-card-gradient: linear-gradient(145deg, rgba(15,23,42,0.85), rgba(30,41,59,0.80), rgba(15,23,42,0.85));
+  --blog-card-gradient-hover: linear-gradient(145deg, rgba(15,23,42,0.92), rgba(30,41,59,0.88), rgba(15,23,42,0.92));
+  --blog-image-gradient: linear-gradient(135deg, var(--blog-accent-15, rgba(var(--accent-rgb,79,209,199),0.15)), rgba(30,41,59,0.85), rgba(59,130,246,0.10));
+  --blog-image-related-gradient: linear-gradient(135deg, var(--blog-accent-10, rgba(var(--accent-rgb,79,209,199),0.10)), rgba(30,41,59,0.75));
+  --blog-text-primary: #ffffff;
+  --blog-text-secondary: rgba(255,255,255,0.8);
+  --blog-text-muted: rgba(255,255,255,0.6);
+  --blog-badge-gradient: linear-gradient(135deg, var(--blog-accent-15, rgba(var(--accent-rgb,79,209,199),0.15)), var(--blog-accent-10, rgba(var(--accent-rgb,79,209,199),0.10)));
+  --blog-badge-gradient-hover: linear-gradient(135deg, var(--blog-accent-25, rgba(var(--accent-rgb,79,209,199),0.25)), var(--blog-accent-15, rgba(var(--accent-rgb,79,209,199),0.15)));
+  --blog-reading-time-bg: rgba(0,0,0,0.6);
+  --blog-border-neutral: rgba(148,163,184,0.10);
+  --blog-border-neutral-strong: rgba(148,163,184,0.18);
+  --blog-glass-bg: rgba(55,65,81,0.35);
+  --blog-glass-border: rgba(255,255,255,0.08);
+}
+
+[data-theme="light"][data-page="portfolio"] .blog-theme {
+  --blog-card-gradient: linear-gradient(145deg, rgba(255,255,255,0.90), rgba(240,244,248,0.88), rgba(255,255,255,0.90));
+  --blog-card-gradient-hover: linear-gradient(145deg, rgba(255,255,255,0.97), rgba(240,244,248,0.94), rgba(255,255,255,0.97));
+  --blog-image-gradient: linear-gradient(135deg, var(--blog-accent-15, rgba(var(--accent-rgb,79,209,199),0.15)), rgba(220,230,238,0.80), rgba(150,200,255,0.10));
+  --blog-image-related-gradient: linear-gradient(135deg, var(--blog-accent-10, rgba(var(--accent-rgb,79,209,199),0.10)), rgba(220,230,238,0.75));
+  --blog-text-primary: #1a1f29;
+  --blog-text-secondary: rgba(26,31,41,0.85);
+  --blog-text-muted: rgba(26,31,41,0.60);
+  --blog-badge-gradient: linear-gradient(135deg, var(--blog-accent-15, rgba(var(--accent-rgb,79,209,199),0.15)), var(--blog-accent-05, rgba(var(--accent-rgb,79,209,199),0.05)));
+  --blog-badge-gradient-hover: linear-gradient(135deg, var(--blog-accent-25, rgba(var(--accent-rgb,79,209,199),0.25)), var(--blog-accent-15, rgba(var(--accent-rgb,79,209,199),0.15)));
+  --blog-reading-time-bg: rgba(255,255,255,0.85);
+  --blog-border-neutral: rgba(0,0,0,0.08);
+  --blog-border-neutral-strong: rgba(0,0,0,0.12);
+  --blog-glass-bg: rgba(255,255,255,0.65);
+  --blog-glass-border: rgba(0,0,0,0.07);
+}

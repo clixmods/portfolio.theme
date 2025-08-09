@@ -194,6 +194,11 @@
 }
 
 [data-theme="light"][data-page="portfolio"] {
+  /* Switch accent dérivé -> bleu hero */
+  --edu-tabs-border: rgba(var(--accent-rgb),0.30);
+  --edu-period-gradient: linear-gradient(135deg, rgba(var(--accent-rgb),0.30), rgba(var(--accent-rgb),0.18));
+  --edu-marker-glow: 0 0 20px rgba(var(--accent-rgb),0.45), inset 0 0 12px rgba(255,255,255,0.35);
+
   --portfolio-card-bg: rgba(255,255,255,0.7);
   --portfolio-card-border: rgba(0,0,0,0.06);
 
@@ -216,24 +221,24 @@
   --exp-card-bg: rgba(255,255,255,0.75);
   --exp-card-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.25);
   --exp-card-shadow: 0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.4);
-  --exp-card-shadow-hover: 0 12px 40px rgba(var(--accent-rgb,79,209,199),0.20), 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.35);
+  --exp-card-shadow-hover: 0 12px 42px rgba(var(--accent-rgb),0.25), 0 8px 34px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.38);
   --exp-company-logo-bg: rgba(var(--accent-rgb,79,209,199),0.12);
   --exp-description-text: #44515f;
   --exp-project-item-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.25);
-  --exp-project-item-border-hover: rgba(var(--accent-rgb,79,209,199),0.55);
+  --exp-project-item-border-hover: rgba(var(--accent-rgb),0.60);
   --exp-project-item-shadow-hover: 0 12px 40px rgba(var(--accent-rgb,79,209,199),0.25), 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4);
 
   /* Overrides light Info Sections */
   --info-section-bg: rgba(255,255,255,0.65);
-  --info-section-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.25);
+  --info-section-border: 1px solid rgba(var(--accent-rgb),0.30);
   --info-section-shadow: 0 8px 32px rgba(0,0,0,0.12);
   --info-section-inner-highlight: inset 0 1px 0 rgba(255,255,255,0.4);
   --info-item-text: rgba(26,31,41,0.85);
   --info-label-text: rgba(26,31,41,0.55);
   --info-value-text: rgba(26,31,41,0.75);
-  --info-aero-bg-gradient: linear-gradient(135deg, rgba(var(--accent-rgb,79,209,199),0.18) 0%, rgba(255,255,255,0.75) 50%, rgba(var(--accent-rgb,79,209,199),0.12) 100%);
-  --info-aero-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.35);
-  --info-aero-shadow: 0 8px 32px rgba(var(--accent-rgb,79,209,199),0.12);
+  --info-aero-bg-gradient: linear-gradient(135deg, rgba(var(--accent-rgb),0.22) 0%, rgba(255,255,255,0.78) 50%, rgba(var(--accent-rgb),0.15) 100%);
+  --info-aero-border: 1px solid rgba(var(--accent-rgb),0.40);
+  --info-aero-shadow: 0 8px 34px rgba(var(--accent-rgb),0.14);
   --info-aero-inner-highlight: inset 0 1px 0 rgba(255,255,255,0.45);
   --info-aero-reflection-gradient: linear-gradient(180deg, rgba(255,255,255,0.35) 0%, transparent 100%);
   --info-aero-title-color: #1a1f29;
@@ -243,16 +248,16 @@
   --profile-heading-color: #1a1f29;
   --profile-cta-color: rgba(26,31,41,0.75);
   --profile-bio-color: rgba(26,31,41,0.7);
-  --profile-name-gradient: linear-gradient(135deg, var(--accent), #5fded4);
+  --profile-name-gradient: linear-gradient(135deg, var(--accent), #56aefe);
   --profile-title-gradient: linear-gradient(90deg, #4A90E2, #6FAAE8, #4A90E2, #6FAAE8);
   --profile-specialty-gradient: linear-gradient(90deg, #4A90E2, #6FAAE8, #4A90E2, #6FAAE8);
   --profile-stats-bg-gradient: linear-gradient(135deg, rgba(var(--accent-rgb,79,209,199),0.12) 0%, rgba(var(--accent-rgb,79,209,199),0.06) 100%);
-  --profile-stats-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.25);
-  --profile-stats-shadow: 0 10px 40px rgba(var(--accent-rgb,79,209,199),0.12), 0 0 40px rgba(var(--accent-rgb,79,209,199),0.08);
+  --profile-stats-border: 1px solid rgba(var(--accent-rgb),0.30);
+  --profile-stats-shadow: 0 10px 42px rgba(var(--accent-rgb),0.15), 0 0 46px rgba(var(--accent-rgb),0.10);
   --profile-stat-item-bg: rgba(var(--accent-rgb,79,209,199),0.08);
   --profile-stat-item-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.2);
   --profile-stat-item-bg-hover: rgba(var(--accent-rgb,79,209,199),0.15);
-  --profile-stat-item-border-hover: rgba(var(--accent-rgb,79,209,199),0.35);
+  --profile-stat-item-border-hover: rgba(var(--accent-rgb),0.38);
   --profile-stat-item-shadow-hover: 0 8px 25px rgba(var(--accent-rgb,79,209,199),0.25);
   --profile-stat-label-color: rgba(26,31,41,0.6);
 
@@ -267,13 +272,13 @@
   --testimonial-text-color: #44515f;
   --testimonial-name-color: #1a1f29;
   --testimonial-company-color: rgba(26,31,41,0.55);
-  --testimonial-avatar-glow: 0 0 15px rgba(var(--accent-rgb,79,209,199),0.35);
+  --testimonial-avatar-glow: 0 0 18px rgba(var(--accent-rgb,79,209,199),0.40);
   --testimonial-slider-btn-bg: rgba(var(--accent-rgb,79,209,199),0.18);
   --testimonial-slider-btn-border: 2px solid rgba(var(--accent-rgb,79,209,199),0.55);
   --testimonial-slider-btn-shadow: 0 4px 16px rgba(0,0,0,0.08);
   --testimonial-slider-btn-bg-hover: rgba(var(--accent-rgb,79,209,199),0.38);
-  --testimonial-slider-btn-border-hover: rgba(var(--accent-rgb,79,209,199),0.75);
+  --testimonial-slider-btn-border-hover: rgba(var(--accent-rgb,79,209,199),0.78);
   --testimonial-slider-btn-shadow-hover: 0 0 20px rgba(var(--accent-rgb,79,209,199),0.45), 0 8px 25px rgba(0,0,0,0.15);
-  --testimonial-indicator-bg: rgba(var(--accent-rgb,79,209,199),0.35);
-  --testimonial-indicator-glow-active: 0 0 10px rgba(var(--accent-rgb,79,209,199),0.55);
+  --testimonial-indicator-bg: rgba(var(--accent-rgb,79,209,199),0.40);
+  --testimonial-indicator-glow-active: 0 0 12px rgba(var(--accent-rgb,79,209,199),0.60);
 }

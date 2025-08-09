@@ -264,4 +264,27 @@
   --hero-wave-color-5: rgb(80, 179, 255);
   --hero-wave-color-6: rgb(120, 194, 255);
   --hero-wave-color-7: rgb(160, 211, 255);
+
+  /* === Accent Light (remplacement teal -> bleu vagues hero) === */
+  --accent: #0077ff; /* Base (ex hero wave mid) */
+  --accent-secondary: #3fa5ff; /* Lumière */
+  --accent-rgb: 0,119,255;
+  --accent-soft: rgba(var(--accent-rgb),0.14);
+  --accent-border: rgba(var(--accent-rgb),0.35);
+  --accent-glow: 0 0 32px rgba(var(--accent-rgb),0.45);
+  /* Nuances dérivées utiles */
+  --accent-05: rgba(var(--accent-rgb),0.05);
+  --accent-10: rgba(var(--accent-rgb),0.10);
+  --accent-15: rgba(var(--accent-rgb),0.15);
+  --accent-20: rgba(var(--accent-rgb),0.20);
+  --accent-25: rgba(var(--accent-rgb),0.25);
+  --accent-30: rgba(var(--accent-rgb),0.30);
+  --accent-40: rgba(var(--accent-rgb),0.40);
+  --accent-50: rgba(var(--accent-rgb),0.50);
+  --accent-60: rgba(var(--accent-rgb),0.60);
+  --accent-70: rgba(var(--accent-rgb),0.70);
+  --accent-80: rgba(var(--accent-rgb),0.80);
+  --accent-90: rgba(var(--accent-rgb),0.90);
+  /* Gradient cohérent avec les vagues */
+  --gradient-accent: linear-gradient(135deg, rgba(var(--accent-rgb),0.85), rgba(var(--accent-rgb),0.55));
 }
