@@ -166,6 +166,28 @@
   --ps5-transition: var(--transition-base);
   --ps5-transition-fast: var(--transition-fast);
   --ps5-glow: 0 0 20px rgba(30, 136, 229, 0.3);
+
+  /* === Hero Background (Espace profond) === */
+  --hero-space-1: #0A1E54; /* Centre / haut */
+  --hero-space-2: #102965;
+  --hero-space-3: #14337A;
+  --hero-space-4: #1B4690;
+  --hero-space-5: #2449B2; /* Bas extrême */
+  --hero-overlay-mobile: rgba(10, 30, 84, 0.1);
+  --hero-radial-gradient: radial-gradient(ellipse 280% 280% at 50% 25%, 
+    rgba(10, 30, 84, 0.8) 0%,
+    rgba(16, 41, 101, 0.6) 25%,
+    rgba(20, 51, 122, 0.4) 50%,
+    rgba(27, 70, 144, 0.2) 75%,
+    transparent 100%
+  );
+  --hero-linear-gradient: linear-gradient(to bottom,
+    var(--hero-space-1) 0%,
+    var(--hero-space-2) 25%,
+    var(--hero-space-3) 50%,
+    var(--hero-space-4) 75%,
+    var(--hero-space-5) 100%
+  );
 }
 
 /* Mode clair (light) global */

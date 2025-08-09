@@ -14,23 +14,9 @@
   overflow: hidden;
   
   /* Gradient radial + linéaire selon les spécifications exactes */
-  background: 
-    /* Dégradé radial très large pour l'éclat principal */
-    radial-gradient(ellipse 280% 280% at 50% 25%, 
-      rgba(10, 30, 84, 0.8) 0%,     /* #0A1E54 - Centre */
-      rgba(16, 41, 101, 0.6) 25%,   /* #102965 */
-      rgba(20, 51, 122, 0.4) 50%,   /* #14337A */
-      rgba(27, 70, 144, 0.2) 75%,   /* #1B4690 */
-      transparent 100%
-    ),
-    /* Dégradé linéaire vertical pour la profondeur */
-    linear-gradient(to bottom, 
-      #0A1E54 0%,    /* Bleu nuit saturé */
-      #102965 25%, 
-      #14337A 50%, 
-      #1B4690 75%, 
-      #2449B2 100%   /* Bas extrême */
-    );
+  background:
+    var(--hero-radial-gradient),
+    var(--hero-linear-gradient);
   
   /* Optimisation performance */
   will-change: transform;

@@ -295,14 +295,12 @@
     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     localStorage.setItem('theme', currentTheme);
-    
+    // Mise à jour éventuelle d'une classe sur le body (utile si styles hérités ailleurs)
+    document.body.classList.remove('theme-dark','theme-light');
+    document.body.classList.add('theme-' + currentTheme);
     // Notification
     showToast('Thème changé', `Mode ${currentTheme === 'dark' ? 'sombre' : 'clair'} activé`, 'info');
-    
-    // Feedback tactile
-    if (navigator.vibrate) {
-      navigator.vibrate(30);
-    }
+    if (navigator.vibrate) { navigator.vibrate(30); }
   }
   
   /**
@@ -311,9 +309,9 @@
   function initTheme() {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
     currentTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', currentTheme);
+    document.body.classList.add('theme-' + currentTheme);
   }
   
   /**

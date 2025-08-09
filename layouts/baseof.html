@@ -1,9 +1,22 @@
 <!DOCTYPE html>
-<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
+<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}" data-theme="dark">
 <head>
   {{ partial "head.html" . }}
 </head>
 <body data-page="{{ if .IsHome }}portfolio{{ else if eq .Section "posts" }}blog{{ else if eq .Section "projects" }}projects{{ else }}portfolio{{ end }}">
+  <!-- Script d'initialisation du thème avant le rendu pour éviter le flash -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        if(!saved){
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          saved = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', saved);
+      } catch(e) {}
+    })();
+  </script>
   <!-- Hero Background - Deep Space Aesthetic -->
   {{ partial "hero-background.html" . }}
   
