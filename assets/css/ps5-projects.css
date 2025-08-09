@@ -1,32 +1,6 @@
 /* PS5 Projects Page Styles */
 
-/* Variables PS5 */
-:root {
-    --ps5-blue: #0070f3;
-    --ps5-blue-dark: #003d82;
-    --ps5-blue-light: #1e88e5;
-    --ps5-white: #ffffff;
-    --ps5-black: #000000;
-    --ps5-gray-900: #0a0e13;
-    --ps5-gray-850: #0f1419;
-    --ps5-gray-800: #151b23;
-    --ps5-gray-750: #1a212a;
-    --ps5-gray-700: #1f2937;
-    --ps5-gray-600: #374151;
-    --ps5-gray-500: #6b7280;
-    --ps5-gray-400: #9ca3af;
-    --ps5-gray-300: #d1d5db;
-    --ps5-games: #00d4ff;
-    --ps5-apps: #ff6b35;
-    --ps5-mods: #8e44ad;
-    --ps5-shadow: rgba(0, 0, 0, 0.8);
-    --ps5-shadow-light: rgba(0, 0, 0, 0.3);
-    --ps5-border-radius: 20px;
-    --ps5-border-radius-small: 12px;
-    --ps5-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --ps5-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-    --ps5-glow: 0 0 20px rgba(30, 136, 229, 0.3);
-}
+/* Variables PS5 déplacées dans variables.css */
 
 /* Layout principal */
 .ps5-projects-page {
@@ -797,28 +771,19 @@
     .ps5-tile-title {
         font-size: 0.8rem;
         -webkit-line-clamp: 1;
-    }
-    
-    .ps5-tile-subtitle {
-        font-size: 0.7rem;
-    }
-    
-    .ps5-tile-info {
-        padding: 0.5rem;
+        line-clamp: 1;
     }
     
     .ps5-tile-info-title {
         font-size: 0.9rem;
         -webkit-line-clamp: 1;
-    }
-    
-    .ps5-tile-info-subtitle {
-        font-size: 0.7rem;
+        line-clamp: 1;
     }
     
     .ps5-tile-description {
         font-size: 0.65rem;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
     }
     
     .ps5-tile-tech {

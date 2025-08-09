@@ -35,7 +35,7 @@ h1 {
 h2 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: #4fd1c7;
+  color: var(--accent);
 }
 
 h3 {
@@ -53,13 +53,13 @@ p {
 
 /* Liens */
 a {
-  color: #4fd1c7;
+  color: var(--accent);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #7be3db;
+  color: var(--accent-secondary);
   text-decoration: underline;
 }
 
@@ -132,13 +132,13 @@ header {
 
 .breadcrumb-item:hover,
 .breadcrumb-link:hover {
-  color: #4fd1c7;
+  color: var(--accent);
   background: rgba(79, 209, 199, 0.1);
   transform: translateY(-1px);
 }
 
 .breadcrumb-home .breadcrumb-icon {
-  color: #4fd1c7;
+  color: var(--accent);
 }
 
 .breadcrumb-current {
@@ -148,7 +148,7 @@ header {
 }
 
 .breadcrumb-current .breadcrumb-icon {
-  color: #4fd1c7;
+  color: var(--accent);
 }
 
 .breadcrumb-separator {

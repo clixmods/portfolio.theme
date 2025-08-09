@@ -10,7 +10,7 @@
     --primary-blue-bg-hover: rgba(52, 152, 219, 0.5);
     --primary-blue-border: rgba(52, 152, 219, 0.7);
     --primary-blue-border-hover: rgba(52, 152, 219, 0.8);
-    --primary-teal: #4fd1c7;
+    --primary-teal: var(--accent);
     --primary-teal-light: #7be3db;
     --primary-bg: #1a1a1a;
     --glass-bg: rgba(20, 24, 32, 0.5);

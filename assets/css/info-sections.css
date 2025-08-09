@@ -38,7 +38,7 @@
  * Applies brand color and proper spacing to section headings.
  */
 .info-section h3 { 
-    color: #4fd1c7; 
+    color: var(--accent); 
     margin-bottom: 1.5rem; 
     font-size: 1.3rem;
 }
@@ -156,7 +156,7 @@
  * when used within the aero-glass effect.
  */
 .info-section.aero-glass .info-label {
-    color: #4fd1c7;
+    color: var(--accent);
     font-weight: 600;
 }
 

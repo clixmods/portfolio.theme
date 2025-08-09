@@ -614,7 +614,7 @@
 }
 
 .info-box-icon.time::before {
-    background: linear-gradient(135deg, #4fd1c7 0%, #7be3db 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, #7be3db 100%);
 }
 
 .info-box-icon.gallery::before {
