@@ -1,0 +1,16 @@
+/* ========================================
+   VARIABLES PORTFOLIO (landing / profil)
+   ======================================== */
+:root[data-page="portfolio"] {
+  --portfolio-hero-gradient: linear-gradient(135deg, rgba(79,209,199,0.25), rgba(52,152,219,0.15));
+  --portfolio-card-bg: rgba(20,24,32,0.55);
+  --portfolio-card-border: rgba(255,255,255,0.08);
+  --portfolio-accent: var(--accent, #4fd1c7);
+  --portfolio-section-radius: 28px;
+  --portfolio-section-padding: 2.5rem;
+}
+
+[data-theme="light"][data-page="portfolio"] {
+  --portfolio-card-bg: rgba(255,255,255,0.7);
+  --portfolio-card-border: rgba(0,0,0,0.06);
+}

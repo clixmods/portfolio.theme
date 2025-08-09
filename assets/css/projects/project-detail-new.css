@@ -10,7 +10,8 @@
  */
 
 /* Import all CSS modules */
-@import url('./variables.css');
+@import url('../variables.global.css');
+@import url('../variables.projects.css');
 @import url('./utilities.css');
 @import url('./hero.css');
 @import url('./navigation.css');

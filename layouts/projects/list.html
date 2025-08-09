@@ -1,7 +1,8 @@
 {{ define "main" }}
-<!-- Inclusion du CSS PS5 Projects -->
-{{ $ps5CSS := resources.Get "css/ps5-projects.css" }}
-<link rel="stylesheet" href="{{ $ps5CSS.RelPermalink }}">
+{{/* CSS PS5 déjà chargé via head. Garde fallback sécurisé si besoin. */}}
+{{ with resources.Get "css/ps5-projects.css" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
 
 <div class="ps5-projects-page">
     <!-- Navigation par secteurs en haut style PS5 -->
@@ -139,7 +140,8 @@
     </footer>
 </div>
 
-<!-- Inclusion du JS PS5 Projects -->
-{{ $ps5JS := resources.Get "js/ps5-projects.js" }}
-<script src="{{ $ps5JS.RelPermalink }}"></script>
+{{/* Inclusion du JS PS5 Projects */}}
+{{ with resources.Get "js/ps5-projects.js" }}
+<script src="{{ .RelPermalink }}"></script>
+{{ end }}
 {{ end }}

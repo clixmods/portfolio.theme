@@ -1,6 +1,6 @@
 /* PS5 Projects Page Styles */
-
-/* Variables PS5 déplacées dans variables.css */
+@import url('./variables.global.css');
+@import url('./variables.projects.css');
 
 /* Layout principal */
 .ps5-projects-page {

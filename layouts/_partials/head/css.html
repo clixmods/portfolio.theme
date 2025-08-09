@@ -1,5 +1,5 @@
-{{/* Variables Globales */}}
-{{- with resources.Get "css/variables.css" }}
+{{/* Variables Globales (toujours) */}}
+{{- with resources.Get "css/variables.global.css" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
   {{- else }}
@@ -8,6 +8,30 @@
     {{- end }}
   {{- end }}
 {{- end }}
+
+{{/* Détermination du type de page pour charger les variables dédiées */}}
+{{- $pageType := "" -}}
+{{- if .IsHome -}}
+  {{- $pageType = "portfolio" -}}
+{{- else if eq .Section "posts" -}}
+  {{- $pageType = "blog" -}}
+{{- else if eq .Section "projects" -}}
+  {{- $pageType = "projects" -}}
+{{- else -}}
+  {{- $pageType = "portfolio" -}}
+{{- end -}}
+{{- $varFile := printf "css/variables.%s.css" $pageType -}}
+{{- with resources.Get $varFile }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* (Ancien) variables.css retiré – NE PLUS UTILISER */}}
 
 {{/* Base Stylesheets - Load first */}}
 {{- with resources.Get "css/style.css" }}
@@ -268,6 +292,19 @@
     {{- end }}
   {{- end }}
 {{- end }}
+
+{{/* Ajout variables PS5 spécifiques si section projects */}}
+{{ if eq .Section "projects" }}
+  {{ with resources.Get "css/variables.ps5.css" }}
+    {{ if hugo.IsDevelopment }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{ else }}
+      {{ with . | minify | fingerprint }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
 
 {{/* Section-specific widget */}}
 {{- $widgets := resources.Match "css/shared/widgets/*.css" }}
