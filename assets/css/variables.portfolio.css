@@ -8,9 +8,61 @@
   --portfolio-accent: var(--accent, #4fd1c7);
   --portfolio-section-radius: 28px;
   --portfolio-section-padding: 2.5rem;
+
+  /* === Éducation / Timeline === */
+  --edu-tabs-bg: rgba(55,65,81,0.5);
+  --edu-tabs-border: rgba(79,209,199,0.2);
+  --edu-tab-text: var(--text-neutral, #a0a0a0);
+  --edu-tab-active-gradient: linear-gradient(135deg, rgba(var(--accent-rgb,79,209,199),0.8), rgba(var(--accent-rgb,79,209,199),0.6));
+  --edu-tab-active-shadow: 0 4px 15px rgba(var(--accent-rgb,79,209,199),0.3);
+  --edu-tab-hover-bg: rgba(var(--accent-rgb,79,209,199),0.1);
+  --edu-timeline-line-gradient: linear-gradient(180deg, rgba(var(--accent-rgb,79,209,199),0.8) 0%, rgba(var(--accent-rgb,79,209,199),0.4) 50%, rgba(var(--accent-rgb,79,209,199),0.8) 100%);
+  --edu-timeline-line-glow: 0 0 20px rgba(var(--accent-rgb,79,209,199),0.3);
+  --edu-marker-border: 4px solid rgba(26,26,26,0.8);
+  --edu-marker-glow: 0 0 20px rgba(var(--accent-rgb,79,209,199),0.4), inset 0 0 20px rgba(255,255,255,0.1);
+  --edu-card-bg: rgba(55,65,81,0.7);
+  --edu-card-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.3);
+  --edu-card-border-hover: rgba(var(--accent-rgb,79,209,199),0.5);
+  --edu-card-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+  --edu-card-shadow-hover: 0 12px 40px rgba(var(--accent-rgb,79,209,199),0.15), 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+  --edu-arrow-bg: rgba(55,65,81,0.9);
+  --edu-period-gradient: linear-gradient(135deg, rgba(var(--accent-rgb,79,209,199),0.2), rgba(var(--accent-rgb,79,209,199),0.1));
+  --edu-period-text: var(--accent, #4fd1c7);
+  --edu-period-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.3);
+  --edu-status-success-bg: rgba(var(--status-success-rgb,34,197,94),0.2);
+  --edu-status-success-text: var(--status-success, #22c55e);
+  --edu-status-success-border: 1px solid rgba(var(--status-success-rgb,34,197,94),0.3);
+  --edu-status-warning-bg: rgba(var(--status-warning-rgb,251,191,36),0.2);
+  --edu-status-warning-text: var(--status-warning, #fbbf24);
+  --edu-status-warning-border: 1px solid rgba(var(--status-warning-rgb,251,191,36),0.3);
+  --edu-title-text: #fff;
+  --edu-muted-text: var(--text-neutral, #a0a0a0);
+  --edu-desc-text: #d1d5db;
+  --edu-grade-text: #d1d5db;
+  --edu-institution-text: var(--accent, #4fd1c7);
+  --edu-skill-tag-bg: rgba(var(--accent-rgb,79,209,199),0.2);
+  --edu-skill-tag-text: var(--accent, #4fd1c7);
+  --edu-skill-tag-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.3);
+  --edu-divider-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.2);
 }
 
 [data-theme="light"][data-page="portfolio"] {
   --portfolio-card-bg: rgba(255,255,255,0.7);
   --portfolio-card-border: rgba(0,0,0,0.06);
+
+  /* Ajustements light (à affiner si besoin) */
+  --edu-tabs-bg: rgba(255,255,255,0.65);
+  --edu-tabs-border: rgba(var(--accent-rgb,79,209,199),0.25);
+  --edu-tab-text: rgba(26,31,41,0.65);
+  --edu-tab-hover-bg: rgba(var(--accent-rgb,79,209,199),0.12);
+  --edu-marker-border: 4px solid rgba(255,255,255,0.85);
+  --edu-card-bg: rgba(255,255,255,0.75);
+  --edu-card-border: 1px solid rgba(var(--accent-rgb,79,209,199),0.25);
+  --edu-arrow-bg: rgba(255,255,255,0.9);
+  --edu-period-gradient: linear-gradient(135deg, rgba(var(--accent-rgb,79,209,199),0.25), rgba(var(--accent-rgb,79,209,199),0.15));
+  --edu-desc-text: #44515f;
+  --edu-grade-text: #44515f;
+  --edu-muted-text: rgba(26,31,41,0.55);
+  --edu-title-text: #1a1f29;
+  --edu-marker-glow: 0 0 18px rgba(var(--accent-rgb,79,209,199),0.35), inset 0 0 10px rgba(255,255,255,0.25);
 }

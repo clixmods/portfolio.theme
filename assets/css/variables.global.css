@@ -188,6 +188,65 @@
     var(--hero-space-4) 75%,
     var(--hero-space-5) 100%
   );
+
+  /* === Nouveaux alias / centralisations ajoutés (Août 2025) === */
+  /* Gris neutre texte intermédiaire (#a0a0a0) */
+  --text-neutral: #a0a0a0;
+  /* RGB base Slate (rgba(55,65,81,x)) */
+  --slate-rgb: 55,65,81;
+  /* Fond alternatif sombre (#2a2a2a) */
+  --primary-bg-alt: #2a2a2a;
+  /* Couleurs distinctions / récompenses */
+  --award-gold: #f39c12;
+  --award-orange: #e67e22;
+  /* Palette success alternative (widgets) */
+  --success-green: #27ae60;
+  --success-green-light: #2ecc71;
+  /* Variantes rouges supplémentaires */
+  --danger-red-strong: #ff4444; /* actions irréversibles */
+  --danger-red-soft: #fa5c5c;  /* hover / états doux */
+  /* Violet accent secondaire ponctuel */
+  --accent-purple-soft: #a5a3ff;
+  /* Bleu clair externe (steam accent déjà défini #66c0f4) */
+  --external-blue-soft: #66c0f4;
+
+  /* Gradients supplémentaires */
+  --gradient-award: linear-gradient(135deg, var(--award-gold), var(--award-orange));
+  --gradient-success: linear-gradient(135deg, var(--success-green), var(--success-green-light));
+  --gradient-dark-panel: linear-gradient(135deg, var(--primary-bg), var(--primary-bg-alt));
+
+  /* === Intégration backgrounds (extraction background.css) === */
+  /* Surfaces / fonds */
+  --bg-body: var(--primary-bg); /* alias explicite */
+  --surface-strong: rgba(26,26,26,0.8);
+  --surface-medium: rgba(26,26,26,0.6);
+  --surface-alt: rgba(55,65,81,0.6);
+  --surface-nav-start: rgba(45,55,72,0.8);
+  --surface-nav-end: rgba(55,65,81,0.8);
+  --surface-nav-active-end: rgba(55,65,81,0.9);
+
+  /* Accent étendu (déclinaisons) */
+  --accent-alt: #40e0d0; /* second ton pour dégradés */
+  --accent-10: rgba(var(--accent-rgb),0.1);
+  --accent-20: rgba(var(--accent-rgb),0.2);
+  --accent-30: rgba(var(--accent-rgb),0.3);
+  --accent-40: rgba(var(--accent-rgb),0.4);
+  --accent-60: rgba(var(--accent-rgb),0.6);
+  --accent-80: rgba(var(--accent-rgb),0.8);
+
+  /* Gradients spécifiques */
+  --gradient-accent-linear: linear-gradient(135deg, var(--accent), var(--accent-alt));
+  --gradient-accent-linear-reverse: linear-gradient(135deg, var(--accent-alt), var(--accent));
+  --gradient-nav: linear-gradient(135deg, var(--surface-nav-start), var(--surface-nav-end));
+  --gradient-nav-hover: linear-gradient(135deg, var(--accent-30), var(--surface-nav-end));
+  --gradient-nav-active: linear-gradient(135deg, var(--accent-40), var(--surface-nav-active-end));
+  --gradient-nav-indicator: linear-gradient(90deg, var(--accent), var(--accent-60));
+  --gradient-progress: linear-gradient(90deg, var(--accent), var(--accent-80));
+  --shimmer-gradient: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+
+  /* Progress / animation */
+  --progress-bg: var(--surface-strong);
+  --progress-fill: var(--gradient-progress);
 }
 
 /* Mode clair (light) global */
@@ -203,4 +262,16 @@
   --glass-border: rgba(0, 0, 0, 0.08);
   --glass-border-light: rgba(0, 0, 0, 0.06);
   --glass-border-lighter: rgba(0, 0, 0, 0.12);
+
+  /* Overrides surfaces + accents dérivées */
+  --surface-strong: rgba(255,255,255,0.85);
+  --surface-medium: rgba(255,255,255,0.75);
+  --surface-alt: rgba(240,243,247,0.85);
+  --surface-nav-start: rgba(230,235,240,0.9);
+  --surface-nav-end: rgba(245,247,250,0.9);
+  --surface-nav-active-end: rgba(240,244,248,0.95);
+  --accent-alt: #30c9c0;
+  --shimmer-gradient: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+  --progress-bg: var(--surface-strong);
+  --progress-fill: linear-gradient(90deg, var(--accent), var(--accent-80));
 }

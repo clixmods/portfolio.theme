@@ -84,7 +84,7 @@
  * Large, bold title with consistent typography
  */
 .experience-header h2 {
-    color: #fff;
+    color: var(--text-primary);
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -95,7 +95,7 @@
  * Muted color with limited width for better readability
  */
 .experience-subtitle {
-    color: #a0a0a0;
+    color: var(--text-neutral);
     font-size: 1.1rem;
     line-height: 1.6;
     max-width: 700px;
@@ -115,7 +115,7 @@
     justify-content: center;
     gap: 0.2rem;
     margin-bottom: 3rem;
-    background: rgba(55, 65, 81, 0.5);
+    background: rgba(var(--slate-rgb), 0.5);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 25px;
@@ -123,7 +123,7 @@
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid rgba(79, 209, 199, 0.2);
+    border: 1px solid rgba(var(--accent-rgb), 0.2);
 }
 
 /**
@@ -133,7 +133,7 @@
 .exp-tab-btn {
     background: transparent;
     border: none;
-    color: #a0a0a0;
+    color: var(--text-neutral);
     padding: 0.8rem 2rem;
     border-radius: 20px;
     cursor: pointer;
@@ -147,9 +147,9 @@
  * Highlighted state with teal gradient and shadow
  */
 .exp-tab-btn.active {
-    background: linear-gradient(135deg, rgba(79, 209, 199, 0.8), rgba(79, 209, 199, 0.6));
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(79, 209, 199, 0.3);
+    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.8), rgba(var(--accent-rgb), 0.6));
+    color: var(--text-primary);
+    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.3);
 }
 
 /**
@@ -157,8 +157,8 @@
  * Subtle color change and background tint
  */
 .exp-tab-btn:hover:not(.active) {
-    color: #4fd1c7;
-    background: rgba(79, 209, 199, 0.1);
+    color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.1);
 }
 
 /* ===================================
@@ -185,10 +185,10 @@
  * Modern design with backdrop blur and subtle shadows
  */
 .experience-card {
-    background: rgba(55, 65, 81, 0.7);
+    background: rgba(var(--slate-rgb), 0.7);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(79, 209, 199, 0.3);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
     border-radius: 20px;
     margin-bottom: 2rem;
     position: relative;
@@ -204,12 +204,11 @@
  * Elevates card with enhanced shadows and border glow
  */
 .experience-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 
-        0 12px 40px rgba(79, 209, 199, 0.15),
+    box-shadow:
+        0 12px 40px rgba(var(--accent-rgb), 0.15),
         0 8px 32px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    border-color: rgba(79, 209, 199, 0.5);
+    border-color: rgba(var(--accent-rgb), 0.5);
 }
 
 /**
@@ -217,10 +216,10 @@
  * Enhanced border and glow effect for active positions
  */
 .experience-card.current {
-    border-color: rgba(79, 209, 199, 0.6);
-    box-shadow: 
-        0 8px 32px rgba(79, 209, 199, 0.2),
-        0 0 20px rgba(79, 209, 199, 0.1),
+    border-color: rgba(var(--accent-rgb), 0.6);
+    box-shadow:
+        0 8px 32px rgba(var(--accent-rgb), 0.2),
+        0 0 20px rgba(var(--accent-rgb), 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -229,9 +228,9 @@
  * Amber accent for positions being sought
  */
 .experience-card.seeking {
-    border-color: rgba(251, 191, 36, 0.5);
-    box-shadow: 
-        0 8px 32px rgba(251, 191, 36, 0.15),
+    border-color: rgba(var(--status-warning-rgb), 0.5);
+    box-shadow:
+        0 8px 32px rgba(var(--status-warning-rgb), 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -248,7 +247,7 @@
     justify-content: space-between;
     align-items: flex-start;
     padding: 2rem;
-    border-bottom: 1px solid rgba(79, 209, 199, 0.2);
+    border-bottom: 1px solid rgba(var(--accent-rgb), 0.2);
 }
 
 /**
@@ -271,11 +270,11 @@
     height: 60px;
     border-radius: 12px;
     overflow: hidden;
-    background: rgba(79, 209, 199, 0.1);
+    background: rgba(var(--accent-rgb), 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid rgba(79, 209, 199, 0.3);
+    border: 2px solid rgba(var(--accent-rgb), 0.3);
 }
 
 /**
@@ -294,7 +293,7 @@
  */
 .seeking-icon {
     font-size: 1.8rem;
-    color: #fbbf24;
+    color: var(--status-warning);
 }
 
 /**
@@ -310,7 +309,7 @@
  * Primary heading for the position
  */
 .job-title {
-    color: #fff;
+    color: var(--text-primary);
     font-size: 1.4rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -322,7 +321,7 @@
  * Secondary heading with brand color
  */
 .company-name {
-    color: #4fd1c7;
+    color: var(--accent);
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.8rem;
@@ -344,13 +343,13 @@
  * Highlighted date range with teal styling
  */
 .job-period {
-    background: rgba(79, 209, 199, 0.2);
-    color: #4fd1c7;
+    background: rgba(var(--accent-rgb), 0.2);
+    color: var(--accent);
     padding: 0.3rem 0.8rem;
     border-radius: 12px;
     font-size: 0.85rem;
     font-weight: 600;
-    border: 1px solid rgba(79, 209, 199, 0.3);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
 }
 
 /**
@@ -358,7 +357,7 @@
  * Muted text showing length of employment
  */
 .job-duration {
-    color: #a0a0a0;
+    color: var(--text-neutral);
     font-size: 0.9rem;
     font-weight: 500;
     padding: 0.3rem 0;
@@ -379,7 +378,7 @@
  * Employment type (full-time, contract, etc.)
  */
 .job-type {
-    color: #d1d5db;
+    color: var(--color-bg-300);
     font-size: 0.9rem;
     font-weight: 500;
 }
@@ -389,7 +388,7 @@
  * Geographic location or remote status
  */
 .job-location {
-    color: #a0a0a0;
+    color: var(--text-neutral);
     font-size: 0.85rem;
 }
 
@@ -417,9 +416,9 @@
  * Green styling with pulsing animation
  */
 .current-badge {
-    background: rgba(34, 197, 94, 0.2);
-    color: #22c55e;
-    border: 1px solid rgba(34, 197, 94, 0.4);
+    background: rgba(var(--status-success-rgb), 0.2);
+    color: var(--status-success);
+    border: 1px solid rgba(var(--status-success-rgb), 0.4);
     animation: pulse-current 2s ease-in-out infinite;
 }
 
@@ -428,9 +427,9 @@
  * Amber styling with pulsing animation
  */
 .seeking-badge {
-    background: rgba(251, 191, 36, 0.2);
-    color: #fbbf24;
-    border: 1px solid rgba(251, 191, 36, 0.4);
+    background: rgba(var(--status-warning-rgb), 0.2);
+    color: var(--status-warning);
+    border: 1px solid rgba(var(--status-warning-rgb), 0.4);
     animation: pulse-seeking 2s ease-in-out infinite;
 }
 
@@ -439,8 +438,8 @@
  * Subtle glow effect to indicate active status
  */
 @keyframes pulse-current {
-    0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
-    50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }
+    0%, 100% { box-shadow: 0 0 5px rgba(var(--status-success-rgb), 0.3); }
+    50% { box-shadow: 0 0 20px rgba(var(--status-success-rgb), 0.6); }
 }
 
 /**
@@ -448,8 +447,8 @@
  * Amber glow effect to draw attention
  */
 @keyframes pulse-seeking {
-    0%, 100% { box-shadow: 0 0 5px rgba(251, 191, 36, 0.3); }
-    50% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.6); }
+    0%, 100% { box-shadow: 0 0 5px rgba(var(--status-warning-rgb), 0.3); }
+    50% { box-shadow: 0 0 20px rgba(var(--status-warning-rgb), 0.6); }
 }
 
 /* ===================================
@@ -476,7 +475,7 @@
 
 .experience-section .projects-section .projects-header h5 {
     margin: 0 0 0 0;
-    color: #4fd1c7;
+    color: var(--accent);
     font-size: 1rem;
     font-weight: 600;
 }
@@ -487,16 +486,16 @@
 .layout-controls {
     display: flex;
     gap: 0.5rem;
-    background: rgba(55, 65, 81, 0.5);
+    background: rgba(var(--slate-rgb), 0.5);
     border-radius: 8px;
     padding: 0.25rem;
-    border: 1px solid rgba(79, 209, 199, 0.2);
+    border: 1px solid rgba(var(--accent-rgb), 0.2);
 }
 
 .layout-btn {
     background: transparent;
     border: none;
-    color: #a0a0a0;
+    color: var(--text-neutral);
     padding: 0.5rem;
     border-radius: 6px;
     cursor: pointer;
@@ -507,14 +506,14 @@
 }
 
 .layout-btn:hover {
-    color: #4fd1c7;
-    background: rgba(79, 209, 199, 0.1);
+    color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.1);
 }
 
 .layout-btn.active {
-    color: #fff;
-    background: rgba(79, 209, 199, 0.3);
-    box-shadow: 0 2px 8px rgba(79, 209, 199, 0.2);
+    color: var(--text-primary);
+    background: rgba(var(--accent-rgb), 0.3);
+    box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.2);
 }
 
 /**
@@ -637,7 +636,7 @@
 .requirements-section h5,
 .experience-skills h5,
 .experience-technologies h5 {
-    color: #4fd1c7;
+    color: var(--accent);
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 1rem;
@@ -782,22 +781,22 @@
     left: 12px;
     width: 32px;
     height: 32px;
-    background: rgba(79, 209, 199, 0.2);
+    background: rgba(var(--accent-rgb), 0.2);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1rem;
-    border: 1px solid rgba(79, 209, 199, 0.4);
+    border: 1px solid rgba(var(--accent-rgb), 0.4);
     z-index: 3;
-    color: #4fd1c7;
+    color: var(--accent);
 }
 
 /**
  * Project name styling (updated for tile design)
  */
 .project-name {
-    color: #fff;
+    color: var(--text-primary);
     font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -852,13 +851,13 @@
 }
 
 .project-tile-tech-item {
-    background: rgba(79, 209, 199, 0.25);
-    color: #4fd1c7;
+    background: rgba(var(--accent-rgb), 0.25);
+    color: var(--accent);
     padding: 0.3rem 0.7rem;
     border-radius: 10px;
     font-size: 0.7rem;
     font-weight: 600;
-    border: 1px solid rgba(79, 209, 199, 0.4);
+    border: 1px solid rgba(var(--accent-rgb), 0.4);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -920,23 +919,22 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.6rem 1rem;
-    background: rgba(79, 209, 199, 0.25);
-    color: #4fd1c7;
+    background: rgba(var(--accent-rgb), 0.25);
+    color: var(--accent);
     text-decoration: none;
     border-radius: 15px;
     font-size: 0.75rem;
     font-weight: 600;
-    border: 1px solid rgba(79, 209, 199, 0.4);
+    border: 1px solid rgba(var(--accent-rgb), 0.4);
     transition: all 0.3s ease;
     backdrop-filter: blur(15px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .project-tile-btn:hover {
-    background: rgba(79, 209, 199, 0.4);
-    border-color: rgba(79, 209, 199, 0.6);
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 6px 20px rgba(79, 209, 199, 0.3);
+    background: rgba(var(--accent-rgb), 0.4);
+    border-color: rgba(var(--accent-rgb), 0.6);
+    box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.3);
 }
 
 .project-tile-btn svg {
@@ -973,13 +971,13 @@
  * Teal themed badges for skills
  */
 .skill-tag {
-    background: rgba(79, 209, 199, 0.2);
-    color: #4fd1c7;
+    background: rgba(var(--accent-rgb), 0.2);
+    color: var(--accent);
     padding: 0.4rem 0.8rem;
     border-radius: 12px;
     font-size: 0.8rem;
     font-weight: 500;
-    border: 1px solid rgba(79, 209, 199, 0.3);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
 }
 
 /**
@@ -987,13 +985,13 @@
  * Purple themed badges for technologies
  */
 .tech-chip {
-    background: rgba(99, 102, 241, 0.2);
-    color: #a5a3ff;
+    background: rgba(var(--external-primary, 99, 102, 241), 0.2);
+    color: var(--accent-purple-soft);
     padding: 0.3rem 0.7rem;
     border-radius: 10px;
     font-size: 0.75rem;
     font-weight: 600;
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    border: 1px solid rgba(var(--external-primary, 99, 102, 241), 0.3);
 }
 
 /* ===================================
