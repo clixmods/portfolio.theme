@@ -115,7 +115,7 @@
     justify-content: center;
     gap: 0.2rem;
     margin-bottom: 3rem;
-    background: rgba(var(--slate-rgb), 0.5);
+    background: var(--exp-tabs-bg, rgba(var(--slate-rgb),0.5));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 25px;
@@ -123,7 +123,7 @@
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid rgba(var(--accent-rgb), 0.2);
+    border: var(--exp-tabs-border, 1px solid rgba(var(--accent-rgb),0.2));
 }
 
 /**
@@ -147,9 +147,9 @@
  * Highlighted state with teal gradient and shadow
  */
 .exp-tab-btn.active {
-    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.8), rgba(var(--accent-rgb), 0.6));
+    background: var(--exp-tab-active-gradient, linear-gradient(135deg, rgba(var(--accent-rgb),0.8), rgba(var(--accent-rgb),0.6)));
     color: var(--text-primary);
-    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.3);
+    box-shadow: var(--exp-tab-active-shadow, 0 4px 15px rgba(var(--accent-rgb),0.3));
 }
 
 /**
@@ -158,7 +158,7 @@
  */
 .exp-tab-btn:hover:not(.active) {
     color: var(--accent);
-    background: rgba(var(--accent-rgb), 0.1);
+    background: var(--exp-tab-hover-bg, rgba(var(--accent-rgb),0.1));
 }
 
 /* ===================================
@@ -185,17 +185,15 @@
  * Modern design with backdrop blur and subtle shadows
  */
 .experience-card {
-    background: rgba(var(--slate-rgb), 0.7);
+    background: var(--exp-card-bg, rgba(var(--slate-rgb),0.7));
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    border: var(--exp-card-border, 1px solid rgba(var(--accent-rgb),0.3));
     border-radius: 20px;
     margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: var(--exp-card-shadow, 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1));
     transition: all 0.3s ease;
 }
 
@@ -204,11 +202,8 @@
  * Elevates card with enhanced shadows and border glow
  */
 .experience-card:hover {
-    box-shadow:
-        0 12px 40px rgba(var(--accent-rgb), 0.15),
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    border-color: rgba(var(--accent-rgb), 0.5);
+    box-shadow: var(--exp-card-shadow-hover, 0 12px 40px rgba(var(--accent-rgb),0.15), 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2));
+    border-color: var(--exp-card-border-hover, rgba(var(--accent-rgb),0.5));
 }
 
 /**
@@ -216,11 +211,8 @@
  * Enhanced border and glow effect for active positions
  */
 .experience-card.current {
-    border-color: rgba(var(--accent-rgb), 0.6);
-    box-shadow:
-        0 8px 32px rgba(var(--accent-rgb), 0.2),
-        0 0 20px rgba(var(--accent-rgb), 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: var(--exp-card-current-border, rgba(var(--accent-rgb),0.6));
+    box-shadow: var(--exp-card-current-shadow, 0 8px 32px rgba(var(--accent-rgb),0.2), 0 0 20px rgba(var(--accent-rgb),0.1), inset 0 1px 0 rgba(255,255,255,0.1));
 }
 
 /**
@@ -228,10 +220,8 @@
  * Amber accent for positions being sought
  */
 .experience-card.seeking {
-    border-color: rgba(var(--status-warning-rgb), 0.5);
-    box-shadow:
-        0 8px 32px rgba(var(--status-warning-rgb), 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-color: var(--exp-card-seeking-border, rgba(var(--status-warning-rgb),0.5));
+    box-shadow: var(--exp-card-seeking-shadow, 0 8px 32px rgba(var(--status-warning-rgb),0.15), inset 0 1px 0 rgba(255,255,255,0.1));
 }
 
 /* ===================================
@@ -247,7 +237,7 @@
     justify-content: space-between;
     align-items: flex-start;
     padding: 2rem;
-    border-bottom: 1px solid rgba(var(--accent-rgb), 0.2);
+    border-bottom: var(--exp-header-border, 1px solid rgba(var(--accent-rgb),0.2));
 }
 
 /**
@@ -270,11 +260,11 @@
     height: 60px;
     border-radius: 12px;
     overflow: hidden;
-    background: rgba(var(--accent-rgb), 0.1);
+    background: var(--exp-company-logo-bg, rgba(var(--accent-rgb),0.1));
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid rgba(var(--accent-rgb), 0.3);
+    border: var(--exp-company-logo-border, 2px solid rgba(var(--accent-rgb),0.3));
 }
 
 /**
@@ -343,13 +333,13 @@
  * Highlighted date range with teal styling
  */
 .job-period {
-    background: rgba(var(--accent-rgb), 0.2);
+    background: var(--exp-job-period-bg, rgba(var(--accent-rgb),0.2));
     color: var(--accent);
     padding: 0.3rem 0.8rem;
     border-radius: 12px;
     font-size: 0.85rem;
     font-weight: 600;
-    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    border: var(--exp-job-period-border, 1px solid rgba(var(--accent-rgb),0.3));
 }
 
 /**
@@ -611,7 +601,7 @@
  * Overview paragraph with comfortable line spacing
  */
 .experience-description {
-    color: #d1d5db;
+    color: var(--exp-description-text, #d1d5db);
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 2rem;
@@ -649,15 +639,13 @@
 .project-item {
     position: relative;
     background: linear-gradient(145deg, var(--ps5-gray-800, #1f2937) 0%, var(--ps5-gray-750, #1a212a) 100%);
-    border: 1px solid rgba(79, 209, 199, 0.3);
+    border: var(--exp-project-item-border, 1px solid rgba(79,209,199,0.3));
     border-radius: 20px;
     padding: 0;
     margin-bottom: 1.5rem;
     overflow: hidden;
     transition: all 0.3s ease;
-    box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
     min-height: 240px;
     cursor: pointer;
 }
@@ -667,11 +655,8 @@
  */
 .project-item:hover {
     transform: translateY(-5px) scale(1.02);
-    border-color: rgba(79, 209, 199, 0.5);
-    box-shadow: 
-        0 12px 40px rgba(79, 209, 199, 0.15),
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: var(--exp-project-item-border-hover, rgba(79,209,199,0.5));
+    box-shadow: var(--exp-project-item-shadow-hover, 0 12px 40px rgba(79,209,199,0.15), 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2));
 }
 
 .project-item:hover .project-tile-content {

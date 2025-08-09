@@ -31,6 +31,17 @@
   {{- end }}
 {{- end }}
 
+{{/* Ajout Hero Background global */}}
+{{- with resources.Get "css/hero-background.css" }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* (Ancien) variables.css retiré – NE PLUS UTILISER */}}
 
 {{/* Base Stylesheets - Load first */}}

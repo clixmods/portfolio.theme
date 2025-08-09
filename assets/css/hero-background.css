@@ -69,6 +69,23 @@
   z-index: -15; /* Plus bas que l'image de background du projet */
 }
 
+/* Ajout: canvas des vagues (ex-hero-inline.css) */
+#waves-canvas {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: -18; /* Sous les particules mais au-dessus du fond */
+  opacity: 0.8;
+  mix-blend-mode: screen;
+}
+
+/* Intensification des vagues en mode clair */
+[data-theme="light"] #waves-canvas {
+  mix-blend-mode: multiply; /* bleu plus lisible sur fond clair */
+  opacity: 0.95;
+  filter: saturate(1.35) drop-shadow(0 0 6px rgba(0,118,255,0.35)) drop-shadow(0 0 14px rgba(0,140,255,0.25));
+}
+
 /* Optimisations performance globales */
 .hero-background * {
   will-change: transform, opacity;
@@ -79,16 +96,25 @@
   .hero-background {
     background-size: 120% 120%;
   }
+  /* Ajustements rubans (ex-hero-inline.css) */
+  .ribbon-main { height: 100px; top: 38%; }
+  .ribbon-secondary-1 { height: 70px; top: 33%; }
+  .ribbon-secondary-2 { height: 50px; top: 40%; }
+  .ribbon-tertiary { height: 35px; top: 36%; }
 }
 
 @media (max-width: 768px) {
   .luminous-ribbon {
     transform: rotate(-3deg) scale(1.05);
   }
-  
   .hero-background {
     background-size: 150% 150%;
   }
+  /* Ajustements rubans */
+  .ribbon-main { height: 80px; top: 40%; }
+  .ribbon-secondary-1 { height: 60px; top: 36%; }
+  .ribbon-secondary-2 { height: 40px; top: 42%; }
+  .ribbon-tertiary { height: 30px; top: 38%; }
 }
 
 @media (max-width: 480px) {
@@ -100,6 +126,11 @@
   .luminous-ribbon {
     transform: rotate(-2deg) scale(1.02);
   }
+  /* Ajustements rubans */
+  .ribbon-main { height: 60px; top: 42%; }
+  .ribbon-secondary-1 { height: 45px; top: 38%; }
+  .ribbon-secondary-2 { height: 35px; top: 44%; }
+  .ribbon-tertiary { height: 25px; top: 40%; }
   
   /* Réduction du nombre de particules sur mobile */
   .hero-background::before {

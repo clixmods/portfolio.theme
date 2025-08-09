@@ -20,16 +20,14 @@
  * and subtle borders for displaying information blocks.
  */
 .info-section { 
-    background: rgba(55, 65, 81, 0.6);
+    background: var(--info-section-bg, rgba(55, 65, 81, 0.6));
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
     padding: 1.5rem;
     border-radius: 16px;
     margin-bottom: 2rem;
-    border: 1px solid rgba(79, 209, 199, 0.2);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: var(--info-section-border, 1px solid rgba(79, 209, 199, 0.2));
+    box-shadow: var(--info-section-shadow, 0 8px 32px rgba(0, 0, 0, 0.2)), var(--info-section-inner-highlight, inset 0 1px 0 rgba(255, 255, 255, 0.1));
 }
 
 /**
@@ -52,7 +50,7 @@
     display: flex; 
     margin-bottom: 0.8rem; 
     align-items: center;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--info-item-text, rgba(255, 255, 255, 0.9));
 }
 
 /**
@@ -62,7 +60,7 @@
  */
 .info-label { 
     width: 140px; 
-    color: rgba(255, 255, 255, 0.7); 
+    color: var(--info-label-text, rgba(255, 255, 255, 0.7)); 
     font-weight: 500;
 }
 
@@ -72,7 +70,7 @@
  * Main text content with bright color for readability.
  */
 .info-item span:not(.info-label) {
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--info-value-text, rgba(255, 255, 255, 0.85));
 }
 
 /* ============================================================================
@@ -90,19 +88,17 @@
  * - Relative positioning for pseudo-elements
  */
 .info-section.aero-glass {
-    background: linear-gradient(135deg, 
+    background: var(--info-aero-bg-gradient, linear-gradient(135deg, 
         rgba(79, 209, 199, 0.12) 0%, 
         rgba(55, 65, 81, 0.5) 50%, 
-        rgba(79, 209, 199, 0.08) 100%);
+        rgba(79, 209, 199, 0.08) 100%));
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(79, 209, 199, 0.3);
+    border: var(--info-aero-border, 1px solid rgba(79, 209, 199, 0.3));
     border-radius: 20px;
     position: relative;
     overflow: hidden;
-    box-shadow: 
-        0 8px 32px rgba(79, 209, 199, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: var(--info-aero-shadow, 0 8px 32px rgba(79, 209, 199, 0.1)), var(--info-aero-inner-highlight, inset 0 1px 0 rgba(255, 255, 255, 0.2));
 }
 
 /**
@@ -118,9 +114,9 @@
     left: 0;
     right: 0;
     height: 40%;
-    background: linear-gradient(180deg, 
+    background: var(--info-aero-reflection-gradient, linear-gradient(180deg, 
         rgba(255, 255, 255, 0.15) 0%, 
-        transparent 100%);
+        transparent 100%));
     border-radius: 20px 20px 0 0;
     pointer-events: none;
 }
@@ -132,7 +128,7 @@
  * the aero-glass effect by setting z-index and colors.
  */
 .info-section.aero-glass h3 {
-    color: #fff;
+    color: var(--info-aero-title-color, #fff);
     position: relative;
     z-index: 2;
     margin-bottom: 1.8rem;

@@ -189,67 +189,16 @@
     var(--hero-space-5) 100%
   );
 
-  /* === Nouveaux alias / centralisations ajoutés (Août 2025) === */
-  /* Gris neutre texte intermédiaire (#a0a0a0) */
-  --text-neutral: #a0a0a0;
-  /* RGB base Slate (rgba(55,65,81,x)) */
-  --slate-rgb: 55,65,81;
-  /* Fond alternatif sombre (#2a2a2a) */
-  --primary-bg-alt: #2a2a2a;
-  /* Couleurs distinctions / récompenses */
-  --award-gold: #f39c12;
-  --award-orange: #e67e22;
-  /* Palette success alternative (widgets) */
-  --success-green: #27ae60;
-  --success-green-light: #2ecc71;
-  /* Variantes rouges supplémentaires */
-  --danger-red-strong: #ff4444; /* actions irréversibles */
-  --danger-red-soft: #fa5c5c;  /* hover / états doux */
-  /* Violet accent secondaire ponctuel */
-  --accent-purple-soft: #a5a3ff;
-  /* Bleu clair externe (steam accent déjà défini #66c0f4) */
-  --external-blue-soft: #66c0f4;
-
-  /* Gradients supplémentaires */
-  --gradient-award: linear-gradient(135deg, var(--award-gold), var(--award-orange));
-  --gradient-success: linear-gradient(135deg, var(--success-green), var(--success-green-light));
-  --gradient-dark-panel: linear-gradient(135deg, var(--primary-bg), var(--primary-bg-alt));
-
-  /* === Intégration backgrounds (extraction background.css) === */
-  /* Surfaces / fonds */
-  --bg-body: var(--primary-bg); /* alias explicite */
-  --surface-strong: rgba(26,26,26,0.8);
-  --surface-medium: rgba(26,26,26,0.6);
-  --surface-alt: rgba(55,65,81,0.6);
-  --surface-nav-start: rgba(45,55,72,0.8);
-  --surface-nav-end: rgba(55,65,81,0.8);
-  --surface-nav-active-end: rgba(55,65,81,0.9);
-
-  /* Accent étendu (déclinaisons) */
-  --accent-alt: #40e0d0; /* second ton pour dégradés */
-  --accent-10: rgba(var(--accent-rgb),0.1);
-  --accent-20: rgba(var(--accent-rgb),0.2);
-  --accent-30: rgba(var(--accent-rgb),0.3);
-  --accent-40: rgba(var(--accent-rgb),0.4);
-  --accent-60: rgba(var(--accent-rgb),0.6);
-  --accent-80: rgba(var(--accent-rgb),0.8);
-
-  /* Gradients spécifiques */
-  --gradient-accent-linear: linear-gradient(135deg, var(--accent), var(--accent-alt));
-  --gradient-accent-linear-reverse: linear-gradient(135deg, var(--accent-alt), var(--accent));
-  --gradient-nav: linear-gradient(135deg, var(--surface-nav-start), var(--surface-nav-end));
-  --gradient-nav-hover: linear-gradient(135deg, var(--accent-30), var(--surface-nav-end));
-  --gradient-nav-active: linear-gradient(135deg, var(--accent-40), var(--surface-nav-active-end));
-  --gradient-nav-indicator: linear-gradient(90deg, var(--accent), var(--accent-60));
-  --gradient-progress: linear-gradient(90deg, var(--accent), var(--accent-80));
-  --shimmer-gradient: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-
-  /* Progress / animation */
-  --progress-bg: var(--surface-strong);
-  --progress-fill: var(--gradient-progress);
+  /* Couleurs vagues hero (mode sombre) */
+  --hero-wave-color-1: rgba(255,255,255,0.4);
+  --hero-wave-color-2: rgba(200,240,255,0.3);
+  --hero-wave-color-3: rgba(180,230,255,0.35);
+  --hero-wave-color-4: rgba(150,220,255,0.25);
+  --hero-wave-color-5: rgba(120,200,255,0.2);
+  --hero-wave-color-6: rgba(100,180,255,0.15);
+  --hero-wave-color-7: rgba(80,160,255,0.1);
 }
 
-/* Mode clair (light) global */
 [data-theme="light"] {
   --primary-bg: #f5f7fa;
   --text-primary: #1a1f29;
@@ -274,4 +223,45 @@
   --shimmer-gradient: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
   --progress-bg: var(--surface-strong);
   --progress-fill: linear-gradient(90deg, var(--accent), var(--accent-80));
+
+  /* === Footer (extraction footer.css) === */
+  --footer-bg: rgba(255,255,255,0.65);
+  --footer-card-bg: rgba(255,255,255,0.5);
+  --footer-card-bg-hover: rgba(255,255,255,0.65);
+  --footer-card-border-color: rgba(var(--accent-rgb),0.25);
+  --footer-card-border-hover-color: rgba(var(--accent-rgb),0.45);
+  --footer-separator-dots-bg: rgba(255,255,255,0.6);
+  --footer-label-color: rgba(26,31,41,0.5);
+  --footer-text-secondary: rgba(26,31,41,0.75);
+  --footer-text-tertiary: rgba(26,31,41,0.55);
+  --footer-rights-color: rgba(26,31,41,0.4);
+  --footer-link-hover-color: var(--accent);
+  --footer-tech-bg: rgba(var(--accent-rgb),0.12);
+  --footer-tech-bg-hover: rgba(var(--accent-rgb),0.18);
+  --footer-tech-border: rgba(var(--accent-rgb),0.25);
+  --footer-tech-border-hover: rgba(var(--accent-rgb),0.45);
+  /* === Hero Background (override light) === */
+  --hero-radial-gradient: radial-gradient(ellipse 280% 280% at 50% 25%,
+    rgba(255,255,255,0.95) 0%,
+    rgba(255,255,255,0.85) 25%,
+    rgba(247,249,252,0.65) 50%,
+    rgba(238,242,246,0.4) 75%,
+    transparent 100%
+  );
+  --hero-linear-gradient: linear-gradient(to bottom,
+    #0400ff 0%,
+    #0066ff 25%,
+    #0080ff 50%,
+    #0077ff 75%,
+    #0077ff 100%
+  );
+
+  /* Couleurs vagues hero (mode clair – bleus plus prononcés) */
+  --hero-wave-color-1: rgb(0, 119, 255); /* base plus vive */
+  --hero-wave-color-2: rgb(0, 132, 255);
+  --hero-wave-color-3: rgb(0, 149, 255);
+  --hero-wave-color-4: rgb(30, 161, 255);
+  --hero-wave-color-5: rgb(80, 179, 255);
+  --hero-wave-color-6: rgb(120, 194, 255);
+  --hero-wave-color-7: rgb(160, 211, 255);
 }

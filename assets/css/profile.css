@@ -169,7 +169,7 @@ main,
     text-align: left;
     max-width: 600px;
     width: 100%;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--profile-text-primary, rgba(255, 255, 255, 0.9));
 }
 
 /**
@@ -195,7 +195,7 @@ main,
     font-size: 2.2rem; 
     margin-bottom: 0.5rem; 
     line-height: 1.2;
-    color: rgba(255, 255, 255, 0.95);
+    color: var(--profile-heading-color, rgba(255, 255, 255, 0.95));
     font-weight: 500;
     opacity: 0;
     animation: fadeInUp 1s ease 0.7s forwards;
@@ -220,7 +220,7 @@ main,
     font-weight: 800;
     opacity: 0;
     animation: fadeInUp 1s ease 0.9s forwards;
-    background: linear-gradient(90deg, #4A90E2, #7BB3F0, #4A90E2, #7BB3F0);
+    background: var(--profile-title-gradient, linear-gradient(90deg, #4A90E2, #7BB3F0, #4A90E2, #7BB3F0));
     background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -229,7 +229,7 @@ main,
 }
 
 .profile-info .title .specialty {
-    background: linear-gradient(90deg, #4A90E2, #7BB3F0, #4A90E2, #7BB3F0);
+    background: var(--profile-specialty-gradient, linear-gradient(90deg, #4A90E2, #7BB3F0, #4A90E2, #7BB3F0));
     background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -271,7 +271,7 @@ main,
  */
 .profile-info .cta {
     font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--profile-cta-color, rgba(255, 255, 255, 0.8));
     font-weight: 500;
     margin-bottom: 0;
     opacity: 0;
@@ -287,7 +287,7 @@ main,
 .profile-info .bio { 
     line-height: 1.7; 
     margin-bottom: 3rem; 
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--profile-bio-color, rgba(255, 255, 255, 0.75));
     font-size: 1.2rem;
     max-width: 600px;
     opacity: 0;
@@ -481,17 +481,13 @@ main,
     align-items: center;
     gap: 3rem;
     padding: 1.5rem 3rem;
-    background: linear-gradient(135deg, 
-        rgba(79, 209, 199, 0.08) 0%, 
-        rgba(79, 209, 199, 0.03) 100%);
-    border: 1px solid rgba(79, 209, 199, 0.2);
+    background: var(--profile-stats-bg-gradient, linear-gradient(135deg, rgba(79, 209, 199, 0.08) 0%, rgba(79, 209, 199, 0.03) 100%));
+    border: var(--profile-stats-border, 1px solid rgba(79, 209, 199, 0.2));
     border-radius: 25px;
     backdrop-filter: blur(20px);
     opacity: 0;
     animation: fadeInUp 1s ease 1.5s forwards;
-    box-shadow: 
-        0 10px 40px rgba(79, 209, 199, 0.15),
-        0 0 60px rgba(79, 209, 199, 0.05);
+    box-shadow: var(--profile-stats-shadow, 0 10px 40px rgba(79, 209, 199, 0.15), 0 0 60px rgba(79, 209, 199, 0.05));
     min-width: 600px;
     max-width: 80%;
     z-index: 10;
@@ -503,18 +499,18 @@ main,
     align-items: center;
     text-align: center;
     padding: 1rem 1.5rem;
-    background: rgba(79, 209, 199, 0.05);
+    background: var(--profile-stat-item-bg, rgba(79, 209, 199, 0.05));
     border-radius: 18px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(79, 209, 199, 0.15);
+    border: var(--profile-stat-item-border, 1px solid rgba(79, 209, 199, 0.15));
     min-width: 120px;
 }
 
 .stat-item:hover {
-    background: rgba(79, 209, 199, 0.12);
-    border-color: rgba(79, 209, 199, 0.3);
+    background: var(--profile-stat-item-bg-hover, rgba(79, 209, 199, 0.12));
+    border-color: var(--profile-stat-item-border-hover, rgba(79, 209, 199, 0.3));
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(79, 209, 199, 0.2);
+    box-shadow: var(--profile-stat-item-shadow-hover, 0 8px 25px rgba(79, 209, 199, 0.2));
 }
 
 .stat-number {
@@ -523,7 +519,7 @@ main,
     color: rgba(255, 255, 255, 0.95);
     line-height: 1;
     margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, var(--accent), #7be3db);
+    background: var(--profile-stat-number-gradient, linear-gradient(135deg, var(--accent), #7be3db));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -531,7 +527,7 @@ main,
 
 .stat-label {
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--profile-stat-label-color, rgba(255, 255, 255, 0.75));
     font-weight: 500;
     line-height: 1.3;
     text-align: center;

@@ -22,112 +22,6 @@
   <canvas id="waves-canvas"></canvas>
 </div>
 
-<!-- Inline styles for hero background -->
-<style>
-/* .hero-background styles */
-.hero-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -20; /* Plus bas que l'image de background du projet */
-  overflow: hidden;
-  
-  /* Radial + linear gradient as per exact specifications */
-  background: 
-    /* Very wide radial gradient for main glow */
-    radial-gradient(ellipse 280% 280% at 50% 25%, 
-      rgba(10, 30, 84, 0.8) 0%,     /* #0A1E54 - Center */
-      rgba(16, 41, 101, 0.6) 25%,   /* #102965 */
-      rgba(20, 51, 122, 0.4) 50%,   /* #14337A */
-      rgba(27, 70, 144, 0.2) 75%,   /* #1B4690 */
-      transparent 100%
-    ),
-    /* Vertical linear gradient for depth */
-    linear-gradient(to bottom, 
-      #0A1E54 0%,    /* Saturated night blue */
-      #102965 25%, 
-      #14337A 50%, 
-      #1B4690 75%, 
-      #2449B2 100%   /* Extreme bottom */
-    );
-  
-  /* Performance optimization */
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-}
-
-/* Canvas for fluid waves Paper.js */
-#waves-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -18; /* Plus bas que l'image de background du projet */
-  opacity: 0.8;
-  mix-blend-mode: screen;
-}
-
-/* Canvas for particles */
-#particles-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -15; /* Plus bas que l'image de background du projet */
-}
-
-/* Global performance optimizations */
-.hero-background * {
-  will-change: transform, opacity;
-}
-
-/* Responsive Design - Optimized */
-@media (max-width: 1200px) {
-  .hero-background { background-size: 120% 120%; }
-  .ribbon-main { height: 100px; top: 38%; }
-  .ribbon-secondary-1 { height: 70px; top: 33%; }
-  .ribbon-secondary-2 { height: 50px; top: 40%; }
-  .ribbon-tertiary { height: 35px; top: 36%; }
-}
-
-@media (max-width: 768px) {
-  .hero-background { background-size: 150% 150%; }
-  .ribbon-main { height: 80px; top: 40%; }
-  .ribbon-secondary-1 { height: 60px; top: 36%; }
-  .ribbon-secondary-2 { height: 40px; top: 42%; }
-  .ribbon-tertiary { height: 30px; top: 38%; }
-}
-
-@media (max-width: 480px) {
-  .hero-background { 
-    background-size: 200% 200%; 
-    background-position: center top; 
-  }
-  .ribbon-main { height: 60px; top: 42%; }
-  .ribbon-secondary-1 { height: 45px; top: 38%; }
-  .ribbon-secondary-2 { height: 35px; top: 44%; }
-  .ribbon-tertiary { height: 25px; top: 40%; }
-}
-
-/* Reduced motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-  #waves-canvas { display: none; }
-  #particles-canvas { display: none; }
-}
-
-/* Performance for high resolution screens */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .hero-background { background-attachment: fixed; }
-}
-</style>
-
 <!-- Script for fluid waves Paper.js and particles -->
 {{- $paperjs := resources.Get "js/paper-full.min.js" -}}
 <script src="{{ $paperjs.RelPermalink }}"></script>
@@ -170,18 +64,44 @@ if (!prefersReducedMotion) {
         this.randomHeights = [];
         this.magnitude = 0.15; // Wave amplitude
         
-        // PS3 style colors
-        this.colors = [
-          'rgba(255, 255, 255, 0.4)',
-          'rgba(200, 240, 255, 0.3)',
-          'rgba(180, 230, 255, 0.35)',
-          'rgba(150, 220, 255, 0.25)',
-          'rgba(120, 200, 255, 0.2)',
-          'rgba(100, 180, 255, 0.15)',
-          'rgba(80, 160, 255, 0.1)'
-        ];
+        this.readColors();
         
         this.init();
+        this.observeTheme();
+      }
+      
+      readColors() {
+        const cs = getComputedStyle(document.documentElement);
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        this.colors = [1,2,3,4,5,6,7].map(i => {
+          let c = cs.getPropertyValue(`--hero-wave-color-${i}`).trim();
+          if (isLight) {
+            // Si couleur fournie sans alpha explicit (rgb), on ajoute un alpha plus élevé
+            if (/^rgb\(\s*\d+/.test(c) && !/rgba/.test(c)) {
+              c = c.replace(/^rgb\((.*)\)$/,'rgba($1,0.85)');
+            } else if (/rgba\(/.test(c)) {
+              // augmente légèrement alpha existant
+              c = c.replace(/rgba\((\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,)([^)]+)\)/, (m,prefix,a)=> {
+                let val=parseFloat(a); if(isNaN(val)) return m; return `rgba(${prefix}${Math.min(1,val+0.25)})`; });
+            }
+          }
+          return c;
+        }).filter(Boolean);
+      }
+      
+      observeTheme() {
+        const observer = new MutationObserver(muts => {
+          for (const m of muts) {
+            if (m.attributeName === 'data-theme') {
+              this.readColors();
+              
+              // Recolor existing paths
+              this.paths.forEach((p, idx) => { p.strokeColor = this.colors[idx % this.colors.length]; });
+            }
+          }
+        });
+        observer.observe(document.documentElement, { attributes: true });
+        this.themeObserver = observer;
       }
       
       init() {
@@ -204,10 +124,10 @@ if (!prefersReducedMotion) {
           this.randomHeights[i] = Math.max(Math.random() + 0.5, 0.3);
           
           // Create Paper.js path
-          this.paths[i] = new paper.Path();
-          this.paths[i].strokeCap = 'round';
-          this.paths[i].strokeColor = this.colors[i % this.colors.length];
-          this.paths[i].strokeWidth = this.strokeWidth * this.randomDistances[i];
+          const path = new paper.Path();
+          path.strokeCap = 'round';
+          path.strokeColor = this.colors[i % this.colors.length];
+          path.strokeWidth = this.strokeWidth * this.randomDistances[i];
           
           // Vertical position offset for each wave
           const baseY = this.halfH + (i - this.pathCount/2) * 40;
@@ -215,11 +135,12 @@ if (!prefersReducedMotion) {
           // Add wave points
           for (let v = 0; v < this.pathPoints; v++) {
             const x = this.w * (v / (this.pathPoints - 1));
-            this.paths[i].add(new paper.Point(x, baseY));
+            path.add(new paper.Point(x, baseY));
           }
           
           // Smooth the path
-          this.paths[i].smooth();
+          path.smooth();
+          this.paths[i] = path;
         }
       }
       

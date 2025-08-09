@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}" data-theme="dark">
+<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}" data-theme="dark" data-page="{{ if .IsHome }}portfolio{{ else if eq .Section "posts" }}blog{{ else if eq .Section "projects" }}projects{{ else }}portfolio{{ end }}">
 <head>
   {{ partial "head.html" . }}
 </head>
-<body data-page="{{ if .IsHome }}portfolio{{ else if eq .Section "posts" }}blog{{ else if eq .Section "projects" }}projects{{ else }}portfolio{{ end }}">
+<body>
   <!-- Script d'initialisation du thème avant le rendu pour éviter le flash -->
   <script>
     (function() {
