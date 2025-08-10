@@ -22,7 +22,6 @@
 .info-section { 
     background: var(--info-section-bg, rgba(55, 65, 81, 0.6));
     backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
     padding: 1.5rem;
     border-radius: 16px;
     margin-bottom: 2rem;
@@ -93,7 +92,6 @@
         rgba(55, 65, 81, 0.5) 50%, 
         rgba(79, 209, 199, 0.08) 100%));
     backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: var(--info-aero-border, 1px solid rgba(79, 209, 199, 0.3));
     border-radius: 20px;
     position: relative;

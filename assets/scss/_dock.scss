@@ -56,7 +56,6 @@
   /* Effets visuels */
   background: var(--dock-bg);
   backdrop-filter: blur(var(--dock-blur));
-  -webkit-backdrop-filter: blur(var(--dock-blur));
   border-radius: var(--dock-radius);
   border: 1px solid var(--dock-border);
 

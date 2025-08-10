@@ -425,19 +425,12 @@
 .hero-to-content-transition::before {
     content: '';
     position: absolute;
-    top: -12rem; /* DÃ©borde vers le haut sur le hero */
+    top: -12rem; /* Déborde vers le haut sur le hero */
     left: 0;
     right: 0;
     height: calc(100% + 12rem);
     backdrop-filter: blur(var(--blur-intensity));
-    -webkit-backdrop-filter: blur(var(--blur-intensity));
     mask: linear-gradient(180deg, 
-        transparent 0%,
-        rgba(0,0,0,0.3) 30%,
-        rgba(0,0,0,0.8) 70%,
-        rgba(0,0,0,1) 100%
-    );
-    -webkit-mask: linear-gradient(180deg, 
         transparent 0%,
         rgba(0,0,0,0.3) 30%,
         rgba(0,0,0,0.8) 70%,
@@ -459,7 +452,6 @@
         rgba(26, 26, 26, 0.5) 10%
     );
     backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     color: var(--text-primary);
     padding: 2rem 0 4rem 0;
     position: relative;

@@ -1315,11 +1315,9 @@
 @keyframes blurFadeIn {
     from {
         backdrop-filter: blur(0px);
-        -webkit-backdrop-filter: blur(0px);
     }
     to {
         backdrop-filter: blur(var(--blur-intensity));
-        -webkit-backdrop-filter: blur(var(--blur-intensity));
     }
 }
 
@@ -1332,7 +1330,6 @@
 @media (prefers-reduced-motion: reduce) {
     .hero-to-content-transition::before {
         backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
         animation: none;
         transition: none;
     }

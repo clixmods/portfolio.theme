@@ -36,7 +36,6 @@
     border-radius: 20px;
     background: var(--testimonials-slider-bg, rgba(55, 65, 81, 0.4));
     backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: var(--testimonials-slider-border, 1px solid rgba(var(--accent-rgb), 0.2));
     box-shadow: var(--testimonials-slider-shadow, 0 8px 32px rgba(0, 0, 0, 0.2)), var(--testimonials-slider-inner-highlight, inset 0 1px 0 rgba(255, 255, 255, 0.1));
     box-sizing: border-box;
@@ -53,7 +52,6 @@
     padding: 1.5rem 2rem;
     background: var(--testimonial-card-bg, rgba(55, 65, 81, 0.3));
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: var(--testimonial-card-border, 1px solid rgba(var(--accent-rgb), 0.1));
     position: relative;
     overflow: hidden;
@@ -150,7 +148,6 @@
 .slider-btn {
     background: var(--testimonial-slider-btn-bg, rgba(var(--accent-rgb), 0.2));
     backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
     border: var(--testimonial-slider-btn-border, 2px solid rgba(var(--accent-rgb), 0.6));
     color: var(--accent);
     width: 45px;

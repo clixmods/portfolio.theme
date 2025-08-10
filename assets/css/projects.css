@@ -91,7 +91,6 @@
     margin-bottom: 2rem;
     background: var(--projects-tabs-bg, rgba(55, 65, 81, 0.5));
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-radius: 25px;
     padding: 0.3rem;
     width: fit-content;
@@ -158,7 +157,6 @@
 .tech-badge {
     background: var(--projects-tech-badge-bg, rgba(55, 65, 81, 0.7));
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: var(--projects-tech-badge-border, 1px solid rgba(var(--accent-rgb), 0.3));
     color: var(--projects-tech-badge-color, #a0a0a0);
     padding: 0.4rem 0.8rem;
@@ -227,7 +225,6 @@
 .project-card {
     background: var(--projects-card-bg, rgba(55, 65, 81, 0.6));
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border: var(--projects-card-border, 1px solid rgba(var(--accent-rgb), 0.2));
     border-radius: 20px;
     overflow: hidden;
@@ -318,7 +315,6 @@
     font-size: 0.75rem;
     font-weight: 600;
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 
 /* ========================================
@@ -555,7 +551,6 @@
     padding: 0.5rem 1rem;
     background: var(--projects-btn-bg, rgba(55, 65, 81, 0.6));
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border: var(--projects-btn-border, 1px solid rgba(var(--accent-rgb), 0.2));
     color: var(--projects-btn-text, rgba(255, 255, 255, 0.8));
     text-decoration: none;

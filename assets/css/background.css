@@ -13,7 +13,6 @@ body {
 .sidebar { 
     background: var(--surface-strong, rgba(26,26,26,0.8));
     backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 /* Navigation items backgrounds */
@@ -41,7 +40,6 @@ body {
 .contact-section {
     background: linear-gradient(135deg, var(--surface-alt, rgba(55, 65, 81, 0.6)), var(--accent-10, rgba(79, 209, 199, 0.1)));
     backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
 }
 
 /* Gradient text backgrounds for titles */
@@ -56,7 +54,6 @@ body {
 .aero-glass {
     background: var(--surface-medium, rgba(26, 26, 26, 0.6));
     backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
 }
 
 /* Hover state backgrounds */
@@ -102,7 +99,6 @@ body {
 .social-icon {
     background: var(--accent-20, rgba(79, 209, 199, 0.2));
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 
 .social-icon:hover {
@@ -119,7 +115,6 @@ body {
 .skill-block {
     background: var(--surface-alt, rgba(55, 65, 81, 0.6));
     backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
 }
 
 /* Shimmer effects backgrounds */

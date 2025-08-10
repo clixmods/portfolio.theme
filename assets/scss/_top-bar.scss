@@ -80,7 +80,6 @@ body {
   /* Effets visuels style dock translucide */
   background: var(--top-bar-bg);
   backdrop-filter: blur(var(--top-bar-blur));
-  -webkit-backdrop-filter: blur(var(--top-bar-blur));
   border-radius: var(--top-bar-radius);
   border-bottom: 1px solid var(--top-bar-border);
   box-shadow: 0 2px 8px var(--top-bar-shadow);
@@ -565,7 +564,6 @@ body {
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(var(--top-bar-blur));
-  -webkit-backdrop-filter: blur(var(--top-bar-blur));
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
@@ -689,7 +687,6 @@ body {
 .toast {
   background: var(--top-bar-bg);
   backdrop-filter: blur(var(--top-bar-blur));
-  -webkit-backdrop-filter: blur(var(--top-bar-blur));
   border: 1px solid var(--top-bar-border);
   border-radius: 12px;
   padding: 12px 16px;
@@ -797,7 +794,6 @@ body {
   padding: 8px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(var(--top-bar-blur));
-  -webkit-backdrop-filter: blur(var(--top-bar-blur));
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);

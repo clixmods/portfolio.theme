@@ -296,7 +296,6 @@ body {
 .skills-category {
     background: rgba(55, 65, 81, 0.4);
     backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(var(--accent-rgb), 0.2);
     border-radius: 16px;
     padding: 2rem;
@@ -337,7 +336,6 @@ body {
 .skill-block {
     background: rgba(75, 85, 99, 0.5);
     backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
     border: 1px solid rgba(var(--accent-rgb), 0.3);
     border-radius: 12px;
     padding: 0.75rem;

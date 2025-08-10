@@ -117,7 +117,6 @@
     margin-bottom: 3rem;
     background: var(--exp-tabs-bg, rgba(var(--slate-rgb),0.5));
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-radius: 25px;
     padding: 0.3rem;
     width: fit-content;
@@ -187,7 +186,6 @@
 .experience-card {
     background: var(--exp-card-bg, rgba(var(--slate-rgb),0.7));
     backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: var(--exp-card-border, 1px solid rgba(var(--accent-rgb),0.3));
     border-radius: 20px;
     margin-bottom: 2rem;
