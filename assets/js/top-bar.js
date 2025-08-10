@@ -245,14 +245,30 @@
    * Gère le scroll pour adapter l'apparence de la top bar
    */
   function handleScroll() {
+    if (!topBar) return;
     const scrollY = window.pageYOffset;
-    
+    const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+
     if (scrollY > 100) {
-      topBar.style.setProperty('--top-bar-bg', 'rgba(47, 47, 47, 0.45)');
+      // Valeurs adaptées selon le thème actif
+      if (theme === 'light') {
+        topBar.style.setProperty('--top-bar-bg', 'rgba(255, 255, 255, 0.85)');
+        topBar.style.setProperty('--top-bar-border', 'rgba(0, 0, 0, 0.12)');
+        topBar.style.setProperty('--top-bar-text', '#1A1A1A');
+      } else {
+        topBar.style.setProperty('--top-bar-bg', 'rgba(47, 47, 47, 0.45)');
+        topBar.style.setProperty('--top-bar-border', 'rgba(255, 255, 255, 0.40)');
+        topBar.style.setProperty('--top-bar-text', '#F4F4F5');
+      }
       topBar.style.setProperty('--top-bar-blur', '15px');
+      topBar.classList.add('is-scrolled');
     } else {
-      topBar.style.setProperty('--top-bar-bg', 'rgba(47, 47, 47, 0.35)');
-      topBar.style.setProperty('--top-bar-blur', '10px');
+      // Réinitialise pour laisser les variables CSS globales gérer le thème
+      topBar.style.removeProperty('--top-bar-bg');
+      topBar.style.removeProperty('--top-bar-border');
+      topBar.style.removeProperty('--top-bar-text');
+      topBar.style.removeProperty('--top-bar-blur');
+      topBar.classList.remove('is-scrolled');
     }
   }
   
@@ -295,12 +311,12 @@
     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     localStorage.setItem('theme', currentTheme);
-    // Mise à jour éventuelle d'une classe sur le body (utile si styles hérités ailleurs)
     document.body.classList.remove('theme-dark','theme-light');
     document.body.classList.add('theme-' + currentTheme);
-    // Notification
     showToast('Thème changé', `Mode ${currentTheme === 'dark' ? 'sombre' : 'clair'} activé`, 'info');
     if (navigator.vibrate) { navigator.vibrate(30); }
+    // Recalcule l'état visuel après changement de thème
+    handleScroll();
   }
   
   /**
@@ -645,6 +661,9 @@
     
     // Attache les event listeners
     attachEventListeners();
+
+    // Applique l'état initial selon la position de scroll courante
+    handleScroll();
     
     // Démarre l'horloge
     if (clockElement) {

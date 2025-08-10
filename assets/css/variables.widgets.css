@@ -3,7 +3,7 @@
    Séparé de variables.portfolio.css pour clarté.
    ======================================== */
 
-:root[data-page="portfolio"] {
+:root[data-page="projects"] { /* corrigé depuis portfolio -> projects */
   /* === Widgets (Clients / Grade / Downloads / Ranking) === */
   --clients-item-bg: linear-gradient(135deg, rgba(255,255,255,0.02) 100%);
   --clients-item-hover-bg: linear-gradient(135deg, rgba(255,255,255,0.05) 100%);
@@ -146,7 +146,7 @@
 }
 
 /* Mode clair widgets */
-[data-theme="light"][data-page="portfolio"] {
+[data-theme="light"][data-page="projects"] { /* corrigé depuis portfolio -> projects */
   --clients-item-bg: linear-gradient(135deg, rgba(255,255,255,0.65) 100%);
   --clients-item-hover-bg: linear-gradient(135deg, rgba(255,255,255,0.85) 100%);
   --clients-item-border: 1px solid rgba(0,0,0,0.06);

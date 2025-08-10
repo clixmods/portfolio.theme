@@ -14,9 +14,19 @@
   --dock-transition: 150ms ease-out;
 }
 
-/* Mode clair */
+/* Thème clair via attribut data-theme (suit le toggle du site) */
+[data-theme="light"] {
+  --dock-bg: rgba(255, 255, 255, 0.75);
+  --dock-accent: #0070F3;
+  --dock-shadow: rgba(0, 0, 0, 0.15);
+  --dock-border: rgba(0, 0, 0, 0.1);
+  --dock-text: #1A1A1A;
+  --dock-blur: 16px;
+}
+
+/* Optionnel: auto si aucun data-theme défini (fallback système) */
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme]) {
     --dock-bg: rgba(255, 255, 255, 0.75);
     --dock-accent: #0070F3;
     --dock-shadow: rgba(0, 0, 0, 0.15);
