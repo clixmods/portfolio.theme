@@ -10,22 +10,18 @@
     align-items: center;
     gap: 1.2rem;
     padding: 1rem;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.05) 0%, 
-        rgba(255, 255, 255, 0.02) 100%);
+    background: var(--award-item-bg, linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%));
     border-radius: var(--border-radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: var(--award-item-border, 1px solid rgba(255, 255, 255, 0.08));
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
 }
 
 .award-item:hover {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, 
-        rgba(243, 156, 18, 0.1) 0%, 
-        rgba(255, 255, 255, 0.05) 100%);
-    border-color: rgba(243, 156, 18, 0.3);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background: var(--award-item-hover-bg, linear-gradient(135deg, rgba(243, 156, 18, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%));
+    border-color: var(--award-item-hover-border, rgba(243, 156, 18, 0.3));
+    box-shadow: var(--award-item-hover-shadow, 0 8px 25px rgba(0, 0, 0, 0.2));
 }
 
 .award-icon {
@@ -35,9 +31,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f39c12, #e67e22);
+    background: var(--award-icon-gradient, linear-gradient(135deg, #f39c12, #e67e22));
     border-radius: 50%;
-    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+    box-shadow: var(--award-icon-shadow, 0 4px 15px rgba(243, 156, 18, 0.3));
     transition: transform 0.3s ease;
 }
 
@@ -80,16 +76,16 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    background: var(--glass-bg-lighter);
+    background: var(--award-item-bg, var(--glass-bg-lighter));
     border-radius: var(--border-radius-sm);
-    border: 1px solid var(--glass-border-light);
-    transition: var(--transition-smooth);
+    border: var(--award-item-border, 1px solid var(--glass-border-light));
+    transition: var(--transition-smooth, all 0.3s ease);
 }
 
 .award-item:hover {
-    background: var(--glass-bg-strong);
+    background: var(--award-item-hover-bg, var(--glass-bg-strong));
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.2);
+    box-shadow: var(--award-item-hover-shadow, 0 4px 15px rgba(243, 156, 18, 0.2));
 }
 
 .award-icon {
@@ -99,7 +95,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f39c12, #e67e22);
+    background: var(--award-icon-gradient, linear-gradient(135deg, #f39c12, #e67e22));
     border-radius: 50%;
     flex-shrink: 0;
 }

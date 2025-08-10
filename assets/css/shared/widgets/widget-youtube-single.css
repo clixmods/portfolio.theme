@@ -1,4 +1,3 @@
-
 /* ========================================
    YOUTUBE SINGLE VIDEO BOX - REMPLISSAGE COMPLET
    ======================================== */
@@ -21,12 +20,10 @@
 
 /* Item vidÃ©o unique - style complet */
 .youtube-single-item {
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.05) 0%, 
-        rgba(255, 255, 255, 0.02) 100%);
+    background: var(--youtube-item-bg);
+    border: var(--youtube-item-border);
+    border-left: var(--youtube-item-border-left);
     border-radius: var(--border-radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-left: 3px solid #ff0000;
     overflow: hidden;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -38,12 +35,8 @@
 .youtube-single-item:hover {
     transform: translateY(-2px);
     border-left-color: #cc0000;
-    background: linear-gradient(135deg, 
-        rgba(255, 0, 0, 0.08) 0%, 
-        rgba(255, 255, 255, 0.05) 100%);
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.2),
-        0 3px 10px rgba(255, 0, 0, 0.15);
+    background: var(--youtube-item-hover-bg);
+    box-shadow: var(--youtube-item-hover-shadow);
 }
 
 /* Thumbnail - remplissage optimisÃ© */
@@ -52,7 +45,7 @@
     width: 100%;
     aspect-ratio: 16/9;
     overflow: hidden;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    background: var(--youtube-thumbnail-bg);
 }
 
 .youtube-single-thumbnail img {
@@ -74,15 +67,15 @@
     transform: translate(-50%, -50%);
     width: 70px;
     height: 70px;
-    background: rgba(255, 0, 0, 0.9);
+    background: var(--youtube-play-btn-bg);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: var(--youtube-play-btn-border);
+    box-shadow: var(--youtube-play-btn-shadow);
 }
 
 .youtube-single-play-button::before {
@@ -97,10 +90,8 @@
 
 .youtube-single-item:hover .youtube-single-play-button {
     transform: translate(-50%, -50%) scale(1.1);
-    background: rgba(255, 0, 0, 1);
-    box-shadow: 
-        0 12px 35px rgba(0, 0, 0, 0.4),
-        0 0 30px rgba(255, 0, 0, 0.6);
+    background: var(--youtube-play-btn-hover-bg);
+    box-shadow: var(--youtube-play-btn-hover-shadow);
     border-color: rgba(255, 255, 255, 0.5);
 }
 
@@ -109,14 +100,14 @@
     position: absolute;
     bottom: 12px;
     right: 12px;
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--youtube-duration-bg);
     color: white;
     padding: 0.3rem 0.6rem;
     border-radius: 6px;
     font-size: 0.8rem;
     font-weight: 600;
     backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: var(--youtube-duration-border);
 }
 
 /* Informations de la vidÃ©o */

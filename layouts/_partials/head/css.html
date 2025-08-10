@@ -9,6 +9,17 @@
   {{- end }}
 {{- end }}
 
+{{/* Variables Widgets (toujours – nécessaires aux widgets transverses) */}}
+{{- with resources.Get "css/variables.widgets.css" }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Détermination du type de page pour charger les variables dédiées */}}
 {{- $pageType := "" -}}
 {{- if .IsHome -}}

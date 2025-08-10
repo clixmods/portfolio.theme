@@ -20,8 +20,11 @@
 .grade-value {
     font-size: 3rem;
     font-weight: var(--font-weight-bold);
-    color: var(--primary-green);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    background: var(--grade-value-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
 }
 
 .grade-scale {
@@ -70,7 +73,11 @@
 .grade-preview-value {
     font-size: 1.5rem;
     font-weight: var(--font-weight-bold);
-    color: var(--primary-green);
+    background: var(--grade-value-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
     min-width: 40px;
 }
 

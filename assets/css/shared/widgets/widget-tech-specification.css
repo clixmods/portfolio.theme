@@ -1,4 +1,3 @@
-
 /* Technical Specifications Box Styles */
 .technical-specs-list {
     display: flex;
@@ -11,11 +10,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.05) 0%, 
-        rgba(255, 255, 255, 0.02) 100%);
+    background: var(--spec-item-bg);
     border-radius: var(--border-radius-sm);
-    border-left: 3px solid var(--primary-blue);
+    border-left: var(--spec-item-border-left);
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
 }
@@ -23,9 +20,8 @@
 .spec-item:hover {
     transform: translateX(4px);
     border-left-color: var(--primary-teal);
-    background: linear-gradient(135deg, 
-        rgba(52, 152, 219, 0.08) 0%, 
-        rgba(255, 255, 255, 0.05) 100%);
+    background: var(--spec-item-hover-bg);
+    border-left: var(--spec-item-hover-border-left);
 }
 
 .spec-label {
