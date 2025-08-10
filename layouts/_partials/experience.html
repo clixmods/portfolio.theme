@@ -17,7 +17,7 @@
             <div class="experience-header-card">
                 <div class="company-info">
                     <div class="company-logo">
-                        <img src="{{ $exp.logo }}" alt="{{ $exp.company }}" onerror="this.src='/images/placeholder-company.jpg'">
+                        <img src="{{ $exp.logo }}" alt="{{ $exp.company }}" onerror="this.onerror=null;this.src='/images/placeholder-company.jpg'">
                     </div>
                     <div class="company-details">
                         <h3 class="job-title">{{ $exp.title }}</h3>
@@ -72,9 +72,9 @@
                                 <!-- Project image from referenced project -->
                                 <div class="project-tile-image">
                                     {{ if $projectPage.Params.image }}
-                                        <img src="{{ $projectPage.Params.image }}" 
-                                             alt="{{ $projectPage.Title }}" 
-                                             onerror="this.src='/images/placeholder-project.jpg'">
+                                <img src="{{ $projectPage.Params.image }}" 
+                                    alt="{{ $projectPage.Title }}" 
+                                    onerror="this.onerror=null;this.src='/images/placeholder-project.jpg'">
                                     {{ else }}
                                         <img src="/images/placeholder-project.jpg" alt="{{ $projectPage.Title }}">
                                     {{ end }}
@@ -128,9 +128,9 @@
                             {{/* Handle inline project definition */}}
                             <!-- Project image (placeholder for inline projects) -->
                             <div class="project-tile-image">
-                                <img src="/images/projects/{{ lower (.name | urlize) }}/thumbnail.jpg" 
-                                     alt="{{ .name }}" 
-                                     onerror="this.src='/images/placeholder-project.jpg'">
+                          <img src="/images/projects/{{ lower (.name | urlize) }}/thumbnail.jpg" 
+                              alt="{{ .name }}" 
+                              onerror="this.onerror=null;this.src='/images/placeholder-project.jpg'">
                                 <div class="project-tile-overlay"></div>
                             </div>
                             

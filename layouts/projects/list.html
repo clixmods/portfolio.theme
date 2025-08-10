@@ -3,145 +3,159 @@
 {{ with resources.Get "css/ps5-projects.css" }}
 <link rel="stylesheet" href="{{ .RelPermalink }}">
 {{ end }}
+<!-- Préchargement du placeholder pour éviter requêtes répétées -->
+<link rel="preload" as="image" href="/images/placeholder-project.jpg">
 
 <div class="ps5-projects-page">
-    <!-- Navigation par secteurs en haut style PS5 -->
-    <nav class="ps5-sectors ps5-sectors-top">
-        <div class="ps5-sectors-container">
-            <button class="ps5-sector-btn active" data-sector="all">
-                <span class="ps5-sector-icon">🎮</span>
-                <span class="ps5-sector-label">{{ i18n "all_projects" | default "Tous les projets" }}</span>
-            </button>
-            <button class="ps5-sector-btn" data-sector="games">
-                <span class="ps5-sector-icon">🎯</span>
-                <span class="ps5-sector-label">Games</span>
-            </button>
-            <button class="ps5-sector-btn" data-sector="apps-web">
-                <span class="ps5-sector-icon">🌐</span>
-                <span class="ps5-sector-label">Apps/Web</span>
-            </button>
-            <button class="ps5-sector-btn" data-sector="mods-tools">
-                <span class="ps5-sector-icon">🛠️</span>
-                <span class="ps5-sector-label">Mods & Tools</span>
-            </button>
+    <!-- Fond dynamique projet -->
+    <div id="project-bg" aria-hidden="true"></div>
+    <!-- En-tête global projets -->
+    <section class="projects-page-header" aria-labelledby="projects-main-title">
+        <div class="projects-heading-block">
+            <h1 id="projects-main-title" class="projects-list-title">{{ .Title | default (i18n "projects_title" | default "Mes projets") }}</h1>
+            <p class="projects-list-subtitle">
+                {{ .Params.description | default ( i18n "projects_list_subtitle" | default "Sélection de mes créations : jeux vidéo, applications web et outils de développement." ) }}
+            </p>
         </div>
-    </nav>
+        <!-- Stats rapides optionnelles -->
+        <div class="projects-quick-stats">
+            {{ $all := where .Site.RegularPages "Section" "projects" }}
+            <div class="pqs-item"><span class="pqs-number">{{ len $all }}</span><span class="pqs-label">{{ i18n "total_projects" | default "Total" }}</span></div>
+            <div class="pqs-item"><span class="pqs-number">{{ len (where $all ".Params.sector" "games") }}</span><span class="pqs-label">{{ i18n "games" | default "Jeux" }}</span></div>
+            <div class="pqs-item"><span class="pqs-number">{{ len (where $all ".Params.sector" "apps-web") }}</span><span class="pqs-label">{{ i18n "apps_web" | default "Apps/Web" }}</span></div>
+            <div class="pqs-item"><span class="pqs-number">{{ len (where $all ".Params.sector" "mods-tools") }}</span><span class="pqs-label">{{ i18n "mods_tools" | default "Mods & Tools" }}</span></div>
+        </div>
+    </section>
 
-    <!-- Header avec effet parallax -->
-    <header class="ps5-header">
-        <div class="ps5-header-bg"></div>
-        <div class="ps5-header-content">
-            <h1 class="ps5-title">{{ .Title }}</h1>
-            {{ if .Content }}
-            <div class="ps5-description">
-                {{ .Content }}
+    <!-- Barre de filtres sticky (secteurs) -->
+    <div class="projects-filters-bar" role="toolbar" aria-label="Filtres projets">
+        <nav class="ps5-sectors" aria-label="Types de projets">
+            <div class="ps5-sectors-container">
+                <button class="ps5-sector-btn active" data-sector="all">
+                    <span class="ps5-sector-icon">�</span>
+                    <span class="ps5-sector-label">{{ i18n "all_projects" | default "Tous les projets" }}</span>
+                </button>
+                <button class="ps5-sector-btn" data-sector="games">
+                    <span class="ps5-sector-icon">�</span>
+                    <span class="ps5-sector-label">{{ i18n "games" | default "Jeux" }}</span>
+                </button>
+                <button class="ps5-sector-btn" data-sector="apps-web">
+                    <span class="ps5-sector-icon">🌐</span>
+                    <span class="ps5-sector-label">{{ i18n "apps_web" | default "Apps/Web" }}</span>
+                </button>
+                <button class="ps5-sector-btn" data-sector="mods-tools">
+                    <span class="ps5-sector-icon">🛠️</span>
+                    <span class="ps5-sector-label">{{ i18n "mods_tools" | default "Mods & Tools" }}</span>
+                </button>
             </div>
-            {{ end }}
-        </div>
-        <div class="ps5-header-gradient"></div>
-    </header>
-    
-    <!-- Grille de tuiles projets style PS5 -->
+        </nav>
+    </div>
+
+    <!-- Grille de projets scrollable -->
+    <div class="projects-scroll-area">
     <div class="ps5-projects-tiles">
-        {{ range where .Site.RegularPages "Section" "projects" }}
+        {{/* On liste tous les projets (hors _index) */}}
+        {{ $projects := where .Site.RegularPages "Section" "projects" }}
+        {{ range $projects }}
         {{ if not (eq .File.LogicalName "_index.md") }}
-        <article class="ps5-project-tile" data-sector="{{ .Params.sector }}">
-            <!-- Image de fond -->
+    <article class="ps5-project-tile"
+         data-project-id="{{ .File.BaseFileName }}"
+         data-background-image="{{ .Params.background_image | default .Params.image }}"
+         data-sector="{{ .Params.sector }}"
+         data-category="{{ .Params.sector }}"
+         data-technologies='{{ with .Params.technologies }}{{ delimit . "," }}{{ end }}'>
+            <!-- Image principale -->
             <div class="ps5-tile-image">
-                <img src="{{ .Params.image | default "/images/placeholder-project.jpg" }}" alt="{{ .Title }}" loading="lazy">
+                <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}" onerror="this.onerror=null;this.src='/images/placeholder-project.jpg';">
                 <div class="ps5-tile-overlay"></div>
-                
-                <!-- Badge featured -->
-                {{ if .Params.featured }}
-                <div class="ps5-tile-badge">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                </div>
-                {{ end }}
-                
-                <!-- Icône secteur -->
-                <div class="ps5-tile-sector-icon">
-                    {{ if eq .Params.sector "games" }}🎮{{ end }}
-                    {{ if eq .Params.sector "apps-web" }}🌐{{ end }}
-                    {{ if eq .Params.sector "mods-tools" }}🛠️{{ end }}
-                </div>
             </div>
-            
-            <!-- Titre de la tuile -->
+
+            <!-- Badge featured -->
+            {{ if .Params.featured }}<div class="ps5-tile-badge">★</div>{{ end }}
+
+            <!-- Icône secteur -->
+            <div class="ps5-tile-sector-icon">
+                {{ if eq .Params.sector "games" }}🎮{{ end }}
+                {{ if eq .Params.sector "apps-web" }}🛒{{ end }}
+                {{ if eq .Params.sector "mods-tools" }}�{{ end }}
+            </div>
+
+            <!-- Contenu court -->
             <div class="ps5-tile-content">
                 <h3 class="ps5-tile-title">{{ .Title }}</h3>
-                {{ if .Params.subtitle }}
-                <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
-                {{ end }}
+                {{ with .Params.subtitle }}<p class="ps5-tile-subtitle">{{ . }}</p>{{ end }}
             </div>
-            
-            <!-- Overlay d'informations au hover -->
+
+            <!-- Overlay détaillé -->
             <div class="ps5-tile-info">
                 <div class="ps5-tile-info-content">
                     <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
-                    {{ if .Params.subtitle }}
-                    <p class="ps5-tile-info-subtitle">{{ .Params.subtitle }}</p>
-                    {{ end }}
-                    
-                    <p class="ps5-tile-description">{{ .Params.description | truncate 120 }}</p>
-                    
+                    {{ with .Params.subtitle }}<p class="ps5-tile-info-subtitle">{{ . }}</p>{{ end }}
+                    {{ with .Params.description }}<p class="ps5-tile-description">{{ . }}</p>{{ end }}
+
                     <!-- Technologies principales -->
                     {{ if .Params.technologies }}
                     <div class="ps5-tile-tech">
+                        {{ $techCount := len .Params.technologies }}
                         {{ range first 3 .Params.technologies }}
-                        <span class="ps5-tile-tech-item">{{ . }}</span>
+                            {{ $techName := . }}
+                            {{ $found := false }}
+                            {{ range $.Site.Data.technologies }}
+                                {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
+                            {{ end }}
+                            {{ if not $found }}<span class="ps5-tile-tech-item">{{ $techName }}</span>{{ end }}
                         {{ end }}
-                        {{ if gt (len .Params.technologies) 3 }}
-                        <span class="ps5-tile-tech-more">+{{ sub (len .Params.technologies) 3 }}</span>
-                        {{ end }}
+                        {{ if gt $techCount 3 }}<span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>{{ end }}
                     </div>
                     {{ end }}
-                    
+
                     <div class="ps5-tile-meta">
-                        <time class="ps5-tile-date">{{ .Date | time.Format "Jan 2006" }}</time>
+                        <span class="ps5-tile-date">{{ .Date.Format "2006" }}</span>
                         <a href="{{ .Permalink }}" class="ps5-tile-btn">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z"/>
-                            </svg>
-                            {{ i18n "open" | default "Ouvrir" }}
+                            {{ i18n "see_project" | default "Voir le projet" }}
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
                     </div>
                 </div>
             </div>
-            
-            <!-- Lien principal -->
-            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="Voir {{ .Title }}"></a>
+
+            <!-- Lien principal invisible -->
+            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="{{ i18n "see_project" | default "Voir le projet" }}: {{ .Title }}"></a>
         </article>
         {{ end }}
         {{ end }}
-    </div>
-    
-    <!-- Footer avec stats style PS5 -->
-    <footer class="ps5-footer">
-        <div class="ps5-stats">
-            <div class="ps5-stat">
-                <span class="ps5-stat-number">{{ len (where .Site.RegularPages "Section" "projects") }}</span>
-                <span class="ps5-stat-label">{{ i18n "total_projects" | default "Projets total" }}</span>
-            </div>
-            <div class="ps5-stat">
-                <span class="ps5-stat-number">{{ len (where (where .Site.RegularPages "Section" "projects") ".Params.sector" "games") }}</span>
-                <span class="ps5-stat-label">Games</span>
-            </div>
-            <div class="ps5-stat">
-                <span class="ps5-stat-number">{{ len (where (where .Site.RegularPages "Section" "projects") ".Params.sector" "apps-web") }}</span>
-                <span class="ps5-stat-label">Apps/Web</span>
-            </div>
-            <div class="ps5-stat">
-                <span class="ps5-stat-number">{{ len (where (where .Site.RegularPages "Section" "projects") ".Params.sector" "mods-tools") }}</span>
-                <span class="ps5-stat-label">Mods & Tools</span>
-            </div>
-        </div>
-    </footer>
+    </div><!-- /.ps5-projects-tiles -->
+    </div><!-- /.projects-scroll-area -->
+
 </div>
 
 {{/* Inclusion du JS PS5 Projects */}}
 {{ with resources.Get "js/ps5-projects.js" }}
 <script src="{{ .RelPermalink }}"></script>
 {{ end }}
+<script>
+// Ajuste dynamiquement la hauteur de la zone scroll pour éviter coupures si header/filtres changent
+(() => {
+    const area = document.querySelector('.projects-scroll-area');
+    if(!area) return;
+    const recalc = () => {
+        const header = document.querySelector('.projects-page-header');
+        const filters = document.querySelector('.projects-filters-bar');
+        const viewportH = window.innerHeight;
+        const headerH = header ? header.getBoundingClientRect().height : 0;
+        const filtersH = filters ? filters.getBoundingClientRect().height : 0;
+        const topOffset = area.getBoundingClientRect().top;
+        const available = viewportH - topOffset - 24; // marge bas
+        if(window.matchMedia('(max-width:560px)').matches){
+            area.style.height = 'auto';
+            area.style.maxHeight = 'none';
+        } else {
+            area.style.height = available + 'px';
+        }
+    };
+    window.addEventListener('resize', recalc, { passive:true });
+    window.addEventListener('orientationchange', recalc);
+    setTimeout(recalc, 50);
+})();
+</script>
 {{ end }}

@@ -21,8 +21,9 @@ class PS5ProjectsPage {
         this.sectorButtons = document.querySelectorAll('.ps5-sector-btn');
         this.projectTiles = document.querySelectorAll('.ps5-project-tile');
         this.projectsGrid = document.querySelector('.ps5-projects-tiles');
-        this.header = document.querySelector('.ps5-header');
-        this.headerBg = document.querySelector('.ps5-header-bg');
+    // Le header peut être supprimé sur certaines déclinaisons de page
+    this.header = document.querySelector('.ps5-header');
+    this.headerBg = document.querySelector('.ps5-header-bg');
     }
 
     bindEvents() {
@@ -161,15 +162,12 @@ class PS5ProjectsPage {
     }
 
     handleScroll() {
+        if (!this.header) return; // header absent -> ignorer
         const scrollY = window.scrollY;
-        const headerHeight = this.header.offsetHeight;
-        
-        if (scrollY < headerHeight) {
-            // Effet parallax sur l'arrière-plan
+        const headerHeight = this.header.offsetHeight || 1;
+        if (scrollY < headerHeight && this.headerBg) {
             const parallaxSpeed = 0.5;
             this.headerBg.style.transform = `translateY(${scrollY * parallaxSpeed}px)`;
-
-            // Effet de fade sur le header
             const opacity = 1 - (scrollY / headerHeight);
             this.header.style.opacity = Math.max(opacity, 0.3);
         }
@@ -180,15 +178,29 @@ class PS5ProjectsPage {
         
         // Ajouter un effet de glow subtil
         tile.style.setProperty('--glow-opacity', '1');
-        
-        // Son de hover simulé
-        this.playHoverSound();
+    // Son de hover désactivé (suppression demandée)
+
+        // Fond dynamique
+        const bgEl = document.getElementById('project-bg');
+        if (bgEl) {
+            const img = tile.getAttribute('data-background-image') || tile.querySelector('img')?.src;
+            if (img) {
+                // Appliquer nouvelle image
+                bgEl.style.backgroundImage = `url('${img}')`;
+                bgEl.classList.add('visible');
+            }
+        }
     }
 
     handleTileLeave(e) {
         const tile = e.currentTarget;
         tile.style.setProperty('--glow-opacity', '0');
         tile.style.transform = '';
+        const bgEl = document.getElementById('project-bg');
+        if (bgEl) {
+            // On garde l'image jusqu'au prochain survol – commenter pour fade out
+            // bgEl.classList.remove('visible');
+        }
     }
 
     handleTileMouseMove(e) {
@@ -286,28 +298,7 @@ class PS5ProjectsPage {
         });
     }
 
-    playHoverSound() {
-        // Simulation d'un son de hover avec l'API Web Audio (optionnel)
-        if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
-            } catch (e) {
-                // Son désactivé si pas de support
-            }
-        }
-    }
+    playHoverSound() { /* Désactivé */ }
 
     // Méthode pour ajouter des effets de particules
     createParticleEffect(x, y) {
