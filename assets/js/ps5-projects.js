@@ -37,9 +37,9 @@ class PS5ProjectsPage {
 
         // Gestion des tuiles interactives
         this.projectTiles.forEach(tile => {
+            // Only glow + background swap (no 3D motion)
             tile.addEventListener('mouseenter', (e) => this.handleTileHover(e));
             tile.addEventListener('mouseleave', (e) => this.handleTileLeave(e));
-            tile.addEventListener('mousemove', (e) => this.handleTileMouseMove(e));
         });
 
         // Navigation clavier
@@ -195,7 +195,7 @@ class PS5ProjectsPage {
     handleTileLeave(e) {
         const tile = e.currentTarget;
         tile.style.setProperty('--glow-opacity', '0');
-        tile.style.transform = '';
+    // Removed transform reset (no transform applied anymore)
         const bgEl = document.getElementById('project-bg');
         if (bgEl) {
             // On garde l'image jusqu'au prochain survol – commenter pour fade out
@@ -203,20 +203,7 @@ class PS5ProjectsPage {
         }
     }
 
-    handleTileMouseMove(e) {
-        const tile = e.currentTarget;
-        const rect = tile.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        // Calcul de l'inclinaison basée sur la position de la souris (plus subtile pour les tuiles)
-        const rotateX = (y - centerY) / centerY * -5;
-        const rotateY = (x - centerX) / centerX * 5;
-        
-        tile.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-    }
+    // (handleTileMouseMove removed)
 
     handleKeyboard(e) {
         // Navigation clavier entre les secteurs
@@ -240,7 +227,7 @@ class PS5ProjectsPage {
     handleResize() {
         // Recalculer les animations et layouts si nécessaire
         this.projectTiles.forEach(tile => {
-            tile.style.transform = '';
+        // No transform to clear
         });
     }
 
@@ -285,16 +272,13 @@ class PS5ProjectsPage {
     }
 
     addLoadingAnimation() {
-        // Animation d'entrée progressive des tuiles
+        // Prepare tiles
+        this.projectTiles.forEach(tile => tile.classList.add('tile-ready'));
+        // Staggered fade-in
         this.projectTiles.forEach((tile, index) => {
-            tile.style.opacity = '0';
-            tile.style.transform = 'translateY(50px)';
-            
             setTimeout(() => {
-                tile.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                tile.style.opacity = '1';
-                tile.style.transform = 'translateY(0)';
-            }, index * 100);
+                tile.classList.add('tile-visible');
+            }, index * 90);
         });
     }
 
