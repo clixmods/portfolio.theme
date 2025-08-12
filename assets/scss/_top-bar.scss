@@ -1,6 +1,6 @@
 /* Variables CSS pour la top bar */
 :root {
-  --top-bar-height: 60px;
+  --top-bar-height: 56px;
   --top-bar-bg: rgba(47, 47, 47, 0.35);
   --top-bar-border: rgba(255, 255, 255, 0.40);
   --top-bar-text: #F4F4F5;
@@ -170,11 +170,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.05);
+  gap: 8px;
   border-radius: 10px;
-  padding: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px; /* Réduction pour mieux respirer autour des boutons */
+  height: 36px; /* Plus compact pour éviter tout dépassement vertical */
+  overflow: visible; /* Évite de masquer le haut/bas des boutons au survol */
 }
 
 /* Boutons de la top bar */
@@ -186,7 +186,8 @@ body {
   gap: 6px;
   padding: 8px 12px;
   min-width: 44px;
-  height: 36px;
+  height: 34px; /* Légèrement réduit pour rester bien dans la top bar */
+  line-height: 1; /* Limite le clipping vertical du contenu */
   border-radius: 8px;
   background: transparent;
   border: none;
@@ -223,8 +224,8 @@ body {
 
 /* Icônes dans les boutons */
 .top-bar-icon {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   stroke: currentColor;
   transition: stroke var(--top-bar-transition);
 }
@@ -277,35 +278,206 @@ body {
   font-weight: 500;
 }
 
-/* Bouton de téléchargement CV - style spécial */
-.download-btn {
-  background: linear-gradient(135deg, var(--top-bar-accent), #7be3db);
-  color: #0a0a0a !important;
+/* ========================================
+   GROUPES D'ACTIONS AMÉLIORÉS
+   ======================================== */
+
+/* Actions principales groupées */
+.top-bar-actions .primary-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 8px;
+  padding: 1px;
+  height: 100%;
+}
+
+/* Séparateur entre groupes */
+.top-bar-actions .actions-separator {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 6px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* Actions sociales groupées */
+.top-bar-actions .social-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+}
+
+/* Boutons primaires */
+.top-bar-actions .primary-btn {
+  padding: 6px 10px !important;
   font-weight: 600;
+  border-radius: 6px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   
-  &:hover {
-    background: linear-gradient(135deg, #7be3db, var(--top-bar-accent));
+  &.download-btn {
+    background: linear-gradient(135deg, var(--top-bar-accent), #7be3db) !important;
     color: #0a0a0a !important;
-    box-shadow: 0 4px 12px rgba(79, 209, 199, 0.3);
+    
+    &:hover {
+      background: linear-gradient(135deg, #7be3db, var(--top-bar-accent)) !important;
+      color: #0a0a0a !important;
+      box-shadow: 0 4px 12px rgba(79, 209, 199, 0.3);
+      transform: translateY(-1px);
+    }
+    
+    .top-bar-icon {
+      stroke: #0a0a0a !important;
+    }
   }
   
-  .top-bar-icon {
-    stroke: #0a0a0a;
+  &.contact-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+      border-color: var(--top-bar-accent) !important;
+      transform: translateY(-1px);
+    }
   }
 }
 
-/* Boutons sociaux */
-.social-btn {
-  min-width: 36px;
-  padding: 8px;
-  
-  .social-emoji {
-    font-size: 1.1rem;
-    display: block;
-  }
+/* Icônes sociales améliorées pour la top-bar */
+.top-bar-social-icon {
+  width: 16px;
+  height: 16px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  fill: var(--top-bar-text);
+  stroke: var(--top-bar-text);
+}
+
+.top-bar-social-emoji {
+  font-size: 16px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.top-bar-actions .social-btn {
+  padding: 6px 10px !important;
+  font-weight: 600;
+  border-radius: 6px !important;
+  height: 32px !important;
+  min-width: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: none !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   
   &:hover {
-    transform: translateY(-1px) scale(1.05);
+    background: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    transition-duration: 0.1s;
+  }
+  
+  /* Couleurs spécifiques par réseau social au hover */
+  &[data-social="linkedin"]:hover {
+    background: rgba(0, 119, 181, 0.15) !important;
+    
+    .top-bar-social-icon {
+      fill: #0077B5;
+    }
+  }
+  
+  &[data-social="github"]:hover {
+    background: rgba(88, 166, 255, 0.15) !important;
+    
+    .top-bar-social-icon {
+      fill: #58a6ff;
+    }
+  }
+  
+  &[data-social="email"]:hover {
+    background: rgba(234, 88, 12, 0.15) !important;
+    
+    .top-bar-social-icon {
+      stroke: #ea580c;
+    }
+  }
+  
+  &[data-social="discord"]:hover {
+    background: rgba(88, 101, 242, 0.15) !important;
+    
+    .top-bar-social-icon {
+      fill: #5865f2;
+    }
+  }
+}
+
+/* ========================================
+   THÈME CLAIR - ADAPTATIONS
+   ======================================== */
+
+[data-theme="light"] {
+  .top-bar-actions .contact-btn {
+    background: rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.15) !important;
+      border-color: var(--top-bar-accent) !important;
+    }
+  }
+  
+  .top-bar-actions .actions-separator {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  .top-bar-actions .social-btn {
+    background: rgba(0, 0, 0, 0.1) !important;
+    border: none !important;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    &[data-social="linkedin"]:hover {
+      background: rgba(0, 119, 181, 0.12) !important;
+      
+      .top-bar-social-icon {
+        fill: #0077B5;
+      }
+    }
+    
+    &[data-social="github"]:hover {
+      background: rgba(33, 38, 45, 0.12) !important;
+      
+      .top-bar-social-icon {
+        fill: #24292f;
+      }
+    }
+    
+    &[data-social="email"]:hover {
+      background: rgba(234, 88, 12, 0.12) !important;
+      
+      .top-bar-social-icon {
+        stroke: #ea580c;
+      }
+    }
+    
+    &[data-social="discord"]:hover {
+      background: rgba(88, 101, 242, 0.12) !important;
+      
+      .top-bar-social-icon {
+        fill: #5865f2;
+      }
+    }
   }
 }
 
@@ -814,7 +986,8 @@ body {
   gap: 10px;
   padding: 10px 12px;
   border-radius: 6px;
-  color: var(--top-bar-text);
+  height: auto; /* Suit la hauteur réelle des boutons sociaux */
+  overflow: visible; /* Évite tout rognage vertical */
   text-decoration: none;
   font-size: 0.875rem;
   transition: all var(--top-bar-transition);
@@ -893,15 +1066,15 @@ body {
   
   .top-bar-actions {
     gap: 2px;
-    padding: 2px;
+  padding: 2px;
     align-items: center;
     justify-content: center;
   }
   
   .top-bar-button {
-    min-width: 32px;
-    height: 32px;
-    padding: 6px;
+  min-width: 28px; /* Réduction générale sur mobile */
+  height: 28px;
+  padding: 4px;
     align-items: center;
     justify-content: center;
   }
@@ -911,7 +1084,7 @@ body {
   }
   
   .social-emoji {
-    font-size: 1rem !important;
+  font-size: 0.9rem !important; /* Légèrement plus petit sur mobile */
   }
   
   .language-dropdown {
@@ -948,7 +1121,7 @@ body {
   }
   
   .clock-time {
-    font-size: 0.75rem;
+  font-size: 0.72rem;
   }
   
   /* Afficher la batterie sur mobile */
@@ -1051,8 +1224,10 @@ body {
     background: transparent;
   }
   
-  .social-btn:hover {
+  .top-bar-actions .social-btn:hover {
     transform: none;
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.1) !important;
   }
   
   .download-btn:hover {
