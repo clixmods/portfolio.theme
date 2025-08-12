@@ -3,8 +3,23 @@
 class PS5ProjectsPage {
     constructor() {
         this.currentSector = 'all';
+        this.currentSubsector = null; // reintroduit (dérivé des codes combinés)
         this.projects = [];
         this.isAnimating = false;
+        // Mapping des sous-filtres à partir des codes combinés
+        this.subfilterConfig = {
+            'games': [
+                { key:'all', label:'Tous' },
+                { key:'professionnel', label:'Professionnel', match:'games-professionnel' },
+                { key:'personnel', label:'Personnel', match:'games-personnel' },
+                { key:'gamejams', label:'Game Jams', match:'games-gamejams' }
+            ],
+            'appsweb': [
+                { key:'all', label:'Tous' },
+                { key:'professionnel', label:'Professionnel', match:'appsweb-professionnel' },
+                { key:'etude', label:'Étude', match:'appsweb-etude' }
+            ]
+        };
         this.init();
     }
 
@@ -21,6 +36,7 @@ class PS5ProjectsPage {
         this.sectorButtons = document.querySelectorAll('.ps5-sector-btn');
         this.projectTiles = document.querySelectorAll('.ps5-project-tile');
         this.projectsGrid = document.querySelector('.ps5-projects-tiles');
+    this.subfiltersContainer = document.querySelector('.ps5-subfilters');
     // Le header peut être supprimé sur certaines déclinaisons de page
     this.header = document.querySelector('.ps5-header');
     this.headerBg = document.querySelector('.ps5-header-bg');
@@ -71,8 +87,9 @@ class PS5ProjectsPage {
         button.classList.add('active');
 
         // Animation de filtrage
-        this.filterProjects(newSector);
-        this.currentSector = newSector;
+    this.currentSector = newSector;
+    this.renderSubfilters();
+    this.filterProjects(this.currentSector, this.currentSubsector);
 
         // Feedback sonore simulé (vibration sur mobile)
         if (navigator.vibrate) {
@@ -80,17 +97,33 @@ class PS5ProjectsPage {
         }
     }
 
-    async filterProjects(sector) {
+    async filterProjects(sector, subsector=null) {
         this.isAnimating = true;
 
         // Phase 1: Masquer les cartes non-correspondantes
-        const hidingCards = this.projects.filter(project => 
-            sector !== 'all' && project.sector !== sector
-        );
+        const hidingCards = this.projects.filter(project => {
+            if (sector !== 'all') {
+                if (!project.sector.startsWith(sector)) return true; // base sector mismatch
+                if (subsector && subsector !== 'all') {
+                    // chercher correspondance exacte
+                    const cfg = this.subfilterConfig[sector] || [];
+                    const entry = cfg.find(c=>c.key===subsector);
+                    if (entry && project.sector !== entry.match) return true;
+                }
+            }
+            return false;
+        });
 
-        const showingCards = this.projects.filter(project => 
-            sector === 'all' || project.sector === sector
-        );
+        const showingCards = this.projects.filter(project => {
+            if (sector === 'all') return true;
+            if (!project.sector.startsWith(sector)) return false;
+            if (subsector && subsector !== 'all') {
+                const cfg = this.subfilterConfig[sector] || [];
+                const entry = cfg.find(c=>c.key===subsector);
+                if (entry && project.sector !== entry.match) return false;
+            }
+            return true;
+        });
 
         // Animation de sortie
         hidingCards.forEach(project => {
@@ -123,22 +156,64 @@ class PS5ProjectsPage {
         }, 600);
 
         // Mettre à jour les statistiques
-        this.updateStats(sector);
+        this.updateStats(sector, subsector);
     }
 
-    updateStats(sector) {
+    updateStats(sector, subsector=null) {
         const stats = document.querySelectorAll('.ps5-stat-number');
-        const filteredCount = sector === 'all' ? 
-            this.projects.length : 
-            this.projects.filter(p => p.sector === sector).length;
+        let filteredCount;
+        if (sector === 'all') {
+            filteredCount = this.projects.length;
+        } else if (subsector && subsector !== 'all') {
+            const cfg = this.subfilterConfig[sector] || [];
+            const entry = cfg.find(c=>c.key===subsector);
+            filteredCount = this.projects.filter(p => entry && p.sector === entry.match).length;
+        } else {
+            filteredCount = this.projects.filter(p => p.sector.startsWith(sector)).length;
+        }
 
         // Animation des chiffres
         stats.forEach((stat, index) => {
-            const targetValue = index === 0 ? filteredCount : 
-                this.projects.filter(p => p.sector === ['games', 'apps-web', 'mods-tools'][index - 1]).length;
+            const targetValue = (()=>{
+                if(index===0) return filteredCount; // total filtré
+                if(index===1) return this.projects.filter(p=>p.sector.startsWith('games')).length;
+                if(index===2) return this.projects.filter(p=>p.sector.startsWith('appsweb')).length;
+                if(index===3) return this.projects.filter(p=>p.sector === 'mods').length;
+                if(index===4) return this.projects.filter(p=>p.sector === 'tools').length;
+                return 0;
+            })();
             
             this.animateCounter(stat, parseInt(stat.textContent), targetValue);
         });
+    }
+
+    renderSubfilters() {
+        if(!this.subfiltersContainer) return;
+        const config = this.subfilterConfig[this.currentSector];
+        if(!config) {
+            this.subfiltersContainer.hidden = true;
+            this.subfiltersContainer.innerHTML = '';
+            return;
+        }
+        this.subfiltersContainer.hidden = false;
+        this.subfiltersContainer.innerHTML = '';
+        const frag = document.createDocumentFragment();
+        config.forEach(sf => {
+            const btn = document.createElement('button');
+            btn.type='button';
+            btn.className='ps5-subfilter-btn'+(this.currentSubsector===null && sf.key==='all' ? ' active':'');
+            btn.textContent = sf.label;
+            btn.dataset.subsector = sf.key;
+            btn.addEventListener('click', () => {
+                if(this.isAnimating) return;
+                this.subfiltersContainer.querySelectorAll('.ps5-subfilter-btn').forEach(b=>b.classList.remove('active'));
+                btn.classList.add('active');
+                this.currentSubsector = sf.key==='all'? null: sf.key;
+                this.filterProjects(this.currentSector, this.currentSubsector);
+            });
+            frag.appendChild(btn);
+        });
+        this.subfiltersContainer.appendChild(frag);
     }
 
     animateCounter(element, start, end) {
