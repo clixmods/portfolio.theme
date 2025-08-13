@@ -1,4 +1,4 @@
-/* Variables CSS pour la top bar */
+/* CSS variables for the top bar */
 :root {
   --top-bar-height: 56px;
   --top-bar-bg: rgba(47, 47, 47, 0.35);
@@ -13,7 +13,7 @@
   --top-bar-spacing: 12px;
 }
 
-/* Thèmes sombre et clair */
+/* Dark and light themes */
 :root {
   --theme-bg: #0a0a0a;
   --theme-text: #ffffff;
@@ -34,7 +34,7 @@
   --theme-surface: rgba(255, 255, 255, 0.75);
 }
 
-/* Ajustement du body pour éviter les chevauchements */
+/* Body adjustment to avoid overlaps */
 body {
   padding-top: var(--top-bar-height);
   background: var(--theme-bg);
@@ -42,7 +42,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Mode clair */
+/* Light mode */
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     --top-bar-bg: rgba(255, 255, 255, 0.75);
@@ -59,14 +59,14 @@ body {
   }
 }
 
-/* Animations réduites pour l'accessibilité */
+/* Reduced animations for accessibility */
 @media (prefers-reduced-motion: reduce) {
   :root {
     --top-bar-transition: 50ms ease-out;
   }
 }
 
-/* Container principal de la top bar */
+/* Main container of the top bar */
 #top-bar {
   position: fixed;
   top: 0;
@@ -77,21 +77,21 @@ body {
   z-index: 2000;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  /* Effets visuels style dock translucide */
+  /* Visual effects: translucent dock style */
   background: var(--top-bar-bg);
   backdrop-filter: blur(var(--top-bar-blur));
   border-radius: var(--top-bar-radius);
   border-bottom: 1px solid var(--top-bar-border);
   box-shadow: 0 2px 8px var(--top-bar-shadow);
   
-  /* Support fallback pour navigateurs plus anciens */
+  /* Fallback support for older browsers */
   @supports not (backdrop-filter: blur(10px)) {
     background: rgba(10, 13, 20, 0.95);
   }
 }
 
-/* Container flex de la top bar */
-.top-bar-container {
+/* Flex container of the top bar */
+.top_bar .top-bar-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -103,17 +103,17 @@ body {
 }
 
 /* ========================================
-   SECTION GAUCHE - LOGO
-   ======================================== */
+  LEFT SECTION - LOGO
+  ======================================== */
 
-.top-bar-left {
+.top_bar .top-bar-left {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.top-bar-logo {
+.top_bar .top-bar-logo {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -128,7 +128,7 @@ body {
   }
 }
 
-.top-bar-logo .avatar-container {
+.top_bar .top-bar-logo .avatar-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -140,13 +140,13 @@ body {
   background: rgba(79, 209, 199, 0.1);
 }
 
-.top-bar-logo .user-avatar {
+.top_bar .top-bar-logo .user-avatar {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.logo-text {
+.top_bar .logo-text {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--top-bar-accent);
@@ -157,28 +157,28 @@ body {
 }
 
 /* ========================================
-   SECTION CENTRALE - ACTIONS
-   ======================================== */
+  CENTER SECTION - ACTIONS
+  ======================================== */
 
-.top-bar-center {
+.top_bar .top-bar-center {
   flex: 1;
   display: flex;
   justify-content: center;
 }
 
-.top-bar-actions {
+.top_bar .top-bar-actions {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   border-radius: 10px;
-  padding: 4px; /* Réduction pour mieux respirer autour des boutons */
-  height: 36px; /* Plus compact pour éviter tout dépassement vertical */
-  overflow: visible; /* Évite de masquer le haut/bas des boutons au survol */
+  padding: 4px; /* Reduced to add breathing room around buttons */
+  height: 36px; /* More compact to avoid vertical overflow */
+  overflow: visible; /* Avoid clipping top/bottom of buttons on hover */
 }
 
-/* Boutons de la top bar */
-.top-bar-button {
+/* Top bar buttons */
+.top_bar .top-bar-button {
   position: relative;
   display: flex;
   align-items: center;
@@ -186,8 +186,8 @@ body {
   gap: 6px;
   padding: 8px 12px;
   min-width: 44px;
-  height: 34px; /* Légèrement réduit pour rester bien dans la top bar */
-  line-height: 1; /* Limite le clipping vertical du contenu */
+  height: 34px; /* Slightly reduced to fit well in the top bar */
+  line-height: 1; /* Limits vertical clipping of content */
   border-radius: 8px;
   background: transparent;
   border: none;
@@ -199,7 +199,7 @@ body {
   transition: all var(--top-bar-transition);
   white-space: nowrap;
   
-  /* Focus et accessibilité */
+  /* Focus and accessibility */
   &:focus {
     outline: 2px solid var(--top-bar-accent);
     outline-offset: 2px;
@@ -209,29 +209,29 @@ body {
     outline: none;
   }
   
-  /* État hover */
+  /* Hover state */
   &:hover {
     background: var(--top-bar-hover);
     color: var(--top-bar-accent);
     transform: translateY(-1px);
   }
   
-  /* État actif */
+  /* Active state */
   &:active {
     transform: translateY(0);
   }
 }
 
-/* Icônes dans les boutons */
-.top-bar-icon {
+/* Icons inside buttons */
+.top_bar .top-bar-icon {
   width: 14px;
   height: 14px;
   stroke: currentColor;
   transition: stroke var(--top-bar-transition);
 }
 
-/* Icône spécifique pour les trophées */
-.top-bar-right .trophies-container .trophies-btn .top-bar-icon {
+/* Specific icon for trophies */
+.top_bar .top-bar-right .trophies-container .trophies-btn .top-bar-icon {
   width: 20px;
   height: 20px;
   stroke: #FFD700;
@@ -239,30 +239,30 @@ body {
   opacity: 1;
 }
 
-.top-bar-right .trophies-container .trophies-btn:hover .top-bar-icon {
+.top_bar .top-bar-right .trophies-container .trophies-btn:hover .top-bar-icon {
   stroke: #FFA500;
 }
 
-/* Override du layout vertical des trophées pour un layout horizontal */
-.top-bar-right .trophies-container .trophies-btn {
+/* Override trophy vertical layout to horizontal */
+.top_bar .top-bar-right .trophies-container .trophies-btn {
   flex-direction: row !important;
   align-items: center !important;
   gap: 8px !important;
   justify-content: flex-start !important;
 }
 
-/* Forcer l'ordre des éléments dans le bouton trophées */
-.top-bar-right .trophies-container .trophies-btn .top-bar-icon {
+/* Force the order of elements in the trophies button */
+.top_bar .top-bar-right .trophies-container .trophies-btn .top-bar-icon {
   order: 1 !important;
   flex-shrink: 0 !important;
 }
 
-.top-bar-right .trophies-container .trophies-btn .trophy-count {
+.top_bar .top-bar-right .trophies-container .trophies-btn .trophy-count {
   order: 2 !important;
   flex-shrink: 0 !important;
 }
 
-.top-bar-right .trophies-container .trophies-btn .trophy-progress {
+.top_bar .top-bar-right .trophies-container .trophies-btn .trophy-progress {
   order: 3 !important;
   position: absolute !important;
   bottom: 2px !important;
@@ -272,18 +272,18 @@ body {
   height: 2px !important;
 }
 
-/* Texte des boutons */
-.button-text {
+/* Button text */
+.top_bar .button-text {
   font-size: 0.875rem;
   font-weight: 500;
 }
 
 /* ========================================
-   GROUPES D'ACTIONS AMÉLIORÉS
-   ======================================== */
+  ENHANCED ACTION GROUPS
+  ======================================== */
 
-/* Actions principales groupées */
-.top-bar-actions .primary-actions-group {
+/* Grouped primary actions */
+.top_bar .top-bar-actions .primary-actions-group {
   display: flex;
   align-items: center;
   gap: 3px;
@@ -292,8 +292,8 @@ body {
   height: 100%;
 }
 
-/* Séparateur entre groupes */
-.top-bar-actions .actions-separator {
+/* Separator between groups */
+.top_bar .top-bar-actions .actions-separator {
   width: 1px;
   height: 24px;
   background: rgba(255, 255, 255, 0.2);
@@ -302,16 +302,16 @@ body {
   align-self: center;
 }
 
-/* Actions sociales groupées */
-.top-bar-actions .social-actions-group {
+/* Grouped social actions */
+.top_bar .top-bar-actions .social-actions-group {
   display: flex;
   align-items: center;
   gap: 4px;
   height: 100%;
 }
 
-/* Boutons primaires */
-.top-bar-actions .primary-btn {
+/* Primary buttons */
+.top_bar .top-bar-actions .primary-btn {
   padding: 6px 10px !important;
   font-weight: 600;
   border-radius: 6px !important;
@@ -348,22 +348,22 @@ body {
   }
 }
 
-/* Icônes sociales améliorées pour la top-bar */
-.top-bar-social-icon {
-  width: 16px;
-  height: 16px;
+/* Improved social icons for the top bar */
+.top_bar .top-bar-social-icon {
+  width: 30px;
+  height: 30px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   fill: var(--top-bar-text);
   stroke: var(--top-bar-text);
 }
 
-.top-bar-social-emoji {
-  font-size: 16px;
+.top_bar .top-bar-social-emoji {
+  font-size: 18px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.top-bar-actions .social-btn {
-  padding: 6px 10px !important;
+.top_bar .top-bar-actions .social-btn {
+  padding: 6px 6px !important;
   font-weight: 600;
   border-radius: 6px !important;
   height: 32px !important;
@@ -386,7 +386,7 @@ body {
     transition-duration: 0.1s;
   }
   
-  /* Couleurs spécifiques par réseau social au hover */
+  /* Specific colors per social network on hover */
   &[data-social="linkedin"]:hover {
     background: rgba(0, 119, 181, 0.15) !important;
     
@@ -421,11 +421,11 @@ body {
 }
 
 /* ========================================
-   THÈME CLAIR - ADAPTATIONS
-   ======================================== */
+  LIGHT THEME - ADAPTATIONS
+  ======================================== */
 
 [data-theme="light"] {
-  .top-bar-actions .contact-btn {
+  .top_bar .top-bar-actions .contact-btn {
     background: rgba(0, 0, 0, 0.1) !important;
     border-color: rgba(0, 0, 0, 0.2) !important;
     
@@ -435,11 +435,11 @@ body {
     }
   }
   
-  .top-bar-actions .actions-separator {
+  .top_bar .top-bar-actions .actions-separator {
     background: rgba(0, 0, 0, 0.2);
   }
   
-  .top-bar-actions .social-btn {
+  .top_bar .top-bar-actions .social-btn {
     background: rgba(0, 0, 0, 0.1) !important;
     border: none !important;
     
@@ -447,7 +447,7 @@ body {
       background: rgba(0, 0, 0, 0.15) !important;
     }
     
-    &[data-social="linkedin"]:hover {
+  &[data-social="linkedin"]:hover {
       background: rgba(0, 119, 181, 0.12) !important;
       
       .top-bar-social-icon {
@@ -455,7 +455,7 @@ body {
       }
     }
     
-    &[data-social="github"]:hover {
+  &[data-social="github"]:hover {
       background: rgba(33, 38, 45, 0.12) !important;
       
       .top-bar-social-icon {
@@ -463,7 +463,7 @@ body {
       }
     }
     
-    &[data-social="email"]:hover {
+  &[data-social="email"]:hover {
       background: rgba(234, 88, 12, 0.12) !important;
       
       .top-bar-social-icon {
@@ -471,7 +471,7 @@ body {
       }
     }
     
-    &[data-social="discord"]:hover {
+  &[data-social="discord"]:hover {
       background: rgba(88, 101, 242, 0.12) !important;
       
       .top-bar-social-icon {
@@ -482,26 +482,26 @@ body {
 }
 
 /* ========================================
-   SECTION DROITE - LANGUE, PAGE ET HEURE
-   ======================================== */
+  RIGHT SECTION - LANGUAGE, PAGE AND TIME
+  ======================================== */
 
-.top-bar-right {
+.top_bar .top-bar-right {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-/* Section très à droite - Horloge séparée */
-.top-bar-far-right {
+/* Far right section - Separate clock */
+.top_bar .top-bar-far-right {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   margin-left: auto;
 }
 
-/* Indicateur de page actuelle */
-.current-page-indicator {
+/* Current page indicator */
+.top_bar .current-page-indicator {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -511,7 +511,7 @@ body {
   border: none;
 }
 
-.page-dot {
+.top_bar .page-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -531,15 +531,15 @@ body {
   }
 }
 
-.page-name {
+.top_bar .page-name {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--top-bar-text);
   white-space: nowrap;
 }
 
-/* Horloge */
-.top-bar-clock {
+/* Clock */
+.top_bar .top-bar-clock {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -550,7 +550,7 @@ body {
   margin-left: 8px;
 }
 
-.clock-time {
+.top_bar .clock-time {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--top-bar-text);
@@ -560,12 +560,12 @@ body {
 
 
 
-.theme-toggle {
+.top_bar .theme-toggle {
   position: relative;
   min-width: 36px !important;
   padding: 8px !important;
   
-  /* S'assurer que les styles de base sont appliqués */
+  /* Ensure base styles are applied */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -577,7 +577,7 @@ body {
   cursor: pointer;
   transition: all var(--top-bar-transition);
   
-  /* Focus et accessibilité */
+  /* Focus and accessibility */
   &:focus {
     outline: 2px solid var(--top-bar-accent);
     outline-offset: 2px;
@@ -587,21 +587,21 @@ body {
     outline: none;
   }
   
-  /* État hover */
+  /* Hover state */
   &:hover {
     background: var(--top-bar-hover);
     color: var(--top-bar-accent);
     transform: translateY(-1px);
   }
   
-  /* État actif */
+  /* Active state */
   &:active {
     transform: translateY(0);
     background: var(--top-bar-active);
   }
 }
 
-.theme-icon {
+.top_bar .theme-icon {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -610,25 +610,25 @@ body {
   opacity: 0;
 }
 
-.theme-icon-dark {
+.top_bar .theme-icon-dark {
   opacity: 1;
 }
 
-[data-theme="light"] .theme-icon-dark {
+[data-theme="light"] .top_bar .theme-icon-dark {
   opacity: 0;
   transform: translate(-50%, -50%) rotate(180deg);
 }
 
-[data-theme="light"] .theme-icon-light {
+[data-theme="light"] .top_bar .theme-icon-light {
   opacity: 1;
   transform: translate(-50%, -50%) rotate(0deg);
 }
 
 /* ========================================
-   INDICATEUR DE BATTERIE
-   ======================================== */
+  BATTERY INDICATOR
+  ======================================== */
 
-.battery-indicator {
+.top_bar .battery-indicator {
   display: none;
   align-items: center;
   gap: 6px;
@@ -639,13 +639,13 @@ body {
   position: relative;
 }
 
-.battery-icon {
+.top_bar .battery-icon {
   width: 16px;
   height: 16px;
   stroke: var(--top-bar-text);
 }
 
-.battery-level {
+.top_bar .battery-level {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--top-bar-text);
@@ -653,7 +653,7 @@ body {
   text-align: center;
 }
 
-.battery-fill {
+.top_bar .battery-fill {
   position: absolute;
   left: 2px;
   top: 50%;
@@ -666,20 +666,20 @@ body {
   transition: width var(--top-bar-transition);
 }
 
-/* États de batterie */
-.battery-indicator.low {
+/* Battery states */
+.top_bar .battery-indicator.low {
   border-color: #ff4444;
 }
 
-.battery-indicator.medium {
+.top_bar .battery-indicator.medium {
   border-color: #ffaa00;
 }
 
-.battery-indicator.high {
+.top_bar .battery-indicator.high {
   border-color: #44ff44;
 }
 
-.battery-indicator.charging {
+.top_bar .battery-indicator.charging {
   animation: pulse-charging 2s ease-in-out infinite;
 }
 
@@ -692,17 +692,17 @@ body {
    NOTIFICATIONS
    ======================================== */
 
-.notifications-container {
+.top_bar .notifications-container {
   position: relative;
 }
 
-.notifications-btn {
+.top_bar .notifications-btn {
   position: relative;
   min-width: 36px !important;
   padding: 8px !important;
 }
 
-.notification-badge {
+.top_bar .notification-badge {
   position: absolute;
   top: 2px;
   right: 2px;
@@ -725,7 +725,7 @@ body {
   50% { transform: scale(1.2); }
 }
 
-.notifications-dropdown {
+.top_bar .notifications-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
@@ -744,13 +744,13 @@ body {
   overflow: hidden;
 }
 
-.notifications-dropdown.active {
+.top_bar .notifications-dropdown.active {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-.notifications-header {
+.top_bar .notifications-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -760,7 +760,7 @@ body {
   color: var(--top-bar-text);
 }
 
-.clear-all-btn {
+.top_bar .clear-all-btn {
   background: none;
   border: none;
   color: var(--top-bar-accent);
@@ -771,24 +771,24 @@ body {
   transition: background var(--top-bar-transition);
 }
 
-.clear-all-btn:hover {
+.top_bar .clear-all-btn:hover {
   background: var(--top-bar-hover);
 }
 
-.notifications-list {
+.top_bar .notifications-list {
   max-height: 300px;
   overflow-y: auto;
   padding: 8px 0;
 }
 
-.no-notifications {
+.top_bar .no-notifications {
   text-align: center;
   padding: 24px 16px;
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.875rem;
 }
 
-.notification-item {
+.top_bar .notification-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -798,15 +798,15 @@ body {
   cursor: pointer;
 }
 
-.notification-item:hover {
+.top_bar .notification-item:hover {
   background: rgba(255, 255, 255, 0.05);
 }
 
-.notification-item:last-child {
+.top_bar .notification-item:last-child {
   border-bottom: none;
 }
 
-.notification-icon {
+.top_bar .notification-icon {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -818,24 +818,24 @@ body {
   font-size: 0.7rem;
 }
 
-.notification-content {
+.top_bar .notification-content {
   flex: 1;
 }
 
-.notification-title {
+.top_bar .notification-title {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--top-bar-text);
   margin-bottom: 2px;
 }
 
-.notification-message {
+.top_bar .notification-message {
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.4;
 }
 
-.notification-time {
+.top_bar .notification-time {
   font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.5);
   margin-top: 4px;
@@ -845,7 +845,7 @@ body {
    NOTIFICATIONS TOAST
    ======================================== */
 
-.toast-container {
+.top_bar .toast-container, .toast-container.top_bar {
   position: fixed;
   top: calc(var(--top-bar-height) + 20px);
   right: 20px;
@@ -856,7 +856,7 @@ body {
   pointer-events: none;
 }
 
-.toast {
+.top_bar .toast {
   background: var(--top-bar-bg);
   backdrop-filter: blur(var(--top-bar-blur));
   border: 1px solid var(--top-bar-border);
@@ -870,18 +870,18 @@ body {
   max-width: 400px;
 }
 
-.toast.show {
+.top_bar .toast.show {
   transform: translateX(0);
 }
 
-.toast-header {
+.top_bar .toast-header {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 4px;
 }
 
-.toast-icon {
+.top_bar .toast-icon {
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -891,19 +891,19 @@ body {
   font-size: 0.7rem;
 }
 
-.toast-icon.success { background: #44ff44; color: #000; }
-.toast-icon.error { background: #ff4444; color: #fff; }
-.toast-icon.warning { background: #ffaa00; color: #000; }
-.toast-icon.info { background: var(--top-bar-accent); color: #000; }
+.top_bar .toast-icon.success { background: #44ff44; color: #000; }
+.top_bar .toast-icon.error { background: #ff4444; color: #fff; }
+.top_bar .toast-icon.warning { background: #ffaa00; color: #000; }
+.top_bar .toast-icon.info { background: var(--top-bar-accent); color: #000; }
 
-.toast-title {
+.top_bar .toast-title {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--top-bar-text);
   flex: 1;
 }
 
-.toast-close {
+.top_bar .toast-close {
   background: none;
   border: none;
   color: rgba(255, 255, 255, 0.7);
@@ -913,21 +913,21 @@ body {
   transition: background var(--top-bar-transition);
 }
 
-.toast-close:hover {
+.top_bar .toast-close:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.toast-message {
+.top_bar .toast-message {
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.4;
 }
 
-.language-switcher {
+.top_bar .language-switcher {
   position: relative;
 }
 
-.language-btn {
+.top_bar .language-btn {
   position: relative;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -936,7 +936,7 @@ body {
     background: rgba(255, 255, 255, 0.1);
   }
   
-  /* État ouvert du dropdown */
+  /* Open state of dropdown */
   &.active {
     background: var(--top-bar-hover);
     color: var(--top-bar-accent);
@@ -947,7 +947,7 @@ body {
   }
 }
 
-.dropdown-icon {
+.top_bar .dropdown-icon {
   width: 12px;
   height: 12px;
   stroke: currentColor;
@@ -955,7 +955,7 @@ body {
 }
 
 /* Dropdown menu */
-.language-dropdown {
+.top_bar .language-dropdown {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
@@ -972,7 +972,7 @@ body {
   transition: all var(--top-bar-transition);
   z-index: 10;
   
-  /* État visible */
+  /* Visible state */
   &.active {
     opacity: 1;
     visibility: visible;
@@ -980,14 +980,14 @@ body {
   }
 }
 
-.language-option {
+.top_bar .language-option {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
   border-radius: 6px;
-  height: auto; /* Suit la hauteur réelle des boutons sociaux */
-  overflow: visible; /* Évite tout rognage vertical */
+  height: auto; /* Matches the actual height of social buttons */
+  overflow: visible; /* Avoid any vertical clipping */
   text-decoration: none;
   font-size: 0.875rem;
   transition: all var(--top-bar-transition);
@@ -1012,38 +1012,38 @@ body {
    RESPONSIVE DESIGN
    ======================================== */
 
-/* Tablette */
+/* Tablet */
 @media (max-width: 1024px) {
-  .top-bar-container {
+  .top_bar .top-bar-container {
     padding: 0 3px;
     gap: 6px;
     align-items: center;
   }
   
-  .button-text {
+  .top_bar .button-text {
     display: none;
   }
   
-  .download-btn {
+  .top_bar .download-btn {
     min-width: 36px;
     padding: 8px;
   }
   
-  .page-name {
+  .top_bar .page-name {
     display: none;
   }
   
-  .top-bar-right {
+  .top_bar .top-bar-right {
     gap: 4px;
     align-items: center;
   }
   
-  .top-bar-left {
+  .top_bar .top-bar-left {
     gap: 6px;
     align-items: center;
   }
   
-  .top-bar-far-right {
+  .top_bar .top-bar-far-right {
     margin-left: 6px;
     align-items: center;
   }
@@ -1059,189 +1059,188 @@ body {
     padding-top: 48px;
   }
   
-  .top-bar-container {
+  .top_bar .top-bar-container {
     padding: 0 2px;
     align-items: center;
   }
   
-  .top-bar-actions {
+  .top_bar .top-bar-actions {
     gap: 2px;
   padding: 2px;
     align-items: center;
     justify-content: center;
   }
   
-  .top-bar-button {
-  min-width: 28px; /* Réduction générale sur mobile */
-  height: 28px;
-  padding: 4px;
+  .top_bar .top-bar-button {
+    min-width: 28px; /* General reduction on mobile */
+    height: 28px;
+    padding: 4px;
     align-items: center;
     justify-content: center;
   }
   
-  .logo-text {
+  .top_bar .logo-text {
     font-size: 1rem;
   }
   
-  .social-emoji {
-  font-size: 0.9rem !important; /* Légèrement plus petit sur mobile */
+  .top_bar .top-bar-social-emoji {
+    font-size: 0.9rem !important; /* Slightly smaller on mobile */
   }
   
-  .language-dropdown {
+  .top_bar .language-dropdown {
     width: 140px;
   }
   
-  .top-bar-right {
+  .top_bar .top-bar-right {
     gap: 4px;
     align-items: center;
   }
   
-  .top-bar-left {
+  .top_bar .top-bar-left {
     gap: 6px;
     align-items: center;
   }
   
-  .top-bar-far-right {
+  .top_bar .top-bar-far-right {
     margin-left: 4px;
     align-items: center;
   }
   
-  .top-bar-clock {
+  .top_bar .top-bar-clock {
     margin-left: 2px;
   }
   
-  .current-page-indicator,
-  .top-bar-clock {
+  .top_bar .current-page-indicator,
+  .top_bar .top-bar-clock {
     padding: 4px 8px;
   }
   
-  .top-bar-clock {
+  .top_bar .top-bar-clock {
     min-width: auto;
     margin-left: 8px;
   }
   
-  .clock-time {
+  .top_bar .clock-time {
   font-size: 0.72rem;
   }
   
-  /* Afficher la batterie sur mobile */
-  .battery-indicator {
+  /* Show the battery on mobile */
+  .top_bar .battery-indicator {
     display: flex !important;
   }
   
-  .notifications-dropdown {
+  .top_bar .notifications-dropdown {
     width: 280px;
     right: -20px;
   }
   
-  .toast-container {
+  .top_bar .toast-container, .toast-container.top_bar {
     right: 10px;
     left: 10px;
   }
   
-  .toast {
+  .top_bar .toast {
     min-width: auto;
   }
 }
 
-/* Très petits écrans */
+/* Very small screens */
 @media (max-width: 480px) {
-  .top-bar-container {
+  .top_bar .top-bar-container {
     padding: 0 1px;
     gap: 2px;
     align-items: center;
   }
   
-  .top-bar-left {
+  .top_bar .top-bar-left {
     gap: 4px;
     align-items: center;
   }
   
-  .top-bar-far-right {
+  .top_bar .top-bar-far-right {
     margin-left: 2px;
     align-items: center;
   }
   
-  .top-bar-clock {
+  .top_bar .top-bar-clock {
     padding: 0;
     min-width: auto;
     margin-left: 1px;
   }
   
-  .top-bar-logo .avatar-container {
+  .top_bar .top-bar-logo .avatar-container {
     width: 28px;
     height: 28px;
   }
   
-  .logo-text {
+  .top_bar .logo-text {
     font-size: 1rem;
   }
   
-  /* Masquer certains éléments sur très petits écrans */
-  .social-btn:nth-child(n+4) {
+  /* Hide some elements on very small screens */
+  .top_bar .social-btn:nth-child(n+4) {
     display: none;
   }
   
-  .current-page-indicator {
+  .top_bar .current-page-indicator {
     display: none;
   }
   
-  /* Le theme-toggle doit rester visible - ne pas le masquer */
-  .theme-toggle {
+  /* The theme toggle must stay visible - do not hide it */
+  .top_bar .theme-toggle {
     min-width: 32px !important;
     padding: 6px !important;
   }
   
-  .top-bar-right {
+  .top_bar .top-bar-right {
     gap: 4px;
   }
 }
 
 /* ========================================
-   ÉTATS AVANCÉS
-   ======================================== */
+  ADVANCED STATES
+  ======================================== */
 
-/* Support du contraste élevé */
+/* High contrast support */
 @media (prefers-contrast: high) {
   #top-bar {
     border-bottom: 2px solid var(--top-bar-text);
     background: var(--top-bar-bg);
   }
   
-  .top-bar-button:focus {
+  .top_bar .top-bar-button:focus {
     outline: 3px solid var(--top-bar-accent);
   }
   
-  .language-dropdown {
+  .top_bar .language-dropdown {
     border: 2px solid var(--top-bar-text);
   }
 }
 
-/* Pas de hover sur les appareils tactiles */
+/* No hover on touch devices */
 @media (hover: none) {
-  .top-bar-button:hover {
+  .top_bar .top-bar-button:hover {
     transform: none;
     background: transparent;
   }
   
-  .top-bar-actions .social-btn:hover {
+  .top_bar .top-bar-actions .social-btn:hover {
     transform: none;
     box-shadow: none;
     background: rgba(255, 255, 255, 0.1) !important;
   }
   
-  .download-btn:hover {
+  .top_bar .download-btn:hover {
     box-shadow: none;
   }
 }
 
-/* Performance et optimisations */
-.top-bar-button {
+/* Performance and optimizations */
+.top_bar .top-bar-button {
   will-change: transform;
 }
 
-.language-dropdown {
+.top_bar .language-dropdown {
   will-change: opacity, visibility, transform;
 }
-
 

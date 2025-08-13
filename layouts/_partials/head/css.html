@@ -91,7 +91,7 @@
 <link rel="stylesheet" href="/css/tech-icons.css">
 
 {{/* Top Bar Styles */}}
-{{- with resources.Get "scss/top-bar.scss" }}
+{{- with resources.Get "scss/top-bar/top-bar.scss" }}
   {{- with . | toCSS | minify }}
     {{- if hugo.IsDevelopment }}
       <link rel="stylesheet" href="{{ .RelPermalink }}">

@@ -542,7 +542,9 @@
         <div class="trophy-desc">${trophy.name}</div>
       `;
       
-      document.body.appendChild(notification);
+  // Append inside the top bar (which has the .top_bar class) so scoped styles apply
+  const topBarContainer = document.getElementById('top-bar');
+  (topBarContainer || document.body).appendChild(notification);
       
       setTimeout(() => notification.classList.add('show'), 100);
       setTimeout(() => {

@@ -1,12 +1,14 @@
+/* Moved from assets/scss/_trophies.scss */
+// ...full contents preserved below...
 /* ========================================
-   SYSTÈME DE TROPHÉES
-   ======================================== */
+  TROPHIES SYSTEM
+  ======================================== */
 
-.trophies-container {
+.top_bar .trophies-container {
   position: relative;
 }
 
-.trophies-btn {
+.top_bar .trophies-btn {
   position: relative;
   min-width: 80px !important;
   padding: 6px 12px !important;
@@ -16,12 +18,12 @@
   border: 1px solid rgba(255, 215, 0, 0.3) !important;
 }
 
-.trophies-btn:hover {
+.top_bar .trophies-btn:hover {
   background: rgba(255, 215, 0, 0.2) !important;
   border-color: rgba(255, 215, 0, 0.5) !important;
 }
 
-.trophy-count {
+.top_bar .trophy-count {
   font-size: 0.75rem;
   font-weight: 700;
   color: #FFD700;
@@ -30,7 +32,7 @@
   margin-top: 1px;
 }
 
-.trophy-progress {
+.top_bar .trophy-progress {
   width: 100%;
   height: 4px;
   background: rgba(255, 215, 0, 0.2);
@@ -39,7 +41,7 @@
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.trophy-progress-bar {
+.top_bar .trophy-progress-bar {
   height: 100%;
   background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
   border-radius: 2px;
@@ -49,9 +51,9 @@
 }
 
 /* ========================================
-   MODAL TROPHÉES PLEIN ÉCRAN
-   ======================================== */
-.trophies-modal {
+  FULLSCREEN TROPHIES MODAL
+  ======================================== */
+.top_bar .trophies-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -64,12 +66,12 @@
   overflow: hidden;
 }
 
-.trophies-modal.active {
+.top_bar .trophies-modal.active {
   opacity: 1;
   visibility: visible;
 }
 
-.trophies-modal-overlay {
+.top_bar .trophies-modal-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -79,7 +81,7 @@
   backdrop-filter: blur(10px);
 }
 
-.trophies-modal-content {
+.top_bar .trophies-modal-content {
   position: relative;
   width: 100%;
   height: 100%;
@@ -104,7 +106,7 @@
   }
 }
 
-.trophies-modal-header {
+.top_bar .trophies-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -116,11 +118,11 @@
   );
 }
 
-.modal-title-section {
+.top_bar .modal-title-section {
   flex: 1;
 }
 
-.modal-title {
+.top_bar .modal-title {
   font-size: 2.5rem;
   font-weight: 800;
   margin: 0 0 8px 0;
@@ -131,26 +133,26 @@
   text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
 }
 
-.modal-subtitle {
+.top_bar .modal-subtitle {
   font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
   font-weight: 400;
 }
 
-.modal-progress-section {
+.top_bar .modal-progress-section {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.overall-progress {
+.top_bar .overall-progress {
   text-align: center;
   min-width: 200px;
 }
 
-.progress-label {
+.top_bar .progress-label {
   display: block;
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.8);
@@ -158,13 +160,13 @@
   font-weight: 600;
 }
 
-.progress-bar-container {
+.top_bar .progress-bar-container {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.progress-bar-bg {
+.top_bar .progress-bar-bg {
   flex: 1;
   height: 8px;
   background: rgba(255, 255, 255, 0.2);
@@ -173,7 +175,7 @@
   position: relative;
 }
 
-.progress-bar-fill {
+.top_bar .progress-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, #FFD700, #FFA500);
   width: 0%;
@@ -182,7 +184,7 @@
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
-.progress-text {
+.top_bar .progress-text {
   font-size: 1.1rem;
   font-weight: 700;
   color: #FFD700;
@@ -190,7 +192,7 @@
   text-align: right;
 }
 
-.modal-close-btn {
+.top_bar .modal-close-btn {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
@@ -205,14 +207,14 @@
   backdrop-filter: blur(10px);
 }
 
-.modal-close-btn:hover {
+.top_bar .modal-close-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
   transform: scale(1.05);
   color: #fff;
 }
 
-.trophies-modal-body {
+.top_bar .trophies-modal-body {
   flex: 1;
   padding: 40px;
   overflow-y: auto;
@@ -237,7 +239,7 @@
   background: rgba(255, 215, 0, 0.5);
 }
 
-.trophies-grid {
+.top_bar .trophies-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 24px;
@@ -245,7 +247,7 @@
   margin: 0 auto;
 }
 
-.trophy-card {
+.top_bar .trophy-card {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 16px;
@@ -256,7 +258,7 @@
   backdrop-filter: blur(10px);
 }
 
-.trophy-card::before {
+.top_bar .trophy-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -268,18 +270,18 @@
   transition: opacity 0.3s ease;
 }
 
-.trophy-card:hover {
+.top_bar .trophy-card:hover {
   transform: translateY(-4px);
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-.trophy-card:hover::before {
+.top_bar .trophy-card:hover::before {
   opacity: 1;
 }
 
-.trophy-card.unlocked {
+.top_bar .trophy-card.unlocked {
   background: linear-gradient(135deg, 
     rgba(255, 215, 0, 0.05), 
     rgba(255, 165, 0, 0.02)
@@ -288,19 +290,19 @@
   --trophy-gradient: linear-gradient(90deg, #FFD700, #FFA500);
 }
 
-.trophy-card.locked {
+.top_bar .trophy-card.locked {
   opacity: 0.6;
   --trophy-gradient: linear-gradient(90deg, #666, #888);
 }
 
-.trophy-card-header {
+.top_bar .trophy-card-header {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-bottom: 16px;
 }
 
-.trophy-card-icon {
+.top_bar .trophy-card-icon {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -312,12 +314,12 @@
   transition: all 0.3s ease;
 }
 
-.trophy-card-icon.locked {
+.top_bar .trophy-card-icon.locked {
   background: rgba(128, 128, 128, 0.3);
   filter: grayscale(100%);
 }
 
-.trophy-card-icon.unlocked {
+.top_bar .trophy-card-icon.unlocked {
   background: linear-gradient(135deg, #FFD700, #FFA500);
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
   animation: trophy-pulse 3s ease-in-out infinite;
@@ -334,18 +336,18 @@
   }
 }
 
-.trophy-card-info {
+.top_bar .trophy-card-info {
   flex: 1;
 }
 
-.trophy-card-title {
+.top_bar .trophy-card-title {
   font-size: 1.25rem;
   font-weight: 700;
   color: #fff;
   margin: 0 0 4px 0;
 }
 
-.trophy-card-rarity {
+.top_bar .trophy-card-rarity {
   display: inline-block;
   padding: 4px 8px;
   border-radius: 6px;
@@ -355,41 +357,41 @@
   letter-spacing: 0.5px;
 }
 
-.trophy-card-rarity.common {
+.top_bar .trophy-card-rarity.common {
   background: rgba(169, 169, 169, 0.3);
   color: #A9A9A9;
 }
 
-.trophy-card-rarity.rare {
+.top_bar .trophy-card-rarity.rare {
   background: rgba(30, 144, 255, 0.3);
   color: #1E90FF;
 }
 
-.trophy-card-rarity.epic {
+.top_bar .trophy-card-rarity.epic {
   background: rgba(138, 43, 226, 0.3);
   color: #8A2BE2;
 }
 
-.trophy-card-rarity.legendary {
+.top_bar .trophy-card-rarity.legendary {
   background: rgba(255, 215, 0, 0.3);
   color: #FFD700;
 }
 
-.trophy-card-description {
+.top_bar .trophy-card-description {
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.5;
   margin: 12px 0;
 }
 
-.trophy-card-requirement {
+.top_bar .trophy-card-requirement {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.6);
   font-style: italic;
   margin-bottom: 12px;
 }
 
-.trophy-card-date {
+.top_bar .trophy-card-date {
   font-size: 0.85rem;
   color: #FFD700;
   font-weight: 600;
@@ -398,48 +400,48 @@
   gap: 6px;
 }
 
-.trophy-card-date::before {
+.top_bar .trophy-card-date::before {
   content: '🗓️';
   font-size: 0.8rem;
 }
 
-.trophies-modal-footer {
+.top_bar .trophies-modal-footer {
   padding: 30px 40px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   background: rgba(0, 0, 0, 0.1);
 }
 
-.footer-stats {
+.top_bar .footer-stats {
   display: flex;
   justify-content: center;
   gap: 40px;
   margin-bottom: 20px;
 }
 
-.stat-item {
+.top_bar .stat-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
 }
 
-.stat-icon {
+.top_bar .stat-icon {
   font-size: 1.5rem;
 }
 
-.stat-label {
+.top_bar .stat-label {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
   font-weight: 600;
 }
 
-.stat-value {
+.top_bar .stat-value {
   font-size: 1.25rem;
   color: #FFD700;
   font-weight: 700;
 }
 
-.footer-hint {
+.top_bar .footer-hint {
   text-align: center;
   display: flex;
   align-items: center;
@@ -450,15 +452,15 @@
   font-style: italic;
 }
 
-.hint-icon {
+.top_bar .hint-icon {
   font-size: 1.2rem;
 }
 
 /* ========================================
-   NOTIFICATIONS DE NOUVEAUX TROPHÉES
-   ======================================== */
+  NEW TROPHIES NOTIFICATIONS
+  ======================================== */
 
-.new-trophy-notification {
+.top_bar .new-trophy-notification {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -476,12 +478,12 @@
   pointer-events: none;
 }
 
-.new-trophy-notification.show {
+.top_bar .new-trophy-notification.show {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
 
-.new-trophy-notification .trophy-emoji {
+.top_bar .new-trophy-notification .trophy-emoji {
   font-size: 3rem;
   display: block;
   margin-bottom: 10px;
@@ -493,22 +495,22 @@
   50% { transform: translateY(-10px); }
 }
 
-.new-trophy-notification .trophy-name {
+.top_bar .new-trophy-notification .trophy-name {
   font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 5px;
 }
 
-.new-trophy-notification .trophy-desc {
+.top_bar .new-trophy-notification .trophy-desc {
   font-size: 0.9rem;
   opacity: 0.8;
 }
 
 /* ========================================
-   EFFET ANIMATION DU BOUTON TROPHÉES
-   ======================================== */
+  TROPHIES BUTTON ANIMATION EFFECT
+  ======================================== */
 
-.trophies-btn.new-trophy {
+.top_bar .trophies-btn.new-trophy {
   animation: pulse-trophy 1s ease-in-out;
 }
 
@@ -527,10 +529,10 @@
 }
 
 /* ========================================
-   ANIMATIONS ET EFFETS VISUELS
-   ======================================== */
+  ANIMATIONS AND VISUAL EFFECTS
+  ======================================== */
 
-.trophy-unlock-animation {
+.top_bar .trophy-unlock-animation {
   animation: trophy-unlock 1s ease-out;
 }
 
@@ -549,7 +551,7 @@
   }
 }
 
-.trophy-glow {
+.top_bar .trophy-glow {
   animation: trophy-glow 2s ease-in-out infinite;
 }
 
@@ -569,75 +571,75 @@
    ======================================== */
 
 @media (max-width: 768px) {
-  .trophies-modal-header {
+  .top_bar .trophies-modal-header {
     flex-direction: column;
     gap: 20px;
     padding: 20px;
   }
 
-  .modal-title {
+  .top_bar .modal-title {
     font-size: 2rem;
   }
 
-  .trophies-modal-body {
+  .top_bar .trophies-modal-body {
     padding: 20px;
   }
 
-  .trophies-grid {
+  .top_bar .trophies-grid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  .trophy-card {
+  .top_bar .trophy-card {
     padding: 20px;
   }
 
-  .trophy-card-icon {
+  .top_bar .trophy-card-icon {
     width: 50px;
     height: 50px;
     font-size: 1.5rem;
   }
 
-  .trophies-modal-footer {
+  .top_bar .trophies-modal-footer {
     padding: 20px;
   }
 
-  .footer-stats {
+  .top_bar .footer-stats {
     gap: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .trophies-btn {
+  .top_bar .trophies-btn {
     min-width: 60px !important;
     padding: 4px 8px !important;
   }
 
-  .trophy-count {
+  .top_bar .trophy-count {
     font-size: 0.7rem;
   }
 
-  .modal-title {
+  .top_bar .modal-title {
     font-size: 1.5rem;
   }
 
-  .trophy-card-header {
+  .top_bar .trophy-card-header {
     gap: 12px;
   }
 
-  .trophy-card-icon {
+  .top_bar .trophy-card-icon {
     width: 40px;
     height: 40px;
     font-size: 1.2rem;
   }
 
-  .new-trophy-notification {
+  .top_bar .new-trophy-notification {
     padding: 15px 20px;
     margin: 0 20px;
     max-width: calc(100vw - 40px);
   }
 
-  .new-trophy-notification .trophy-emoji {
+  .top_bar .new-trophy-notification .trophy-emoji {
     font-size: 2rem;
   }
 }
