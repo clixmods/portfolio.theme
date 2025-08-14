@@ -1,0 +1,95 @@
+/* ========================================
+   CENTER SECTION - ACTIONS
+   ======================================== */
+
+.top_bar .top-bar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.top_bar .top-bar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px;
+  padding: 4px;
+  height: 36px;
+  overflow: visible;
+}
+
+/* ENHANCED ACTION GROUPS */
+.top_bar .top-bar-actions .primary-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 8px;
+  padding: 1px;
+  height: 100%;
+}
+
+/* Separator between groups */
+.top_bar .top-bar-actions .actions-separator {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 6px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* Primary buttons */
+.top_bar .top-bar-actions .primary-btn {
+  padding: 6px 10px !important;
+  font-weight: 600;
+  border-radius: 6px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  &.download-btn {
+    background: linear-gradient(135deg, var(--top-bar-accent), #7be3db) !important;
+    color: #0a0a0a !important;
+    
+    &:hover {
+      background: linear-gradient(135deg, #7be3db, var(--top-bar-accent)) !important;
+      color: #0a0a0a !important;
+      box-shadow: 0 4px 12px rgba(79, 209, 199, 0.3);
+      transform: translateY(-1px);
+    }
+    
+    .top-bar-icon {
+      stroke: #0a0a0a !important;
+    }
+  }
+  
+  &.contact-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+      border-color: var(--top-bar-accent) !important;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+/* Adaptations for the light theme */
+[data-theme="light"] {
+  .top_bar .top-bar-actions .contact-btn {
+    background: rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.15) !important;
+      border-color: var(--top-bar-accent) !important;
+    }
+  }
+  
+  .top_bar .top-bar-actions .actions-separator {
+    background: rgba(0, 0, 0, 0.2);
+  }
+}

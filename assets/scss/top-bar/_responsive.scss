@@ -1,0 +1,226 @@
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .top_bar .top-bar-container {
+    padding: 0 3px;
+    gap: 6px;
+    align-items: center;
+  }
+  
+  .top_bar .button-text {
+    display: none;
+  }
+  
+  .top_bar .download-btn {
+    min-width: 36px;
+    padding: 8px;
+  }
+  
+  .top_bar .page-name {
+    display: none;
+  }
+  
+  .top_bar .top-bar-right {
+    gap: 4px;
+    align-items: center;
+  }
+  
+  .top_bar .top-bar-left {
+    gap: 6px;
+    align-items: center;
+  }
+  
+  .top_bar .top-bar-far-right {
+    margin-left: 6px;
+    align-items: center;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #top-bar {
+    height: 48px;
+  }
+  
+  body {
+    padding-top: 48px;
+  }
+  
+  .top_bar .top-bar-container {
+    padding: 0 2px;
+    align-items: center;
+  }
+  
+  .top_bar .top-bar-actions {
+    gap: 2px;
+    padding: 2px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .top_bar .top-bar-button {
+    min-width: 28px;
+    height: 28px;
+    padding: 4px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .top_bar .logo-text {
+    font-size: 1rem;
+  }
+  
+  .top_bar .top-bar-social-emoji {
+    font-size: 0.9rem !important;
+  }
+  
+  .top_bar .language-dropdown {
+    width: 140px;
+  }
+  
+  .top_bar .top-bar-right {
+    gap: 4px;
+    align-items: center;
+  }
+  
+  .top_bar .top-bar-left {
+    gap: 6px;
+    align-items: center;
+  }
+  
+  .top_bar .top-bar-far-right {
+    margin-left: 4px;
+    align-items: center;
+  }
+  
+  .top_bar .top-bar-clock {
+    margin-left: 2px;
+  }
+  
+  .top_bar .current-page-indicator,
+  .top_bar .top-bar-clock {
+    padding: 4px 8px;
+  }
+  
+  .top_bar .top-bar-clock {
+    min-width: auto;
+    margin-left: 8px;
+  }
+  
+  .top_bar .clock-time {
+    font-size: 0.72rem;
+  }
+  
+  /* Show battery on mobile */
+  .top_bar .battery-indicator {
+    display: flex !important;
+  }
+  
+  .top_bar .notifications-dropdown {
+    width: 280px;
+    right: -20px;
+  }
+  
+  .top_bar .toast-container, .toast-container.top_bar {
+    right: 10px;
+    left: 10px;
+  }
+  
+  .top_bar .toast {
+    min-width: auto;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .top_bar .top-bar-container {
+    padding: 0 1px;
+    gap: 2px;
+    align-items: center;
+  }
+  
+  .top_bar .top-bar-left {
+    gap: 4px;
+    align-items: center;
+  }
+  
+  .top_bar .top-bar-far-right {
+    margin-left: 2px;
+    align-items: center;
+  }
+  
+  .top_bar .top-bar-clock {
+    padding: 0;
+    min-width: auto;
+    margin-left: 1px;
+  }
+  
+  .top_bar .top-bar-logo .avatar-container {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .top_bar .logo-text {
+    font-size: 1rem;
+  }
+  
+  /* Hide certain elements on very small screens */
+  .top_bar .social-btn:nth-child(n+4) {
+    display: none;
+  }
+  
+  .top_bar .current-page-indicator {
+    display: none;
+  }
+  
+  /* The theme switcher must remain visible - do not hide it */
+  .top_bar .theme-toggle {
+    min-width: 32px !important;
+    padding: 6px !important;
+  }
+  
+  .top_bar .top-bar-right {
+    gap: 4px;
+  }
+}
+
+/* ========================================
+   ADVANCED STATES
+   ======================================== */
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  #top-bar {
+    border-bottom: 2px solid var(--top-bar-text);
+    background: var(--top-bar-bg);
+  }
+  
+  .top_bar .top-bar-button:focus {
+    outline: 3px solid var(--top-bar-accent);
+  }
+  
+  .top_bar .language-dropdown {
+    border: 2px solid var(--top-bar-text);
+  }
+}
+
+/* No hover on touch devices */
+@media (hover: none) {
+  .top_bar .top-bar-button:hover {
+    transform: none;
+    background: transparent;
+  }
+  
+  .top_bar .top-bar-actions .social-btn:hover {
+    transform: none;
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .top_bar .download-btn:hover {
+    box-shadow: none;
+  }
+}
