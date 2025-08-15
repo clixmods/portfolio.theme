@@ -9,18 +9,29 @@
     <div class="testimonials-slider">
         <div class="testimonials-track">
             {{ range .Site.Data.testimonials }}
+            {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" .personId) }}
             <div class="testimonial-card aero-glass">
                 <div class="testimonial-content">
                     <p class="testimonial-text">
                         "{{ .text }}"
                     </p>
                     <div class="testimonial-author">
-                        <img src="{{ .avatar }}" alt="{{ .name }}" class="testimonial-avatar" onerror="this.style.display='none'">
-                        <div class="testimonial-info">
-                            <div class="testimonial-name">{{ .name }}</div>
-                            <div class="testimonial-position">{{ .position }}</div>
-                            <div class="testimonial-company">{{ .company }}</div>
-                        </div>
+                        {{ if $person }}
+                            {{ $avatar := $person.Params.avatar | default "/images/avatar6.svg" }}
+                            <img src="{{ $avatar }}" alt="{{ $person.Title }}" class="testimonial-avatar" onerror="this.style.display='none'">
+                            <div class="testimonial-info">
+                                <div class="testimonial-name">{{ $person.Title }}</div>
+                                <div class="testimonial-position">{{ .position }}</div>
+                                <div class="testimonial-company">{{ .company }}</div>
+                            </div>
+                        {{ else }}
+                            <img src="/images/avatar6.svg" alt="Unknown" class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <div class="testimonial-name">Personne inconnue ({{ .personId }})</div>
+                                <div class="testimonial-position">{{ .position }}</div>
+                                <div class="testimonial-company">{{ .company }}</div>
+                            </div>
+                        {{ end }}
                     </div>
                 </div>
             </div>

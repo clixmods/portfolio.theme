@@ -245,14 +245,15 @@
                         <div class="contributors-preview">
                             <div class="contributor-avatars">
                                 {{ range first 4 .Params.contributors }}
-                                {{ $personSlice := where $.Site.Data.people "id" .person }}
-                                {{ $person := index $personSlice 0 }}
-                                <div class="contributor-avatar-mini {{ if not $person.avatar }}placeholder{{ end }}">
-                                    {{ if $person.avatar }}
-                                    <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
+                                {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) }}
+                                {{ if $person }}
+                                <div class="contributor-avatar-mini {{ if not $person.Params.avatar }}placeholder{{ end }}">
+                                    {{ if $person.Params.avatar }}
+                                    <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
                                     {{ else }}
-                                    <span>{{ substr $person.name 0 1 | upper }}</span>
+                                    <span>{{ substr $person.Params.title 0 1 | upper }}</span>
                                     {{ end }}
+                                {{ end }}
                                 </div>
                                 {{ end }}
                                 {{ if gt (len .Params.contributors) 4 }}
@@ -272,25 +273,26 @@
                 <div class="info-box-content">
                     <div class="contributors-list">
                         {{ range .Params.contributors }}
-                        {{ $personSlice := where $.Site.Data.people "id" .person }}
-                        {{ $person := index $personSlice 0 }}
+                        {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) }}
+                        {{ if $person }}
                         <div class="contributor-item">
-                            {{ if $person.avatar }}
+                            {{ if $person.Params.avatar }}
                             <div class="contributor-avatar">
-                                <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
+                                <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
                             </div>
                             {{ else }}
                             <div class="contributor-avatar placeholder">
-                                <span>{{ substr $person.name 0 1 | upper }}</span>
+                                <span>{{ substr $person.Params.title 0 1 | upper }}</span>
                             </div>
                             {{ end }}
                             <div class="contributor-info">
-                                <div class="contributor-name">{{ $person.name }}</div>
+                                <div class="contributor-name">{{ $person.Params.title }}</div>
                                 {{ if .role }}
                                 <div class="contributor-role">{{ .role }}</div>
                                 {{ end }}
                             </div>
                         </div>
+                        {{ end }}
                         {{ end }}
                     </div>
                 </div>
@@ -485,21 +487,22 @@
                         <div class="widget-testimonials-preview">
                             <div class="widget-testimonials-rotator">
                                 {{ range $index, $testimonial := .Params.testimonials }}
-                                {{ $personSlice := where $.Site.Data.people "id" $testimonial.person }}
-                                {{ $person := index $personSlice 0 }}
+                                {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" $testimonial.person) }}
+                                {{ if $person }}
                                 <div class="widget-testimonial-preview-item {{ if eq $index 0 }}active{{ end }}" data-index="{{ $index }}">
                                     <div class="widget-testimonial-preview-header">
-                                        <div class="widget-testimonial-preview-avatar {{ if not $person.avatar }}placeholder{{ end }}">
-                                            {{ if $person.avatar }}
-                                            <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
+                                        <div class="widget-testimonial-preview-avatar {{ if not $person.Params.avatar }}placeholder{{ end }}">
+                                            {{ if $person.Params.avatar }}
+                                            <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
                                             {{ else }}
-                                            <span>{{ substr $person.name 0 1 | upper }}</span>
+                                            <span>{{ substr $person.Params.title 0 1 | upper }}</span>
                                             {{ end }}
                                         </div>
-                                        <div class="widget-testimonial-preview-author">{{ $person.name }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}</div>
+                                        <div class="widget-testimonial-preview-author">{{ $person.Params.title }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}</div>
                                     </div>
                                 <div class="widget-testimonial-preview-quote">{{ $testimonial.quote }}</div>
                                 </div>
+                                {{ end }}
                                 {{ end }}
                             </div>
                             <div class="widget-testimonials-progress"></div>
@@ -515,26 +518,27 @@
                 <div class="info-box-content">
                     <div class="widget-testimonials-list">
                         {{ range .Params.testimonials }}
-                        {{ $personSlice := where $.Site.Data.people "id" .person }}
-                        {{ $person := index $personSlice 0 }}
+                        {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) }}
+                        {{ if $person }}
                         <div class="widget-testimonial-item">
                         <div class="widget-testimonial-quote">{{ .quote }}</div>
                             <div class="widget-testimonial-author">
-                                <div class="widget-testimonial-avatar {{ if not $person.avatar }}placeholder{{ end }}">
-                                    {{ if $person.avatar }}
-                                    <img src="{{ $person.avatar }}" alt="{{ $person.name }}">
+                                <div class="widget-testimonial-avatar {{ if not $person.Params.avatar }}placeholder{{ end }}">
+                                    {{ if $person.Params.avatar }}
+                                    <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
                                     {{ else }}
-                                    <span>{{ substr $person.name 0 1 | upper }}</span>
+                                    <span>{{ substr $person.Params.title 0 1 | upper }}</span>
                                     {{ end }}
                                 </div>
                                 <div class="widget-testimonial-info">
-                                    <div class="widget-testimonial-name">{{ $person.name }}</div>
+                                    <div class="widget-testimonial-name">{{ $person.Params.title }}</div>
                                     {{ if .role }}
                                     <div class="widget-testimonial-role">{{ .role }}</div>
                                     {{ end }}
                                 </div>
                             </div>
                         </div>
+                        {{ end }}
                         {{ end }}
                     </div>
                 </div>

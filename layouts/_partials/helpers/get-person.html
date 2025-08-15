@@ -1,0 +1,27 @@
+{{/* 
+Helper partial pour récupérer une personne par son ID 
+Usage: {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" "john-doe") }}
+*/}}
+
+{{ $context := .context }}
+{{ $personId := .personId }}
+{{ $person := "" }}
+
+{{/* Essayer de trouver la page person correspondante */}}
+{{ $personPage := $context.Site.GetPage (printf "/people/%s" $personId) }}
+
+{{ if $personPage }}
+    {{ $person = $personPage }}
+{{ else }}
+    {{/* Si pas trouvé, chercher dans toutes les pages people par ID */}}
+    {{ range $context.Site.GetPage "/people" }}
+        {{ range .Pages }}
+            {{ if eq .Params.id $personId }}
+                {{ $person = . }}
+                {{ break }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ return $person }}
