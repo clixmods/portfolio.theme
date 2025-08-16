@@ -3,7 +3,11 @@
   {{ $profile := site.Data.profile }}
   {{ $experiences := site.Data.experiences }}
   {{ $educations := site.Data.educations }}
-  {{ $skills := site.Data.skills }}
+  {{ $specialties := site.Data.specialties }}
+  {{ $softSkills := site.Data.soft_skills }}
+  {{ $programmingLanguages := site.Data.programming_languages }}
+  {{ $frameworksEngines := site.Data.frameworks_engines }}
+  {{ $technologies := site.Data.technologies }}
   {{ $certs := site.Data.certifications }}
 
   <style media="print">
@@ -50,36 +54,52 @@
               {{ with $profile.personal.title }}<p class="cv-item-desc">{{ . }}</p>{{ end }}
             </div>
           </div>
-          {{ $gamedev := first 1 (where $skills "categories.id" "gamedev") }}
-          {{ with index $gamedev 0 }}
-            {{ $cat := .categories }}
-            <ul class="cv-summary-bullets">
-              <li>Développeur logiciel et de jeu vidéo passionné</li>
-              <li>Expertise dans :
-                <ul>
-                  {{ range first 4 $cat.skills }}<li>{{ .name }}</li>{{ end }}
+          {{ with $specialties }}
+            {{ range . }}
+              {{ with .category }}
+                <ul class="cv-summary-bullets">
+                  <li>Développeur logiciel et de jeu vidéo passionné</li>
+                  <li>Expertise dans :
+                    <ul>
+                      {{ range first 4 .skills }}<li>{{ .name }}</li>{{ end }}
+                    </ul>
+                  </li>
                 </ul>
-              </li>
-            </ul>
+              {{ end }}
+            {{ end }}
           {{ end }}
         </section>
 
-    {{ $langs := first 1 (where $skills "categories.id" "languages") }}
-        {{ with index $langs 0 }}
+    {{ with $programmingLanguages }}
+        {{ range . }}
+          {{ with .category }}
           <section class="cv-section">
             <h2>Langage Prog.</h2>
             <ul class="cv-list">
-      {{ range first 6 .categories.skills }}
+              {{ range first 6 .skills }}
+                {{ $techName := .technologyRef }}
+                {{ $techResults := where $technologies "name" $techName }}
+                {{ if $techResults }}
+                  {{ $tech := index $techResults 0 }}
                 <li class="cv-item">
                   <div class="cv-item-header">
-                    <strong>{{ .name }}</strong>
-                    {{ with .level }}<span class="cv-item-period">{{ . }}</span>{{ end }}
+                    <strong>{{ $tech.name }}</strong>
+                    <span class="cv-item-period">
+                      {{ if .customSubtitle }}
+                        {{ .customSubtitle }}
+                      {{ else }}
+                        {{ $tech.level }}
+                      {{ end }}
+                    </span>
                   </div>
                 </li>
+                {{ end }}
               {{ end }}
             </ul>
           </section>
+          {{ end }}
         {{ end }}
+    {{ end }}
 
     {{ if $educations }}
           <section class="cv-section">
@@ -98,25 +118,31 @@
         {{ end }}
       </div>
       <div class="cv-col cv-col-right">
-        {{ if $skills }}
+        {{ if or $specialties $softSkills }}
           <section class="cv-section">
             <h2>Compétences</h2>
-            {{ $gamedevCat := index (first 1 (where $skills "categories.id" "gamedev")) 0 }}
-            {{ $managementCat := index (first 1 (where $skills "categories.id" "management")) 0 }}
             <div class="cv-skill-split">
               <div class="cv-skill-col">
                 <h3>Techniques</h3>
                 <ul class="cv-tags cv-skill-chips">
-                  {{ with $gamedevCat }}
-                    {{ range first 5 .categories.skills }}<li>{{ .name }}</li>{{ end }}
+                  {{ with $specialties }}
+                    {{ range . }}
+                      {{ with .category }}
+                        {{ range first 5 .skills }}<li>{{ .name }}</li>{{ end }}
+                      {{ end }}
+                    {{ end }}
                   {{ end }}
                 </ul>
               </div>
               <div class="cv-skill-col">
                 <h3>Travail</h3>
                 <ul class="cv-tags cv-skill-chips">
-                  {{ with $managementCat }}
-                    {{ range first 5 .categories.skills }}<li>{{ .name }}</li>{{ end }}
+                  {{ with $softSkills }}
+                    {{ range . }}
+                      {{ with .category }}
+                        {{ range first 5 .skills }}<li>{{ .name }}</li>{{ end }}
+                      {{ end }}
+                    {{ end }}
                   {{ end }}
                 </ul>
               </div>
