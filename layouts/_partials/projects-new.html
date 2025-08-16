@@ -18,7 +18,7 @@
         <span class="tech-badge active" data-tech="all">{{ i18n "all" | default "All" }}</span>
         {{/* Langages de programmation */}}
         {{ range sort .Site.Data.programming_languages "order" }}
-        {{ if .enabled }}
+        {{ if .displayedInPortfolio }}
         <span class="tech-badge" data-tech="{{ .name }}" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
         {{ end }}
         {{ end }}

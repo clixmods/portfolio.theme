@@ -1,6 +1,6 @@
 {{/* Affiche l'icône d'une technologie - SVG si disponible, sinon emoji */}}
-{{ if .iconSvg }}
-  <img src="{{ .iconSvg }}" alt="{{ .name }}" class="tech-icon-svg" width="24" height="24">
+{{ if .iconPath }}
+  <img src="{{ .iconPath }}" alt="{{ .name }}" class="tech-icon-svg" width="24" height="24">
 {{ else }}
   <span class="tech-icon-emoji">{{ .icon }}</span>
 {{ end }}
