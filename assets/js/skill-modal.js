@@ -37,31 +37,73 @@ function closeSkillModal() {
 }
 
 // Fonction pour charger les projets associés à une compétence/technologie
-async function loadProjectsForSkill(skillName) {
+function loadProjectsForSkill(skillName) {
     const projectsList = document.getElementById('modalProjectsList');
     projectsList.innerHTML = '<div class="loading">Chargement des projets...</div>';
     
     try {
-        // Essayer d'abord de récupérer depuis l'endpoint JSON
-        const response = await fetch('/data/projects/');
-        if (response.ok) {
-            const projects = await response.json();
-            displayProjects(projects, skillName, projectsList);
-        } else {
-            throw new Error('API non disponible');
-        }
+        // Utiliser les données intégrées dans la page au lieu de faire une requête API
+        const projects = window.portfolioProjects || [];
+        console.log('Projets récupérés depuis les données intégrées:', projects.length);
+        console.log('Recherche de projets pour la compétence:', skillName);
+        displayProjects(projects, skillName, projectsList);
     } catch (error) {
-        console.log('Chargement depuis API échoué, utilisation des données DOM:', error);
-        // Fallback: chercher les projets dans les données déjà présentes sur la page
-        loadProjectsFromDOM(skillName, projectsList);
+        console.error('Erreur lors du chargement des projets:', error);
+        projectsList.innerHTML = '<div class="no-projects">❌ Erreur lors du chargement des projets.<br/>Veuillez rafraîchir la page.</div>';
     }
 }
 
 // Fonction pour afficher les projets filtrés avec le nouveau design PS5
 function displayProjects(projects, skillName, projectsList) {
-    const relatedProjects = projects.filter(project => 
-        project.technologies && project.technologies.includes(skillName)
-    );
+    console.log('=== DÉBUT DU FILTRAGE ===');
+    console.log('Filtrage des projets pour:', skillName);
+    console.log('Projets disponibles:', projects.length);
+    
+    const relatedProjects = projects.filter(project => {
+        console.log(`\nAnalyse du projet: "${project.title}"`);
+        console.log(`Technologies du projet RAW:`, project.technologies);
+        console.log(`Type:`, typeof project.technologies);
+        console.log(`Est un tableau:`, Array.isArray(project.technologies));
+        
+        let technologies = project.technologies;
+        
+        // Si c'est une string, essayer de la parser en JSON
+        if (typeof technologies === 'string') {
+            try {
+                technologies = JSON.parse(technologies);
+                console.log(`Technologies après parsing:`, technologies);
+                console.log(`Type après parsing:`, typeof technologies);
+                console.log(`Est un tableau après parsing:`, Array.isArray(technologies));
+            } catch (e) {
+                console.log(`❌ Erreur de parsing JSON pour "${project.title}":`, e.message);
+                return false;
+            }
+        }
+        
+        if (!technologies || !Array.isArray(technologies)) {
+            console.log(`❌ Projet "${project.title}" rejeté: technologies invalides ou manquantes`);
+            return false;
+        }
+        
+        // Recherche exacte et aussi recherche insensible à la casse
+        const hasSkill = technologies.some(tech => {
+            const exactMatch = tech === skillName;
+            const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
+            console.log(`  Comparaison: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
+            return exactMatch || caseInsensitiveMatch;
+        });
+        
+        if (hasSkill) {
+            console.log(`✅ Projet "${project.title}" ACCEPTÉ avec technologies:`, technologies);
+        } else {
+            console.log(`❌ Projet "${project.title}" rejeté: aucune technologie correspondante`);
+        }
+        return hasSkill;
+    });
+    
+    console.log('=== RÉSULTAT DU FILTRAGE ===');
+    console.log('Projets filtrés trouvés:', relatedProjects.length);
+    relatedProjects.forEach(p => console.log(`- ${p.title}`));
     
     if (relatedProjects.length === 0) {
         projectsList.innerHTML = '<div class="no-projects">🚀 Aucun projet trouvé pour cette technologie.<br/>De nouveaux projets arrivent bientôt !</div>';
@@ -69,8 +111,19 @@ function displayProjects(projects, skillName, projectsList) {
     }
     
     // Générer le HTML pour les cartes de projets style PS5
-    const projectsHTML = relatedProjects.map(project => `
-        <div class="modal-project-card" onclick="window.open('${project.url}', '_blank')">
+    const projectsHTML = relatedProjects.map(project => {
+        // S'assurer que les technologies sont un tableau pour l'affichage
+        let technologies = project.technologies;
+        if (typeof technologies === 'string') {
+            try {
+                technologies = JSON.parse(technologies);
+            } catch (e) {
+                technologies = [];
+            }
+        }
+        
+        return `
+        <div class="modal-project-card">
             <div class="modal-project-image">
                 <img src="${project.background_image || project.image || '/images/placeholder-project.jpg'}" alt="${project.title}" loading="lazy">
                 <div class="modal-project-overlay"></div>
@@ -79,12 +132,12 @@ function displayProjects(projects, skillName, projectsList) {
                 <h4 class="modal-project-title">${project.title}</h4>
                 <p class="modal-project-subtitle">${project.subtitle || project.description || 'Découvrez ce projet innovant et ses fonctionnalités.'}</p>
                 <div class="modal-project-tech">
-                    ${project.technologies.slice(0, 3).map(tech => `<span class="modal-project-tech-item">${tech}</span>`).join('')}
-                    ${project.technologies.length > 3 ? `<span class="modal-project-tech-item">+${project.technologies.length - 3}</span>` : ''}
+                    ${technologies.slice(0, 3).map(tech => `<span class="modal-project-tech-item">${tech}</span>`).join('')}
+                    ${technologies.length > 3 ? `<span class="modal-project-tech-item">+${technologies.length - 3}</span>` : ''}
                 </div>
                 <div class="modal-project-meta">
                     <span class="modal-project-year">${project.year || new Date().getFullYear()}</span>
-                    ${project.url ? `<a href="${project.url}" class="modal-project-link" target="_blank" onclick="event.stopPropagation()">
+                    ${project.url ? `<a href="${project.url}" class="modal-project-link">
                         Voir le projet
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -93,161 +146,8 @@ function displayProjects(projects, skillName, projectsList) {
                 </div>
             </div>
         </div>
-    `).join('');
-    
-    projectsList.innerHTML = projectsHTML;
-}
-
-// Fonction alternative pour charger les projets depuis le DOM (si l'API n'est pas disponible)
-function loadProjectsFromDOM(skillName, projectsList) {
-    // Simuler des projets basés sur les données que nous connaissons
-    const knownProjects = {
-        "C#": [
-            { 
-                title: "Terra Memoria", 
-                subtitle: "JRPG - Studio La Moutarde", 
-                description: "Fin de production d'un jeu vidéo commercial sur Unity", 
-                technologies: ["Unity", "C#", "Nintendo Switch", "Steam"], 
-                url: "/projects/terra-memoria/",
-                background_image: "/images/projects/terra-memoria/terra-memoria-background.jpg",
-                image: "/images/projects/terra-memoria/terra-memoria-background.jpg",
-                year: "2024"
-            },
-            { 
-                title: "Unity Editor Tools", 
-                subtitle: "Outils de développement personnalisés", 
-                description: "Collection d'outils Unity pour améliorer le workflow de développement", 
-                technologies: ["Unity", "C#", "Editor Scripting"], 
-                url: "/projects/unity-editor-tools/",
-                image: "/images/projects/unity-tools.jpg",
-                year: "2023"
-            },
-            { 
-                title: "My Game Showcase", 
-                subtitle: "Plateforme web", 
-                description: "Plateforme moderne de présentation de jeux avec interface interactive", 
-                technologies: ["Blazor", ".NET 8", "C#"], 
-                url: "/projects/my-game-showcase/",
-                image: "/images/projects/game-showcase.jpg",
-                year: "2024"
-            }
-        ],
-        "Unity": [
-            { 
-                title: "Terra Memoria", 
-                subtitle: "JRPG - Studio La Moutarde", 
-                description: "Fin de production d'un jeu vidéo commercial sur Unity", 
-                technologies: ["Unity", "C#", "Nintendo Switch", "Steam"], 
-                url: "/projects/terra-memoria/",
-                background_image: "/images/projects/terra-memoria/terra-memoria-background.jpg",
-                image: "/images/projects/terra-memoria/terra-memoria-background.jpg",
-                year: "2024"
-            },
-            { 
-                title: "Bubble Wars", 
-                subtitle: "Puzzle multijoueur", 
-                description: "Jeu de puzzle multijoueur dynamique et addictif", 
-                technologies: ["Unity", "C#", "Game Design"], 
-                url: "/projects/bubble-wars/",
-                image: "/images/projects/bubble-wars.jpg",
-                year: "2023"
-            },
-            { 
-                title: "Witchable", 
-                subtitle: "Aventure magique", 
-                description: "Aventure magique avec des mécaniques de sorts uniques", 
-                technologies: ["Unity", "C#", "Game Design"], 
-                url: "/projects/witchable/",
-                image: "/images/projects/witchable.jpg",
-                year: "2023"
-            }
-        ],
-        "Blazor": [
-            { 
-                title: "My Game Showcase", 
-                subtitle: "Plateforme web moderne", 
-                description: "Plateforme web moderne construite avec les dernières technologies", 
-                technologies: ["Blazor", ".NET 8", "FastEndpoint"], 
-                url: "/projects/my-game-showcase/",
-                image: "/images/projects/game-showcase.jpg",
-                year: "2024"
-            }
-        ],
-        "Game Design": [
-            { 
-                title: "Bubble Wars", 
-                subtitle: "Design de mécaniques", 
-                description: "Design de mécaniques de puzzle innovantes et équilibrées", 
-                technologies: ["Unity", "C#", "Game Design"], 
-                url: "/projects/bubble-wars/",
-                image: "/images/projects/bubble-wars.jpg",
-                year: "2023"
-            },
-            { 
-                title: "Mystic Koni", 
-                subtitle: "Puzzles mystiques", 
-                description: "Conception de puzzles mystiques avec progression narrative", 
-                technologies: ["Unity", "C#", "Puzzle Design"], 
-                url: "/projects/mystic-koni/",
-                image: "/images/projects/mystic-koni.jpg",
-                year: "2022"
-            }
-        ],
-        "Level Design": [
-            { 
-                title: "Snide", 
-                subtitle: "Niveaux 2D", 
-                description: "Conception de niveaux 2D avec courbe de difficulté progressive", 
-                technologies: ["Unity", "C#", "Level Design"], 
-                url: "/projects/snide/",
-                image: "/images/projects/snide.jpg",
-                year: "2022"
-            },
-            { 
-                title: "Stay in the Light", 
-                subtitle: "Environnements d'horreur", 
-                description: "Design d'environnements d'horreur immersifs et terrifiants", 
-                technologies: ["Unity", "C#", "Level Design"], 
-                url: "/projects/stay-in-the-light/",
-                image: "/images/projects/stay-in-light.jpg",
-                year: "2021"
-            }
-        ]
-    };
-    
-    const relatedProjects = knownProjects[skillName] || [];
-    
-    if (relatedProjects.length === 0) {
-        projectsList.innerHTML = '<div class="no-projects">🚀 Aucun projet trouvé pour cette technologie.<br/>De nouveaux projets arrivent bientôt !</div>';
-        return;
-    }
-    
-    // Générer le HTML pour les cartes de projets style PS5
-    const projectsHTML = relatedProjects.map(project => `
-        <div class="modal-project-card" onclick="window.open('${project.url}', '_blank')">
-            <div class="modal-project-image">
-                <img src="${project.background_image || project.image || '/images/placeholder-project.jpg'}" alt="${project.title}" loading="lazy">
-                <div class="modal-project-overlay"></div>
-            </div>
-            <div class="modal-project-content">
-                <h4 class="modal-project-title">${project.title}</h4>
-                <p class="modal-project-subtitle">${project.subtitle || project.description}</p>
-                <div class="modal-project-tech">
-                    ${project.technologies.slice(0, 3).map(tech => `<span class="modal-project-tech-item">${tech}</span>`).join('')}
-                    ${project.technologies.length > 3 ? `<span class="modal-project-tech-item">+${project.technologies.length - 3}</span>` : ''}
-                </div>
-                <div class="modal-project-meta">
-                    <span class="modal-project-year">${project.year}</span>
-                    ${project.url ? `<a href="${project.url}" class="modal-project-link" target="_blank" onclick="event.stopPropagation()">
-                        Voir le projet
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>` : ''}
-                </div>
-            </div>
-        </div>
-    `).join('');
+    `;
+    }).join('');
     
     projectsList.innerHTML = projectsHTML;
 }
@@ -266,5 +166,69 @@ document.addEventListener('DOMContentLoaded', function() {
         modalContent.addEventListener('click', function(e) {
             e.stopPropagation();
         });
+    }
+    
+    // Normaliser les données des projets pour s'assurer que les technologies sont des tableaux
+    if (window.portfolioProjects && Array.isArray(window.portfolioProjects)) {
+        window.portfolioProjects = window.portfolioProjects.map(project => {
+            if (project.technologies && typeof project.technologies === 'string') {
+                try {
+                    project.technologies = JSON.parse(project.technologies);
+                } catch (e) {
+                    console.error(`Erreur lors du parsing des technologies pour ${project.title}:`, e);
+                    project.technologies = [];
+                }
+            }
+            return project;
+        });
+        console.log('Données des projets normalisées!');
+    }
+    
+    // Déboguer les données des projets chargées
+    console.log('Données des projets chargées:', window.portfolioProjects?.length || 0);
+    if (window.portfolioProjects?.length > 0) {
+        console.log('Premier projet exemple:', window.portfolioProjects[0]);
+        
+        // Afficher TOUS les projets avec leurs technologies
+        console.log('=== LISTE COMPLÈTE DES PROJETS ET LEURS TECHNOLOGIES ===');
+        window.portfolioProjects.forEach((project, index) => {
+            console.log(`${index + 1}. ${project.title}:`);
+            console.log(`   Technologies RAW:`, project.technologies);
+            console.log(`   Type de technologies:`, typeof project.technologies);
+            console.log(`   Est un tableau:`, Array.isArray(project.technologies));
+            
+            // Si c'est une string, essayer de la parser
+            if (typeof project.technologies === 'string') {
+                try {
+                    const parsed = JSON.parse(project.technologies);
+                    console.log(`   Technologies parsées:`, parsed);
+                    console.log(`   Type après parsing:`, typeof parsed);
+                    console.log(`   Est un tableau après parsing:`, Array.isArray(parsed));
+                } catch (e) {
+                    console.log(`   Erreur de parsing:`, e.message);
+                }
+            }
+            
+            if (Array.isArray(project.technologies)) {
+                console.log(`   Nombre d'éléments:`, project.technologies.length);
+                project.technologies.forEach((tech, techIndex) => {
+                    console.log(`     ${techIndex + 1}. "${tech}" (type: ${typeof tech})`);
+                });
+            }
+            console.log('   ---');
+        });
+        
+        console.log('Technologies disponibles:', 
+            [...new Set(window.portfolioProjects.flatMap(p => p.technologies || []))].sort()
+        );
+        
+        // Test spécifique pour Stone Keeper 2
+        const stoneKeeper2 = window.portfolioProjects.find(p => p.title === "Stone Keeper 2");
+        if (stoneKeeper2) {
+            console.log('Stone Keeper 2 trouvé:', stoneKeeper2);
+            console.log('Ses technologies:', stoneKeeper2.technologies);
+        } else {
+            console.log('Stone Keeper 2 NON trouvé dans les données');
+        }
     }
 });

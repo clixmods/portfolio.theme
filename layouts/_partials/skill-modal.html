@@ -27,9 +27,47 @@
             <div class="projects-section">
                 <h3>💼 Projets utilisant cette technologie</h3>
                 <div id="modalProjectsList" class="modal-projects-grid">
-                    <!-- Les projets seront chargés dynamiquement -->
+                    <!-- Les projets seront chargés dynamiquement depuis les données intégrées -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+{{/* Intégrer les données des projets dans la page pour éviter les requêtes API */}}
+<script>
+window.portfolioProjects = [
+    {{- range where .Site.RegularPages "Section" "projects" -}}
+        {{- $technologies := slice -}}
+        {{- if .Params.frameworks_engines -}}
+            {{- range .Params.frameworks_engines -}}
+                {{- $technologies = $technologies | append . -}}
+            {{- end -}}
+        {{- end -}}
+        {{- if .Params.programming_languages -}}
+            {{- range .Params.programming_languages -}}
+                {{- $technologies = $technologies | append . -}}
+            {{- end -}}
+        {{- end -}}
+        {{- if .Params.specialties -}}
+            {{- range .Params.specialties -}}
+                {{- $technologies = $technologies | append . -}}
+            {{- end -}}
+        {{- end -}}
+        {{- $technologies = $technologies | uniq -}}
+        
+        {
+            title: {{ .Title | jsonify }},
+            subtitle: {{ .Params.subtitle | default .Params.description | jsonify }},
+            description: {{ .Params.description | jsonify }},
+            url: {{ .RelPermalink | jsonify }},
+            image: {{ .Params.image | default "/images/placeholder-project.jpg" | jsonify }},
+            background_image: {{ .Params.image | default "/images/placeholder-project.jpg" | jsonify }},
+            year: {{ .Params.year | default (.Date.Format "2006") | jsonify }},
+            technologies: {{ $technologies | jsonify }},
+            sector: {{ .Params.sector | jsonify }},
+            featured: {{ .Params.featured | default false }}
+        },
+    {{- end -}}
+];
+</script>
