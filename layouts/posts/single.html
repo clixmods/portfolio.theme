@@ -43,11 +43,12 @@
         </div>
 
         <!-- Technologies Used (if applicable) -->
-        {{ if .Params.technologies }}
+        {{ $allTechnologies := partial "get-all-technologies.html" . }}
+        {{ if $allTechnologies }}
         <div class="blog-article-technologies">
             <h3>{{ i18n "technologies_used" | default "Technologies utilisées" }}</h3>
             <div class="blog-technologies">
-                {{ range .Params.technologies }}
+                {{ range $allTechnologies }}
                 <span class="tech-chip">{{ . }}</span>
                 {{ end }}
             </div>

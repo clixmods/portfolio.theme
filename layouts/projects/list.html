@@ -60,7 +60,7 @@
          data-sector="{{ .Params.sector }}"
          data-category="{{ .Params.sector }}"
          
-         data-technologies='{{ with .Params.technologies }}{{ delimit . "," }}{{ end }}'>
+         data-technologies='{{ partial "combined-technologies.html" . }}'>
             <!-- Image principale -->
             <div class="ps5-tile-image">
                 <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}" onerror="this.onerror=null;this.src='/images/placeholder-project.jpg';">
@@ -92,10 +92,11 @@
                     {{ with .Params.description }}<p class="ps5-tile-description">{{ . }}</p>{{ end }}
 
                     <!-- Technologies principales -->
-                    {{ if .Params.technologies }}
+                    {{ $allTechnologies := partial "get-all-technologies.html" . }}
+                    {{ if $allTechnologies }}
                     <div class="ps5-tile-tech">
-                        {{ $techCount := len .Params.technologies }}
-                        {{ range first 3 .Params.technologies }}
+                        {{ $techCount := len $allTechnologies }}
+                        {{ range first 3 $allTechnologies }}
                             {{ $techName := . }}
                             {{ $found := false }}
                             {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}

@@ -95,13 +95,14 @@
                                             {{ if .role_description }}{{ .role_description }}{{ else }}{{ $projectPage.Params.description }}{{ end }}
                                         </p>
                                         
-                                        {{ if $projectPage.Params.technologies }}
+                                        {{ $allTechnologies := partial "get-all-technologies.html" $projectPage }}
+                                        {{ if $allTechnologies }}
                                         <div class="project-tile-tech">
-                                            {{ range first 4 $projectPage.Params.technologies }}
+                                            {{ range first 4 $allTechnologies }}
                                             <span class="project-tile-tech-item">{{ . }}</span>
                                             {{ end }}
-                                            {{ if gt (len $projectPage.Params.technologies) 4 }}
-                                            <span class="project-tile-tech-item">+{{ sub (len $projectPage.Params.technologies) 4 }}</span>
+                                            {{ if gt (len $allTechnologies) 4 }}
+                                            <span class="project-tile-tech-item">+{{ sub (len $allTechnologies) 4 }}</span>
                                             {{ end }}
                                         </div>
                                         {{ end }}
@@ -156,9 +157,10 @@
                                     </ul>
                                     {{ end }}
                                     
-                                    {{ if .technologies }}
+                                    {{ $allTechnologies := partial "get-all-technologies.html" . }}
+                                    {{ if $allTechnologies }}
                                     <div class="project-tile-tech">
-                                        {{ range .technologies }}
+                                        {{ range $allTechnologies }}
                                         <span class="project-tile-tech-item">{{ . }}</span>
                                         {{ end }}
                                     </div>
