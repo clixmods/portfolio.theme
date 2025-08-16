@@ -216,7 +216,7 @@
                         {{ range $exp.technologies }}
                         {{ $techName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.technologies }}
+                        {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}
                         {{ if eq .name $techName }}
                         <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
                         {{ $found = true }}
@@ -289,7 +289,7 @@
                         {{ range $int.technologies }}
                         {{ $techName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.technologies }}
+                        {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}
                         {{ if eq .name $techName }}
                         <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
                         {{ $found = true }}

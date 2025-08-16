@@ -98,7 +98,7 @@
                         {{ range first 3 .Params.technologies }}
                             {{ $techName := . }}
                             {{ $found := false }}
-                            {{ range $.Site.Data.technologies }}
+                            {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}
                                 {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
                             {{ end }}
                             {{ if not $found }}<span class="ps5-tile-tech-item">{{ $techName }}</span>{{ end }}

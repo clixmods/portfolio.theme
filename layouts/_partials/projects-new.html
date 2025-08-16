@@ -16,7 +16,14 @@
     <!-- Technology Filter Badges -->
     <div class="tech-filters">
         <span class="tech-badge active" data-tech="all">{{ i18n "all" | default "All" }}</span>
-        {{ range sort .Site.Data.technologies "order" }}
+        {{/* Langages de programmation */}}
+        {{ range sort .Site.Data.programming_languages "order" }}
+        {{ if .enabled }}
+        <span class="tech-badge" data-tech="{{ .name }}" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
+        {{ end }}
+        {{ end }}
+        {{/* Frameworks & Moteurs */}}
+        {{ range sort .Site.Data.frameworks_engines "order" }}
         {{ if .enabled }}
         <span class="tech-badge" data-tech="{{ .name }}" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
         {{ end }}
@@ -38,7 +45,7 @@
              data-background-image="{{ .Params.background_image | default .Params.image }}"
              data-sector="games"
              data-category="games" 
-             data-technologies='{{ delimit .Params.technologies "," }}'>
+             data-technologies='{{ partial "combined-technologies.html" . }}'>
             
             <!-- Image principale de la tuile -->
             <div class="ps5-tile-image">
@@ -69,11 +76,11 @@
                     
                     <!-- Technologies -->
                     <div class="ps5-tile-tech">
-                        {{ $techCount := len .Params.technologies }}
-                        {{ range first 3 .Params.technologies }}
+                        {{ $techCount := len ((slice) | append (.Params.programming_languages | default slice) | append (.Params.frameworks_engines | default slice) | uniq) }}
+                        {{ range first 3 ((slice) | append (.Params.programming_languages | default slice) | append (.Params.frameworks_engines | default slice) | uniq) }}
                         {{ $techName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.technologies }}
+                        {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}
                         {{ if eq .name $techName }}
                         <span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>
                         {{ $found = true }}
@@ -115,7 +122,7 @@
              data-background-image="{{ .Params.background_image | default .Params.image }}"
              data-sector="apps-web"
              data-category="apps-web" 
-             data-technologies='{{ delimit .Params.technologies "," }}'
+             data-technologies='{{ partial "combined-technologies.html" . }}'
              style="display: none;">
             
             <!-- Image principale de la tuile -->
@@ -147,11 +154,11 @@
                     
                     <!-- Technologies -->
                     <div class="ps5-tile-tech">
-                        {{ $techCount := len .Params.technologies }}
-                        {{ range first 3 .Params.technologies }}
+                        {{ $techCount := len ((slice) | append (.Params.programming_languages | default slice) | append (.Params.frameworks_engines | default slice) | uniq) }}
+                        {{ range first 3 ((slice) | append (.Params.programming_languages | default slice) | append (.Params.frameworks_engines | default slice) | uniq) }}
                         {{ $techName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.technologies }}
+                        {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}
                         {{ if eq .name $techName }}
                         <span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>
                         {{ $found = true }}
@@ -193,7 +200,7 @@
              data-background-image="{{ .Params.background_image | default .Params.image }}"
              data-sector="mods-tools"
              data-category="mods-tools" 
-             data-technologies='{{ delimit .Params.technologies "," }}'
+             data-technologies='{{ partial "combined-technologies.html" . }}'
              style="display: none;">
             
             <!-- Image principale de la tuile -->
@@ -225,11 +232,11 @@
                     
                     <!-- Technologies -->
                     <div class="ps5-tile-tech">
-                        {{ $techCount := len .Params.technologies }}
-                        {{ range first 3 .Params.technologies }}
+                        {{ $techCount := len ((slice) | append (.Params.programming_languages | default slice) | append (.Params.frameworks_engines | default slice) | uniq) }}
+                        {{ range first 3 ((slice) | append (.Params.programming_languages | default slice) | append (.Params.frameworks_engines | default slice) | uniq) }}
                         {{ $techName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.technologies }}
+                        {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}
                         {{ if eq .name $techName }}
                         <span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>
                         {{ $found = true }}

@@ -6,131 +6,101 @@
     
     <div class="skills-categories-grid">
         
-        {{/* Programming Languages - référence technologies.json */}}
-        {{ with .Site.Data.programming_languages }}
-            {{ range . }}
-                {{ with .category }}
-                <div class="skills-category">
-                    <h4>{{ .title }}</h4>
-                    <div class="skills-grid">
-                        {{ range .skills }}
-                            {{ $techName := .technologyRef }}
-                            {{ $techResults := where $.Site.Data.technologies "name" $techName }}
-                            {{ if $techResults }}
-                                {{ $tech := index $techResults 0 }}
-                            <div class="skill-block">
-                                <span class="skill-icon">
-                                    {{ if $tech.iconSvg }}
-                                      <img src="{{ $tech.iconSvg }}" alt="{{ $tech.name }}" class="tech-icon-svg" width="28" height="28">
-                                    {{ else }}
-                                      <span class="tech-icon-emoji">{{ $tech.icon }}</span>
-                                    {{ end }}
-                                </span>
-                                <span class="skill-name">{{ $tech.name }}</span>
-                                <span class="skill-level">
-                                    {{ if .customSubtitle }}
-                                        {{ .customSubtitle }}
-                                    {{ else }}
-                                        {{ $tech.level }}
-                                    {{ end }}
-                                </span>
-                            </div>
+        {{/* Programming Languages - données directes */}}
+        <div class="skills-category">
+            <h4>{{ i18n "programming_languages" | default "Langages de programmation" }}</h4>
+            <div class="skills-grid">
+                {{ range sort .Site.Data.programming_languages "order" }}
+                    {{ if .enabled }}
+                    <div class="skill-block clickable" 
+                         onclick="openSkillModal('{{ .name }}', '{{ if .iconSvg }}{{ .iconSvg }}{{ else }}{{ .icon }}{{ end }}', '{{ .level }}', '{{ .experience }}', '{{ if .iconSvg }}svg{{ else }}emoji{{ end }}')"
+                         data-skill-name="{{ .name }}"
+                         data-skill-type="programming-language">
+                        <span class="skill-icon">
+                            {{ if .iconSvg }}
+                              <img src="{{ .iconSvg }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                            {{ else }}
+                              <span class="tech-icon-emoji">{{ .icon }}</span>
                             {{ end }}
-                        {{ end }}
+                        </span>
+                        <span class="skill-name">{{ .name }}</span>
+                        <span class="skill-level">{{ .level }}</span>
                     </div>
-                </div>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-        {{ end }}
+            </div>
+        </div>
 
-        {{/* Frameworks & Game Engines - référence technologies.json */}}
-        {{ with .Site.Data.frameworks_engines }}
-            {{ range . }}
-                {{ with .category }}
-                <div class="skills-category">
-                    <h4>{{ .title }}</h4>
-                    <div class="skills-grid">
-                        {{ range .skills }}
-                            {{ $techName := .technologyRef }}
-                            {{ $techResults := where $.Site.Data.technologies "name" $techName }}
-                            {{ if $techResults }}
-                                {{ $tech := index $techResults 0 }}
-                            <div class="skill-block">
-                                <span class="skill-icon">
-                                    {{ if $tech.iconSvg }}
-                                      <img src="{{ $tech.iconSvg }}" alt="{{ $tech.name }}" class="tech-icon-svg" width="28" height="28">
-                                    {{ else }}
-                                      <span class="tech-icon-emoji">{{ $tech.icon }}</span>
-                                    {{ end }}
-                                </span>
-                                <span class="skill-name">{{ $tech.name }}</span>
-                                <span class="skill-level">
-                                    {{ if .customSubtitle }}
-                                        {{ .customSubtitle }}
-                                    {{ else }}
-                                        {{ $tech.level }}
-                                    {{ end }}
-                                </span>
-                            </div>
+        {{/* Frameworks & Game Engines - données directes */}}
+        <div class="skills-category">
+            <h4>{{ i18n "frameworks_engines" | default "Frameworks & Moteurs" }}</h4>
+            <div class="skills-grid">
+                {{ range sort .Site.Data.frameworks_engines "order" }}
+                    {{ if .enabled }}
+                    <div class="skill-block clickable" 
+                         onclick="openSkillModal('{{ .name }}', '{{ if .iconSvg }}{{ .iconSvg }}{{ else }}{{ .icon }}{{ end }}', '{{ .level }}', '{{ .experience }}', '{{ if .iconSvg }}svg{{ else }}emoji{{ end }}')"
+                         data-skill-name="{{ .name }}"
+                         data-skill-type="framework-engine">
+                        <span class="skill-icon">
+                            {{ if .iconSvg }}
+                              <img src="{{ .iconSvg }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                            {{ else }}
+                              <span class="tech-icon-emoji">{{ .icon }}</span>
                             {{ end }}
-                        {{ end }}
+                        </span>
+                        <span class="skill-name">{{ .name }}</span>
+                        <span class="skill-level">{{ .level }}</span>
                     </div>
-                </div>
+                    {{ end }}
                 {{ end }}
-            {{ end }}
-        {{ end }}
+            </div>
+        </div>
 
-        {{/* Specialties - données manuelles */}}
-        {{ with .Site.Data.specialties }}
-            {{ range . }}
-                {{ with .category }}
-                <div class="skills-category">
-                    <h4>{{ .title }}</h4>
-                    <div class="skills-grid">
-                        {{ range .skills }}
-                        <div class="skill-block">
-                            <span class="skill-icon">
-                                {{ if .iconSvg }}
-                                  <img src="{{ .iconSvg }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                                {{ else }}
-                                  <span class="tech-icon-emoji">{{ .icon }}</span>
-                                {{ end }}
-                            </span>
-                            <span class="skill-name">{{ .name }}</span>
-                            <span class="skill-level">{{ .level }}</span>
-                        </div>
+        {{/* Specialties - données directes */}}
+        <div class="skills-category">
+            <h4>{{ i18n "specialties" | default "Spécialités" }}</h4>
+            <div class="skills-grid">
+                {{ range .Site.Data.specialties }}
+                <div class="skill-block clickable" 
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconSvg }}{{ .iconSvg }}{{ else }}{{ .icon }}{{ end }}', '{{ .level }}', '{{ .experience }}', '{{ if .iconSvg }}svg{{ else }}emoji{{ end }}')"
+                     data-skill-name="{{ .name }}"
+                     data-skill-type="specialty">
+                    <span class="skill-icon">
+                        {{ if .iconSvg }}
+                          <img src="{{ .iconSvg }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                        {{ else }}
+                          <span class="tech-icon-emoji">{{ .icon }}</span>
                         {{ end }}
-                    </div>
+                    </span>
+                    <span class="skill-name">{{ .name }}</span>
+                    <span class="skill-level">{{ .level }}</span>
                 </div>
                 {{ end }}
-            {{ end }}
-        {{ end }}
+            </div>
+        </div>
 
-        {{/* Soft Skills - données manuelles */}}
-        {{ with .Site.Data.soft_skills }}
-            {{ range . }}
-                {{ with .category }}
-                <div class="skills-category">
-                    <h4>{{ .title }}</h4>
-                    <div class="skills-grid">
-                        {{ range .skills }}
-                        <div class="skill-block">
-                            <span class="skill-icon">
-                                {{ if .iconSvg }}
-                                  <img src="{{ .iconSvg }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                                {{ else }}
-                                  <span class="tech-icon-emoji">{{ .icon }}</span>
-                                {{ end }}
-                            </span>
-                            <span class="skill-name">{{ .name }}</span>
-                            <span class="skill-level">{{ .level }}</span>
-                        </div>
+        {{/* Soft Skills - données directes */}}
+        <div class="skills-category">
+            <h4>{{ i18n "soft_skills" | default "Soft Skills" }}</h4>
+            <div class="skills-grid">
+                {{ range .Site.Data.soft_skills }}
+                <div class="skill-block clickable" 
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconSvg }}{{ .iconSvg }}{{ else }}{{ .icon }}{{ end }}', '{{ .level }}', '{{ .experience }}', '{{ if .iconSvg }}svg{{ else }}emoji{{ end }}')"
+                     data-skill-name="{{ .name }}"
+                     data-skill-type="soft-skill">
+                    <span class="skill-icon">
+                        {{ if .iconSvg }}
+                          <img src="{{ .iconSvg }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                        {{ else }}
+                          <span class="tech-icon-emoji">{{ .icon }}</span>
                         {{ end }}
-                    </div>
+                    </span>
+                    <span class="skill-name">{{ .name }}</span>
+                    <span class="skill-level">{{ .level }}</span>
                 </div>
                 {{ end }}
-            {{ end }}
-        {{ end }}
+            </div>
+        </div>
 
     </div>
 </section>

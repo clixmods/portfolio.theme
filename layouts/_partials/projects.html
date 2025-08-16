@@ -14,7 +14,14 @@
     <!-- Technology Filter Badges -->
     <div class="tech-filters">
     <span class="tech-badge active" data-tech="all">{{ i18n "all" | default "Tous" }}</span>
-        {{ range sort .Site.Data.technologies "order" }}
+        {{/* Langages de programmation */}}
+        {{ range sort .Site.Data.programming_languages "order" }}
+            {{ if .enabled }}
+            <span class="tech-badge" data-tech="{{ .name }}" style='--tech-color: {{ .color | default "#666" }}'>{{ partial "tech-icon.html" . }} {{ .name }}</span>
+            {{ end }}
+        {{ end }}
+        {{/* Frameworks & Moteurs */}}
+        {{ range sort .Site.Data.frameworks_engines "order" }}
             {{ if .enabled }}
             <span class="tech-badge" data-tech="{{ .name }}" style='--tech-color: {{ .color | default "#666" }}'>{{ partial "tech-icon.html" . }} {{ .name }}</span>
             {{ end }}
@@ -36,7 +43,7 @@
              data-background-image="{{ .Params.background_image | default .Params.image }}"
              data-sector="games"
              data-category="games"
-             data-technologies='{{ delimit .Params.technologies "," }}'>
+             data-technologies='{{ partial "combined-technologies.html" . }}'>
             <!-- Image principale de la tuile -->
             <div class="ps5-tile-image">
                 <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}">
@@ -65,18 +72,7 @@
                     <p class="ps5-tile-description">{{ .Params.description }}</p>
                     
                     <!-- Technologies -->
-                    <div class="ps5-tile-tech">
-                        {{ $techCount := len .Params.technologies }}
-                        {{ range first 3 .Params.technologies }}
-                            {{ $techName := . }}
-                            {{ $found := false }}
-                            {{ range $.Site.Data.technologies }}
-                                {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
-                            {{ end }}
-                            {{ if not $found }}<span class="ps5-tile-tech-item">{{ $techName }}</span>{{ end }}
-                        {{ end }}
-                        {{ if gt $techCount 3 }}<span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>{{ end }}
-                    </div>
+                    {{ partial "project-technologies.html" . }}
                 </div>
                 
                 <!-- Meta informations -->
@@ -100,7 +96,7 @@
         <!-- Apps/Web Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
         {{ if and .Params.featured (eq .Params.sector "apps-web") }}
-        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="apps-web" data-category="apps-web" data-technologies='{{ delimit .Params.technologies "," }}' style="display:none;">
+        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="apps-web" data-category="apps-web" data-technologies='{{ partial "combined-technologies.html" . }}' style="display:none;">
             <!-- Image principale de la tuile -->
             <div class="ps5-tile-image">
                 <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}">
@@ -129,18 +125,7 @@
                     <p class="ps5-tile-description">{{ .Params.description }}</p>
                     
                     <!-- Technologies -->
-                    <div class="ps5-tile-tech">
-                        {{ $techCount := len .Params.technologies }}
-                        {{ range first 3 .Params.technologies }}
-                            {{ $techName := . }}
-                            {{ $found := false }}
-                            {{ range $.Site.Data.technologies }}
-                                {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
-                            {{ end }}
-                            {{ if not $found }}<span class="ps5-tile-tech-item">{{ $techName }}</span>{{ end }}
-                        {{ end }}
-                        {{ if gt $techCount 3 }}<span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>{{ end }}
-                    </div>
+                    {{ partial "project-technologies.html" . }}
                 </div>
                 
                 <!-- Meta informations -->
@@ -164,7 +149,7 @@
         <!-- Mods & Tools Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
         {{ if and .Params.featured (eq .Params.sector "mods-tools") }}
-        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="mods-tools" data-category="mods-tools" data-technologies='{{ delimit .Params.technologies "," }}' style="display:none;">
+        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="mods-tools" data-category="mods-tools" data-technologies='{{ partial "combined-technologies.html" . }}' style="display:none;">
             <!-- Image principale de la tuile -->
             <div class="ps5-tile-image">
                 <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}">
@@ -193,18 +178,7 @@
                     <p class="ps5-tile-description">{{ .Params.description }}</p>
                     
                     <!-- Technologies -->
-                    <div class="ps5-tile-tech">
-                        {{ $techCount := len .Params.technologies }}
-                        {{ range first 3 .Params.technologies }}
-                            {{ $techName := . }}
-                            {{ $found := false }}
-                            {{ range $.Site.Data.technologies }}
-                                {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
-                            {{ end }}
-                            {{ if not $found }}<span class="ps5-tile-tech-item">{{ $techName }}</span>{{ end }}
-                        {{ end }}
-                        {{ if gt $techCount 3 }}<span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>{{ end }}
-                    </div>
+                    {{ partial "project-technologies.html" . }}
                 </div>
                 
                 <!-- Meta informations -->

@@ -26,6 +26,9 @@
   <!-- Modal de contact globale -->
   {{ partial "contact-modal.html" . }}
   
+  <!-- Modal des compétences -->
+  {{ partial "skill-modal.html" . }}
+  
   <main>
     {{ block "main" . }}{{ end }}
   </main>
@@ -35,5 +38,11 @@
   
   <!-- Dock de navigation -->
   {{ partial "dock.html" . }}
+  
+  <!-- Scripts pour la modal des compétences -->
+  {{ $skillModalJs := resources.Get "js/skill-modal.js" }}
+  {{ if $skillModalJs }}
+    <script>{{ $skillModalJs.Content | safeJS }}</script>
+  {{ end }}
 </body>
 </html>

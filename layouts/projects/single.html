@@ -183,16 +183,7 @@
                         </div>
                         
                         <!-- Technologies Pills -->
-                        {{ if .Params.technologies }}
-                        <div class="project-technologies-bottom">
-                            <span class="tech-label-bottom">{{ i18n "technologies" | default "Technologies" }}</span>
-                            <div class="tech-pills-bottom">
-                                {{ range .Params.technologies }}
-                                <span class="tech-pill-bottom">{{ . }}</span>
-                                {{ end }}
-                            </div>
-                        </div>
-                        {{ end }}
+                        {{ partial "project-technologies-detailed.html" . }}
                     </div>
                 </div>
                 

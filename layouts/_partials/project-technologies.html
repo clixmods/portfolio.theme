@@ -1,0 +1,39 @@
+{{/* Partial pour afficher les technologies d'un projet */}}
+{{/* Combine programming_languages et frameworks_engines */}}
+{{ $allTech := slice }}
+
+{{/* Ajouter les langages de programmation */}}
+{{ with .Params.programming_languages }}
+    {{ $allTech = $allTech | append . }}
+{{ end }}
+
+{{/* Ajouter les frameworks et moteurs */}}
+{{ with .Params.frameworks_engines }}
+    {{ $allTech = $allTech | append . }}
+{{ end }}
+
+{{/* Dédupliquer */}}
+{{ $allTech = $allTech | uniq }}
+{{ $techCount := len $allTech }}
+
+<div class="ps5-tile-tech">
+    {{ range first 3 $allTech }}
+        {{ $techName := . }}
+        {{ $found := false }}
+        
+        {{/* Chercher dans programming_languages */}}
+        {{ range $.Site.Data.programming_languages }}
+            {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
+        {{ end }}
+        
+        {{/* Chercher dans frameworks_engines si pas trouvé */}}
+        {{ if not $found }}
+            {{ range $.Site.Data.frameworks_engines }}
+                {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
+            {{ end }}
+        {{ end }}
+        
+        {{ if not $found }}<span class="ps5-tile-tech-item">{{ $techName }}</span>{{ end }}
+    {{ end }}
+    {{ if gt $techCount 3 }}<span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>{{ end }}
+</div>
