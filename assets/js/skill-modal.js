@@ -110,8 +110,10 @@ function displayProjects(projects, skillName, projectsList) {
         return;
     }
     
-    // Générer le HTML pour les cartes de projets style PS5
-    const projectsHTML = relatedProjects.map(project => {
+    // Vider la liste et créer les éléments DOM proprement
+    projectsList.innerHTML = '';
+    
+    relatedProjects.forEach(project => {
         // S'assurer que les technologies sont un tableau pour l'affichage
         let technologies = project.technologies;
         if (typeof technologies === 'string') {
@@ -122,34 +124,178 @@ function displayProjects(projects, skillName, projectsList) {
             }
         }
         
-        return `
-        <div class="modal-project-card">
-            <div class="modal-project-image">
-                <img src="${project.background_image || project.image || '/images/placeholder-project.jpg'}" alt="${project.title}" loading="lazy">
-                <div class="modal-project-overlay"></div>
-            </div>
-            <div class="modal-project-content">
-                <h4 class="modal-project-title">${project.title}</h4>
-                <p class="modal-project-subtitle">${project.subtitle || project.description || 'Découvrez ce projet innovant et ses fonctionnalités.'}</p>
-                <div class="modal-project-tech">
-                    ${technologies.slice(0, 3).map(tech => `<span class="modal-project-tech-item">${tech}</span>`).join('')}
-                    ${technologies.length > 3 ? `<span class="modal-project-tech-item">+${technologies.length - 3}</span>` : ''}
-                </div>
-                <div class="modal-project-meta">
-                    <span class="modal-project-year">${project.year || new Date().getFullYear()}</span>
-                    ${project.url ? `<a href="${project.url}" class="modal-project-link">
-                        Voir le projet
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>` : ''}
-                </div>
-            </div>
-        </div>
-    `;
-    }).join('');
+        // Nettoyer le projet avant de l'utiliser
+        const cleanedProject = cleanProject(project);
+        
+        // Debug: afficher l'URL du projet nettoyée
+        console.log(`Projet "${cleanedProject.title}" - URL: "${cleanedProject.url}"`);
+        
+        // Créer l'élément principal de la tuile de projet
+        const projectTile = createProjectTile(cleanedProject, technologies);
+        projectsList.appendChild(projectTile);
+    });
+}
+
+// Fonction pour nettoyer les guillemets superflus des valeurs JSON
+function cleanJsonValue(value) {
+    if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+        return value.slice(1, -1); // Supprimer le premier et dernier caractère
+    }
+    return value;
+}
+
+// Fonction pour nettoyer un objet projet de tous ses guillemets superflus
+function cleanProject(project) {
+    const cleaned = {};
+    for (const [key, value] of Object.entries(project)) {
+        cleaned[key] = cleanJsonValue(value);
+    }
+    return cleaned;
+}
+
+// Fonction pour créer une tuile de projet avec des éléments DOM
+function createProjectTile(cleanedProject, technologies) {
+    console.log(`Création de la tuile pour:`, cleanedProject);
     
-    projectsList.innerHTML = projectsHTML;
+    // Conteneur principal
+    const projectTile = document.createElement('div');
+    projectTile.className = 'project-item modal-project-tile';
+    
+    // Icône de tuile
+    const tileIcon = document.createElement('div');
+    tileIcon.className = 'project-tile-icon';
+    tileIcon.textContent = '🎯';
+    projectTile.appendChild(tileIcon);
+    
+    // Conteneur de l'image
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'project-tile-image';
+    
+    const image = document.createElement('img');
+    image.src = cleanedProject.image || '/images/placeholder-project.jpg';
+    image.alt = cleanedProject.title;
+    image.loading = 'lazy';
+    image.onerror = function() {
+        this.src = '/images/placeholder-project.jpg';
+    };
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'project-tile-overlay';
+    
+    imageContainer.appendChild(image);
+    imageContainer.appendChild(overlay);
+    projectTile.appendChild(imageContainer);
+    
+    // Contenu par défaut (visible par défaut)
+    const defaultContent = document.createElement('div');
+    defaultContent.className = 'project-tile-content';
+    
+    const title = document.createElement('h6');
+    title.className = 'project-name';
+    title.textContent = cleanedProject.title;
+    
+    const description = document.createElement('p');
+    description.className = 'project-desc';
+    description.textContent = cleanedProject.subtitle || cleanedProject.description || 'Découvrez ce projet innovant et ses fonctionnalités.';
+    
+    defaultContent.appendChild(title);
+    defaultContent.appendChild(description);
+    projectTile.appendChild(defaultContent);
+    
+    // Informations détaillées (affichées au hover)
+    const detailedInfo = document.createElement('div');
+    detailedInfo.className = 'project-tile-info';
+    
+    const infoContent = document.createElement('div');
+    infoContent.className = 'project-tile-info-content';
+    
+    const detailTitle = document.createElement('h6');
+    detailTitle.className = 'project-name';
+    detailTitle.textContent = cleanedProject.title;
+    
+    const detailDescription = document.createElement('p');
+    detailDescription.className = 'project-detailed-desc';
+    detailDescription.textContent = cleanedProject.description || cleanedProject.subtitle || 'Découvrez ce projet innovant et ses fonctionnalités.';
+    
+    infoContent.appendChild(detailTitle);
+    infoContent.appendChild(detailDescription);
+    
+    // Technologies
+    if (technologies && technologies.length > 0) {
+        const techContainer = document.createElement('div');
+        techContainer.className = 'project-tile-tech';
+        
+        technologies.slice(0, 4).forEach(tech => {
+            const techItem = document.createElement('span');
+            techItem.className = 'project-tile-tech-item';
+            techItem.textContent = tech;
+            techContainer.appendChild(techItem);
+        });
+        
+        if (technologies.length > 4) {
+            const moreItem = document.createElement('span');
+            moreItem.className = 'project-tile-tech-item';
+            moreItem.textContent = `+${technologies.length - 4}`;
+            techContainer.appendChild(moreItem);
+        }
+        
+        infoContent.appendChild(techContainer);
+    }
+    
+    // Actions du projet
+    const actionsContainer = document.createElement('div');
+    actionsContainer.className = 'project-tile-actions';
+    
+    if (cleanedProject.url) {
+        const projectLink = document.createElement('a');
+        projectLink.href = cleanedProject.url;
+        projectLink.className = 'project-tile-btn';
+        projectLink.onclick = function(event) {
+            event.stopPropagation();
+        };
+        
+        // Créer le SVG
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('width', '12');
+        svg.setAttribute('height', '12');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('fill', 'currentColor');
+        
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z');
+        
+        svg.appendChild(path);
+        projectLink.appendChild(svg);
+        projectLink.appendChild(document.createTextNode(' Voir projet'));
+        
+        actionsContainer.appendChild(projectLink);
+    } else {
+        const confidentialSpan = document.createElement('span');
+        confidentialSpan.className = 'project-tile-btn';
+        confidentialSpan.style.opacity = '0.6';
+        
+        // Créer le SVG pour confidentiel
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('width', '12');
+        svg.setAttribute('height', '12');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('fill', 'currentColor');
+        
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.1V11.1C14.8,11.6 14.4,12 13.9,12H10.1C9.6,12 9.2,11.6 9.2,11.1V10.1C9.2,8.6 10.6,7 12,7Z');
+        
+        svg.appendChild(path);
+        confidentialSpan.appendChild(svg);
+        confidentialSpan.appendChild(document.createTextNode(' Confidentiel'));
+        
+        actionsContainer.appendChild(confidentialSpan);
+    }
+    
+    infoContent.appendChild(actionsContainer);
+    detailedInfo.appendChild(infoContent);
+    projectTile.appendChild(detailedInfo);
+    
+    return projectTile;
 }
 
 // Fermer la modal en cliquant sur Échap

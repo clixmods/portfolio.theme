@@ -38,23 +38,7 @@
 <script>
 window.portfolioProjects = [
     {{- range where .Site.RegularPages "Section" "projects" -}}
-        {{- $technologies := slice -}}
-        {{- if .Params.frameworks_engines -}}
-            {{- range .Params.frameworks_engines -}}
-                {{- $technologies = $technologies | append . -}}
-            {{- end -}}
-        {{- end -}}
-        {{- if .Params.programming_languages -}}
-            {{- range .Params.programming_languages -}}
-                {{- $technologies = $technologies | append . -}}
-            {{- end -}}
-        {{- end -}}
-        {{- if .Params.specialties -}}
-            {{- range .Params.specialties -}}
-                {{- $technologies = $technologies | append . -}}
-            {{- end -}}
-        {{- end -}}
-        {{- $technologies = $technologies | uniq -}}
+        {{- $allTechnologies := partial "get-all-technologies.html" . -}}
         
         {
             title: {{ .Title | jsonify }},
@@ -64,9 +48,13 @@ window.portfolioProjects = [
             image: {{ .Params.image | default "/images/placeholder-project.jpg" | jsonify }},
             background_image: {{ .Params.image | default "/images/placeholder-project.jpg" | jsonify }},
             year: {{ .Params.year | default (.Date.Format "2006") | jsonify }},
-            technologies: {{ $technologies | jsonify }},
+            technologies: {{ $allTechnologies | jsonify }},
             sector: {{ .Params.sector | jsonify }},
-            featured: {{ .Params.featured | default false }}
+            featured: {{ .Params.featured | default false }},
+            status: {{ .Params.status | jsonify }},
+            github: {{ .Params.github | jsonify }},
+            demo: {{ .Params.demo | jsonify }},
+            website: {{ .Params.website | jsonify }}
         },
     {{- end -}}
 ];
