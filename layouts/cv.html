@@ -1,7 +1,7 @@
 {{ define "main" }}
   {{/* CV Page - utilise les données de /data */}}
   {{ $profile := site.Data.profile }}
-  {{ $experiences := site.Data.experiences }}
+  {{ $experiences := (.Site.GetPage "/experiences").Pages.ByParam "start_date" }}
   {{ $educations := site.Data.educations }}
   {{ $specialties := site.Data.specialties }}
   {{ $softSkills := site.Data.soft_skills }}
@@ -155,15 +155,21 @@
             <h2>Expériences Pro.</h2>
             <ul class="cv-list">
               {{ range $i, $exp := first 1 $experiences }}
+                {{ $experienceData := partial "helpers/experience-data.html" $exp }}
                 <li class="cv-item">
                   <div class="cv-item-header">
-                    <strong>{{ $exp.title }}</strong> — <span>{{ $exp.company }}</span>
-                    <span class="cv-item-period">{{ $exp.period }}{{ with $exp.duration }} · {{ . }}{{ end }}</span>
+                    <strong>{{ $exp.Title }}</strong> — <span>{{ $exp.Params.company }}</span>
+                    <span class="cv-item-period">{{ $experienceData.period }}{{ with $experienceData.duration }} · {{ . }}{{ end }}</span>
                   </div>
-                  {{ with $exp.description }}<p class="cv-item-desc">{{ . | truncate 160 }}</p>{{ end }}
-                  {{ if and (eq $i 0) (gt (len $exp.projects) 0) }}
-                    {{ $pref := index $exp.projects 0 }}
-                    {{ $proj := $.Site.GetPage (printf "/projects/%s" $pref.project_ref) }}
+                  {{ with $exp.Params.description }}<p class="cv-item-desc">{{ . | truncate 160 }}</p>{{ end }}
+                  {{ if and (eq $i 0) (gt (len $exp.Params.projects) 0) }}
+                    {{ $pref := index $exp.Params.projects 0 }}
+                    {{ $proj := "" }}
+                    {{ if hasPrefix $pref.project_ref "/" }}
+                      {{ $proj = $.Site.GetPage $pref.project_ref }}
+                    {{ else }}
+                      {{ $proj = $.Site.GetPage (printf "/projects/%s" $pref.project_ref) }}
+                    {{ end }}
                     {{ with $proj }}
                       {{ $img := .Params.image }}
                       {{ if $img }}

@@ -12,35 +12,36 @@
 
     <!-- Experiences Timeline -->
     <div class="experience-timeline" id="experiences-timeline">
-        {{ range $index, $exp := .Site.Data.experiences }}
-        <div class="experience-card {{ if eq $exp.status "current" }}current{{ end }}">
+        {{ range $index, $exp := (.Site.GetPage "/experiences").Pages.ByParam "start_date" }}
+        {{ $experienceData := partial "helpers/experience-data.html" $exp }}
+        <div class="experience-card {{ if eq $experienceData.status "current" }}current{{ end }}">
             <div class="experience-header-card">
                 <div class="company-info">
                     <div class="company-logo">
-                        <img src="{{ $exp.logo }}" alt="{{ $exp.company }}" onerror="this.onerror=null;this.src='/images/placeholder-company.jpg'">
+                        <img src="{{ $exp.Params.logo }}" alt="{{ $exp.Params.company }}" onerror="this.onerror=null;this.src='/images/placeholder-company.jpg'">
                     </div>
                     <div class="company-details">
-                        <h3 class="job-title">{{ $exp.title }}</h3>
-                        <h4 class="company-name">{{ $exp.company }}</h4>
+                        <h3 class="job-title">{{ $exp.Title }}</h3>
+                        <h4 class="company-name">{{ $exp.Params.company }}</h4>
                         <div class="job-meta">
-                            <span class="job-period">{{ $exp.period }}</span>
-                            <span class="job-duration">{{ $exp.duration }}</span>
+                            <span class="job-period">{{ $experienceData.period }}</span>
+                            <span class="job-duration">{{ $experienceData.duration }}</span>
                         </div>
                         <div class="job-info">
-                            <span class="job-type">{{ $exp.type }}</span>
-                            <span class="job-location">📍 {{ $exp.location }}</span>
+                            <span class="job-type">{{ $exp.Params.type }}</span>
+                            <span class="job-location">📍 {{ $exp.Params.location }}</span>
                         </div>
                     </div>
                 </div>
-                {{ if eq $exp.status "current" }}
+                {{ if eq $experienceData.status "current" }}
                 <div class="current-badge">{{ i18n "in_progress" | default "En cours" }}</div>
                 {{ end }}
             </div>
 
             <div class="experience-content">
-                <p class="experience-description">{{ $exp.description }}</p>
+                <p class="experience-description">{{ $exp.Params.description }}</p>
 
-                {{ if $exp.projects }}
+                {{ if $exp.Params.projects }}
                 <div class="projects-section">
                     <div class="projects-header">
                         <h5>{{ i18n "main_projects" | default "Projets principaux :" }}</h5>
@@ -57,17 +58,24 @@
                             </button>
                         </div>
                     </div>
-                    {{ $layout := $exp.projects_layout | default "horizontal" }}
+                    {{ $layout := $exp.Params.projects_layout | default "horizontal" }}
                     <div class="projects-container projects-container-{{ $layout }}" data-default-layout="{{ $layout }}">
-                    {{ range $exp.projects }}
+                    {{ range $exp.Params.projects }}
                     <div class="project-item">
                         <!-- Project tile icon -->
                         <div class="project-tile-icon">🎯</div>
                         
                         {{/* Handle project references */}}
                         {{ if .project_ref }}
-                            {{/* Get project data from content */}}
-                            {{ $projectPage := $.Site.GetPage (printf "/projects/%s" .project_ref) }}
+                            {{/* Get project page - handle both slug and path formats */}}
+                            {{ $projectPage := "" }}
+                            {{ if hasPrefix .project_ref "/" }}
+                                {{/* It's a Hugo path like /projects/my-game-showcase/ */}}
+                                {{ $projectPage = $.Site.GetPage .project_ref }}
+                            {{ else }}
+                                {{/* It's just a slug like my-game-showcase */}}
+                                {{ $projectPage = $.Site.GetPage (printf "/projects/%s" .project_ref) }}
+                            {{ end }}
                             {{ if $projectPage }}
                                 <!-- Project image from referenced project -->
                                 <div class="project-tile-image">
@@ -191,11 +199,11 @@
                     {{ end }}
                     </div>
                 </div>
-                {{ else if $exp.tasks }}
+                {{ else if $exp.Params.tasks }}
                 <div class="tasks-section">
                     <h5>{{ i18n "responsibilities" | default "Responsabilités :" }}</h5>
                     <ul class="experience-tasks">
-                        {{ range $exp.tasks }}
+                        {{ range $exp.Params.tasks }}
                         <li>{{ . }}</li>
                         {{ end }}
                     </ul>
@@ -205,20 +213,42 @@
                 <div class="experience-skills">
                     <h5>{{ i18n "skills_developed" | default "Compétences développées :" }}</h5>
                     <div class="skills-tags">
-                        {{ range $exp.skills }}
+                        {{ range $exp.Params.programming_languages }}
+                        <span class="skill-tag">{{ . }}</span>
+                        {{ end }}
+                        {{ range $exp.Params.frameworks_engines }}
+                        <span class="skill-tag">{{ . }}</span>
+                        {{ end }}
+                        {{ range $exp.Params.specialties }}
                         <span class="skill-tag">{{ . }}</span>
                         {{ end }}
                     </div>
                 </div>
 
-                {{ if $exp.technologies }}
+                {{ $allTechnologies := slice }}
+                {{ if $exp.Params.programming_languages }}{{ $allTechnologies = $allTechnologies | append $exp.Params.programming_languages }}{{ end }}
+                {{ if $exp.Params.frameworks_engines }}{{ $allTechnologies = $allTechnologies | append $exp.Params.frameworks_engines }}{{ end }}
+                {{ if or $exp.Params.programming_languages $exp.Params.frameworks_engines }}
                 <div class="experience-technologies">
                     <h5>{{ i18n "technologies_used" | default "Technologies utilisées :" }}</h5>
                     <div class="tech-chips">
-                        {{ range $exp.technologies }}
+                        {{ range $exp.Params.programming_languages }}
                         {{ $techName := . }}
                         {{ $found := false }}
-                        {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}
+                        {{ range $.Site.Data.programming_languages }}
+                        {{ if eq .name $techName }}
+                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="tech-chip">{{ $techName }}</span>
+                        {{ end }}
+                        {{ end }}
+                        {{ range $exp.Params.frameworks_engines }}
+                        {{ $techName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.frameworks_engines }}
                         {{ if eq .name $techName }}
                         <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
                         {{ $found = true }}
