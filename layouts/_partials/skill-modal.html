@@ -6,42 +6,60 @@
             <button class="modal-close" onclick="closeSkillModal()">&times;</button>
         </div>
         
-        <div class="modal-body">
-            <div class="skill-info">
-                <div class="skill-icon-large">
-                    <span id="modalSkillIcon"></span>
-                </div>
-                <h2 id="modalSkillName"></h2>
-                <div class="skill-details">
-                    <div class="skill-detail-item">
-                        <span class="detail-label">Niveau</span>
-                        <span id="modalSkillLevel" class="detail-value"></span>
+        <div class="modal-body skill-modal-layout">
+            <!-- En-tête de la compétence -->
+            <div class="skill-info skill-modal-header-section">
+                <div class="skill-modal-header-left">
+                    <div class="skill-icon-large">
+                        <span id="modalSkillIcon"></span>
                     </div>
-                    <div class="skill-detail-item">
-                        <span class="detail-label">Expérience</span>
-                        <span id="modalSkillExperience" class="detail-value"></span>
+                    <div class="skill-modal-title-block">
+                        <h2 id="modalSkillName"></h2>
+                        <div class="skill-modal-chips">
+                            <span class="skill-modal-chip" id="modalSkillLevel"></span>
+                            <span class="skill-modal-chip secondary" id="modalSkillExperience"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-modal-header-right">
+                    <div class="skill-modal-quick-stats" id="skillModalQuickStats">
+                        <!-- Stats dynamiques (projets, expériences, formations) -->
                     </div>
                 </div>
             </div>
-            
-            <div class="projects-section">
-                <h3>💼 Projets utilisant cette technologie</h3>
-                <div id="modalProjectsList" class="modal-projects-grid">
-                    <!-- Les projets seront chargés dynamiquement depuis les données intégrées -->
-                </div>
+
+            <!-- Barre d'onglets -->
+            <div class="skill-modal-tabs" role="tablist">
+                <button class="skill-modal-tab active" role="tab" aria-selected="true" aria-controls="skillModalTabProjects" data-tab="projects">
+                    <span class="icon">💼</span><span>Projets</span>
+                    <span class="skill-modal-tab-count" id="skillModalProjectsCount"></span>
+                </button>
+                <button class="skill-modal-tab" role="tab" aria-selected="false" aria-controls="skillModalTabExperiences" data-tab="experiences">
+                    <span class="icon">🏢</span><span>Expériences</span>
+                    <span class="skill-modal-tab-count" id="skillModalExperiencesCount"></span>
+                </button>
+                <button class="skill-modal-tab" role="tab" aria-selected="false" aria-controls="skillModalTabEducations" data-tab="educations">
+                    <span class="icon">🎓</span><span>Formations</span>
+                    <span class="skill-modal-tab-count" id="skillModalEducationsCount"></span>
+                </button>
             </div>
-            
-            <div class="skill-modal-experiences-section">
-                <h3>🏢 Expériences professionnelles liées</h3>
-                <div id="modalExperiencesList" class="skill-modal-experiences-list">
-                    <!-- Les expériences seront chargées dynamiquement depuis les données intégrées -->
+
+            <!-- Panneaux -->
+            <div class="skill-modal-tab-panels">
+                <div class="skill-modal-tab-panel active" id="skillModalTabProjects" role="tabpanel" aria-labelledby="skillModalTabBtnProjects">
+                    <div id="modalProjectsList" class="modal-projects-grid" data-empty-text="Aucun projet trouvé pour cette technologie.">
+                        <!-- Projets -->
+                    </div>
                 </div>
-            </div>
-            
-            <div class="skill-modal-educations-section">
-                <h3>🎓 Formations liées</h3>
-                <div id="modalEducationsList" class="skill-modal-educations-list">
-                    <!-- Les formations seront chargées dynamiquement depuis les données intégrées -->
+                <div class="skill-modal-tab-panel" id="skillModalTabExperiences" role="tabpanel" aria-labelledby="skillModalTabBtnExperiences" hidden>
+                    <div id="modalExperiencesList" class="skill-modal-experiences-list" data-empty-text="Aucune expérience trouvée.">
+                        <!-- Expériences -->
+                    </div>
+                </div>
+                <div class="skill-modal-tab-panel" id="skillModalTabEducations" role="tabpanel" aria-labelledby="skillModalTabBtnEducations" hidden>
+                    <div id="modalEducationsList" class="skill-modal-educations-list" data-empty-text="Aucune formation trouvée.">
+                        <!-- Formations -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,4 +160,86 @@ window.portfolioEducations = [
         },
     {{- end -}}
 ];
+
+// Gestion des onglets & stats du skill modal
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('skillModal');
+    if (!modal) return;
+    const tabButtons = modal.querySelectorAll('.skill-modal-tab');
+    const tabPanels = modal.querySelectorAll('.skill-modal-tab-panel');
+    const counts = {
+        projects: document.getElementById('skillModalProjectsCount'),
+        experiences: document.getElementById('skillModalExperiencesCount'),
+        educations: document.getElementById('skillModalEducationsCount')
+    };
+    const quickStats = document.getElementById('skillModalQuickStats');
+
+    function activateTab(target) {
+        tabButtons.forEach(btn => {
+            const isActive = btn.dataset.tab === target;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+        tabPanels.forEach(panel => {
+            const shouldShow = panel.id === 'skillModalTab' + target.charAt(0).toUpperCase() + target.slice(1);
+            panel.classList.toggle('active', shouldShow);
+            if (shouldShow) {
+                panel.removeAttribute('hidden');
+            } else {
+                panel.setAttribute('hidden','hidden');
+            }
+        });
+    }
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+        btn.addEventListener('keydown', e => {
+            if (['ArrowRight','ArrowLeft'].includes(e.key)) {
+                e.preventDefault();
+                const arr = Array.from(tabButtons);
+                const idx = arr.indexOf(btn);
+                const next = e.key === 'ArrowRight' ? (idx + 1) % arr.length : (idx - 1 + arr.length) % arr.length;
+                arr[next].focus();
+            }
+        });
+    });
+
+    // Hook sur openSkillModal existant pour mettre à jour les stats
+    const originalOpen = window.openSkillModal;
+    if (typeof originalOpen === 'function') {
+        window.openSkillModal = function(name, icon, level, experience, iconType) {
+            originalOpen(name, icon, level, experience, iconType);
+            updateStats(name);
+            activateTab('projects');
+        };
+    }
+
+    function updateStats(skillName) {
+        const normalize = v => Array.isArray(v) ? v : (v ? [v] : []);
+        const hasSkill = (arr) => arr.some(t => t && (t === skillName || t.toLowerCase() === skillName.toLowerCase()));
+
+        const proj = (window.portfolioProjects||[]).filter(p => hasSkill(normalize(p.technologies||[])));
+        const exp = (window.portfolioExperiences||[]).filter(e => hasSkill(normalize(e.technologies||[])));
+        const edu = (window.portfolioEducations||[]).filter(ed => hasSkill(normalize(ed.technologies||[])));
+
+        if (counts.projects) counts.projects.textContent = proj.length > 0 ? proj.length : '0';
+        if (counts.experiences) counts.experiences.textContent = exp.length > 0 ? exp.length : '0';
+        if (counts.educations) counts.educations.textContent = edu.length > 0 ? edu.length : '0';
+
+        if (quickStats) {
+            quickStats.innerHTML = '';
+            const stats = [
+                { label: 'Projets', value: proj.length, icon: '💼'},
+                { label: 'Expériences', value: exp.length, icon: '🏢'},
+                { label: 'Formations', value: edu.length, icon: '🎓'}
+            ];
+            stats.forEach(s => {
+                const el = document.createElement('div');
+                el.className = 'skill-modal-stat-chip';
+                el.innerHTML = `<span class="icon">${s.icon}</span><span class="val">${s.value}</span><span class="lbl">${s.label}</span>`;
+                quickStats.appendChild(el);
+            });
+        }
+    }
+});
 </script>
