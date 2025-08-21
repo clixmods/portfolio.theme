@@ -24,6 +24,12 @@ function openSkillModal(name, icon, level, experience, iconType) {
     // Charger les projets associés
     loadProjectsForSkill(name);
     
+    // Charger les expériences professionnelles associées
+    loadExperiencesForSkill(name);
+    
+    // Charger les formations associées
+    loadEducationsForSkill(name);
+    
     // Afficher la modal
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden'; // Empêcher le scroll de la page
@@ -50,6 +56,40 @@ function loadProjectsForSkill(skillName) {
     } catch (error) {
         console.error('Erreur lors du chargement des projets:', error);
         projectsList.innerHTML = '<div class="no-projects">❌ Erreur lors du chargement des projets.<br/>Veuillez rafraîchir la page.</div>';
+    }
+}
+
+// Fonction pour charger les expériences professionnelles associées à une compétence/technologie
+function loadExperiencesForSkill(skillName) {
+    const experiencesList = document.getElementById('modalExperiencesList');
+    experiencesList.innerHTML = '<div class="loading">Chargement des expériences...</div>';
+    
+    try {
+        // Utiliser les données intégrées dans la page au lieu de faire une requête API
+        const experiences = window.portfolioExperiences || [];
+        console.log('Expériences récupérées depuis les données intégrées:', experiences.length);
+        console.log('Recherche d\'expériences pour la compétence:', skillName);
+        displayExperiences(experiences, skillName, experiencesList);
+    } catch (error) {
+        console.error('Erreur lors du chargement des expériences:', error);
+        experiencesList.innerHTML = '<div class="skill-modal-no-experiences">❌ Erreur lors du chargement des expériences.<br/>Veuillez rafraîchir la page.</div>';
+    }
+}
+
+// Fonction pour charger les formations associées à une compétence/technologie
+function loadEducationsForSkill(skillName) {
+    const educationsList = document.getElementById('modalEducationsList');
+    educationsList.innerHTML = '<div class="loading">Chargement des formations...</div>';
+    
+    try {
+        // Utiliser les données intégrées dans la page au lieu de faire une requête API
+        const educations = window.portfolioEducations || [];
+        console.log('Formations récupérées depuis les données intégrées:', educations.length);
+        console.log('Recherche de formations pour la compétence:', skillName);
+        displayEducations(educations, skillName, educationsList);
+    } catch (error) {
+        console.error('Erreur lors du chargement des formations:', error);
+        educationsList.innerHTML = '<div class="skill-modal-no-educations">❌ Erreur lors du chargement des formations.<br/>Veuillez rafraîchir la page.</div>';
     }
 }
 
@@ -134,6 +174,431 @@ function displayProjects(projects, skillName, projectsList) {
         const projectTile = createProjectTile(cleanedProject, technologies);
         projectsList.appendChild(projectTile);
     });
+}
+
+// Fonction pour afficher les expériences professionnelles filtrées
+function displayExperiences(experiences, skillName, experiencesList) {
+    console.log('=== DÉBUT DU FILTRAGE DES EXPÉRIENCES ===');
+    console.log('Filtrage des expériences pour:', skillName);
+    console.log('Expériences disponibles:', experiences.length);
+    
+    const relatedExperiences = experiences.filter(experience => {
+        console.log(`\nAnalyse de l'expérience: "${experience.title}" chez ${experience.company}`);
+        console.log(`Technologies de l'expérience:`, experience.technologies);
+        
+        let technologies = experience.technologies;
+        
+        // Si c'est une string, essayer de la parser en JSON
+        if (typeof technologies === 'string') {
+            try {
+                technologies = JSON.parse(technologies);
+                console.log(`Technologies après parsing:`, technologies);
+            } catch (e) {
+                console.log(`❌ Erreur de parsing JSON pour "${experience.title}":`, e.message);
+                return false;
+            }
+        }
+        
+        if (!technologies || !Array.isArray(technologies)) {
+            console.log(`❌ Expérience "${experience.title}" rejetée: technologies invalides ou manquantes`);
+            return false;
+        }
+        
+        // Recherche exacte et aussi recherche insensible à la casse
+        const hasSkill = technologies.some(tech => {
+            const exactMatch = tech === skillName;
+            const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
+            console.log(`  Comparaison: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
+            return exactMatch || caseInsensitiveMatch;
+        });
+        
+        if (hasSkill) {
+            console.log(`✅ Expérience "${experience.title}" ACCEPTÉE avec technologies:`, technologies);
+        } else {
+            console.log(`❌ Expérience "${experience.title}" rejetée: aucune technologie correspondante`);
+        }
+        return hasSkill;
+    });
+    
+    console.log('=== RÉSULTAT DU FILTRAGE DES EXPÉRIENCES ===');
+    console.log('Expériences filtrées trouvées:', relatedExperiences.length);
+    relatedExperiences.forEach(e => console.log(`- ${e.title} chez ${e.company}`));
+    
+    if (relatedExperiences.length === 0) {
+        experiencesList.innerHTML = '<div class="skill-modal-no-experiences">💼 Aucune expérience professionnelle trouvée pour cette technologie.<br/>Cette compétence a été développée dans un contexte personnel ou académique.</div>';
+        return;
+    }
+    
+    // Vider la liste et créer les éléments DOM proprement
+    experiencesList.innerHTML = '';
+    
+    relatedExperiences.forEach(experience => {
+        // S'assurer que les technologies sont un tableau pour l'affichage
+        let technologies = experience.technologies;
+        if (typeof technologies === 'string') {
+            try {
+                technologies = JSON.parse(technologies);
+            } catch (e) {
+                technologies = [];
+            }
+        }
+        
+        // Nettoyer l'expérience avant de l'utiliser
+        const cleanedExperience = cleanExperience(experience);
+        
+        // Debug: afficher l'URL de l'expérience nettoyée
+        console.log(`Expérience "${cleanedExperience.title}" - URL: "${cleanedExperience.url}"`);
+        
+        // Créer l'élément principal de l'expérience
+        const experienceItem = createExperienceItem(cleanedExperience, technologies);
+        experiencesList.appendChild(experienceItem);
+    });
+}
+
+// Fonction pour nettoyer un objet expérience de tous ses guillemets superflus
+function cleanExperience(experience) {
+    const cleaned = {};
+    for (const [key, value] of Object.entries(experience)) {
+        cleaned[key] = cleanJsonValue(value);
+    }
+    return cleaned;
+}
+
+// Fonction pour afficher les formations filtrées
+function displayEducations(educations, skillName, educationsList) {
+    console.log('=== DÉBUT DU FILTRAGE DES FORMATIONS ===');
+    console.log('Filtrage des formations pour:', skillName);
+    console.log('Formations disponibles:', educations.length);
+    
+    const relatedEducations = educations.filter(education => {
+        console.log(`\nAnalyse de la formation: "${education.title}" à ${education.institution}`);
+        console.log(`Technologies de la formation:`, education.technologies);
+        
+        let technologies = education.technologies;
+        
+        // Si c'est une string, essayer de la parser en JSON
+        if (typeof technologies === 'string') {
+            try {
+                technologies = JSON.parse(technologies);
+                console.log(`Technologies après parsing:`, technologies);
+            } catch (e) {
+                console.log(`❌ Erreur de parsing JSON pour "${education.title}":`, e.message);
+                return false;
+            }
+        }
+        
+        if (!technologies || !Array.isArray(technologies)) {
+            console.log(`❌ Formation "${education.title}" rejetée: technologies invalides ou manquantes`);
+            return false;
+        }
+        
+        // Recherche exacte et aussi recherche insensible à la casse
+        const hasSkill = technologies.some(tech => {
+            const exactMatch = tech === skillName;
+            const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
+            console.log(`  Comparaison: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
+            return exactMatch || caseInsensitiveMatch;
+        });
+        
+        if (hasSkill) {
+            console.log(`✅ Formation "${education.title}" ACCEPTÉE avec technologies:`, technologies);
+        } else {
+            console.log(`❌ Formation "${education.title}" rejetée: aucune technologie correspondante`);
+        }
+        return hasSkill;
+    });
+    
+    console.log('=== RÉSULTAT DU FILTRAGE DES FORMATIONS ===');
+    console.log('Formations filtrées trouvées:', relatedEducations.length);
+    relatedEducations.forEach(e => console.log(`- ${e.title} à ${e.institution}`));
+    
+    if (relatedEducations.length === 0) {
+        educationsList.innerHTML = '<div class="skill-modal-no-educations">🎓 Aucune formation trouvée pour cette technologie.<br/>Cette compétence a été développée de manière autodidacte ou professionnelle.</div>';
+        return;
+    }
+    
+    // Vider la liste et créer les éléments DOM proprement
+    educationsList.innerHTML = '';
+    
+    relatedEducations.forEach(education => {
+        // S'assurer que les technologies sont un tableau pour l'affichage
+        let technologies = education.technologies;
+        if (typeof technologies === 'string') {
+            try {
+                technologies = JSON.parse(technologies);
+            } catch (e) {
+                technologies = [];
+            }
+        }
+        
+        // Nettoyer la formation avant de l'utiliser
+        const cleanedEducation = cleanEducation(education);
+        
+        // Debug: afficher l'URL de la formation nettoyée
+        console.log(`Formation "${cleanedEducation.title}" - URL: "${cleanedEducation.url}"`);
+        
+        // Créer l'élément principal de la formation
+        const educationItem = createEducationItem(cleanedEducation, technologies);
+        educationsList.appendChild(educationItem);
+    });
+}
+
+// Fonction pour nettoyer un objet formation de tous ses guillemets superflus
+function cleanEducation(education) {
+    const cleaned = {};
+    for (const [key, value] of Object.entries(education)) {
+        cleaned[key] = cleanJsonValue(value);
+    }
+    return cleaned;
+}
+
+// Fonction pour créer un élément d'expérience professionnelle
+function createExperienceItem(cleanedExperience, technologies) {
+    console.log(`Création de l'élément expérience pour:`, cleanedExperience);
+    
+    // Conteneur principal
+    const experienceItem = document.createElement('div');
+    experienceItem.className = 'skill-modal-experience-item';
+    
+    // En-tête avec logo et informations principales
+    const header = document.createElement('div');
+    header.className = 'skill-modal-experience-header';
+    
+    // Logo de l'entreprise
+    if (cleanedExperience.logo) {
+        const logoContainer = document.createElement('div');
+        logoContainer.className = 'skill-modal-experience-logo';
+        
+        const logo = document.createElement('img');
+        logo.src = cleanedExperience.logo;
+        logo.alt = cleanedExperience.company;
+        logo.loading = 'lazy';
+        logo.onerror = function() {
+            this.style.display = 'none';
+            logoContainer.innerHTML = '<div class="skill-modal-experience-logo-placeholder">🏢</div>';
+        };
+        
+        logoContainer.appendChild(logo);
+        header.appendChild(logoContainer);
+    } else {
+        const logoPlaceholder = document.createElement('div');
+        logoPlaceholder.className = 'skill-modal-experience-logo';
+        logoPlaceholder.innerHTML = '<div class="skill-modal-experience-logo-placeholder">🏢</div>';
+        header.appendChild(logoPlaceholder);
+    }
+    
+    // Informations principales
+    const info = document.createElement('div');
+    info.className = 'skill-modal-experience-info';
+    
+    const title = document.createElement('h4');
+    title.className = 'skill-modal-experience-title';
+    title.textContent = cleanedExperience.title;
+    
+    const company = document.createElement('p');
+    company.className = 'skill-modal-experience-company';
+    company.textContent = cleanedExperience.company;
+    
+    const type = document.createElement('span');
+    type.className = 'skill-modal-experience-type';
+    type.textContent = cleanedExperience.type || 'Poste';
+    
+    const period = document.createElement('span');
+    period.className = 'skill-modal-experience-period';
+    
+    // Formater les dates
+    let periodText = '';
+    if (cleanedExperience.start_date) {
+        const startDate = new Date(cleanedExperience.start_date);
+        periodText = startDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+        
+        if (cleanedExperience.end_date) {
+            const endDate = new Date(cleanedExperience.end_date);
+            periodText += ' - ' + endDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+        } else {
+            periodText += ' - Présent';
+        }
+    }
+    period.textContent = periodText;
+    
+    info.appendChild(title);
+    info.appendChild(company);
+    info.appendChild(type);
+    info.appendChild(period);
+    
+    header.appendChild(info);
+    experienceItem.appendChild(header);
+    
+    // Description
+    if (cleanedExperience.description) {
+        const description = document.createElement('p');
+        description.className = 'skill-modal-experience-description';
+        description.textContent = cleanedExperience.description;
+        experienceItem.appendChild(description);
+    }
+    
+    // Technologies utilisées dans cette expérience
+    if (technologies && technologies.length > 0) {
+        const techContainer = document.createElement('div');
+        techContainer.className = 'skill-modal-experience-technologies';
+        
+        const techLabel = document.createElement('span');
+        techLabel.className = 'skill-modal-experience-tech-label';
+        techLabel.textContent = 'Technologies utilisées:';
+        techContainer.appendChild(techLabel);
+        
+        const techList = document.createElement('div');
+        techList.className = 'skill-modal-experience-tech-list';
+        
+        technologies.forEach(tech => {
+            const techItem = document.createElement('span');
+            techItem.className = 'skill-modal-experience-tech-item';
+            techItem.textContent = tech;
+            techList.appendChild(techItem);
+        });
+        
+        techContainer.appendChild(techList);
+        experienceItem.appendChild(techContainer);
+    }
+    
+    // Lien vers l'expérience détaillée
+    if (cleanedExperience.url) {
+        const linkContainer = document.createElement('div');
+        linkContainer.className = 'skill-modal-experience-actions';
+        
+        const experienceLink = document.createElement('a');
+        experienceLink.href = cleanedExperience.url;
+        experienceLink.className = 'skill-modal-experience-link';
+        experienceLink.textContent = '📄 Voir les détails';
+        
+        linkContainer.appendChild(experienceLink);
+        experienceItem.appendChild(linkContainer);
+    }
+    
+    return experienceItem;
+}
+
+// Fonction pour créer un élément de formation
+function createEducationItem(cleanedEducation, technologies) {
+    console.log(`Création de l'élément formation pour:`, cleanedEducation);
+    
+    // Conteneur principal
+    const educationItem = document.createElement('div');
+    educationItem.className = 'skill-modal-education-item';
+    
+    // En-tête avec icône et informations principales
+    const header = document.createElement('div');
+    header.className = 'skill-modal-education-header';
+    
+    // Icône de la formation
+    const iconContainer = document.createElement('div');
+    iconContainer.className = 'skill-modal-education-icon';
+    
+    if (cleanedEducation.icon) {
+        iconContainer.innerHTML = `<span class="skill-modal-education-icon-emoji">${cleanedEducation.icon}</span>`;
+    } else {
+        iconContainer.innerHTML = '<span class="skill-modal-education-icon-placeholder">🎓</span>';
+    }
+    
+    // Si une couleur est définie, l'appliquer comme bordure
+    if (cleanedEducation.color) {
+        iconContainer.style.borderColor = cleanedEducation.color;
+        iconContainer.style.boxShadow = `0 0 10px ${cleanedEducation.color}33`;
+    }
+    
+    header.appendChild(iconContainer);
+    
+    // Informations principales
+    const info = document.createElement('div');
+    info.className = 'skill-modal-education-info';
+    
+    const title = document.createElement('h4');
+    title.className = 'skill-modal-education-title';
+    title.textContent = cleanedEducation.title;
+    
+    const institution = document.createElement('p');
+    institution.className = 'skill-modal-education-institution';
+    let institutionText = cleanedEducation.institution;
+    if (cleanedEducation.city) {
+        institutionText += ` - ${cleanedEducation.city}`;
+    }
+    institution.textContent = institutionText;
+    
+    const status = document.createElement('span');
+    status.className = 'skill-modal-education-status';
+    status.textContent = cleanedEducation.status || cleanedEducation.grade || 'Formation';
+    
+    const period = document.createElement('span');
+    period.className = 'skill-modal-education-period';
+    
+    // Formater les dates
+    let periodText = '';
+    if (cleanedEducation.start_date) {
+        const startDate = new Date(cleanedEducation.start_date);
+        periodText = startDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+        
+        if (cleanedEducation.end_date) {
+            const endDate = new Date(cleanedEducation.end_date);
+            periodText += ' - ' + endDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+        }
+    }
+    period.textContent = periodText;
+    
+    info.appendChild(title);
+    info.appendChild(institution);
+    info.appendChild(status);
+    info.appendChild(period);
+    
+    header.appendChild(info);
+    educationItem.appendChild(header);
+    
+    // Description
+    if (cleanedEducation.description) {
+        const description = document.createElement('p');
+        description.className = 'skill-modal-education-description';
+        description.textContent = cleanedEducation.description;
+        educationItem.appendChild(description);
+    }
+    
+    // Technologies utilisées dans cette formation
+    if (technologies && technologies.length > 0) {
+        const techContainer = document.createElement('div');
+        techContainer.className = 'skill-modal-education-technologies';
+        
+        const techLabel = document.createElement('span');
+        techLabel.className = 'skill-modal-education-tech-label';
+        techLabel.textContent = 'Technologies étudiées:';
+        techContainer.appendChild(techLabel);
+        
+        const techList = document.createElement('div');
+        techList.className = 'skill-modal-education-tech-list';
+        
+        technologies.forEach(tech => {
+            const techItem = document.createElement('span');
+            techItem.className = 'skill-modal-education-tech-item';
+            techItem.textContent = tech;
+            techList.appendChild(techItem);
+        });
+        
+        techContainer.appendChild(techList);
+        educationItem.appendChild(techContainer);
+    }
+    
+    // Lien vers la formation détaillée
+    if (cleanedEducation.url) {
+        const linkContainer = document.createElement('div');
+        linkContainer.className = 'skill-modal-education-actions';
+        
+        const educationLink = document.createElement('a');
+        educationLink.href = cleanedEducation.url;
+        educationLink.className = 'skill-modal-education-link';
+        educationLink.textContent = '📚 Voir les détails';
+        
+        linkContainer.appendChild(educationLink);
+        educationItem.appendChild(linkContainer);
+    }
+    
+    return educationItem;
 }
 
 // Fonction pour nettoyer les guillemets superflus des valeurs JSON
@@ -330,6 +795,38 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Données des projets normalisées!');
     }
     
+    // Normaliser les données des expériences pour s'assurer que les technologies sont des tableaux
+    if (window.portfolioExperiences && Array.isArray(window.portfolioExperiences)) {
+        window.portfolioExperiences = window.portfolioExperiences.map(experience => {
+            if (experience.technologies && typeof experience.technologies === 'string') {
+                try {
+                    experience.technologies = JSON.parse(experience.technologies);
+                } catch (e) {
+                    console.error(`Erreur lors du parsing des technologies pour ${experience.title}:`, e);
+                    experience.technologies = [];
+                }
+            }
+            return experience;
+        });
+        console.log('Données des expériences normalisées!');
+    }
+    
+    // Normaliser les données des formations pour s'assurer que les technologies sont des tableaux
+    if (window.portfolioEducations && Array.isArray(window.portfolioEducations)) {
+        window.portfolioEducations = window.portfolioEducations.map(education => {
+            if (education.technologies && typeof education.technologies === 'string') {
+                try {
+                    education.technologies = JSON.parse(education.technologies);
+                } catch (e) {
+                    console.error(`Erreur lors du parsing des technologies pour ${education.title}:`, e);
+                    education.technologies = [];
+                }
+            }
+            return education;
+        });
+        console.log('Données des formations normalisées!');
+    }
+    
     // Déboguer les données des projets chargées
     console.log('Données des projets chargées:', window.portfolioProjects?.length || 0);
     if (window.portfolioProjects?.length > 0) {
@@ -376,5 +873,59 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.log('Stone Keeper 2 NON trouvé dans les données');
         }
+    }
+    
+    // Déboguer les données des expériences chargées
+    console.log('Données des expériences chargées:', window.portfolioExperiences?.length || 0);
+    if (window.portfolioExperiences?.length > 0) {
+        console.log('Première expérience exemple:', window.portfolioExperiences[0]);
+        
+        // Afficher TOUTES les expériences avec leurs technologies
+        console.log('=== LISTE COMPLÈTE DES EXPÉRIENCES ET LEURS TECHNOLOGIES ===');
+        window.portfolioExperiences.forEach((experience, index) => {
+            console.log(`${index + 1}. ${experience.title} chez ${experience.company}:`);
+            console.log(`   Technologies RAW:`, experience.technologies);
+            console.log(`   Type de technologies:`, typeof experience.technologies);
+            console.log(`   Est un tableau:`, Array.isArray(experience.technologies));
+            
+            if (Array.isArray(experience.technologies)) {
+                console.log(`   Nombre d'éléments:`, experience.technologies.length);
+                experience.technologies.forEach((tech, techIndex) => {
+                    console.log(`     ${techIndex + 1}. "${tech}" (type: ${typeof tech})`);
+                });
+            }
+            console.log('   ---');
+        });
+        
+        console.log('Technologies d\'expériences disponibles:', 
+            [...new Set(window.portfolioExperiences.flatMap(e => e.technologies || []))].sort()
+        );
+    }
+    
+    // Déboguer les données des formations chargées
+    console.log('Données des formations chargées:', window.portfolioEducations?.length || 0);
+    if (window.portfolioEducations?.length > 0) {
+        console.log('Première formation exemple:', window.portfolioEducations[0]);
+        
+        // Afficher TOUTES les formations avec leurs technologies
+        console.log('=== LISTE COMPLÈTE DES FORMATIONS ET LEURS TECHNOLOGIES ===');
+        window.portfolioEducations.forEach((education, index) => {
+            console.log(`${index + 1}. ${education.title} à ${education.institution}:`);
+            console.log(`   Technologies RAW:`, education.technologies);
+            console.log(`   Type de technologies:`, typeof education.technologies);
+            console.log(`   Est un tableau:`, Array.isArray(education.technologies));
+            
+            if (Array.isArray(education.technologies)) {
+                console.log(`   Nombre d'éléments:`, education.technologies.length);
+                education.technologies.forEach((tech, techIndex) => {
+                    console.log(`     ${techIndex + 1}. "${tech}" (type: ${typeof tech})`);
+                });
+            }
+            console.log('   ---');
+        });
+        
+        console.log('Technologies de formations disponibles:', 
+            [...new Set(window.portfolioEducations.flatMap(e => e.technologies || []))].sort()
+        );
     }
 });

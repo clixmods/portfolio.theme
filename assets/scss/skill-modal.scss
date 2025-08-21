@@ -582,3 +582,591 @@
     transform: translateY(-2px) scale(1.02);
     box-shadow: var(--shadow-hover);
 }
+
+/* Styles pour la section des expériences professionnelles */
+.skill-modal-experiences-section {
+    padding: 0 24px 24px;
+    flex-shrink: 0;
+}
+
+.skill-modal-experiences-section h3 {
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-left: 4px;
+    text-align: left;
+}
+
+.skill-modal-experiences-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.skill-modal-experiences-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.skill-modal-experiences-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.skill-modal-experiences-list::-webkit-scrollbar-thumb {
+    background: var(--gradient-blue);
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.skill-modal-experiences-list::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color-dark);
+}
+
+/* Styles pour chaque expérience */
+.skill-modal-experience-item {
+    background: var(--glass-bg-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    padding: 16px;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-glass);
+}
+
+.skill-modal-experience-item:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--glass-border-lighter);
+}
+
+.skill-modal-experience-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.skill-modal-experience-logo {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-modal-experience-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.skill-modal-experience-logo-placeholder {
+    font-size: 20px;
+    color: var(--text-muted);
+}
+
+.skill-modal-experience-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.skill-modal-experience-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+}
+
+.skill-modal-experience-company {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0 0 6px 0;
+    font-weight: 500;
+}
+
+.skill-modal-experience-type,
+.skill-modal-experience-period {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: inline-block;
+}
+
+.skill-modal-experience-type::after {
+    content: ' • ';
+    margin: 0 4px;
+    color: var(--text-muted);
+}
+
+.skill-modal-experience-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 8px 0 12px 0;
+}
+
+.skill-modal-experience-technologies {
+    margin: 12px 0;
+}
+
+.skill-modal-experience-tech-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.skill-modal-experience-tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skill-modal-experience-tech-item {
+    background: var(--glass-bg);
+    color: var(--text-primary);
+    padding: 4px 8px;
+    border-radius: var(--border-radius-sm);
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid var(--glass-border);
+    transition: all 0.2s ease;
+}
+
+.skill-modal-experience-tech-item:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-lighter);
+    transform: scale(1.05);
+}
+
+.skill-modal-experience-actions {
+    margin-top: 12px;
+}
+
+.skill-modal-experience-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.skill-modal-experience-link:hover {
+    color: var(--primary-color-light);
+    text-decoration: underline;
+}
+
+/* États de chargement et d'erreur pour les expériences */
+.skill-modal-no-experiences {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 14px;
+    background: var(--glass-bg-light);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+}
+
+/* Styles pour la section des formations */
+.skill-modal-educations-section {
+    padding: 0 24px 24px;
+    flex-shrink: 0;
+}
+
+.skill-modal-educations-section h3 {
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-left: 4px;
+    text-align: left;
+}
+
+.skill-modal-educations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.skill-modal-educations-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.skill-modal-educations-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.skill-modal-educations-list::-webkit-scrollbar-thumb {
+    background: var(--gradient-blue);
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.skill-modal-educations-list::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color-dark);
+}
+
+/* Styles pour chaque formation */
+.skill-modal-education-item {
+    background: var(--glass-bg-light);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    padding: 16px;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-glass);
+}
+
+.skill-modal-education-item:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--glass-border-lighter);
+}
+
+.skill-modal-education-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.skill-modal-education-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: var(--border-radius-sm);
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.skill-modal-education-icon-emoji {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.skill-modal-education-icon-placeholder {
+    font-size: 20px;
+    color: var(--text-muted);
+}
+
+.skill-modal-education-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.skill-modal-education-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+}
+
+.skill-modal-education-institution {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0 0 6px 0;
+    font-weight: 500;
+}
+
+.skill-modal-education-status,
+.skill-modal-education-period {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: inline-block;
+}
+
+.skill-modal-education-status::after {
+    content: ' • ';
+    margin: 0 4px;
+    color: var(--text-muted);
+}
+
+.skill-modal-education-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 8px 0 12px 0;
+}
+
+.skill-modal-education-technologies {
+    margin: 12px 0;
+}
+
+.skill-modal-education-tech-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.skill-modal-education-tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skill-modal-education-tech-item {
+    background: var(--glass-bg);
+    color: var(--text-primary);
+    padding: 4px 8px;
+    border-radius: var(--border-radius-sm);
+    font-size: 11px;
+    font-weight: 500;
+    border: 1px solid var(--glass-border);
+    transition: all 0.2s ease;
+}
+
+.skill-modal-education-tech-item:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-lighter);
+    transform: scale(1.05);
+}
+
+.skill-modal-education-actions {
+    margin-top: 12px;
+}
+
+.skill-modal-education-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.skill-modal-education-link:hover {
+    color: var(--primary-color-light);
+    text-decoration: underline;
+}
+
+/* États de chargement et d'erreur pour les formations */
+.skill-modal-no-educations {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 14px;
+    background: var(--glass-bg-light);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+}
+
+/* Responsive pour les expériences */
+@media (max-width: 768px) {
+    .skill-modal-experiences-section {
+        padding: 0 16px 16px;
+    }
+    
+    .skill-modal-experiences-section h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+    
+    .skill-modal-experiences-list {
+        gap: 12px;
+        max-height: 150px;
+    }
+    
+    .skill-modal-experience-item {
+        padding: 12px;
+    }
+    
+    .skill-modal-experience-header {
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .skill-modal-experience-logo {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .skill-modal-experience-logo-placeholder {
+        font-size: 16px;
+    }
+    
+    .skill-modal-experience-title {
+        font-size: 15px;
+    }
+    
+    .skill-modal-experience-company {
+        font-size: 13px;
+    }
+    
+    .skill-modal-experience-type,
+    .skill-modal-experience-period {
+        font-size: 11px;
+    }
+    
+    .skill-modal-experience-description {
+        font-size: 13px;
+        margin: 6px 0 10px 0;
+    }
+    
+    .skill-modal-educations-section {
+        padding: 0 16px 16px;
+    }
+    
+    .skill-modal-educations-section h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+    
+    .skill-modal-educations-list {
+        gap: 12px;
+        max-height: 150px;
+    }
+    
+    .skill-modal-education-item {
+        padding: 12px;
+    }
+    
+    .skill-modal-education-header {
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .skill-modal-education-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .skill-modal-education-icon-emoji {
+        font-size: 20px;
+    }
+    
+    .skill-modal-education-title {
+        font-size: 15px;
+    }
+    
+    .skill-modal-education-institution {
+        font-size: 13px;
+    }
+    
+    .skill-modal-education-status,
+    .skill-modal-education-period {
+        font-size: 11px;
+    }
+    
+    .skill-modal-education-description {
+        font-size: 13px;
+        margin: 6px 0 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .skill-modal-experiences-section {
+        padding: 0 12px 12px;
+    }
+    
+    .skill-modal-experiences-section h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    
+    .skill-modal-experiences-list {
+        gap: 10px;
+        max-height: 120px;
+    }
+    
+    .skill-modal-experience-item {
+        padding: 10px;
+    }
+    
+    .skill-modal-experience-header {
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    
+    .skill-modal-experience-logo {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .skill-modal-experience-title {
+        font-size: 14px;
+    }
+    
+    .skill-modal-experience-company {
+        font-size: 12px;
+    }
+    
+    .skill-modal-experience-description {
+        font-size: 12px;
+        margin: 4px 0 8px 0;
+    }
+    
+    .skill-modal-educations-section {
+        padding: 0 12px 12px;
+    }
+    
+    .skill-modal-educations-section h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    
+    .skill-modal-educations-list {
+        gap: 10px;
+        max-height: 120px;
+    }
+    
+    .skill-modal-education-item {
+        padding: 10px;
+    }
+    
+    .skill-modal-education-header {
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    
+    .skill-modal-education-icon {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .skill-modal-education-icon-emoji {
+        font-size: 18px;
+    }
+    
+    .skill-modal-education-title {
+        font-size: 14px;
+    }
+    
+    .skill-modal-education-institution {
+        font-size: 12px;
+    }
+    
+    .skill-modal-education-description {
+        font-size: 12px;
+        margin: 4px 0 8px 0;
+    }
+}

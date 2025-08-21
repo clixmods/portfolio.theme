@@ -30,6 +30,20 @@
                     <!-- Les projets seront chargés dynamiquement depuis les données intégrées -->
                 </div>
             </div>
+            
+            <div class="skill-modal-experiences-section">
+                <h3>🏢 Expériences professionnelles liées</h3>
+                <div id="modalExperiencesList" class="skill-modal-experiences-list">
+                    <!-- Les expériences seront chargées dynamiquement depuis les données intégrées -->
+                </div>
+            </div>
+            
+            <div class="skill-modal-educations-section">
+                <h3>🎓 Formations liées</h3>
+                <div id="modalEducationsList" class="skill-modal-educations-list">
+                    <!-- Les formations seront chargées dynamiquement depuis les données intégrées -->
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -55,6 +69,76 @@ window.portfolioProjects = [
             github: {{ .Params.github | jsonify }},
             demo: {{ .Params.demo | jsonify }},
             website: {{ .Params.website | jsonify }}
+        },
+    {{- end -}}
+];
+
+window.portfolioExperiences = [
+    {{- range where .Site.RegularPages "Section" "experiences" -}}
+        {{- $allTechnologies := slice -}}
+        {{- if .Params.programming_languages -}}
+            {{- $allTechnologies = $allTechnologies | append .Params.programming_languages -}}
+        {{- end -}}
+        {{- if .Params.frameworks_engines -}}
+            {{- $allTechnologies = $allTechnologies | append .Params.frameworks_engines -}}
+        {{- end -}}
+        {{- if .Params.specialties -}}
+            {{- $allTechnologies = $allTechnologies | append .Params.specialties -}}
+        {{- end -}}
+        {{- $allTechnologies = $allTechnologies | uniq -}}
+        
+        {
+            title: {{ .Title | jsonify }},
+            company: {{ .Params.company | jsonify }},
+            logo: {{ .Params.logo | jsonify }},
+            start_date: {{ .Params.start_date | jsonify }},
+            end_date: {{ .Params.end_date | jsonify }},
+            type: {{ .Params.type | jsonify }},
+            location: {{ .Params.location | jsonify }},
+            description: {{ .Params.description | jsonify }},
+            url: {{ .RelPermalink | jsonify }},
+            technologies: {{ $allTechnologies | jsonify }},
+            programming_languages: {{ .Params.programming_languages | jsonify }},
+            frameworks_engines: {{ .Params.frameworks_engines | jsonify }},
+            specialties: {{ .Params.specialties | jsonify }}
+        },
+    {{- end -}}
+];
+
+window.portfolioEducations = [
+    {{- range where .Site.RegularPages "Section" "educations" -}}
+        {{- $allTechnologies := slice -}}
+        {{- if .Params.programming_languages -}}
+            {{- $allTechnologies = $allTechnologies | append .Params.programming_languages -}}
+        {{- end -}}
+        {{- if .Params.frameworks_engines -}}
+            {{- $allTechnologies = $allTechnologies | append .Params.frameworks_engines -}}
+        {{- end -}}
+        {{- if .Params.specialties -}}
+            {{- $allTechnologies = $allTechnologies | append .Params.specialties -}}
+        {{- end -}}
+        {{- if .Params.soft_skills -}}
+            {{- $allTechnologies = $allTechnologies | append .Params.soft_skills -}}
+        {{- end -}}
+        {{- $allTechnologies = $allTechnologies | uniq -}}
+        
+        {
+            title: {{ .Title | jsonify }},
+            institution: {{ .Params.institution | jsonify }},
+            city: {{ .Params.city | jsonify }},
+            start_date: {{ .Params.start_date | jsonify }},
+            end_date: {{ .Params.end_date | jsonify }},
+            status: {{ .Params.status | jsonify }},
+            grade: {{ .Params.grade | jsonify }},
+            description: {{ .Params.description | jsonify }},
+            url: {{ .RelPermalink | jsonify }},
+            icon: {{ .Params.icon | jsonify }},
+            color: {{ .Params.color | jsonify }},
+            technologies: {{ $allTechnologies | jsonify }},
+            programming_languages: {{ .Params.programming_languages | jsonify }},
+            frameworks_engines: {{ .Params.frameworks_engines | jsonify }},
+            specialties: {{ .Params.specialties | jsonify }},
+            soft_skills: {{ .Params.soft_skills | jsonify }}
         },
     {{- end -}}
 ];
