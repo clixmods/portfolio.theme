@@ -1,16 +1,16 @@
 {{/* Modal pour afficher les détails d'une compétence/technologie - Design Glassmorphism */}}
 <div id="skillModal" class="skill-modal" style="display: none;">
-    <div class="modal-backdrop" onclick="closeSkillModal()"></div>
-    <div class="modal-content">
-        <div class="modal-header">
-            <button class="modal-close" onclick="closeSkillModal()">&times;</button>
+    <div class="skill-modal-backdrop" onclick="closeSkillModal()"></div>
+    <div class="skill-modal-content">
+        <div class="skill-modal-header">
+            <button class="skill-modal-close" onclick="closeSkillModal()">&times;</button>
         </div>
         
-        <div class="modal-body skill-modal-layout">
+        <div class="skill-modal-body skill-modal-layout">
             <!-- En-tête de la compétence -->
             <div class="skill-info skill-modal-header-section">
                 <div class="skill-modal-header-left">
-                    <div class="skill-icon-large">
+                                    <div class="skill-modal-skill-icon-large" id="skillIconLarge">
                         <span id="modalSkillIcon"></span>
                     </div>
                     <div class="skill-modal-title-block">
@@ -47,7 +47,7 @@
             <!-- Panneaux -->
             <div class="skill-modal-tab-panels">
                 <div class="skill-modal-tab-panel active" id="skillModalTabProjects" role="tabpanel" aria-labelledby="skillModalTabBtnProjects">
-                    <div id="modalProjectsList" class="modal-projects-grid" data-empty-text="Aucun projet trouvé pour cette technologie.">
+                    <div id="modalProjectsList" class="skill-modal-projects-grid" data-empty-text="Aucun projet trouvé pour cette technologie.">
                         <!-- Projets -->
                     </div>
                 </div>

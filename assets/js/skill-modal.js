@@ -16,9 +16,9 @@ function openSkillModal(name, icon, level, experience, iconType) {
     
     // Gérer l'icône
     if (iconType === 'svg') {
-        modalIcon.innerHTML = `<img src="${icon}" alt="${name}" class="modal-tech-icon-svg" width="48" height="48">`;
+        modalIcon.innerHTML = `<img src="${icon}" alt="${name}" class="skill-modal-tech-icon-svg" width="48" height="48">`;
     } else {
-        modalIcon.innerHTML = `<span class="modal-tech-icon-emoji">${icon}</span>`;
+        modalIcon.innerHTML = `<span class="skill-modal-tech-icon-emoji">${icon}</span>`;
     }
     
     // Charger les projets associés
@@ -624,7 +624,7 @@ function createProjectTile(cleanedProject, technologies) {
     
     // Conteneur principal
     const projectTile = document.createElement('div');
-    projectTile.className = 'project-item modal-project-tile';
+    projectTile.className = 'project-item skill-modal-project-tile';
     
     // Icône de tuile
     const tileIcon = document.createElement('div');
