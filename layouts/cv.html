@@ -2,7 +2,7 @@
   {{/* CV Page - utilise les données de /data */}}
   {{ $profile := site.Data.profile }}
   {{ $experiences := (.Site.GetPage "/experiences").Pages.ByParam "start_date" }}
-  {{ $educations := site.Data.educations }}
+  {{ $educations := (where (.Site.GetPage "/educations").Pages "File.BaseFileName" "!=" "_index") }}
   {{ $specialties := site.Data.specialties }}
   {{ $softSkills := site.Data.soft_skills }}
   {{ $programmingLanguages := site.Data.programming_languages }}
@@ -105,11 +105,20 @@
           <section class="cv-section">
             <h2>Formations</h2>
             <ul class="cv-list">
-      {{ range first 2 $educations }}
+      {{ range first 2 (sort $educations "Params.start_date" "desc") }}
                 <li class="cv-item">
                   <div class="cv-item-header">
-                    <strong>{{ .title }}</strong> — <span>{{ .institution }}</span>
-                    <span class="cv-item-period">{{ .period }}</span>
+                    <strong>{{ .Title }}</strong> — <span>{{ .Params.institution }}{{ if .Params.city }}, {{ .Params.city }}{{ end }}</span>
+                    <span class="cv-item-period">
+                      {{ if .Params.start_date }}
+                        {{ dateFormat "2006" .Params.start_date }} - 
+                        {{ if .Params.end_date }}
+                          {{ dateFormat "2006" .Params.end_date }}
+                        {{ else }}
+                          Présent
+                        {{ end }}
+                      {{ end }}
+                    </span>
                   </div>
                 </li>
               {{ end }}

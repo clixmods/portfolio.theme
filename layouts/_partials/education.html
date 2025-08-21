@@ -14,35 +14,53 @@
     <div class="timeline-container" id="education-timeline">
         <div class="timeline-line"></div>
         
-        {{ range $index, $edu := .Site.Data.educations }}
+        {{ range where .Site.RegularPages "Section" "educations" }}
+        {{ if ne .File.BaseFileName "_index" }}
         <div class="timeline-item education-item" data-category="education">
-            <div class="timeline-marker" style="background-color: {{ $edu.color }};">
-                <span class="timeline-icon">{{ $edu.icon }}</span>
+            <div class="timeline-marker" style="background-color: {{ .Params.color }};">
+                <span class="timeline-icon">{{ .Params.icon }}</span>
             </div>
             
             <div class="timeline-content">
                 <div class="timeline-card">
                     <div class="timeline-header">
-                        <div class="timeline-period">{{ $edu.period }}</div>
-                        <div class="timeline-status status-{{ lower $edu.status }}">{{ $edu.status }}</div>
+                        <div class="timeline-period">
+                            {{ if .Params.start_date }}
+                                {{ dateFormat "2006" .Params.start_date }} - 
+                                {{ if .Params.end_date }}
+                                    {{ dateFormat "2006" .Params.end_date }}
+                                {{ else }}
+                                    {{ i18n "present" | default "Présent" }}
+                                {{ end }}
+                            {{ end }}
+                        </div>
+                        <div class="timeline-status status-{{ lower .Params.status }}">{{ .Params.status }}</div>
                     </div>
                     
-                    <h3 class="timeline-title">{{ $edu.title }}</h3>
-                    <h4 class="timeline-institution">{{ $edu.institution }}</h4>
-                    <div class="timeline-location">📍 {{ $edu.location }}</div>
+                    <h3 class="timeline-title">{{ .Title }}</h3>
+                    <h4 class="timeline-institution">{{ .Params.institution }}{{ if .Params.city }} - {{ .Params.city }}{{ end }}</h4>
                     
-                    <p class="timeline-description">{{ $edu.description }}</p>
+                    <p class="timeline-description">{{ .Params.description }}</p>
                     
                     <div class="timeline-details">
                         <div class="timeline-grade">
-                            <strong>{{ i18n "grade" | default "Résultat :" }}</strong> {{ $edu.grade }}
+                            <strong>{{ i18n "grade" | default "Résultat :" }}</strong> {{ .Params.grade }}
                         </div>
                         
                         <div class="timeline-skills">
                             <strong>{{ i18n "skills_acquired" | default "Compétences acquises :" }}</strong>
                             <div class="skills-tags">
-                                {{ range $edu.skills }}
-                                <span class="skill-tag">{{ . }}</span>
+                                {{ range .Params.programming_languages }}
+                                <span class="skill-tag programming">{{ . }}</span>
+                                {{ end }}
+                                {{ range .Params.frameworks_engines }}
+                                <span class="skill-tag framework">{{ . }}</span>
+                                {{ end }}
+                                {{ range .Params.specialties }}
+                                <span class="skill-tag specialty">{{ . }}</span>
+                                {{ end }}
+                                {{ range .Params.soft_skills }}
+                                <span class="skill-tag soft">{{ . }}</span>
                                 {{ end }}
                             </div>
                         </div>
@@ -50,6 +68,7 @@
                 </div>
             </div>
         </div>
+        {{ end }}
         {{ end }}
     </div>
 
