@@ -1,11 +1,12 @@
 {{/* Partial pour afficher les technologies dans les pages de projets individuels */}}
-{{/* Affiche les langages de programmation, frameworks et spécialités séparément */}}
+{{/* Affiche les langages de programmation, frameworks, spécialités et outils séparément */}}
 
 {{ $hasProgLang := .Params.programming_languages }}
 {{ $hasFrameworks := .Params.frameworks_engines }}
 {{ $hasSpecialties := .Params.specialties }}
+{{ $hasTools := .Params.tools }}
 
-{{ if or $hasProgLang $hasFrameworks $hasSpecialties }}
+{{ if or $hasProgLang $hasFrameworks $hasSpecialties $hasTools }}
 <div class="project-technologies-bottom">
     
     {{/* Langages de programmation */}}
@@ -39,6 +40,18 @@
         <div class="tech-pills-bottom">
             {{ range .Params.specialties }}
             <span class="tech-pill-bottom specialty">{{ . }}</span>
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
+    
+    {{/* Outils */}}
+    {{ if $hasTools }}
+    <div class="tech-section-bottom">
+        <span class="tech-label-bottom">{{ i18n "tools" | default "Outils" }}</span>
+        <div class="tech-pills-bottom">
+            {{ range .Params.tools }}
+            <span class="tech-pill-bottom tool">{{ . }}</span>
             {{ end }}
         </div>
     </div>

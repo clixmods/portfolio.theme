@@ -14,8 +14,9 @@ Usage: {{ $person := partial "helpers/get-person.html" (dict "context" $ "person
     {{ $person = $personPage }}
 {{ else }}
     {{/* Si pas trouvé, chercher dans toutes les pages people par ID */}}
-    {{ range $context.Site.GetPage "/people" }}
-        {{ range .Pages }}
+    {{ $peopleSection := $context.Site.GetPage "/people" }}
+    {{ if $peopleSection }}
+        {{ range $peopleSection.Pages }}
             {{ if eq .Params.id $personId }}
                 {{ $person = . }}
                 {{ break }}

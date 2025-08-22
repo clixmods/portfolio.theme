@@ -19,11 +19,17 @@
                             <span class="person-modal-chip" id="modalPersonPosition"></span>
                             <span class="person-modal-chip secondary" id="modalPersonCompany"></span>
                         </div>
+                        <div id="modalPersonTestimonials" class="person-modal-testimonials-section">
+                            <!-- Testimonials will be inserted here -->
+                        </div>
                     </div>
                 </div>
                 <div class="person-modal-header-right">
                     <div class="person-modal-quick-stats" id="personModalQuickStats">
                         <!-- Dynamic stats (projects, collaborations) -->
+                    </div>
+                    <div class="person-modal-contact-buttons" id="personModalContactButtons">
+                        <!-- Contact buttons (LinkedIn, GitHub, website, email) -->
                     </div>
                 </div>
             </div>
@@ -37,9 +43,6 @@
                 <button class="person-modal-tab" role="tab" aria-selected="false" aria-controls="personModalTabBio" data-tab="bio">
                     <span class="icon">👤</span><span>Biographie</span>
                 </button>
-                <button class="person-modal-tab" role="tab" aria-selected="false" aria-controls="personModalTabContact" data-tab="contact">
-                    <span class="icon">📧</span><span>Contact</span>
-                </button>
             </div>
 
             <!-- Panels -->
@@ -52,11 +55,6 @@
                 <div class="person-modal-tab-panel" id="personModalTabBio" role="tabpanel" aria-labelledby="personModalTabBtnBio" hidden>
                     <div id="modalPersonBio" class="person-modal-bio-content">
                         <!-- Person biography and details -->
-                    </div>
-                </div>
-                <div class="person-modal-tab-panel" id="personModalTabContact" role="tabpanel" aria-labelledby="personModalTabBtnContact" hidden>
-                    <div id="modalPersonContact" class="person-modal-contact-links">
-                        <!-- Contact links (LinkedIn, GitHub, website, email) -->
                     </div>
                 </div>
             </div>
@@ -118,8 +116,20 @@ window.portfolioProjects = [
     {{- end -}}
 ];
 
+window.portfolioTestimonials = [
+    {{- range .Site.Data.testimonials -}}
+    {
+        personId: "{{ .personId }}",
+        company: "{{ .company }}",
+        position: "{{ .position }}",
+        text: {{ .text | jsonify }}
+    },
+    {{- end -}}
+];
+
 // Note: La logique du modal est maintenant dans person-modal-logic.js
 console.log('Person modal data loaded');
 console.log('People data:', window.portfolioPeople?.length || 0);
 console.log('Projects data:', window.portfolioProjects?.length || 0);
+console.log('Testimonials data:', window.portfolioTestimonials?.length || 0);
 </script>

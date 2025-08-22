@@ -1,5 +1,5 @@
 {{/* Partial pour afficher les technologies d'un projet */}}
-{{/* Combine programming_languages, frameworks_engines et specialties */}}
+{{/* Combine programming_languages, frameworks_engines, specialties et tools */}}
 {{ $allTech := slice }}
 
 {{/* Ajouter les langages de programmation */}}
@@ -14,6 +14,11 @@
 
 {{/* Ajouter les spécialités */}}
 {{ with .Params.specialties }}
+    {{ $allTech = $allTech | append . }}
+{{ end }}
+
+{{/* Ajouter les outils */}}
+{{ with .Params.tools }}
     {{ $allTech = $allTech | append . }}
 {{ end }}
 
@@ -41,6 +46,13 @@
         {{/* Chercher dans specialties si pas trouvé */}}
         {{ if not $found }}
             {{ range $.Site.Data.specialties }}
+                {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
+            {{ end }}
+        {{ end }}
+        
+        {{/* Chercher dans tools si pas trouvé */}}
+        {{ if not $found }}
+            {{ range $.Site.Data.tools }}
                 {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
             {{ end }}
         {{ end }}

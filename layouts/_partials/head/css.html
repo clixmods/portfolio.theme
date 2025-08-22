@@ -90,6 +90,17 @@
 {{/* Tech Icons Styles */}}
 <link rel="stylesheet" href="/css/tech-icons.css">
 
+{{/* Tools Styles */}}
+{{- with resources.Get "css/tools.css" }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Top Bar Styles */}}
 {{- with resources.Get "scss/top-bar/top-bar.scss" }}
   {{- with . | toCSS | minify }}

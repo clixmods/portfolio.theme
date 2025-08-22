@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Person modal script loading...');
     console.log('People data:', window.portfolioPeople);
     console.log('Projects data:', window.portfolioProjects);
+    console.log('Testimonials data:', window.portfolioTestimonials);
     
     const modal = document.getElementById('personModal');
     if (!modal) {
@@ -79,9 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const bioContent = document.getElementById('modalPersonBio');
         bioContent.innerHTML = person.content || person.bio || 'Aucune biographie disponible.';
 
-        // Update contact tab
-        const contactContent = document.getElementById('modalPersonContact');
-        contactContent.innerHTML = '';
+        // Update contact buttons
+        const contactButtons = document.getElementById('personModalContactButtons');
+        contactButtons.innerHTML = '';
         
         const contacts = [
             { label: 'Email', value: person.email, icon: '📧', type: 'email' },
@@ -92,21 +93,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         contacts.forEach(contact => {
             if (contact.value && contact.value !== '' && contact.value !== '""') {
-                const contactEl = document.createElement('div');
-                contactEl.className = 'person-modal-contact-item';
                 const href = contact.type === 'email' ? `mailto:${contact.value}` : contact.value;
-                contactEl.innerHTML = `
-                    <span class="icon">${contact.icon}</span>
-                    <span class="label">${contact.label}</span>
-                    <a href="${href}" target="_blank" rel="noopener noreferrer">${contact.value}</a>
-                `;
-                contactContent.appendChild(contactEl);
+                const buttonEl = document.createElement('a');
+                buttonEl.href = href;
+                buttonEl.target = contact.type === 'url' ? '_blank' : '_self';
+                buttonEl.className = 'person-modal-contact-button';
+                buttonEl.title = `${contact.label}: ${contact.value}`;
+                buttonEl.innerHTML = `<span class="icon">${contact.icon}</span>`;
+                contactButtons.appendChild(buttonEl);
             }
         });
-
-        if (contactContent.children.length === 0) {
-            contactContent.innerHTML = '<p>Aucune information de contact disponible.</p>';
-        }
 
         updateStats(personId);
         activateTab('projects');
@@ -155,6 +151,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (counts.projects) {
             counts.projects.textContent = projects.length > 0 ? projects.length : '0';
+        }
+
+        // Find testimonials for this person
+        const testimonials = (window.portfolioTestimonials && Array.isArray(window.portfolioTestimonials)) 
+            ? window.portfolioTestimonials.filter(t => t.personId === personId) 
+            : [];
+        console.log('Testimonials data:', window.portfolioTestimonials);
+        console.log(`Found ${testimonials.length} testimonials for ${personId}:`, testimonials);
+
+        // Update testimonials section in header
+        const testimonialsSection = document.getElementById('modalPersonTestimonials');
+        testimonialsSection.innerHTML = '';
+
+        if (testimonials.length > 0) {
+            testimonials.forEach(testimonial => {
+                const testimonialEl = document.createElement('div');
+                testimonialEl.className = 'person-modal-testimonial-header';
+                
+                testimonialEl.innerHTML = `
+                    <div class="testimonial-quote">
+                        <blockquote>"${testimonial.text}"</blockquote>
+                    </div>
+                `;
+                testimonialsSection.appendChild(testimonialEl);
+            });
         }
 
         // Update projects list

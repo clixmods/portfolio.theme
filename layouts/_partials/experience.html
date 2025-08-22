@@ -222,13 +222,17 @@
                         {{ range $exp.Params.specialties }}
                         <span class="skill-tag">{{ . }}</span>
                         {{ end }}
+                        {{ range $exp.Params.tools }}
+                        <span class="skill-tag">{{ . }}</span>
+                        {{ end }}
                     </div>
                 </div>
 
                 {{ $allTechnologies := slice }}
                 {{ if $exp.Params.programming_languages }}{{ $allTechnologies = $allTechnologies | append $exp.Params.programming_languages }}{{ end }}
                 {{ if $exp.Params.frameworks_engines }}{{ $allTechnologies = $allTechnologies | append $exp.Params.frameworks_engines }}{{ end }}
-                {{ if or $exp.Params.programming_languages $exp.Params.frameworks_engines }}
+                {{ if $exp.Params.tools }}{{ $allTechnologies = $allTechnologies | append $exp.Params.tools }}{{ end }}
+                {{ if or $exp.Params.programming_languages $exp.Params.frameworks_engines $exp.Params.tools }}
                 <div class="experience-technologies">
                     <h5>{{ i18n "technologies_used" | default "Technologies utilisées :" }}</h5>
                     <div class="tech-chips">
@@ -249,6 +253,19 @@
                         {{ $techName := . }}
                         {{ $found := false }}
                         {{ range $.Site.Data.frameworks_engines }}
+                        {{ if eq .name $techName }}
+                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="tech-chip">{{ $techName }}</span>
+                        {{ end }}
+                        {{ end }}
+                        {{ range $exp.Params.tools }}
+                        {{ $techName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.tools }}
                         {{ if eq .name $techName }}
                         <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
                         {{ $found = true }}
