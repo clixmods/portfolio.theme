@@ -238,7 +238,7 @@
                                 {{ range first 4 .Params.contributors }}
                                 {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) }}
                                 {{ if $person }}
-                                <div class="contributor-avatar-mini {{ if not $person.Params.avatar }}placeholder{{ end }}">
+                                <div class="contributor-avatar-mini {{ if not $person.Params.avatar }}placeholder{{ end }}{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ .person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
                                     {{ if $person.Params.avatar }}
                                     <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
                                     {{ else }}
@@ -266,7 +266,7 @@
                         {{ range .Params.contributors }}
                         {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) }}
                         {{ if $person }}
-                        <div class="contributor-item">
+                        <div class="contributor-item{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ .person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
                             {{ if $person.Params.avatar }}
                             <div class="contributor-avatar">
                                 <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
@@ -481,7 +481,7 @@
                                 {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" $testimonial.person) }}
                                 {{ if $person }}
                                 <div class="widget-testimonial-preview-item {{ if eq $index 0 }}active{{ end }}" data-index="{{ $index }}">
-                                    <div class="widget-testimonial-preview-header">
+                                    <div class="widget-testimonial-preview-header{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ $testimonial.person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
                                         <div class="widget-testimonial-preview-avatar {{ if not $person.Params.avatar }}placeholder{{ end }}">
                                             {{ if $person.Params.avatar }}
                                             <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
@@ -513,7 +513,7 @@
                         {{ if $person }}
                         <div class="widget-testimonial-item">
                         <div class="widget-testimonial-quote">{{ .quote }}</div>
-                            <div class="widget-testimonial-author">
+                            <div class="widget-testimonial-author{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ .person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
                                 <div class="widget-testimonial-avatar {{ if not $person.Params.avatar }}placeholder{{ end }}">
                                     {{ if $person.Params.avatar }}
                                     <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
@@ -1381,4 +1381,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateBlur();
 });
 </script>
+
+<!-- Auto-include person modal if needed -->
+{{ partial "auto-person-modal.html" . }}
 {{ end }}

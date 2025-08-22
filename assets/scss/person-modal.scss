@@ -1,0 +1,534 @@
+/* Person Modal Styles - Glassmorphism Design */
+
+.person-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.person-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.person-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.person-modal-header {
+    position: relative;
+    padding: 15px 20px 0;
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+.person-modal-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.person-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.person-modal-body {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 20px;
+    min-height: 0;
+}
+
+/* Header Section */
+.person-modal-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    gap: 20px;
+}
+
+.person-modal-header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+}
+
+.person-modal-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.person-modal-avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.person-modal-title-block h2 {
+    margin: 0 0 8px 0;
+    color: var(--text-color);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.person-modal-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.person-modal-chip {
+    background: rgba(79, 209, 197, 0.2);
+    border: 1px solid rgba(79, 209, 197, 0.3);
+    color: var(--accent-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.person-modal-chip.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-color-secondary);
+}
+
+.person-modal-header-right {
+    display: flex;
+    align-items: center;
+}
+
+.person-modal-quick-stats {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.person-modal-stat-chip {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.person-modal-stat-chip .icon {
+    font-size: 16px;
+}
+
+.person-modal-stat-chip .val {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.person-modal-stat-chip .lbl {
+    font-size: 12px;
+    color: var(--text-color-secondary);
+}
+
+/* Tabs */
+.person-modal-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 4px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.person-modal-tab {
+    background: transparent;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+    justify-content: center;
+}
+
+.person-modal-tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.person-modal-tab.active {
+    background: rgba(79, 209, 197, 0.2);
+    border: 1px solid rgba(79, 209, 197, 0.3);
+    color: var(--accent-color);
+}
+
+.person-modal-tab .icon {
+    font-size: 16px;
+}
+
+.person-modal-tab-count {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 2px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 18px;
+    text-align: center;
+}
+
+.person-modal-tab.active .person-modal-tab-count {
+    background: rgba(79, 209, 197, 0.3);
+}
+
+/* Tab Panels */
+.person-modal-tab-panels {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.person-modal-tab-panel {
+    display: none;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.person-modal-tab-panel.active {
+    display: block;
+}
+
+/* Projects Grid */
+.person-modal-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    padding: 4px;
+}
+
+.person-modal-project-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.person-modal-project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.person-modal-project-card .project-image {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    position: relative;
+}
+
+.person-modal-project-card .project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.person-modal-project-card:hover .project-image img {
+    transform: scale(1.05);
+}
+
+.person-modal-project-card .project-info {
+    padding: 16px;
+}
+
+.person-modal-project-card .project-info h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.person-modal-project-card .project-info h3 a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.person-modal-project-card .project-info h3 a:hover {
+    color: var(--accent-color);
+}
+
+.person-modal-project-card .project-subtitle {
+    color: var(--text-color-secondary);
+    font-size: 14px;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.person-modal-project-card .project-role {
+    color: var(--accent-color);
+    font-size: 13px;
+    margin: 0 0 12px 0;
+    font-weight: 500;
+}
+
+.person-modal-project-card .project-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--text-color-secondary);
+}
+
+.person-modal-project-card .project-year,
+.person-modal-project-card .project-sector {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Bio Content */
+.person-modal-bio-content {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.person-modal-bio-content p {
+    margin: 0 0 16px 0;
+}
+
+.person-modal-bio-content p:last-child {
+    margin-bottom: 0;
+}
+
+.person-modal-bio-content h1,
+.person-modal-bio-content h2,
+.person-modal-bio-content h3 {
+    color: var(--text-color);
+    margin: 24px 0 16px 0;
+}
+
+.person-modal-bio-content h1:first-child,
+.person-modal-bio-content h2:first-child,
+.person-modal-bio-content h3:first-child {
+    margin-top: 0;
+}
+
+/* Contact Links */
+.person-modal-contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.person-modal-contact-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.person-modal-contact-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(4px);
+}
+
+.person-modal-contact-item .icon {
+    font-size: 20px;
+    width: 24px;
+    text-align: center;
+}
+
+.person-modal-contact-item .label {
+    font-weight: 600;
+    color: var(--text-color);
+    min-width: 80px;
+}
+
+.person-modal-contact-item a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    flex: 1;
+}
+
+.person-modal-contact-item a:hover {
+    color: var(--text-color);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    color: var(--text-color-secondary);
+    font-style: italic;
+    padding: 40px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .person-modal {
+        padding: 10px;
+    }
+    
+    .person-modal-content {
+        max-width: 100%;
+        max-height: 95vh;
+        border-radius: 16px;
+    }
+    
+    .person-modal-header-section {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .person-modal-header-left {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .person-modal-avatar-large {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .person-modal-title-block h2 {
+        font-size: 24px;
+    }
+    
+    .person-modal-projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .person-modal-tabs {
+        flex-direction: column;
+        gap: 2px;
+    }
+    
+    .person-modal-tab {
+        justify-content: flex-start;
+        padding: 16px;
+    }
+    
+    .person-modal-quick-stats {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .person-modal-contact-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        text-align: left;
+    }
+    
+    .person-modal-contact-item .label {
+        min-width: auto;
+    }
+}
+
+/* Scrollbar styling */
+.person-modal-tab-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.person-modal-tab-panel::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.person-modal-tab-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.person-modal-tab-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}

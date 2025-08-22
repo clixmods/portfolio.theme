@@ -1,0 +1,118 @@
+{{/* 
+  Auto Person Modal Loader
+  Inclut automatiquement le person modal si des personnes sont détectées sur la page
+*/}}
+
+{{/* Vérifier s'il y a des personnes sur cette page */}}
+{{- $hasPersons := false -}}
+
+{{/* Force inclusion si spécifié dans les paramètres */}}
+{{- if .Params.force_person_modal -}}
+    {{- $hasPersons = true -}}
+{{- end -}}
+
+{{/* Vérifier dans les données de témoignages */}}
+{{- if .Site.Data.testimonials -}}
+    {{- $hasPersons = true -}}
+{{- end -}}
+
+{{/* Vérifier dans les paramètres de la page (contributeurs, témoignages) */}}
+{{- if or .Params.contributors .Params.testimonials -}}
+    {{- $hasPersons = true -}}
+{{- end -}}
+
+{{/* Inclure le modal et les ressources seulement si nécessaire */}}
+{{- if $hasPersons -}}
+    {{/* Person Modal HTML */}}
+    {{ partial "person-modal.html" . }}
+
+    {{/* CSS pour les personnes cliquables */}}
+    {{ $clickablePersonCSS := resources.Get "scss/clickable-person.scss" | css.Sass | resources.Minify }}
+    <link rel="stylesheet" href="{{ $clickablePersonCSS.RelPermalink }}">
+
+    {{/* CSS pour le modal des personnes */}}
+    {{ $personModalCSS := resources.Get "scss/person-modal.scss" | css.Sass | resources.Minify }}
+    <link rel="stylesheet" href="{{ $personModalCSS.RelPermalink }}">
+
+    {{/* Script d'initialisation */}}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Attendre un peu que tous les scripts soient chargés
+        setTimeout(function() {
+            // Vérifier que le modal des personnes est disponible
+            if (typeof window.openPersonModal === 'function') {
+                console.log('Person modal ready - Found {{ len .Site.Data.testimonials }} testimonials');
+                
+                // Compter les éléments cliquables
+                const clickablePersons = document.querySelectorAll('.clickable-person');
+                console.log(`Found ${clickablePersons.length} clickable person elements`);
+                
+                // S'assurer que tous les éléments avec data-person-id sont cliquables
+                const personElements = document.querySelectorAll('[data-person-id]');
+                console.log(`Found ${personElements.length} elements with data-person-id`);
+                
+                personElements.forEach((element, index) => {
+                    const personId = element.getAttribute('data-person-id');
+                    console.log(`Element ${index}: person-id="${personId}"`);
+                    
+                    // S'assurer que l'événement de clic est attaché
+                    if (!element.hasAttribute('data-click-attached')) {
+                        element.setAttribute('data-click-attached', 'true');
+                        element.style.cursor = 'pointer';
+                        
+                        element.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log(`Clicked on person: ${personId}`);
+                            
+                            if (typeof window.openPersonModal === 'function') {
+                                window.openPersonModal(personId);
+                            } else {
+                                console.error('openPersonModal function not available');
+                            }
+                        });
+                        
+                        // Ajouter un indicateur visuel
+                        element.style.position = 'relative';
+                        
+                        // Créer un petit indicateur visuel
+                        const indicator = document.createElement('div');
+                        indicator.className = 'person-click-indicator';
+                        indicator.innerHTML = '👤';
+                        indicator.style.cssText = `
+                            position: absolute;
+                            top: -2px;
+                            right: -2px;
+                            width: 16px;
+                            height: 16px;
+                            background: var(--accent-color);
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 8px;
+                            opacity: 0;
+                            transition: opacity 0.3s ease;
+                            pointer-events: none;
+                            z-index: 10;
+                        `;
+                        
+                        element.appendChild(indicator);
+                        
+                        // Afficher l'indicateur au survol
+                        element.addEventListener('mouseenter', () => {
+                            indicator.style.opacity = '0.8';
+                        });
+                        
+                        element.addEventListener('mouseleave', () => {
+                            indicator.style.opacity = '0';
+                        });
+                    }
+                });
+            } else {
+                console.warn('Person modal not loaded properly');
+            }
+        }, 500); // Attendre 500ms pour que tous les scripts soient chargés
+    });
+    </script>
+{{- end -}}

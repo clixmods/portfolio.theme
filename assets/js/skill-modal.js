@@ -1,7 +1,7 @@
-// Gestion des modals pour les compétences/technologies
+// Skill/technology modal management
 let skillModalData = null;
 
-// Fonction pour ouvrir la modal avec les détails d'une compétence
+// Function to open modal with skill details
 function openSkillModal(name, icon, level, experience, iconType) {
     const modal = document.getElementById('skillModal');
     const modalName = document.getElementById('modalSkillName');
@@ -9,152 +9,154 @@ function openSkillModal(name, icon, level, experience, iconType) {
     const modalLevel = document.getElementById('modalSkillLevel');
     const modalExperience = document.getElementById('modalSkillExperience');
     
-    // Remplir les informations de base
+    // Fill basic information
     modalName.textContent = name;
     modalLevel.textContent = level || 'Non spécifié';
     modalExperience.textContent = experience || 'Non spécifié';
     
-    // Gérer l'icône
+    // Handle icon
     if (iconType === 'svg') {
         modalIcon.innerHTML = `<img src="${icon}" alt="${name}" class="skill-modal-tech-icon-svg" width="48" height="48">`;
     } else {
         modalIcon.innerHTML = `<span class="skill-modal-tech-icon-emoji">${icon}</span>`;
     }
     
-    // Charger les projets associés
+    // Load associated projects
     loadProjectsForSkill(name);
     
-    // Charger les expériences professionnelles associées
+    // Load associated professional experiences
     loadExperiencesForSkill(name);
     
-    // Charger les formations associées
+    // Load associated educations
     loadEducationsForSkill(name);
     
-    // Afficher la modal
+    // Show modal
     modal.style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Empêcher le scroll de la page
+    document.body.style.overflow = 'hidden'; // Prevent page scrolling
 }
 
-// Fonction pour fermer la modal
+// Function to close modal
 function closeSkillModal() {
     const modal = document.getElementById('skillModal');
     modal.style.display = 'none';
-    document.body.style.overflow = 'auto'; // Rétablir le scroll de la page
+    document.body.style.overflow = 'auto'; // Restore page scrolling
 }
 
-// Fonction pour charger les projets associés à une compétence/technologie
+// Function to load projects associated with a skill/technology
 function loadProjectsForSkill(skillName) {
     const projectsList = document.getElementById('modalProjectsList');
     projectsList.innerHTML = '<div class="loading">Chargement des projets...</div>';
     
     try {
-        // Utiliser les données intégrées dans la page au lieu de faire une requête API
+        // Use data embedded in page instead of making API request
         const projects = window.portfolioProjects || [];
-        console.log('Projets récupérés depuis les données intégrées:', projects.length);
-        console.log('Recherche de projets pour la compétence:', skillName);
+        console.log('Projects retrieved from embedded data:', projects.length);
+        console.log('Searching projects for skill:', skillName);
         displayProjects(projects, skillName, projectsList);
     } catch (error) {
-        console.error('Erreur lors du chargement des projets:', error);
-        projectsList.innerHTML = '<div class="no-projects">❌ Erreur lors du chargement des projets.<br/>Veuillez rafraîchir la page.</div>';
+        console.error('Error loading projects:', error);
+        projectsList.innerHTML = '<div class="no-projects">❌ Error loading projects.<br/>Please refresh the page.</div>';
     }
 }
 
-// Fonction pour charger les expériences professionnelles associées à une compétence/technologie
+// Function to load professional experiences associated with a skill/technology
 function loadExperiencesForSkill(skillName) {
     const experiencesList = document.getElementById('modalExperiencesList');
-    experiencesList.innerHTML = '<div class="loading">Chargement des expériences...</div>';
+    experiencesList.innerHTML = '<div class="loading">Loading experiences...</div>';
     
     try {
-        // Utiliser les données intégrées dans la page au lieu de faire une requête API
+        // Use data embedded in page instead of making API request
         const experiences = window.portfolioExperiences || [];
-        console.log('Expériences récupérées depuis les données intégrées:', experiences.length);
-        console.log('Recherche d\'expériences pour la compétence:', skillName);
+        console.log('Experiences retrieved from embedded data:', experiences.length);
+        console.log('Searching experiences for skill:', skillName);
         displayExperiences(experiences, skillName, experiencesList);
     } catch (error) {
-        console.error('Erreur lors du chargement des expériences:', error);
-        experiencesList.innerHTML = '<div class="skill-modal-no-experiences">❌ Erreur lors du chargement des expériences.<br/>Veuillez rafraîchir la page.</div>';
+        console.error('Error loading experiences:', error);
+        experiencesList.innerHTML = '<div class="skill-modal-no-experiences">❌ Error loading experiences.<br/>Please refresh the page.</div>';
     }
 }
 
-// Fonction pour charger les formations associées à une compétence/technologie
+// Function to load educations associated with a skill/technology
 function loadEducationsForSkill(skillName) {
     const educationsList = document.getElementById('modalEducationsList');
-    educationsList.innerHTML = '<div class="loading">Chargement des formations...</div>';
+    educationsList.innerHTML = '<div class="loading">Loading educations...</div>';
     
     try {
-        // Utiliser les données intégrées dans la page au lieu de faire une requête API
+        // Use data embedded in page instead of making API request
         const educations = window.portfolioEducations || [];
-        console.log('Formations récupérées depuis les données intégrées:', educations.length);
-        console.log('Recherche de formations pour la compétence:', skillName);
+        console.log('Educations retrieved from embedded data:', educations.length);
+        console.log('Searching educations for skill:', skillName);
         displayEducations(educations, skillName, educationsList);
     } catch (error) {
-        console.error('Erreur lors du chargement des formations:', error);
-        educationsList.innerHTML = '<div class="skill-modal-no-educations">❌ Erreur lors du chargement des formations.<br/>Veuillez rafraîchir la page.</div>';
+        console.error('Error loading educations:', error);
+        educationsList.innerHTML = '<div class="skill-modal-no-educations">❌ Error loading educations.<br/>Please refresh the page.</div>';
     }
 }
 
-// Fonction pour afficher les projets filtrés avec le nouveau design PS5
+// Function to display filtered projects with new PS5 design
 function displayProjects(projects, skillName, projectsList) {
-    console.log('=== DÉBUT DU FILTRAGE ===');
-    console.log('Filtrage des projets pour:', skillName);
-    console.log('Projets disponibles:', projects.length);
+    console.log('=== FILTERING START ===');
+    console.log('Filtering projects for:', skillName);
+    console.log('Available projects:', projects.length);
     
     const relatedProjects = projects.filter(project => {
-        console.log(`\nAnalyse du projet: "${project.title}"`);
-        console.log(`Technologies du projet RAW:`, project.technologies);
+        console.log(`\nAnalyzing project: "${project.title}"`);
+        console.log(`Project technologies RAW:`, project.technologies);
         console.log(`Type:`, typeof project.technologies);
-        console.log(`Est un tableau:`, Array.isArray(project.technologies));
+        console.log(`Is array:`, Array.isArray(project.technologies));
         
         let technologies = project.technologies;
         
-        // Si c'est une string, essayer de la parser en JSON
+        // If it's a string, try to parse it as JSON
         if (typeof technologies === 'string') {
             try {
                 technologies = JSON.parse(technologies);
-                console.log(`Technologies après parsing:`, technologies);
-                console.log(`Type après parsing:`, typeof technologies);
-                console.log(`Est un tableau après parsing:`, Array.isArray(technologies));
+                console.log(`Technologies after parsing:`, technologies);
+                console.log(`Type after parsing:`, typeof technologies);
+                console.log(`Is array after parsing:`, Array.isArray(technologies));
             } catch (e) {
-                console.log(`❌ Erreur de parsing JSON pour "${project.title}":`, e.message);
+                console.log(`❌ JSON parsing error for "${project.title}":`, e.message);
                 return false;
             }
         }
         
         if (!technologies || !Array.isArray(technologies)) {
-            console.log(`❌ Projet "${project.title}" rejeté: technologies invalides ou manquantes`);
+            console.log(`❌ Project "${project.title}" rejected: invalid or missing technologies`);
             return false;
         }
         
-        // Recherche exacte et aussi recherche insensible à la casse
+        // Exact search and also case-insensitive search
         const hasSkill = technologies.some(tech => {
             const exactMatch = tech === skillName;
             const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
-            console.log(`  Comparaison: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
+            console.log(`  Comparison: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensitive: ${caseInsensitiveMatch}`);
             return exactMatch || caseInsensitiveMatch;
         });
         
         if (hasSkill) {
-            console.log(`✅ Projet "${project.title}" ACCEPTÉ avec technologies:`, technologies);
+            console.log(`✅ Project "${project.title}" ACCEPTED with technologies:`, technologies);
         } else {
-            console.log(`❌ Projet "${project.title}" rejeté: aucune technologie correspondante`);
+            console.log(`❌ Project "${project.title}" rejected: no matching technology`);
         }
         return hasSkill;
     });
     
-    console.log('=== RÉSULTAT DU FILTRAGE ===');
-    console.log('Projets filtrés trouvés:', relatedProjects.length);
+    console.log('=== FILTERING RESULT ===');
+    console.log('Filtered projects found:', relatedProjects.length);
     relatedProjects.forEach(p => console.log(`- ${p.title}`));
     
     if (relatedProjects.length === 0) {
-        projectsList.innerHTML = '<div class="no-projects">🚀 Aucun projet trouvé pour cette technologie.<br/>De nouveaux projets arrivent bientôt !</div>';
+        projectsList.classList.add('empty-state');
+        projectsList.innerHTML = '<div class="skill-modal-no-projects">🚀 Aucun projet trouvé pour cette technologie.<br/>De nouveaux projets arrivent bientôt !</div>';
         return;
     }
     
-    // Vider la liste et créer les éléments DOM proprement
+    // Clear list and create DOM elements properly
+    projectsList.classList.remove('empty-state');
     projectsList.innerHTML = '';
     
     relatedProjects.forEach(project => {
-        // S'assurer que les technologies sont un tableau pour l'affichage
+        // Ensure technologies are an array for display
         let technologies = project.technologies;
         if (typeof technologies === 'string') {
             try {
@@ -164,13 +166,13 @@ function displayProjects(projects, skillName, projectsList) {
             }
         }
         
-        // Nettoyer le projet avant de l'utiliser
+        // Clean project before using it
         const cleanedProject = cleanProject(project);
         
-        // Debug: afficher l'URL du projet nettoyée
-        console.log(`Projet "${cleanedProject.title}" - URL: "${cleanedProject.url}"`);
+        // Debug: display cleaned project URL
+        console.log(`Project "${cleanedProject.title}" - URL: "${cleanedProject.url}"`);
         
-        // Créer l'élément principal de la tuile de projet
+        // Create main project tile element
         const projectTile = createProjectTile(cleanedProject, technologies);
         projectsList.appendChild(projectTile);
     });
@@ -225,11 +227,13 @@ function displayExperiences(experiences, skillName, experiencesList) {
     relatedExperiences.forEach(e => console.log(`- ${e.title} chez ${e.company}`));
     
     if (relatedExperiences.length === 0) {
+        experiencesList.classList.add('empty-state');
         experiencesList.innerHTML = '<div class="skill-modal-no-experiences">💼 Aucune expérience professionnelle trouvée pour cette technologie.<br/>Cette compétence a été développée dans un contexte personnel ou académique.</div>';
         return;
     }
     
     // Vider la liste et créer les éléments DOM proprement
+    experiencesList.classList.remove('empty-state');
     experiencesList.innerHTML = '';
     
     relatedExperiences.forEach(experience => {
@@ -313,11 +317,13 @@ function displayEducations(educations, skillName, educationsList) {
     relatedEducations.forEach(e => console.log(`- ${e.title} à ${e.institution}`));
     
     if (relatedEducations.length === 0) {
+        educationsList.classList.add('empty-state');
         educationsList.innerHTML = '<div class="skill-modal-no-educations">🎓 Aucune formation trouvée pour cette technologie.<br/>Cette compétence a été développée de manière autodidacte ou professionnelle.</div>';
         return;
     }
     
     // Vider la liste et créer les éléments DOM proprement
+    educationsList.classList.remove('empty-state');
     educationsList.innerHTML = '';
     
     relatedEducations.forEach(education => {

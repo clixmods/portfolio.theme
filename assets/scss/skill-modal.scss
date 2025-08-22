@@ -1,4 +1,4 @@
-/* Styles pour la modal des compétences - Design cohérent avec le site */
+/* Skill modal styles - Design consistent with the site */
 @import url("/css/variables.global.css");
 
 /* ==================================================
@@ -94,7 +94,7 @@
 }
 
 /* ==================================================
-   LAYOUT ERGONOMIQUE
+   ERGONOMIC LAYOUT
    ================================================== */
 .skill-modal-layout {
     display: flex;
@@ -774,7 +774,7 @@
 /* ==================================================
    EMPTY STATES
    ================================================== */
-.skill-modal-loading, .skill-modal-error, .skill-modal-no-projects, .skill-modal-no-experiences, .skill-modal-no-educations {
+.skill-modal-loading, .skill-modal-error {
     text-align: center;
     padding: 32px 24px;
     color: var(--text-muted);
@@ -790,6 +790,70 @@
     color: #ff6b6b;
     background: rgba(255, 107, 107, 0.1);
     border-color: rgba(255, 107, 107, 0.2);
+}
+
+/* Adaptive grid for projects in modal */
+.skill-modal-no-projects, .skill-modal-no-experiences, .skill-modal-no-educations {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.6;
+    background: var(--glass-bg-light);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+    margin: 20px auto;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+    grid-column: 1 / -1; /* Prend toute la largeur de la grille */
+    justify-self: center; /* Centre dans la grille */
+}
+
+.skill-modal-no-projects::before, 
+.skill-modal-no-experiences::before, 
+.skill-modal-no-educations::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-blue);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.skill-modal-no-projects {
+    background: linear-gradient(135deg, 
+        rgba(79, 209, 199, 0.05) 0%, 
+        rgba(79, 209, 199, 0.02) 100%);
+    border-color: rgba(79, 209, 199, 0.2);
+}
+
+.skill-modal-no-experiences {
+    background: linear-gradient(135deg, 
+        rgba(147, 51, 234, 0.05) 0%, 
+        rgba(147, 51, 234, 0.02) 100%);
+    border-color: rgba(147, 51, 234, 0.2);
+}
+
+.skill-modal-no-educations {
+    background: linear-gradient(135deg, 
+        rgba(245, 158, 11, 0.05) 0%, 
+        rgba(245, 158, 11, 0.02) 100%);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+/* Improve centering in empty grids */
+.skill-modal-projects-grid.empty-state,
+.skill-modal-experiences-list.empty-state,
+.skill-modal-educations-list.empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
 }
 
 /* ==================================================
@@ -852,6 +916,14 @@
         width: 28px;
         height: 28px;
         font-size: 14px;
+    }
+    
+    /* Empty state messages in responsive */
+    .skill-modal-no-projects, .skill-modal-no-experiences, .skill-modal-no-educations {
+        padding: 32px 20px;
+        font-size: 15px;
+        max-width: 350px;
+        margin: 16px auto;
     }
     
     .skill-modal-skill-icon-large {
@@ -945,6 +1017,14 @@
     
     .skill-modal-header {
         padding: 8px 10px;
+    }
+    
+    /* Empty state messages for mobile */
+    .skill-modal-no-projects, .skill-modal-no-experiences, .skill-modal-no-educations {
+        padding: 24px 16px;
+        font-size: 14px;
+        max-width: 300px;
+        margin: 12px auto;
     }
     
     .skill-modal-close {

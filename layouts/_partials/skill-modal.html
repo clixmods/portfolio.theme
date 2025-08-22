@@ -1,4 +1,4 @@
-{{/* Modal pour afficher les détails d'une compétence/technologie - Design Glassmorphism */}}
+{{/* Modal for displaying skill/technology details - Glassmorphism Design */}}
 <div id="skillModal" class="skill-modal" style="display: none;">
     <div class="skill-modal-backdrop" onclick="closeSkillModal()"></div>
     <div class="skill-modal-content">
@@ -7,7 +7,7 @@
         </div>
         
         <div class="skill-modal-body skill-modal-layout">
-            <!-- En-tête de la compétence -->
+            <!-- Skill header -->
             <div class="skill-info skill-modal-header-section">
                 <div class="skill-modal-header-left">
                                     <div class="skill-modal-skill-icon-large" id="skillIconLarge">
@@ -23,12 +23,12 @@
                 </div>
                 <div class="skill-modal-header-right">
                     <div class="skill-modal-quick-stats" id="skillModalQuickStats">
-                        <!-- Stats dynamiques (projets, expériences, formations) -->
+                        <!-- Dynamic stats (projects, experiences, educations) -->
                     </div>
                 </div>
             </div>
 
-            <!-- Barre d'onglets -->
+            <!-- Tab bar -->
             <div class="skill-modal-tabs" role="tablist">
                 <button class="skill-modal-tab active" role="tab" aria-selected="true" aria-controls="skillModalTabProjects" data-tab="projects">
                     <span class="icon">💼</span><span>Projets</span>
@@ -44,21 +44,21 @@
                 </button>
             </div>
 
-            <!-- Panneaux -->
+            <!-- Panels -->
             <div class="skill-modal-tab-panels">
                 <div class="skill-modal-tab-panel active" id="skillModalTabProjects" role="tabpanel" aria-labelledby="skillModalTabBtnProjects">
                     <div id="modalProjectsList" class="skill-modal-projects-grid" data-empty-text="Aucun projet trouvé pour cette technologie.">
-                        <!-- Projets -->
+                        <!-- Projects -->
                     </div>
                 </div>
                 <div class="skill-modal-tab-panel" id="skillModalTabExperiences" role="tabpanel" aria-labelledby="skillModalTabBtnExperiences" hidden>
                     <div id="modalExperiencesList" class="skill-modal-experiences-list" data-empty-text="Aucune expérience trouvée.">
-                        <!-- Expériences -->
+                        <!-- Experiences -->
                     </div>
                 </div>
                 <div class="skill-modal-tab-panel" id="skillModalTabEducations" role="tabpanel" aria-labelledby="skillModalTabBtnEducations" hidden>
                     <div id="modalEducationsList" class="skill-modal-educations-list" data-empty-text="Aucune formation trouvée.">
-                        <!-- Formations -->
+                        <!-- Educations -->
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
     </div>
 </div>
 
-{{/* Intégrer les données des projets dans la page pour éviter les requêtes API */}}
+{{/* Integrate project data into the page to avoid API requests */}}
 <script>
 window.portfolioProjects = [
     {{- range where .Site.RegularPages "Section" "projects" -}}
@@ -161,7 +161,7 @@ window.portfolioEducations = [
     {{- end -}}
 ];
 
-// Gestion des onglets & stats du skill modal
+// Tab management & skill modal stats
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('skillModal');
     if (!modal) return;
@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Hook sur openSkillModal existant pour mettre à jour les stats
+    // Hook on existing openSkillModal to update stats
     const originalOpen = window.openSkillModal;
     if (typeof originalOpen === 'function') {
         window.openSkillModal = function(name, icon, level, experience, iconType) {

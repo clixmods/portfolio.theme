@@ -15,7 +15,7 @@
                     <p class="testimonial-text">
                         "{{ .text }}"
                     </p>
-                    <div class="testimonial-author">
+                    <div class="testimonial-author{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ .personId }}" title="Voir le profil de {{ $person.Title }}"{{ end }}>
                         {{ if $person }}
                             {{ $avatar := $person.Params.avatar | default "/images/avatar6.svg" }}
                             <img src="{{ $avatar }}" alt="{{ $person.Title }}" class="testimonial-avatar" onerror="this.style.display='none'">
