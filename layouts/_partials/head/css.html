@@ -127,6 +127,19 @@
   {{- end }}
 {{- end }}
 
+{{/* Profile Badge Styles */}}
+{{- with resources.Get "scss/profile-badge.scss" }}
+  {{- with . | toCSS | minify }}
+    {{- if hugo.IsDevelopment }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- else }}
+      {{- with . | fingerprint }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Right Dock Styles */}}
 {{- with resources.Get "scss/right-dock.scss" }}
   {{- with . | toCSS | minify }}

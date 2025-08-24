@@ -1,0 +1,12 @@
+<!-- Profile Badge - Badge de profil utilisateur en haut à gauche -->
+<div id="profile-badge" class="profile-badge">
+  <div class="profile-avatar">
+    <img src="{{ with .Site.Data.profile }}{{ .media.profileImage }}{{ end }}" 
+         alt="{{ with .Site.Data.profile }}{{ .personal.fullName }}{{ end }}" 
+         class="avatar-image">
+  </div>
+  <div class="profile-info">
+    <span class="profile-name">{{ with .Site.Data.profile }}{{ .personal.firstName }}{{ end }}</span>
+    <span class="profile-role">{{ with .Site.Data.profile }}{{ .personal.title }}{{ end }}</span>
+  </div>
+</div>
