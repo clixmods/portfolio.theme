@@ -24,7 +24,7 @@ Ce dossier contient les styles SCSS pour la barre de navigation supérieure (top
 
 #### Fonctionnalités spéciales
 - **`_notifications.scss`** - Système de notifications et toasts
-- **`_trophies.scss`** - Gestion des trophées (existant)
+- **Trophées** - Gérés via le système modulaire `/modal/trophies/`
 
 #### Responsive design
 - **`_responsive.scss`** - Media queries et adaptations mobiles

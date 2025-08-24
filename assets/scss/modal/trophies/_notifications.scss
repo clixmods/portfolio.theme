@@ -1,0 +1,49 @@
+/* ========================================
+  NEW TROPHIES NOTIFICATIONS
+  ======================================== */
+
+.new-trophy-notification {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  padding: 20px 30px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(255, 215, 0, 0.4);
+  z-index: 4000;
+  text-align: center;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: all 0.5s ease;
+  pointer-events: none;
+}
+
+.new-trophy-notification.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.new-trophy-notification .trophy-emoji {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 10px;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.new-trophy-notification .trophy-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.new-trophy-notification .trophy-desc {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}

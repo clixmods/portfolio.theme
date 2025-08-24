@@ -1,0 +1,68 @@
+/* ========================================
+   RESPONSIVE DESIGN FOR TROPHIES MODAL
+   ======================================== */
+
+@media (max-width: 768px) {
+  .trophies-modal-header {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .modal-title {
+    font-size: 2rem;
+  }
+
+  .trophies-modal-body {
+    padding: 20px;
+  }
+
+  .trophies-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .trophy-card {
+    padding: 20px;
+  }
+
+  .trophy-card-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .trophies-modal-footer {
+    padding: 20px;
+  }
+
+  .footer-stats {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .trophy-card-header {
+    gap: 12px;
+  }
+
+  .trophy-card-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .new-trophy-notification {
+    padding: 15px 20px;
+    margin: 0 20px;
+    max-width: calc(100vw - 40px);
+  }
+
+  .new-trophy-notification .trophy-emoji {
+    font-size: 2rem;
+  }
+}
