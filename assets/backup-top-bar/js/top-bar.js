@@ -14,8 +14,6 @@
   let languageDropdown = null;
   let downloadBtn = null;
   let socialBtns = [];
-  let clockElement = null;
-  let clockInterval = null;
   let themeToggle = null;
   let notificationsBtn = null;
   let notificationsDropdown = null;
@@ -269,38 +267,6 @@
       topBar.style.removeProperty('--top-bar-text');
       topBar.style.removeProperty('--top-bar-blur');
       topBar.classList.remove('is-scrolled');
-    }
-  }
-  
-  /**
-   * Met à jour l'horloge
-   */
-  function updateClock() {
-    if (!clockElement) return;
-    
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const time = `${hours}:${minutes}`;
-    
-    clockElement.textContent = time;
-  }
-  
-  /**
-   * Démarre l'horloge
-   */
-  function startClock() {
-    updateClock(); // Mise à jour immédiate
-    clockInterval = setInterval(updateClock, 1000); // Mise à jour chaque seconde
-  }
-  
-  /**
-   * Arrête l'horloge
-   */
-  function stopClock() {
-    if (clockInterval) {
-      clearInterval(clockInterval);
-      clockInterval = null;
     }
   }
   
@@ -640,7 +606,6 @@
     languageDropdown = topBar.querySelector('.language-dropdown');
     downloadBtn = topBar.querySelector('.download-btn');
     socialBtns = Array.from(topBar.querySelectorAll('.social-btn'));
-    clockElement = document.getElementById('clock-time');
     themeToggle = topBar.querySelector('.theme-toggle');
     notificationsBtn = topBar.querySelector('.notifications-btn');
     notificationsDropdown = document.getElementById('notifications-dropdown');
@@ -664,11 +629,6 @@
 
     // Applique l'état initial selon la position de scroll courante
     handleScroll();
-    
-    // Démarre l'horloge
-    if (clockElement) {
-      startClock();
-    }
     
     // Initialise la batterie sur mobile
     if (window.innerWidth <= 768) {
@@ -737,9 +697,6 @@
   window.TopBarNavigation = {
     openLanguageDropdown,
     closeLanguageDropdown,
-    startClock,
-    stopClock,
-    updateClock,
     toggleTheme,
     initTheme,
     showToast,
@@ -748,10 +705,7 @@
     reinit: initTopBar
   };
   
-  // Nettoyer les intervals quand la page se ferme
-  window.addEventListener('beforeunload', function() {
-    stopClock();
-  });
+  // Auto-initialisation du top bar
   
   // Gestion des changements de taille d'écran pour la batterie
   window.addEventListener('resize', function() {

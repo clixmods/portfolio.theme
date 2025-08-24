@@ -1,0 +1,314 @@
+/* ========================================
+   TOP DOCK - ACTIONS PRINCIPALES
+   ======================================== */
+
+/* Variables CSS pour le top dock */
+:root {
+  --top-dock-bg: rgba(47, 47, 47, 0.35);
+  --top-dock-border: rgba(255, 255, 255, 0.40);
+  --top-dock-text: #F4F4F5;
+  --top-dock-accent: #4fd1c7;
+  --top-dock-radius: 48px;
+  --top-dock-blur: 10px;
+  --top-dock-shadow: rgba(0, 0, 0, 0.4);
+  --top-dock-transition: 150ms ease-out;
+  --top-dock-height: 72px;
+  --top-dock-spacing: 12px;
+}
+
+/* Thème clair */
+[data-theme="light"] {
+  --top-dock-bg: rgba(255, 255, 255, 0.75);
+  --top-dock-border: rgba(0, 0, 0, 0.1);
+  --top-dock-text: #1A1A1A;
+  --top-dock-accent: #0070F3;
+  --top-dock-shadow: rgba(0, 0, 0, 0.15);
+  --top-dock-blur: 16px;
+}
+
+/* Container principal du top dock */
+#top-dock {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1900;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Effets visuels style dock translucide */
+  background: var(--top-dock-bg);
+  backdrop-filter: blur(var(--top-dock-blur));
+  border-radius: var(--top-dock-radius);
+  border: 1px solid var(--top-dock-border);
+  box-shadow: 0 4px 16px var(--top-dock-shadow);
+  
+  /* Transitions */
+  transition: all var(--top-dock-transition);
+}
+
+.top-dock-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--top-dock-spacing);
+  padding: 12px;
+  height: var(--top-dock-height);
+}
+
+/* Groupes d'actions */
+.top-dock-container .primary-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-dock-container .social-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Séparateur */
+.top-dock-container .dock-separator {
+  width: 1px;
+  height: 32px;
+  background: var(--top-dock-border);
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+
+/* Style des boutons du dock */
+.top-dock-container .dock-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--top-dock-text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: 
+    transform var(--top-dock-transition),
+    background-color var(--top-dock-transition),
+    box-shadow var(--top-dock-transition);
+  
+  /* Focus et accessibilité */
+  &:focus {
+    outline: 2px solid var(--top-dock-accent);
+    outline-offset: 2px;
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  /* États hover et focus */
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.25);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    
+    .dock-label {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-8px) scale(1);
+    }
+  }
+  
+  /* État actif */
+  &:active {
+    transform: scale(1.15);
+  }
+  
+  /* Styles spécifiques pour les boutons principaux */
+  &.download-btn {
+    color: var(--top-dock-accent);
+    
+    &:hover {
+      background: rgba(79, 209, 199, 0.15);
+    }
+  }
+  
+  &.contact-btn {
+    color: var(--top-dock-text);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+  }
+  
+  /* Couleurs spécifiques par réseau social */
+  &[data-social="linkedin"]:hover {
+    background: rgba(0, 119, 181, 0.15);
+    color: #0077B5;
+  }
+  
+  &[data-social="github"]:hover {
+    background: rgba(88, 166, 255, 0.15);
+    color: #58a6ff;
+  }
+  
+  &[data-social="email"]:hover {
+    background: rgba(234, 88, 12, 0.15);
+    color: #ea580c;
+  }
+  
+  &[data-social="discord"]:hover {
+    background: rgba(88, 101, 242, 0.15);
+    color: #5865f2;
+  }
+}
+
+/* Icônes */
+.top-dock-container .dock-icon {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: currentColor;
+  transition: all var(--top-dock-transition);
+}
+
+.top-dock-container .dock-emoji {
+  font-size: 20px;
+  transition: all var(--top-dock-transition);
+}
+
+/* Labels tooltip */
+.top-dock-container .dock-label {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px) scale(0.9);
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: 
+    opacity var(--top-dock-transition),
+    visibility var(--top-dock-transition),
+    transform var(--top-dock-transition);
+  pointer-events: none;
+  z-index: 10;
+  
+  /* Flèche du tooltip */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid rgba(0, 0, 0, 0.75);
+  }
+}
+
+/* Adaptations pour le thème clair */
+[data-theme="light"] {
+  .top-dock-container .dock-button {
+    color: var(--top-dock-text);
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    &.download-btn {
+      color: var(--top-dock-accent);
+      
+      &:hover {
+        background: rgba(0, 112, 243, 0.15);
+      }
+    }
+    
+    &[data-social="github"]:hover {
+      background: rgba(33, 38, 45, 0.15);
+      color: #24292f;
+    }
+  }
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  #top-dock {
+    top: 16px;
+  }
+  
+  .top-dock-container {
+    padding: 10px 20px;
+    gap: 10px;
+  }
+  
+  .top-dock-container .dock-separator {
+    margin: 0 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  #top-dock {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    transform: none;
+    max-width: none;
+  }
+  
+  .top-dock-container {
+    padding: 8px 16px;
+    gap: 8px;
+    height: 56px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  .top-dock-container .dock-button {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+  
+  .top-dock-container .dock-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .top-dock-container .dock-emoji {
+    font-size: 16px;
+  }
+  
+  .top-dock-container .dock-separator {
+    height: 24px;
+    margin: 0 4px;
+  }
+}
+
+/* Animations réduites pour l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  #top-dock,
+  .top-dock-container .dock-button,
+  .top-dock-container .dock-icon,
+  .top-dock-container .dock-label {
+    transition-duration: 50ms;
+  }
+}

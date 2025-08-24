@@ -4,7 +4,8 @@
 
 /* Main variables for the top bar */
 :root {
-  --top-bar-height: 56px;
+  --top-bar-height: 64px;
+  --top-dock-offset: 104px; /* Hauteur du dock + marge */
   --top-bar-bg: rgba(47, 47, 47, 0.35);
   --top-bar-border: rgba(255, 255, 255, 0.40);
   --top-bar-text: #F4F4F5;

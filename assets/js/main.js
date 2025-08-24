@@ -541,8 +541,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Notification system
+// Notification system - Utilise le système du right-dock si disponible
 function showNotification(message, type = 'info') {
+    // Vérifier si le système de notifications du right-dock est disponible
+    if (window.rightDockManager && window.rightDockManager.showNotification) {
+        window.rightDockManager.showNotification(message, type);
+        return;
+    }
+    
+    // Fallback : système de notifications simple
     // Remove existing notifications
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => notification.remove());

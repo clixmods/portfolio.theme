@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}" data-theme="dark" data-page="{{ if .IsHome }}portfolio{{ else if eq .Section "posts" }}blog{{ else if eq .Section "projects" }}projects{{ else }}portfolio{{ end }}">
+<html lang="{{ .Site.Language.Lang }}" dir="{{ cond (eq .Site.Language.LanguageDirection `rtl`) `rtl` `ltr` }}" data-theme="dark" data-page="{{ if .IsHome }}portfolio{{ else if eq .Section "posts" }}blog{{ else if eq .Section "projects" }}projects{{ else }}portfolio{{ end }}">
 <head>
   {{ partial "head.html" . }}
 </head>
@@ -20,8 +20,11 @@
   <!-- Hero Background - Deep Space Aesthetic -->
   {{ partial "hero-background.html" . }}
   
-  <!-- Top Bar Navigation - Style macOS -->
-  {{ partial "top-bar.html" . }}
+  <!-- Top Dock - Actions principales -->
+  {{ partial "top-dock.html" . }}
+  
+  <!-- Right Dock - Trophées et langue -->
+  {{ partial "right-dock.html" . }}
   
   <!-- Modal de contact globale -->
   {{ partial "contact-modal.html" . }}
@@ -52,6 +55,12 @@
   {{ $personModalLogic := resources.Get "js/person-modal-logic.js" }}
   {{ if $personModalLogic }}
     <script>{{ $personModalLogic.Content | safeJS }}</script>
+  {{ end }}
+  
+  <!-- Scripts pour le système de trophées -->
+  {{ $trophiesJs := resources.Get "js/trophies.js" }}
+  {{ if $trophiesJs }}
+    <script>{{ $trophiesJs.Content | safeJS }}</script>
   {{ end }}
 </body>
 </html>

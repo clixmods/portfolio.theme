@@ -2,9 +2,9 @@
    BASE STYLES FOR THE TOP BAR
    ======================================== */
 
-/* Body adjustment to avoid overlaps */
+/* Body adjustment - only top dock offset now that top bar is removed */
 body {
-  padding-top: var(--top-bar-height);
+  padding-top: var(--top-dock-offset);
   background: var(--theme-bg);
   color: var(--theme-text);
   transition: background-color 0.3s ease, color 0.3s ease;

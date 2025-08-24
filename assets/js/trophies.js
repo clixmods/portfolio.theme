@@ -542,9 +542,9 @@
         <div class="trophy-desc">${trophy.name}</div>
       `;
       
-  // Append inside the top bar (which has the .top_bar class) so scoped styles apply
-  const topBarContainer = document.getElementById('top-bar');
-  (topBarContainer || document.body).appendChild(notification);
+  // Append to right-dock or body if right-dock doesn't exist
+  const rightDockContainer = document.getElementById('right-dock');
+  (rightDockContainer || document.body).appendChild(notification);
       
       setTimeout(() => notification.classList.add('show'), 100);
       setTimeout(() => {
@@ -565,7 +565,8 @@
       const trophyProgress = document.getElementById('trophy-progress-bar');
       
       if (trophyCount) {
-        trophyCount.textContent = `${this.unlockedTrophies.length}/${this.trophies.length}`;
+        const percentage = this.trophies.length > 0 ? Math.round((this.unlockedTrophies.length / this.trophies.length) * 100) : 0;
+        trophyCount.textContent = `${percentage}%`;
       }
       
       if (trophyProgress) {

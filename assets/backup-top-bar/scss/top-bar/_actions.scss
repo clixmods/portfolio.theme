@@ -12,10 +12,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
   border-radius: 10px;
-  padding: 4px;
-  height: 36px;
+  padding: 8px;
+  height: 56px;
   overflow: visible;
 }
 
@@ -23,9 +23,9 @@
 .top_bar .top-bar-actions .primary-actions-group {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 8px;
   border-radius: 8px;
-  padding: 1px;
+  padding: 4px;
   height: 100%;
 }
 
@@ -39,53 +39,60 @@
   align-self: center;
 }
 
-/* Primary buttons */
+/* Primary buttons - Style dock */
 .top_bar .top-bar-actions .primary-btn {
-  padding: 6px 10px !important;
-  font-weight: 600;
-  border-radius: 6px !important;
-  height: 32px !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  background: transparent !important;
+  border: none !important;
+  transition: 
+    transform var(--dock-transition, 150ms ease-out),
+    background-color var(--dock-transition, 150ms ease-out),
+    box-shadow var(--dock-transition, 150ms ease-out) !important;
+  
+  &:hover {
+    transform: scale(1.25) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  &:active {
+    transform: scale(1.15) !important;
+  }
   
   &.download-btn {
-    background: linear-gradient(135deg, var(--top-bar-accent), #7be3db) !important;
-    color: #0a0a0a !important;
+    color: var(--top-bar-accent, #4fd1c7) !important;
     
     &:hover {
-      background: linear-gradient(135deg, #7be3db, var(--top-bar-accent)) !important;
-      color: #0a0a0a !important;
-      box-shadow: 0 4px 12px rgba(79, 209, 199, 0.3);
-      transform: translateY(-1px);
+      background: rgba(79, 209, 199, 0.15) !important;
     }
     
     .top-bar-icon {
-      stroke: #0a0a0a !important;
+      stroke: currentColor !important;
     }
   }
   
   &.contact-btn {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--top-bar-text, #f4f4f5) !important;
     
     &:hover {
       background: rgba(255, 255, 255, 0.15) !important;
-      border-color: var(--top-bar-accent) !important;
-      transform: translateY(-1px);
     }
   }
 }
 
 /* Adaptations for the light theme */
 [data-theme="light"] {
-  .top_bar .top-bar-actions .contact-btn {
-    background: rgba(0, 0, 0, 0.1) !important;
-    border-color: rgba(0, 0, 0, 0.2) !important;
+  .top_bar .top-bar-actions .primary-btn.contact-btn {
+    color: var(--top-bar-text, #1a1a1a) !important;
     
     &:hover {
-      background: rgba(0, 0, 0, 0.15) !important;
-      border-color: var(--top-bar-accent) !important;
+      background: rgba(0, 0, 0, 0.1) !important;
     }
   }
   

@@ -15,17 +15,6 @@
   {{- end }}
 {{- end }}
 
-{{/* Top Bar Script */}}
-{{- with resources.Get "js/top-bar.js" }}
-  {{- if hugo.IsDevelopment }}
-    <script src="{{ .RelPermalink }}"></script>
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
-    {{- end }}
-  {{- end }}
-{{- end }}
-
 {{/* Trophies System Script */}}
 {{- with resources.Get "js/trophies.js" }}
   {{- if hugo.IsDevelopment }}
@@ -78,5 +67,23 @@
     {{- with . | minify | fingerprint }}
       <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
     {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* Right Dock Script */}}
+{{- with resources.Get "js/right-dock.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* Debug Elements Script (DEV ONLY) */}}
+{{- if hugo.IsDevelopment }}
+  {{- with resources.Get "js/debug-elements.js" }}
+    <script src="{{ .RelPermalink }}"></script>
   {{- end }}
 {{- end }}

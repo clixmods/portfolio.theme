@@ -1,0 +1,165 @@
+<!-- Right Dock - Système complet de la barre droite -->
+<nav id="right-dock" class="right-dock" role="navigation" aria-label="{{ i18n "right_toolbar" | default "Barre d'outils droite" }}">
+  <div class="right-dock-container">
+    
+    <!-- Bouton Trophées -->
+    <div class="dock-item trophies-item">
+      <button class="dock-button trophies-btn" 
+        title="{{ i18n "trophies" | default "Trophées" }}" 
+        aria-label="{{ i18n "view_trophies" | default "Voir mes trophées débloqués" }}">
+        <svg class="dock-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+          <path d="M4 22h16"></path>
+          <path d="M10 14.66V17c0 .55.47.98.97 1.21C11.56 18.75 12 19.38 12 20s-.44 1.25-1.03 1.79C10.47 21.02 10 21.45 10 22"></path>
+          <path d="M14 14.66V17c0 .55-.47.98-.97 1.21C12.44 18.75 12 19.38 12 20s.44 1.25 1.03 1.79c.5.27.97.7.97 1.21"></path>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+        </svg>
+        <span class="trophy-count" id="trophy-count">0%</span>
+        <div class="trophy-progress" id="trophy-progress">
+          <div class="trophy-progress-bar" id="trophy-progress-bar"></div>
+        </div>
+      </button>
+      <div class="dock-tooltip">{{ i18n "trophies" | default "Trophées" }}</div>
+    </div>
+
+    <!-- Bouton Theme Toggle -->
+    <div class="dock-item theme-item">
+      <button class="dock-button theme-toggle" 
+        title="{{ i18n "toggle_theme" | default "Basculer entre mode sombre et clair" }}" 
+        aria-label="{{ i18n "change_theme" | default "Changer le thème" }}">
+        <svg class="theme-icon theme-icon-dark dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="theme-icon theme-icon-light dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+      <div class="dock-tooltip">{{ i18n "toggle_theme" | default "Thème" }}</div>
+    </div>
+
+    <!-- Bouton Notifications -->
+    <div class="dock-item notifications-item">
+      <button class="dock-button notifications-btn" 
+        title="{{ i18n "notifications" | default "Notifications" }}" 
+        aria-label="{{ i18n "view_notifications" | default "Voir les notifications" }}">
+        <svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span class="notification-badge" id="notification-badge" style="display: none;">0</span>
+      </button>
+      <div class="dock-tooltip">{{ i18n "notifications" | default "Notifications" }}</div>
+      
+      <!-- Dropdown notifications -->
+      <div class="notifications-dropdown" id="notifications-dropdown">
+        <div class="notifications-header">
+          <span>{{ i18n "notifications" | default "Notifications" }}</span>
+          <button class="clear-all-btn" id="clear-all-notifications">{{ i18n "clear_all" | default "Tout effacer" }}</button>
+        </div>
+        <div class="notifications-list" id="notifications-list">
+          <div class="no-notifications">{{ i18n "no_notifications" | default "Aucune notification" }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton Langue -->
+    <div class="dock-item language-item">
+      <button class="dock-button language-btn" 
+        title="{{ i18n "change_language" | default "Changer de langue" }}" 
+        aria-label="{{ i18n "select_language" | default "Sélectionner la langue" }}">
+        <svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span class="language-flag">{{ cond (eq .Site.Language.Lang "fr") "🇫🇷" "🇬🇧" }}</span>
+      </button>
+      <div class="dock-tooltip">{{ i18n "change_language" | default "Changer de langue" }}</div>
+      
+      <!-- Dropdown menu -->
+      <div class="language-dropdown" id="language-dropdown">
+        {{/* Build a map of current page translations by lang */}}
+        {{ $current := . }}
+        {{ $translations := dict }}
+        {{ range .AllTranslations }}
+          {{ $translations = merge $translations (dict .Lang .) }}
+        {{ end }}
+        {{/* Build a map of Site objects by lang for home fallbacks */}}
+        {{ $sitesByLang := dict }}
+        {{ range $.Sites }}
+          {{ $sitesByLang = merge $sitesByLang (dict .Language.Lang .) }}
+        {{ end }}
+        {{/* Render options in configured language order */}}
+        {{ range $.Site.Languages }}
+          {{ $lang := .Lang }}
+          {{ $isCurrent := eq $lang $.Site.Language.Lang }}
+          {{ $target := index $translations $lang }}
+          {{ $siteForLang := index $sitesByLang $lang }}
+          <a href="{{ if $isCurrent }}{{ $current.RelPermalink }}{{ else if $target }}{{ $target.RelPermalink }}{{ else if $siteForLang }}{{ $siteForLang.Home.RelPermalink }}{{ else }}{{ "/" | relLangURL }}{{ end }}"
+             class="language-option {{ if $isCurrent }}active{{ end }}"
+             data-lang="{{ $lang }}">
+            <span class="flag">{{ cond (eq $lang "fr") "🇫🇷" "🇬🇧" }}</span>
+            <span>{{ .LanguageName }}</span>
+          </a>
+        {{ end }}
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<!-- Indicateur de batterie (mobile seulement) -->
+<div class="battery-indicator" id="battery-indicator" style="display: none;">
+  <svg class="battery-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="1" y="6" width="18" height="12" rx="2" ry="2"></rect>
+    <line x1="23" y1="13" x2="23" y2="11"></line>
+  </svg>
+  <span class="battery-level" id="battery-level">--</span>
+  <div class="battery-fill" id="battery-fill"></div>
+</div>
+
+<!-- Container pour les notifications toast -->
+<div class="toast-container right_dock" id="toast-container"></div>
+
+<!-- Popup trophées plein écran -->
+<div class="trophies-modal" id="trophies-modal">
+  <div class="trophies-modal-overlay"></div>
+  <div class="trophies-modal-content">
+    <div class="trophies-modal-header">
+      <div class="modal-title-section">
+        <h2 class="modal-title">{{ i18n "trophies_collection" | default "🏆 Collection de Trophées" }}</h2>
+        <p class="modal-subtitle">{{ i18n "trophies_subtitle" | default "Vos accomplissements en explorant le portfolio" }}</p>
+      </div>
+      <div class="modal-progress-section">
+        <div class="overall-progress">
+          <span class="progress-label">{{ i18n "overall_progress" | default "Progression globale" }}</span>
+          <div class="progress-bar-container">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="modal-progress-bar"></div>
+            </div>
+            <span class="progress-text" id="modal-progress-text">0/10</span>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="trophies-modal-close" aria-label="{{ i18n "close" | default "Fermer" }}">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="trophies-grid" id="trophies-grid">
+      <!-- Les trophées seront chargés dynamiquement par JavaScript -->
+    </div>
+  </div>
+</div>

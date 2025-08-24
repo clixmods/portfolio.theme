@@ -9,14 +9,6 @@
   gap: 6px;
 }
 
-/* Far right section - Separate clock */
-.top_bar .top-bar-far-right {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
 /* ========================================
    CURRENT PAGE INDICATOR
    ======================================== */
@@ -56,29 +48,6 @@
   font-weight: 500;
   color: var(--top-bar-text);
   white-space: nowrap;
-}
-
-/* ========================================
-   CLOCK
-   ======================================== */
-
-.top_bar .top-bar-clock {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  background: transparent;
-  border: none;
-  min-width: auto;
-  margin-left: 8px;
-}
-
-.top_bar .clock-time {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--top-bar-text);
-  font-family: 'Courier New', 'Monaco', monospace;
-  letter-spacing: 0.5px;
 }
 
 /* ========================================

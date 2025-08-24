@@ -349,17 +349,6 @@
   }
 }
 
-/* Styles pour le bouton contact dans la top-bar */
-.top-bar-button.contact-btn {
-  background: var(--primary-color);
-  color: white;
-}
-
-.top-bar-button.contact-btn:hover {
-  background: var(--primary-color-dark);
-  transform: translateY(-1px);
-}
-
 /* Styles pour le bouton contact dans le dock */
 .dock-button.contact-modal-trigger {
   background: none;
