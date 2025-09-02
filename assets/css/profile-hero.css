@@ -1,0 +1,482 @@
+/**
+ * PROFILE SECTION STYLES - HERO CENTERED LAYOUT
+ * 
+ * This file contains all styles related to the profile section of the portfolio website.
+ * It includes styles for the centered hero layout, navigation pills, action buttons,
+ * and responsive design adaptations for different screen sizes.
+ * 
+ * Author: Portfolio Theme
+ * Date: 2025
+ */
+
+/* ==========================================================================
+   MAIN PROFILE SECTION - HERO CENTERED
+   ========================================================================== */
+
+/**
+ * Profile Section Container - Hero Centered Layout
+ * 
+ * Fullscreen hero section with centered content, positioned to avoid dock overlap
+ */
+.profile-section.hero-centered { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100vw;
+    padding: 120px 2rem 150px 2rem; /* Top padding for top dock, bottom padding for bottom dock */
+    position: relative;
+    background: transparent; /* Use existing portfolio background */
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   HERO MAIN CONTENT
+   ========================================================================== */
+
+.hero-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    z-index: 1; /* Below docks but above background */
+    position: relative;
+}
+
+/* ==========================================================================
+   HERO AVATAR
+   ========================================================================== */
+
+.hero-avatar {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.hero-profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ff6b35;
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+}
+
+.avatar-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #ff6b35;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.avatar-badge:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.6);
+}
+
+/* Status Badge Styles */
+.status-badge {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.status-badge.available {
+    background: linear-gradient(135deg, #059669, #10b981);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+}
+
+.status-badge.unavailable {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+}
+
+.status-badge:hover {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+}
+
+.status-badge.available:hover {
+    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.6);
+}
+
+.status-badge.unavailable:hover {
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
+}
+
+/* ==========================================================================
+   HERO TEXT CONTENT
+   ========================================================================== */
+
+.hero-content {
+    text-align: center;
+}
+
+.hero-greeting {
+    color: #c4d3e0;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+}
+
+.hero-action {
+    display: inline-block;
+    margin-right: 0.5rem;
+    font-weight: 800;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Dégradés subtils et élégants pour chaque mot */
+.hero-action:nth-child(1) {
+    background: linear-gradient(
+        90deg,
+        #4ade80,
+        #22c55e,
+        #4ade80,
+        #34d399
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: subtleFlow 4s ease-in-out infinite;
+}
+
+.hero-action:nth-child(2) {
+    background: linear-gradient(
+        90deg,
+        #60a5fa,
+        #3b82f6,
+        #60a5fa,
+        #2563eb
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: subtleFlow 4s ease-in-out infinite;
+    animation-delay: 1.3s;
+}
+
+.hero-action:nth-child(3) {
+    background: linear-gradient(
+        90deg,
+        #f59e0b,
+        #d97706,
+        #f59e0b,
+        #ea580c
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: subtleFlow 4s ease-in-out infinite;
+    animation-delay: 2.6s;
+}
+
+/* Animation douce et élégante */
+@keyframes subtleFlow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Fallback pour les navigateurs qui ne supportent pas background-clip: text */
+@supports not (-webkit-background-clip: text) {
+    .hero-action:nth-child(1) { color: #4ade80; }
+    .hero-action:nth-child(2) { color: #60a5fa; }
+    .hero-action:nth-child(3) { color: #f59e0b; }
+}
+
+/* Effets hover subtils */
+.hero-action:hover {
+    transform: scale(1.02) translateY(-1px);
+    animation-duration: 2s; /* Accélère légèrement l'animation au hover */
+}
+
+.hero-action:active {
+    transform: scale(0.99);
+}
+
+.hero-subtitle {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #e2e8f0;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    max-width: 600px;
+}
+
+/* ==========================================================================
+   HERO ACTION BUTTONS
+   ========================================================================== */
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #ff6b35 0%, #f59e0b 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ==========================================================================
+   TECHNOLOGY BADGES
+   ========================================================================== */
+
+.hero-tech-badges {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.tech-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.tech-badge:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   HERO BOTTOM SECTION
+   ========================================================================== */
+
+.hero-bottom {
+    margin-top: 3rem;
+    margin-bottom: 2rem; /* Space above course cards and bottom dock */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.hero-explore {
+    color: #94a3b8;
+    font-size: 1rem;
+}
+
+.hero-scroll-indicator {
+    width: 24px;
+    height: 24px;
+    color: #64748b;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* ==========================================================================
+   COURSE PREVIEW CARDS
+   ========================================================================== */
+
+.hero-courses-preview {
+    position: absolute;
+    bottom: 120px; /* Positioned above the bottom dock */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    opacity: 0.7;
+    z-index: 5; /* Ensure it's above background but below docks */
+}
+
+.course-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1rem;
+    width: 120px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.course-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.course-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.course-card h3 {
+    font-size: 0.9rem;
+    margin: 0;
+    color: white;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .profile-section.hero-centered {
+        padding: 100px 1rem 130px 1rem; /* Adjust for mobile dock sizes */
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-primary, .btn-secondary {
+        width: 200px;
+    }
+    
+    .hero-courses-preview {
+        position: static;
+        transform: none;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .course-card {
+        width: 100px;
+    }
+    
+    /* Status Badge Mobile Styles */
+    .status-badge {
+        font-size: 10px;
+        padding: 4px 8px;
+        bottom: -6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-section.hero-centered {
+        padding: 80px 1rem 110px 1rem; /* Further adjust for small mobile screens */
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .hero-courses-preview {
+        margin-top: 1.5rem;
+    }
+    
+    /* Status Badge for very small screens */
+    .status-badge {
+        font-size: 9px;
+        padding: 3px 6px;
+        bottom: -5px;
+    }
+}

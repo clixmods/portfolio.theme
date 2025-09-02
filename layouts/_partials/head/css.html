@@ -101,6 +101,17 @@
   {{- end }}
 {{- end }}
 
+{{/* Profile Stats Styles */}}
+{{- with resources.Get "css/profile-stats.css" }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Dock Styles */}}
 {{- with resources.Get "scss/dock.scss" }}
   {{- with . | toCSS | minify }}
@@ -225,7 +236,7 @@
 {{/* Layout Components */}}
 
 {{/* Section-specific Stylesheets */}}
-{{- with resources.Get "css/profile.css" }}
+{{- with resources.Get "css/profile-hero.css" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
   {{- else }}

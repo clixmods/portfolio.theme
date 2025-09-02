@@ -15,6 +15,17 @@
   {{- end }}
 {{- end }}
 
+{{/* Hero Section Script */}}
+{{- with resources.Get "js/hero-section.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Trophies System Script */}}
 {{- with resources.Get "js/trophies.js" }}
   {{- if hugo.IsDevelopment }}
@@ -28,6 +39,17 @@
 
 {{/* Dock Script */}}
 {{- with resources.Get "js/dock-clean.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* Scroll Visibility Management */}}
+{{- with resources.Get "js/scroll-visibility.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}

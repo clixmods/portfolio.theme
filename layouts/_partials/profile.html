@@ -1,49 +1,74 @@
-<section id="profil" class="profile-section">
+<section id="profil" class="profile-section hero-centered">
     {{ with .Site.Data.profile }}
-    <div class="profile-content">
-        <div class="profile-left">
-            <div class="profile-info">
-                <p class="greeting">{{ i18n "greeting" | default .personal.greeting }}</p>
-                <h1>{{ i18n "i_am" | default "Je suis" }} {{ .personal.firstName }} <span class="name">"Clix"</span> {{ .personal.lastName }}</h1>
-                <p class="title">{{ with .personal.title }}{{ . }}{{ end }}</p>
-                {{ with .personal.subtitle }}<p class="cta">{{ . }}</p>{{ end }}
+    <!-- Main Hero Content -->
+    <div class="hero-main">
+        <!-- Avatar Circle with Status Badge -->
+        <div class="hero-avatar">
+            <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="hero-profile-image">
+            <div class="avatar-badge status-badge {{ if .availability.available }}available{{ else }}unavailable{{ end }}">
+                {{ .availability.status }}
             </div>
         </div>
-        
-        <div class="profile-right">
-            <div class="avatar-container">
-                <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="profile-image">
+
+        <!-- Hero Text -->
+        <div class="hero-content">
+            <p class="hero-greeting">{{ .personal.greeting }} Envie de devenir un Grand Développeur ?</p>
+            <h1 class="hero-title">
+                <span class="hero-action">Créer.</span>
+                <span class="hero-action">Coder.</span>
+                <span class="hero-action">Réussir.</span>
+            </h1>
+            <h2 class="hero-subtitle">{{ .personal.subtitle }}</h2>
+            
+            <p class="hero-description">
+                Développeur C# / Unity passionné par la création vidéoludique. 
+                Actuellement en alternance chez Studio La Moutarde et étudiant en BUT 3 IAMSI. 
+                De la conception à la production, je maîtrise tout le pipeline de développement 
+                pour créer des expériences interactives mémorables.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="hero-actions">
+                <button class="btn-primary">
+                    � Contact
+                </button>
+                <button class="btn-secondary">
+                    📄 Télécharger CV
+                </button>
+            </div>
+
+            <!-- Statistics Indicators -->
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-value">2+</div>
+                    <div class="stat-label">ans d'expérience pro</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "in" (slice "games-professionnel" "games-personnel" "games-gamejams")) }}</div>
+                    <div class="stat-label">jeux créés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "in" (slice "appsweb-professionnel" "appsweb-etude")) }}</div>
+                    <div class="stat-label">apps web</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ add (len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "mods")) (len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "tools")) }}</div>
+                    <div class="stat-label">mods & tools</div>
+                </div>
             </div>
         </div>
     </div>
-    
-    <!-- Horizontal stats bar in the middle bottom -->
-    <div class="profile-stats">
-        <div class="stat-item">
-            <div class="stat-number">{{ i18n "level_junior" | default "Junior" }}</div>
-            <div class="stat-label">{{ i18n "years_experience" | default "2 années<br>d'expérience professionnel" | safeHTML }}</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "games") }}</div>
-            <div class="stat-label">{{ i18n "games" | default "Jeux" }}</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "apps-web") }}</div>
-            <div class="stat-label">{{ i18n "apps_web" | default "Apps/Web" }}</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">{{ len (where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "mods-tools") }}</div>
-            <div class="stat-label">{{ i18n "mods_tools" | default "Mods & Tools" }}</div>
+
+    <!-- Bottom Section -->
+    <div class="hero-bottom">
+        <p class="hero-explore">Explore !</p>
+        <div class="hero-scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+            </svg>
         </div>
     </div>
-    </div>
-{{- end }}
+
+    {{- end }}
 </section>
 
-<!-- Profile Interactive JavaScript -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Floating projects functionality removed
-    console.log('Profile section loaded without floating projects');
-});
-</script>
