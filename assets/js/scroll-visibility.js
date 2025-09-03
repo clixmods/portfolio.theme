@@ -66,6 +66,9 @@ function initScrollVisibility() {
         }
         
         // Gestion des boutons CV et Contact dans le top-dock
+        const primaryGroup = topDock?.querySelector('.primary-actions-group');
+        const separator = topDock?.querySelector('.dock-separator');
+        
         [downloadBtn, contactBtn].forEach(btn => {
             if (btn) {
                 if (isInHero) {
@@ -80,12 +83,51 @@ function initScrollVisibility() {
             }
         });
         
+        // Gestion complète de l'espace pour éliminer les gaps
+        if (isInHero) {
+            // Après la transition, masquer complètement les éléments
+            setTimeout(() => {
+                if (primaryGroup) {
+                    primaryGroup.style.display = 'none';
+                }
+                if (separator) {
+                    separator.style.display = 'none';
+                }
+            }, 220); // Après la transition width/opacity
+        } else {
+            // Réafficher immédiatement avant la transition
+            if (primaryGroup) {
+                primaryGroup.style.display = 'flex';
+            }
+            if (separator) {
+                separator.style.display = 'block';
+            }
+        }
+        
+        // Gestion de la taille et position du dock avec animation de fusion/détachement
+        if (topDock) {
+            if (isInHero) {
+                // Mode compact - fusion vers la gauche
+                topDock.classList.remove('is-detaching');
+                topDock.classList.add('is-compact');
+            } else {
+                // Mode normal - détachement vers le centre
+                topDock.classList.add('is-detaching');
+                topDock.classList.remove('is-compact');
+                
+                // Retire la classe d'animation après la transition (réduit à 300ms)
+                setTimeout(() => {
+                    topDock.classList.remove('is-detaching');
+                }, 300);
+            }
+        }
+        
         // Force la mise à jour du dock principal si nécessaire
         if (window.DockNavigation && typeof window.DockNavigation.reinit === 'function') {
-            // Petit délai pour laisser les transitions se terminer
+            // Délai réduit pour une meilleure réactivité
             setTimeout(() => {
                 window.DockNavigation.reinit();
-            }, 100);
+            }, 50);
         }
     }
 
@@ -106,11 +148,17 @@ function initScrollVisibility() {
     // Observer la section hero
     heroObserver.observe(heroSection);
 
-    // Gestion du scroll pour un contrôle plus précis
+    // Gestion du scroll pour un contrôle plus précis - optimisée pour les performances
     let ticking = false;
     let lastKnownState = null;
+    let scrollTimeout = null;
     
     function handleScroll() {
+        // Debounce pour éviter trop d'appels
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        
         if (!ticking) {
             requestAnimationFrame(() => {
                 const heroRect = heroSection.getBoundingClientRect();
@@ -122,8 +170,6 @@ function initScrollVisibility() {
                 // Éviter les mises à jour inutiles
                 if (lastKnownState !== isInHeroViewport) {
                     console.log(`State change detected: ${lastKnownState} -> ${isInHeroViewport}`);
-                    console.log(`Hero rect:`, heroRect);
-                    console.log(`Window height:`, windowHeight);
                     
                     updateVisibility(isInHeroViewport);
                     lastKnownState = isInHeroViewport;
@@ -133,6 +179,11 @@ function initScrollVisibility() {
             });
             ticking = true;
         }
+        
+        // Timeout de sécurité
+        scrollTimeout = setTimeout(() => {
+            ticking = false;
+        }, 16); // ~60fps
     }
     
     // Écoute du scroll
@@ -171,6 +222,38 @@ function initScrollVisibility() {
                 btn.style.transform = 'scale(1) translateY(0)';
             }
         });
+        const primaryGroup = topDock?.querySelector('.primary-actions-group');
+        const separator = topDock?.querySelector('.dock-separator');
+        if (primaryGroup) {
+            primaryGroup.style.display = 'flex';
+        }
+        if (separator) {
+            separator.style.display = 'block';
+        }
+        if (topDock) {
+            topDock.classList.remove('is-compact', 'is-detaching');
+        }
+    };
+    
+    // Fonction pour tester l'animation de fusion
+    window.debugTestMerge = function() {
+        console.log('Testing dock merge animation');
+        if (topDock) {
+            topDock.classList.remove('is-detaching');
+            topDock.classList.add('is-compact');
+        }
+    };
+    
+    // Fonction pour tester l'animation de détachement
+    window.debugTestDetach = function() {
+        console.log('Testing dock detach animation');
+        if (topDock) {
+            topDock.classList.add('is-detaching');
+            topDock.classList.remove('is-compact');
+            setTimeout(() => {
+                topDock.classList.remove('is-detaching');
+            }, 300);
+        }
     };
     
     // Fonction pour réinitialiser complètement le système

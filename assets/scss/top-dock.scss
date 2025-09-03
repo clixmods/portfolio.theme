@@ -42,8 +42,62 @@
   border: 1px solid var(--top-dock-border);
   box-shadow: 0 4px 16px var(--top-dock-shadow);
   
-  /* Transitions */
-  transition: all var(--top-dock-transition);
+  /* Optimisation des performances pour les animations */
+  will-change: transform, left;
+  
+  /* Transitions plus fluides et plus rapides */
+  transition: 
+    transform 250ms cubic-bezier(0.23, 1, 0.32, 1),
+    left 250ms cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 150ms ease-out;
+  
+  /* État compact - se positionne à gauche */
+  &.is-compact {
+    left: 24px;
+    transform: translateX(0);
+    
+    .top-dock-container {
+      padding: 8px 16px;
+      justify-content: center;
+      gap: 0; /* Supprime l'espace entre les groupes */
+      
+      .primary-actions-group {
+        width: 0;
+        overflow: hidden;
+        opacity: 0;
+        margin: 0;
+        padding: 0;
+        transform: scale(0.9);
+        /* Force la suppression complète de l'espace */
+        max-width: 0;
+        min-width: 0;
+        flex-basis: 0;
+      }
+      
+      .dock-separator {
+        width: 0;
+        margin: 0;
+        opacity: 0;
+        transform: scaleX(0);
+        /* Force la suppression complète */
+        max-width: 0;
+        min-width: 0;
+        flex-basis: 0;
+        flex-shrink: 1;
+      }
+      
+      .social-actions-group {
+        transform: translateX(0);
+        /* S'assure que le groupe social prend toute la place */
+        flex-shrink: 0;
+      }
+    }
+    
+    /* Effet visuel plus subtil en mode compact */
+    box-shadow: 
+      0 4px 20px var(--top-dock-shadow),
+      0 0 0 1px rgba(79, 209, 199, 0.15);
+  }
 }
 
 .top-dock-container {
@@ -53,6 +107,8 @@
   gap: var(--top-dock-spacing);
   padding: 12px;
   height: var(--top-dock-height);
+  /* Ajouter transition sur le gap pour une animation fluide */
+  transition: gap 200ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Groupes d'actions */
@@ -60,12 +116,26 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  /* Optimisation des performances */
+  will-change: width, opacity, transform;
+  /* Transitions plus rapides et plus fluides */
+  transition: 
+    width 200ms cubic-bezier(0.23, 1, 0.32, 1),
+    opacity 150ms ease-out,
+    transform 200ms cubic-bezier(0.23, 1, 0.32, 1),
+    margin 200ms ease-out,
+    padding 200ms ease-out,
+    max-width 200ms cubic-bezier(0.23, 1, 0.32, 1),
+    min-width 200ms cubic-bezier(0.23, 1, 0.32, 1),
+    flex-basis 200ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .top-dock-container .social-actions-group {
   display: flex;
   align-items: center;
   gap: 8px;
+  will-change: transform;
+  transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Séparateur */
@@ -75,6 +145,15 @@
   background: var(--top-dock-border);
   margin: 0 8px;
   flex-shrink: 0;
+  will-change: width, opacity, transform;
+  transition: 
+    width 180ms cubic-bezier(0.23, 1, 0.32, 1),
+    opacity 120ms ease-out,
+    transform 180ms cubic-bezier(0.23, 1, 0.32, 1),
+    margin 180ms ease-out,
+    max-width 180ms cubic-bezier(0.23, 1, 0.32, 1),
+    min-width 180ms cubic-bezier(0.23, 1, 0.32, 1),
+    flex-basis 180ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Style des boutons du dock */
@@ -239,10 +318,52 @@
   }
 }
 
+/* Animation de fusion/détachement - version simplifiée et plus fluide */
+@keyframes dock-merge {
+  from {
+    box-shadow: 0 4px 16px var(--top-dock-shadow);
+  }
+  to {
+    box-shadow: 
+      0 4px 20px var(--top-dock-shadow),
+      0 0 0 1px rgba(79, 209, 199, 0.15);
+  }
+}
+
+@keyframes dock-detach {
+  from {
+    box-shadow: 
+      0 4px 20px var(--top-dock-shadow),
+      0 0 0 1px rgba(79, 209, 199, 0.15);
+  }
+  to {
+    box-shadow: 0 4px 16px var(--top-dock-shadow);
+  }
+}
+
+/* Application des animations - plus courtes et plus fluides */
+#top-dock {
+  &.is-compact {
+    animation: dock-merge 300ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+  
+  &.is-detaching {
+    animation: dock-detach 300ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+}
+
 /* Responsive design */
 @media (max-width: 1024px) {
   #top-dock {
     top: 16px;
+    
+    &.is-compact {
+      left: 20px;
+      
+      .top-dock-container {
+        padding: 6px 12px;
+      }
+    }
   }
   
   .top-dock-container {
@@ -262,6 +383,18 @@
     right: 12px;
     transform: none;
     max-width: none;
+    
+    /* En mode compact sur mobile, reste centré mais plus compact */
+    &.is-compact {
+      left: 12px;
+      right: 12px;
+      transform: none;
+      
+      .top-dock-container {
+        padding: 6px 12px;
+        justify-content: center;
+      }
+    }
   }
   
   .top-dock-container {
@@ -300,6 +433,15 @@
   .top-dock-container .dock-separator {
     height: 24px;
     margin: 0 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  #top-dock {
+    &.is-compact {
+      left: 8px;
+      right: 8px;
+    }
   }
 }
 
