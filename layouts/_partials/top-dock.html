@@ -14,11 +14,10 @@
           <line x1="12" y1="18" x2="12" y2="12"></line>
           <polyline points="9 15 12 18 15 15"></polyline>
         </svg>
-        <span class="dock-label">{{ i18n "download_resume" | default "Télécharger le CV" }}</span>
       </a>
       
       <!-- Bouton Contact Modal -->
-      <button class="dock-button primary-btn contact-btn" 
+      <button class="dock-button primary-btn contact-btn contact-modal-trigger" 
               id="contact-modal-trigger-dock"
               title="{{ i18n "contact_me" | default "Contactez-moi" }}"
               aria-label="{{ i18n "contact_me" | default "Contactez-moi" }}">
@@ -26,7 +25,6 @@
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
           <polyline points="22 6 12 13 2 6"></polyline>
         </svg>
-        <span class="dock-label">{{ i18n "contact_me" | default "Contactez-moi" }}</span>
       </button>
     </div>
     
@@ -39,7 +37,7 @@
       <a href="{{ .url }}" 
          {{ if .external }}target="_blank" rel="noopener noreferrer"{{ end }} 
          class="dock-button social-btn" 
-         title="{{ .title }}"
+         title="{{ if eq .title "LinkedIn" }}LinkedIn{{ else if eq .title "GitHub" }}GitHub{{ else if eq .title "Email" }}Email{{ else if eq .title "Discord" }}Discord{{ else }}{{ .title }}{{ end }}"
          data-social="{{ lower .title }}">
         {{ if eq .title "LinkedIn" }}
         <svg class="dock-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -61,7 +59,6 @@
         {{ else }}
         <span class="dock-emoji">{{ .icon }}</span>
         {{ end }}
-        <span class="dock-label">{{ .title }}</span>
       </a>
       {{ end }}
     </div>

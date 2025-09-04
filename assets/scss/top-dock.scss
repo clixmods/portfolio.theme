@@ -34,6 +34,7 @@
   transform: translateX(-50%);
   z-index: 1900;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: visible;
   
   /* Effets visuels style dock translucide */
   background: var(--top-dock-bg);
@@ -107,6 +108,7 @@
   gap: var(--top-dock-spacing);
   padding: 12px;
   height: var(--top-dock-height);
+  overflow: visible;
   /* Ajouter transition sur le gap pour une animation fluide */
   transition: gap 200ms cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -191,17 +193,71 @@
     transform: scale(1.25);
     background: rgba(255, 255, 255, 0.1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    
-    .dock-label {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(-8px) scale(1);
-    }
   }
   
   /* État actif */
   &:active {
     transform: scale(1.15);
+  }
+  
+  /* Tooltip via attribut title */
+  &::after {
+    content: attr(title);
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: 
+      opacity var(--top-dock-transition),
+      visibility var(--top-dock-transition),
+      transform var(--top-dock-transition);
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Flèche du tooltip */
+  &::before {
+    content: '';
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.85);
+    opacity: 0;
+    visibility: hidden;
+    transition: 
+      opacity var(--top-dock-transition),
+      visibility var(--top-dock-transition);
+    pointer-events: none;
+    z-index: 11;
+  }
+  
+  /* Affichage au hover */
+  &:hover::after,
+  &:hover::before,
+  &:focus-visible::after,
+  &:focus-visible::before {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  &:hover::after,
+  &:focus-visible::after {
+    transform: translateX(-50%) scale(1);
   }
   
   /* Styles spécifiques pour les boutons principaux */
@@ -248,6 +304,7 @@
   width: 24px;
   height: 24px;
   stroke: currentColor;
+  stroke-width: 0; 
   fill: currentColor;
   transition: all var(--top-dock-transition);
 }
@@ -255,43 +312,6 @@
 .top-dock-container .dock-emoji {
   font-size: 20px;
   transition: all var(--top-dock-transition);
-}
-
-/* Labels tooltip */
-.top-dock-container .dock-label {
-  position: absolute;
-  bottom: 120%;
-  left: 50%;
-  transform: translateX(-50%) translateY(8px) scale(0.9);
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: 
-    opacity var(--top-dock-transition),
-    visibility var(--top-dock-transition),
-    transform var(--top-dock-transition);
-  pointer-events: none;
-  z-index: 10;
-  
-  /* Flèche du tooltip */
-  &::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 4px solid rgba(0, 0, 0, 0.75);
-  }
 }
 
 /* Adaptations pour le thème clair */

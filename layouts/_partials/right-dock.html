@@ -5,28 +5,45 @@
     <!-- Bouton Trophées -->
     <div class="dock-item trophies-item">
       <button class="dock-button trophies-btn" 
-        title="{{ i18n "trophies" | default "Trophées" }}" 
+        title="Trophées" 
         aria-label="{{ i18n "view_trophies" | default "Voir mes trophées débloqués" }}">
-        <svg class="dock-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
-          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
-          <path d="M4 22h16"></path>
-          <path d="M10 14.66V17c0 .55.47.98.97 1.21C11.56 18.75 12 19.38 12 20s-.44 1.25-1.03 1.79C10.47 21.02 10 21.45 10 22"></path>
-          <path d="M14 14.66V17c0 .55-.47.98-.97 1.21C12.44 18.75 12 19.38 12 20s.44 1.25 1.03 1.79c.5.27.97.7.97 1.21"></path>
-          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
-        </svg>
+        <img class="dock-icon" src="/images/trophy.png" alt="Trophées" width="20" height="20">
         <span class="trophy-count" id="trophy-count">0%</span>
+        <!-- Barre de progression circulaire -->
         <div class="trophy-progress" id="trophy-progress">
-          <div class="trophy-progress-bar" id="trophy-progress-bar"></div>
+          <svg class="trophy-progress-circle" viewBox="0 0 52 52">
+            <!-- Track circle (background) -->
+            <circle class="trophy-progress-track"
+                    cx="26" cy="26" r="24"
+                    fill="none" 
+                    stroke="rgba(255, 215, 0, 0.2)" 
+                    stroke-width="2"/>
+            <!-- Progress circle -->
+            <circle class="trophy-progress-bar"
+                    cx="26" cy="26" r="24"
+                    fill="none" 
+                    stroke="url(#trophyGradient)" 
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-dasharray="150.72"
+                    stroke-dashoffset="150.72"
+                    id="trophy-progress-bar"/>
+            <!-- Gradient definition -->
+            <defs>
+              <linearGradient id="trophyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
       </button>
-      <div class="dock-tooltip">{{ i18n "trophies" | default "Trophées" }}</div>
     </div>
 
     <!-- Bouton Theme Toggle -->
     <div class="dock-item theme-item">
       <button class="dock-button theme-toggle" 
-        title="{{ i18n "toggle_theme" | default "Basculer entre mode sombre et clair" }}" 
+        title="Thème" 
         aria-label="{{ i18n "change_theme" | default "Changer le thème" }}">
         <svg class="theme-icon theme-icon-dark dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -43,13 +60,12 @@
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
       </button>
-      <div class="dock-tooltip">{{ i18n "toggle_theme" | default "Thème" }}</div>
     </div>
 
     <!-- Bouton Notifications -->
     <div class="dock-item notifications-item">
       <button class="dock-button notifications-btn" 
-        title="{{ i18n "notifications" | default "Notifications" }}" 
+        title="Notifications" 
         aria-label="{{ i18n "view_notifications" | default "Voir les notifications" }}">
         <svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -57,7 +73,6 @@
         </svg>
         <span class="notification-badge" id="notification-badge" style="display: none;">0</span>
       </button>
-      <div class="dock-tooltip">{{ i18n "notifications" | default "Notifications" }}</div>
       
       <!-- Dropdown notifications -->
       <div class="notifications-dropdown" id="notifications-dropdown">
@@ -74,16 +89,18 @@
     <!-- Bouton Langue -->
     <div class="dock-item language-item">
       <button class="dock-button language-btn" 
-        title="{{ i18n "change_language" | default "Changer de langue" }}" 
+        title="Langue" 
         aria-label="{{ i18n "select_language" | default "Sélectionner la langue" }}">
-        <svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"></circle>
+        <svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <!-- Cercle principal de la sphère -->
+          <circle cx="12" cy="12" r="10" fill="none"></circle>
+          <!-- Équateur horizontal -->
           <line x1="2" y1="12" x2="22" y2="12"></line>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          <!-- Méridien central vertical -->
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none"></path>
         </svg>
         <span class="language-flag">{{ cond (eq .Site.Language.Lang "fr") "🇫🇷" "🇬🇧" }}</span>
       </button>
-      <div class="dock-tooltip">{{ i18n "change_language" | default "Changer de langue" }}</div>
       
       <!-- Dropdown menu -->
       <div class="language-dropdown" id="language-dropdown">

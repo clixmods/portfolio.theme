@@ -1,17 +1,17 @@
-/* Variables CSS pour le dock */
+/* Variables CSS pour le dock - harmonisées avec top-dock */
 :root {
-  --dock-bg: rgba(47, 47, 47, 0.35);
+  --dock-bg: var(--top-dock-bg, rgba(47, 47, 47, 0.35));
   --dock-accent: #000000;
-  --dock-shadow: rgba(0, 0, 0, 0.4);
-  --dock-border: rgba(255, 255, 255, 0.40);
-  --dock-text: #F4F4F5;
-  --dock-radius: 48px;
-  --dock-blur: 10px;
+  --dock-shadow: var(--top-dock-shadow, rgba(0, 0, 0, 0.4));
+  --dock-border: var(--top-dock-border, rgba(255, 255, 255, 0.40));
+  --dock-text: var(--top-dock-text, #F4F4F5);
+  --dock-radius: var(--top-dock-radius, 48px);
+  --dock-blur: var(--top-dock-blur, 10px);
   --dock-height-desktop: 72px;
   --dock-height-mobile: 64px;
   --dock-spacing-desktop: 24px;
   --dock-spacing-mobile: 16px;
-  --dock-transition: 150ms ease-out;
+  --dock-transition: var(--top-dock-transition, 150ms ease-out);
 }
 
 /* Thème clair via attribut data-theme (suit le toggle du site) */
@@ -43,7 +43,7 @@
   }
 }
 
-/* Container principal du dock */
+/* Container principal du dock - harmonisé avec top-dock */
 #dock {
   position: fixed;
   bottom: 20px;
@@ -53,11 +53,12 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   max-width: 1200px;
   
-  /* Effets visuels */
+  /* Effets visuels harmonisés avec top-dock */
   background: var(--dock-bg);
   backdrop-filter: blur(var(--dock-blur));
   border-radius: var(--dock-radius);
   border: 1px solid var(--dock-border);
+  box-shadow: 0 4px 16px var(--dock-shadow);
 
   /* Support fallback pour navigateurs plus anciens */
   @supports not (backdrop-filter: blur(10px)) {
@@ -126,7 +127,7 @@
     .dock-label {
       opacity: 1;
       visibility: visible;
-      transform: translateY(-8px) scale(1);
+      transform: translateX(-50%) scale(1);
     }
   }
   
@@ -141,18 +142,19 @@
   width: 24px;
   height: 24px;
   stroke: currentColor;
+  stroke-width: 2; /* Réduit la largeur du stroke pour moins d'épaisseur */
   transition: stroke var(--dock-transition);
 }
 
 /* Label tooltip */
 .dock-label {
   position: absolute;
-  bottom: 120%;
+  bottom: calc(100% + 12px);
   left: 50%;
-  transform: translateX(-50%) translateY(8px) scale(0.9);
-  background: rgba(0, 0, 0, 0.75);
+  transform: translateX(-50%) scale(0.9);
+  background: rgba(0, 0, 0, 0.85);
   color: white;
-  padding: 4px 8px;
+  padding: 6px 10px;
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 500;
@@ -165,6 +167,7 @@
     transform var(--dock-transition);
   pointer-events: none;
   z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   
   /* Flèche du tooltip */
   &::after {
@@ -175,9 +178,9 @@
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 4px solid rgba(0, 0, 0, 0.75);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(0, 0, 0, 0.85);
   }
 }
 
@@ -228,7 +231,8 @@
   
   .dock-label {
     font-size: 0.75rem;
-    bottom: 110%;
+    bottom: calc(100% + 10px);
+    padding: 4px 8px;
   }
 }
 
@@ -271,7 +275,7 @@
   .dock-button:hover .dock-label {
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-50%) translateY(8px) scale(0.9);
+    transform: translateX(-50%) scale(0.9);
   }
 }
 

@@ -571,7 +571,15 @@
       
       if (trophyProgress) {
         const percentage = this.trophies.length > 0 ? (this.unlockedTrophies.length / this.trophies.length) * 100 : 0;
-        trophyProgress.style.width = `${percentage}%`;
+        
+        // Pour le SVG circulaire, utilise stroke-dashoffset
+        const circumference = 150.72; // 2 * PI * 24 (rayon du cercle)
+        const offset = circumference - (percentage / 100) * circumference;
+        
+        trophyProgress.style.strokeDashoffset = offset;
+        
+        // Animation fluide
+        trophyProgress.style.transition = 'stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
       }
     }
 

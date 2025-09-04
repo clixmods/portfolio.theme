@@ -159,9 +159,11 @@
 .hero-description {
     font-size: 1.1rem;
     line-height: 1.6;
-    color: #94a3b8;
+    color: #cbd5e1;
     margin-bottom: 2rem;
     max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ==========================================================================
@@ -375,8 +377,6 @@
         padding: 0.4rem 0.8rem;
         font-size: 0.8rem;
     }
-}
-    animation: fadeInUp 1s ease 0.7s forwards;
 }
 
 .profile-info h1 .name {

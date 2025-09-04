@@ -36,17 +36,31 @@ document.addEventListener('DOMContentLoaded', function() {
         primaryBtn.addEventListener('click', function() {
             console.log('Primary action clicked: Contact');
             // Ouvre la modal de contact
-            const contactModalTrigger = document.getElementById('contact-modal-trigger');
+            let contactModalTrigger = document.getElementById('contact-modal-trigger');
+            if (!contactModalTrigger) {
+                // Fallback : cherche par ID alternatif
+                contactModalTrigger = document.getElementById('contact-modal-trigger-dock');
+            }
+            if (!contactModalTrigger) {
+                // Fallback : cherche par classe
+                contactModalTrigger = document.querySelector('.contact-modal-trigger');
+            }
+            
             if (contactModalTrigger) {
                 contactModalTrigger.click();
             } else {
-                // Fallback : scroll vers la section contact si elle existe
-                const contactSection = document.querySelector('#contact');
-                if (contactSection) {
-                    contactSection.scrollIntoView({ 
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                // Fallback : utilise la fonction globale de contact modal si disponible
+                if (window.contactModal && window.contactModal.open) {
+                    window.contactModal.open();
+                } else {
+                    // Dernier fallback : scroll vers la section contact si elle existe
+                    const contactSection = document.querySelector('#contact');
+                    if (contactSection) {
+                        contactSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 }
             }
         });
