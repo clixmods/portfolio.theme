@@ -33,12 +33,10 @@ class ExperienceTiles {
         this.projectTiles = document.querySelectorAll('.project-item');
         this.experienceSection = document.querySelector('.experience-section');
         this.tabButtons = document.querySelectorAll('.exp-tab-btn');
-        this.layoutButtons = document.querySelectorAll('.layout-btn');
         this.projectsContainers = document.querySelectorAll('.projects-container');
         
         // Debug info
         console.log(`Found ${this.projectTiles.length} project tiles`);
-        console.log(`Found ${this.layoutButtons.length} layout buttons`);
     }
 
     bindEvents() {
@@ -53,14 +51,6 @@ class ExperienceTiles {
         this.tabButtons.forEach(btn => {
             btn.addEventListener('click', (e) => this.handleTabChange(e));
         });
-
-        // Événements pour les contrôles de layout
-        this.layoutButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => this.handleLayoutChange(e));
-        });
-
-        // Initialiser les boutons de layout actifs
-        this.initializeLayoutButtons();
 
         // Redimensionnement de la fenêtre
         window.addEventListener('resize', () => this.handleResize());
@@ -186,50 +176,6 @@ class ExperienceTiles {
         // Réinitialiser les transformations lors du redimensionnement
         this.projectTiles.forEach(tile => {
             tile.style.transform = '';
-        });
-    }
-
-    handleLayoutChange(e) {
-        const clickedButton = e.currentTarget;
-        const layout = clickedButton.dataset.layout;
-        const projectsSection = clickedButton.closest('.projects-section');
-        const container = projectsSection.querySelector('.projects-container');
-        const layoutButtons = projectsSection.querySelectorAll('.layout-btn');
-        
-        // Mise à jour des boutons actifs
-        layoutButtons.forEach(btn => btn.classList.remove('active'));
-        clickedButton.classList.add('active');
-        
-        // Changement du layout
-        container.className = `projects-container projects-container-${layout}`;
-        
-        // Animation de transition
-        container.style.opacity = '0.5';
-        setTimeout(() => {
-            container.style.opacity = '1';
-            // Ré-initialiser les événements pour les nouvelles positions
-            this.cacheElements();
-            this.bindEvents();
-        }, 150);
-        
-        // Feedback tactile
-        if (navigator.vibrate) {
-            navigator.vibrate(30);
-        }
-    }
-
-    initializeLayoutButtons() {
-        // Marquer les boutons correspondant au layout par défaut comme actifs
-        this.projectsContainers.forEach(container => {
-            const defaultLayout = container.dataset.defaultLayout || 'horizontal';
-            const section = container.closest('.projects-section');
-            const layoutButtons = section.querySelectorAll('.layout-btn');
-            
-            layoutButtons.forEach(btn => {
-                if (btn.dataset.layout === defaultLayout) {
-                    btn.classList.add('active');
-                }
-            });
         });
     }
 

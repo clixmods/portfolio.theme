@@ -469,42 +469,6 @@
 }
 
 /**
- * Layout control buttons
- */
-.layout-controls {
-    display: flex;
-    gap: 0.5rem;
-    background: rgba(var(--slate-rgb), 0.5);
-    border-radius: 8px;
-    padding: 0.25rem;
-    border: 1px solid rgba(var(--accent-rgb), 0.2);
-}
-
-.layout-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-neutral);
-    padding: 0.5rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.layout-btn:hover {
-    color: var(--accent);
-    background: rgba(var(--accent-rgb), 0.1);
-}
-
-.layout-btn.active {
-    color: var(--text-primary);
-    background: rgba(var(--accent-rgb), 0.3);
-    box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.2);
-}
-
-/**
  * Projects container - horizontal layout (grid)
  */
 .projects-container-horizontal {
@@ -1217,14 +1181,6 @@
         flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
-    }
-    
-    .layout-controls {
-        align-self: flex-end;
-    }
-    
-    .layout-btn {
-        padding: 0.4rem;
     }
     
     .projects-container-horizontal {

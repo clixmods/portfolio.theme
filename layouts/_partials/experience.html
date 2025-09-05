@@ -45,18 +45,6 @@
                 <div class="projects-section">
                     <div class="projects-header">
                         <h5>{{ i18n "main_projects" | default "Projets principaux :" }}</h5>
-                        <div class="layout-controls">
-                            <button class="layout-btn" data-layout="horizontal" title="{{ i18n "grid_view" | default "Affichage grille" }}">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M3,11H11V3H3M3,21H11V13H3M13,21H21V13H13M13,3V11H21V3"/>
-                                </svg>
-                            </button>
-                            <button class="layout-btn" data-layout="vertical" title="{{ i18n "list_view" | default "Affichage liste" }}">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M3,5H21V3H3M3,13H21V11H3M3,21H21V19H3"/>
-                                </svg>
-                            </button>
-                        </div>
                     </div>
                     {{ $layout := $exp.Params.projects_layout | default "horizontal" }}
                     <div class="projects-container projects-container-{{ $layout }}" data-default-layout="{{ $layout }}">
