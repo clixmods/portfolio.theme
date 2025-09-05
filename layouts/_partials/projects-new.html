@@ -45,11 +45,11 @@
     <div class="projects-grid" id="projects-grid">
         <!-- Games Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
-        {{ if and .Params.featured (eq .Params.sector "games") }}
+        {{ if and .Params.featured (hasPrefix .Params.sector "games") }}
         <div class="ps5-project-tile" 
              data-project-id="{{ .File.BaseFileName }}" 
              data-background-image="{{ .Params.background_image | default .Params.image }}"
-             data-sector="games"
+             data-sector="{{ .Params.sector }}"
              data-category="games" 
              data-technologies='{{ partial "combined-technologies.html" . }}'>
             
@@ -122,11 +122,11 @@
 
         <!-- Apps/Web Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
-        {{ if and .Params.featured (eq .Params.sector "apps-web") }}
+        {{ if and .Params.featured (hasPrefix .Params.sector "appsweb") }}
         <div class="ps5-project-tile" 
              data-project-id="{{ .File.BaseFileName }}" 
              data-background-image="{{ .Params.background_image | default .Params.image }}"
-             data-sector="apps-web"
+             data-sector="{{ .Params.sector }}"
              data-category="apps-web" 
              data-technologies='{{ partial "combined-technologies.html" . }}'
              style="display: none;">
@@ -200,11 +200,11 @@
 
         <!-- Mods & Tools Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
-        {{ if and .Params.featured (eq .Params.sector "mods-tools") }}
+        {{ if and .Params.featured (or (eq .Params.sector "mods") (eq .Params.sector "tools")) }}
         <div class="ps5-project-tile" 
              data-project-id="{{ .File.BaseFileName }}" 
              data-background-image="{{ .Params.background_image | default .Params.image }}"
-             data-sector="mods-tools"
+             data-sector="{{ .Params.sector }}"
              data-category="mods-tools" 
              data-technologies='{{ partial "combined-technologies.html" . }}'
              style="display: none;">

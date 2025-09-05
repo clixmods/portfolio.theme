@@ -47,23 +47,111 @@
                             <strong>{{ i18n "grade" | default "Résultat :" }}</strong> {{ .Params.grade }}
                         </div>
                         
+                        {{ if or .Params.programming_languages .Params.frameworks_engines .Params.tools }}
                         <div class="timeline-skills">
-                            <strong>{{ i18n "skills_acquired" | default "Compétences acquises :" }}</strong>
+                            <strong>{{ i18n "technical_skills" | default "Compétences techniques :" }}</strong>
                             <div class="skills-tags">
                                 {{ range .Params.programming_languages }}
-                                <span class="skill-tag programming">{{ . }}</span>
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.programming_languages }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="programming-language">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
+                                {{ end }}
+                                {{ end }}
+                                {{ if not $found }}
+                                <span class="skill-tag programming">{{ $skillName }}</span>
+                                {{ end }}
                                 {{ end }}
                                 {{ range .Params.frameworks_engines }}
-                                <span class="skill-tag framework">{{ . }}</span>
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.frameworks_engines }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="framework-engine">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
                                 {{ end }}
-                                {{ range .Params.specialties }}
-                                <span class="skill-tag specialty">{{ . }}</span>
                                 {{ end }}
-                                {{ range .Params.soft_skills }}
-                                <span class="skill-tag soft">{{ . }}</span>
+                                {{ if not $found }}
+                                <span class="skill-tag framework">{{ $skillName }}</span>
+                                {{ end }}
+                                {{ end }}
+                                {{ range .Params.tools }}
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.tools }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="tool">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
+                                {{ end }}
+                                {{ end }}
+                                {{ if not $found }}
+                                <span class="skill-tag tool">{{ $skillName }}</span>
+                                {{ end }}
                                 {{ end }}
                             </div>
                         </div>
+                        {{ end }}
+                        
+                        {{ if or .Params.specialties .Params.soft_skills }}
+                        <div class="timeline-skills">
+                            <strong>{{ i18n "cross_skills" | default "Compétences transversales :" }}</strong>
+                            <div class="skills-tags">
+                                {{ range .Params.specialties }}
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.specialties }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="specialty">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
+                                {{ end }}
+                                {{ end }}
+                                {{ if not $found }}
+                                <span class="skill-tag specialty">{{ $skillName }}</span>
+                                {{ end }}
+                                {{ end }}
+                                {{ range .Params.soft_skills }}
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.soft_skills }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="soft-skill">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
+                                {{ end }}
+                                {{ end }}
+                                {{ if not $found }}
+                                <span class="skill-tag soft">{{ $skillName }}</span>
+                                {{ end }}
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{ end }}
                     </div>
                 </div>
             </div>

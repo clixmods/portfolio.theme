@@ -947,6 +947,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    position: relative;
+    z-index: 10;
 }
 
 /**
@@ -964,6 +966,75 @@
 }
 
 /**
+ * Clickable skill tags
+ * Styled like mini skill-blocks with glassmorphism effect and teal accent
+ */
+.skill-tag.clickable {
+    background: rgba(75, 85, 99, 0.5);
+    backdrop-filter: blur(8px) saturate(150%);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 20;
+    overflow: visible;
+}
+
+.skill-tag.clickable:hover {
+    background: rgba(var(--accent-rgb), 0.3);
+    border-color: rgba(var(--accent-rgb), 0.8);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 
+        0 4px 15px rgba(var(--accent-rgb), 0.3),
+        0 0 15px rgba(var(--accent-rgb), 0.2);
+    z-index: 25;
+}
+
+.skill-tag.clickable::after {
+    content: '⭐';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 10px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.8);
+    pointer-events: none;
+    z-index: 30;
+}
+
+.skill-tag.clickable:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.skill-tag.clickable:active {
+    transform: translateY(0) scale(1);
+    z-index: 25;
+}
+
+/* Skill icon styles within clickable tags */
+.skill-tag.clickable .tech-icon-svg {
+    width: 16px;
+    height: 16px;
+    filter: brightness(1.1);
+}
+
+.skill-tag.clickable .tech-icon-emoji {
+    font-size: 14px;
+    line-height: 1;
+}
+
+/**
  * Technology chips
  * Purple themed badges for technologies
  */
@@ -975,6 +1046,75 @@
     font-size: 0.75rem;
     font-weight: 600;
     border: 1px solid rgba(var(--external-primary, 99, 102, 241), 0.3);
+}
+
+/**
+ * Clickable technology chips
+ * Styled like mini skill-blocks with glassmorphism effect
+ */
+.tech-chip.clickable {
+    background: rgba(75, 85, 99, 0.5);
+    backdrop-filter: blur(8px) saturate(150%);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 20;
+    overflow: visible;
+}
+
+.tech-chip.clickable:hover {
+    background: rgba(var(--accent-rgb), 0.3);
+    border-color: rgba(var(--accent-rgb), 0.8);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 
+        0 4px 15px rgba(var(--accent-rgb), 0.3),
+        0 0 15px rgba(var(--accent-rgb), 0.2);
+    z-index: 25;
+}
+
+.tech-chip.clickable::after {
+    content: '✨';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 10px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.8);
+    pointer-events: none;
+    z-index: 30;
+}
+
+.tech-chip.clickable:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.tech-chip.clickable:active {
+    transform: translateY(0) scale(1);
+    z-index: 25;
+}
+
+/* Tech icon styles within clickable chips */
+.tech-chip.clickable .tech-icon-svg {
+    width: 16px;
+    height: 16px;
+    filter: brightness(1.1);
+}
+
+.tech-chip.clickable .tech-icon-emoji {
+    font-size: 14px;
+    line-height: 1;
 }
 
 /* ===================================

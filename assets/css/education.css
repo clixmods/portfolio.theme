@@ -104,6 +104,7 @@
     opacity: 0;
     transform: translateY(30px);
     animation: timelineSlideUp 0.6s ease forwards;
+    z-index: 1;
 }
 
 .timeline-item:nth-child(even) {
@@ -165,6 +166,7 @@
     position: relative;
     box-shadow: var(--edu-card-shadow, 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1));
     transition: all 0.3s ease;
+    z-index: 5;
 }
 
 .timeline-card:hover {
@@ -294,6 +296,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    position: relative;
+    z-index: 10;
 }
 
 .skill-tag {
@@ -304,6 +308,75 @@
     font-size: 0.8rem;
     font-weight: 500;
     border: var(--edu-skill-tag-border, 1px solid rgba(79,209,199,0.3));
+}
+
+/**
+ * Clickable skill tags in education section
+ * Styled like mini skill-blocks with glassmorphism effect and teal accent
+ */
+.skill-tag.clickable {
+    background: rgba(75, 85, 99, 0.5);
+    backdrop-filter: blur(8px) saturate(150%);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 20;
+    overflow: visible;
+}
+
+.skill-tag.clickable:hover {
+    background: rgba(var(--accent-rgb), 0.3);
+    border-color: rgba(var(--accent-rgb), 0.8);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 
+        0 4px 15px rgba(var(--accent-rgb), 0.3),
+        0 0 15px rgba(var(--accent-rgb), 0.2);
+    z-index: 25;
+}
+
+.skill-tag.clickable::after {
+    content: '🎓';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 10px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.8);
+    pointer-events: none;
+    z-index: 30;
+}
+
+.skill-tag.clickable:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.skill-tag.clickable:active {
+    transform: translateY(0) scale(1);
+    z-index: 25;
+}
+
+/* Skill icon styles within clickable tags in education */
+.skill-tag.clickable .tech-icon-svg {
+    width: 16px;
+    height: 16px;
+    filter: brightness(1.1);
+}
+
+.skill-tag.clickable .tech-icon-emoji {
+    font-size: 14px;
+    line-height: 1;
 }
 
 /* ===================================

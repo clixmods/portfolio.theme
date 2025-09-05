@@ -163,51 +163,62 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // Reset tech filter
-            const techBadges = document.querySelectorAll('.tech-badge');
-            techBadges.forEach(badge => badge.classList.remove('active'));
-            document.querySelector('.tech-badge[data-tech="all"]').classList.add('active');
-        });
-    });
-    
-    // Technology filter functionality
-    const techBadges = document.querySelectorAll('.tech-badge');
-    
-    techBadges.forEach(badge => {
-        badge.addEventListener('click', () => {
-            const tech = badge.getAttribute('data-tech');
-            const activeCategory = document.querySelector('.tab-btn.active').getAttribute('data-category');
-            
-            // Update active badge
-            techBadges.forEach(b => b.classList.remove('active'));
-            badge.classList.add('active');
-            
-            // Filter cards
-            const categoryCards = document.querySelectorAll(`[data-category="${activeCategory}"]`);
-            
-            categoryCards.forEach(card => {
-                const cardTechnologies = card.getAttribute('data-technologies');
+            // Animate visible tiles
+            setTimeout(() => {
+                const visibleTiles = Array.from(projectCards).filter(tile => 
+                    tile.getAttribute('data-category') === category && 
+                    getComputedStyle(tile).display !== 'none'
+                );
                 
-                if (tech === 'all' || (cardTechnologies && cardTechnologies.includes(tech))) {
-                    card.style.display = 'flex';
-                    card.classList.remove('hiding');
-                    card.classList.add('showing');
-                } else {
-                    card.classList.remove('showing');
-                    card.classList.add('hiding');
+                visibleTiles.forEach((tile, index) => {
+                    tile.classList.add('tile-ready');
                     setTimeout(() => {
-                        if (card.classList.contains('hiding')) {
-                            card.style.display = 'none';
-                        }
-                    }, 400);
-                }
-            });
+                        tile.classList.add('tile-visible');
+                    }, index * 90);
+                });
+            }, 100);
         });
     });
     
     // Initialize card animations
     projectCards.forEach(card => {
         card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    });
+    
+    // Initialize projects display - show only the active category (games by default)
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab) {
+        const activeCategory = activeTab.getAttribute('data-category');
+        
+        // Update description for active category
+        if (sectionDescription && descriptions[activeCategory]) {
+            sectionDescription.textContent = descriptions[activeCategory];
+        }
+        
+        // Show/hide cards based on active category
+        projectCards.forEach(card => {
+            if (card.getAttribute('data-category') === activeCategory) {
+                card.style.display = 'flex';
+                card.classList.remove('hiding');
+                card.classList.add('showing');
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+    
+    // Initialize tile visibility animation (similar to ps5-projects.js)
+    projectCards.forEach(tile => tile.classList.add('tile-ready'));
+    
+    // Staggered fade-in for visible tiles
+    const visibleTiles = Array.from(projectCards).filter(tile => 
+        getComputedStyle(tile).display !== 'none'
+    );
+    
+    visibleTiles.forEach((tile, index) => {
+        setTimeout(() => {
+            tile.classList.add('tile-visible');
+        }, index * 90);
     });
 });
 

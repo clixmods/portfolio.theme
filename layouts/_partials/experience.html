@@ -211,68 +211,103 @@
                 {{ end }}
 
                 <div class="experience-skills">
-                    <h5>{{ i18n "skills_developed" | default "Compétences développées :" }}</h5>
+                    <h5>{{ i18n "technical_skills" | default "Compétences techniques :" }}</h5>
                     <div class="skills-tags">
                         {{ range $exp.Params.programming_languages }}
-                        <span class="skill-tag">{{ . }}</span>
+                        {{ $skillName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.programming_languages }}
+                        {{ if eq .name $skillName }}
+                        <span class="skill-tag clickable" 
+                              onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                              data-skill-name="{{ .name }}"
+                              data-skill-type="programming-language">
+                            {{ partial "tech-icon.html" . }} {{ .name }}
+                        </span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="skill-tag">{{ $skillName }}</span>
+                        {{ end }}
                         {{ end }}
                         {{ range $exp.Params.frameworks_engines }}
-                        <span class="skill-tag">{{ . }}</span>
+                        {{ $skillName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.frameworks_engines }}
+                        {{ if eq .name $skillName }}
+                        <span class="skill-tag clickable" 
+                              onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                              data-skill-name="{{ .name }}"
+                              data-skill-type="framework-engine">
+                            {{ partial "tech-icon.html" . }} {{ .name }}
+                        </span>
+                        {{ $found = true }}
                         {{ end }}
-                        {{ range $exp.Params.specialties }}
-                        <span class="skill-tag">{{ . }}</span>
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="skill-tag">{{ $skillName }}</span>
+                        {{ end }}
                         {{ end }}
                         {{ range $exp.Params.tools }}
-                        <span class="skill-tag">{{ . }}</span>
+                        {{ $skillName := . }}
+                        {{ $found := false }}
+                        {{ range $.Site.Data.tools }}
+                        {{ if eq .name $skillName }}
+                        <span class="skill-tag clickable" 
+                              onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                              data-skill-name="{{ .name }}"
+                              data-skill-type="tool">
+                            {{ partial "tech-icon.html" . }} {{ .name }}
+                        </span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="skill-tag">{{ $skillName }}</span>
+                        {{ end }}
                         {{ end }}
                     </div>
                 </div>
 
-                {{ $allTechnologies := slice }}
-                {{ if $exp.Params.programming_languages }}{{ $allTechnologies = $allTechnologies | append $exp.Params.programming_languages }}{{ end }}
-                {{ if $exp.Params.frameworks_engines }}{{ $allTechnologies = $allTechnologies | append $exp.Params.frameworks_engines }}{{ end }}
-                {{ if $exp.Params.tools }}{{ $allTechnologies = $allTechnologies | append $exp.Params.tools }}{{ end }}
-                {{ if or $exp.Params.programming_languages $exp.Params.frameworks_engines $exp.Params.tools }}
-                <div class="experience-technologies">
-                    <h5>{{ i18n "technologies_used" | default "Technologies utilisées :" }}</h5>
-                    <div class="tech-chips">
-                        {{ range $exp.Params.programming_languages }}
-                        {{ $techName := . }}
+                {{ if or $exp.Params.specialties $exp.Params.soft_skills }}
+                <div class="experience-skills">
+                    <h5>{{ i18n "cross_skills" | default "Compétences transversales :" }}</h5>
+                    <div class="skills-tags">
+                        {{ range $exp.Params.specialties }}
+                        {{ $skillName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.programming_languages }}
-                        {{ if eq .name $techName }}
-                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
+                        {{ range $.Site.Data.specialties }}
+                        {{ if eq .name $skillName }}
+                        <span class="skill-tag clickable" 
+                              onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                              data-skill-name="{{ .name }}"
+                              data-skill-type="specialty">
+                            {{ partial "tech-icon.html" . }} {{ .name }}
+                        </span>
                         {{ $found = true }}
                         {{ end }}
                         {{ end }}
                         {{ if not $found }}
-                        <span class="tech-chip">{{ $techName }}</span>
+                        <span class="skill-tag">{{ $skillName }}</span>
                         {{ end }}
                         {{ end }}
-                        {{ range $exp.Params.frameworks_engines }}
-                        {{ $techName := . }}
+                        {{ range $exp.Params.soft_skills }}
+                        {{ $skillName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.frameworks_engines }}
-                        {{ if eq .name $techName }}
-                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
+                        {{ range $.Site.Data.soft_skills }}
+                        {{ if eq .name $skillName }}
+                        <span class="skill-tag clickable" 
+                              onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                              data-skill-name="{{ .name }}"
+                              data-skill-type="soft-skill">
+                            {{ partial "tech-icon.html" . }} {{ .name }}
+                        </span>
                         {{ $found = true }}
                         {{ end }}
                         {{ end }}
                         {{ if not $found }}
-                        <span class="tech-chip">{{ $techName }}</span>
-                        {{ end }}
-                        {{ end }}
-                        {{ range $exp.Params.tools }}
-                        {{ $techName := . }}
-                        {{ $found := false }}
-                        {{ range $.Site.Data.tools }}
-                        {{ if eq .name $techName }}
-                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
-                        {{ $found = true }}
-                        {{ end }}
-                        {{ end }}
-                        {{ if not $found }}
-                        <span class="tech-chip">{{ $techName }}</span>
+                        <span class="skill-tag">{{ $skillName }}</span>
                         {{ end }}
                         {{ end }}
                     </div>
@@ -326,7 +361,22 @@
                     <h5>{{ i18n "skills_to_apply" | default "Compétences à mettre en œuvre :" }}</h5>
                     <div class="skills-tags">
                         {{ range $int.skills }}
-                        <span class="skill-tag">{{ . }}</span>
+                        {{ $skillName := . }}
+                        {{ $found := false }}
+                        {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines | append $.Site.Data.specialties | append $.Site.Data.tools) }}
+                        {{ if eq .name $skillName }}
+                        <span class="skill-tag clickable" 
+                              onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                              data-skill-name="{{ .name }}"
+                              data-skill-type="skill">
+                            {{ partial "tech-icon.html" . }} {{ .name }}
+                        </span>
+                        {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        <span class="skill-tag">{{ $skillName }}</span>
+                        {{ end }}
                         {{ end }}
                     </div>
                 </div>
@@ -338,10 +388,32 @@
                         {{ range $int.technologies }}
                         {{ $techName := . }}
                         {{ $found := false }}
-                        {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}
+                        {{ $techType := "framework-engine" }}
+                        {{ range $.Site.Data.programming_languages }}
                         {{ if eq .name $techName }}
-                        <span class="tech-chip" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
+                        {{ $techType = "programming-language" }}
+                        <span class="tech-chip clickable" 
+                              style="--tech-color: {{ .color | default "#666" }}"
+                              onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                              data-skill-name="{{ .name }}"
+                              data-skill-type="{{ $techType }}">
+                            {{ partial "tech-icon.html" . }} {{ .name }}
+                        </span>
                         {{ $found = true }}
+                        {{ end }}
+                        {{ end }}
+                        {{ if not $found }}
+                        {{ range $.Site.Data.frameworks_engines }}
+                        {{ if eq .name $techName }}
+                        <span class="tech-chip clickable" 
+                              style="--tech-color: {{ .color | default "#666" }}"
+                              onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                              data-skill-name="{{ .name }}"
+                              data-skill-type="framework-engine">
+                            {{ partial "tech-icon.html" . }} {{ .name }}
+                        </span>
+                        {{ $found = true }}
+                        {{ end }}
                         {{ end }}
                         {{ end }}
                         {{ if not $found }}

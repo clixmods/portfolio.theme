@@ -11,23 +11,6 @@
     <button class="tab-btn" data-category="mods-tools">{{ i18n "mods_tools" | default "Mods & Tools" }}</button>
     </div>
 
-    <!-- Technology Filter Badges -->
-    <div class="tech-filters">
-    <span class="tech-badge active" data-tech="all">{{ i18n "all" | default "Tous" }}</span>
-        {{/* Langages de programmation */}}
-        {{ range sort .Site.Data.programming_languages "order" }}
-            {{ if .displayedInPortfolio }}
-            <span class="tech-badge" data-tech="{{ .name }}" style='--tech-color: {{ .color | default "#666" }}'>{{ partial "tech-icon.html" . }} {{ .name }}</span>
-            {{ end }}
-        {{ end }}
-        {{/* Frameworks & Moteurs */}}
-        {{ range sort .Site.Data.frameworks_engines "order" }}
-            {{ if .enabled }}
-            <span class="tech-badge" data-tech="{{ .name }}" style='--tech-color: {{ .color | default "#666" }}'>{{ partial "tech-icon.html" . }} {{ .name }}</span>
-            {{ end }}
-        {{ end }}
-    </div>
-
     <!-- Description Text -->
     <div class="projects-description">
     <p id="section-description">{{ i18n "projects_description" | default "Découvrez mes projets organisés par secteur d'expertise : jeux vidéo, applications web et outils de développement." }}</p>
@@ -37,11 +20,11 @@
     <div class="projects-grid" id="projects-grid">
         <!-- Games Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
-        {{ if and .Params.featured (eq .Params.sector "games") }}
+        {{ if and .Params.featured (hasPrefix .Params.sector "games") }}
         <div class="ps5-project-tile"
              data-project-id="{{ .File.BaseFileName }}"
              data-background-image="{{ .Params.background_image | default .Params.image }}"
-             data-sector="games"
+             data-sector="{{ .Params.sector }}"
              data-category="games"
              data-technologies='{{ partial "combined-technologies.html" . }}'>
             <!-- Image principale de la tuile -->
@@ -95,8 +78,8 @@
 
         <!-- Apps/Web Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
-        {{ if and .Params.featured (eq .Params.sector "apps-web") }}
-        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="apps-web" data-category="apps-web" data-technologies='{{ partial "combined-technologies.html" . }}' style="display:none;">
+        {{ if and .Params.featured (hasPrefix .Params.sector "appsweb") }}
+        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="{{ .Params.sector }}" data-category="apps-web" data-technologies='{{ partial "combined-technologies.html" . }}' style="display:none;">
             <!-- Image principale de la tuile -->
             <div class="ps5-tile-image">
                 <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}">
@@ -148,8 +131,8 @@
 
         <!-- Mods & Tools Projects -->
         {{ range where .Site.RegularPages "Section" "projects" }}
-        {{ if and .Params.featured (eq .Params.sector "mods-tools") }}
-        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="mods-tools" data-category="mods-tools" data-technologies='{{ partial "combined-technologies.html" . }}' style="display:none;">
+        {{ if and .Params.featured (or (eq .Params.sector "mods") (eq .Params.sector "tools")) }}
+        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="{{ .Params.sector }}" data-category="mods-tools" data-technologies='{{ partial "combined-technologies.html" . }}' style="display:none;">
             <!-- Image principale de la tuile -->
             <div class="ps5-tile-image">
                 <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}">
