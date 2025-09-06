@@ -223,31 +223,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 const contributor = project.contributors.find(c => c.person === personId);
                 const role = contributor ? contributor.role : 'Contributeur';
                 
-                // Create status badge
-                const statusClass = project.status ? project.status.toLowerCase().replace(/\s+/g, '-') : '';
-                
                 projectEl.innerHTML = `
                     <div class="project-card-header">
-                        ${project.image ? `<div class="project-card-image">
-                            <img src="${project.image}" alt="${project.title}" loading="lazy">
-                        </div>` : ''}
+                        ${project.image ? `
+                            <div class="project-card-image">
+                                <img src="${project.image}" alt="${project.title}" loading="lazy">
+                            </div>
+                        ` : ''}
+                        
+                        <!-- Default content (visible by default) -->
                         <div class="project-card-content">
                             <h3 class="project-card-title">${project.title}</h3>
                             ${project.subtitle ? `<p class="project-card-subtitle">${project.subtitle}</p>` : ''}
                             <div class="project-card-meta">
                                 <span class="project-card-role">${role}</span>
-                                ${project.status ? `<span class="project-card-status status-${statusClass}">${project.status}</span>` : ''}
                             </div>
                         </div>
-                    </div>
-                    ${project.description ? `<p class="project-card-description">${project.description}</p>` : ''}
-                    <div class="project-card-footer">
-                        <a href="${project.url}" class="project-card-link" target="_blank">
-                            Voir le projet
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                            </svg>
-                        </a>
+                        
+                        <!-- Detailed info (shown on hover) -->
+                        <div class="project-card-detailed-info">
+                            <div>
+                                <h3 class="project-card-title">${project.title}</h3>
+                                ${project.description ? `<p class="project-card-detailed-description">${project.description}</p>` : ''}
+                            </div>
+                            <a href="${project.url}" class="project-card-link" target="_blank">
+                                Voir le projet
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                                </svg>
+                            </a>
+                        </div>
                     </div>
                 `;
                 
