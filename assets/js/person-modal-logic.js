@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Person modal script loading...');
     console.log('People data:', window.portfolioPeople);
     console.log('Testimonials data:', window.portfolioTestimonials);
+    console.log('Projects data:', window.portfolioProjects);
     
     const modal = document.getElementById('personModal');
     if (!modal) {
@@ -81,6 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update bio tab
         const bioContent = document.getElementById('modalPersonBio');
         bioContent.innerHTML = person.content || person.bio || 'Aucune biographie disponible.';
+
+        // Update projects tab
+        updatePersonProjects(personId);
 
         // Update contact buttons
         const contactButtons = document.getElementById('personModalContactButtons');
@@ -188,6 +192,77 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 testimonialsSection.appendChild(testimonialEl);
             });
+        }
+    }
+
+    function updatePersonProjects(personId) {
+        console.log('=== Updating projects for person:', personId);
+        
+        // Find projects where this person is a contributor
+        const personProjects = (window.portfolioProjects && Array.isArray(window.portfolioProjects)) 
+            ? window.portfolioProjects.filter(project => 
+                project.contributors && project.contributors.some(contributor => contributor.person === personId)
+              ) 
+            : [];
+        
+        console.log(`Found ${personProjects.length} projects for ${personId}:`, personProjects);
+
+        // Update projects section
+        const projectsContent = document.getElementById('modalPersonProjects');
+        projectsContent.innerHTML = '';
+
+        if (personProjects.length > 0) {
+            const projectsGrid = document.createElement('div');
+            projectsGrid.className = 'person-modal-projects-grid';
+            
+            personProjects.forEach(project => {
+                const projectEl = document.createElement('div');
+                projectEl.className = 'person-modal-project-card';
+                
+                // Find this person's role in the project
+                const contributor = project.contributors.find(c => c.person === personId);
+                const role = contributor ? contributor.role : 'Contributeur';
+                
+                // Create status badge
+                const statusClass = project.status ? project.status.toLowerCase().replace(/\s+/g, '-') : '';
+                
+                projectEl.innerHTML = `
+                    <div class="project-card-header">
+                        ${project.image ? `<div class="project-card-image">
+                            <img src="${project.image}" alt="${project.title}" loading="lazy">
+                        </div>` : ''}
+                        <div class="project-card-content">
+                            <h3 class="project-card-title">${project.title}</h3>
+                            ${project.subtitle ? `<p class="project-card-subtitle">${project.subtitle}</p>` : ''}
+                            <div class="project-card-meta">
+                                <span class="project-card-role">${role}</span>
+                                ${project.status ? `<span class="project-card-status status-${statusClass}">${project.status}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    ${project.description ? `<p class="project-card-description">${project.description}</p>` : ''}
+                    <div class="project-card-footer">
+                        <a href="${project.url}" class="project-card-link" target="_blank">
+                            Voir le projet
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </a>
+                    </div>
+                `;
+                
+                projectsGrid.appendChild(projectEl);
+            });
+            
+            projectsContent.appendChild(projectsGrid);
+        } else {
+            projectsContent.innerHTML = `
+                <div class="person-modal-no-projects">
+                    <div class="no-projects-icon">🚀</div>
+                    <h3>Aucun projet trouvé</h3>
+                    <p>Cette personne n'a pas encore de projets référencés en tant que contributeur.</p>
+                </div>
+            `;
         }
     }
 });

@@ -41,6 +41,10 @@
                         <span class="nav-tab-icon">👤</span>
                         <span class="nav-tab-label">Biographie</span>
                     </button>
+                    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="personModalTabProjects" data-tab="projects">
+                        <span class="nav-tab-icon">🚀</span>
+                        <span class="nav-tab-label">Projets</span>
+                    </button>
                 </nav>
             </div>
 
@@ -50,6 +54,13 @@
                     <div class="bio-container">
                         <div id="modalPersonBio" class="bio-content">
                             <!-- Person biography and details -->
+                        </div>
+                    </div>
+                </div>
+                <div class="content-panel" id="personModalTabProjects" role="tabpanel" aria-labelledby="personModalTabBtnProjects" hidden>
+                    <div class="projects-container">
+                        <div id="modalPersonProjects" class="projects-content">
+                            <!-- Person projects will be loaded here -->
                         </div>
                     </div>
                 </div>
@@ -92,8 +103,42 @@ window.portfolioTestimonials = [
     {{- end -}}
 ];
 
+window.portfolioProjects = [
+    {{- range where .Site.RegularPages "Section" "projects" -}}
+        {{- $hasContributors := false -}}
+        {{- range .Params.contributors -}}
+            {{- $hasContributors = true -}}
+        {{- end -}}
+        {{- if $hasContributors -}}
+        {
+            title: "{{ .Title }}",
+            subtitle: "{{ .Params.subtitle }}",
+            description: "{{ .Params.description }}",
+            image: "{{ .Params.image }}",
+            status: "{{ .Params.status }}",
+            sector: "{{ .Params.sector }}",
+            featured: {{ .Params.featured | default false }},
+            url: "{{ .RelPermalink }}",
+            contributors: [
+                {{- range .Params.contributors -}}
+                {
+                    person: "{{ .person }}",
+                    role: "{{ .role }}"
+                },
+                {{- end -}}
+            ],
+            programming_languages: {{ .Params.programming_languages | jsonify }},
+            frameworks_engines: {{ .Params.frameworks_engines | jsonify }},
+            specialties: {{ .Params.specialties | jsonify }},
+            tags: {{ .Params.tags | jsonify }}
+        },
+        {{- end -}}
+    {{- end -}}
+];
+
 // Note: La logique du modal est maintenant dans person-modal-logic.js
 console.log('Person modal data loaded');
 console.log('People data:', window.portfolioPeople?.length || 0);
 console.log('Testimonials data:', window.portfolioTestimonials?.length || 0);
+console.log('Projects data:', window.portfolioProjects?.length || 0);
 </script>
