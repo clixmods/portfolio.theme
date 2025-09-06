@@ -2,65 +2,62 @@
 <div id="personModal" class="person-modal" style="display: none;">
     <div class="person-modal-backdrop" onclick="closePersonModal()"></div>
     <div class="person-modal-content">
-        <div class="person-modal-header">
-            <button class="person-modal-close" onclick="closePersonModal()">&times;</button>
-        </div>
+        <button class="person-modal-close" onclick="closePersonModal()">&times;</button>
         
-        <div class="person-modal-body person-modal-layout">
-            <!-- Person header -->
-            <div class="person-info person-modal-header-section">
-                <div class="person-modal-header-left">
-                    <div class="person-modal-avatar-large" id="personAvatarLarge">
-                        <img id="modalPersonAvatar" src="" alt="">
-                    </div>
-                    <div class="person-modal-title-block">
-                        <h2 id="modalPersonName"></h2>
-                        <div class="person-modal-chips">
-                            <span class="person-modal-chip" id="modalPersonPosition"></span>
-                            <span class="person-modal-chip secondary" id="modalPersonCompany"></span>
+        <div class="person-modal-body">
+            <!-- Header avec profil -->
+            <div class="person-modal-profile-section">
+                <div class="person-modal-profile-content">
+                    <div class="person-modal-avatar-container">
+                        <div class="person-modal-avatar-large" id="personAvatarLarge">
+                            <img id="modalPersonAvatar" src="" alt="">
                         </div>
-                        <div id="modalPersonTestimonials" class="person-modal-testimonials-section">
-                            <!-- Testimonials will be inserted here -->
+                    </div>
+                    
+                    <div class="person-modal-identity">
+                        <h2 id="modalPersonName" class="person-modal-name"></h2>
+                        <div class="person-modal-position-info">
+                            <div class="position-and-company">
+                                <span class="position-chip" id="modalPersonPosition"></span>
+                                <span class="company-chip" id="modalPersonCompany"></span>
+                            </div>
+                            <div class="person-modal-contact-buttons" id="personModalContactButtons">
+                                <!-- Contact buttons (LinkedIn, GitHub, website, email, discord) -->
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="person-modal-header-right">
-                    <div class="person-modal-quick-stats" id="personModalQuickStats">
-                        <!-- Dynamic stats (projects, collaborations) -->
-                    </div>
-                    <div class="person-modal-contact-buttons" id="personModalContactButtons">
-                        <!-- Contact buttons (LinkedIn, GitHub, website, email) -->
-                    </div>
+
+                <!-- Testimonials section - pleine largeur dans le header -->
+                <div id="modalPersonTestimonials" class="person-modal-testimonials-full-width">
+                    <!-- Testimonials will be inserted here -->
                 </div>
             </div>
 
-            <!-- Tab bar -->
-            <div class="person-modal-tabs" role="tablist">
-                <button class="person-modal-tab active" role="tab" aria-selected="true" aria-controls="personModalTabProjects" data-tab="projects">
-                    <span class="icon">💼</span><span>Projets</span>
-                    <span class="person-modal-tab-count" id="personModalProjectsCount"></span>
-                </button>
-                <button class="person-modal-tab" role="tab" aria-selected="false" aria-controls="personModalTabBio" data-tab="bio">
-                    <span class="icon">👤</span><span>Biographie</span>
-                </button>
+            <!-- Navigation moderne avec séparateur -->
+            <div class="person-modal-navigation">
+                <nav class="person-modal-nav-tabs" role="tablist">
+                    <button class="nav-tab active" role="tab" aria-selected="true" aria-controls="personModalTabBio" data-tab="bio">
+                        <span class="nav-tab-icon">👤</span>
+                        <span class="nav-tab-label">Biographie</span>
+                    </button>
+                </nav>
             </div>
 
-            <!-- Panels -->
-            <div class="person-modal-tab-panels">
-                <div class="person-modal-tab-panel active" id="personModalTabProjects" role="tabpanel" aria-labelledby="personModalTabBtnProjects">
-                    <div id="modalPersonProjectsList" class="person-modal-projects-grid" data-empty-text="Aucun projet trouvé pour cette personne.">
-                        <!-- Projects where this person contributed -->
-                    </div>
-                </div>
-                <div class="person-modal-tab-panel" id="personModalTabBio" role="tabpanel" aria-labelledby="personModalTabBtnBio" hidden>
-                    <div id="modalPersonBio" class="person-modal-bio-content">
-                        <!-- Person biography and details -->
+            <!-- Contenu avec padding amélioré -->
+            <div class="person-modal-content-area">
+                <div class="content-panel active" id="personModalTabBio" role="tabpanel" aria-labelledby="personModalTabBtnBio">
+                    <div class="bio-container">
+                        <div id="modalPersonBio" class="bio-content">
+                            <!-- Person biography and details -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 {{/* Integrate person data into the page to avoid API requests */}}
 <script>
@@ -76,42 +73,10 @@ window.portfolioPeople = [
             email: "{{ .Params.email }}",
             linkedin: "{{ .Params.linkedin }}",
             github: "{{ .Params.github }}",
+            discord: "{{ .Params.discord }}",
             website: "{{ .Params.website }}",
             url: "{{ .RelPermalink }}",
             content: "{{ .Content }}"
-        },
-    {{- end -}}
-];
-
-window.portfolioProjects = [
-    {{- range where .Site.RegularPages "Section" "projects" -}}
-        {{- $allTechnologies := partial "get-all-technologies.html" . -}}
-        {{- $defaultImage := "/images/placeholder-project.jpg" -}}
-        {{- $projectYear := .Params.year | default (.Date.Format "2006") -}}
-        
-        {
-            title: "{{ .Title }}",
-            subtitle: "{{ .Params.subtitle | default .Params.description }}",
-            description: "{{ .Params.description }}",
-            url: "{{ .RelPermalink }}",
-            image: "{{ .Params.image | default $defaultImage }}",
-            background_image: "{{ .Params.image | default $defaultImage }}",
-            year: "{{ $projectYear }}",
-            technologies: {{ $allTechnologies | jsonify }},
-            sector: "{{ .Params.sector }}",
-            featured: {{ .Params.featured | default false }},
-            status: "{{ .Params.status }}",
-            github: "{{ .Params.github }}",
-            demo: "{{ .Params.demo }}",
-            website: "{{ .Params.website }}",
-            contributors: [
-                {{- range .Params.contributors -}}
-                {
-                    person: "{{ .person }}",
-                    role: "{{ .role }}"
-                },
-                {{- end -}}
-            ]
         },
     {{- end -}}
 ];
@@ -130,6 +95,5 @@ window.portfolioTestimonials = [
 // Note: La logique du modal est maintenant dans person-modal-logic.js
 console.log('Person modal data loaded');
 console.log('People data:', window.portfolioPeople?.length || 0);
-console.log('Projects data:', window.portfolioProjects?.length || 0);
 console.log('Testimonials data:', window.portfolioTestimonials?.length || 0);
 </script>

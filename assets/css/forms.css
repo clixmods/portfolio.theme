@@ -491,6 +491,16 @@
     background: rgba(var(--accent-rgb), 0.1);
 }
 
+/**
+ * SVG icons styling inside social icons
+ */
+.social-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    transition: all 0.3s ease;
+}
+
 /* ================================
    6. BUTTON ANIMATIONS AND EFFECTS
    ================================ */
