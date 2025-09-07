@@ -157,7 +157,7 @@
 }
 
 .timeline-item:nth-child(even) .timeline-content {
-    text-align: right;
+    text-align: left;
 }
 
 /* Timeline Card */
