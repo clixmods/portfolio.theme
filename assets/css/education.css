@@ -148,6 +148,16 @@
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
+.timeline-school-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 8px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    background: rgba(255, 255, 255, 0.9);
+    padding: 4px;
+}
+
 /* Timeline Content */
 .timeline-content {
     width: calc(50% - 40px);
@@ -304,6 +314,90 @@
     color: #4fd1c7;
 }
 
+/* Timeline Results with detailed badges */
+.timeline-results {
+    margin-bottom: 1rem;
+}
+
+.timeline-results strong {
+    color: #4fd1c7;
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.results-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.result-badge {
+    background: var(--edu-badge-bg, rgba(75, 85, 99, 0.6));
+    backdrop-filter: blur(8px) saturate(150%);
+    border-radius: 12px;
+    padding: 0.5rem 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    pointer-events: auto;
+}
+
+.result-badge.validated,
+.result-badge.skipped {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+}
+
+.result-badge.completed {
+    background: rgba(79, 209, 199, 0.2);
+    border-color: rgba(79, 209, 199, 0.3);
+    color: #4fd1c7;
+}
+
+.result-badge.in-progress {
+    background: rgba(251, 191, 36, 0.2);
+    border-color: rgba(251, 191, 36, 0.3);
+    color: #fbbf24;
+}
+
+.result-badge.not-taken {
+    background: rgba(107, 114, 128, 0.2);
+    border-color: rgba(107, 114, 128, 0.3);
+    color: #9ca3af;
+}
+
+.result-badge.general {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.3);
+    color: #8b5cf6;
+}
+
+.result-badge:hover {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.badge-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.badge-text {
+    font-weight: 600;
+}
+
+.badge-status {
+    font-weight: 500;
+    opacity: 0.9;
+}
+
 .timeline-skills strong {
     color: #4fd1c7;
     display: block;
@@ -446,6 +540,12 @@
     
     .timeline-icon {
         font-size: 1.2rem;
+    }
+    
+    .timeline-school-logo {
+        width: 32px;
+        height: 32px;
+        padding: 3px;
     }
     
     .timeline-content {
