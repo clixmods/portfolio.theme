@@ -67,7 +67,7 @@
     <!-- Blog Grid -->
     <main class="blog-grid" id="blog-posts-grid">
         {{ range .Pages }}
-        <article class="blog-card" 
+        <article class="blog-card {{ if not .Params.image }}blog-card--no-image{{ end }}" 
                  data-category="{{ .Params.category | default "tech" | lower }}"
                  data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," }}{{ end }}"
                  data-date="{{ .Date.Format "2006-01-02" }}"
@@ -83,22 +83,12 @@
             <div class="blog-reading-time">{{ .ReadingTime }} {{ i18n "reading_minutes" | default "min de lecture" }}</div>
             {{ end }}
 
+            {{ if .Params.image }}
             <!-- Blog Image -->
             <div class="blog-image">
-                {{ if .Params.image }}
                 <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
-                {{ else }}
-                <div class="blog-image-placeholder">
-                    <div class="blog-icon">
-                        {{ if eq (.Params.category | default "tech") "tech" }}🔧
-                        {{ else if eq (.Params.category | default "tech") "dev" }}💻
-                        {{ else if eq (.Params.category | default "tech") "design" }}🎨
-                        {{ else if eq (.Params.category | default "tech") "opinion" }}💭
-                        {{ else }}📝{{ end }}
-                    </div>
-                </div>
-                {{ end }}
             </div>
+            {{ end }}
 
             <!-- Blog Content -->
             <div class="blog-content">

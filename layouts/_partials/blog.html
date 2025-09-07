@@ -11,7 +11,7 @@
         <div class="blog-grid">
             {{ $blogLimit := .Site.Data.config.blog.homeLimit | default 3 }}
             {{ range first $blogLimit (where site.RegularPages "Section" "posts") }}
-            <article class="blog-card">
+            <article class="blog-card {{ if not .Params.image }}blog-card--no-image{{ end }}">
                 <!-- Blog Category (top left) -->
                 {{ if .Params.category }}
                 <span class="post-category">{{ .Params.category | title }}</span>
@@ -22,21 +22,11 @@
                 <div class="blog-reading-time">{{ .ReadingTime }} min de lecture</div>
                 {{ end }}
 
+                {{ if .Params.image }}
                 <div class="blog-image">
-                    {{ if .Params.image }}
                     <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
-                    {{ else }}
-                    <div class="blog-image-placeholder">
-                        <div class="blog-icon">
-                            {{ if eq (.Params.category | default "tech") "tech" }}🔧
-                            {{ else if eq (.Params.category | default "tech") "dev" }}�
-                            {{ else if eq (.Params.category | default "tech") "design" }}🎨
-                            {{ else if eq (.Params.category | default "tech") "opinion" }}💭
-                            {{ else }}📝{{ end }}
-                        </div>
-                    </div>
-                    {{ end }}
                 </div>
+                {{ end }}
                 
                 <div class="blog-content">
                     <!-- Blog Title -->
