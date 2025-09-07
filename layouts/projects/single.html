@@ -216,7 +216,8 @@
 </section>
 
 <!-- Project Info Boxes Section - Section distincte avant le contenu -->
-{{ if or .Params.contributors .Params.development_time .Params.gallery .Params.galleries .Params.youtube_videos .Params.youtube_galleries .Params.youtube_singles .Params.technical_specs .Params.awards }}
+{{ $showPortfolioWidgets := true }}
+{{ if or .Params.contributors .Params.development_time .Params.gallery .Params.galleries .Params.youtube_videos .Params.youtube_galleries .Params.youtube_singles .Params.programming_languages .Params.frameworks_engines .Params.technical_specs .Params.awards $showPortfolioWidgets }}
 <section class="project-info-boxes-section">
     <div class="project-info-boxes-wrapper">
         <div class="project-info-boxes">
@@ -396,8 +397,11 @@
             {{ end }}
 
             <!-- Technical Specifications Box -->
-            {{ if .Params.technical_specs }}
-            <div class="info-box technical-specs-box {{ .Params.technical_specs_size | default "size-medium" }}">
+            {{ $hasProgLang := .Params.programming_languages }}
+            {{ $hasFrameworks := .Params.frameworks_engines }}
+            {{ $hasTechSpecs := .Params.technical_specs }}
+            {{ if or (and $hasProgLang (gt (len $hasProgLang) 0)) (and $hasFrameworks (gt (len $hasFrameworks) 0)) (and $hasTechSpecs (gt (len $hasTechSpecs) 0)) }}
+            <div class="info-box technical-specs-box expanded {{ .Params.technical_specs_size | default "size-medium" }}">
                 <div class="info-box-header" onclick="toggleInfoBox(this)">
                     <div class="info-box-icon technical">
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -406,7 +410,14 @@
                     </div>
                     <div class="info-box-header-content">
                         <h3 class="info-box-title">Spécifications techniques</h3>
-                        <div class="info-box-summary">{{ len .Params.technical_specs }} spécification{{ if gt (len .Params.technical_specs) 1 }}s{{ end }}</div>
+                        {{ $progLangCount := 0 }}
+                        {{ $frameworksCount := 0 }}
+                        {{ $techSpecsCount := 0 }}
+                        {{ if $hasProgLang }}{{ $progLangCount = len $hasProgLang }}{{ end }}
+                        {{ if $hasFrameworks }}{{ $frameworksCount = len $hasFrameworks }}{{ end }}
+                        {{ if $hasTechSpecs }}{{ $techSpecsCount = len $hasTechSpecs }}{{ end }}
+                        {{ $totalCount := add (add $progLangCount $frameworksCount) $techSpecsCount }}
+                        <div class="info-box-summary">{{ $totalCount }} spécification{{ if gt $totalCount 1 }}s{{ end }}</div>
                     </div>
                     <div class="info-box-toggle">
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -416,13 +427,57 @@
                 </div>
                 <div class="info-box-content">
                     <div class="technical-specs-list">
-                        {{ range .Params.technical_specs }}
+                        {{/* Langages de programmation automatiques */}}
+                        {{ if $hasProgLang }}
                         <div class="spec-item">
-                            <div class="spec-label">{{ .label }}</div>
+                            <div class="spec-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9.4,16.6L4.8,12L9.4,7.4L8,6L2,12L8,18L9.4,16.6M14.6,16.6L19.2,12L14.6,7.4L16,6L22,12L16,18L14.6,16.6Z"/>
+                                </svg>
+                                {{ i18n "programming_languages" | default "Langages de programmation" }}
+                            </div>
+                            <div class="spec-value">
+                                {{ partial "project-tech-specs.html" (dict "TechType" "programming_languages" "TechList" $hasProgLang "Site" .Site) }}
+                            </div>
+                        </div>
+                        {{ end }}
+                        {{/* Frameworks et moteurs automatiques */}}
+                        {{ if $hasFrameworks }}
+                        <div class="spec-item">
+                            <div class="spec-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/>
+                                </svg>
+                                {{ i18n "frameworks_engines" | default "Frameworks & Moteurs" }}
+                            </div>
+                            <div class="spec-value">
+                                {{ partial "project-tech-specs.html" (dict "TechType" "frameworks_engines" "TechList" $hasFrameworks "Site" .Site) }}
+                            </div>
+                        </div>
+                        {{ end }}
+                        {{/* Spécifications techniques personnalisées */}}
+                        {{ if $hasTechSpecs }}
+                        {{ range $hasTechSpecs }}
+                        <div class="spec-item">
+                            <div class="spec-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M14.19,14.19L6,18L9.81,9.81L18,6M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,10.9A1.1,1.1 0 0,0 10.9,12A1.1,1.1 0 0,0 12,13.1A1.1,1.1 0 0,0 13.1,12A1.1,1.1 0 0,0 12,10.9Z"/>
+                                </svg>
+                                {{ .label }}
+                            </div>
                             <div class="spec-value">{{ .value }}</div>
                         </div>
                         {{ end }}
+                        {{ end }}
                     </div>
+                    {{ if or $hasProgLang $hasFrameworks }}
+                    <div class="tech-specs-hint">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
+                        </svg>
+                        Cliquez sur les technologies pour voir les détails et projets associés
+                    </div>
+                    {{ end }}
                 </div>
             </div>
             {{ end }}
@@ -1028,6 +1083,190 @@
                 </div>
             </div>
             {{ end }}
+
+            <!-- Mes Spécialités utilisées dans ce projet -->
+            {{ if .Params.specialties }}
+            {{ $projectSpecialties := .Params.specialties }}
+            {{ $allSpecialties := site.Data.specialties }}
+            {{ $usedSpecialties := slice }}
+            {{ range $projectSpecialties }}
+            {{ $specialty := . }}
+            {{ range $allSpecialties }}
+            {{ if eq .name $specialty }}
+            {{ $usedSpecialties = $usedSpecialties | append . }}
+            {{ end }}
+            {{ end }}
+            {{ end }}
+            {{ if $usedSpecialties }}
+            <div class="info-box developer-specialties-box size-medium">
+                <div class="info-box-header" onclick="toggleInfoBox(this)">
+                    <div class="info-box-icon specialties">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,2L13.09,8.26L22,9L13.09,9.74L12,16L10.91,9.74L2,9L10.91,8.26L12,2M12,21.5C12.83,21.5 13.5,20.83 13.5,20C13.5,19.17 12.83,18.5 12,18.5C11.17,18.5 10.5,19.17 10.5,20C10.5,20.83 11.17,21.5 12,21.5Z"/>
+                        </svg>
+                    </div>
+                    <div class="info-box-header-content">
+                        <h3 class="info-box-title">Spécialités utilisées</h3>
+                        <div class="info-box-summary">{{ len $usedSpecialties }} domaine{{ if gt (len $usedSpecialties) 1 }}s{{ end }} appliqué{{ if gt (len $usedSpecialties) 1 }}s{{ end }}</div>
+                        <!-- Aperçu des spécialités -->
+                        <div class="specialties-preview">
+                            <div class="specialty-badges-preview">
+                                {{ range first 3 $usedSpecialties }}
+                                <div class="specialty-badge-mini">
+                                    <span class="specialty-icon">{{ .icon }}</span>
+                                    <span class="specialty-name">{{ .name }}</span>
+                                </div>
+                                {{ end }}
+                                {{ if gt (len $usedSpecialties) 3 }}
+                                <div class="specialty-badge-mini more">
+                                    <span class="specialty-more">+{{ sub (len $usedSpecialties) 3 }}</span>
+                                </div>
+                                {{ end }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box-toggle">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="info-box-content">
+                    <div class="developer-profile-note">
+                        <div class="profile-avatar">
+                            <img src="{{ site.Data.profile.media.profileImage }}" alt="{{ site.Data.profile.personal.fullName }}">
+                        </div>
+                        <div class="profile-note-content">
+                            <div class="profile-note-title">Spécialités de {{ site.Data.profile.personal.firstName }} pour ce projet</div>
+                            <div class="profile-note-subtitle">{{ site.Data.profile.personal.title }}</div>
+                        </div>
+                    </div>
+                    <div class="specialties-grid">
+                        {{ range $usedSpecialties }}
+                        <div class="specialty-item">
+                            <div class="specialty-header">
+                                <div class="specialty-icon">{{ .icon }}</div>
+                                <div class="specialty-info">
+                                    <div class="specialty-name">{{ .name }}</div>
+                                    <div class="specialty-subtitle">{{ .subtitle }}</div>
+                                </div>
+                            </div>
+                            <div class="specialty-experience">
+                                <div class="experience-text">{{ .experience }} an{{ if gt .experience 1 }}s{{ end }}</div>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+            {{ end }}
+
+            <!-- Mes Outils utilisés dans ce projet -->
+            {{ if .Params.tools }}
+            {{ $projectTools := .Params.tools }}
+            {{ $allTools := site.Data.tools }}
+            {{ $usedTools := slice }}
+            {{ range $projectTools }}
+            {{ $tool := . }}
+            {{ range $allTools }}
+            {{ if eq .name $tool }}
+            {{ $usedTools = $usedTools | append . }}
+            {{ end }}
+            {{ end }}
+            {{ end }}
+            {{ if $usedTools }}
+            <div class="info-box developer-tools-box size-large">
+                <div class="info-box-header" onclick="toggleInfoBox(this)">
+                    <div class="info-box-icon tools">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M22.7,19L13.6,9.9C14.5,7.6 14,4.9 12.1,3C10.1,1 7.1,0.6 4.7,1.7L9,6L6,9L1.6,4.7C0.4,7.1 0.9,10.1 2.9,12.1C4.8,14 7.5,14.5 9.8,13.6L18.9,22.7C19.3,23.1 19.9,23.1 20.3,22.7L22.6,20.4C23.1,20 23.1,19.3 22.7,19Z"/>
+                        </svg>
+                    </div>
+                    <div class="info-box-header-content">
+                        <h3 class="info-box-title">Outils utilisés</h3>
+                        <div class="info-box-summary">{{ len $usedTools }} outil{{ if gt (len $usedTools) 1 }}s{{ end }} employé{{ if gt (len $usedTools) 1 }}s{{ end }}</div>
+                        <!-- Aperçu des outils -->
+                        <div class="tools-preview">
+                            <div class="tool-icons-preview">
+                                {{ range first 5 $usedTools }}
+                                <div class="tool-icon-mini" title="{{ .name }}">
+                                    {{ if .iconPath }}
+                                    <img src="{{ .iconPath }}" alt="{{ .name }}">
+                                    {{ else }}
+                                    <span>{{ substr .name 0 2 | upper }}</span>
+                                    {{ end }}
+                                </div>
+                                {{ end }}
+                                {{ if gt (len $usedTools) 5 }}
+                                <div class="tool-icon-mini more">
+                                    <span>+{{ sub (len $usedTools) 5 }}</span>
+                                </div>
+                                {{ end }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box-toggle">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="info-box-content">
+                    <div class="developer-profile-note">
+                        <div class="profile-avatar">
+                            <img src="{{ site.Data.profile.media.profileImage }}" alt="{{ site.Data.profile.personal.fullName }}">
+                        </div>
+                        <div class="profile-note-content">
+                            <div class="profile-note-title">Stack technique de {{ site.Data.profile.personal.firstName }} pour ce projet</div>
+                            <div class="profile-note-subtitle">{{ site.Data.profile.personal.title }}</div>
+                        </div>
+                    </div>
+                    <div class="tools-by-category">
+                        {{ $categories := dict 
+                            "ide" "Environnements de Développement"
+                            "version_control" "Gestion de Versions"
+                            "cloud" "Cloud & Déploiement"
+                            "quality_tools" "Outils de Qualité"
+                            "design" "Design & Graphisme"
+                            "communication" "Communication & Collaboration"
+                            "other" "Autres Outils"
+                        }}
+                        {{ range $category, $categoryName := $categories }}
+                        {{ $categoryTools := where $usedTools "category" $category }}
+                        {{ if $categoryTools }}
+                        <div class="tools-category">
+                            <h4 class="tools-category-title">{{ $categoryName }}</h4>
+                            <div class="tools-grid">
+                                {{ range $categoryTools }}
+                                <div class="tool-item">
+                                    <div class="tool-header">
+                                        <div class="tool-icon" {{ if .color }}style="--tool-color: {{ .color }}"{{ end }}>
+                                            {{ if .iconPath }}
+                                            <img src="{{ .iconPath }}" alt="{{ .name }}">
+                                            {{ else }}
+                                            <span>{{ substr .name 0 2 | upper }}</span>
+                                            {{ end }}
+                                        </div>
+                                        <div class="tool-info">
+                                            <div class="tool-name">{{ .name }}</div>
+                                            <div class="tool-description">{{ .description }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="tool-experience">
+                                        <div class="experience-text">{{ .experience }} an{{ if gt .experience 1 }}s{{ end }}</div>
+                                    </div>
+                                </div>
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{ end }}
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+            {{ end }}
     </div>
 </section>
 
@@ -1381,6 +1620,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateBlur();
 });
 </script>
+
+<!-- Technical Specifications Enhancement Script -->
+{{ $techSpecsJs := resources.Get "js/technical-specs.js" }}
+{{ if $techSpecsJs }}
+<script>{{ $techSpecsJs.Content | safeJS }}</script>
+{{ end }}
 
 <!-- Auto-include person modal if needed -->
 {{ partial "auto-person-modal.html" . }}
