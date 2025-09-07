@@ -538,14 +538,6 @@
     border-radius: 0 20px 20px 0;
 }
 
-.projects-container-vertical .project-tile-icon {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    left: auto;
-    z-index: 5;
-}
-
 /* ===================================
    EXPERIENCE CONTENT
    =================================== */
@@ -619,6 +611,7 @@
     transform: translateY(-5px) scale(1.02);
     border-color: var(--exp-project-item-border-hover, rgba(79,209,199,0.5));
     box-shadow: var(--exp-project-item-shadow-hover, 0 12px 40px rgba(79,209,199,0.15), 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2));
+    z-index: 1;
 }
 
 .project-item:hover .project-tile-content {
@@ -683,7 +676,6 @@
     );
     z-index: 2;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
 }
 
 /**
@@ -717,26 +709,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-}
-
-/**
- * Project tile icon/badge
- */
-.project-tile-icon {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    width: 32px;
-    height: 32px;
-    background: rgba(var(--accent-rgb), 0.2);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    border: 1px solid rgba(var(--accent-rgb), 0.4);
-    z-index: 3;
-    color: var(--accent);
 }
 
 /**
@@ -1211,21 +1183,9 @@
         border-radius: 0 0 15px 15px;
     }
     
-    .projects-container-vertical .project-tile-icon {
-        top: 8px;
-        right: 8px;
-    }
-    
     .project-tile-content,
     .project-tile-info {
         padding: 1rem;
-    }
-    
-    .project-tile-icon {
-        width: 28px;
-        height: 28px;
-        top: 8px;
-        left: 8px;
     }
     
     .project-name {

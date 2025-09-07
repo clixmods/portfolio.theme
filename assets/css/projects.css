@@ -209,7 +209,7 @@
  */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -421,6 +421,52 @@
         margin: 0.1rem;
     }
     
+    /**
+     * Added padding for technology filters on smaller screens
+     */
+    .tech-filters {
+        padding: 0 1rem;
+    }
+    
+    /**
+     * 2 columns grid for tablet viewing
+     */
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    /**
+     * Smaller border radius for mobile cards
+     */
+    .project-card {
+        border-radius: 15px;
+    }
+    
+    /**
+     * Reduced image height for mobile screens
+     */
+    .project-image {
+        height: 180px;
+    }
+    
+    /**
+     * Reduced padding for mobile content
+     */
+    .project-content {
+        padding: 1.2rem;
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - MOBILE
+   ======================================== */
+
+/**
+ * Mobile breakpoint (480px and below)
+ * Optimized for small mobile screens
+ */
+@media (max-width: 768px) {
     /**
      * Added padding for technology filters on smaller screens
      */

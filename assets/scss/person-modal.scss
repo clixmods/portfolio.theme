@@ -437,24 +437,24 @@
 }
 
 /* Scrollbar styling for projects */
-.projects-container::-webkit-scrollbar,
+.person-modal .projects-container::-webkit-scrollbar,
 .person-modal-projects-grid::-webkit-scrollbar {
     width: 6px;
 }
 
-.projects-container::-webkit-scrollbar-track,
+.person-modal .projects-container::-webkit-scrollbar-track,
 .person-modal-projects-grid::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
 }
 
-.projects-container::-webkit-scrollbar-thumb,
+.person-modal .projects-container::-webkit-scrollbar-thumb,
 .person-modal-projects-grid::-webkit-scrollbar-thumb {
     background: rgba(79, 209, 199, 0.3);
     border-radius: 3px;
 }
 
-.projects-container::-webkit-scrollbar-thumb:hover,
+.person-modal .projects-container::-webkit-scrollbar-thumb:hover,
 .person-modal-projects-grid::-webkit-scrollbar-thumb:hover {
     background: rgba(79, 209, 199, 0.5);
 }
@@ -555,7 +555,7 @@
 }
 
 /* Projects Tab Styles - Inspired by Experience Cards */
-.projects-container {
+.person-modal .projects-container {
     padding: 0;
     flex: 1;
     overflow-y: auto;

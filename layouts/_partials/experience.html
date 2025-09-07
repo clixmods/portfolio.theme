@@ -50,9 +50,6 @@
                     <div class="projects-container projects-container-{{ $layout }}" data-default-layout="{{ $layout }}">
                     {{ range $exp.Params.projects }}
                     <div class="project-item">
-                        <!-- Project tile icon -->
-                        <div class="project-tile-icon">🎯</div>
-                        
                         {{/* Handle project references */}}
                         {{ if .project_ref }}
                             {{/* Get project page - handle both slug and path formats */}}

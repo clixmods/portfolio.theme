@@ -117,7 +117,7 @@
     padding: 3rem 2rem 4rem 2rem;
     display: flex;
     flex-direction: row;
-    gap: 2rem;
+    gap: 2.5rem;
     perspective: 1000px;
     position: relative;
     z-index: 10;
@@ -453,14 +453,13 @@
     padding: 1.5rem;
     background: linear-gradient(
         to top,
-        rgba(10, 14, 19, 0.95) 0%,
-        rgba(10, 14, 19, 0.8) 60%,
-        rgba(10, 14, 19, 0.3) 85%,
+        rgba(10, 14, 19, 0.75) 0%,
+        rgba(10, 14, 19, 0.5) 50%,
+        rgba(10, 14, 19, 0.2) 75%,
         transparent 100%
     );
     z-index: 2;
     transition: var(--ps5-transition);
-    backdrop-filter: blur(10px);
 }
 
 .ps5-tile-title {
@@ -502,15 +501,14 @@
         rgba(3, 61, 130, 0.96) 100%
     );
     backdrop-filter: blur(25px);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    padding: 1.2rem;
+    display: block;
     opacity: 0;
     transform: translateY(15px) scale(0.98);
     transition: var(--ps5-transition);
     z-index: 4;
     border-radius: var(--ps5-border-radius);
+    overflow: hidden;
 }
 
 .ps5-tile-info-content {
@@ -548,7 +546,7 @@
 .ps5-tile-description {
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.9);
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.6rem 0;
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -560,29 +558,48 @@
 /* Technologies in the overlay */
 .ps5-tile-tech {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 1rem;
+    flex-wrap: nowrap;
+    gap: 0.3rem;
+    margin-bottom: 0.6rem;
+    overflow: hidden;
+}
+
+/* Reduce spacing in overlay for better compactness */
+.ps5-tile-info .ps5-tile-info-subtitle {
+    margin-bottom: 0.4rem;
+}
+
+/* Reduce overlay padding for better space usage */
+.ps5-tile-info {
+    padding: 1.2rem !important;
+}
+
+/* Ensure content doesn't overlap with fixed bottom meta */
+.ps5-tile-info-content {
+    padding-bottom: 4rem !important;
+    display: block !important;
 }
 
 .ps5-tile-tech-item {
     background: rgba(255, 255, 255, 0.25);
     color: var(--ps5-white);
-    padding: 0.3rem 0.8rem;
-    border-radius: 12px;
-    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.65rem;
     font-weight: 600;
     border: 1px solid rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .ps5-tile-tech-more {
     background: rgba(255, 255, 255, 0.35);
     color: var(--ps5-white);
-    padding: 0.3rem 0.8rem;
-    border-radius: 12px;
-    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+    font-size: 0.65rem;
     font-weight: 700;
     border: 1px solid rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
@@ -591,10 +608,13 @@
 
 /* Meta information in the overlay */
 .ps5-tile-meta {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 1.2rem;
+    right: 1.2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
     gap: 1rem;
 }
 
@@ -625,13 +645,18 @@
 .ps5-tile-btn:hover {
     background: rgba(255, 255, 255, 0.4);
     border-color: rgba(255, 255, 255, 0.6);
-    transform: translateY(-2px) scale(1.05);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .ps5-tile-btn svg {
     width: 12px;
     height: 12px;
+}
+
+/* Ensure button content doesn't overflow */
+.ps5-tile-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 /* Invisible primary link */
@@ -689,6 +714,23 @@
     font-weight: 500;
 }
 
+/* Hide technology badges completely */
+.ps5-project-tile .ps5-tile-tech,
+.ps5-tile-info .ps5-tile-tech {
+    display: none !important;
+}
+
+/* Hide sector icons completely */
+.ps5-tile-sector-icon {
+    display: none !important;
+}
+
+/* Reduce button padding for better spacing */
+.ps5-project-tile .ps5-tile-btn,
+.ps5-tile-info .ps5-tile-btn {
+    padding: 0.5rem 0.8rem !important;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .ps5-header {
@@ -726,7 +768,9 @@
         overflow: visible; /* internal overflow removed */
     }
     
-    .ps5-project-tile { width:100%; }
+    .ps5-project-tile { 
+        width:100%; 
+    }
     
     /* Hover rule intentionally omitted on small screens (no motion) */
     
@@ -769,7 +813,10 @@
         overflow: visible; /* internal overflow removed */
     }
     
-    .ps5-project-tile { width:100%; border-radius:8px; }
+    .ps5-project-tile { 
+        width:100%; 
+        border-radius:8px; 
+    }
     
     .ps5-tile-badge,
     .ps5-tile-sector-icon {
@@ -908,7 +955,6 @@
 
 .ps5-project-tile:hover .ps5-tile-badge {
     animation-play-state: paused;
-    transform: scale(1.1);
 }
 
 /* Loading state effects */
@@ -1655,7 +1701,7 @@
 
 .ps5-project-tile:hover .ps5-tile-info {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
 }
 
 /* Image de la tuile */
@@ -1738,14 +1784,13 @@
     padding: 1.5rem;
     background: linear-gradient(
         to top,
-        rgba(10, 14, 19, 0.95) 0%,
-        rgba(10, 14, 19, 0.8) 60%,
-        rgba(10, 14, 19, 0.3) 85%,
+        rgba(10, 14, 19, 0.75) 0%,
+        rgba(10, 14, 19, 0.5) 50%,
+        rgba(10, 14, 19, 0.2) 75%,
         transparent 100%
     );
     z-index: 2;
     transition: var(--ps5-transition);
-    backdrop-filter: blur(10px);
 }
 
 .ps5-tile-title {
@@ -1796,6 +1841,7 @@
     transition: var(--ps5-transition);
     z-index: 4;
     border-radius: var(--ps5-border-radius);
+    overflow: hidden;
 }
 
 .ps5-tile-info-content {
@@ -1845,9 +1891,10 @@
 /* Technologies dans l'overlay */
 .ps5-tile-tech {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 0.4rem;
     margin-bottom: 1rem;
+    overflow: hidden;
 }
 
 .ps5-tile-tech-item {
@@ -1876,10 +1923,13 @@
 
 /* Meta informations dans l'overlay */
 .ps5-tile-meta {
+    position: absolute;
+    bottom: 1.2rem;
+    left: 1.2rem;
+    right: 1.2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
     gap: 1rem;
 }
 
@@ -1910,7 +1960,6 @@
 .ps5-tile-btn:hover {
     background: rgba(255, 255, 255, 0.4);
     border-color: rgba(255, 255, 255, 0.6);
-    transform: translateY(-2px) scale(1.05);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -2195,7 +2244,6 @@
 
 .ps5-project-tile:hover .ps5-tile-badge {
     animation-play-state: paused;
-    transform: scale(1.1);
 }
 
 /* Effets de loading state */
