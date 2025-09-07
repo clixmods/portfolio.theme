@@ -105,6 +105,8 @@
     transform: translateY(30px);
     animation: timelineSlideUp 0.6s ease forwards;
     z-index: 1;
+    /* Permettre aux éléments enfants de recevoir les événements de pointeur */
+    pointer-events: none;
 }
 
 .timeline-item:nth-child(even) {
@@ -150,6 +152,8 @@
 .timeline-content {
     width: calc(50% - 40px);
     padding: 0 2rem;
+    /* Permettre aux événements de passer aux enfants */
+    pointer-events: none;
 }
 
 .timeline-item:nth-child(even) .timeline-content {
@@ -167,10 +171,15 @@
     box-shadow: var(--edu-card-shadow, 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1));
     transition: all 0.3s ease;
     z-index: 5;
+    /* Ne pas créer un nouveau contexte de superposition pour les enfants */
+    isolation: auto;
+    /* Permettre les événements mais ne pas se déplacer au-dessus des étiquettes */
+    pointer-events: none;
 }
 
-.timeline-card:hover {
-    transform: translateY(-5px);
+.timeline-card:hover,
+.timeline-item:hover .timeline-card {
+    transform: scale(1.02);
     box-shadow: var(--edu-card-shadow-hover, 0 12px 40px rgba(79,209,199,0.15), 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2));
     border-color: var(--edu-card-border-hover, rgba(79,209,199,0.5));
 }
@@ -184,6 +193,9 @@
     width: 0;
     height: 0;
     border: 15px solid transparent;
+    /* Les flèches ne doivent pas intercepter les événements de clic */
+    pointer-events: none;
+    z-index: 1;
 }
 
 /* Les éléments impairs sont à gauche, la flèche pointe vers la droite */
@@ -216,6 +228,7 @@
     font-size: 0.85rem;
     font-weight: 600;
     border: var(--edu-period-border, 1px solid rgba(79,209,199,0.3));
+    pointer-events: auto;
 }
 
 .timeline-status {
@@ -225,6 +238,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    pointer-events: auto;
 }
 
 .status-validé,
@@ -248,6 +262,7 @@
     font-weight: 700;
     margin-bottom: 0.5rem;
     line-height: 1.3;
+    pointer-events: auto;
 }
 
 .timeline-institution {
@@ -255,6 +270,7 @@
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
+    pointer-events: auto;
 }
 
 .timeline-location {
@@ -268,17 +284,20 @@
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
+    pointer-events: auto;
 }
 
 .timeline-details {
     border-top: var(--edu-divider-border, 1px solid rgba(79,209,199,0.2));
     padding-top: 1rem;
+    pointer-events: auto;
 }
 
 .timeline-grade {
     color: var(--edu-grade-text,#d1d5db);
     margin-bottom: 1rem;
     font-size: 0.95rem;
+    pointer-events: auto;
 }
 
 .timeline-grade strong {
@@ -290,6 +309,7 @@
     display: block;
     margin-bottom: 0.8rem;
     font-size: 0.95rem;
+    pointer-events: auto;
 }
 
 .skills-tags {
@@ -297,7 +317,7 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     position: relative;
-    z-index: 10;
+    z-index: 10001;
 }
 
 .skill-tag {
@@ -330,8 +350,10 @@
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: relative;
-    z-index: 20;
+    z-index: 10002;
     overflow: visible;
+    /* S'assurer que les clics sont bien reçus */
+    pointer-events: auto;
 }
 
 .skill-tag.clickable:hover {
@@ -341,7 +363,7 @@
     box-shadow: 
         0 4px 15px rgba(var(--accent-rgb), 0.3),
         0 0 15px rgba(var(--accent-rgb), 0.2);
-    z-index: 25;
+    z-index: 10003;
 }
 
 .skill-tag.clickable::after {
@@ -354,7 +376,7 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform: scale(0.8);
     pointer-events: none;
-    z-index: 30;
+    z-index: 10004;
 }
 
 .skill-tag.clickable:hover::after {
@@ -364,7 +386,7 @@
 
 .skill-tag.clickable:active {
     transform: translateY(0) scale(1);
-    z-index: 25;
+    z-index: 10003;
 }
 
 /* Skill icon styles within clickable tags in education */
@@ -377,6 +399,24 @@
 .skill-tag.clickable .tech-icon-emoji {
     font-size: 14px;
     line-height: 1;
+}
+
+/* DEBUG: S'assurer que rien ne recouvre les étiquettes cliquables */
+.skill-tag.clickable {
+    isolation: isolate;
+    will-change: transform;
+}
+
+/* Force le z-index pour toutes les étiquettes en cas de conflit de contexte */
+.timeline-details .skills-tags .skill-tag.clickable {
+    z-index: 10002 !important;
+    position: relative !important;
+    pointer-events: auto !important;
+}
+
+/* S'assurer que les étiquettes sont toujours au premier plan */
+.skill-tag.clickable {
+    isolation: isolate !important;
 }
 
 /* ===================================
