@@ -112,10 +112,72 @@ document.addEventListener('DOMContentLoaded', function() {
     updateScrollProgress();
 });
 
+// Fonction utilitaire pour afficher des notifications
+function showNotification(message, type = 'info', duration = 5000) {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        ${getNotificationIcon(type)} ${message}
+        <button onclick="this.parentElement.remove()" style="margin-left: 10px; background: none; border: none; color: inherit; cursor: pointer; font-size: 16px;">✕</button>
+    `;
+    
+    const baseStyles = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        z-index: 10002;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        animation: slideInRight 0.3s ease;
+        max-width: 300px;
+        word-wrap: break-word;
+    `;
+    
+    const typeStyles = {
+        info: 'background: #007acc; color: white;',
+        success: 'background: #28a745; color: white;',
+        warning: 'background: #ffc107; color: #212529;',
+        error: 'background: #dc3545; color: white;'
+    };
+    
+    notification.style.cssText = baseStyles + typeStyles[type];
+    
+    document.body.appendChild(notification);
+    
+    // Auto-supprimer après la durée spécifiée
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 300);
+        }
+    }, duration);
+}
+
+function getNotificationIcon(type) {
+    const icons = {
+        info: 'ℹ️',
+        success: '✅',
+        warning: '⚠️',
+        error: '❌'
+    };
+    return icons[type] || icons.info;
+}
+
 // Expose functions globally for inline onclick handlers
 window.openYouTubeModal = openYouTubeModal;
 window.closeYouTubeModal = closeYouTubeModal;
 window.toggleInfoBox = toggleInfoBox;
+window.showMoreActions = showMoreActions;
+window.hideMoreActions = hideMoreActions;
+window.handleYouTubeAction = handleYouTubeAction;
+window.extractYouTubeVideoId = extractYouTubeVideoId;
+window.showNotification = showNotification;
 
 // Projects Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
@@ -658,22 +720,126 @@ function showNotification(message, type = 'info') {
 function showMoreActions(button) {
     console.log('showMoreActions called', button);
     
-    // Recherche directe de la popup dans tout le document
-    const popup = document.querySelector('.actions-popup');
+    // Trouver la popup associée à ce bouton
+    // Remonter jusqu'au conteneur des actions du projet
+    let container = button.parentElement;
+    let popup = null;
+    
+    // Chercher la popup dans le conteneur direct
+    popup = container.querySelector('.actions-popup');
+    
+    // Si pas trouvé, remonter d'un niveau (au cas où la structure serait différente)
+    if (!popup && container.parentElement) {
+        popup = container.parentElement.querySelector('.actions-popup');
+    }
+    
+    // Si toujours pas trouvé, chercher dans tout le projet
+    if (!popup) {
+        const projectContainer = button.closest('.project-item, .project-detail, .project-single');
+        if (projectContainer) {
+            popup = projectContainer.querySelector('.actions-popup');
+        }
+    }
     
     console.log('popup found:', popup);
     
     if (popup) {
+        // S'assurer que le popup a les bonnes propriétés CSS pour le centrage
         popup.style.display = 'flex';
+        popup.style.position = 'fixed';
+        popup.style.top = '0';
+        popup.style.left = '0';
+        popup.style.width = '100%';
+        popup.style.height = '100%';
+        popup.style.alignItems = 'center';
+        popup.style.justifyContent = 'center';
+        popup.style.zIndex = '9999';
+        
         document.body.style.overflow = 'hidden';
-        console.log('popup shown');
+        console.log('popup shown and centered');
     } else {
         console.error('Popup not found!');
-        // Afficher toutes les popups disponibles pour débug
-        console.log('All elements with actions-popup class:', document.querySelectorAll('.actions-popup'));
         console.log('Button parent:', button.parentElement);
         console.log('Button parent children:', button.parentElement.children);
+        // Afficher toutes les popups disponibles pour debug
+        console.log('All actions-popup elements:', document.querySelectorAll('.actions-popup'));
     }
+}
+
+// Gérer les actions YouTube avec le viewer intégré
+function handleYouTubeAction(url, title) {
+    console.log('handleYouTubeAction called with URL:', url, 'Title:', title);
+    
+    // Ajouter un indicateur de chargement
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.className = 'youtube-loading-indicator';
+    loadingIndicator.innerHTML = '🎥 Ouverture du viewer...';
+    loadingIndicator.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        z-index: 10001;
+        font-size: 14px;
+        backdrop-filter: blur(10px);
+        animation: fadeIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(loadingIndicator);
+    
+    try {
+        // Extraire l'ID vidéo de l'URL YouTube
+        const videoId = extractYouTubeVideoId(url);
+        
+        if (videoId) {
+            // Fermer d'abord le popup des actions
+            hideMoreActions(document.querySelector('.actions-popup'));
+            
+            setTimeout(() => {
+                openYouTubeModal(videoId, title);
+                if (loadingIndicator.parentElement) {
+                    document.body.removeChild(loadingIndicator);
+                }
+            }, 500);
+        } else {
+            console.warn('Cannot extract YouTube video ID from URL:', url, '- opening in new tab');
+            if (loadingIndicator.parentElement) {
+                document.body.removeChild(loadingIndicator);
+            }
+            
+            // Fallback: ouvrir dans un nouvel onglet
+            setTimeout(() => window.open(url, '_blank'), 300);
+        }
+    } catch (error) {
+        console.error('Error handling YouTube action:', error);
+        if (loadingIndicator.parentElement) {
+            document.body.removeChild(loadingIndicator);
+        }
+        // Fallback en cas d'erreur
+        setTimeout(() => window.open(url, '_blank'), 300);
+    }
+}
+
+// Extraire l'ID vidéo YouTube de différents formats d'URL
+function extractYouTubeVideoId(url) {
+    // Différents formats d'URL YouTube
+    const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+        /youtube\.com\/watch\?.*v=([^&\n?#]+)/
+    ];
+    
+    for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match && match[1]) {
+            return match[1];
+        }
+    }
+    
+    return null;
 }
 
 function hideMoreActions(element) {
