@@ -19,6 +19,11 @@
         {{ $allTech = $allTech | append . }}
     {{ end }}
 
+    {{/* Ajouter les outils de développement */}}
+    {{ with .Params.tools }}
+        {{ $allTech = $allTech | append . }}
+    {{ end }}
+
     {{/* Ajouter les technologies legacy pour compatibilité */}}
     {{ with .Params.technologies }}
         {{ $allTech = $allTech | append . }}
@@ -34,6 +39,10 @@
     {{ end }}
 
     {{ with .specialties }}
+        {{ $allTech = $allTech | append . }}
+    {{ end }}
+
+    {{ with .tools }}
         {{ $allTech = $allTech | append . }}
     {{ end }}
 

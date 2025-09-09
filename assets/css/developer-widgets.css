@@ -122,6 +122,14 @@
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
+.specialty-item.clickable {
+    cursor: pointer;
+}
+
+.specialty-item.clickable:active {
+    transform: translateY(-1px);
+}
+
 .specialty-header {
     display: flex;
     align-items: center;
@@ -235,6 +243,27 @@
     color: var(--text-secondary);
 }
 
+.tool-icon-mini.clickable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tool-icon-mini.clickable:hover {
+    transform: scale(1.1);
+    border-color: rgba(52, 152, 219, 0.4);
+}
+
+.specialty-badge-mini.clickable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.specialty-badge-mini.clickable:hover {
+    transform: scale(1.05);
+    border-color: rgba(155, 89, 182, 0.4);
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.15) 0%, rgba(155, 89, 182, 0.08) 100%);
+}
+
 /* Outils organisés par catégorie */
 .tools-by-category {
     display: flex;
@@ -286,6 +315,14 @@
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
     border-color: rgba(52, 152, 219, 0.3);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.tool-item.clickable {
+    cursor: pointer;
+}
+
+.tool-item.clickable:active {
+    transform: translateY(-1px);
 }
 
 .tool-header {
