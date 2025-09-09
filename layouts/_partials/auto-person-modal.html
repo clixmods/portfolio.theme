@@ -26,6 +26,45 @@
     {{/* Person Modal HTML */}}
     {{ partial "person-modal.html" . }}
 
+    {{/* Script de débogage pour analyser le problème */}}
+    <script>
+        window.debugPersonModal = function() {
+            console.log('=== DEBUG PERSON MODAL ===');
+            console.log('Current page:', window.location.pathname);
+            console.log('portfolioPeople:', window.portfolioPeople);
+            console.log('portfolioProjects:', window.portfolioProjects);
+            console.log('portfolioTestimonials:', window.portfolioTestimonials);
+            
+            if (window.portfolioProjects && Array.isArray(window.portfolioProjects)) {
+                console.log('Projects with contributors:');
+                window.portfolioProjects.forEach((project, index) => {
+                    console.log(`  ${index}. ${project.title}`);
+                    if (project.contributors) {
+                        project.contributors.forEach((contributor, cIndex) => {
+                            console.log(`    - ${contributor.person} (${contributor.role})`);
+                        });
+                    }
+                });
+            }
+            
+            // Test pour un contributeur spécifique
+            const testPersonId = 'francois-bertrand';
+            console.log(`Testing projects for ${testPersonId}:`);
+            if (window.portfolioProjects) {
+                const personProjects = window.portfolioProjects.filter(project => 
+                    project.contributors && project.contributors.some(contributor => contributor.person === testPersonId)
+                );
+                console.log(`Found ${personProjects.length} projects:`, personProjects);
+            }
+        };
+        
+        // Lancer automatiquement le debug après le chargement
+        setTimeout(() => {
+            console.log('Auto-running debug...');
+            window.debugPersonModal();
+        }, 1000);
+    </script>
+
     {{/* CSS pour les personnes cliquables */}}
     {{ $clickablePersonCSS := resources.Get "scss/clickable-person.scss" | css.Sass | resources.Minify }}
     <link rel="stylesheet" href="{{ $clickablePersonCSS.RelPermalink }}">

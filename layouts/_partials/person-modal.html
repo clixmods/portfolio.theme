@@ -103,42 +103,122 @@ window.portfolioTestimonials = [
     {{- end -}}
 ];
 
-window.portfolioProjects = [
-    {{- range where .Site.RegularPages "Section" "projects" -}}
-        {{- $hasContributors := false -}}
-        {{- range .Params.contributors -}}
-            {{- $hasContributors = true -}}
-        {{- end -}}
-        {{- if $hasContributors -}}
-        {
-            title: "{{ .Title }}",
-            subtitle: "{{ .Params.subtitle }}",
-            description: "{{ .Params.description }}",
-            image: "{{ .Params.image }}",
-            status: "{{ .Params.status }}",
-            sector: "{{ .Params.sector }}",
-            featured: {{ .Params.featured | default false }},
-            url: "{{ .RelPermalink }}",
-            contributors: [
-                {{- range .Params.contributors -}}
-                {
-                    person: "{{ .person }}",
-                    role: "{{ .role }}"
-                },
+// Ensure portfolioProjects exists with contributors data
+// If not loaded by skill-modal, create it here
+if (!window.portfolioProjects) {
+    console.log('Creating portfolioProjects data as fallback...');
+    window.portfolioProjects = [
+        {{- range where .Site.RegularPages "Section" "projects" -}}
+            {{- $allTechnologies := partial "get-all-technologies.html" . -}}
+            {
+                title: {{ .Title | jsonify }},
+                subtitle: {{ .Params.subtitle | jsonify }},
+                description: {{ .Params.description | jsonify }},
+                image: {{ .Params.image | jsonify }},
+                status: {{ .Params.status | jsonify }},
+                sector: {{ .Params.sector | jsonify }},
+                featured: {{ .Params.featured | default false }},
+                url: {{ .RelPermalink | jsonify }},
+                year: {{ (.Params.year | default (.Date.Format "2006")) | jsonify }},
+                technologies: {{ $allTechnologies | jsonify }},
+                background_image: {{ (.Params.image | default "/images/placeholder-project.jpg") | jsonify }},
+                github: {{ .Params.github | jsonify }},
+                demo: {{ .Params.demo | jsonify }},
+                website: {{ .Params.website | jsonify }},
+                {{- if .Params.contributors -}}
+                contributors: [
+                    {{- range .Params.contributors -}}
+                    {
+                        person: "{{ .person }}",
+                        role: "{{ .role }}"
+                    },
+                    {{- end -}}
+                ],
+                {{- else -}}
+                contributors: [],
                 {{- end -}}
-            ],
-            programming_languages: {{ .Params.programming_languages | jsonify }},
-            frameworks_engines: {{ .Params.frameworks_engines | jsonify }},
-            specialties: {{ .Params.specialties | jsonify }},
-            tags: {{ .Params.tags | jsonify }}
-        },
+                programming_languages: {{ .Params.programming_languages | jsonify }},
+                frameworks_engines: {{ .Params.frameworks_engines | jsonify }},
+                specialties: {{ .Params.specialties | jsonify }},
+                tools: {{ .Params.tools | jsonify }}
+            },
         {{- end -}}
-    {{- end -}}
-];
+    ];
+    console.log('Fallback portfolioProjects created with', window.portfolioProjects.length, 'projects');
+} else {
+    console.log('portfolioProjects already exists, checking contributors data...');
+    // Check if contributors data is present
+    const projectsWithContributors = window.portfolioProjects.filter(p => p.contributors && p.contributors.length > 0);
+    console.log('Projects with contributors:', projectsWithContributors.length);
+    
+    // If no contributors data, it means skill-modal loaded without contributors
+    if (projectsWithContributors.length === 0) {
+        console.log('No contributors data found, enriching existing data...');
+        // We need to enrich the existing data with contributors info
+        // This is more complex, so for now we'll log a warning
+        console.warn('portfolioProjects exists but lacks contributors data. This may cause issues.');
+    }
+}
 
 // Note: La logique du modal est maintenant dans person-modal-logic.js
-console.log('Person modal data loaded');
-console.log('People data:', window.portfolioPeople?.length || 0);
-console.log('Testimonials data:', window.portfolioTestimonials?.length || 0);
-console.log('Projects data:', window.portfolioProjects?.length || 0);
+console.log('=== PERSON MODAL DATA LOADING ===');
+console.log('Load time:', new Date().toISOString());
+console.log('Current page:', window.location.pathname);
+
+// Function to check data availability
+function checkPersonModalData() {
+    console.log('--- Data availability check ---');
+    console.log('window.portfolioProjects exists?', !!window.portfolioProjects);
+    console.log('window.portfolioProjects type:', typeof window.portfolioProjects);
+    console.log('window.portfolioProjects length:', window.portfolioProjects?.length || 'N/A');
+    
+    if (window.portfolioProjects && window.portfolioProjects.length > 0) {
+        console.log('First project sample:', window.portfolioProjects[0]);
+        console.log('Projects with contributors:');
+        window.portfolioProjects.forEach((project, index) => {
+            if (project.contributors && project.contributors.length > 0) {
+                console.log(`  ${index + 1}. "${project.title}" - Contributors: ${project.contributors.map(c => c.person).join(', ')}`);
+            }
+        });
+        
+        // Test spécifique
+        const testPersonId = 'francois-bertrand';
+        const projectsForPerson = window.portfolioProjects.filter(project => 
+            project.contributors && project.contributors.some(contributor => contributor.person === testPersonId)
+        );
+        console.log(`✅ Test result - Projects for ${testPersonId}:`, projectsForPerson.length, projectsForPerson.map(p => p.title));
+    } else {
+        console.warn('❌ No projects data available');
+    }
+}
+
+// Check immediately
+checkPersonModalData();
+
+// Also check after a delay to see if data loads later
+setTimeout(() => {
+    console.log('=== DELAYED CHECK (1 second) ===');
+    checkPersonModalData();
+}, 1000);
+
+// Make functions globally available for manual testing
+window.checkPersonModalData = checkPersonModalData;
+
+// Test function to manually open a person modal
+window.testPersonModal = function(personId) {
+    console.log('=== MANUAL TEST ===');
+    console.log('Testing person modal for:', personId);
+    checkPersonModalData();
+    
+    if (typeof window.openPersonModal === 'function') {
+        window.openPersonModal(personId);
+    } else {
+        console.error('openPersonModal function not available');
+    }
+};
+
+console.log('💡 Manual test commands:');
+console.log('  - window.checkPersonModalData() : Check data availability');
+console.log('  - window.testPersonModal("francois-bertrand") : Test modal for François');
+console.log('  - window.portfolioProjects : View projects data');
 </script>

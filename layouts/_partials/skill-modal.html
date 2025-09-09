@@ -74,19 +74,35 @@ window.portfolioProjects = [
         
         {
             title: {{ .Title | jsonify }},
-            subtitle: {{ .Params.subtitle | default .Params.description | jsonify }},
+            subtitle: {{ (.Params.subtitle | default .Params.description) | jsonify }},
             description: {{ .Params.description | jsonify }},
             url: {{ .RelPermalink | jsonify }},
-            image: {{ .Params.image | default "/images/placeholder-project.jpg" | jsonify }},
-            background_image: {{ .Params.image | default "/images/placeholder-project.jpg" | jsonify }},
-            year: {{ .Params.year | default (.Date.Format "2006") | jsonify }},
+            image: {{ (.Params.image | default "/images/placeholder-project.jpg") | jsonify }},
+            background_image: {{ (.Params.image | default "/images/placeholder-project.jpg") | jsonify }},
+            year: {{ (.Params.year | default (.Date.Format "2006")) | jsonify }},
             technologies: {{ $allTechnologies | jsonify }},
             sector: {{ .Params.sector | jsonify }},
             featured: {{ .Params.featured | default false }},
             status: {{ .Params.status | jsonify }},
             github: {{ .Params.github | jsonify }},
             demo: {{ .Params.demo | jsonify }},
-            website: {{ .Params.website | jsonify }}
+            website: {{ .Params.website | jsonify }},
+            {{- if .Params.contributors -}}
+            contributors: [
+                {{- range .Params.contributors -}}
+                {
+                    person: "{{ .person }}",
+                    role: "{{ .role }}"
+                },
+                {{- end -}}
+            ],
+            {{- else -}}
+            contributors: [],
+            {{- end -}}
+            programming_languages: {{ .Params.programming_languages | jsonify }},
+            frameworks_engines: {{ .Params.frameworks_engines | jsonify }},
+            specialties: {{ .Params.specialties | jsonify }},
+            tools: {{ .Params.tools | jsonify }}
         },
     {{- end -}}
 ];

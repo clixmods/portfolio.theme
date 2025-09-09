@@ -51,11 +51,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Create openPersonModal function
     window.openPersonModal = function(personId) {
-        console.log('openPersonModal called with:', personId);
+        console.log('=== OPENING PERSON MODAL ===');
+        console.log('Person ID:', personId);
+        
+        // Check data availability first
+        console.log('Data check at modal opening:');
+        console.log('- portfolioPeople:', window.portfolioPeople?.length || 'N/A');
+        console.log('- portfolioProjects:', window.portfolioProjects?.length || 'N/A');
+        console.log('- portfolioTestimonials:', window.portfolioTestimonials?.length || 'N/A');
+        
         const person = window.portfolioPeople.find(p => p.id === personId);
         if (!person) {
             console.error('Person not found:', personId);
-            console.log('Available people:', window.portfolioPeople.map(p => p.id));
+            console.log('Available people:', window.portfolioPeople?.map(p => p.id) || 'No people data');
             return;
         }
         console.log('Found person:', person);
@@ -200,17 +208,64 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePersonProjects(personId) {
-        console.log('=== Updating projects for person:', personId);
+        console.log('=== PERSON PROJECTS FILTERING START ===');
+        console.log('Filtering projects for person:', personId);
         
-        // Find projects where this person is a contributor
-        const personProjects = (window.portfolioProjects && Array.isArray(window.portfolioProjects)) 
-            ? window.portfolioProjects.filter(project => 
-                project.contributors && project.contributors.some(contributor => contributor.person === personId)
-              ) 
-            : [];
+        // Debug: Vérifier les données disponibles
+        console.log('window.portfolioProjects:', window.portfolioProjects);
+        console.log('Is array?', Array.isArray(window.portfolioProjects));
         
-        console.log(`Found ${personProjects.length} projects for ${personId}:`, personProjects);
+        if (!window.portfolioProjects || !Array.isArray(window.portfolioProjects)) {
+            console.warn('No projects data or not an array');
+            return [];
+        }
 
+        console.log('Total projects available:', window.portfolioProjects.length);
+        
+        // Debug: afficher tous les projets et leurs contributeurs avec le style de skill-modal
+        const personProjects = window.portfolioProjects.filter(project => {
+            console.log(`\nAnalyzing project: "${project.title}"`);
+            console.log(`Project contributors RAW:`, project.contributors);
+            console.log(`Type:`, typeof project.contributors);
+            console.log(`Is array:`, Array.isArray(project.contributors));
+            
+            let contributors = project.contributors;
+            
+            // Handle case where contributors might be a string
+            if (typeof contributors === 'string') {
+                try {
+                    contributors = JSON.parse(contributors);
+                    console.log(`Contributors after parsing:`, contributors);
+                } catch (e) {
+                    console.log(`❌ JSON parsing error for "${project.title}":`, e.message);
+                    return false;
+                }
+            }
+            
+            if (!contributors || !Array.isArray(contributors)) {
+                console.log(`❌ Project "${project.title}" rejected: invalid or missing contributors`);
+                return false;
+            }
+            
+            // Check if person is in contributors
+            const hasPerson = contributors.some(contributor => {
+                const exactMatch = contributor.person === personId;
+                console.log(`  Comparison: "${contributor.person}" vs "${personId}" -> match: ${exactMatch} (role: ${contributor.role})`);
+                return exactMatch;
+            });
+            
+            if (hasPerson) {
+                console.log(`✅ Project "${project.title}" ACCEPTED with contributors:`, contributors);
+            } else {
+                console.log(`❌ Project "${project.title}" rejected: person not found in contributors`);
+            }
+            return hasPerson;
+        });
+        
+        console.log('=== PERSON PROJECTS FILTERING RESULT ===');
+        console.log('Filtered projects found:', personProjects.length);
+        personProjects.forEach(p => console.log(`- ${p.title}`));
+        
         // Update projects section
         const projectsContent = document.getElementById('modalPersonProjects');
         projectsContent.innerHTML = '';
@@ -227,18 +282,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 const contributor = project.contributors.find(c => c.person === personId);
                 const role = contributor ? contributor.role : 'Contributeur';
                 
+                // Fonction pour nettoyer les valeurs avec guillemets en trop
+                const clean = (value) => {
+                    if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
+                        return value.slice(1, -1); // Enlève les guillemets du début et de la fin
+                    }
+                    return value || '';
+                };
+
+                const cleanTitle = clean(project.title);
+                const cleanSubtitle = clean(project.subtitle);
+                const cleanDescription = clean(project.description);
+                const cleanUrl = clean(project.url);
+                const cleanImage = clean(project.image);
+
                 projectEl.innerHTML = `
                     <div class="project-card-header">
-                        ${project.image ? `
+                        ${cleanImage ? `
                             <div class="project-card-image">
-                                <img src="${project.image}" alt="${project.title}" loading="lazy">
+                                <img src="${cleanImage}" alt="${cleanTitle}" loading="lazy">
                             </div>
                         ` : ''}
                         
                         <!-- Default content (visible by default) -->
                         <div class="project-card-content">
-                            <h3 class="project-card-title">${project.title}</h3>
-                            ${project.subtitle ? `<p class="project-card-subtitle">${project.subtitle}</p>` : ''}
+                            <h3 class="project-card-title">${cleanTitle}</h3>
+                            ${cleanSubtitle ? `<p class="project-card-subtitle">${cleanSubtitle}</p>` : ''}
                             <div class="project-card-meta">
                                 <span class="project-card-role">${role}</span>
                             </div>
@@ -247,10 +316,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         <!-- Detailed info (shown on hover) -->
                         <div class="project-card-detailed-info">
                             <div>
-                                <h3 class="project-card-title">${project.title}</h3>
-                                ${project.description ? `<p class="project-card-detailed-description">${project.description}</p>` : ''}
+                                <h3 class="project-card-title">${cleanTitle}</h3>
+                                ${cleanDescription ? `<p class="project-card-detailed-description">${cleanDescription}</p>` : ''}
                             </div>
-                            <a href="${project.url}" class="project-card-link" target="_blank">
+                            <a href="${cleanUrl}" class="project-card-link" target="_blank">
                                 Voir le projet
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M7 17L17 7M17 7H7M17 7V17"/>
