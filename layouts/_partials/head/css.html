@@ -210,6 +210,19 @@
   {{- end }}
 {{- end }}
 
+{{/* Discord Modal Styles */}}
+{{- with resources.Get "scss/discord-modal.scss" }}
+  {{- with . | toCSS | minify }}
+    {{- if hugo.IsDevelopment }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- else }}
+      {{- with . | fingerprint }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Technologies séparées - SCSS */}}
 {{- with resources.Get "scss/separated-technologies.scss" }}
   {{- with . | resources.ExecuteAsTemplate "separated-technologies.scss" . | css.Sass }}
