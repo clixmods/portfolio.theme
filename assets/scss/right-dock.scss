@@ -880,6 +880,18 @@
   overflow-wrap: break-word;
   hyphens: auto;
   max-width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Avatar dans les titres de notification */
+.right-dock .notification-title img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 1px solid rgba(0, 112, 255, 0.3);
+  flex-shrink: 0;
 }
 
 .right-dock .notification-message {
@@ -1263,26 +1275,28 @@
 
 .toast {
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 12px 16px;
+  border-radius: 16px;
+  padding: 16px 20px;
   margin-bottom: 8px;
   
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    0 2px 8px rgba(0, 0, 0, 0.05);
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1);
   
   transform: translateX(100%);
   opacity: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   
   pointer-events: auto;
-  max-width: 300px;
+  max-width: 320px;
+  position: relative;
+  overflow: hidden;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1290,8 +1304,8 @@
     background: rgba(30, 30, 30, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 2px 8px rgba(0, 0, 0, 0.2);
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      0 4px 12px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -1313,6 +1327,7 @@ body.notifications-menu-open .toast-container .toast {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-primary);
+  align-self: center;
 }
 
 .toast-close {
@@ -1344,6 +1359,98 @@ body.notifications-menu-open .toast-container .toast {
 
 .toast-info {
   border-left: 4px solid #2196F3;
+}
+
+/* ================================================================
+   TOAST AVATAR & PERSONAL STYLES 
+   ================================================================ */
+
+/* Effet de brillance pour les notifications importantes */
+.toast::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    transparent 100%);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.toast.with-shine::before {
+  animation: toast-shine 3s ease-in-out infinite;
+}
+
+@keyframes toast-shine {
+  0% { left: -100%; }
+  50% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Structure pour avatar dans toast */
+.toast .toast-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(33, 150, 243, 0.4);
+  box-shadow: 0 0 12px rgba(33, 150, 243, 0.2);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.toast .toast-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.toast .toast-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toast .toast-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(33, 150, 243, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.toast .toast-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Styles pour notifications personnelles */
+.toast.personal {
+  border-left: 4px solid #0070ff;
+  background: linear-gradient(135deg, 
+    rgba(0, 112, 255, 0.08) 0%, 
+    rgba(255, 255, 255, 0.95) 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .toast.personal {
+    background: linear-gradient(135deg, 
+      rgba(0, 112, 255, 0.12) 0%, 
+      rgba(30, 30, 30, 0.95) 100%);
+  }
+  
+  .toast .toast-text {
+    color: rgba(255, 255, 255, 0.9);
+  }
 }
 
 /* ================================================================

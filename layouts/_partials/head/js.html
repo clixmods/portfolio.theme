@@ -108,4 +108,9 @@
   {{- with resources.Get "js/debug-elements.js" }}
     <script src="{{ .RelPermalink }}"></script>
   {{- end }}
+  
+  {{/* Test Persistent Notifications (DEV ONLY) */}}
+  {{- with resources.Get "js/test-persistent-notifications.js" }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- end }}
 {{- end }}

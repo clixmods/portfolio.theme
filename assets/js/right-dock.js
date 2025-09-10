@@ -28,6 +28,61 @@
   let currentTheme = 'dark';
   
   /**
+   * Charge les notifications depuis localStorage
+   */
+  function loadNotificationsFromStorage() {
+    try {
+      const stored = localStorage.getItem('notifications');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        // Convertir les timestamps string en objets Date
+        notifications = parsed.map(notification => ({
+          ...notification,
+          timestamp: new Date(notification.timestamp)
+        }));
+        
+        // Nettoyer les notifications anciennes (plus de 7 jours)
+        cleanupOldNotifications();
+        
+        console.log('✅ Notifications chargées depuis localStorage:', notifications.length);
+      }
+    } catch (error) {
+      console.warn('⚠️ Erreur lors du chargement des notifications:', error);
+      notifications = [];
+    }
+  }
+  
+  /**
+   * Nettoie les notifications anciennes (plus de 7 jours)
+   */
+  function cleanupOldNotifications() {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    
+    const originalLength = notifications.length;
+    notifications = notifications.filter(notification => 
+      new Date(notification.timestamp) > sevenDaysAgo
+    );
+    
+    if (notifications.length !== originalLength) {
+      console.log(`🗑️ ${originalLength - notifications.length} anciennes notifications nettoyées`);
+      saveNotificationsToStorage();
+    }
+  }
+  
+  /**
+   * Sauvegarde les notifications dans localStorage
+   */
+  function saveNotificationsToStorage() {
+    try {
+      localStorage.setItem('notifications', JSON.stringify(notifications));
+      console.log('💾 Notifications sauvegardées dans localStorage');
+    } catch (error) {
+      console.warn('⚠️ Erreur lors de la sauvegarde des notifications:', error);
+    }
+  }
+  
+  /**
    * Détecte si l'utilisateur préfère les animations réduites
    */
   function detectReducedMotion() {
@@ -276,6 +331,9 @@
     if (notifications.length > 50) {
       notifications = notifications.slice(0, 50);
     }
+    
+    // Sauvegarde dans localStorage
+    saveNotificationsToStorage();
   }
   
   /**
@@ -323,6 +381,9 @@
     notifications = notifications.filter(n => n.id !== id);
     updateNotificationsList();
     updateNotificationBadge();
+    
+    // Sauvegarde dans localStorage
+    saveNotificationsToStorage();
   }
   
   /**
@@ -333,6 +394,9 @@
     updateNotificationsList();
     updateNotificationBadge();
     closeNotificationsDropdown();
+    
+    // Sauvegarde dans localStorage
+    saveNotificationsToStorage();
   }
   
   /**
@@ -351,9 +415,9 @@
   }
   
   /**
-   * Affiche une notification toast
+   * Affiche une notification toast (unifié pour tous les types)
    */
-  function showNotification(message, type = 'info') {
+  function showNotification(message, type = 'info', options = {}) {
     const toastContainer = document.getElementById('toast-container');
     if (!toastContainer) {
       console.warn('Toast container not found');
@@ -361,9 +425,28 @@
     }
     
     const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
+    let toastClasses = `toast toast-${type}`;
+    
+    // Structure du contenu basée sur la présence d'un avatar
+    let toastContent;
+    if (options.avatar) {
+      toastClasses += ' personal with-shine';
+      toastContent = `
+        <div class="toast-avatar">
+          <img src="${options.avatar}" alt="${options.avatarAlt || 'Avatar'}" />
+        </div>
+        <div class="toast-content">
+          ${options.title ? `<div class="toast-title">${options.title}</div>` : ''}
+          <div class="toast-text">${message}</div>
+        </div>
+      `;
+    } else {
+      toastContent = `<span class="toast-message">${message}</span>`;
+    }
+    
+    toast.className = toastClasses;
     toast.innerHTML = `
-      <span class="toast-message">${message}</span>
+      ${toastContent}
       <button class="toast-close" aria-label="Fermer">×</button>
     `;
     
@@ -542,6 +625,9 @@
     detectReducedMotion();
     initTheme();
     
+    // Charger les notifications persistées
+    loadNotificationsFromStorage();
+    
     if (!initElements()) {
       console.warn('❌ Right dock initialization failed - elements not found');
       return;
@@ -550,18 +636,33 @@
     initEventListeners();
     updateAnimationDuration();
     
+    // Mettre à jour l'UI avec les notifications chargées
+    updateNotificationsList();
+    updateNotificationBadge();
+    
     console.log('✅ Right Dock initialized successfully');
     
     // Marquer comme initialisé
     window.rightDockInitialized = true;
     
-    // Ajouter une notification de bienvenue
+    // Ajouter une notification de bienvenue seulement si c'est la première visite
     setTimeout(() => {
-      addNotification(
-        '👋 Bienvenue !',
-        'Interface dock maintenant active',
-        'success'
-      );
+      const hasWelcomeNotification = notifications.some(n => n.title === '👋 Bienvenue !');
+      const lastWelcome = localStorage.getItem('lastWelcomeNotification');
+      const now = Date.now();
+      const dayInMs = 24 * 60 * 60 * 1000;
+      
+      // Afficher la notification de bienvenue seulement si:
+      // - Il n'y en a pas déjà une dans la liste
+      // - La dernière notification de bienvenue date de plus de 24h
+      if (!hasWelcomeNotification && (!lastWelcome || now - parseInt(lastWelcome) > dayInMs)) {
+        addNotification(
+          '👋 Bienvenue !',
+          'Interface dock maintenant active. Vos notifications seront conservées entre les pages !',
+          'success'
+        );
+        localStorage.setItem('lastWelcomeNotification', now.toString());
+      }
     }, 1000);
   }
   
@@ -574,8 +675,10 @@
     createTrophyNotificationCompat
   };
   
-  // Exposer la fonction removeNotification globalement pour le HTML
+  // Exposer les fonctions globalement pour le HTML et autres scripts
   window.removeNotification = removeNotification;
+  window.addNotification = addNotification;
+  window.showNotification = showNotification;
   
   // Démarrer l'initialisation
   init();

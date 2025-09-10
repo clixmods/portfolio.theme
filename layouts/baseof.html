@@ -65,5 +65,11 @@
   {{ if $trophiesJs }}
     <script>{{ $trophiesJs.Content | safeJS }}</script>
   {{ end }}
+  
+  <!-- Scripts pour les notifications personnalisées v2 -->
+  {{ $personalNotificationsJs := resources.Get "js/personal-notifications-v2.js" }}
+  {{ if $personalNotificationsJs }}
+    <script>{{ $personalNotificationsJs.Content | safeJS }}</script>
+  {{ end }}
 </body>
 </html>
