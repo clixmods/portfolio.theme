@@ -35,6 +35,8 @@
                 </div>
                 {{ if eq $experienceData.status "current" }}
                 <div class="current-badge">{{ i18n "in_progress" | default "En cours" }}</div>
+                {{ else }}
+                <div class="completed-badge">{{ i18n "completed" | default "Terminé" }}</div>
                 {{ end }}
             </div>
 

@@ -12,6 +12,9 @@
   <div class="experiences-grid">
     {{- range .Pages -}}
       {{- $experienceData := partial "helpers/experience-data.html" . -}}
+      {{- if not $experienceData -}}
+        {{- $experienceData = dict "status" "unknown" "period" "N/A" "duration" "N/A" -}}
+      {{- end -}}
       
       <article class="experience-card">
         <header class="card-header">
@@ -25,8 +28,17 @@
             </div>
           </div>
           
-          <div class="status-badge status-{{ $experienceData.status }}">
-            {{- if eq $experienceData.status "current" -}}
+          {{- $isCurrently := true -}}
+          {{- if .Params.end_date -}}
+            {{- $endDate := time .Params.end_date -}}
+            {{- $now := now -}}
+            {{- if lt $endDate.Unix $now.Unix -}}
+              {{- $isCurrently = false -}}
+            {{- end -}}
+          {{- end -}}
+          
+          <div class="status-badge {{ if $isCurrently }}status-current{{ else }}status-completed{{ end }}">
+            {{- if $isCurrently -}}
               🟢 En cours
             {{- else -}}
               ✅ Terminé
@@ -54,7 +66,19 @@
               <span class="tech-tag framework">{{ . }}</span>
             {{- end -}}
           {{- end -}}
-          {{- $totalTechs := add (len .Params.programming_languages) (len .Params.frameworks_engines) (len .Params.specialties) -}}
+          {{- $progLangCount := 0 -}}
+          {{- if and .Params.programming_languages (reflect.IsSlice .Params.programming_languages) -}}
+            {{- $progLangCount = len .Params.programming_languages -}}
+          {{- end -}}
+          {{- $frameworkCount := 0 -}}
+          {{- if and .Params.frameworks_engines (reflect.IsSlice .Params.frameworks_engines) -}}
+            {{- $frameworkCount = len .Params.frameworks_engines -}}
+          {{- end -}}
+          {{- $specialtyCount := 0 -}}
+          {{- if and .Params.specialties (reflect.IsSlice .Params.specialties) -}}
+            {{- $specialtyCount = len .Params.specialties -}}
+          {{- end -}}
+          {{- $totalTechs := add $progLangCount $frameworkCount $specialtyCount -}}
           {{- if gt $totalTechs 5 -}}
             <span class="tech-tag more">+{{ sub $totalTechs 5 }}</span>
           {{- end -}}
@@ -137,21 +161,32 @@
 }
 
 .status-badge {
-  padding: 0.25rem 0.75rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.85rem;
+  font-weight: 600;
   white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
 }
 
 .status-current {
-  background: #d4edda;
-  color: #155724;
+  background: #d4f7d4;
+  color: #0f5132;
+  border-color: #badbcc;
 }
 
 .status-completed {
-  background: #cce5ff;
-  color: #004085;
+  background: #e8f5e8;
+  color: #2d5a2d;
+  border-color: #a3d9a3;
+  font-weight: 700;
+}
+
+.status-unknown {
+  background: #f8f9fa;
+  color: #6c757d;
+  border-color: #dee2e6;
 }
 
 .card-meta {

@@ -70,7 +70,8 @@
 {{/* Calcul du statut */}}
 {{- $status := "current" -}}
 {{- if $endDate -}}
-  {{- if $endDate.Before $now -}}
+  {{- $currentDate := now -}}
+  {{- if lt $endDate.Unix $currentDate.Unix -}}
     {{- $status = "completed" -}}
   {{- end -}}
 {{- end -}}

@@ -171,7 +171,7 @@
                     <span class="cv-item-period">{{ $experienceData.period }}{{ with $experienceData.duration }} · {{ . }}{{ end }}</span>
                   </div>
                   {{ with $exp.Params.description }}<p class="cv-item-desc">{{ . | truncate 160 }}</p>{{ end }}
-                  {{ if and (eq $i 0) (gt (len $exp.Params.projects) 0) }}
+                  {{ if and (eq $i 0) $exp.Params.projects (gt (len $exp.Params.projects) 0) }}
                     {{ $pref := index $exp.Params.projects 0 }}
                     {{ $proj := "" }}
                     {{ if hasPrefix $pref.project_ref "/" }}

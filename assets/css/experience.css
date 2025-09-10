@@ -386,9 +386,10 @@
 
 /**
  * Base styling for status badges
- * Common properties for current and seeking badges
+ * Common properties for current, completed and seeking badges
  */
 .current-badge,
+.completed-badge,
 .seeking-badge {
     padding: 0.5rem 1rem;
     border-radius: 15px;
@@ -401,13 +402,23 @@
 
 /**
  * Current position badge
- * Green styling with pulsing animation
+ * Yellow styling with pulsing animation (same as formations en cours)
  */
 .current-badge {
-    background: rgba(var(--status-success-rgb), 0.2);
-    color: var(--status-success);
-    border: 1px solid rgba(var(--status-success-rgb), 0.4);
+    background: rgba(251,191,36,0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(251,191,36,0.3);
     animation: pulse-current 2s ease-in-out infinite;
+}
+
+/**
+ * Completed position badge
+ * Green styling for finished experiences (same as formations obtenu)
+ */
+.completed-badge {
+    background: rgba(34,197,94,0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34,197,94,0.3);
 }
 
 /**
@@ -423,11 +434,11 @@
 
 /**
  * Pulsing animation for current position badge
- * Subtle glow effect to indicate active status
+ * Subtle glow effect to indicate active status (yellow)
  */
 @keyframes pulse-current {
-    0%, 100% { box-shadow: 0 0 5px rgba(var(--status-success-rgb), 0.3); }
-    50% { box-shadow: 0 0 20px rgba(var(--status-success-rgb), 0.6); }
+    0%, 100% { box-shadow: 0 0 5px rgba(251,191,36, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(251,191,36, 0.5); }
 }
 
 /**
