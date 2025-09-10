@@ -1503,6 +1503,11 @@ function openImageModal(imageUrl, caption) {
     const modalImage = document.getElementById('modalImage');
     const modalCaption = document.getElementById('modalCaption');
     
+    // Pause all testimonials before showing modal
+    if (typeof window.pauseAllTestimonials === 'function') {
+        window.pauseAllTestimonials();
+    }
+    
     modalImage.src = imageUrl;
     modalCaption.textContent = caption || '';
     modal.style.display = 'flex';
@@ -1517,6 +1522,11 @@ function openImageModal(imageUrl, caption) {
 function closeImageModal() {
     const modal = document.getElementById('imageModal');
     modal.classList.remove('active');
+    
+    // Resume all testimonials when closing modal
+    if (typeof window.resumeAllTestimonials === 'function') {
+        window.resumeAllTestimonials();
+    }
     
     setTimeout(() => {
         modal.style.display = 'none';

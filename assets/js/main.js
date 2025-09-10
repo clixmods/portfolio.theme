@@ -448,8 +448,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to update slider position
     function updateSlider() {
-        const translateX = -currentIndex * 100;
-        track.style.transform = `translateX(${translateX}%)`;
+        if (track) {
+            const translateX = -currentIndex * 100;
+            track.style.transform = `translateX(${translateX}%)`;
+        }
         
         // Update indicators
         indicators.forEach((indicator, index) => {
@@ -457,8 +459,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Update button states
-        prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex === totalCards - 1;
+        if (prevBtn) prevBtn.disabled = currentIndex === 0;
+        if (nextBtn) nextBtn.disabled = currentIndex === totalCards - 1;
     }
 
     // Function to start autoplay with synchronized progress bar
@@ -484,8 +486,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const increment = (100 / totalDuration) * updateFrequency; // Progress increment per update
         
         autoplayInterval = setInterval(() => {
-            // Only update if not paused
-            if (!isPaused) {
+            // Only update if not paused (local OR global)
+            if (!isPaused && !window.testimonialsGlobalPause) {
                 progress += increment;
                 
                 // Update progress bar
@@ -498,11 +500,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // When progress reaches 100%, change slide and restart
                 if (progress >= 100) {
+                    // Clear current interval to prevent overlap
+                    clearInterval(autoplayInterval);
+                    
+                    // Change slide
                     if (currentIndex < totalCards - 1) {
                         currentIndex++;
                     } else {
                         currentIndex = 0;
                     }
+                    
+                    // Update slider immediately
                     updateSlider();
                     
                     // Reset progress for next cycle
@@ -511,6 +519,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (progressBar) {
                         progressBar.style.width = '0%';
                     }
+                    
+                    // Start next cycle after a small delay to ensure DOM update
+                    setTimeout(() => {
+                        if (!isPaused) {
+                            startAutoplay();
+                        }
+                    }, 100);
+                    
+                    return; // Exit current interval
                 }
             }
         }, updateFrequency);
@@ -528,9 +545,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to reset autoplay (restart the timer)
     function resetAutoplay() {
+        // Clear existing intervals
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+        }
+        if (progressInterval) {
+            clearInterval(progressInterval);
+        }
+        
         isPaused = false;
         pausedProgress = 0;
-        startAutoplay();
+        
+        // Reset progress bar
+        if (progressBar) {
+            progressBar.style.width = '0%';
+        }
+        
+        // Start autoplay after a short delay
+        setTimeout(() => {
+            startAutoplay();
+        }, 50);
     }
 
     // Next button
@@ -625,6 +659,30 @@ document.addEventListener('DOMContentLoaded', function() {
         startX = null;
         startY = null;
     });
+    
+    // Enregistrer ce slider dans le système global de contrôle des témoignages
+    if (slider) {
+        const mainSliderController = {
+            pauseRotation: pauseAutoplay,
+            resumeRotation: resumeAutoplay,
+            stopRotation: () => {
+                if (autoplayInterval) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = null;
+                }
+                isPaused = false;
+                pausedProgress = 0;
+                if (progressBar) {
+                    progressBar.style.width = '0%';
+                }
+            },
+            startRotation: startAutoplay,
+            container: slider
+        };
+        
+        // Enregistrer ce controller dans la liste globale
+        window.testimonialsControllers.push(mainSliderController);
+    }
 });
 
 // Contact Form Functionality
@@ -1029,16 +1087,44 @@ document.addEventListener('DOMContentLoaded', function() {
 // TESTIMONIALS ROTATOR FUNCTIONALITY
 // ========================================
 
+// Variables globales pour contrôler tous les témoignages
+window.testimonialsGlobalPause = false;
+window.testimonialsControllers = [];
+
+// Fonctions globales pour contrôler tous les témoignages
+window.pauseAllTestimonials = function() {
+    window.testimonialsGlobalPause = true;
+    window.testimonialsControllers.forEach(controller => {
+        if (controller.pauseRotation) {
+            controller.pauseRotation();
+        }
+    });
+};
+
+window.resumeAllTestimonials = function() {
+    window.testimonialsGlobalPause = false;
+    window.testimonialsControllers.forEach(controller => {
+        if (controller.resumeRotation) {
+            controller.resumeRotation();
+        }
+    });
+};
+
 // Gestion de la rotation des testimonials
 function initTestimonialsRotator() {
-    const previewContainers = document.querySelectorAll('.testimonials-rotator');
+    const previewContainers = document.querySelectorAll('.widget-testimonials-rotator');
     
     previewContainers.forEach(container => {
-        const items = container.querySelectorAll('.testimonial-preview-item');
+        const items = container.querySelectorAll('.widget-testimonial-preview-item');
+        const progressBar = container.parentElement.querySelector('.widget-testimonials-progress');
+        
         if (items.length <= 1) return;
         
         let currentIndex = 0;
         let intervalId;
+        let progressAnimationId;
+        let isPaused = false;
+        let pausedProgress = 0;
         
         function showTestimonial(index) {
             // Masquer tous les testimonials
@@ -1050,38 +1136,99 @@ function initTestimonialsRotator() {
             }
         }
         
+        function startProgressCycle() {
+            if (!progressBar) return;
+            
+            // Supprimer l'animation CSS pour utiliser JS
+            progressBar.style.animation = 'none';
+            
+            let progress = isPaused ? pausedProgress : 0;
+            const duration = 6000; // 6 secondes
+            const interval = 16; // Mise à jour toutes les 16ms (60fps)
+            const increment = (100 / duration) * interval;
+            
+            // Si on reprend depuis une pause, ne pas réinitialiser la barre
+            if (!isPaused) {
+                progressBar.style.setProperty('--progress-width', '0%');
+            }
+            
+            progressAnimationId = setInterval(() => {
+                // Ne progresser que si pas en pause (locale OU globale)
+                if (!isPaused && !window.testimonialsGlobalPause) {
+                    progress += increment;
+                    pausedProgress = progress;
+                    
+                    // Mettre à jour la largeur via CSS custom property
+                    progressBar.style.setProperty('--progress-width', Math.min(progress, 100) + '%');
+                    
+                    // Quand on atteint 100%, passer au suivant
+                    if (progress >= 100) {
+                        clearInterval(progressAnimationId);
+                        
+                        // Changer de testimonial
+                        currentIndex = (currentIndex + 1) % items.length;
+                        showTestimonial(currentIndex);
+                        
+                        // Redémarrer le cycle après un petit délai
+                        setTimeout(() => {
+                            if (progressAnimationId !== null) { // Vérifier qu'on n'a pas été arrêté entre temps
+                                pausedProgress = 0;
+                                isPaused = false;
+                                startProgressCycle();
+                            }
+                        }, 100);
+                    }
+                }
+            }, interval);
+        }
+        
         function showNextTestimonial() {
-            // Passer au suivant
+            // Fonction helper pour changement manuel
             currentIndex = (currentIndex + 1) % items.length;
             showTestimonial(currentIndex);
         }
         
         function startRotation() {
             // Arrêter toute rotation existante pour éviter les conflits
-            if (intervalId) {
-                clearInterval(intervalId);
-                intervalId = null;
-            }
+            stopRotation();
             
             // S'assurer que le premier testimonial est affiché
             showTestimonial(0);
             currentIndex = 0;
             
-            // Démarrer la rotation automatique avec un délai plus long
-            intervalId = setInterval(showNextTestimonial, 6000); // 6 secondes par testimonial
+            // Démarrer le cycle de progression unifié
+            startProgressCycle();
+        }
+        
+        function pauseRotation() {
+            isPaused = true;
+        }
+        
+        function resumeRotation() {
+            isPaused = false;
         }
         
         function stopRotation() {
-            if (intervalId) {
-                clearInterval(intervalId);
-                intervalId = null;
+            // Arrêter l'animation de progression
+            if (progressAnimationId) {
+                clearInterval(progressAnimationId);
+                progressAnimationId = null;
+            }
+            
+            // Réinitialiser l'état
+            isPaused = false;
+            pausedProgress = 0;
+            
+            // Réinitialiser la barre de progression
+            if (progressBar) {
+                progressBar.style.setProperty('--progress-width', '0%');
             }
         }
         
         // Vérifier si le conteneur est visible
         function checkVisibility() {
             const infoBox = container.closest('.info-box');
-            const isTestimonialsBox = infoBox && infoBox.classList.contains('testimonials-box');
+            const isTestimonialsBox = infoBox && infoBox.classList.contains('widget-testimonials-box');
             
             // Pour la testimonials-box, démarrer la rotation seulement si fermée
             if (isTestimonialsBox) {
@@ -1115,7 +1262,32 @@ function initTestimonialsRotator() {
                 attributes: true,
                 attributeFilter: ['class']
             });
+            
+            // Ajouter les événements de survol pour faire pause/reprendre
+            infoBox.addEventListener('mouseenter', () => {
+                if (progressAnimationId && !infoBox.classList.contains('expanded')) {
+                    pauseRotation();
+                }
+            });
+            
+            infoBox.addEventListener('mouseleave', () => {
+                if (progressAnimationId && !infoBox.classList.contains('expanded')) {
+                    resumeRotation();
+                }
+            });
         }
+        
+        // Créer un controller pour ce widget et l'enregistrer globalement
+        const controller = {
+            pauseRotation: pauseRotation,
+            resumeRotation: resumeRotation,
+            stopRotation: stopRotation,
+            startRotation: startRotation,
+            container: container
+        };
+        
+        // Enregistrer ce controller dans la liste globale
+        window.testimonialsControllers.push(controller);
         
         // Démarrer immédiatement si visible
         setTimeout(checkVisibility, 500); // Délai initial pour s'assurer que le DOM est prêt
@@ -1149,6 +1321,11 @@ function openYouTubeModal(videoId, title) {
         // Définir la source de l'iframe
         iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
         
+        // Pause all testimonials before showing modal
+        if (typeof window.pauseAllTestimonials === 'function') {
+            window.pauseAllTestimonials();
+        }
+        
         // Afficher le modal
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -1172,6 +1349,11 @@ function closeYouTubeModal() {
     const modalContent = modal.querySelector('.youtube-modal-content');
     
     if (modal && iframe && modalContent) {
+        // Resume all testimonials when closing modal
+        if (typeof window.resumeAllTestimonials === 'function') {
+            window.resumeAllTestimonials();
+        }
+        
         modal.classList.remove('active');
         
         // Délai pour laisser l'animation se terminer avant de supprimer la source

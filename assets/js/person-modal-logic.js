@@ -156,6 +156,11 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.classList.remove('loading');
         }, 100);
         
+        // Pause all testimonials before showing modal
+        if (typeof window.pauseAllTestimonials === 'function') {
+            window.pauseAllTestimonials();
+        }
+        
         console.log('Setting modal display to flex...');
         modal.style.display = 'flex';
         console.log('Modal display after setting:', modal.style.display);
@@ -166,6 +171,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Create closePersonModal function
     window.closePersonModal = function() {
+        // Resume all testimonials when closing modal
+        if (typeof window.resumeAllTestimonials === 'function') {
+            window.resumeAllTestimonials();
+        }
+        
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     };

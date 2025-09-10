@@ -18,6 +18,8 @@
     width: 100%;
     max-width: none;
 }
+
+.info-box.widget-testimonials-box {
     position: relative;
     overflow: hidden; /* clip overflow in collapsed state */
 }
@@ -226,8 +228,17 @@
     top: 0;
     height: 100%;
     background: linear-gradient(90deg, var(--primary-teal), var(--primary-blue));
-    width: 0%;
-    animation: widget-testimonial-progress 6s linear infinite; /* Updated to match JS timing */
+    width: var(--progress-width, 0%);
+    transition: none; /* Pas de transition CSS, contrôlé par JS */
+}
+
+/* Feedback visuel lors du survol */
+.info-box.widget-testimonials-box:hover .widget-testimonials-progress::after {
+    opacity: 0.7;
+}
+
+.info-box.widget-testimonials-box:hover .widget-testimonials-progress {
+    background: rgba(255, 255, 255, 0.15);
 }
 
 @keyframes widget-testimonial-progress {

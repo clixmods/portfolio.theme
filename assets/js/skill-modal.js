@@ -30,6 +30,11 @@ function openSkillModal(name, icon, level, experience, iconType) {
     // Load associated educations
     loadEducationsForSkill(name);
     
+    // Pause all testimonials before showing modal
+    if (typeof window.pauseAllTestimonials === 'function') {
+        window.pauseAllTestimonials();
+    }
+    
     // Show modal
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden'; // Prevent page scrolling
@@ -38,6 +43,12 @@ function openSkillModal(name, icon, level, experience, iconType) {
 // Function to close modal
 function closeSkillModal() {
     const modal = document.getElementById('skillModal');
+    
+    // Resume all testimonials when closing modal
+    if (typeof window.resumeAllTestimonials === 'function') {
+        window.resumeAllTestimonials();
+    }
+    
     modal.style.display = 'none';
     document.body.style.overflow = 'auto'; // Restore page scrolling
 }

@@ -32,6 +32,11 @@
   function openContactModal() {
     if (!contactModal || isOpen) return;
     
+    // Pause all testimonials before showing modal
+    if (typeof window.pauseAllTestimonials === 'function') {
+      window.pauseAllTestimonials();
+    }
+    
     isOpen = true;
     contactModal.classList.add('active');
     contactModal.setAttribute('aria-hidden', 'false');
@@ -54,6 +59,11 @@
    */
   function closeContactModal() {
     if (!contactModal || !isOpen) return;
+    
+    // Resume all testimonials when closing modal
+    if (typeof window.resumeAllTestimonials === 'function') {
+      window.resumeAllTestimonials();
+    }
     
     isOpen = false;
     contactModal.classList.remove('active');

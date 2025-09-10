@@ -410,6 +410,11 @@
     openModal() {
       const modal = document.querySelector('.trophies-modal');
       if (modal) {
+        // Pause all testimonials before showing modal
+        if (typeof window.pauseAllTestimonials === 'function') {
+          window.pauseAllTestimonials();
+        }
+        
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         this.renderModalTrophies();
@@ -424,6 +429,11 @@
     closeModal() {
       const modal = document.querySelector('.trophies-modal');
       if (modal) {
+        // Resume all testimonials when closing modal
+        if (typeof window.resumeAllTestimonials === 'function') {
+          window.resumeAllTestimonials();
+        }
+        
         modal.classList.remove('active');
         document.body.style.overflow = '';
       }
