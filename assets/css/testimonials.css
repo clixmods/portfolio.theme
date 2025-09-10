@@ -195,6 +195,26 @@
     box-shadow: var(--testimonial-indicator-glow-active, 0 0 10px rgba(var(--accent-rgb), 0.6));
 }
 
+/* Barre de progression du défilement automatique */
+.autoplay-progress-container {
+    width: 100%;
+    height: 3px;
+    background: rgba(var(--accent-rgb), 0.1);
+    margin-top: 0.5rem;
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0.8;
+}
+
+.autoplay-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.7));
+    border-radius: 2px;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.4);
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
     /* Testimonials mobile styles */

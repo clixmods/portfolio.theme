@@ -437,6 +437,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let currentIndex = 0;
     const totalCards = cards.length;
+    let autoplayInterval = null;
+    let progressInterval = null;
+    let isPaused = false;
+    let pausedProgress = 0;
+    
+    // Barre de progression
+    const progressContainer = slider.querySelector('.autoplay-progress-container');
+    const progressBar = slider.querySelector('.autoplay-progress-bar');
 
     // Function to update slider position
     function updateSlider() {
@@ -453,11 +461,84 @@ document.addEventListener('DOMContentLoaded', function() {
         nextBtn.disabled = currentIndex === totalCards - 1;
     }
 
+    // Function to start autoplay with synchronized progress bar
+    function startAutoplay() {
+        // Clear any existing intervals
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+        }
+        if (progressInterval) {
+            clearInterval(progressInterval);
+        }
+        
+        // Reset progress bar if not resuming from pause
+        if (!isPaused && progressBar) {
+            progressBar.style.width = '0%';
+            pausedProgress = 0;
+        }
+        
+        // Unified timer for both progress and slide change
+        let progress = isPaused ? pausedProgress : 0;
+        const totalDuration = 5000; // 5 seconds
+        const updateFrequency = 50; // Update every 50ms for smooth animation
+        const increment = (100 / totalDuration) * updateFrequency; // Progress increment per update
+        
+        autoplayInterval = setInterval(() => {
+            // Only update if not paused
+            if (!isPaused) {
+                progress += increment;
+                
+                // Update progress bar
+                if (progressBar) {
+                    progressBar.style.width = `${Math.min(progress, 100)}%`;
+                }
+                
+                // Store current progress in case of pause
+                pausedProgress = progress;
+                
+                // When progress reaches 100%, change slide and restart
+                if (progress >= 100) {
+                    if (currentIndex < totalCards - 1) {
+                        currentIndex++;
+                    } else {
+                        currentIndex = 0;
+                    }
+                    updateSlider();
+                    
+                    // Reset progress for next cycle
+                    progress = 0;
+                    pausedProgress = 0;
+                    if (progressBar) {
+                        progressBar.style.width = '0%';
+                    }
+                }
+            }
+        }, updateFrequency);
+    }
+
+    // Function to pause autoplay
+    function pauseAutoplay() {
+        isPaused = true;
+    }
+
+    // Function to resume autoplay
+    function resumeAutoplay() {
+        isPaused = false;
+    }
+
+    // Function to reset autoplay (restart the timer)
+    function resetAutoplay() {
+        isPaused = false;
+        pausedProgress = 0;
+        startAutoplay();
+    }
+
     // Next button
     nextBtn.addEventListener('click', () => {
         if (currentIndex < totalCards - 1) {
             currentIndex++;
             updateSlider();
+            resetAutoplay(); // Reset the autoplay timer
         }
     });
 
@@ -466,6 +547,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentIndex > 0) {
             currentIndex--;
             updateSlider();
+            resetAutoplay(); // Reset the autoplay timer
         }
     });
 
@@ -474,21 +556,26 @@ document.addEventListener('DOMContentLoaded', function() {
         indicator.addEventListener('click', () => {
             currentIndex = index;
             updateSlider();
+            resetAutoplay(); // Reset the autoplay timer
         });
     });
 
-    // Auto-play slider
-    setInterval(() => {
-        if (currentIndex < totalCards - 1) {
-            currentIndex++;
-        } else {
-            currentIndex = 0;
-        }
-        updateSlider();
-    }, 5000); // Change slide every 5 seconds
+    // Start autoplay
+    startAutoplay();
 
     // Initialize slider
     updateSlider();
+
+    // Mouse hover events for pause/resume on testimonial cards only
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            pauseAutoplay();
+        });
+
+        card.addEventListener('mouseleave', () => {
+            resumeAutoplay();
+        });
+    });
 
     // Touch/swipe support for mobile
     let startX = null;
@@ -526,10 +613,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Swipe left - next slide
                 currentIndex++;
                 updateSlider();
+                resetAutoplay(); // Reset the autoplay timer
             } else if (diffX < 0 && currentIndex > 0) {
                 // Swipe right - previous slide
                 currentIndex--;
                 updateSlider();
+                resetAutoplay(); // Reset the autoplay timer
             }
         }
         
