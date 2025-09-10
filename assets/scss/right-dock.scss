@@ -431,74 +431,101 @@
 
 .right-dock .notification-badge {
   position: absolute;
-  top: -2px;
-  right: -2px;
-  background: #ff4757;
+  top: -4px;
+  right: -4px;
+  background: #FF3B30;
   color: white;
   border-radius: 50%;
-  font-size: 10px;
-  font-weight: 600;
-  min-width: 16px;
-  height: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 4px 12px rgba(255, 59, 48, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: pulse-badge 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes pulse-badge {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 
+      0 4px 12px rgba(255, 59, 48, 0.4),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 
+      0 6px 16px rgba(255, 59, 48, 0.6),
+      0 3px 6px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .right-dock .notifications-dropdown {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 8px);
   right: 0;
-  min-width: 300px;
-  max-width: 380px;
+  width: 380px;
+  max-width: 90vw;
   
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(25px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(50px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
   
   box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.15),
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    0 20px 60px rgba(0, 0, 0, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-15px) scale(0.95);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-12px) scale(0.96);
+  transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
   
   z-index: 1003;
+  overflow: hidden;
   
-  /* Petite flèche pointant vers le bouton */
+  /* Empêcher le scroll horizontal */
+  overflow-x: hidden;
+  box-sizing: border-box;
+  
+  /* Petite flèche pointant vers le bouton - améliorée */
   &::before {
     content: '';
     position: absolute;
-    top: -6px;
-    right: 16px;
-    width: 12px;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    top: -8px;
+    right: 20px;
+    width: 16px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-bottom: none;
     border-right: none;
     transform: rotate(45deg);
-    backdrop-filter: blur(25px);
+    backdrop-filter: blur(50px) saturate(200%);
+    box-shadow: -2px -2px 8px rgba(0, 0, 0, 0.04);
   }
 }
 
 @media (prefers-color-scheme: dark) {
   .right-dock .notifications-dropdown {
-    background: rgba(25, 25, 25, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(28, 28, 30, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 
-      0 12px 40px rgba(0, 0, 0, 0.4),
-      0 4px 12px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      0 20px 60px rgba(0, 0, 0, 0.6),
+      0 8px 24px rgba(0, 0, 0, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
       
     &::before {
-      background: rgba(25, 25, 25, 0.98);
-      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(28, 28, 30, 0.75);
+      border-color: rgba(255, 255, 255, 0.08);
     }
   }
 }
@@ -508,66 +535,99 @@
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scale(1);
+  
+  /* Animation d'apparition pour les éléments internes */
+  .notification-item {
+    animation: slideInNotification 0.4s cubic-bezier(0.23, 1, 0.32, 1) backwards;
+    
+    &:nth-child(1) { animation-delay: 0.05s; }
+    &:nth-child(2) { animation-delay: 0.1s; }
+    &:nth-child(3) { animation-delay: 0.15s; }
+    &:nth-child(4) { animation-delay: 0.2s; }
+    &:nth-child(5) { animation-delay: 0.25s; }
+  }
+  
+  .notifications-header {
+    animation: slideInNotification 0.3s cubic-bezier(0.23, 1, 0.32, 1) backwards;
+  }
 }
 
 .right-dock .notifications-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px 12px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  font-weight: 600;
-  font-size: 15px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  font-weight: 700;
+  font-size: 16px;
   color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(30px);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 @media (prefers-color-scheme: dark) {
   .right-dock .notifications-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+    background: rgba(28, 28, 30, 0.25);
   }
 }
 
 .right-dock .clear-all-btn {
-  background: none;
-  border: none;
+  background: rgba(0, 122, 255, 0.08);
+  border: 1px solid rgba(0, 122, 255, 0.15);
   color: var(--accent-color, #007AFF);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  backdrop-filter: blur(10px);
   
   &:hover {
-    background: rgba(0, 122, 255, 0.1);
-    transform: translateY(-1px);
+    background: rgba(0, 122, 255, 0.15);
+    border-color: rgba(0, 122, 255, 0.25);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(0, 122, 255, 0.25);
   }
   
   &:active {
-    transform: translateY(0);
+    transform: translateY(-1px) scale(0.98);
+    transition: all 0.1s ease;
   }
 }
 
 .right-dock .notifications-list {
-  max-height: 320px;
+  max-height: 400px;
   overflow-y: auto;
-  padding: 8px 0;
+  overflow-x: hidden;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
   
-  /* Style de la scrollbar */
+  /* Style de la scrollbar amélioré */
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
   
   &::-webkit-scrollbar-track {
     background: transparent;
+    margin: 8px 0;
   }
   
   &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    transition: all 0.2s ease;
     
     &:hover {
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.25);
     }
   }
 }
@@ -583,18 +643,443 @@
 }
 
 .right-dock .no-notifications {
-  padding: 40px 20px;
+  padding: 60px 24px;
   text-align: center;
   color: var(--text-secondary, #8E8E93);
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: 500;
   
   &::before {
     content: '🔔';
     display: block;
-    font-size: 32px;
-    margin-bottom: 12px;
-    opacity: 0.5;
+    font-size: 40px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+    animation: gentle-bounce 3s ease-in-out infinite;
+  }
+}
+
+@keyframes gentle-bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-4px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Éléments de notification individuels */
+.right-dock .notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0; /* Important pour permettre le rétrécissement */
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.06);
+    transform: translateX(2px); /* Réduit pour éviter le débordement */
+    
+    .notification-close {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  &.unread {
+    background: rgba(0, 122, 255, 0.08);
+    border-left: 3px solid rgba(0, 122, 255, 0.7);
+    
+    &:hover {
+      background: rgba(0, 122, 255, 0.12);
+    }
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(180deg, #007AFF 0%, #5AC8FA 100%);
+    }
+  }
+  
+  /* Types de notifications avec couleurs différentes */
+  &.success {
+    &.unread {
+      background: rgba(52, 199, 89, 0.06);
+      border-left-color: rgba(52, 199, 89, 0.6);
+      
+      &::before {
+        background: linear-gradient(180deg, #34C759 0%, #30D158 100%);
+      }
+    }
+  }
+  
+  &.warning {
+    &.unread {
+      background: rgba(255, 149, 0, 0.06);
+      border-left-color: rgba(255, 149, 0, 0.6);
+      
+      &::before {
+        background: linear-gradient(180deg, #FF9500 0%, #FFCC02 100%);
+      }
+    }
+  }
+  
+  &.error {
+    &.unread {
+      background: rgba(255, 59, 48, 0.06);
+      border-left-color: rgba(255, 59, 48, 0.6);
+      
+      &::before {
+        background: linear-gradient(180deg, #FF3B30 0%, #FF453A 100%);
+      }
+    }
+  }
+  
+  /* Animation d'entrée */
+  animation: slideInNotification 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Icône de type de notification */
+.right-dock .notification-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 2px;
+  
+  .notification-item.info & {
+    background: rgba(0, 122, 255, 0.15);
+    color: #007AFF;
+  }
+  
+  .notification-item.success & {
+    background: rgba(52, 199, 89, 0.15);
+    color: #34C759;
+  }
+  
+  .notification-item.warning & {
+    background: rgba(255, 149, 0, 0.15);
+    color: #FF9500;
+  }
+  
+  .notification-item.error & {
+    background: rgba(255, 59, 48, 0.15);
+    color: #FF3B30;
+  }
+}
+
+@keyframes slideInNotification {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .right-dock .notification-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+    
+    &.unread {
+      background: rgba(0, 122, 255, 0.12);
+      border-left-color: rgba(0, 122, 255, 0.8);
+      
+      &:hover {
+        background: rgba(0, 122, 255, 0.18);
+      }
+    }
+    
+    /* Types de notifications en mode sombre */
+    &.success.unread {
+      background: rgba(52, 199, 89, 0.12);
+      border-left-color: rgba(52, 199, 89, 0.8);
+    }
+    
+    &.warning.unread {
+      background: rgba(255, 149, 0, 0.12);
+      border-left-color: rgba(255, 149, 0, 0.8);
+    }
+    
+    &.error.unread {
+      background: rgba(255, 59, 48, 0.12);
+      border-left-color: rgba(255, 59, 48, 0.8);
+    }
+  }
+  
+  /* Icônes en mode sombre */
+  .right-dock .notification-icon {
+    .notification-item.info & {
+      background: rgba(0, 122, 255, 0.2);
+      color: #5AC8FA;
+    }
+    
+    .notification-item.success & {
+      background: rgba(52, 199, 89, 0.2);
+      color: #30D158;
+    }
+    
+    .notification-item.warning & {
+      background: rgba(255, 149, 0, 0.2);
+      color: #FFCC02;
+    }
+    
+    .notification-item.error & {
+      background: rgba(255, 59, 48, 0.2);
+      color: #FF453A;
+    }
+  }
+}
+
+.right-dock .notification-content {
+  flex: 1;
+  min-width: 0; /* Permet au contenu de se rétrécir */
+  width: 100%;
+  overflow: hidden; /* Empêche le débordement */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.right-dock .notification-title {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--text-primary, #1D1D1F);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+.right-dock .notification-message {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary, #8E8E93);
+  margin-bottom: 8px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  font-weight: 500;
+  max-width: 100%;
+}
+
+.right-dock .notification-time {
+  font-size: 13px;
+  color: var(--text-tertiary, #C7C7CC);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  
+  &::before {
+    content: '•';
+    color: var(--accent-color, #007AFF);
+    opacity: 0.6;
+  }
+}
+
+.right-dock .notification-close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--text-secondary, #8E8E93);
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background: rgba(255, 59, 48, 0.15);
+    color: #FF3B30;
+    transform: translateX(0) scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.25);
+  }
+  
+  &:active {
+    transform: translateX(0) scale(0.95);
+    transition: all 0.1s ease;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .right-dock .notification-title {
+    color: #F2F2F7;
+  }
+  
+  .right-dock .notification-message {
+    color: #98989D;
+  }
+  
+  .right-dock .notification-time {
+    color: #636366;
+  }
+  
+  .right-dock .notification-close {
+    background: rgba(255, 255, 255, 0.15);
+    color: #98989D;
+    
+    &:hover {
+      background: rgba(255, 0, 0, 0.3);
+      color: #FF453A;
+    }
+  }
+}
+
+/* ================================================================
+   RESPONSIVE DESIGN - NOTIFICATIONS
+   ================================================================ */
+
+/* Tablette */
+@media (max-width: 768px) {
+  .right-dock .notifications-dropdown {
+    width: 340px;
+    max-width: calc(100vw - 40px);
+    right: -20px;
+    
+    &::before {
+      right: 40px;
+    }
+  }
+  
+  .right-dock .notifications-header {
+    padding: 16px 20px 12px;
+    font-size: 15px;
+  }
+  
+  .right-dock .notification-item {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  
+  .right-dock .notification-title {
+    font-size: 14px;
+  }
+  
+  .right-dock .notification-message {
+    font-size: 13px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .right-dock .notifications-dropdown {
+    width: 300px;
+    max-width: calc(100vw - 20px);
+    right: -10px;
+    border-radius: 16px;
+    
+    &::before {
+      right: 30px;
+    }
+  }
+  
+  .right-dock .notifications-header {
+    padding: 14px 16px 10px;
+    font-size: 14px;
+  }
+  
+  .right-dock .clear-all-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+  
+  .right-dock .notification-item {
+    padding: 12px 12px;
+    gap: 10px;
+    
+    &:hover {
+      transform: none; /* Désactiver les transformations sur mobile */
+    }
+    
+    .notification-close {
+      opacity: 1; /* Toujours visible sur mobile */
+      transform: translateX(0);
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
+    }
+  }
+  
+  .right-dock .notification-title {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  
+  .right-dock .notification-message {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  
+  .right-dock .notification-time {
+    font-size: 11px;
+  }
+  
+  .right-dock .no-notifications {
+    padding: 40px 16px;
+    font-size: 14px;
+    
+    &::before {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+  }
+}
+
+/* Très petit mobile */
+@media (max-width: 360px) {
+  .right-dock .notifications-dropdown {
+    width: 280px;
+    max-width: calc(100vw - 16px);
+    right: -8px;
+  }
+  
+  .right-dock .notification-item {
+    padding: 10px 12px;
+  }
+  
+  .right-dock .notifications-header {
+    padding: 12px 12px 8px;
   }
 }
 
@@ -770,7 +1255,7 @@
 
 .toast-container {
   position: fixed;
-  top: 20px;
+  top: 140px;
   right: 20px;
   z-index: 1005;
   pointer-events: none;
@@ -813,6 +1298,14 @@
 .toast.show {
   transform: translateX(0);
   opacity: 1;
+}
+
+/* Masquer les toasts quand le menu notifications est ouvert */
+body.notifications-menu-open .toast-container .toast {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateX(100%) !important;
 }
 
 .toast-message {

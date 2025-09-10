@@ -162,10 +162,9 @@
     }, 150);
     
     // Notification de changement
-    showNotification(
-      currentTheme === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé',
-      'success'
-    );
+    const themeMessage = currentTheme === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé';
+    showNotification(themeMessage, 'success');
+    addNotification('Thème changé', themeMessage, 'success');
   }
   
   /**
@@ -196,6 +195,9 @@
     notificationsBtn.classList.add('active');
     notificationsDropdown.classList.add('active');
     
+    // Ajouter classe sur body pour masquer les toasts
+    document.body.classList.add('notifications-menu-open');
+    
     // Marquer les notifications comme lues
     markNotificationsAsRead();
     
@@ -211,6 +213,9 @@
   function closeNotificationsDropdown() {
     notificationsBtn.classList.remove('active');
     notificationsDropdown.classList.remove('active');
+    
+    // Enlever classe sur body pour réafficher les toasts
+    document.body.classList.remove('notifications-menu-open');
     
     // Retirer l'event listener
     document.removeEventListener('click', closeNotificationsDropdownOutside);
@@ -286,6 +291,7 @@
     
     notificationsList.innerHTML = notifications.map(notification => `
       <div class="notification-item ${notification.type} ${notification.read ? 'read' : 'unread'}" data-id="${notification.id}">
+        <div class="notification-icon">${getNotificationTypeIcon(notification.type)}</div>
         <div class="notification-content">
           <div class="notification-title">${notification.title}</div>
           <div class="notification-message">${notification.message}</div>
@@ -294,6 +300,20 @@
         <button class="notification-close" onclick="removeNotification(${notification.id})">×</button>
       </div>
     `).join('');
+  }
+  
+  /**
+   * Retourne l'icône appropriée selon le type de notification
+   */
+  function getNotificationTypeIcon(type) {
+    const icons = {
+      'info': 'ℹ️',
+      'success': '✅',
+      'warning': '⚠️',
+      'error': '❌',
+      'trophy': '🏆'
+    };
+    return icons[type] || icons['info'];
   }
   
   /**
