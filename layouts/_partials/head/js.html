@@ -114,6 +114,28 @@
   {{- end }}
 {{- end }}
 
+{{/* Carousel Controller Script */}}
+{{- with resources.Get "js/carousel-controller.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* Gallery Slideshow Script */}}
+{{- with resources.Get "js/gallery-slideshow.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Debug Elements Script (DEV ONLY) */}}
 {{- if hugo.IsDevelopment }}
   {{- with resources.Get "js/debug-elements.js" }}

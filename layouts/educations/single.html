@@ -1472,191 +1472,31 @@
 {{- if .Params.testimonials -}}
 {{- if gt (len .Params.testimonials) 1 -}}
 <script>
-// Education Testimonials Slider
+// Education Testimonials Slider - Using CarouselController
 document.addEventListener('DOMContentLoaded', function() {
     const slider = document.querySelector('.testimonials-education-slider');
     if (!slider) return;
 
-    const track = slider.querySelector('.testimonials-education-track');
-    const cards = slider.querySelectorAll('.testimonial-education-card');
-    const prevBtn = slider.querySelector('.slider-btn.prev');
-    const nextBtn = slider.querySelector('.slider-btn.next');
-    const indicators = slider.querySelectorAll('.indicator');
-    
-    let currentIndex = 0;
-    const totalCards = cards.length;
-    let autoplayInterval = null;
-    let isPaused = false;
-    let pausedProgress = 0;
-    
-    // Barre de progression
-    const progressContainer = slider.querySelector('.autoplay-progress-container');
-    const progressBar = slider.querySelector('.autoplay-progress-bar');
-
-    // Function to update slider position
-    function updateSlider() {
-        if (track) {
-            const translateX = -currentIndex * 100;
-            track.style.transform = `translateX(${translateX}%)`;
-        }
-        
-        // Update indicators
-        indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === currentIndex);
-        });
-        
-        // Update button states
-        if (prevBtn) prevBtn.disabled = currentIndex === 0;
-        if (nextBtn) nextBtn.disabled = currentIndex === totalCards - 1;
-    }
-
-    // Function to start autoplay with synchronized progress bar
-    function startAutoplay() {
-        // Clear any existing intervals
-        if (autoplayInterval) {
-            clearInterval(autoplayInterval);
-        }
-        
-        // Reset progress bar if not resuming from pause
-        if (!isPaused && progressBar) {
-            progressBar.style.width = '0%';
-            pausedProgress = 0;
-        }
-        
-        // Unified timer for both progress and slide change
-        let progress = isPaused ? pausedProgress : 0;
-        const totalDuration = 5000; // 5 seconds
-        const updateFrequency = 50; // Update every 50ms for smooth animation
-        const increment = (100 / totalDuration) * updateFrequency; // Progress increment per update
-        
-        autoplayInterval = setInterval(() => {
-            // Only update if not paused
-            if (!isPaused && !window.testimonialsGlobalPause) {
-                progress += increment;
-                
-                // Update progress bar
-                if (progressBar) {
-                    progressBar.style.width = `${Math.min(progress, 100)}%`;
-                }
-                
-                // Store current progress in case of pause
-                pausedProgress = progress;
-                
-                // When progress reaches 100%, change slide and restart
-                if (progress >= 100) {
-                    // Clear current interval to prevent overlap
-                    clearInterval(autoplayInterval);
-                    
-                    // Change slide
-                    if (currentIndex < totalCards - 1) {
-                        currentIndex++;
-                    } else {
-                        currentIndex = 0;
-                    }
-                    
-                    // Update slider immediately
-                    updateSlider();
-                    
-                    // Reset progress for next cycle
-                    progress = 0;
-                    pausedProgress = 0;
-                    if (progressBar) {
-                        progressBar.style.width = '0%';
-                    }
-                    
-                    // Start next cycle after a small delay to ensure DOM update
-                    setTimeout(() => {
-                        if (!isPaused) {
-                            startAutoplay();
-                        }
-                    }, 100);
-                    
-                    return; // Exit current interval
-                }
-            }
-        }, updateFrequency);
-    }
-
-    // Function to pause autoplay
-    function pauseAutoplay() {
-        isPaused = true;
-    }
-
-    // Function to resume autoplay
-    function resumeAutoplay() {
-        isPaused = false;
-    }
-
-    // Function to reset autoplay (restart the timer)
-    function resetAutoplay() {
-        // Clear existing intervals
-        if (autoplayInterval) {
-            clearInterval(autoplayInterval);
-        }
-        
-        isPaused = false;
-        pausedProgress = 0;
-        
-        // Reset progress bar
-        if (progressBar) {
-            progressBar.style.width = '0%';
-        }
-        
-        // Start autoplay after a short delay
-        setTimeout(() => {
-            startAutoplay();
-        }, 50);
-    }
-
-    // Next button
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            if (currentIndex < totalCards - 1) {
-                currentIndex++;
-                updateSlider();
-                resetAutoplay();
-            }
-        });
-    }
-
-    // Previous button
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateSlider();
-                resetAutoplay();
-            }
-        });
-    }
-
-    // Indicator clicks
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            currentIndex = index;
-            updateSlider();
-            resetAutoplay();
-        });
+    // Initialize carousel with our centralized class
+    const carousel = new CarouselController('.testimonials-education-slider', {
+        autoplayDuration: 5000,
+        enableSwipe: true,
+        pauseOnHover: false, // Managed manually below
+        loop: true
     });
 
-    // Pause on hover
-    slider.addEventListener('mouseenter', pauseAutoplay);
-    slider.addEventListener('mouseleave', resumeAutoplay);
-
-    // Initialize slider
-    updateSlider();
-    
-    // Start autoplay
-    startAutoplay();
-
-    // Global pause function integration
+    // Integration with legacy global pause system for compatibility
     if (!window.educationTestimonialsPausers) {
         window.educationTestimonialsPausers = [];
     }
     window.educationTestimonialsPausers.push({
-        pause: pauseAutoplay,
-        resume: resumeAutoplay
+        pause: () => carousel.pause(),
+        resume: () => carousel.resume()
     });
+
+    // Manual pause on hover for this specific slider
+    slider.addEventListener('mouseenter', () => carousel.pause());
+    slider.addEventListener('mouseleave', () => carousel.resume());
 });
 </script>
 {{- end -}}
