@@ -6,12 +6,12 @@
 
     <!-- Navigation Tabs -->
     <div class="education-tabs">
-    <button class="edu-tab-btn active" data-category="education">{{ i18n "education" | default "Formation" }}</button>
-    <button class="edu-tab-btn" data-category="certifications">{{ i18n "certifications" | default "Certifications" }}</button>
+    <button class="edu-tab-btn active" data-tab="education">{{ i18n "education" | default "Formation" }}</button>
+    <button class="edu-tab-btn" data-tab="certifications">{{ i18n "certifications" | default "Certifications" }}</button>
     </div>
 
     <!-- Education Timeline -->
-    <div class="timeline-container" id="education-timeline">
+    <div class="timeline-container" id="education-timeline" data-tab="education">
         <div class="timeline-line"></div>
         
         {{ range ((where (where .Site.RegularPages "Section" "educations") ".Params.displayedInPortfolio" "!=" false).ByParam "end_date").Reverse }}
@@ -154,7 +154,7 @@
     </div>
 
     <!-- Certifications Timeline -->
-    <div class="timeline-container" id="certifications-timeline" style="display: none;">
+    <div class="timeline-container" id="certifications-timeline" data-tab="certifications" style="display: none;">
         <div class="timeline-line"></div>
         
         {{ range $index, $cert := .Site.Data.certifications }}

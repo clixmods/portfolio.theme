@@ -136,6 +136,17 @@
   {{- end }}
 {{- end }}
 
+{{/* Tab Controller Script */}}
+{{- with resources.Get "js/tab-controller.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Debug Elements Script (DEV ONLY) */}}
 {{- if hugo.IsDevelopment }}
   {{- with resources.Get "js/debug-elements.js" }}

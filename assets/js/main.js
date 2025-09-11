@@ -184,242 +184,67 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize tech badge colors
     initializeTechBadgeColors();
     
-    // Tab switching functionality
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const projectCards = document.querySelectorAll('.ps5-project-tile');
-    const sectionDescription = document.getElementById('section-description');
-    
-    const descriptions = {
-        games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
-        "apps-web": "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
-        "mods-tools": "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs."
-    };
-    
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const category = btn.getAttribute('data-category');
-            
-            // Update active tab
-            tabBtns.forEach(tab => tab.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Update description
-            if (sectionDescription) {
-                sectionDescription.textContent = descriptions[category];
-            }
-            
-            // Show/hide cards based on category
-            projectCards.forEach(card => {
-                if (card.getAttribute('data-category') === category) {
-                    card.style.display = 'flex';
-                    card.classList.remove('hiding');
-                    card.classList.add('showing');
-                } else {
-                    card.classList.remove('showing');
-                    card.classList.add('hiding');
-                    setTimeout(() => {
-                        if (card.classList.contains('hiding')) {
-                            card.style.display = 'none';
-                        }
-                    }, 400);
-                }
-            });
-            
-            // Animate visible tiles
-            setTimeout(() => {
-                const visibleTiles = Array.from(projectCards).filter(tile => 
-                    tile.getAttribute('data-category') === category && 
-                    getComputedStyle(tile).display !== 'none'
-                );
-                
-                visibleTiles.forEach((tile, index) => {
-                    tile.classList.add('tile-ready');
-                    setTimeout(() => {
-                        tile.classList.add('tile-visible');
-                    }, index * 90);
-                });
-            }, 100);
-        });
+    // Projects tabs using TabController
+    const projectTabs = new TabController('.tab-btn', {
+        animationType: 'cards',
+        cardSelector: '.ps5-project-tile',
+        cardAnimationDelay: 90,
+        updateDescription: true,
+        descriptionSelector: '#section-description',
+        descriptions: {
+            games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
+            "apps-web": "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
+            "mods-tools": "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs."
+        }
     });
-    
+
     // Initialize card animations
+    const projectCards = document.querySelectorAll('.ps5-project-tile');
     projectCards.forEach(card => {
         card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-    });
-    
-    // Initialize projects display - show only the active category (games by default)
-    const activeTab = document.querySelector('.tab-btn.active');
-    if (activeTab) {
-        const activeCategory = activeTab.getAttribute('data-category');
-        
-        // Update description for active category
-        if (sectionDescription && descriptions[activeCategory]) {
-            sectionDescription.textContent = descriptions[activeCategory];
-        }
-        
-        // Show/hide cards based on active category
-        projectCards.forEach(card => {
-            if (card.getAttribute('data-category') === activeCategory) {
-                card.style.display = 'flex';
-                card.classList.remove('hiding');
-                card.classList.add('showing');
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-    
-    // Initialize tile visibility animation (similar to ps5-projects.js)
-    projectCards.forEach(tile => tile.classList.add('tile-ready'));
-    
-    // Staggered fade-in for visible tiles
-    const visibleTiles = Array.from(projectCards).filter(tile => 
-        getComputedStyle(tile).display !== 'none'
-    );
-    
-    visibleTiles.forEach((tile, index) => {
-        setTimeout(() => {
-            tile.classList.add('tile-visible');
-        }, index * 90);
     });
 });
 
 // Education Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const eduTabBtns = document.querySelectorAll('.edu-tab-btn');
-    const educationTimeline = document.getElementById('education-timeline');
-    const certificationsTimeline = document.getElementById('certifications-timeline');
-    
-    eduTabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const category = btn.getAttribute('data-category');
-            
-            // Update active tab
-            eduTabBtns.forEach(tab => tab.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Show/hide timelines with animation
-            if (category === 'education') {
-                // Hide certifications
-                if (certificationsTimeline) {
-                    certificationsTimeline.style.opacity = '0';
-                    certificationsTimeline.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        certificationsTimeline.style.display = 'none';
-                    }, 300);
-                }
-                
-                // Show education
-                if (educationTimeline) {
-                    setTimeout(() => {
-                        educationTimeline.style.display = 'block';
-                        setTimeout(() => {
-                            educationTimeline.style.opacity = '1';
-                            educationTimeline.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, 300);
-                }
-            } else if (category === 'certifications') {
-                // Hide education
-                if (educationTimeline) {
-                    educationTimeline.style.opacity = '0';
-                    educationTimeline.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        educationTimeline.style.display = 'none';
-                    }, 300);
-                }
-                
-                // Show certifications
-                if (certificationsTimeline) {
-                    setTimeout(() => {
-                        certificationsTimeline.style.display = 'block';
-                        setTimeout(() => {
-                            certificationsTimeline.style.opacity = '1';
-                            certificationsTimeline.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, 300);
-                }
-            }
-        });
+    // Education tabs using TabController with fade animation
+    const educationTabs = new TabController('.edu-tab-btn', {
+        contentSelector: '.timeline-container[data-tab]',
+        contentAttribute: 'data-tab',
+        animationType: 'fade',
+        animationDuration: 300
     });
-    
-    // Initialize timeline animations
-    const timelines = [educationTimeline, certificationsTimeline];
+
+    // Initialize timeline styles
+    const timelines = [
+        document.getElementById('education-timeline'),
+        document.getElementById('certifications-timeline')
+    ];
     timelines.forEach(timeline => {
         if (timeline) {
             timeline.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            timeline.style.opacity = timeline.id === 'education-timeline' ? '1' : '0';
-            timeline.style.transform = 'translateY(0)';
         }
     });
 });
 
 // Experience Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const expTabBtns = document.querySelectorAll('.exp-tab-btn');
-    const experiencesTimeline = document.getElementById('experiences-timeline');
-    const internshipsTimeline = document.getElementById('internships-timeline');
-    
-    expTabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const category = btn.getAttribute('data-category');
-            
-            // Update active tab
-            expTabBtns.forEach(tab => tab.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Show/hide timelines with animation
-            if (category === 'experiences') {
-                // Hide internships
-                if (internshipsTimeline) {
-                    internshipsTimeline.style.opacity = '0';
-                    internshipsTimeline.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        internshipsTimeline.style.display = 'none';
-                    }, 300);
-                }
-                
-                // Show experiences
-                if (experiencesTimeline) {
-                    setTimeout(() => {
-                        experiencesTimeline.style.display = 'block';
-                        setTimeout(() => {
-                            experiencesTimeline.style.opacity = '1';
-                            experiencesTimeline.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, 300);
-                }
-            } else if (category === 'internships') {
-                // Hide experiences
-                if (experiencesTimeline) {
-                    experiencesTimeline.style.opacity = '0';
-                    experiencesTimeline.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        experiencesTimeline.style.display = 'none';
-                    }, 300);
-                }
-                
-                // Show internships
-                if (internshipsTimeline) {
-                    setTimeout(() => {
-                        internshipsTimeline.style.display = 'block';
-                        setTimeout(() => {
-                            internshipsTimeline.style.opacity = '1';
-                            internshipsTimeline.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, 300);
-                }
-            }
-        });
+    // Experience tabs using TabController with slide animation
+    const experienceTabs = new TabController('.exp-tab-btn', {
+        contentSelector: '.experience-timeline[data-tab]',
+        contentAttribute: 'data-tab',
+        animationType: 'slide',
+        animationDuration: 300
     });
-    
-    // Initialize timeline animations
-    const expTimelines = [experiencesTimeline, internshipsTimeline];
+
+    // Initialize timeline styles
+    const expTimelines = [
+        document.getElementById('experiences-timeline'),
+        document.getElementById('internships-timeline')
+    ];
     expTimelines.forEach(timeline => {
         if (timeline) {
             timeline.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            timeline.style.opacity = timeline.id === 'experiences-timeline' ? '1' : '0';
-            timeline.style.transform = 'translateY(0)';
         }
     });
 });

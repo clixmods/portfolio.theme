@@ -136,28 +136,14 @@ document.addEventListener('DOMContentLoaded', function() {
         'soft-skills': 'Découvrez mes compétences interpersonnelles et organisationnelles.'
     };
     
-    categoryBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const category = this.dataset.category;
-            
-            // Update active button
-            categoryBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Update description
-            if (descriptions[category]) {
-                description.textContent = descriptions[category];
-            }
-            
-            // Show/hide skill categories
-            skillCategories.forEach(cat => {
-                if (category === 'all' || cat.dataset.category === category) {
-                    cat.style.display = 'block';
-                } else {
-                    cat.style.display = 'none';
-                }
-            });
-        });
+    // Skills tabs using TabController
+    const skillsTabs = new TabController('.category-btn', {
+        contentSelector: '.skill-category',
+        animationType: 'fade',
+        animationDuration: 300,
+        updateDescription: true,
+        descriptionSelector: '.section-description',
+        descriptions: descriptions
     });
 });
 </script>

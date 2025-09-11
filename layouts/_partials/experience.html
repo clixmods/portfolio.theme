@@ -6,12 +6,12 @@
 
     <!-- Navigation Tabs -->
     <div class="experience-tabs">
-    <button class="exp-tab-btn active" data-category="experiences">{{ i18n "experiences" | default "Expériences" }}</button>
-    <button class="exp-tab-btn" data-category="internships">{{ i18n "internships" | default "Stages & Recherche" }}</button>
+    <button class="exp-tab-btn active" data-tab="experiences">{{ i18n "experiences" | default "Expériences" }}</button>
+    <button class="exp-tab-btn" data-tab="internships">{{ i18n "internships" | default "Stages & Recherche" }}</button>
     </div>
 
     <!-- Experiences Timeline -->
-    <div class="experience-timeline" id="experiences-timeline">
+    <div class="experience-timeline" id="experiences-timeline" data-tab="experiences">
         {{ range $index, $exp := (.Site.GetPage "/experiences").Pages.ByParam "start_date" }}
         {{ $experienceData := partial "helpers/experience-data.html" $exp }}
         <div class="experience-card {{ if eq $experienceData.status "current" }}current{{ end }}">
@@ -306,7 +306,7 @@
     </div>
 
     <!-- Internships Timeline -->
-    <div class="experience-timeline" id="internships-timeline" style="display: none;">
+    <div class="experience-timeline" id="internships-timeline" data-tab="internships" style="display: none;">
         {{ range $index, $int := .Site.Data.internships }}
         <div class="experience-card seeking">
             <div class="experience-header-card">
