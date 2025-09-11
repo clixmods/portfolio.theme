@@ -51,7 +51,7 @@
                             <strong>{{ i18n "results" | default "Résultats :" }}</strong>
                             <div class="results-badges">
                                 {{ if .Params.years_detail }}
-                                    {{/* Utiliser les détails d'années personnalisés */}}
+                                    {{/* Use custom year details */}}
                                     {{ range .Params.years_detail }}
                                         {{ if eq .status "validated" }}
                                             <div class="result-badge validated">
@@ -83,9 +83,9 @@
                                             </div>
                                         {{ end }}
                                     {{ end }}
-                                    {{/* Badge final retiré - pas besoin de badge "Formation" supplémentaire */}}
+                                    {{/* Final badge removed - no need for additional "Training" badge */}}
                                 {{ else }}
-                                    {{/* Logique automatique classique */}}
+                                    {{/* Classic automatic logic */}}
                                     {{ if eq .Params.status "Obtenu" }}
                                         {{ $startYear := dateFormat "2006" .Params.start_date }}
                                         {{ $endYear := dateFormat "2006" .Params.end_date }}
@@ -96,7 +96,7 @@
                                                 <span class="badge-status">Validée</span>
                                             </div>
                                         {{ end }}
-                                        {{/* Badge final retiré - pas besoin de badge "Formation" supplémentaire */}}
+                                        {{/* Final badge removed - no need for additional "Training" badge */}}
                                     {{ else if eq .Params.status "En cours" }}
                                         {{ $startYear := dateFormat "2006" .Params.start_date }}
                                         {{ $currentYear := now.Format "2006" }}

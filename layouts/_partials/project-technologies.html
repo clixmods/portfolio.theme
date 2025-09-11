@@ -1,28 +1,28 @@
-{{/* Partial pour afficher les technologies d'un projet */}}
-{{/* Combine programming_languages, frameworks_engines, specialties et tools */}}
+{{/* Partial to display project technologies */}}
+{{/* Combine programming_languages, frameworks_engines, specialties and tools */}}
 {{ $allTech := slice }}
 
-{{/* Ajouter les langages de programmation */}}
+{{/* Add programming languages */}}
 {{ with .Params.programming_languages }}
     {{ $allTech = $allTech | append . }}
 {{ end }}
 
-{{/* Ajouter les frameworks et moteurs */}}
+{{/* Add frameworks and engines */}}
 {{ with .Params.frameworks_engines }}
     {{ $allTech = $allTech | append . }}
 {{ end }}
 
-{{/* Ajouter les spécialités */}}
+{{/* Add specialties */}}
 {{ with .Params.specialties }}
     {{ $allTech = $allTech | append . }}
 {{ end }}
 
-{{/* Ajouter les outils */}}
+{{/* Add tools */}}
 {{ with .Params.tools }}
     {{ $allTech = $allTech | append . }}
 {{ end }}
 
-{{/* Dédupliquer */}}
+{{/* Deduplicate */}}
 {{ $allTech = $allTech | uniq }}
 {{ $techCount := len $allTech }}
 
@@ -31,26 +31,26 @@
         {{ $techName := . }}
         {{ $found := false }}
         
-        {{/* Chercher dans programming_languages */}}
+        {{/* Search in programming_languages */}}
         {{ range $.Site.Data.programming_languages }}
             {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
         {{ end }}
         
-        {{/* Chercher dans frameworks_engines si pas trouvé */}}
+        {{/* Search in frameworks_engines if not found */}}
         {{ if not $found }}
             {{ range $.Site.Data.frameworks_engines }}
                 {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
             {{ end }}
         {{ end }}
         
-        {{/* Chercher dans specialties si pas trouvé */}}
+        {{/* Search in specialties if not found */}}
         {{ if not $found }}
             {{ range $.Site.Data.specialties }}
                 {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
             {{ end }}
         {{ end }}
         
-        {{/* Chercher dans tools si pas trouvé */}}
+        {{/* Search in tools if not found */}}
         {{ if not $found }}
             {{ range $.Site.Data.tools }}
                 {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}

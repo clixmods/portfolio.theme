@@ -1,4 +1,4 @@
-{{/* Variables Globales (toujours) */}}
+{{/* Global Variables (always) */}}
 {{- with resources.Get "css/variables.global.css" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
@@ -9,7 +9,7 @@
   {{- end }}
 {{- end }}
 
-{{/* Variables Widgets (toujours – nécessaires aux widgets transverses) */}}
+{{/* Widget Variables (always - necessary for cross-cutting widgets) */}}
 {{- with resources.Get "css/variables.widgets.css" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
@@ -20,7 +20,7 @@
   {{- end }}
 {{- end }}
 
-{{/* Détermination du type de page pour charger les variables dédiées */}}
+{{/* Determine page type to load dedicated variables */}}
 {{- $pageType := "" -}}
 {{- if .IsHome -}}
   {{- $pageType = "portfolio" -}}
@@ -42,7 +42,7 @@
   {{- end }}
 {{- end }}
 
-{{/* Ajout Hero Background global */}}
+{{/* Add global Hero Background */}}
 {{- with resources.Get "css/hero-background.css" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
@@ -53,7 +53,7 @@
   {{- end }}
 {{- end }}
 
-{{/* (Ancien) variables.css retiré – NE PLUS UTILISER */}}
+{{/* (Legacy) variables.css removed – DO NOT USE ANYMORE */}}
 
 {{/* Base Stylesheets - Load first */}}
 {{- with resources.Get "css/style.css" }}
@@ -76,7 +76,7 @@
   {{- end }}
 {{- end }}
 
-{{/* Footer Translucide Styles */}}
+{{/* Translucent Footer Styles */}}
 {{- with resources.Get "css/footer.css" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
@@ -164,7 +164,7 @@
   {{- end }}
 {{- end }}
 
-{{/* CSS Fix pour les dropdowns seulement */}}
+{{/* CSS Fix for dropdowns only */}}
 {{- if hugo.IsDevelopment }}
   {{- with resources.Get "css/dropdown-fix.css" }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
@@ -236,7 +236,7 @@
   {{- end }}
 {{- end }}
 
-{{/* Technologies séparées - SCSS */}}
+{{/* Separated technologies - SCSS */}}
 {{- with resources.Get "scss/separated-technologies.scss" }}
   {{- with . | resources.ExecuteAsTemplate "separated-technologies.scss" . | css.Sass }}
     {{- if hugo.IsDevelopment }}
@@ -446,7 +446,7 @@
   {{- end }}
 {{- end }}
 
-{{/* Developer Widgets Styles - Spécialités et Outils */}}
+{{/* Developer Widgets Styles - Specialties and Tools */}}
 {{- with resources.Get "css/developer-widgets.css" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
@@ -457,7 +457,7 @@
   {{- end }}
 {{- end }}
 
-{{/* Ajout variables PS5 spécifiques si section projects */}}
+{{/* Add specific PS5 variables if projects section */}}
 {{ if eq .Section "projects" }}
   {{ with resources.Get "css/variables.ps5.css" }}
     {{ if hugo.IsDevelopment }}
@@ -506,7 +506,7 @@
   {{- end }}
 {{- end }}
 
-{{/* CV page styles (chargés uniquement sur la page CV) */}}
+{{/* CV page styles (loaded only on CV page) */}}
 {{- if or (eq .Layout "cv") (and .File (in .File.Path "/cv")) }}
   {{- with resources.Get "scss/cv.scss" }}
     {{- with . | toCSS | minify }}

@@ -16,19 +16,19 @@
     <!-- Technology Filter Badges -->
     <div class="tech-filters">
         <span class="tech-badge active" data-tech="all">{{ i18n "all" | default "All" }}</span>
-        {{/* Langages de programmation */}}
+        {{/* Programming languages */}}
         {{ range sort .Site.Data.programming_languages "order" }}
         {{ if .displayedInPortfolio }}
         <span class="tech-badge" data-tech="{{ .name }}" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
         {{ end }}
         {{ end }}
-        {{/* Frameworks & Moteurs */}}
+                {{/* Frameworks & Engines */}}
         {{ range sort .Site.Data.frameworks_engines "order" }}
         {{ if .enabled }}
         <span class="tech-badge" data-tech="{{ .name }}" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
         {{ end }}
         {{ end }}
-        {{/* Outils */}}
+        {{/* Tools */}}
         {{ range sort .Site.Data.tools "experience" "desc" }}
         {{ if .displayedInPortfolio }}
         <span class="tech-badge" data-tech="{{ .name }}" style="--tech-color: {{ .color | default "#666" }}">{{ partial "tech-icon.html" . }} {{ .name }}</span>
@@ -64,16 +64,16 @@
             <div class="ps5-tile-badge">★</div>
             {{ end }}
             
-            <!-- Icône secteur -->
+            <!-- Sector icon -->
             <div class="ps5-tile-sector-icon">🎮</div>
             
-            <!-- Contenu de base -->
+            <!-- Base content -->
             <div class="ps5-tile-content">
                 <h3 class="ps5-tile-title">{{ .Title }}</h3>
                 <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
             </div>
             
-            <!-- Informations détaillées au hover -->
+            <!-- Detailed information on hover -->
             <div class="ps5-tile-info">
                 <div class="ps5-tile-info-content">
                     <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
@@ -142,16 +142,16 @@
             <div class="ps5-tile-badge">★</div>
             {{ end }}
             
-            <!-- Icône secteur -->
+            <!-- Sector icon -->
             <div class="ps5-tile-sector-icon">🛒</div>
             
-            <!-- Contenu de base -->
+            <!-- Base content -->
             <div class="ps5-tile-content">
                 <h3 class="ps5-tile-title">{{ .Title }}</h3>
                 <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
             </div>
             
-            <!-- Informations détaillées au hover -->
+            <!-- Detailed information on hover -->
             <div class="ps5-tile-info">
                 <div class="ps5-tile-info-content">
                     <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
@@ -220,16 +220,16 @@
             <div class="ps5-tile-badge">★</div>
             {{ end }}
             
-            <!-- Icône secteur -->
+            <!-- Sector icon -->
             <div class="ps5-tile-sector-icon">🔧</div>
             
-            <!-- Contenu de base -->
+            <!-- Base content -->
             <div class="ps5-tile-content">
                 <h3 class="ps5-tile-title">{{ .Title }}</h3>
                 <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
             </div>
             
-            <!-- Informations détaillées au hover -->
+            <!-- Detailed information on hover -->
             <div class="ps5-tile-info">
                 <div class="ps5-tile-info-content">
                     <h3 class="ps5-tile-info-title">{{ .Title }}</h3>

@@ -6,13 +6,13 @@
     
     <div class="skills-categories-grid">
         
-        {{/* Programming Languages - données directes */}}
+        {{/* Programming Languages - direct data */}}
         <div class="skills-category">
             <h4>{{ i18n "programming_languages" | default "Langages de programmation" }}</h4>
             <div class="skills-grid">
                 {{ range sort .Site.Data.programming_languages "order" }}
                     {{ if .displayedInPortfolio }}
-                    {{/* Conversion de l'expérience numérique en texte */}}
+                    {{/* Convert numeric experience to text */}}
                     {{ $experienceText := "" }}
                     {{ if .experience }}
                         {{ $exp := float .experience }}
@@ -67,13 +67,13 @@
             </div>
         </div>
 
-        {{/* Frameworks & Game Engines - données directes */}}
+        {{/* Frameworks & Game Engines - direct data */}}
         <div class="skills-category">
             <h4>{{ i18n "frameworks_engines" | default "Frameworks & Moteurs" }}</h4>
             <div class="skills-grid">
                 {{ range .Site.Data.frameworks_engines }}
                     {{ if .displayedInPortfolio }}
-                    {{/* Conversion de l'expérience numérique en texte */}}
+                    {{/* Convert numeric experience to text */}}
                     {{ $experienceText := "" }}
                     {{ if .experience }}
                         {{ $exp := float .experience }}
@@ -128,7 +128,7 @@
             </div>
         </div>
 
-        {{/* Specialties - données directes */}}
+        {{/* Specialties - direct data */}}
         <div class="skills-category">
             <h4>{{ i18n "specialties" | default "Spécialités" }}</h4>
             <div class="skills-grid">
@@ -155,7 +155,7 @@
             </div>
         </div>
 
-        {{/* Soft Skills - données directes */}}
+        {{/* Soft Skills - direct data */}}
         <div class="skills-category">
             <h4>{{ i18n "soft_skills" | default "Soft Skills" }}</h4>
             <div class="skills-grid">
