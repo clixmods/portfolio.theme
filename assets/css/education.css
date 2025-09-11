@@ -577,3 +577,207 @@
         margin: 0.1rem;
     }
 }
+
+/* ===================================
+   EDUCATION SINGLE PAGE - RESULTS SECTION
+   ===================================
+   Styles for results section in education detail page
+   =================================== */
+
+.results-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--edu-results-bg, rgba(55,65,81,0.4));
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--edu-results-border, rgba(79,209,199,0.2));
+    box-shadow: var(--edu-results-shadow, 0 8px 32px rgba(0,0,0,0.2));
+}
+
+.results-section h2 {
+    color: var(--edu-title-text, #fff);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.results-section h2::before {
+    content: '📊';
+    font-size: 1.5rem;
+}
+
+.results-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Grade Display */
+.grade-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--edu-grade-bg, rgba(79,209,199,0.1));
+    border-radius: 12px;
+    border: 1px solid var(--edu-grade-border, rgba(79,209,199,0.3));
+}
+
+.grade-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 8px rgba(255,215,0,0.3));
+}
+
+.grade-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.grade-label {
+    color: var(--edu-muted-text, #a0a0a0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.grade-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.grade-value.status-completed {
+    color: var(--edu-success-text, #10b981);
+    background: var(--edu-success-bg, rgba(16,185,129,0.1));
+    border: 1px solid var(--edu-success-border, rgba(16,185,129,0.3));
+}
+
+.grade-value.status-current {
+    color: var(--edu-current-text, #f59e0b);
+    background: var(--edu-current-bg, rgba(245,158,11,0.1));
+    border: 1px solid var(--edu-current-border, rgba(245,158,11,0.3));
+}
+
+.grade-value.status-unknown {
+    color: var(--edu-neutral-text, #6b7280);
+    background: var(--edu-neutral-bg, rgba(107,114,128,0.1));
+    border: 1px solid var(--edu-neutral-border, rgba(107,114,128,0.3));
+}
+
+/* Years Progress */
+.years-progress {
+    margin-top: 1rem;
+}
+
+.years-progress h3 {
+    color: var(--edu-title-text, #fff);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.years-progress h3::before {
+    content: '📈';
+    font-size: 1rem;
+}
+
+.years-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.year-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--edu-year-border, rgba(55,65,81,0.5));
+    background: var(--edu-year-bg, rgba(31,41,55,0.6));
+    transition: all 0.3s ease;
+}
+
+.year-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(79,209,199,0.1);
+    border-color: var(--accent, #4fd1c7);
+}
+
+.year-number {
+    color: var(--edu-title-text, #fff);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.year-status {
+    color: var(--edu-muted-text, #a0a0a0);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Year Status Colors */
+.year-item.status-validated {
+    border-color: var(--edu-success-border, rgba(16,185,129,0.4));
+    background: var(--edu-success-bg, rgba(16,185,129,0.05));
+}
+
+.year-item.status-validated .year-status {
+    color: var(--edu-success-text, #10b981);
+}
+
+.year-item.status-in_progress {
+    border-color: var(--edu-current-border, rgba(245,158,11,0.4));
+    background: var(--edu-current-bg, rgba(245,158,11,0.05));
+}
+
+.year-item.status-in_progress .year-status {
+    color: var(--edu-current-text, #f59e0b);
+}
+
+.year-item.status-skipped {
+    border-color: var(--edu-info-border, rgba(59,130,246,0.4));
+    background: var(--edu-info-bg, rgba(59,130,246,0.05));
+}
+
+.year-item.status-skipped .year-status {
+    color: var(--edu-info-text, #3b82f6);
+}
+
+/* Responsive Design for Results Section */
+@media (max-width: 768px) {
+    .results-section {
+        margin: 1.5rem 0;
+        padding: 1rem;
+    }
+    
+    .grade-display {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: center;
+    }
+    
+    .years-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .results-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .grade-value {
+        font-size: 1.2rem;
+    }
+}

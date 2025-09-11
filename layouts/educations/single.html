@@ -54,51 +54,397 @@
       <p>{{ .Params.description }}</p>
     </div>
 
-    <div class="technologies">
-      {{- if .Params.programming_languages -}}
-      <div class="tech-section">
-        <h3>Langages de programmation</h3>
-        <div class="tech-tags">
-          {{- range .Params.programming_languages -}}
-            <span class="tech-tag programming-language">{{ . }}</span>
-          {{- end -}}
+    {{- if .Params.grade -}}
+    <div class="results-section">
+      <h2>Résultats obtenus</h2>
+      <div class="results-content">
+        <div class="grade-display">
+          <span class="grade-icon">🏆</span>
+          <div class="grade-details">
+            <span class="grade-label">Note/Mention :</span>
+            <span class="grade-value status-{{ if eq .Params.status "Obtenu" }}completed{{ else if eq .Params.status "En cours" }}current{{ else }}unknown{{ end }}">
+              {{ .Params.grade }}
+            </span>
+          </div>
         </div>
+        {{- if .Params.years_detail -}}
+          <div class="years-progress">
+            <h3>Progression par année</h3>
+            <div class="years-grid">
+              {{- range .Params.years_detail -}}
+                <div class="year-item status-{{ .status }}">
+                  <span class="year-number">Année {{ .year }}</span>
+                  <span class="year-status">
+                    {{- if eq .status "validated" -}}
+                      ✅ {{ .label }}
+                    {{- else if eq .status "in_progress" -}}
+                      🟢 {{ .label }}
+                    {{- else if eq .status "skipped" -}}
+                      ⏭️ {{ .label }}
+                    {{- else -}}
+                      📋 {{ .label }}
+                    {{- end -}}
+                  </span>
+                </div>
+              {{- end -}}
+            </div>
+          </div>
+        {{- end -}}
       </div>
-      {{- end -}}
-
-      {{- if .Params.frameworks_engines -}}
-      <div class="tech-section">
-        <h3>Frameworks & Moteurs</h3>
-        <div class="tech-tags">
-          {{- range .Params.frameworks_engines -}}
-            <span class="tech-tag framework">{{ . }}</span>
-          {{- end -}}
-        </div>
-      </div>
-      {{- end -}}
-
-      {{- if .Params.specialties -}}
-      <div class="tech-section">
-        <h3>Spécialités</h3>
-        <div class="tech-tags">
-          {{- range .Params.specialties -}}
-            <span class="tech-tag specialty">{{ . }}</span>
-          {{- end -}}
-        </div>
-      </div>
-      {{- end -}}
-
-      {{- if .Params.soft_skills -}}
-      <div class="tech-section">
-        <h3>Compétences transversales</h3>
-        <div class="tech-tags">
-          {{- range .Params.soft_skills -}}
-            <span class="tech-tag soft-skill">{{ . }}</span>
-          {{- end -}}
-        </div>
-      </div>
-      {{- end -}}
     </div>
+    {{- end -}}
+
+    {{/* Vérification intelligente si au moins une catégorie a des compétences valides */}}
+    {{- $hasValidProgrammingLangs := false -}}
+    {{- $hasValidFrameworks := false -}}
+    {{- $hasValidSpecialties := false -}}
+    {{- $hasValidSoftSkills := false -}}
+    {{- $hasValidTools := false -}}
+    
+    {{/* Vérifier langages de programmation */}}
+    {{- if .Params.programming_languages -}}
+      {{- range .Params.programming_languages -}}
+        {{- $currentLang := . -}}
+        {{- range $.Site.Data.programming_languages -}}
+          {{- if eq .name $currentLang -}}
+            {{- $hasValidProgrammingLangs = true -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{/* Vérifier frameworks */}}
+    {{- if .Params.frameworks_engines -}}
+      {{- range .Params.frameworks_engines -}}
+        {{- $currentFramework := . -}}
+        {{- range $.Site.Data.frameworks_engines -}}
+          {{- if eq .name $currentFramework -}}
+            {{- $hasValidFrameworks = true -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{/* Vérifier spécialités */}}
+    {{- if .Params.specialties -}}
+      {{- range .Params.specialties -}}
+        {{- $currentSpecialty := . -}}
+        {{- range $.Site.Data.specialties -}}
+          {{- if eq .name $currentSpecialty -}}
+            {{- $hasValidSpecialties = true -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{/* Vérifier soft skills */}}
+    {{- if .Params.soft_skills -}}
+      {{- range .Params.soft_skills -}}
+        {{- $currentSoftSkill := . -}}
+        {{- range $.Site.Data.soft_skills -}}
+          {{- if eq .name $currentSoftSkill -}}
+            {{- $hasValidSoftSkills = true -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{/* Vérifier tools */}}
+    {{- if .Params.tools -}}
+      {{- range .Params.tools -}}
+        {{- $currentTool := . -}}
+        {{- range $.Site.Data.tools -}}
+          {{- if eq .name $currentTool -}}
+            {{- $hasValidTools = true -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- $hasAnySkills := or $hasValidProgrammingLangs $hasValidFrameworks $hasValidSpecialties $hasValidSoftSkills $hasValidTools -}}
+    {{- if $hasAnySkills -}}
+    <div class="technologies">
+      <div class="skills-categories-grid">
+        {{- if $hasValidProgrammingLangs -}}
+        <div class="skills-category" data-category="programming-languages">
+          <h3>Langages de programmation</h3>
+        <div class="skills-grid">
+          {{- range .Params.programming_languages -}}
+            {{- $currentLang := . -}}
+            {{- range $.Site.Data.programming_languages -}}
+              {{- if eq .name $currentLang -}}
+                {{/* Conversion de l'expérience numérique en texte */}}
+                {{- $experienceText := "" -}}
+                {{- if .experience -}}
+                  {{- $exp := float .experience -}}
+                  {{- $years := int (math.Floor $exp) -}}
+                  {{- $months := int (math.Round (mul (sub $exp (math.Floor $exp)) 12)) -}}
+                  {{- if eq $years 0 -}}
+                    {{- if eq $months 1 -}}
+                      {{- $experienceText = "1 mois" -}}
+                    {{- else -}}
+                      {{- $experienceText = printf "%d mois" $months -}}
+                    {{- end -}}
+                  {{- else if eq $months 0 -}}
+                    {{- if eq $years 1 -}}
+                      {{- $experienceText = "1 an" -}}
+                    {{- else -}}
+                      {{- $experienceText = printf "%d ans" $years -}}
+                    {{- end -}}
+                  {{- else -}}
+                    {{- if eq $years 1 -}}
+                      {{- if eq $months 1 -}}
+                        {{- $experienceText = "1 an et 1 mois" -}}
+                      {{- else -}}
+                        {{- $experienceText = printf "1 an et %d mois" $months -}}
+                      {{- end -}}
+                    {{- else -}}
+                      {{- if eq $months 1 -}}
+                        {{- $experienceText = printf "%d ans et 1 mois" $years -}}
+                      {{- else -}}
+                        {{- $experienceText = printf "%d ans et %d mois" $years $months -}}
+                      {{- end -}}
+                    {{- end -}}
+                  {{- end -}}
+                {{- end -}}
+                <div class="skill-block clickable" 
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     data-skill-name="{{ .name }}"
+                     data-skill-type="programming-language">
+                  <span class="skill-icon">
+                    {{- if .iconPath -}}
+                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                    {{- else if .icon -}}
+                      <span class="tech-icon-emoji">{{ .icon }}</span>
+                    {{- end -}}
+                  </span>
+                  <span class="skill-name">{{ .name }}</span>
+                  {{- if $experienceText -}}
+                    <span class="skill-level">{{ $experienceText }}</span>
+                  {{- end -}}
+                </div>
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+          </div>
+        </div>
+        {{- end -}}
+
+        {{- if $hasValidFrameworks -}}
+        <div class="skills-category" data-category="frameworks-engines">
+        <h3>Frameworks & Moteurs</h3>
+        <div class="skills-grid">
+          {{- range .Params.frameworks_engines -}}
+            {{- $currentFramework := . -}}
+            {{- range $.Site.Data.frameworks_engines -}}
+              {{- if eq .name $currentFramework -}}
+                {{/* Conversion de l'expérience numérique en texte */}}
+                {{- $experienceText := "" -}}
+                {{- if .experience -}}
+                  {{- $exp := float .experience -}}
+                  {{- $years := int (math.Floor $exp) -}}
+                  {{- $months := int (math.Round (mul (sub $exp (math.Floor $exp)) 12)) -}}
+                  {{- if eq $years 0 -}}
+                    {{- if eq $months 1 -}}
+                      {{- $experienceText = "1 mois" -}}
+                    {{- else -}}
+                      {{- $experienceText = printf "%d mois" $months -}}
+                    {{- end -}}
+                  {{- else if eq $months 0 -}}
+                    {{- if eq $years 1 -}}
+                      {{- $experienceText = "1 an" -}}
+                    {{- else -}}
+                      {{- $experienceText = printf "%d ans" $years -}}
+                    {{- end -}}
+                  {{- else -}}
+                    {{- if eq $years 1 -}}
+                      {{- if eq $months 1 -}}
+                        {{- $experienceText = "1 an et 1 mois" -}}
+                      {{- else -}}
+                        {{- $experienceText = printf "1 an et %d mois" $months -}}
+                      {{- end -}}
+                    {{- else -}}
+                      {{- if eq $months 1 -}}
+                        {{- $experienceText = printf "%d ans et 1 mois" $years -}}
+                      {{- else -}}
+                        {{- $experienceText = printf "%d ans et %d mois" $years $months -}}
+                      {{- end -}}
+                    {{- end -}}
+                  {{- end -}}
+                {{- end -}}
+                <div class="skill-block clickable" 
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     data-skill-name="{{ .name }}"
+                     data-skill-type="framework">
+                  <span class="skill-icon">
+                    {{- if .iconPath -}}
+                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                    {{- else if .icon -}}
+                      <span class="tech-icon-emoji">{{ .icon }}</span>
+                    {{- end -}}
+                  </span>
+                  <span class="skill-name">{{ .name }}</span>
+                  {{- if $experienceText -}}
+                    <span class="skill-level">{{ $experienceText }}</span>
+                  {{- end -}}
+                </div>
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+          </div>
+        </div>
+        {{- end -}}
+
+        {{- if $hasValidSpecialties -}}
+        <div class="skills-category" data-category="specialties">
+        <h3>Spécialités</h3>
+        <div class="skills-grid">
+          {{- range .Params.specialties -}}
+            {{- $currentSpecialty := . -}}
+            {{- range $.Site.Data.specialties -}}
+              {{- if eq .name $currentSpecialty -}}
+                <div class="skill-block clickable" 
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     data-skill-name="{{ .name }}"
+                     data-skill-type="specialty">
+                  <span class="skill-icon">
+                    {{- if .iconPath -}}
+                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                    {{- else if .icon -}}
+                      <span class="tech-icon-emoji">{{ .icon }}</span>
+                    {{- end -}}
+                  </span>
+                  <span class="skill-name">{{ .name }}</span>
+                  {{- if .subtitle -}}
+                    <span class="skill-level">{{ .subtitle }}</span>
+                  {{- end -}}
+                </div>
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+          </div>
+        </div>
+        {{- end -}}
+
+        {{- if $hasValidSoftSkills -}}
+        <div class="skills-category" data-category="soft-skills">
+        <h3>Compétences transversales</h3>
+        <div class="skills-grid">
+          {{- range .Params.soft_skills -}}
+            {{- $currentSoftSkill := . -}}
+            {{- range $.Site.Data.soft_skills -}}
+              {{- if eq .name $currentSoftSkill -}}
+                <div class="skill-block clickable" 
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     data-skill-name="{{ .name }}"
+                     data-skill-type="soft-skill">
+                  <span class="skill-icon">
+                    {{- if .iconPath -}}
+                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                    {{- else if .icon -}}
+                      <span class="tech-icon-emoji">{{ .icon }}</span>
+                    {{- end -}}
+                  </span>
+                  <span class="skill-name">{{ .name }}</span>
+                  {{- if .subtitle -}}
+                    <span class="skill-level">{{ .subtitle }}</span>
+                  {{- end -}}
+                </div>
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+          </div>
+        </div>
+        {{- end -}}
+      </div>
+    </div>
+    {{- end -}}
+
+    {{- if .Params.projects -}}
+    <div class="projects-section">
+      <h2>Projets réalisés</h2>
+      <div class="ps5-projects-tiles">
+        {{- range .Params.projects -}}
+          {{- $projectSlug := . -}}
+          {{- range where $.Site.RegularPages "Section" "projects" -}}
+            {{- if eq .File.BaseFileName $projectSlug -}}
+            <article class="ps5-project-tile"
+                     data-project-id="{{ .File.BaseFileName }}"
+                     data-background-image="{{ .Params.background_image | default .Params.image }}"
+                     data-sector="{{ .Params.sector }}">
+              <!-- Image principale -->
+              <div class="ps5-tile-image">
+                <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}" onerror="this.onerror=null;this.src='/images/placeholder-project.jpg';">
+                <div class="ps5-tile-overlay"></div>
+              </div>
+
+              <!-- Badge featured -->
+              {{- if .Params.featured -}}<div class="ps5-tile-badge">★</div>{{- end -}}
+
+              <!-- Icône secteur -->
+              <div class="ps5-tile-sector-icon">
+                {{- if in .Params.sector "games-" -}}🎮{{- end -}}
+                {{- if in .Params.sector "appsweb-" -}}🛒{{- end -}}
+                {{- if eq .Params.sector "mods" -}}🧩{{- end -}}
+                {{- if eq .Params.sector "tools" -}}🛠️{{- end -}}
+              </div>
+
+              <!-- Contenu court -->
+              <div class="ps5-tile-content">
+                <h3 class="ps5-tile-title">{{ .Title }}</h3>
+                {{- with .Params.subtitle -}}<p class="ps5-tile-subtitle">{{ . }}</p>{{- end -}}
+              </div>
+
+              <!-- Overlay détaillé -->
+              <div class="ps5-tile-info">
+                <div class="ps5-tile-info-content">
+                  <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
+                  {{- with .Params.subtitle -}}<p class="ps5-tile-info-subtitle">{{ . }}</p>{{- end -}}
+                  {{- with .Params.description -}}<p class="ps5-tile-description">{{ . }}</p>{{- end -}}
+
+                  <!-- Technologies principales -->
+                  {{- $allTechnologies := slice -}}
+                  {{- range .Params.programming_languages -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}
+                  {{- range .Params.frameworks_engines -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}
+                  {{- if $allTechnologies -}}
+                  <div class="ps5-tile-tech">
+                    {{- $techCount := len $allTechnologies -}}
+                    {{- range first 3 $allTechnologies -}}
+                      {{- $techName := . -}}
+                      {{- $found := false -}}
+                      {{- range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) -}}
+                        {{- if eq .name $techName -}}
+                        <span class="ps5-tile-tech-item">
+                          {{- if .iconPath -}}<img src="{{ .iconPath | relURL }}" alt="{{ .name }}" width="12" height="12">{{- else if .icon -}}{{ .icon }}{{- end -}} {{ .name }}
+                        </span>
+                        {{- $found = true -}}
+                        {{- end -}}
+                      {{- end -}}
+                      {{- if not $found -}}<span class="ps5-tile-tech-item">{{ $techName }}</span>{{- end -}}
+                    {{- end -}}
+                    {{- if gt $techCount 3 -}}<span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>{{- end -}}
+                  </div>
+                  {{- end -}}
+
+                  <div class="ps5-tile-meta">
+                    <span class="ps5-tile-date">{{ .Date.Format "2006" }}</span>
+                    <a href="{{ .Permalink }}" class="ps5-tile-btn">
+                      Voir le projet
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lien principal invisible -->
+              <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="Voir le projet: {{ .Title }}"></a>
+            </article>
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      </div>
+    </div>
+    {{- end -}}
 
     {{- if .Content -}}
     <div class="additional-content">
@@ -110,22 +456,32 @@
 
 <style>
 .education-single {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 6rem 2rem 2rem 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .education-header {
   text-align: center;
   margin-bottom: 3rem;
   padding-bottom: 2rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 100;
 }
 
 .education-header h1 {
   font-size: 2.5rem;
-  color: #333;
+  color: #fff;
   margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 100;
+  background: linear-gradient(90deg, #8b5cf6, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .education-meta {
@@ -158,11 +514,11 @@
 .institution-name {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #333;
+  color: #fff;
 }
 
 .city {
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 0.9rem;
 }
 
@@ -174,12 +530,13 @@
 }
 
 .details > span {
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.1);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
-  color: #666;
-  border: 1px solid #e9ecef;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
 }
 
 .status {
@@ -187,20 +544,23 @@
 }
 
 .status-current {
-  background: #d4f7d4 !important;
-  color: #0f5132 !important;
-  border-color: #badbcc !important;
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: #fff !important;
+  border-color: rgba(16, 185, 129, 0.5) !important;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .status-completed {
-  background: #e8f5e8 !important;
-  color: #2d5a2d !important;
-  border-color: #a3d9a3 !important;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+  color: #fff !important;
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
 }
 
 .status-unknown {
-  background: #f8f9fa !important;
-  color: #6c757d !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .education-content {
@@ -212,13 +572,14 @@
 }
 
 .description h2 {
-  color: #333;
+  color: #fff;
   margin-bottom: 1rem;
   font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .description p {
-  color: #555;
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
   font-size: 1.1rem;
 }
@@ -227,61 +588,543 @@
   margin-bottom: 2rem;
 }
 
+/* Skills Categories Grid - 2x2 layout */
+.skills-categories-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.skills-category {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
 .tech-section {
   margin-bottom: 1.5rem;
 }
 
+.skills-category h3,
 .tech-section h3 {
-  color: #333;
-  margin-bottom: 0.75rem;
-  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  text-align: center;
+  border-bottom: 2px solid rgba(var(--accent-rgb), 0.3);
+  padding-bottom: 0.75rem;
 }
 
-.tech-tags {
+.skills-category h4 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Skills grid dans chaque catégorie */
+.skills-category .skills-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.75rem;
+  align-content: start;
+}
+
+/* Responsive design pour mobile */
+@media (max-width: 768px) {
+  .skills-categories-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  
+  .skills-category {
+    min-height: auto;
+  }
+  
+  .skills-category .skills-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  }
+}
+
+/* Skills Grid Layout */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.75rem;
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+/* Skill blocks - Exactement comme dans le style existant */
+.skill-block {
+    background: rgba(75, 85, 99, 0.5);
+    backdrop-filter: blur(10px) saturate(150%);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    border-radius: 12px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.3rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    min-height: 100px;
+    aspect-ratio: 1;
+}
+
+.skill-block:hover {
+    background: rgba(var(--accent-rgb), 0.3);
+    border-color: rgba(var(--accent-rgb), 0.8);
+    box-shadow: 
+        0 8px 25px rgba(var(--accent-rgb), 0.3),
+        0 0 25px rgba(var(--accent-rgb), 0.2);
+    transform: translateY(-2px) scale(1.02);
+}
+
+.skill-icon {
+    font-size: 1.4rem;
+    width: auto;
+    text-align: center;
+    margin-bottom: 0.2rem;
+}
+
+.tech-icon-svg {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.tech-icon-emoji {
+    font-size: 1.4rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.skill-name {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-bottom: 0.1rem;
+    line-height: 1.1;
+}
+
+.skill-level {
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.skill-block.clickable {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.skill-block.clickable::after {
+    content: '✨';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 12px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.8);
+}
+
+.skill-block.clickable:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Projects Section */
+.projects-section {
+  margin: 3rem 0;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.projects-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+/* PS5 Projects Tiles Grid */
+.ps5-projects-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
+  perspective: 1000px;
+}
+
+/* PS5 Project Tile */
+.ps5-project-tile {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  flex-shrink: 0;
+  background: linear-gradient(145deg, rgba(75, 85, 99, 0.6) 0%, rgba(55, 65, 81, 0.8) 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transform-style: preserve-3d;
+}
+
+.ps5-project-tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.25) 55%, rgba(139, 92, 246, 0.55) 100%);
+  opacity: 0;
+  transition: opacity 0.45s ease, background 0.45s ease;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+.ps5-project-tile:hover::after {
+  opacity: 1;
+}
+
+.ps5-project-tile:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(139, 92, 246, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Tile Image */
+.ps5-tile-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.ps5-tile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.ps5-project-tile:hover .ps5-tile-image img {
+  filter: brightness(1.05) contrast(1.03);
+}
+
+.ps5-tile-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.0) 0%,
+    rgba(0, 0, 0, 0.2) 40%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+/* Featured Badge */
+.ps5-tile-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  border-radius: 50%;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 0.8rem;
+  box-shadow: 
+    0 4px 15px rgba(255, 215, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  z-index: 3;
+  border: 2px solid rgba(255, 255, 255, 0.8);
 }
 
-.tech-tag {
-  background: #8b5cf6;
-  color: white;
-  padding: 0.4rem 0.8rem;
-  border-radius: 15px;
+/* Sector Icon */
+.ps5-tile-sector-icon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 28px;
+  height: 28px;
+  background: rgba(10, 14, 19, 0.9);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 3;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Visible Content */
+.ps5-tile-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(
+    to top,
+    rgba(10, 14, 19, 0.75) 0%,
+    rgba(10, 14, 19, 0.5) 50%,
+    rgba(10, 14, 19, 0.2) 75%,
+    transparent 100%
+  );
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.ps5-tile-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem 0;
+  color: #fff;
+  line-height: 1.3;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ps5-tile-subtitle {
   font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
   font-weight: 500;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.9;
 }
 
-.tech-tag.programming-language {
-  background: #28a745;
+/* Information Overlay */
+.ps5-tile-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.96) 0%,
+    rgba(79, 70, 229, 0.96) 100%
+  );
+  backdrop-filter: blur(25px);
+  padding: 1.2rem;
+  display: block;
+  opacity: 0;
+  transform: translateY(15px) scale(0.98);
+  transition: all 0.3s ease;
+  z-index: 4;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.tech-tag.framework {
-  background: #fd7e14;
+.ps5-project-tile:hover .ps5-tile-info {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
-.tech-tag.specialty {
-  background: #007bff;
+.ps5-tile-info-content {
+  padding-bottom: 4rem;
+  display: block;
 }
 
-.tech-tag.soft-skill {
-  background: #6f42c1;
+.ps5-tile-info-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem 0;
+  color: #fff;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.ps5-tile-info-subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 0 0.4rem 0;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.9;
+}
+
+.ps5-tile-description {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 0.6rem 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Technologies */
+.ps5-tile-tech {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.3rem;
+  margin-bottom: 0.6rem;
+  overflow: hidden;
+}
+
+.ps5-tile-tech-item {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.ps5-tile-tech-item img {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+}
+
+.ps5-tile-tech-more {
+  background: rgba(255, 255, 255, 0.35);
+  color: #fff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Meta Information */
+.ps5-tile-meta {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 1.2rem;
+  right: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ps5-tile-date {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.ps5-tile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ps5-tile-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ps5-tile-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Invisible Link */
+.ps5-tile-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-decoration: none;
+  z-index: 1;
 }
 
 .additional-content {
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 2rem;
   margin-top: 2rem;
 }
 
 .additional-content h2 {
-  color: #333;
+  color: #fff;
   margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 .additional-content h3 {
-  color: #555;
+  color: rgba(255, 255, 255, 0.9);
   margin: 1.5rem 0 0.75rem 0;
+  font-weight: 600;
 }
 
 .additional-content ul {
@@ -291,13 +1134,21 @@
 
 .additional-content li {
   margin-bottom: 0.25rem;
-  color: #555;
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 0.6rem;
+    }
 }
 
 @media (max-width: 768px) {
   .education-single {
-    padding: 1rem;
+    padding: 5rem 1rem 1rem 1rem;
   }
   
   .education-header h1 {
@@ -314,8 +1165,47 @@
     align-items: center;
   }
   
-  .tech-tags {
-    justify-content: center;
+  .skills-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .skill-block {
+    min-height: 80px;
+    padding: 0.5rem;
+  }
+  
+  .skill-name {
+    font-size: 0.75rem;
+  }
+  
+  .skill-level {
+    font-size: 0.65rem;
+  }
+  
+  .ps5-projects-tiles {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .ps5-tile-content {
+    padding: 0.75rem;
+  }
+  
+  .ps5-tile-info {
+    padding: 0.75rem;
+  }
+  
+  .ps5-tile-title {
+    font-size: 0.9rem;
+  }
+  
+  .ps5-tile-info-title {
+    font-size: 1rem;
+  }
+  
+  .projects-section h2 {
+    font-size: 1.5rem;
   }
 }
 </style>
