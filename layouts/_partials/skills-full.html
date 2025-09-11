@@ -28,24 +28,7 @@
             <h4>{{ i18n "programming_languages" | default "Langages de programmation" }}</h4>
             <div class="skills-grid">
                 {{ range .Site.Data.programming_languages }}
-                    {{ $experienceText := partial "helpers/format-experience.html" .experience }}
-                    <div class="skill-block clickable" 
-                         onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                         data-skill-name="{{ .name }}"
-                         data-skill-type="programming-language"
-                         data-skill-category="programming-languages">
-                        <span class="skill-icon">
-                            {{ if .iconPath }}
-                              <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                            {{ else }}
-                              <span class="tech-icon-emoji">{{ .icon }}</span>
-                            {{ end }}
-                        </span>
-                        <span class="skill-name">{{ .name }}</span>
-                        {{ if $experienceText }}
-                        <span class="skill-level">{{ $experienceText }}</span>
-                        {{ end }}
-                    </div>
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "programming-language" "skillCategory" "programming-languages" "context" $ "useRelURL" true) }}
                 {{ end }}
             </div>
         </div>
@@ -56,24 +39,7 @@
             <div class="skills-grid">
                 {{ range .Site.Data.frameworks_engines }}
                     {{ if not (or (in .name "Unity") (in .name "Unreal") (in .name "engine") (in .name "Engine")) }}
-                    {{ $experienceText := partial "helpers/format-experience.html" .experience }}
-                    <div class="skill-block clickable" 
-                         onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                         data-skill-name="{{ .name }}"
-                         data-skill-type="framework"
-                         data-skill-category="frameworks">
-                        <span class="skill-icon">
-                            {{ if .iconPath }}
-                              <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                            {{ else }}
-                              <span class="tech-icon-emoji">{{ .icon }}</span>
-                            {{ end }}
-                        </span>
-                        <span class="skill-name">{{ .name }}</span>
-                        {{ if $experienceText }}
-                        <span class="skill-level">{{ $experienceText }}</span>
-                        {{ end }}
-                    </div>
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "framework" "skillCategory" "frameworks" "context" $ "useRelURL" true) }}
                     {{ end }}
                 {{ end }}
             </div>
@@ -85,24 +51,7 @@
             <div class="skills-grid">
                 {{ range .Site.Data.frameworks_engines }}
                     {{ if or (in .name "Unity") (in .name "Unreal") (in .name "engine") (in .name "Engine") }}
-                    {{ $experienceText := partial "helpers/format-experience.html" .experience }}
-                    <div class="skill-block clickable" 
-                         onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                         data-skill-name="{{ .name }}"
-                         data-skill-type="engine"
-                         data-skill-category="engines">
-                        <span class="skill-icon">
-                            {{ if .iconPath }}
-                              <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                            {{ else }}
-                              <span class="tech-icon-emoji">{{ .icon }}</span>
-                            {{ end }}
-                        </span>
-                        <span class="skill-name">{{ .name }}</span>
-                        {{ if $experienceText }}
-                        <span class="skill-level">{{ $experienceText }}</span>
-                        {{ end }}
-                    </div>
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "engine" "skillCategory" "engines" "context" $ "useRelURL" true) }}
                     {{ end }}
                 {{ end }}
             </div>
@@ -114,24 +63,7 @@
             <div class="skills-grid">
                 {{ range sort .Site.Data.tools "experience" "desc" }}
                     {{ if eq .category "ide" }}
-                    {{ $experienceText := partial "helpers/format-experience.html" .experience }}
-                    <div class="skill-block clickable" 
-                         onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                         data-skill-name="{{ .name }}"
-                         data-skill-type="environment"
-                         data-skill-category="environments">
-                        <span class="skill-icon">
-                            {{ if .iconPath }}
-                              <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                            {{ else }}
-                              <span class="tech-icon-emoji">{{ .icon }}</span>
-                            {{ end }}
-                        </span>
-                        <span class="skill-name">{{ .name }}</span>
-                        {{ if $experienceText }}
-                        <span class="skill-level">{{ $experienceText }}</span>
-                        {{ end }}
-                    </div>
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "environment" "skillCategory" "environments" "context" $ "useRelURL" true) }}
                     {{ end }}
                 {{ end }}
             </div>
@@ -143,24 +75,7 @@
             <div class="skills-grid">
                 {{ range sort .Site.Data.tools "experience" "desc" }}
                     {{ if ne .category "ide" }}
-                    {{ $experienceText := partial "helpers/format-experience.html" .experience }}
-                    <div class="skill-block clickable" 
-                         onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                         data-skill-name="{{ .name }}"
-                         data-skill-type="tool"
-                         data-skill-category="tools">
-                        <span class="skill-icon">
-                            {{ if .iconPath }}
-                              <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                            {{ else }}
-                              <span class="tech-icon-emoji">{{ .icon }}</span>
-                            {{ end }}
-                        </span>
-                        <span class="skill-name">{{ .name }}</span>
-                        {{ if $experienceText }}
-                        <span class="skill-level">{{ $experienceText }}</span>
-                        {{ end }}
-                    </div>
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "tool" "skillCategory" "tools" "context" $ "useRelURL" true) }}
                     {{ end }}
                 {{ end }}
             </div>
@@ -171,23 +86,7 @@
             <h4>{{ i18n "specialties" | default "Spécialités" }}</h4>
             <div class="skills-grid">
                 {{ range .Site.Data.specialties }}
-                <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                     data-skill-name="{{ .name }}"
-                     data-skill-type="specialty"
-                     data-skill-category="specialties">
-                    <span class="skill-icon">
-                        {{ if .iconPath }}
-                          <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                        {{ else }}
-                          <span class="tech-icon-emoji">{{ .icon }}</span>
-                        {{ end }}
-                    </span>
-                    <span class="skill-name">{{ .name }}</span>
-                    {{ if .subtitle }}
-                    <span class="skill-level">{{ .subtitle }}</span>
-                    {{ end }}
-                </div>
+                {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "specialty" "skillCategory" "specialties" "context" $ "useRelURL" true "showExperience" false) }}
                 {{ end }}
             </div>
         </div>
