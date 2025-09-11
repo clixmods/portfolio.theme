@@ -1099,6 +1099,15 @@ window.pauseAllTestimonials = function() {
             controller.pauseRotation();
         }
     });
+    
+    // Pause education testimonials
+    if (window.educationTestimonialsPausers) {
+        window.educationTestimonialsPausers.forEach(pauser => {
+            if (pauser.pause) {
+                pauser.pause();
+            }
+        });
+    }
 };
 
 window.resumeAllTestimonials = function() {
@@ -1108,6 +1117,15 @@ window.resumeAllTestimonials = function() {
             controller.resumeRotation();
         }
     });
+    
+    // Resume education testimonials
+    if (window.educationTestimonialsPausers) {
+        window.educationTestimonialsPausers.forEach(pauser => {
+            if (pauser.resume) {
+                pauser.resume();
+            }
+        });
+    }
 };
 
 // Gestion de la rotation des testimonials

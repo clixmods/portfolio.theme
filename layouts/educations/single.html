@@ -54,41 +54,87 @@
       <p>{{ .Params.description }}</p>
     </div>
 
-    {{- if .Params.grade -}}
-    <div class="results-section">
-      <h2>Résultats obtenus</h2>
-      <div class="results-content">
-        <div class="grade-display">
-          <span class="grade-icon">🏆</span>
-          <div class="grade-details">
-            <span class="grade-label">Note/Mention :</span>
-            <span class="grade-value status-{{ if eq .Params.status "Obtenu" }}completed{{ else if eq .Params.status "En cours" }}current{{ else }}unknown{{ end }}">
-              {{ .Params.grade }}
-            </span>
-          </div>
-        </div>
-        {{- if .Params.years_detail -}}
-          <div class="years-progress">
-            <h3>Progression par année</h3>
-            <div class="years-grid">
-              {{- range .Params.years_detail -}}
-                <div class="year-item status-{{ .status }}">
-                  <span class="year-number">Année {{ .year }}</span>
-                  <span class="year-status">
-                    {{- if eq .status "validated" -}}
-                      ✅ {{ .label }}
-                    {{- else if eq .status "in_progress" -}}
-                      🟢 {{ .label }}
-                    {{- else if eq .status "skipped" -}}
-                      ⏭️ {{ .label }}
-                    {{- else -}}
-                      📋 {{ .label }}
-                    {{- end -}}
-                  </span>
-                </div>
-              {{- end -}}
+
+
+    {{- if .Params.years_detail -}}
+    <div class="progression-section">
+      <h2>Progression par année</h2>
+      <div class="years-progress">
+        <div class="years-grid">
+          {{- range .Params.years_detail -}}
+            <div class="year-item status-{{ .status }}">
+              <span class="year-number">Année {{ .year }}</span>
+              <span class="year-status">
+                {{- if eq .status "validated" -}}
+                  ✅ {{ .label }}
+                {{- else if eq .status "in_progress" -}}
+                  🟢 {{ .label }}
+                {{- else if eq .status "skipped" -}}
+                  ⏭️ {{ .label }}
+                {{- else -}}
+                  📋 {{ .label }}
+                {{- end -}}
+              </span>
             </div>
+          {{- end -}}
+        </div>
+      </div>
+    </div>
+    {{- end -}}
+
+    {{/* Testimonials Section */}}
+    {{- if .Params.testimonials -}}
+    <div class="testimonials-education-section">
+      <h2>Témoignages</h2>
+      <div class="testimonials-education-slider">
+        <div class="testimonials-education-track">
+          {{- range .Params.testimonials -}}
+            {{- $testimonialId := . -}}
+            {{- $testimonialResults := where $.Site.Data.testimonials "personId" $testimonialId -}}
+            {{- $testimonial := index $testimonialResults 0 -}}
+            {{- if $testimonial -}}
+              {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" $testimonial.personId) -}}
+              {{- if $person -}}
+              <div class="testimonial-education-card aero-glass">
+                <div class="testimonial-education-content">
+                  <p class="testimonial-education-text">
+                    "{{ $testimonial.text }}"
+                  </p>
+                  <div class="testimonial-education-author{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ $testimonial.personId }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
+                    <div class="testimonial-education-avatar {{ if not $person.Params.avatar }}placeholder{{ end }}">
+                      {{- if $person.Params.avatar -}}
+                        <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
+                      {{- else -}}
+                        <span>{{ substr $person.Params.title 0 1 | upper }}</span>
+                      {{- end -}}
+                    </div>
+                    <div class="testimonial-education-info">
+                      <div class="testimonial-education-name">{{ $person.Params.title }}</div>
+                      <div class="testimonial-education-role">{{ $testimonial.position }} - {{ $testimonial.company }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        </div>
+        
+        {{- if gt (len .Params.testimonials) 1 -}}
+        <div class="slider-controls">
+          <button class="slider-btn prev" aria-label="Précédent">‹</button>
+          <div class="slider-indicators">
+            {{- range $index, $testimonial := .Params.testimonials -}}
+              <span class="indicator{{ if eq $index 0 }} active{{ end }}"></span>
+            {{- end -}}
           </div>
+          <button class="slider-btn next" aria-label="Suivant">›</button>
+        </div>
+        
+        <!-- Barre de progression du défilement automatique -->
+        <div class="autoplay-progress-container">
+          <div class="autoplay-progress-bar"></div>
+        </div>
         {{- end -}}
       </div>
     </div>
@@ -164,6 +210,7 @@
     {{- $hasAnySkills := or $hasValidProgrammingLangs $hasValidFrameworks $hasValidSpecialties $hasValidSoftSkills $hasValidTools -}}
     {{- if $hasAnySkills -}}
     <div class="technologies">
+      <h2>Compétences acquises</h2>
       <div class="skills-categories-grid">
         {{- if $hasValidProgrammingLangs -}}
         <div class="skills-category" data-category="programming-languages">
@@ -585,7 +632,17 @@
 }
 
 .technologies {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 2rem;
+}
+
+.technologies h2 {
+  color: #fff;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-align: center;
 }
 
 /* Skills Categories Grid - 2x2 layout */
@@ -1138,6 +1195,239 @@
   line-height: 1.5;
 }
 
+/* Testimonials Section */
+.testimonials-education-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.testimonials-education-section h2 {
+  color: #fff;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.testimonials-education-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  background: rgba(55, 65, 81, 0.4);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+}
+
+.testimonials-education-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  will-change: transform;
+}
+
+.testimonial-education-card {
+  min-width: 100%;
+  padding: 1.5rem 2rem;
+  background: rgba(55, 65, 81, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  box-sizing: border-box;
+}
+
+.testimonial-education-card::before {
+  content: '"';
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.3);
+  opacity: 0.2;
+  font-family: serif;
+  line-height: 1;
+  z-index: 1;
+}
+
+.testimonial-education-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.testimonial-education-text {
+  color: #d1d5db;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-style: italic;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.testimonial-education-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.testimonial-education-author:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.testimonial-education-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-weight: bold;
+  color: white;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.testimonial-education-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.testimonial-education-avatar.placeholder {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.testimonial-education-info {
+  text-align: left;
+}
+
+.testimonial-education-name {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+}
+
+.testimonial-education-role {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+
+/* Slider Controls */
+.testimonials-education-section .slider-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0 0.5rem 0;
+  gap: 1rem;
+}
+
+.testimonials-education-section .slider-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  backdrop-filter: blur(10px);
+}
+
+.testimonials-education-section .slider-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.testimonials-education-section .slider-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.testimonials-education-section .slider-indicators {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.testimonials-education-section .indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.testimonials-education-section .indicator.active {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+/* Barre de progression du défilement automatique */
+.testimonials-education-section .autoplay-progress-container {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-top: 0.5rem;
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0.8;
+}
+
+.testimonials-education-section .autoplay-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.7));
+  border-radius: 2px;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+/* Progression Section */
+.progression-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progression-section h2 {
+  color: #fff;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .skills-grid {
@@ -1207,6 +1497,235 @@
   .projects-section h2 {
     font-size: 1.5rem;
   }
+
+  .testimonial-education-card {
+    padding: 1rem 1.5rem;
+    min-height: 150px;
+  }
+  
+  .testimonial-education-text {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .testimonial-education-author {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .testimonial-education-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .testimonial-education-info {
+    text-align: center;
+  }
+  
+  .testimonials-education-section .slider-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .testimonials-education-section .slider-controls {
+    padding: 0.5rem 0;
+  }
 }
 </style>
+
+{{- if .Params.testimonials -}}
+{{- if gt (len .Params.testimonials) 1 -}}
+<script>
+// Education Testimonials Slider
+document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.querySelector('.testimonials-education-slider');
+    if (!slider) return;
+
+    const track = slider.querySelector('.testimonials-education-track');
+    const cards = slider.querySelectorAll('.testimonial-education-card');
+    const prevBtn = slider.querySelector('.slider-btn.prev');
+    const nextBtn = slider.querySelector('.slider-btn.next');
+    const indicators = slider.querySelectorAll('.indicator');
+    
+    let currentIndex = 0;
+    const totalCards = cards.length;
+    let autoplayInterval = null;
+    let isPaused = false;
+    let pausedProgress = 0;
+    
+    // Barre de progression
+    const progressContainer = slider.querySelector('.autoplay-progress-container');
+    const progressBar = slider.querySelector('.autoplay-progress-bar');
+
+    // Function to update slider position
+    function updateSlider() {
+        if (track) {
+            const translateX = -currentIndex * 100;
+            track.style.transform = `translateX(${translateX}%)`;
+        }
+        
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentIndex);
+        });
+        
+        // Update button states
+        if (prevBtn) prevBtn.disabled = currentIndex === 0;
+        if (nextBtn) nextBtn.disabled = currentIndex === totalCards - 1;
+    }
+
+    // Function to start autoplay with synchronized progress bar
+    function startAutoplay() {
+        // Clear any existing intervals
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+        }
+        
+        // Reset progress bar if not resuming from pause
+        if (!isPaused && progressBar) {
+            progressBar.style.width = '0%';
+            pausedProgress = 0;
+        }
+        
+        // Unified timer for both progress and slide change
+        let progress = isPaused ? pausedProgress : 0;
+        const totalDuration = 5000; // 5 seconds
+        const updateFrequency = 50; // Update every 50ms for smooth animation
+        const increment = (100 / totalDuration) * updateFrequency; // Progress increment per update
+        
+        autoplayInterval = setInterval(() => {
+            // Only update if not paused
+            if (!isPaused && !window.testimonialsGlobalPause) {
+                progress += increment;
+                
+                // Update progress bar
+                if (progressBar) {
+                    progressBar.style.width = `${Math.min(progress, 100)}%`;
+                }
+                
+                // Store current progress in case of pause
+                pausedProgress = progress;
+                
+                // When progress reaches 100%, change slide and restart
+                if (progress >= 100) {
+                    // Clear current interval to prevent overlap
+                    clearInterval(autoplayInterval);
+                    
+                    // Change slide
+                    if (currentIndex < totalCards - 1) {
+                        currentIndex++;
+                    } else {
+                        currentIndex = 0;
+                    }
+                    
+                    // Update slider immediately
+                    updateSlider();
+                    
+                    // Reset progress for next cycle
+                    progress = 0;
+                    pausedProgress = 0;
+                    if (progressBar) {
+                        progressBar.style.width = '0%';
+                    }
+                    
+                    // Start next cycle after a small delay to ensure DOM update
+                    setTimeout(() => {
+                        if (!isPaused) {
+                            startAutoplay();
+                        }
+                    }, 100);
+                    
+                    return; // Exit current interval
+                }
+            }
+        }, updateFrequency);
+    }
+
+    // Function to pause autoplay
+    function pauseAutoplay() {
+        isPaused = true;
+    }
+
+    // Function to resume autoplay
+    function resumeAutoplay() {
+        isPaused = false;
+    }
+
+    // Function to reset autoplay (restart the timer)
+    function resetAutoplay() {
+        // Clear existing intervals
+        if (autoplayInterval) {
+            clearInterval(autoplayInterval);
+        }
+        
+        isPaused = false;
+        pausedProgress = 0;
+        
+        // Reset progress bar
+        if (progressBar) {
+            progressBar.style.width = '0%';
+        }
+        
+        // Start autoplay after a short delay
+        setTimeout(() => {
+            startAutoplay();
+        }, 50);
+    }
+
+    // Next button
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < totalCards - 1) {
+                currentIndex++;
+                updateSlider();
+                resetAutoplay();
+            }
+        });
+    }
+
+    // Previous button
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+                resetAutoplay();
+            }
+        });
+    }
+
+    // Indicator clicks
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            currentIndex = index;
+            updateSlider();
+            resetAutoplay();
+        });
+    });
+
+    // Pause on hover
+    slider.addEventListener('mouseenter', pauseAutoplay);
+    slider.addEventListener('mouseleave', resumeAutoplay);
+
+    // Initialize slider
+    updateSlider();
+    
+    // Start autoplay
+    startAutoplay();
+
+    // Global pause function integration
+    if (!window.educationTestimonialsPausers) {
+        window.educationTestimonialsPausers = [];
+    }
+    window.educationTestimonialsPausers.push({
+        pause: pauseAutoplay,
+        resume: resumeAutoplay
+    });
+});
+</script>
+{{- end -}}
+{{- end -}}
+
 {{- end -}}
