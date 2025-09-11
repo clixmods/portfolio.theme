@@ -1389,4 +1389,59 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
         });
     }
+
+    // Initialiser le filtrage des compétences
+    initSkillsFiltering();
 });
+
+// Skills filtering functionality
+function initSkillsFiltering() {
+    const skillCategoryBtns = document.querySelectorAll('.skill-category-btn');
+    const skillCategories = document.querySelectorAll('.skills-category');
+    const skillsDescription = document.getElementById('skills-section-description');
+    
+    if (!skillCategoryBtns.length || !skillCategories.length) return;
+    
+    const skillDescriptions = {
+        all: "Explorez toutes mes compétences techniques organisées par catégories. Cliquez sur une catégorie pour filtrer les compétences.",
+        "programming-languages": "Langages de programmation que je maîtrise, du niveau débutant à expert selon mon expérience pratique.",
+        frameworks: "Frameworks et bibliothèques que j'utilise pour développer des applications robustes et performantes.",
+        engines: "Moteurs de jeu et environnements de développement pour la création d'expériences interactives.",
+        environments: "Environnements de développement intégrés (IDE) et éditeurs de code que j'utilise au quotidien.",
+        tools: "Outils de développement, gestion de versions, cloud, design et autres utilitaires professionnels.",
+        specialties: "Domaines de spécialisation et expertises techniques spécifiques à mon profil.",
+        "soft-skills": "Compétences comportementales et relationnelles essentielles dans le travail en équipe."
+    };
+    
+    skillCategoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const category = btn.getAttribute('data-category');
+            
+            // Update active button
+            skillCategoryBtns.forEach(button => button.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Update description
+            if (skillsDescription && skillDescriptions[category]) {
+                skillsDescription.textContent = skillDescriptions[category];
+            }
+            
+            // Show/hide skill categories
+            skillCategories.forEach(skillCategory => {
+                if (category === 'all') {
+                    skillCategory.style.display = 'block';
+                } else if (skillCategory.getAttribute('data-category') === category) {
+                    skillCategory.style.display = 'block';
+                } else {
+                    skillCategory.style.display = 'none';
+                }
+            });
+        });
+    });
+    
+    // Initialize with "all" category active
+    const allButton = document.querySelector('.skill-category-btn[data-category="all"]');
+    if (allButton && !document.querySelector('.skill-category-btn.active')) {
+        allButton.click();
+    }
+}

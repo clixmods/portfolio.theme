@@ -210,6 +210,19 @@
   {{- end }}
 {{- end }}
 
+{{/* Skills Page Styles */}}
+{{- if eq .Section "competences" }}
+{{- with resources.Get "css/skills.css" }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
+
 {{/* Discord Modal Styles */}}
 {{- with resources.Get "scss/discord-modal.scss" }}
   {{- with . | toCSS | minify }}
