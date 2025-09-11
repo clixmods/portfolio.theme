@@ -14,7 +14,7 @@
     <div class="timeline-container" id="education-timeline">
         <div class="timeline-line"></div>
         
-        {{ range ((where .Site.RegularPages "Section" "educations").ByParam "end_date").Reverse }}
+        {{ range ((where (where .Site.RegularPages "Section" "educations") ".Params.displayedInPortfolio" "!=" false).ByParam "end_date").Reverse }}
         {{ if ne .File.BaseFileName "_index" }}
         <div class="timeline-item education-item" data-category="education">
             <div class="timeline-marker" style="background-color: {{ .Params.color }};">
@@ -263,5 +263,15 @@
             </div>
         </div>
         {{ end }}
+    </div>
+
+    <!-- Bouton voir toutes les formations -->
+    <div class="education-footer">
+        <a href="{{ "/educations/" | relLangURL }}" class="btn-see-all">
+            <span>{{ i18n "view_all_educations" | default "Voir toutes les formations" }}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
     </div>
 </section>

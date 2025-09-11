@@ -176,3 +176,6 @@ development_time: "Development time"
 total_time: "Total time"
 project_start: "Project start"
 project_end: "Project end"
+
+# Education section
+view_all_educations: "View all education"

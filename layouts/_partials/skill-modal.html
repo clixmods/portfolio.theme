@@ -140,7 +140,7 @@ window.portfolioExperiences = [
 ];
 
 window.portfolioEducations = [
-    {{- range where .Site.RegularPages "Section" "educations" -}}
+    {{- range where (where .Site.RegularPages "Section" "educations") ".Params.displayedInPortfolio" "!=" false -}}
         {{- $allTechnologies := slice -}}
         {{- if .Params.programming_languages -}}
             {{- $allTechnologies = $allTechnologies | append .Params.programming_languages -}}

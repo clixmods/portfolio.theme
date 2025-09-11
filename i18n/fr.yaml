@@ -192,3 +192,6 @@ development_time: "Temps de développement"
 total_time: "Temps total"
 project_start: "Début du projet"
 project_end: "Fin du projet"
+
+# Education section
+view_all_educations: "Voir toutes les formations"

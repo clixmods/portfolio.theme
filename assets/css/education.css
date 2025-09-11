@@ -25,22 +25,15 @@
     color: var(--edu-title-text,#fff); 
     font-size: 3rem; 
     font-weight: 700;
-    m.grade-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.2rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 .education-subtitle { 
     color: var(--edu-muted-text,#a0a0a0); 
     font-size: 1.1rem;
     line-height: 1.6;
-    max-width: 700px;
+    max-width: 600px;
     margin: 0 auto;
 }
 
@@ -790,5 +783,24 @@
     
     .grade-value {
         font-size: 1.2rem;
+    }
+}
+
+/* ===================================
+   BOUTON VOIR TOUTES LES FORMATIONS
+   =================================== */
+
+.education-footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .education-footer {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
     }
 }
