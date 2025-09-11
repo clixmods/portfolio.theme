@@ -1,0 +1,442 @@
+/* ==========================================================================
+   PS5-Style Educations Page Styles
+   ========================================================================== */
+
+.ps5-educations-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Fond dynamique */
+#education-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+    filter: blur(8px) brightness(0.3);
+}
+
+/* En-tête de page */
+.educations-page-header {
+    padding: 4rem 2rem 2rem;
+    text-align: center;
+    color: white;
+    position: relative;
+    z-index: 2;
+}
+
+.educations-heading-block h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #ffffff, #e0e7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.educations-list-subtitle {
+    font-size: 1.2rem;
+    margin: 0 auto 2rem;
+    max-width: 700px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* Stats rapides */
+.educations-quick-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.eqs-item {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.eqs-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fbbf24;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.eqs-label {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.25rem;
+}
+
+/* Zone de scroll des formations */
+.educations-scroll-area {
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Grille des tiles de formations */
+.ps5-educations-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Tile individuelle de formation */
+.ps5-education-tile {
+    position: relative;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+
+.ps5-education-tile:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.ps5-education-tile:hover .ps5-tile-info {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ps5-education-tile:hover .ps5-tile-overlay {
+    opacity: 0.8;
+}
+
+/* Image/Logo de la formation */
+.ps5-tile-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.ps5-tile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.ps5-education-tile:hover .ps5-tile-image img {
+    transform: scale(1.1);
+}
+
+.ps5-tile-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+}
+
+.placeholder-icon {
+    font-size: 4rem;
+    opacity: 0.8;
+}
+
+.ps5-tile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Badge de statut */
+.ps5-tile-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 0.5rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    z-index: 3;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.ps5-status-completed {
+    background: rgba(34, 197, 94, 0.9);
+    color: white;
+}
+
+.ps5-status-current {
+    background: rgba(59, 130, 246, 0.9);
+    color: white;
+}
+
+.ps5-status-unknown {
+    background: rgba(107, 114, 128, 0.9);
+    color: white;
+}
+
+/* Contenu principal */
+.ps5-tile-content {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.ps5-tile-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
+}
+
+.ps5-tile-institution {
+    font-size: 1rem;
+    color: #6b7280;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+}
+
+.ps5-tile-city {
+    font-size: 0.9rem;
+    color: #9ca3af;
+    margin: 0;
+}
+
+/* Overlay avec informations détaillées */
+.ps5-tile-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(99, 102, 241, 0.95));
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+}
+
+.ps5-tile-info-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.ps5-tile-info-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
+}
+
+.ps5-tile-info-institution {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin: 0 0 1rem;
+    font-weight: 500;
+}
+
+.ps5-tile-description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.9;
+    margin: 0 0 1rem;
+    flex: 1;
+}
+
+/* Période et résultats */
+.ps5-tile-period {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.period-dates,
+.period-grade {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Technologies */
+.ps5-tile-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.ps5-tile-tech-item {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.ps5-tile-tech-item.specialty {
+    background: rgba(251, 191, 36, 0.3);
+}
+
+.ps5-tile-tech-more {
+    background: rgba(107, 114, 128, 0.3);
+    color: white;
+    padding: 0.3rem 0.7rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Meta info en bas */
+.ps5-tile-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.ps5-tile-status {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.ps5-tile-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.ps5-tile-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(2px);
+}
+
+/* Lien invisible pour accessibilité */
+.ps5-tile-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .educations-page-header {
+        padding: 2rem 1rem 1rem;
+    }
+    
+    .educations-heading-block h1 {
+        font-size: 2.5rem;
+    }
+    
+    .educations-quick-stats {
+        gap: 1rem;
+    }
+    
+    .eqs-item {
+        padding: 0.8rem 1rem;
+    }
+    
+    .eqs-number {
+        font-size: 2rem;
+    }
+    
+    .educations-scroll-area {
+        padding: 1rem;
+    }
+    
+    .ps5-educations-tiles {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .ps5-tile-image {
+        height: 150px;
+    }
+    
+    .ps5-tile-content {
+        padding: 1rem;
+    }
+    
+    .ps5-tile-info {
+        padding: 1rem;
+    }
+    
+    .ps5-tile-period {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .educations-heading-block h1 {
+        font-size: 2rem;
+    }
+    
+    .educations-list-subtitle {
+        font-size: 1rem;
+    }
+    
+    .educations-quick-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

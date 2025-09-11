@@ -1,0 +1,322 @@
+{{- define "main" -}}
+<div class="education-single">
+  <header class="education-header">
+    <h1>{{ .Title }}</h1>
+    <div class="education-meta">
+      <div class="institution">
+        {{- if .Params.school_logo -}}
+          <img src="{{ .Params.school_logo }}" alt="Logo {{ .Params.institution }}" class="institution-logo">
+        {{- end -}}
+        <div class="institution-details">
+          <span class="institution-name">{{ .Params.institution }}</span>
+          {{- if .Params.city -}}
+            <span class="city">📍 {{ .Params.city }}</span>
+          {{- end -}}
+        </div>
+      </div>
+      
+      <div class="details">
+        {{- if .Params.start_date -}}
+          {{- $startYear := (time .Params.start_date).Format "2006" -}}
+          {{- $endYear := "" -}}
+          {{- if .Params.end_date -}}
+            {{- $endYear = (time .Params.end_date).Format "2006" -}}
+          {{- else -}}
+            {{- $endYear = "En cours" -}}
+          {{- end -}}
+          <span class="period">📅 {{ $startYear }} - {{ $endYear }}</span>
+        {{- end -}}
+        
+        {{- if .Params.grade -}}
+          <span class="grade">🏆 {{ .Params.grade }}</span>
+        {{- end -}}
+        
+        <span class="status status-{{ if eq .Params.status "Obtenu" }}completed{{ else if eq .Params.status "En cours" }}current{{ else }}unknown{{ end }}">
+          {{- if eq .Params.status "Obtenu" -}}
+            ✅ {{ .Params.status }}
+          {{- else if eq .Params.status "En cours" -}}
+            🟢 {{ .Params.status }}
+          {{- else -}}
+            {{ .Params.icon | default "🎓" }} {{ .Params.status }}
+          {{- end -}}
+        </span>
+        
+        {{- if .Params.icon -}}
+          <span class="type">{{ .Params.icon }} Formation</span>
+        {{- end -}}
+      </div>
+    </div>
+  </header>
+
+  <main class="education-content">
+    <div class="description">
+      <h2>Description de la formation</h2>
+      <p>{{ .Params.description }}</p>
+    </div>
+
+    <div class="technologies">
+      {{- if .Params.programming_languages -}}
+      <div class="tech-section">
+        <h3>Langages de programmation</h3>
+        <div class="tech-tags">
+          {{- range .Params.programming_languages -}}
+            <span class="tech-tag programming-language">{{ . }}</span>
+          {{- end -}}
+        </div>
+      </div>
+      {{- end -}}
+
+      {{- if .Params.frameworks_engines -}}
+      <div class="tech-section">
+        <h3>Frameworks & Moteurs</h3>
+        <div class="tech-tags">
+          {{- range .Params.frameworks_engines -}}
+            <span class="tech-tag framework">{{ . }}</span>
+          {{- end -}}
+        </div>
+      </div>
+      {{- end -}}
+
+      {{- if .Params.specialties -}}
+      <div class="tech-section">
+        <h3>Spécialités</h3>
+        <div class="tech-tags">
+          {{- range .Params.specialties -}}
+            <span class="tech-tag specialty">{{ . }}</span>
+          {{- end -}}
+        </div>
+      </div>
+      {{- end -}}
+
+      {{- if .Params.soft_skills -}}
+      <div class="tech-section">
+        <h3>Compétences transversales</h3>
+        <div class="tech-tags">
+          {{- range .Params.soft_skills -}}
+            <span class="tech-tag soft-skill">{{ . }}</span>
+          {{- end -}}
+        </div>
+      </div>
+      {{- end -}}
+    </div>
+
+    {{- if .Content -}}
+    <div class="additional-content">
+      {{ .Content }}
+    </div>
+    {{- end -}}
+  </main>
+</div>
+
+<style>
+.education-single {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.education-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.education-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.education-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.institution {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.institution-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.institution-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.institution-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.city {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.details > span {
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #666;
+  border: 1px solid #e9ecef;
+}
+
+.status {
+  font-weight: 600;
+}
+
+.status-current {
+  background: #d4f7d4 !important;
+  color: #0f5132 !important;
+  border-color: #badbcc !important;
+}
+
+.status-completed {
+  background: #e8f5e8 !important;
+  color: #2d5a2d !important;
+  border-color: #a3d9a3 !important;
+}
+
+.status-unknown {
+  background: #f8f9fa !important;
+  color: #6c757d !important;
+}
+
+.education-content {
+  margin-top: 2rem;
+}
+
+.description {
+  margin-bottom: 2rem;
+}
+
+.description h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.description p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.technologies {
+  margin-bottom: 2rem;
+}
+
+.tech-section {
+  margin-bottom: 1.5rem;
+}
+
+.tech-section h3 {
+  color: #333;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tech-tag {
+  background: #8b5cf6;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.tech-tag.programming-language {
+  background: #28a745;
+}
+
+.tech-tag.framework {
+  background: #fd7e14;
+}
+
+.tech-tag.specialty {
+  background: #007bff;
+}
+
+.tech-tag.soft-skill {
+  background: #6f42c1;
+}
+
+.additional-content {
+  border-top: 1px solid #e9ecef;
+  padding-top: 2rem;
+  margin-top: 2rem;
+}
+
+.additional-content h2 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.additional-content h3 {
+  color: #555;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.additional-content ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.additional-content li {
+  margin-bottom: 0.25rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .education-single {
+    padding: 1rem;
+  }
+  
+  .education-header h1 {
+    font-size: 2rem;
+  }
+  
+  .institution {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .details {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tech-tags {
+    justify-content: center;
+  }
+}
+</style>
+{{- end -}}

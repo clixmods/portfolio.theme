@@ -1,0 +1,314 @@
+{{- define "main" -}}
+<!-- Utilisation du CSS education existant -->
+{{ with resources.Get "css/education.css" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
+
+<style>
+/* Ajustement pour le dock en haut */
+.education-section {
+    padding-top: 120px !important; /* Compense la hauteur du dock fixe */
+    margin-top: 0 !important; /* Retire le margin-top par défaut */
+}
+</style>
+
+<section class="education-section">
+    <div class="education-header">
+        <h2>{{ .Title | default "Formations" }}</h2>
+        <p class="education-subtitle">{{ .Params.description | default .Content | default "Mon parcours académique et professionnel, construisant les fondations de mon expertise technique" }}</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="education-tabs">
+        <button class="edu-tab-btn active" data-category="education">Formation</button>
+        <button class="edu-tab-btn" data-category="certifications">Certifications</button>
+    </div>
+
+    <!-- Education Timeline -->
+    <div class="timeline-container" id="education-timeline">
+        <div class="timeline-line"></div>
+        
+        {{ range ((where .Site.RegularPages "Section" "educations").ByParam "end_date").Reverse }}
+        {{ if ne .File.BaseFileName "_index" }}
+        <div class="timeline-item education-item" data-category="education">
+            <div class="timeline-marker" style="background-color: {{ .Params.color }};">
+                {{ if .Params.school_logo }}
+                    <img src="{{ .Params.school_logo }}" alt="{{ .Params.institution }}" class="timeline-school-logo">
+                {{ else }}
+                    <span class="timeline-icon">{{ .Params.icon }}</span>
+                {{ end }}
+            </div>
+            
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div class="timeline-period">
+                            {{ if .Params.start_date }}
+                                {{ dateFormat "2006" .Params.start_date }} - 
+                                {{ if .Params.end_date }}
+                                    {{ dateFormat "2006" .Params.end_date }}
+                                {{ else }}
+                                    Présent
+                                {{ end }}
+                            {{ end }}
+                        </div>
+                        <div class="timeline-status status-{{ lower .Params.status }}">{{ .Params.status }}</div>
+                    </div>
+                    
+                    <h3 class="timeline-title">
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    </h3>
+                    <h4 class="timeline-institution">{{ .Params.institution }}{{ if .Params.city }} - {{ .Params.city }}{{ end }}</h4>
+                    
+                    <p class="timeline-description">{{ .Params.description }}</p>
+                    
+                    <div class="timeline-details">
+                        <div class="timeline-results">
+                            <strong>Résultats :</strong>
+                            <div class="results-badges">
+                                {{ if .Params.years_detail }}
+                                    {{/* Utiliser les détails d'années personnalisés */}}
+                                    {{ range .Params.years_detail }}
+                                        {{ if eq .status "validated" }}
+                                            <div class="result-badge validated">
+                                                <span class="badge-text">Année {{ .year }}</span>
+                                                <span class="badge-status">{{ .label }}</span>
+                                            </div>
+                                        {{ else if eq .status "in_progress" }}
+                                            <div class="result-badge in-progress">
+                                                <span class="badge-icon">⏳</span>
+                                                <span class="badge-text">Année {{ .year }}</span>
+                                                <span class="badge-status">{{ .label }}</span>
+                                            </div>
+                                        {{ else if eq .status "not_taken" }}
+                                            <div class="result-badge not-taken">
+                                                <span class="badge-icon">🚫</span>
+                                                <span class="badge-text">Année {{ .year }}</span>
+                                                <span class="badge-status">{{ .label }}</span>
+                                            </div>
+                                        {{ else if eq .status "skipped" }}
+                                            <div class="result-badge skipped">
+                                                <span class="badge-text">Année {{ .year }}</span>
+                                                <span class="badge-status">{{ .label }}</span>
+                                            </div>
+                                        {{ else if eq .status "completed" }}
+                                            <div class="result-badge completed">
+                                                <span class="badge-icon">🎓</span>
+                                                <span class="badge-text">Année {{ .year }}</span>
+                                                <span class="badge-status">{{ .label }}</span>
+                                            </div>
+                                        {{ end }}
+                                    {{ end }}
+                                {{ else }}
+                                    {{/* Logique automatique classique */}}
+                                    {{ if eq .Params.status "Obtenu" }}
+                                        {{ $startYear := dateFormat "2006" .Params.start_date }}
+                                        {{ $endYear := dateFormat "2006" .Params.end_date }}
+                                        {{ $duration := sub (int $endYear) (int $startYear) }}
+                                        {{ range seq $duration }}
+                                            <div class="result-badge validated">
+                                                <span class="badge-text">Année {{ . }}</span>
+                                                <span class="badge-status">Validée</span>
+                                            </div>
+                                        {{ end }}
+                                    {{ else if eq .Params.status "En cours" }}
+                                        {{ $startYear := dateFormat "2006" .Params.start_date }}
+                                        {{ $currentYear := now.Format "2006" }}
+                                        {{ $yearsCompleted := sub (int $currentYear) (int $startYear) }}
+                                        {{ if gt $yearsCompleted 0 }}
+                                            {{ range seq $yearsCompleted }}
+                                                <div class="result-badge validated">
+                                                    <span class="badge-text">Année {{ . }}</span>
+                                                    <span class="badge-status">Validée</span>
+                                                </div>
+                                            {{ end }}
+                                        {{ end }}
+                                        <div class="result-badge in-progress">
+                                            <span class="badge-icon">⏳</span>
+                                            <span class="badge-text">Année {{ add $yearsCompleted 1 }}</span>
+                                            <span class="badge-status">En cours</span>
+                                        </div>
+                                    {{ else }}
+                                        <div class="result-badge general">
+                                            <span class="badge-icon">📚</span>
+                                            <span class="badge-text">Formation</span>
+                                            <span class="badge-status">{{ .Params.grade }}</span>
+                                        </div>
+                                    {{ end }}
+                                {{ end }}
+                            </div>
+                        </div>
+                        
+                        {{ if or .Params.programming_languages .Params.frameworks_engines .Params.tools }}
+                        <div class="timeline-skills">
+                            <strong>Compétences techniques :</strong>
+                            <div class="skills-tags">
+                                {{ range .Params.programming_languages }}
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.programming_languages }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="programming-language">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
+                                {{ end }}
+                                {{ end }}
+                                {{ if not $found }}
+                                <span class="skill-tag programming">{{ $skillName }}</span>
+                                {{ end }}
+                                {{ end }}
+                                {{ range .Params.frameworks_engines }}
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.frameworks_engines }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="framework-engine">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
+                                {{ end }}
+                                {{ end }}
+                                {{ if not $found }}
+                                <span class="skill-tag framework">{{ $skillName }}</span>
+                                {{ end }}
+                                {{ end }}
+                                {{ range .Params.tools }}
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.tools }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="tool">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
+                                {{ end }}
+                                {{ end }}
+                                {{ if not $found }}
+                                <span class="skill-tag tool">{{ $skillName }}</span>
+                                {{ end }}
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{ end }}
+                        
+                        {{ if or .Params.specialties .Params.soft_skills }}
+                        <div class="timeline-skills">
+                            <strong>Compétences transversales :</strong>
+                            <div class="skills-tags">
+                                {{ range .Params.specialties }}
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.specialties }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="specialty">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
+                                {{ end }}
+                                {{ end }}
+                                {{ if not $found }}
+                                <span class="skill-tag specialty">{{ $skillName }}</span>
+                                {{ end }}
+                                {{ end }}
+                                {{ range .Params.soft_skills }}
+                                {{ $skillName := . }}
+                                {{ $found := false }}
+                                {{ range $.Site.Data.soft_skills }}
+                                {{ if eq .name $skillName }}
+                                <span class="skill-tag clickable" 
+                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                                      data-skill-name="{{ .name }}"
+                                      data-skill-type="soft-skill">
+                                    {{ partial "tech-icon.html" . }} {{ .name }}
+                                </span>
+                                {{ $found = true }}
+                                {{ end }}
+                                {{ end }}
+                                {{ if not $found }}
+                                <span class="skill-tag soft">{{ $skillName }}</span>
+                                {{ end }}
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+        {{ end }}
+    </div>
+
+    <!-- Certifications Timeline -->
+    <div class="timeline-container" id="certifications-timeline" style="display: none;">
+        <div class="timeline-line"></div>
+        
+        {{ range $index, $cert := .Site.Data.certifications }}
+        <div class="timeline-item certification-item" data-category="certifications">
+            <div class="timeline-marker" style="background-color: {{ $cert.color }};">
+                <span class="timeline-icon">{{ $cert.icon }}</span>
+            </div>
+            
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div class="timeline-period">{{ $cert.date }}</div>
+                        <div class="timeline-status status-{{ lower $cert.status }}">{{ $cert.status }}</div>
+                    </div>
+                    
+                    <h3 class="timeline-title">{{ $cert.title }}</h3>
+                    <h4 class="timeline-institution">{{ $cert.issuer }}</h4>
+                    
+                    <p class="timeline-description">{{ $cert.description }}</p>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>
+
+<!-- JavaScript pour les tabs et interactivité -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion des tabs
+    const tabButtons = document.querySelectorAll('.edu-tab-btn');
+    const educationTimeline = document.getElementById('education-timeline');
+    const certificationsTimeline = document.getElementById('certifications-timeline');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Retirer la classe active de tous les boutons
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Ajouter la classe active au bouton cliqué
+            this.classList.add('active');
+            
+            // Afficher/masquer les timelines correspondantes
+            const category = this.getAttribute('data-category');
+            
+            if (category === 'education') {
+                educationTimeline.style.display = 'block';
+                certificationsTimeline.style.display = 'none';
+            } else if (category === 'certifications') {
+                educationTimeline.style.display = 'none';
+                certificationsTimeline.style.display = 'block';
+            }
+        });
+    });
+});
+</script>
+
+{{- end -}}
