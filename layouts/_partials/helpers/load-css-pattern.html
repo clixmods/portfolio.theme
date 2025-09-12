@@ -1,0 +1,18 @@
+{{/*
+  Helper to load multiple CSS files matching a pattern
+  
+  Usage: {{ partial "helpers/load-css-pattern.html" "css/shared/widgets/*.css" }}
+  
+  Params:
+  - . (string): Glob pattern to match CSS files
+*/}}
+{{- $resources := resources.Match . }}
+{{- range sort $resources "Name" }}
+  {{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{- end }}
+  {{- end }}
+{{- end }}
