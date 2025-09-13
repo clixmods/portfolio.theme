@@ -69,15 +69,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (secondaryBtn) {
         secondaryBtn.addEventListener('click', function() {
             console.log('Secondary action clicked: Télécharger CV');
-            // Download CV
-            const cvLink = '/cv/CV_Clement_GARCIA.pdf';
-            const link = document.createElement('a');
-            link.href = cvLink;
-            link.download = 'CV_Clement_GARCIA.pdf';
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Go to CV page with auto-print in current language
+            const path = window.location.pathname || '/';
+            const isEn = path.startsWith('/en/');
+            const target = isEn ? '/en/cv/?download=1' : '/cv/?download=1';
+            window.location.href = target;
         });
     }
 

@@ -3,11 +3,11 @@
   <div class="top-dock-container">
     <!-- Main actions grouped -->
     <div class="primary-actions-group">
-      <!-- Download CV -->
-      <a href="{{ with .Site.Data.profile }}{{ .media.resumeFile }}{{ end }}" 
-         download="{{ with .Site.Data.profile }}{{ .media.resumeFilename | default "CV_Clement_GARCIA.pdf" }}{{ end }}" 
+      <!-- Download CV (auto print via /cv/?download=1) -->
+      <a href="{{ "/cv/?download=1" | relLangURL }}"
          class="dock-button primary-btn download-btn" 
-         title="{{ i18n "download_resume" | default "Télécharger le CV" }}">
+         title="{{ i18n "download_resume" | default "Télécharger le CV" }}"
+         aria-label="{{ i18n "download_resume" | default "Télécharger le CV" }}">
         <svg class="dock-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
           <polyline points="14 2 14 8 20 8"></polyline>

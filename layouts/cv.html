@@ -17,6 +17,8 @@
     main { margin: 0 !important; padding: 0 !important; }
     .cv-page { box-shadow: none !important; margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
     .cv-export { display: none !important; }
+    /* Page setup for PDF export */
+    @page { size: A4; margin: 12mm; }
   </style>
 
   {{ $cvStyle := or .Params.cvStyle "twocol" }}
@@ -229,4 +231,17 @@
       </div>
     </div>
   </section>
+  <script>
+    (function(){
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('download') === '1') {
+          // Wait a tick to ensure layout is complete before printing
+          window.addEventListener('load', function(){
+            setTimeout(function(){ window.print(); }, 150);
+          });
+        }
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
 {{ end }}
