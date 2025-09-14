@@ -135,6 +135,12 @@
 {{ partial "helpers/load-css-pattern.html" "css/projects/*.css" }}
 
 {{/* CV page styles (loaded only on CV page) */}}
-{{- if or (eq .Layout "cv") (and .File (in .File.Path "/cv")) }}
+{{- $isCV := or
+  (eq .Layout "cv")
+  (in .RelPermalink "/cv/")
+  (in .RelPermalink "/cv")
+  (and .File (or (in .File.Path "content/cv.md") (in .File.Path "/cv.md")))
+ -}}
+{{- if $isCV }}
   {{ partial "helpers/load-scss.html" "scss/cv.scss" }}
 {{- end }}

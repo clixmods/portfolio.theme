@@ -8,7 +8,14 @@
   {{ $programmingLanguages := site.Data.programming_languages }}
   {{ $frameworksEngines := site.Data.frameworks_engines }}
   {{ $technologies := site.Data.technologies }}
-  {{ $certs := site.Data.certifications }}
+  {{/* Certifications removed from CV */}}
+
+  {{/* Ensure CV stylesheet is loaded for this page */}}
+  {{ with resources.Get "scss/cv.scss" }}
+    {{ with . | toCSS | minify }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{ end }}
+  {{ end }}
 
   <style media="print">
     /* Forcer la disparition de la chrome du site lors de l'impression */
@@ -72,94 +79,74 @@
           {{ end }}
         </section>
 
-    {{ with $programmingLanguages }}
-        {{ range . }}
-          {{ with .category }}
-          <section class="cv-section">
-            <h2>Langage Prog.</h2>
-            <ul class="cv-list">
-              {{ range first 6 .skills }}
-                {{ $techName := .technologyRef }}
-                {{ $techResults := where $technologies "name" $techName }}
-                {{ if $techResults }}
-                  {{ $tech := index $techResults 0 }}
-                <li class="cv-item">
-                  <div class="cv-item-header">
-                    <strong>{{ $tech.name }}</strong>
-                    <span class="cv-item-period">
-                      {{ if .customSubtitle }}
-                        {{ .customSubtitle }}
-                      {{ else }}
-                        {{ $tech.level }}
-                      {{ end }}
-                    </span>
-                  </div>
-                </li>
+    {{ if $programmingLanguages }}
+      <section class="cv-section cv-languages">
+        <h2>Langage Prog.</h2>
+        <ul class="cv-tags cv-language-tags">
+          {{ range first 6 (sort $programmingLanguages "experience" "desc") }}
+            {{ $exp := .experience }}
+            <li class="cv-language-tag">
+              <span class="cv-lang-name">{{ .name }}</span>
+              <span class="cv-lang-exp">
+                {{ if ge $exp 1 }}
+                  {{ printf "%.0f" $exp }} {{ if eq (printf "%.0f" $exp) "1" }}an{{ else }}ans{{ end }}
+                {{ else }}
+                  {{ printf "%.0f" (mul $exp 12) }} mois
                 {{ end }}
-              {{ end }}
-            </ul>
-          </section>
+              </span>
+            </li>
           {{ end }}
-        {{ end }}
+        </ul>
+      </section>
     {{ end }}
 
     {{ if $educations }}
-          <section class="cv-section">
+          <section class="cv-section cv-formations">
             <h2>Formations</h2>
-            <ul class="cv-list">
-      {{ range first 2 (sort $educations "Params.start_date" "desc") }}
-                <li class="cv-item">
-                  <div class="cv-item-header">
-                    <strong>{{ .Title }}</strong> — <span>{{ .Params.institution }}{{ if .Params.city }}, {{ .Params.city }}{{ end }}</span>
-                    <span class="cv-item-period">
-                      {{ if .Params.start_date }}
-                        {{ dateFormat "2006" .Params.start_date }} - 
-                        {{ if .Params.end_date }}
-                          {{ dateFormat "2006" .Params.end_date }}
-                        {{ else }}
-                          Présent
-                        {{ end }}
+            <ul class="cv-list cv-formations-list">
+              {{ range first 3 (sort $educations "Params.start_date" "desc") }}
+                <li class="cv-item cv-formation-item">
+                  <div class="cv-formation-content">
+                    <div class="cv-formation-main">
+                      <div class="cv-formation-degree">{{ .Title }}</div>
+                      <div class="cv-formation-institution">
+                        {{ .Params.institution }}{{ if .Params.city }} - {{ .Params.city }}{{ end }}
+                      </div>
+                      {{ with .Params.status }}
+                        <div class="cv-formation-status">{{ . }}</div>
                       {{ end }}
-                    </span>
+                    </div>
+                    <div class="cv-formation-period">
+                      {{ if .Params.start_date }}
+                        {{ dateFormat "2006" .Params.start_date }}{{ if .Params.end_date }} / {{ dateFormat "2006" .Params.end_date }}{{ else }} / En cours{{ end }}
+                      {{ end }}
+                    </div>
                   </div>
                 </li>
+              {{ end }}
+            </ul>
+          </section>
+        {{ end }}
+
+        {{/* Centres d'intérêt (optionnel, affiché si dispo ou fallback) */}}
+        {{ $interests := or $profile.details.interests $profile.personal.interests }}
+        {{ if or $interests (eq .Site.Language.Lang "fr") }}
+          <section class="cv-section">
+            <h2>Centres d'intérêt</h2>
+            <ul class="cv-tags">
+              {{ if $interests }}
+                {{ range $interests }}<li>{{ . }}</li>{{ end }}
+              {{ else }}
+                <li>Dessin</li>
+                <li>Jeux vidéo</li>
+                <li>Musique</li>
+                <li>Technologies</li>
               {{ end }}
             </ul>
           </section>
         {{ end }}
       </div>
       <div class="cv-col cv-col-right">
-        {{ if or $specialties $softSkills }}
-          <section class="cv-section">
-            <h2>Compétences</h2>
-            <div class="cv-skill-split">
-              <div class="cv-skill-col">
-                <h3>Techniques</h3>
-                <ul class="cv-tags cv-skill-chips">
-                  {{ with $specialties }}
-                    {{ range . }}
-                      {{ with .category }}
-                        {{ range first 5 .skills }}<li>{{ .name }}</li>{{ end }}
-                      {{ end }}
-                    {{ end }}
-                  {{ end }}
-                </ul>
-              </div>
-              <div class="cv-skill-col">
-                <h3>Travail</h3>
-                <ul class="cv-tags cv-skill-chips">
-                  {{ with $softSkills }}
-                    {{ range . }}
-                      {{ with .category }}
-                        {{ range first 5 .skills }}<li>{{ .name }}</li>{{ end }}
-                      {{ end }}
-                    {{ end }}
-                  {{ end }}
-                </ul>
-              </div>
-            </div>
-          </section>
-        {{ end }}
 
         {{ if $experiences }}
           <section class="cv-section">
@@ -173,61 +160,195 @@
                     <span class="cv-item-period">{{ $experienceData.period }}{{ with $experienceData.duration }} · {{ . }}{{ end }}</span>
                   </div>
                   {{ with $exp.Params.description }}<p class="cv-item-desc">{{ . | truncate 160 }}</p>{{ end }}
-                  {{ if and (eq $i 0) $exp.Params.projects (gt (len $exp.Params.projects) 0) }}
-                    {{ $pref := index $exp.Params.projects 0 }}
-                    {{ $proj := "" }}
-                    {{ if hasPrefix $pref.project_ref "/" }}
-                      {{ $proj = $.Site.GetPage $pref.project_ref }}
-                    {{ else }}
-                      {{ $proj = $.Site.GetPage (printf "/projects/%s" $pref.project_ref) }}
-                    {{ end }}
-                    {{ with $proj }}
-                      {{ $img := .Params.image }}
-                      {{ if $img }}
-                        <img class="cv-thumb" src="{{ $img }}" alt="{{ .Title }}">
-                      {{ end }}
-                    {{ end }}
-                  {{ end }}
                 </li>
               {{ end }}
             </ul>
           </section>
         {{ end }}
 
-  {{ $allProjects := where .Site.RegularPages "Section" "projects" }}
-  {{ $apps := where $allProjects ".Params.sector" "apps-web" }}
-        {{ if $apps }}
-          <section class="cv-section">
+        {{/* Projets (compact, sélectionnés) */}}
+        {{ $allProjects := where .Site.RegularPages "Section" "projects" }}
+        {{ $sortedAll := sort $allProjects "Date" "desc" }}
+        {{ $featuredCV := where $allProjects "Params.featuredInCV" true }}
+        {{ $featured := where $allProjects "Params.featured" true }}
+        {{ $preferred := union $featuredCV $featured }}
+        {{ $projLimit := 4 }}
+        {{/* Concat préférés (triés) + tous (triés), en dédoublonnant */}}
+        {{ $sortedPreferred := sort $preferred "Date" "desc" }}
+        {{ $combined := union $sortedPreferred $sortedAll }}
+        {{ $projects := first $projLimit $combined }}
+        {{ if gt (len $projects) 0 }}
+          <section class="cv-section cv-projects-section">
             <h2>Projets Informatique</h2>
-            <ul class="cv-list">
-              {{ range first 2 $apps }}
-                <li class="cv-item">
-                  <div class="cv-item-header">
-                    <strong>{{ .Title }}</strong>
-                    {{ with .Params.period }}<span class="cv-item-period">{{ . }}</span>{{ end }}
+            
+            {{/* Projets spécifiques mentionnés - chercher dans tous les projets */}}
+            {{ $stoneKeeper := where $allProjects "File.TranslationBaseName" "stone-keepers" }}
+            {{ $terraMemoria := where $allProjects "File.TranslationBaseName" "terra-memoria" }}
+            {{ $gameShowcase := where $allProjects "File.TranslationBaseName" "my-game-showcase" }}
+            
+            {{/* Projets individuels - My Game Showcase, Terra Memoria, Stone Keeper */}}
+            {{ range $gameShowcase }}
+              <div class="cv-project-individual cv-project-with-bg" {{ with .Params.image }}style="background-image: url('{{ . }}')"{{ end }}>
+                <div class="cv-project-header">
+                  <div class="cv-project-main">
+                    <h3 class="cv-project-title">{{ .Title }}</h3>
+                    {{ with .Params.subtitle }}<div class="cv-project-subtitle">{{ . }}</div>{{ end }}
                   </div>
-                  {{ with .Params.description }}<p class="cv-item-desc">{{ . | plainify | truncate 120 }}</p>{{ end }}
-                </li>
-              {{ end }}
-            </ul>
+                  <div class="cv-project-period">
+                    {{ with .Params.date }}{{ dateFormat "2006" . }}{{ end }}
+                  </div>
+                </div>
+                {{ with .Params.description }}
+                  <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
+                {{ end }}
+                
+                {{/* Tags techniques pour ce projet */}}
+                <div class="cv-project-tags">
+                  {{ with .Params.specialties }}
+                    {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
+                  {{ end }}
+                  {{ with .Params.programming_languages }}
+                    {{ range . }}<span class="cv-project-tag cv-tag-lang">{{ . }}</span>{{ end }}
+                  {{ end }}
+                  {{ with .Params.frameworks_engines }}
+                    {{ range . }}<span class="cv-project-tag cv-tag-framework">{{ . }}</span>{{ end }}
+                  {{ end }}
+                </div>
+              </div>
+            {{ end }}
+            
+            {{ range $terraMemoria }}
+              <div class="cv-project-individual cv-project-with-bg" {{ with .Params.image }}style="background-image: url('{{ . }}')"{{ end }}>
+                <div class="cv-project-header">
+                  <div class="cv-project-main">
+                    <h3 class="cv-project-title">{{ .Title }}</h3>
+                    {{ with .Params.subtitle }}<div class="cv-project-subtitle">{{ . }}</div>{{ end }}
+                  </div>
+                  <div class="cv-project-period">
+                    {{ with .Params.date }}{{ dateFormat "2006" . }}{{ end }}
+                  </div>
+                </div>
+                {{ with .Params.description }}
+                  <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
+                {{ end }}
+                
+                {{/* Tags techniques pour ce projet */}}
+                <div class="cv-project-tags">
+                  {{ with .Params.specialties }}
+                    {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
+                  {{ end }}
+                  {{ with .Params.programming_languages }}
+                    {{ range . }}<span class="cv-project-tag cv-tag-lang">{{ . }}</span>{{ end }}
+                  {{ end }}
+                  {{ with .Params.frameworks_engines }}
+                    {{ range . }}<span class="cv-project-tag cv-tag-framework">{{ . }}</span>{{ end }}
+                  {{ end }}
+                </div>
+              </div>
+            {{ end }}
+            
+            {{ range $stoneKeeper }}
+              <div class="cv-project-individual cv-project-with-bg" {{ with .Params.image }}style="background-image: url('{{ . }}')"{{ end }}>
+                <div class="cv-project-header">
+                  <div class="cv-project-main">
+                    <h3 class="cv-project-title">{{ .Title }}</h3>
+                    {{ with .Params.subtitle }}<div class="cv-project-subtitle">{{ . }}</div>{{ end }}
+                  </div>
+                  <div class="cv-project-period">
+                    {{ with .Params.date }}{{ dateFormat "2006" . }}{{ end }}
+                  </div>
+                </div>
+                {{ with .Params.description }}
+                  <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
+                {{ end }}
+                
+                {{/* Tags techniques pour ce projet */}}
+                <div class="cv-project-tags">
+                  {{ with .Params.specialties }}
+                    {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
+                  {{ end }}
+                  {{ with .Params.programming_languages }}
+                    {{ range . }}<span class="cv-project-tag cv-tag-lang">{{ . }}</span>{{ end }}
+                  {{ end }}
+                  {{ with .Params.frameworks_engines }}
+                    {{ range . }}<span class="cv-project-tag cv-tag-framework">{{ . }}</span>{{ end }}
+                  {{ end }}
+                </div>
+              </div>
+            {{ end }}
+            
+            {{/* Projets d'études - groupement */}}
+            <div class="cv-project-individual">
+              <div class="cv-project-header">
+                <div class="cv-project-main">
+                  <h3 class="cv-project-title">Projets d'études</h3>
+                </div>
+                <div class="cv-project-period">2021/2024</div>
+              </div>
+              
+              <div class="cv-project-description">
+                13 projets réalisés sur <strong>Unity</strong> et <strong>Unreal</strong> en équipe restreinte pendant les études.
+              </div>
+              
+              <div class="cv-project-tags">
+                <span class="cv-project-tag cv-tag-specialty">Gestion de projet</span>
+                <span class="cv-project-tag cv-tag-specialty">Méthode agile</span>
+                <span class="cv-project-tag cv-tag-specialty">Travail en équipe</span>
+                <span class="cv-project-tag cv-tag-lang">C#</span>
+                <span class="cv-project-tag cv-tag-framework">Unity</span>
+                <span class="cv-project-tag cv-tag-framework">.NET</span>
+              </div>
+            </div>
+            
+            {{/* Game Jam section */}}
+            <div class="cv-project-individual">
+              <div class="cv-project-header">
+                <div class="cv-project-main">
+                  <h3 class="cv-project-title">Game Jam</h3>
+                </div>
+                <div class="cv-project-period">2020/2024</div>
+              </div>
+              
+              <div class="cv-project-description">
+                Création de jeux vidéo en <strong>temps restreint</strong> et <strong>contrainte</strong>, avec une équipe aléatoire (dernièrement la Global Game Jam 2024 et les Ludum Jam 1to3).
+              </div>
+              
+              <div class="cv-project-tags">
+                <span class="cv-project-tag cv-tag-specialty">Création agile</span>
+                <span class="cv-project-tag cv-tag-specialty">Game Design</span>
+                <span class="cv-project-tag cv-tag-specialty">Développement rapide</span>
+                <span class="cv-project-tag cv-tag-specialty">Adaptation</span>
+              </div>
+            </div>
+            
+            {{/* Modding section */}}
+            <div class="cv-project-individual">
+              <div class="cv-project-header">
+                <div class="cv-project-main">
+                  <h3 class="cv-project-title">Modding</h3>
+                </div>
+                <div class="cv-project-period">2016/2019</div>
+              </div>
+              
+              <div class="cv-project-description">
+                <strong>Contenu de jeu vidéo</strong> pour le Steam Workshop de <strong>Call of Duty Black Ops 3</strong>.
+                + 800 000 téléchargements cumulés • Management communautaire
+              </div>
+              
+              <div class="cv-project-tags">
+                <span class="cv-project-tag cv-tag-specialty">Contenu de jeu vidéo</span>
+                <span class="cv-project-tag cv-tag-specialty">Steam Workshop</span>
+                <span class="cv-project-tag cv-tag-specialty">Management communautaire</span>
+                <span class="cv-project-tag cv-tag-framework">Call of Duty Black Ops 3</span>
+              </div>
+            </div>
+            
           </section>
         {{ end }}
 
-        {{ if $certs }}
-          <section class="cv-section">
-            <h2>Certifications</h2>
-            <ul class="cv-list">
-              {{ range first 2 $certs }}
-                <li class="cv-item">
-                  <div class="cv-item-header">
-                    <strong>{{ .title }}</strong> — <span>{{ .issuer }}</span>
-                    <span class="cv-item-period">{{ .date }}</span>
-                  </div>
-                </li>
-              {{ end }}
-            </ul>
-          </section>
-        {{ end }}
+        {{/* Certifications section intentionally removed */}}
+
+
       </div>
     </div>
   </section>
