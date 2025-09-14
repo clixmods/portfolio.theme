@@ -56,9 +56,40 @@
 .cv-contact-list { margin: 0; padding: 0; list-style: none; text-align: right; }
 .cv-contact-list li { color: #e5e7eb; }
 .cv-contact-list a { color: #f97316; text-decoration: none; }
+.cv-export-buttons { 
+  display: flex; 
+  gap: .5rem; 
+  flex-wrap: wrap; 
+  justify-content: flex-end; 
+  margin-top: .5rem; 
+}
+
 .cv-export { 
-  background: #111; color: #fff; border: none; padding: .5rem .75rem; 
-  border-radius: .5rem; cursor: pointer; font-size: .95rem;
+  background: #111; 
+  color: #fff; 
+  border: none; 
+  padding: .5rem .75rem; 
+  border-radius: .5rem; 
+  cursor: pointer; 
+  font-size: .85rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  transition: background-color .2s;
+}
+
+.cv-export:hover {
+  background: #374151;
+  color: #fff;
+}
+
+.cv-export-download {
+  background: var(--cv-accent, #f97316);
+}
+
+.cv-export-download:hover {
+  background: #ea580c;
 }
 
 .cv-section { margin: .7rem 0; }
@@ -123,7 +154,7 @@
   footer, .contact-modal,
   .toast-container, .trophies-modal { display: none !important; }
   .cv-page { box-shadow: none; margin: 0; padding: 0; max-width: 100%; -webkit-print-color-adjust: exact; print-color-adjust: exact; font-size: .94em; }
-  .cv-export { display: none; }
+  .cv-export, .cv-export-buttons { display: none; }
   @page { size: A4; margin: 8mm; }
   /* Try to avoid page breaks within items */
   .cv-list, .cv-item { page-break-inside: avoid; break-inside: avoid; }

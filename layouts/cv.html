@@ -48,7 +48,10 @@
           {{ with $profile.contact.location }}<li>{{ . }}</li>{{ end }}
           {{ with $profile.contact.phone }}<li>{{ . }}</li>{{ end }}
         </ul>
-        <button class="cv-export" onclick="window.print()">🖨️ Exporter en PDF</button>
+        <div class="cv-export-buttons">
+          <button class="cv-export cv-export-print" onclick="window.print()">🖨️ Imprimer</button>
+          <a href="/cv/clement-garcia-cv.pdf" class="cv-export cv-export-download" download="clement-garcia-cv.pdf">📄 Télécharger PDF</a>
+        </div>
       </div>
     </header>
 
@@ -385,6 +388,40 @@
           });
         }
       } catch (e) { /* ignore */ }
+    })();
+
+    // Auto-download PDF if available (not in print mode)
+    (function() {
+      // Check if we're not in print mode and PDF exists
+      if (!window.matchMedia('print').matches && !new URLSearchParams(window.location.search).has('print')) {
+        // Wait for page to load completely
+        window.addEventListener('load', function() {
+          // Check if PDF exists by making a HEAD request
+          fetch('/cv/clement-garcia-cv.pdf', { method: 'HEAD' })
+            .then(response => {
+              if (response.ok) {
+                console.log('PDF disponible, déclenchement du téléchargement automatique...');
+                // Create invisible download link and trigger it
+                const downloadLink = document.createElement('a');
+                downloadLink.href = '/cv/clement-garcia-cv.pdf';
+                downloadLink.download = 'clement-garcia-cv.pdf';
+                downloadLink.style.display = 'none';
+                document.body.appendChild(downloadLink);
+                
+                // Delay the download slightly to ensure page is fully rendered
+                setTimeout(function() {
+                  downloadLink.click();
+                  document.body.removeChild(downloadLink);
+                }, 1000);
+              } else {
+                console.log('PDF non disponible, génération en cours...');
+              }
+            })
+            .catch(error => {
+              console.log('Vérification PDF échouée:', error);
+            });
+        });
+      }
     })();
   </script>
 {{ end }}
