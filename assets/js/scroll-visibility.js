@@ -1,9 +1,9 @@
 /**
  * Scroll Visibility Management
  * 
- * Gère la visibilité des éléments selon la position de scroll :
- * - Cache le profile-badge et les boutons CV/Contact du top-dock dans la section hero
- * - Les réaffiche quand on sort de la section hero
+ * Manages element visibility based on scroll position:
+ * - Hides the profile-badge and CV/Contact buttons in the top-dock within the hero section
+ * - Shows them again when leaving the hero section
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -65,7 +65,7 @@ function initScrollVisibility() {
             }
         }
         
-        // Gestion des boutons CV et Contact dans le top-dock
+        // Management of CV and Contact buttons in the top-dock
         const primaryGroup = topDock?.querySelector('.primary-actions-group');
         const separator = topDock?.querySelector('.dock-separator');
         

@@ -1,4 +1,4 @@
-/* Styles imprimables pour la page CV - thème Canva-like */
+/* Printable styles for the CV page - Canva-like theme */
 
 .cv-page { 
   max-width: 860px; 
@@ -12,13 +12,13 @@
 /* Two-column content grid */
 .cv-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 0; }
 .cv-col { min-width: 0; }
-/* Colonne gauche sombre + padding */
+/* Left column dark + padding */
 .cv-col-left { background: #0f172a; color: #e5e7eb; padding: .9rem; }
 .cv-col-left .cv-section h2 { color: #fff; border-left-color: rgba(255,255,255,0.6); }
 .cv-col-left .cv-tags li { border-color: rgba(255,255,255,0.2); color: #e5e7eb; }
 .cv-col-left .cv-item-header span { color: #cbd5e1; }
 .cv-col-left .cv-item-desc { color: #e5e7eb; }
-/* Colonne droite sombre aussi pour homogénéité maquette */
+/* Right column also dark for design consistency */
 .cv-col-right { 
   background: #0f172a; 
   color: #e5e7eb; 
@@ -52,7 +52,7 @@
 .cv-coordonnees li { line-height: 1.4; }
 .cv-contact-inline { display: flex; flex-wrap: wrap; gap: .35rem; }
 .cv-contact-inline li { background: #111827; border: 1px solid rgba(255,255,255,.12); color: #e5e7eb; border-radius: 999px; padding: .15rem .55rem; font-size: .85rem; }
-/* Variante liste verticale (maquette) */
+/* Vertical list variant (mockup) */
 .cv-contact-list { margin: 0; padding: 0; list-style: none; text-align: right; }
 .cv-contact-list li { color: #e5e7eb; }
 .cv-contact-list a { color: #f97316; text-decoration: none; }
@@ -76,11 +76,11 @@
 .cv-item-desc { margin: .1rem 0 0 0; color: #374151; }
 .cv-tags { display: flex; flex-wrap: wrap; gap: .35rem; padding: 0; margin: .35rem 0 0 0; list-style: none; }
 .cv-tags li { border: 1px solid #e5e7eb; padding: .15rem .45rem; border-radius: 999px; font-size: .85rem; color: #111; }
-/* Résumé haut avec avatar */
+/* Top summary with avatar */
 .cv-summary-top { display: flex; align-items: center; gap: .6rem; }
 .cv-avatar { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 2px solid var(--cv-accent, #f97316); }
 .cv-summary-text p { margin: 0; }
-/* Bullets intro à gauche */
+/* Introduction bullets on the left */
 .cv-summary-bullets { margin: .5rem 0 0 0; padding-left: 1rem; }
 .cv-summary-bullets ul { margin: .25rem 0 0 0; padding-left: 1rem; }
 
@@ -91,11 +91,11 @@
 .cv-skill-chips { margin-top: 0; }
 .cv-skill-chips li { padding: .1rem .4rem; font-size: .8rem; }
 
-/* Split inside skills to group Techniques vs Travail */
+/* Split inside skills to group Technical vs Soft skills */
 .cv-skill-split { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem 1rem; }
 .cv-skill-col h3 { font-size: .9rem; margin: 0 0 .2rem 0; color: #111; }
 .cv-col-left .cv-skill-col h3, .cv-col-right .cv-skill-col h3 { color: #fff; }
-/* Mini vignette expérience */
+/* Mini experience thumbnail */
 .cv-thumb { max-width: 40%; height: auto; border-radius: 6px; border: 2px solid var(--cv-accent, #f97316); display: block; margin-left: auto; }
 /* Figure wrapper and caption for project preview */
 .cv-thumb-wrap { display: block; float: right; margin: .3rem 0 .2rem .6rem; text-align: center; }
@@ -116,7 +116,7 @@
 
 @media print {
   body { background: #fff; }
-  /* Cacher l'habillage du site pendant l'impression */
+  /* Hide site chrome during printing */
   .hero-background, #hero-background,
   .top-bar, #top-bar,
   .dock, #dock,
@@ -127,7 +127,7 @@
   @page { size: A4; margin: 8mm; }
   /* Try to avoid page breaks within items */
   .cv-list, .cv-item { page-break-inside: avoid; break-inside: avoid; }
-  /* Impression: conserve le grid layout avec proportions 1fr 2fr */
+  /* Print: preserve grid layout with 1fr 2fr proportions */
   .cv-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 0; }
   .cv-col { padding: .7rem; border-radius: 8px; }
   .cv-col-left, .cv-col-right { background: #0f172a; color: #e5e7eb; }

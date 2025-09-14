@@ -1,5 +1,5 @@
 {{ define "main" }}
-  {{/* CV Page - utilise les données de /data */}}
+  {{/* CV Page - uses data from /data */}}
   {{ $profile := site.Data.profile }}
   {{ $experiences := (.Site.GetPage "/experiences").Pages.ByParam "start_date" }}
   {{ $educations := (where (.Site.GetPage "/educations").Pages "File.BaseFileName" "!=" "_index") }}
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{{ $cvStyles.RelPermalink }}" />
 
   <style media="print">
-    /* Forcer la disparition de la chrome du site lors de l'impression */
+    /* Force hiding of site chrome during printing */
     #dock, #hero-background, footer, .contact-modal, .toast-container, .trophies-modal, .right-dock, .top-dock { display: none !important; }
     body { background: #fff !important; }
     main { margin: 0 !important; padding: 0 !important; }
@@ -125,7 +125,7 @@
           </section>
         {{ end }}
 
-        {{/* Centres d'intérêt (optionnel, affiché si dispo ou fallback) */}}
+        {{/* Interests (optional, displayed if available or fallback) */}}
         {{ $interests := or $profile.details.interests $profile.personal.interests }}
         {{ if or $interests (eq .Site.Language.Lang "fr") }}
           <section class="cv-section">
@@ -166,7 +166,7 @@
                   <div class="cv-experience-description">{{ . | truncate 180 }}</div>
                 {{ end }}
                 
-                {{/* Compétences et technologies utilisées */}}
+                {{/* Skills and technologies used */}}
                 {{ if or $exp.Params.programming_languages $exp.Params.frameworks_engines $exp.Params.specialties $exp.Params.soft_skills }}
                   <div class="cv-experience-tags">
                     {{ with $exp.Params.specialties }}
@@ -188,14 +188,14 @@
           </section>
         {{ end }}
 
-        {{/* Projets (compact, sélectionnés) */}}
+        {{/* Projects (compact, selected) */}}
         {{ $allProjects := where .Site.RegularPages "Section" "projects" }}
         {{ $sortedAll := sort $allProjects "Date" "desc" }}
         {{ $featuredCV := where $allProjects "Params.featuredInCV" true }}
         {{ $featured := where $allProjects "Params.featured" true }}
         {{ $preferred := union $featuredCV $featured }}
         {{ $projLimit := 4 }}
-        {{/* Concat préférés (triés) + tous (triés), en dédoublonnant */}}
+        {{/* Concat preferred (sorted) + all (sorted), deduplicating */}}
         {{ $sortedPreferred := sort $preferred "Date" "desc" }}
         {{ $combined := union $sortedPreferred $sortedAll }}
         {{ $projects := first $projLimit $combined }}
@@ -203,12 +203,12 @@
           <section class="cv-section cv-projects-section">
             <h2>Projets Informatique</h2>
             
-            {{/* Projets spécifiques mentionnés - chercher dans tous les projets */}}
+            {{/* Specific projects mentioned - search in all projects */}}
             {{ $stoneKeeper := where $allProjects "File.TranslationBaseName" "stone-keepers" }}
             {{ $terraMemoria := where $allProjects "File.TranslationBaseName" "terra-memoria" }}
             {{ $gameShowcase := where $allProjects "File.TranslationBaseName" "my-game-showcase" }}
             
-            {{/* Projets individuels - My Game Showcase, Terra Memoria, Stone Keeper */}}
+            {{/* Individual projects - My Game Showcase, Terra Memoria, Stone Keeper */}}
             {{ range $gameShowcase }}
               <div class="cv-project-individual cv-project-with-bg" {{ with .Params.image }}style="background-image: url('{{ . }}')"{{ end }}>
                 <div class="cv-project-header">
@@ -224,7 +224,7 @@
                   <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
                 {{ end }}
                 
-                {{/* Tags techniques pour ce projet */}}
+                {{/* Technical tags for this project */}}
                 <div class="cv-project-tags">
                   {{ with .Params.specialties }}
                     {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
@@ -254,7 +254,7 @@
                   <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
                 {{ end }}
                 
-                {{/* Tags techniques pour ce projet */}}
+                {{/* Technical tags for this project */}}
                 <div class="cv-project-tags">
                   {{ with .Params.specialties }}
                     {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
@@ -284,7 +284,7 @@
                   <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
                 {{ end }}
                 
-                {{/* Tags techniques pour ce projet */}}
+                {{/* Technical tags for this project */}}
                 <div class="cv-project-tags">
                   {{ with .Params.specialties }}
                     {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
@@ -299,7 +299,7 @@
               </div>
             {{ end }}
             
-            {{/* Projets d'études - groupement */}}
+            {{/* Study projects - grouping */}}
             <div class="cv-project-individual">
               <div class="cv-project-header">
                 <div class="cv-project-main">
