@@ -1,5 +1,7 @@
 {{ define "main" }}
-  {{/* CV Page - uses data from /data */}}
+  {{/* CV Page - uses data from /da  {{ $cvStyle := or .Params.cvStyle "twocol" }}
+  {{ $cvAccent := or .Params.cvAccent "#111111" }}
+  <section class="cv-page cv--{{ $cvStyle }}" id="cv" style="--cv-accent: {{ $cvAccent }};"*/}}
   {{ $profile := site.Data.profile }}
   {{ $experiences := (.Site.GetPage "/experiences").Pages.ByParam "start_date" }}
   {{ $educations := (where (.Site.GetPage "/educations").Pages "File.BaseFileName" "!=" "_index") }}
@@ -13,16 +15,47 @@
   {{/* Ensure CV stylesheet is loaded for this page */}}
   {{ $cvStyles := resources.Get "scss/cv.scss" | toCSS | minify }}
   <link rel="stylesheet" href="{{ $cvStyles.RelPermalink }}" />
+  
+
 
   <style media="print">
     /* Force hiding of site chrome during printing */
-    #dock, #hero-background, footer, .contact-modal, .toast-container, .trophies-modal, .right-dock, .top-dock { display: none !important; }
+    #dock, #top-dock, #left-dock, #right-dock, #hero-background, footer, .contact-modal, .toast-container, .trophies-modal, 
+    .right-dock, .top-dock, .left-dock, .dock, .dock-top, .dock-left, .dock-right,
+    nav, header:not(.cv-header), .navigation, .menu, .navbar,
+    .floating-dock, .dock-container, .top-bar, .topbar,
+    .profile-badge, #profile-badge, .badge, .user-badge, .avatar-badge { display: none !important; }
     body { background: #fff !important; }
     main { margin: 0 !important; padding: 0 !important; }
-    .cv-page { box-shadow: none !important; margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
-    .cv-export { display: none !important; }
-    /* Page setup for PDF export */
-    @page { size: A4; margin: 12mm; }
+    .cv-page { 
+      box-shadow: none !important; 
+      margin: 0 !important; 
+      padding: 0 !important; 
+      max-width: 100% !important; 
+      font-size: .85em !important;
+    }
+    .cv-export, .cv-external-controls { display: none !important; }
+    /* Page setup for PDF export avec marges plus généreuses */
+    @page { size: A4; margin: 8mm; }
+    
+    /* Ajustements spécifiques pour l'impression */
+    .cv-header { 
+      padding: .8rem 1rem !important; 
+      margin-bottom: .5rem !important; 
+    }
+    .cv-grid { 
+      gap: .3rem !important; 
+    }
+    .cv-col { 
+      padding: .8rem !important; 
+    }
+    .cv-section { 
+      margin: .5rem 0 !important; 
+    }
+    .cv-section h2 { 
+      font-size: .9rem !important; 
+      margin-bottom: .4rem !important; 
+    }
   </style>
 
   {{ $cvStyle := or .Params.cvStyle "twocol" }}
@@ -48,10 +81,6 @@
           {{ with $profile.contact.location }}<li>{{ . }}</li>{{ end }}
           {{ with $profile.contact.phone }}<li>{{ . }}</li>{{ end }}
         </ul>
-        <div class="cv-export-buttons">
-          <button class="cv-export cv-export-print" onclick="window.print()">🖨️ Imprimer</button>
-          <a href="/cv/clement-garcia-cv.pdf" class="cv-export cv-export-download" download="clement-garcia-cv.pdf">📄 Télécharger PDF</a>
-        </div>
       </div>
     </header>
 
@@ -61,22 +90,14 @@
           <div class="cv-summary-top">
             <div class="cv-summary-text">
               {{ with $profile.personal.title }}<p class="cv-item-desc">{{ . }}</p>{{ end }}
+              <ul class="cv-summary-bullets">
+                <li>Gameplay</li>
+                <li>Gestion de projet</li>
+                <li>Conception graphique</li>
+                <li>Outils de production</li>
+              </ul>
             </div>
           </div>
-          {{ with $specialties }}
-            {{ range . }}
-              {{ with .category }}
-                <ul class="cv-summary-bullets">
-                  <li>Développeur logiciel et de jeu vidéo passionné</li>
-                  <li>Expertise dans :
-                    <ul>
-                      {{ range first 4 .skills }}<li>{{ .name }}</li>{{ end }}
-                    </ul>
-                  </li>
-                </ul>
-              {{ end }}
-            {{ end }}
-          {{ end }}
         </section>
 
     {{ if $programmingLanguages }}
@@ -106,22 +127,27 @@
             <ul class="cv-list cv-formations-list">
               {{ range first 3 (sort $educations "Params.start_date" "desc") }}
                 <li class="cv-item cv-formation-item">
-                  <div class="cv-formation-content">
+                  <div class="cv-formation-header">
                     <div class="cv-formation-main">
-                      <div class="cv-formation-degree">{{ .Title }}</div>
-                      <div class="cv-formation-institution">
-                        {{ .Params.institution }}{{ if .Params.city }} - {{ .Params.city }}{{ end }}
-                      </div>
-                      {{ with .Params.status }}
-                        <div class="cv-formation-status">{{ . }}</div>
-                      {{ end }}
+                      <h3 class="cv-formation-title">{{ .Title }}</h3>
+                      {{ with .Params.subtitle }}<div class="cv-formation-subtitle">{{ . }}</div>{{ end }}
                     </div>
                     <div class="cv-formation-period">
                       {{ if .Params.start_date }}
-                        {{ dateFormat "2006" .Params.start_date }}{{ if .Params.end_date }} / {{ dateFormat "2006" .Params.end_date }}{{ else }} / En cours{{ end }}
+                        {{ dateFormat "2006" .Params.start_date }}{{ if .Params.end_date }} - {{ dateFormat "2006" .Params.end_date }}{{ else }} - En cours{{ end }}
                       {{ end }}
                     </div>
                   </div>
+                  
+                  <div class="cv-formation-description">
+                    {{ .Params.institution }}{{ if .Params.city }} - {{ .Params.city }}{{ end }}
+                  </div>
+                  
+                  {{ with .Params.status }}
+                    <div class="cv-formation-tags">
+                      <span class="cv-formation-status-tag">{{ . }}</span>
+                    </div>
+                  {{ end }}
                 </li>
               {{ end }}
             </ul>
@@ -133,14 +159,14 @@
         {{ if or $interests (eq .Site.Language.Lang "fr") }}
           <section class="cv-section">
             <h2>Centres d'intérêt</h2>
-            <ul class="cv-tags">
+            <ul class="cv-tags cv-interests-tags">
               {{ if $interests }}
-                {{ range $interests }}<li>{{ . }}</li>{{ end }}
+                {{ range $interests }}<li class="cv-interest-tag">{{ . }}</li>{{ end }}
               {{ else }}
-                <li>Dessin</li>
-                <li>Jeux vidéo</li>
-                <li>Musique</li>
-                <li>Technologies</li>
+                <li class="cv-interest-tag">Dessin</li>
+                <li class="cv-interest-tag">Jeux vidéo</li>
+                <li class="cv-interest-tag">Musique</li>
+                <li class="cv-interest-tag">Technologies</li>
               {{ end }}
             </ul>
           </section>
@@ -157,8 +183,9 @@
                 <div class="cv-experience-header">
                   <div class="cv-experience-main">
                     <h3 class="cv-experience-title">{{ $exp.Title }}</h3>
-                    <div class="cv-experience-company">{{ $exp.Params.company }}</div>
-                    {{ with $exp.Params.location }}<div class="cv-experience-location">{{ . }}</div>{{ end }}
+                    <div class="cv-experience-company">
+                      <strong>{{ $exp.Params.company }}</strong>{{ with $exp.Params.location }} - <em>{{ . }}</em>{{ end }}
+                    </div>
                   </div>
                   <div class="cv-experience-period">
                     {{ $experienceData.period }}{{ with $experienceData.duration }}<br><span class="cv-experience-duration">{{ . }}</span>{{ end }}
@@ -308,7 +335,7 @@
                 <div class="cv-project-main">
                   <h3 class="cv-project-title">Projets d'études</h3>
                 </div>
-                <div class="cv-project-period">2021/2024</div>
+                <div class="cv-project-period">2021 - 2024</div>
               </div>
               
               <div class="cv-project-description">
@@ -331,7 +358,7 @@
                 <div class="cv-project-main">
                   <h3 class="cv-project-title">Game Jam</h3>
                 </div>
-                <div class="cv-project-period">2020/2024</div>
+                <div class="cv-project-period">2020 - 2024</div>
               </div>
               
               <div class="cv-project-description">
@@ -352,7 +379,7 @@
                 <div class="cv-project-main">
                   <h3 class="cv-project-title">Modding</h3>
                 </div>
-                <div class="cv-project-period">2016/2019</div>
+                <div class="cv-project-period">2016 - 2019</div>
               </div>
               
               <div class="cv-project-description">
@@ -424,4 +451,10 @@
       }
     })();
   </script>
+  
+  <!-- Export buttons placed after CV -->
+  <div class="cv-external-controls">
+    <button class="cv-export cv-export-print" onclick="window.print()">🖨️ Imprimer</button>
+    <a href="/cv/clement-garcia-cv.pdf" class="cv-export cv-export-download" download="clement-garcia-cv.pdf">📄 Télécharger PDF</a>
+  </div>
 {{ end }}
