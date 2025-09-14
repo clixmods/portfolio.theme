@@ -11,11 +11,8 @@
   {{/* Certifications removed from CV */}}
 
   {{/* Ensure CV stylesheet is loaded for this page */}}
-  {{ with resources.Get "scss/cv.scss" }}
-    {{ with . | toCSS | minify }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{ end }}
-  {{ end }}
+  {{ $cvStyles := resources.Get "scss/cv.scss" | toCSS | minify }}
+  <link rel="stylesheet" href="{{ $cvStyles.RelPermalink }}" />
 
   <style media="print">
     /* Forcer la disparition de la chrome du site lors de l'impression */
@@ -149,20 +146,45 @@
       <div class="cv-col cv-col-right">
 
         {{ if $experiences }}
-          <section class="cv-section">
+          <section class="cv-section cv-experiences-section">
             <h2>Expériences Pro.</h2>
-            <ul class="cv-list">
-              {{ range $i, $exp := first 1 $experiences }}
-                {{ $experienceData := partial "helpers/experience-data.html" $exp }}
-                <li class="cv-item">
-                  <div class="cv-item-header">
-                    <strong>{{ $exp.Title }}</strong> — <span>{{ $exp.Params.company }}</span>
-                    <span class="cv-item-period">{{ $experienceData.period }}{{ with $experienceData.duration }} · {{ . }}{{ end }}</span>
+            {{ range $i, $exp := first 2 $experiences }}
+              {{ $experienceData := partial "helpers/experience-data.html" $exp }}
+              <div class="cv-experience-item">
+                <div class="cv-experience-header">
+                  <div class="cv-experience-main">
+                    <h3 class="cv-experience-title">{{ $exp.Title }}</h3>
+                    <div class="cv-experience-company">{{ $exp.Params.company }}</div>
+                    {{ with $exp.Params.location }}<div class="cv-experience-location">{{ . }}</div>{{ end }}
                   </div>
-                  {{ with $exp.Params.description }}<p class="cv-item-desc">{{ . | truncate 160 }}</p>{{ end }}
-                </li>
-              {{ end }}
-            </ul>
+                  <div class="cv-experience-period">
+                    {{ $experienceData.period }}{{ with $experienceData.duration }}<br><span class="cv-experience-duration">{{ . }}</span>{{ end }}
+                  </div>
+                </div>
+                
+                {{ with $exp.Params.description }}
+                  <div class="cv-experience-description">{{ . | truncate 180 }}</div>
+                {{ end }}
+                
+                {{/* Compétences et technologies utilisées */}}
+                {{ if or $exp.Params.programming_languages $exp.Params.frameworks_engines $exp.Params.specialties $exp.Params.soft_skills }}
+                  <div class="cv-experience-tags">
+                    {{ with $exp.Params.specialties }}
+                      {{ range first 3 . }}<span class="cv-experience-tag cv-tag-specialty">{{ . }}</span>{{ end }}
+                    {{ end }}
+                    {{ with $exp.Params.programming_languages }}
+                      {{ range first 3 . }}<span class="cv-experience-tag cv-tag-lang">{{ . }}</span>{{ end }}
+                    {{ end }}
+                    {{ with $exp.Params.frameworks_engines }}
+                      {{ range first 3 . }}<span class="cv-experience-tag cv-tag-framework">{{ . }}</span>{{ end }}
+                    {{ end }}
+                    {{ with $exp.Params.soft_skills }}
+                      {{ range first 2 . }}<span class="cv-experience-tag cv-tag-soft">{{ . }}</span>{{ end }}
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
+            {{ end }}
           </section>
         {{ end }}
 
