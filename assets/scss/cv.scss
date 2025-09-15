@@ -477,6 +477,7 @@
 
 .cv-summary-text p { 
   margin: 0; 
+  font-size: var(--cv-font-size-md);
 }
 
 /* Introduction bullet points */
@@ -849,7 +850,7 @@
   @extend .cv-card-item;
   /* Override for more prominent experience cards */
   padding: var(--cv-padding-3xl);
-  background: var(--cv-bg-overlay-medium);
+  background: var(--cv-bg-overlay);
   border-radius: var(--cv-border-radius-lg);
   border-left: var(--cv-border-width-thicker) solid var(--cv-accent);
   margin: var(--cv-margin-lg) 0; /* Small margins for spacing between experiences */
@@ -1114,6 +1115,11 @@
   .profile-badge, #profile-badge, .badge, .user-badge, .avatar-badge,
   .cv-export, .cv-external-controls {
     display: none !important;
+  }
+
+  /* Set page background to match CV header for seamless print appearance */
+  body, main {
+    background: var(--cv-primary-bg) !important;
   }
 }
 
