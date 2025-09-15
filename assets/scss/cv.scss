@@ -2,7 +2,7 @@
 
 .cv-page { 
   max-width: 860px; 
-  margin: .8rem auto; 
+  margin: 5rem auto .8rem auto; 
   padding: 1rem; 
   background: #fff; 
   color: #111; 
@@ -37,16 +37,16 @@
   gap: 2rem; 
   align-items: flex-start; 
   border-bottom: 2px solid var(--cv-accent, #111); 
-  padding: .75rem 1rem; 
+  padding: .75rem 1rem .05rem 1rem; 
   margin: 0; 
   background: #0f172a; 
   color: #fff;
 }
 .cv-header h1 { margin: 0; font-size: 1.4rem; line-height: 1.2; }
-.cv-id-row { display: flex; align-items: center; gap: .6rem; }
-.cv-avatar--header { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; border: 2px solid var(--cv-accent, #f97316); }
-.cv-subtag { font-style: italic; margin-top: .25rem; font-size: .9rem; }
-.cv-title { font-weight: 600; color: #e5e7eb; }
+.cv-id-row { display: flex; align-items: flex-start; gap: .6rem; }
+.cv-avatar--header { width: 90px; height: 90px; border-radius: 8px; object-fit: cover; border: 2px solid var(--cv-accent, #f97316); }
+.cv-subtag { font-style: italic; margin-top: .1rem; font-size: .9rem; }
+.cv-title { font-weight: 600; color: #e5e7eb; margin: .1rem 0; }
 .cv-subtitle, .cv-subtag { color: #e5e7eb; opacity: .9; }
 .cv-coordonnees ul { list-style: none; padding: 0; margin: 0 0 .5rem 0; }
 .cv-coordonnees li { line-height: 1.4; }
@@ -122,7 +122,7 @@
 .cv-tags li { border: 1px solid #e5e7eb; padding: .15rem .45rem; border-radius: 999px; font-size: .85rem; color: #111; }
 /* Top summary with avatar */
 .cv-summary-top { display: flex; align-items: center; gap: .6rem; }
-.cv-avatar { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 2px solid var(--cv-accent, #f97316); }
+.cv-avatar { width: 100px; height: 100px; border-radius: 8px; object-fit: cover; border: 2px solid var(--cv-accent, #f97316); }
 .cv-summary-text p { margin: 0; }
 /* Introduction bullets on the left */
 .cv-summary-bullets { margin: .3rem 0 0 0; padding-left: 2rem; font-size: .8rem; }
@@ -173,7 +173,7 @@
   }
   
   /* Configuration de base pour l'impression */
-  body { background: #fff; }
+  body { background: #0f172a; }
   @page { size: A4; margin: 8mm; }
   
   /* Suppression de la box-shadow pour l'impression */
@@ -181,6 +181,11 @@
     box-shadow: none;
     -webkit-print-color-adjust: exact; 
     print-color-adjust: exact;
+  }
+  
+  /* Préserver le style du header pour l'impression */
+  .cv-header {
+    padding: .75rem 1rem .05rem 1rem !important;
   }
   
   /* Masquer les boutons d'export */
