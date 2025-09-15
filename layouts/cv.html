@@ -18,43 +18,14 @@
   
 
 
-  <style media="print">
-    /* Force hiding of site chrome during printing */
-    #dock, #top-dock, #left-dock, #right-dock, #hero-background, footer, .contact-modal, .toast-container, .trophies-modal, 
-    .right-dock, .top-dock, .left-dock, .dock, .dock-top, .dock-left, .dock-right,
-    nav, header:not(.cv-header), .navigation, .menu, .navbar,
-    .floating-dock, .dock-container, .top-bar, .topbar,
-    .profile-badge, #profile-badge, .badge, .user-badge, .avatar-badge { display: none !important; }
-    body { background: #0f172a !important; }
-    main { margin: 0 !important; padding: 0 !important; }
-    .cv-page { 
-      box-shadow: none !important; 
-      margin: 0 !important; 
-      padding: 0 !important; 
-      max-width: 100% !important; 
-      font-size: .85em !important;
-    }
-    .cv-export, .cv-external-controls { display: none !important; }
-    /* Page setup for PDF export avec marges plus généreuses */
-    @page { size: A4; margin: 8mm; }
-    
-    /* Ajustements spécifiques pour l'impression */
-    .cv-header { 
-      padding: .75rem 1rem .05rem 1rem !important; 
-      margin-bottom: .5rem !important; 
-    }
-    .cv-grid { 
-      gap: .3rem !important; 
-    }
-    .cv-col { 
-      padding: .8rem !important; 
-    }
-    .cv-section { 
-      margin: .5rem 0 !important; 
-    }
-    .cv-section h2 { 
-      font-size: .9rem !important; 
-      margin-bottom: .4rem !important; 
+  <!-- Print optimization meta tags for color preservation -->
+  <meta name="color-scheme" content="dark">
+  <style>
+    /* Force color printing on all browsers */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      color-adjust: exact !important;
+      print-color-adjust: exact !important;
     }
   </style>
 
