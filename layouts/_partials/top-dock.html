@@ -3,9 +3,9 @@
   <div class="top-dock-container">
     <!-- Main actions grouped -->
     <div class="primary-actions-group">
-      <!-- Download CV (auto print via /cv/?download=1) -->
-      <a href="{{ "/cv/?download=1" | relLangURL }}"
-         class="dock-button primary-btn download-btn" 
+      <!-- Open CV Choice Modal -->
+      <a href="/cv/" 
+         class="dock-button primary-btn download-btn cv-choice-trigger" 
          title="{{ i18n "download_resume" | default "Télécharger le CV" }}"
          aria-label="{{ i18n "download_resume" | default "Télécharger le CV" }}">
         <svg class="dock-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">

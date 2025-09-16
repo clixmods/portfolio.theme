@@ -38,6 +38,7 @@
 {{- $years := int (div $diffMonths 12) -}}
 {{- $months := int (mod $diffMonths 12) -}}
 
+{{/* Arrondi intelligent: si >= 10 mois, arrondir à l'année supérieure */}}
 {{- $duration := "" -}}
 {{- if eq $years 0 -}}
   {{- if eq $months 1 -}}
@@ -45,11 +46,16 @@
   {{- else -}}
     {{- $duration = printf "%d mois" $months -}}
   {{- end -}}
-{{- else if eq $months 0 -}}
-  {{- if eq $years 1 -}}
+{{- else if or (eq $months 0) (ge $months 10) -}}
+  {{/* Si pas de mois ou >= 10 mois, afficher seulement les années (arrondies) */}}
+  {{- $finalYears := $years -}}
+  {{- if ge $months 10 -}}
+    {{- $finalYears = add $years 1 -}}
+  {{- end -}}
+  {{- if eq $finalYears 1 -}}
     {{- $duration = "1 an" -}}
   {{- else -}}
-    {{- $duration = printf "%d ans" $years -}}
+    {{- $duration = printf "%d ans" $finalYears -}}
   {{- end -}}
 {{- else -}}
   {{- $yearText := "" -}}

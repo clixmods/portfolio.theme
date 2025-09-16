@@ -144,3 +144,6 @@
 {{- if $isCV }}
   {{ partial "helpers/load-scss.html" "scss/cv.scss" }}
 {{- end }}
+
+{{/* CV Choice Modal - Load on all pages to intercept /cv/ links */}}
+{{ partial "helpers/load-scss.html" "scss/cv-choice-modal.scss" }}

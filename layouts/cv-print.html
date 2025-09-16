@@ -1,5 +1,5 @@
 {{ define "main" }}
-  {{/* CV Page - Color version with full styling and interactive elements */}}
+  {{/* CV Print Page - Black and white printable version */}}
   {{ $profile := site.Data.profile }}
   {{ $experiences := (.Site.GetPage "/experiences").Pages.ByParam "start_date" }}
   {{ $educations := (where (.Site.GetPage "/educations").Pages "File.BaseFileName" "!=" "_index") }}
@@ -8,30 +8,173 @@
   {{ $programmingLanguages := site.Data.programming_languages }}
   {{ $frameworksEngines := site.Data.frameworks_engines }}
   {{ $technologies := site.Data.technologies }}
-  {{/* Certifications removed from CV */}}
 
-  {{/* Ensure CV stylesheet is loaded for this page */}}
+  {{/* Use same styles as normal CV but with different colors */}}
   {{ $cvStyles := resources.Get "scss/cv.scss" | toCSS | minify }}
   <link rel="stylesheet" href="{{ $cvStyles.RelPermalink }}" />
   
-  <!-- Print optimization meta tags for color preservation -->
-  <meta name="color-scheme" content="dark">
+  <!-- Print optimization meta tags for black and white -->
+  <meta name="color-scheme" content="light">
   <style>
-    /* Force color printing on all browsers */
+    /* Color overrides for black and white version */
+    :root {
+      --cv-primary-bg: #ffffff !important;
+      --cv-accent: #000000 !important;
+      --cv-accent-hover: #333333 !important;
+      --cv-accent-light: rgba(0, 0, 0, .1) !important;
+      --cv-accent-border: rgba(0, 0, 0, .2) !important;
+      --cv-accent-muted: rgba(0, 0, 0, .6) !important;
+      --cv-accent-subtle: rgba(0, 0, 0, .05) !important;
+      
+      --cv-white: #ffffff !important;
+      --cv-black: #000000 !important;
+      --cv-text-primary: #000000 !important;
+      --cv-text-secondary: #333333 !important;
+      --cv-text-dark: #555555 !important;
+      --cv-text-light: #000000 !important;
+      --cv-text-darker: #000000 !important;
+      
+      --cv-bg-light: #ffffff !important;
+      --cv-bg-overlay: #f8f9fa !important;
+      --cv-bg-darker: #f0f0f0 !important;
+      
+      --cv-border-light: #e5e7eb !important;
+      --cv-border-gray: #d1d5db !important;
+      --cv-border-muted: #9ca3af !important;
+      --cv-border-subtle: #e5e7eb !important;
+      
+      /* Tags colors - all in grayscale */
+      --cv-tag-lang-bg: rgba(0, 0, 0, .1) !important;
+      --cv-tag-lang-text: #000000 !important;
+      --cv-tag-lang-border: rgba(0, 0, 0, .2) !important;
+      
+      --cv-tag-framework-bg: rgba(0, 0, 0, .05) !important;
+      --cv-tag-framework-text: #000000 !important;
+      --cv-tag-framework-border: rgba(0, 0, 0, .15) !important;
+      
+      --cv-tag-specialty-bg: rgba(0, 0, 0, .08) !important;
+      --cv-tag-specialty-text: #000000 !important;
+      --cv-tag-specialty-border: rgba(0, 0, 0, .18) !important;
+      
+      --cv-tag-soft-bg: rgba(0, 0, 0, .06) !important;
+      --cv-tag-soft-text: #000000 !important;
+      --cv-tag-soft-border: rgba(0, 0, 0, .16) !important;
+      
+      --cv-tag-formation-bg: rgba(0, 0, 0, .12) !important;
+      --cv-tag-formation-text: #000000 !important;
+      --cv-tag-formation-border: rgba(0, 0, 0, .22) !important;
+    }
+    
+    /* Force tous les éléments en noir sur blanc */
+    .cv-page.cv-print * {
+      color: #000000 !important;
+    }
+    
+    /* Exceptions pour les backgrounds */
+    .cv-page.cv-print {
+      background: #ffffff !important;
+    }
+    
+    .cv-page.cv-print .cv-col-left,
+    .cv-page.cv-print .cv-col-right {
+      background: #ffffff !important;
+    }
+    
+    /* Headers et titres */
+    .cv-page.cv-print h1,
+    .cv-page.cv-print h2,
+    .cv-page.cv-print h3,
+    .cv-page.cv-print .cv-section h2 {
+      color: #000000 !important;
+    }
+    
+    /* Links */
+    .cv-page.cv-print a {
+      color: #000000 !important;
+      text-decoration: underline !important;
+    }
+    
+    /* Ensure good contrast for all text elements */
+    .cv-page.cv-print .cv-title,
+    .cv-page.cv-print .cv-subtag,
+    .cv-page.cv-print .cv-item-desc,
+    .cv-page.cv-print .cv-lang-name,
+    .cv-page.cv-print .cv-lang-exp,
+    .cv-page.cv-print .cv-formation-title,
+    .cv-page.cv-print .cv-formation-subtitle,
+    .cv-page.cv-print .cv-formation-period,
+    .cv-page.cv-print .cv-formation-description,
+    .cv-page.cv-print .cv-experience-title,
+    .cv-page.cv-print .cv-experience-company,
+    .cv-page.cv-print .cv-experience-period,
+    .cv-page.cv-print .cv-experience-duration,
+    .cv-page.cv-print .cv-experience-description,
+    .cv-page.cv-print .cv-project-title,
+    .cv-page.cv-print .cv-project-period,
+    .cv-page.cv-print .cv-project-description {
+      color: #000000 !important;
+    }
+    
+    /* Masquer les images, backgrounds et dégradés pour l'impression */
+    .cv-page.cv-print .cv-project-individual {
+      background-image: none !important;
+      background: #f8f9fa !important;
+    }
+    
+    .cv-page.cv-print .cv-project-with-bg {
+      background-image: none !important;
+      background: #f8f9fa !important;
+    }
+    
+    .cv-page.cv-print img:not(.cv-avatar) {
+      display: none !important;
+    }
+    
+    /* Supprimer tous les dégradés et backgrounds complexes */
+    .cv-page.cv-print * {
+      background-image: none !important;
+      background: transparent !important;
+    }
+    
+    /* Supprimer les pseudo-éléments avec dégradés */
+    .cv-page.cv-print .cv-project-individual.cv-project-with-bg::before,
+    .cv-page.cv-print .cv-project-individual::before,
+    .cv-page.cv-print *::before,
+    .cv-page.cv-print *::after {
+      display: none !important;
+      content: none !important;
+      background: none !important;
+      background-image: none !important;
+    }
+    
+    /* Exceptions pour les fonds nécessaires */
+    .cv-page.cv-print,
+    .cv-page.cv-print .cv-col-left,
+    .cv-page.cv-print .cv-col-right {
+      background: #ffffff !important;
+    }
+    
+    .cv-page.cv-print .cv-bg-overlay,
+    .cv-page.cv-print .cv-experience-item,
+    .cv-page.cv-print .cv-project-individual,
+    .cv-page.cv-print .cv-formation-item {
+      background: #f8f9fa !important;
+    }
+    
+    /* Force l'impression économique en noir et blanc */
     * {
-      -webkit-print-color-adjust: exact !important;
-      color-adjust: exact !important;
-      print-color-adjust: exact !important;
+      -webkit-print-color-adjust: economy !important;
+      print-color-adjust: economy !important;
     }
   </style>
 
   {{ $cvStyle := or .Params.cvStyle "twocol" }}
-  {{ $cvAccent := or .Params.cvAccent "#111111" }}
-  <section class="cv-page cv--{{ $cvStyle }}" id="cv" style="--cv-accent: {{ $cvAccent }};">
+  {{ $cvAccent := or .Params.cvAccent "#000000" }}
+  <section class="cv-page cv-print cv--{{ $cvStyle }}" id="cv-print" style="--cv-accent: {{ $cvAccent }};">
     <!-- Navigation between versions -->
     <div class="cv-version-nav">
-      <span class="cv-nav-current">🎨 Version couleur</span>
-      <a href="/cv/print/" class="cv-nav-link cv-nav-print">🖨️ Version impression</a>
+      <a href="/cv/" class="cv-nav-link cv-nav-color">🎨 Version couleur</a>
+      <span class="cv-nav-current">🖨️ Version impression</span>
     </div>
 
     <header class="cv-header">
@@ -60,6 +203,7 @@
     <div class="cv-grid">
       <div class="cv-col cv-col-left">
         <section class="cv-section cv-summary">
+          <h2>Profil</h2>
           <div class="cv-summary-top">
             <div class="cv-summary-text">
               {{ with $profile.personal.title }}<p class="cv-item-desc">{{ . }}</p>{{ end }}
@@ -129,7 +273,7 @@
           </section>
         {{ end }}
 
-        {{/* Interests (optional, displayed if available or fallback) */}}
+        {{/* Centres d'intérêt */}}
         {{ $interests := or $profile.details.interests $profile.personal.interests }}
         {{ if or $interests (eq .Site.Language.Lang "fr") }}
           <section class="cv-section">
@@ -171,20 +315,17 @@
                   <div class="cv-experience-description">{{ . | truncate 180 }}</div>
                 {{ end }}
                 
-                {{/* Skills and technologies used */}}
-                {{ if or $exp.Params.programming_languages $exp.Params.frameworks_engines $exp.Params.specialties $exp.Params.soft_skills }}
+                {{/* Technologies utilisées (version simplifiée pour l'impression) */}}
+                {{ if or $exp.Params.programming_languages $exp.Params.frameworks_engines $exp.Params.specialties }}
                   <div class="cv-experience-tags">
                     {{ with $exp.Params.specialties }}
-                      {{ range first 3 . }}<span class="cv-experience-tag cv-tag-specialty">{{ . }}</span>{{ end }}
+                      {{ range first 2 . }}<span class="cv-experience-tag cv-tag-specialty">{{ . }}</span>{{ end }}
                     {{ end }}
                     {{ with $exp.Params.programming_languages }}
-                      {{ range first 3 . }}<span class="cv-experience-tag cv-tag-lang">{{ . }}</span>{{ end }}
+                      {{ range first 2 . }}<span class="cv-experience-tag cv-tag-lang">{{ . }}</span>{{ end }}
                     {{ end }}
                     {{ with $exp.Params.frameworks_engines }}
-                      {{ range first 3 . }}<span class="cv-experience-tag cv-tag-framework">{{ . }}</span>{{ end }}
-                    {{ end }}
-                    {{ with $exp.Params.soft_skills }}
-                      {{ range first 2 . }}<span class="cv-experience-tag cv-tag-soft">{{ . }}</span>{{ end }}
+                      {{ range first 2 . }}<span class="cv-experience-tag cv-tag-framework">{{ . }}</span>{{ end }}
                     {{ end }}
                   </div>
                 {{ end }}
@@ -193,18 +334,18 @@
           </section>
         {{ end }}
 
-        {{/* Projects (compact, selected) */}}
+        {{/* Projets (sélection compacte) */}}
         {{ $selectedProjects := partial "cv/cv-projects-selection.html" . }}
         {{ if gt (len $selectedProjects) 0 }}
           <section class="cv-section cv-projects-section">
             <h2>Projets Informatique</h2>
             
-            {{/* Individual projects - dynamically selected */}}
+            {{/* Projets individuels - sélectionnés dynamiquement */}}
             {{ range $selectedProjects }}
               {{ partial "cv/cv-project-item.html" . }}
             {{ end }}
             
-            {{/* Study projects - grouping */}}
+            {{/* Projets d'études - groupés */}}
             <div class="cv-project-individual">
               <div class="cv-project-header">
                 <div class="cv-project-main">
@@ -220,10 +361,8 @@
               <div class="cv-project-tags">
                 <span class="cv-project-tag cv-tag-specialty">Gestion de projet</span>
                 <span class="cv-project-tag cv-tag-specialty">Méthode agile</span>
-                <span class="cv-project-tag cv-tag-specialty">Travail en équipe</span>
                 <span class="cv-project-tag cv-tag-lang">C#</span>
                 <span class="cv-project-tag cv-tag-framework">Unity</span>
-                <span class="cv-project-tag cv-tag-framework">.NET</span>
               </div>
             </div>
             
@@ -244,7 +383,6 @@
                 <span class="cv-project-tag cv-tag-specialty">Création agile</span>
                 <span class="cv-project-tag cv-tag-specialty">Game Design</span>
                 <span class="cv-project-tag cv-tag-specialty">Développement rapide</span>
-                <span class="cv-project-tag cv-tag-specialty">Adaptation</span>
               </div>
             </div>
             
@@ -266,72 +404,33 @@
                 <span class="cv-project-tag cv-tag-specialty">Contenu de jeu vidéo</span>
                 <span class="cv-project-tag cv-tag-specialty">Steam Workshop</span>
                 <span class="cv-project-tag cv-tag-specialty">Management communautaire</span>
-                <span class="cv-project-tag cv-tag-framework">Call of Duty Black Ops 3</span>
               </div>
             </div>
             
           </section>
         {{ end }}
 
-        {{/* Certifications section intentionally removed */}}
-
-
       </div>
     </div>
   </section>
+  
   <script>
     (function(){
       try {
         const params = new URLSearchParams(window.location.search);
         if (params.get('download') === '1') {
-          // Wait a tick to ensure layout is complete before printing
+          // Attendre un peu pour s'assurer que la mise en page est complète avant l'impression
           window.addEventListener('load', function(){
             setTimeout(function(){ window.print(); }, 150);
           });
         }
-      } catch (e) { /* ignore */ }
-    })();
-
-    // Auto-download PDF if available (not in print mode)
-    (function() {
-      // Check if we're not in print mode and PDF exists
-      if (!window.matchMedia('print').matches && !new URLSearchParams(window.location.search).has('print')) {
-        // Wait for page to load completely
-        window.addEventListener('load', function() {
-          // Check if PDF exists by making a HEAD request
-          fetch('/cv/clement-garcia-cv.pdf', { method: 'HEAD' })
-            .then(response => {
-              if (response.ok) {
-                console.log('PDF disponible, déclenchement du téléchargement automatique...');
-                // Create invisible download link and trigger it
-                const downloadLink = document.createElement('a');
-                downloadLink.href = '/cv/clement-garcia-cv.pdf';
-                downloadLink.download = 'clement-garcia-cv.pdf';
-                downloadLink.style.display = 'none';
-                document.body.appendChild(downloadLink);
-                
-                // Delay the download slightly to ensure page is fully rendered
-                setTimeout(function() {
-                  downloadLink.click();
-                  document.body.removeChild(downloadLink);
-                }, 1000);
-              } else {
-                console.log('PDF non disponible, génération en cours...');
-              }
-            })
-            .catch(error => {
-              console.log('Vérification PDF échouée:', error);
-            });
-        });
-      }
+      } catch (e) { /* ignorer */ }
     })();
   </script>
   
-  <!-- Export buttons placed after CV -->
-  <!-- Le PDF est automatiquement généré lors du build GitHub Actions -->
+  <!-- Boutons d'export placés après le CV -->
   <div class="cv-external-controls">
-    <a href="/cv/print/" class="cv-export cv-export-bw">🖨️ Version N&B</a>
-    <button class="cv-export cv-export-print" onclick="window.print()">🖨️ Imprimer</button>
-    <a href="/cv/clement-garcia-cv.pdf" class="cv-export cv-export-download" download="clement-garcia-cv.pdf">📄 Télécharger PDF</a>
+    <a href="/cv/" class="cv-export cv-export-color">🎨 Version couleur</a>
+    <button class="cv-export cv-export-print" onclick="window.print()">🖨️ Imprimer B&N</button>
   </div>
 {{ end }}
