@@ -129,23 +129,15 @@ class CVChoiceModal {
   }
 
   selectVersion(version) {
-    // Environment detection (local vs production)
-    const isLocal = window.location.hostname === 'localhost' || 
-                   window.location.hostname === '127.0.0.1' || 
-                   window.location.port !== '';
-    
-    let targetUrl;
     let pdfUrl;
     let fileName;
     
     switch (version) {
       case 'color':
-        targetUrl = '/cv/';
         pdfUrl = '/cv/clement-garcia-cv-couleur.pdf';
         fileName = 'Clément_GARCIA_CV_Couleur.pdf';
         break;
       case 'print':
-        targetUrl = '/cv/print/';
         pdfUrl = '/cv/clement-garcia-cv-impression.pdf';
         fileName = 'Clément_GARCIA_CV_Impression.pdf';
         break;
@@ -157,29 +149,62 @@ class CVChoiceModal {
     // Close modal
     this.closeModal();
     
-    // Different behavior based on environment
+    // Always download PDFs (both local and production)
     setTimeout(() => {
-      if (isLocal) {
-        // Local: navigate to CV pages
-        window.location.href = targetUrl;
-      } else {
-        // Production: download PDFs
-        this.downloadPDF(pdfUrl, fileName);
-      }
+      this.downloadPDF(pdfUrl, fileName);
     }, 200); // Small delay for closing animation
   }
 
   downloadPDF(url, fileName) {
-    // Create temporary download link
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-    link.style.display = 'none';
-    
-    // Add to DOM, click and remove
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Try multiple download methods for better compatibility
+    try {
+      // Method 1: Fetch and create blob URL (most reliable)
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+          return response.blob();
+        })
+        .then(blob => {
+          if (blob.size === 0) {
+            throw new Error('PDF file is empty');
+          }
+          
+          // Create blob URL and download
+          const blobUrl = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.download = fileName;
+          link.style.display = 'none';
+          
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          // Clean up blob URL after a delay
+          setTimeout(() => {
+            URL.revokeObjectURL(blobUrl);
+          }, 1000);
+        })
+        .catch(error => {
+          console.warn('Blob download failed, trying fallback:', error);
+          
+          // Method 2: Direct link download (fallback)
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = fileName;
+          link.target = '_blank'; // Force new tab if download fails
+          link.style.display = 'none';
+          
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+    } catch (error) {
+      console.error('Error in download process:', error);
+      alert('Erreur lors du téléchargement du CV. Veuillez réessayer ou contacter l\'administrateur.');
+    }
   }
 }
 
