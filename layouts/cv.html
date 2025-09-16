@@ -16,8 +16,6 @@
   {{ $cvStyles := resources.Get "scss/cv.scss" | toCSS | minify }}
   <link rel="stylesheet" href="{{ $cvStyles.RelPermalink }}" />
   
-
-
   <!-- Print optimization meta tags for color preservation -->
   <meta name="color-scheme" content="dark">
   <style>
@@ -190,114 +188,14 @@
         {{ end }}
 
         {{/* Projects (compact, selected) */}}
-        {{ $allProjects := where .Site.RegularPages "Section" "projects" }}
-        {{ $sortedAll := sort $allProjects "Date" "desc" }}
-        {{ $featuredCV := where $allProjects "Params.featuredInCV" true }}
-        {{ $featured := where $allProjects "Params.featured" true }}
-        {{ $preferred := union $featuredCV $featured }}
-        {{ $projLimit := 4 }}
-        {{/* Concat preferred (sorted) + all (sorted), deduplicating */}}
-        {{ $sortedPreferred := sort $preferred "Date" "desc" }}
-        {{ $combined := union $sortedPreferred $sortedAll }}
-        {{ $projects := first $projLimit $combined }}
-        {{ if gt (len $projects) 0 }}
+        {{ $selectedProjects := partial "cv/cv-projects-selection.html" . }}
+        {{ if gt (len $selectedProjects) 0 }}
           <section class="cv-section cv-projects-section">
             <h2>Projets Informatique</h2>
             
-            {{/* Specific projects mentioned - search in all projects */}}
-            {{ $stoneKeeper := where $allProjects "File.TranslationBaseName" "stone-keepers" }}
-            {{ $terraMemoria := where $allProjects "File.TranslationBaseName" "terra-memoria" }}
-            {{ $gameShowcase := where $allProjects "File.TranslationBaseName" "my-game-showcase" }}
-            
-            {{/* Individual projects - My Game Showcase, Terra Memoria, Stone Keeper */}}
-            {{ range $gameShowcase }}
-              <div class="cv-project-individual cv-project-with-bg" {{ with .Params.image }}style="background-image: url('{{ . }}')"{{ end }}>
-                <div class="cv-project-header">
-                  <div class="cv-project-main">
-                    <h3 class="cv-project-title">{{ .Title }}</h3>
-                    {{ with .Params.subtitle }}<div class="cv-project-subtitle">{{ . }}</div>{{ end }}
-                  </div>
-                  <div class="cv-project-period">
-                    {{ with .Params.date }}{{ dateFormat "2006" . }}{{ end }}
-                  </div>
-                </div>
-                {{ with .Params.description }}
-                  <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
-                {{ end }}
-                
-                {{/* Technical tags for this project */}}
-                <div class="cv-project-tags">
-                  {{ with .Params.specialties }}
-                    {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
-                  {{ end }}
-                  {{ with .Params.programming_languages }}
-                    {{ range . }}<span class="cv-project-tag cv-tag-lang">{{ . }}</span>{{ end }}
-                  {{ end }}
-                  {{ with .Params.frameworks_engines }}
-                    {{ range . }}<span class="cv-project-tag cv-tag-framework">{{ . }}</span>{{ end }}
-                  {{ end }}
-                </div>
-              </div>
-            {{ end }}
-            
-            {{ range $terraMemoria }}
-              <div class="cv-project-individual cv-project-with-bg" {{ with .Params.image }}style="background-image: url('{{ . }}')"{{ end }}>
-                <div class="cv-project-header">
-                  <div class="cv-project-main">
-                    <h3 class="cv-project-title">{{ .Title }}</h3>
-                    {{ with .Params.subtitle }}<div class="cv-project-subtitle">{{ . }}</div>{{ end }}
-                  </div>
-                  <div class="cv-project-period">
-                    {{ with .Params.date }}{{ dateFormat "2006" . }}{{ end }}
-                  </div>
-                </div>
-                {{ with .Params.description }}
-                  <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
-                {{ end }}
-                
-                {{/* Technical tags for this project */}}
-                <div class="cv-project-tags">
-                  {{ with .Params.specialties }}
-                    {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
-                  {{ end }}
-                  {{ with .Params.programming_languages }}
-                    {{ range . }}<span class="cv-project-tag cv-tag-lang">{{ . }}</span>{{ end }}
-                  {{ end }}
-                  {{ with .Params.frameworks_engines }}
-                    {{ range . }}<span class="cv-project-tag cv-tag-framework">{{ . }}</span>{{ end }}
-                  {{ end }}
-                </div>
-              </div>
-            {{ end }}
-            
-            {{ range $stoneKeeper }}
-              <div class="cv-project-individual cv-project-with-bg" {{ with .Params.image }}style="background-image: url('{{ . }}')"{{ end }}>
-                <div class="cv-project-header">
-                  <div class="cv-project-main">
-                    <h3 class="cv-project-title">{{ .Title }}</h3>
-                    {{ with .Params.subtitle }}<div class="cv-project-subtitle">{{ . }}</div>{{ end }}
-                  </div>
-                  <div class="cv-project-period">
-                    {{ with .Params.date }}{{ dateFormat "2006" . }}{{ end }}
-                  </div>
-                </div>
-                {{ with .Params.description }}
-                  <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
-                {{ end }}
-                
-                {{/* Technical tags for this project */}}
-                <div class="cv-project-tags">
-                  {{ with .Params.specialties }}
-                    {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
-                  {{ end }}
-                  {{ with .Params.programming_languages }}
-                    {{ range . }}<span class="cv-project-tag cv-tag-lang">{{ . }}</span>{{ end }}
-                  {{ end }}
-                  {{ with .Params.frameworks_engines }}
-                    {{ range . }}<span class="cv-project-tag cv-tag-framework">{{ . }}</span>{{ end }}
-                  {{ end }}
-                </div>
-              </div>
+            {{/* Individual projects - dynamically selected */}}
+            {{ range $selectedProjects }}
+              {{ partial "cv/cv-project-item.html" . }}
             {{ end }}
             
             {{/* Study projects - grouping */}}

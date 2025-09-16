@@ -1,0 +1,36 @@
+{{/*
+  Partial: cv-project-item.html
+  Renders an individual project for the CV
+  
+  Expected context: project page object
+  Usage: {{ partial "cv/cv-project-item.html" . }}
+*/}}
+
+<div class="cv-project-individual cv-project-with-bg" {{ with .Params.image }}style="background-image: url('{{ . }}')"{{ end }}>
+  <div class="cv-project-header">
+    <div class="cv-project-main">
+      <h3 class="cv-project-title">{{ .Title }}</h3>
+      {{ with .Params.subtitle }}<div class="cv-project-subtitle">{{ . }}</div>{{ end }}
+    </div>
+    <div class="cv-project-period">
+      {{ with .Params.date }}{{ dateFormat "2006" . }}{{ end }}
+    </div>
+  </div>
+  
+  {{ with .Params.description }}
+    <div class="cv-project-description">{{ . | plainify | truncate 160 }}</div>
+  {{ end }}
+  
+  {{/* Technical tags for this project */}}
+  <div class="cv-project-tags">
+    {{ with .Params.specialties }}
+      {{ range . }}<span class="cv-project-tag cv-tag-specialty">{{ . }}</span>{{ end }}
+    {{ end }}
+    {{ with .Params.programming_languages }}
+      {{ range . }}<span class="cv-project-tag cv-tag-lang">{{ . }}</span>{{ end }}
+    {{ end }}
+    {{ with .Params.frameworks_engines }}
+      {{ range . }}<span class="cv-project-tag cv-tag-framework">{{ . }}</span>{{ end }}
+    {{ end }}
+  </div>
+</div>
