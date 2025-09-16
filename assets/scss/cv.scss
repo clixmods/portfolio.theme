@@ -77,6 +77,8 @@
   --cv-border-radius-pill: 999px;
   
   /* Typography */
+  --cv-font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  
   --cv-font-size-xs: 0.7rem;
   --cv-font-size-sm: 0.75rem;
   --cv-font-size-md: 0.8rem;
@@ -152,6 +154,7 @@
   background: transparent; 
   color: var(--cv-black); 
   box-shadow: none;
+  font-family: var(--cv-font-family);
 }
 
 /* ================================
