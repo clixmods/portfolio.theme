@@ -1308,37 +1308,17 @@
 
 <!-- Project Content -->
 <div class="hero-to-content-transition"></div>
-<article class="project-detail">
-    <div class="project-detail-wrapper">
-        <!-- Main Content -->
-        <div class="project-content">
-            {{ .Content }}
-            
-            <!-- Navigation -->
-            <nav class="project-navigation">
-                <div class="nav-links">
-                    {{ with .PrevInSection }}
-                    <a href="{{ .Permalink }}" class="nav-link prev">
-                        <span class="nav-direction">← Projet précédent</span>
-                        <span class="nav-title">{{ .Title }}</span>
-                    </a>
-                    {{ end }}
-                    
-                    {{ with .NextInSection }}
-                    <a href="{{ .Permalink }}" class="nav-link next">
-                        <span class="nav-direction">Projet suivant →</span>
-                        <span class="nav-title">{{ .Title }}</span>
-                    </a>
-                    {{ end }}
-                </div>
-                
-                <div class="back-to-projects">
-                    <a href="/projects/" class="btn-secondary">← Retour aux projets</a>
-                </div>
-            </nav>
-        </div>
+<div class="blog-theme blog-single-page">
+    <!-- Conteneur principal avec layout 2 colonnes -->
+    <div class="project-content-layout">
+        <!-- Colonne principale : Article -->
+        <main class="blog-article-content project-main-content">
+            <div class="blog-content-wrapper">
+                {{ .Content }}
+            </div>
+        </main>
         
-        <!-- Sidebar with Notable Facts -->
+        <!-- Colonne droite : Sidebar avec faits notables -->
         {{ if .Params.notable_facts }}
         <aside class="project-sidebar">
             <div class="notable-facts">
@@ -1354,7 +1334,38 @@
         </aside>
         {{ end }}
     </div>
-</article>
+    
+    <!-- Navigation entre projets (style simplifié comme les articles) -->
+    <nav class="blog-post-navigation">
+        {{ with .PrevInSection }}
+        <div class="blog-nav-item blog-nav-prev">
+            <span class="blog-nav-label">{{ i18n "previous_project" | default "Projet précédent" }}</span>
+            <a href="{{ .Permalink }}" class="blog-nav-link">
+                <h4>{{ .Title }}</h4>
+                {{ if .Params.period_start }}
+                <time>{{ .Params.period_start }}</time>
+                {{ else if .Date }}
+                <time>{{ .Date.Format "02 Jan 2006" }}</time>
+                {{ end }}
+            </a>
+        </div>
+        {{ end }}
+
+        {{ with .NextInSection }}
+        <div class="blog-nav-item blog-nav-next">
+            <span class="blog-nav-label">{{ i18n "next_project" | default "Projet suivant" }}</span>
+            <a href="{{ .Permalink }}" class="blog-nav-link">
+                <h4>{{ .Title }}</h4>
+                {{ if .Params.period_start }}
+                <time>{{ .Params.period_start }}</time>
+                {{ else if .Date }}
+                <time>{{ .Date.Format "02 Jan 2006" }}</time>
+                {{ end }}
+            </a>
+        </div>
+        {{ end }}
+    </nav>
+</div>
 
 <!-- Image Modal for Gallery -->
 <div id="imageModal" class="image-modal" onclick="closeImageModal()">
