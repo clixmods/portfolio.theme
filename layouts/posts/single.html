@@ -146,7 +146,7 @@
 
         {{/*
         <!-- Related Posts -->
-        {{ $related := .Site.RegularPages.Related . }}
+        {{ $related := where (.Site.RegularPages.Related .) "Draft" false }}
         {{ with $related }}
         <section class="blog-related-posts">
             <h3>{{ i18n "related_posts" | default "Articles similaires" }}</h3>

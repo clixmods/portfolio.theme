@@ -10,7 +10,7 @@
         <!-- Blog Grid -->
         <div class="blog-grid">
             {{ $blogLimit := .Site.Data.config.blog.homeLimit | default 3 }}
-            {{ range first $blogLimit (where site.RegularPages "Section" "posts") }}
+            {{ range first $blogLimit (where (where site.RegularPages "Section" "posts") "Draft" false) }}
             <article class="blog-card {{ if not .Params.image }}blog-card--no-image{{ end }}">
                 <!-- Blog Category (top left) -->
                 {{ if .Params.category }}
