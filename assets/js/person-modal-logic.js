@@ -19,7 +19,46 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabPanels = modal.querySelectorAll('.content-panel');
     const quickStats = document.getElementById('personModalQuickStats');
 
+    // Function to check if biography content is meaningful
+    function hasSignificantBiographyContent(content) {
+        if (!content || content.trim() === '') {
+            return false;
+        }
+
+        // Convert HTML to text for analysis
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        const textContent = tempDiv.textContent || tempDiv.innerText || '';
+        
+        // Remove common generic patterns
+        const cleanedContent = textContent
+            .replace(/^#\s*\w+.*$/gm, '') // Remove headers like "# Name"
+            .replace(/^Profil de \*\*.*\*\*\.?$/gm, '') // Remove "Profil de **Name**"
+            .replace(/^## Informations$/gm, '') // Remove "## Informations" headers
+            .replace(/^- \*\*ID\*\*: .*$/gm, '') // Remove ID lines
+            .replace(/^- \*\*Nom complet\*\*: .*$/gm, '') // Remove full name lines
+            .replace(/^## Position$/gm, '') // Remove Position headers
+            .replace(/^## Entreprise$/gm, '') // Remove Company headers
+            .replace(/^\s*$/gm, '') // Remove empty lines
+            .trim();
+
+        // Check if there's substantial content remaining
+        const minContentLength = 50; // Minimum characters for meaningful content
+        const hasSubstantialContent = cleanedContent.length > minContentLength;
+        
+        // Additional check: ensure it's not just generic info repetition
+        const isNotJustGenericInfo = !cleanedContent.match(/^([\w\s]+)(\n\1)*$/);
+        
+        return hasSubstantialContent && isNotJustGenericInfo;
+    }
+
     function activateTab(target) {
+        // Check if bio tab should be hidden and redirect if necessary
+        const bioTab = modal.querySelector('[data-tab="bio"]');
+        if (target === 'bio' && bioTab && bioTab.style.display === 'none') {
+            target = 'projects'; // Redirect to projects tab
+        }
+
         tabButtons.forEach(btn => {
             const isActive = btn.dataset.tab === target;
             btn.classList.toggle('active', isActive);
@@ -41,10 +80,12 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('keydown', e => {
             if (['ArrowRight','ArrowLeft'].includes(e.key)) {
                 e.preventDefault();
-                const arr = Array.from(tabButtons);
-                const idx = arr.indexOf(btn);
-                const next = e.key === 'ArrowRight' ? (idx + 1) % arr.length : (idx - 1 + arr.length) % arr.length;
-                arr[next].focus();
+                const visibleButtons = Array.from(tabButtons).filter(b => b.style.display !== 'none');
+                const idx = visibleButtons.indexOf(btn);
+                if (idx >= 0) {
+                    const next = e.key === 'ArrowRight' ? (idx + 1) % visibleButtons.length : (idx - 1 + visibleButtons.length) % visibleButtons.length;
+                    visibleButtons[next].focus();
+                }
             }
         });
     });
@@ -89,7 +130,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update bio tab
         const bioContent = document.getElementById('modalPersonBio');
-        bioContent.innerHTML = person.content || person.bio || 'Aucune biographie disponible.';
+        const contentToShow = person.content || person.bio || 'Aucune biographie disponible.';
+        bioContent.innerHTML = contentToShow;
+
+        // Check if biography has significant content
+        const bioTab = modal.querySelector('[data-tab="bio"]');
+        const hasSignificantBio = hasSignificantBiographyContent(contentToShow);
+        
+        if (bioTab) {
+            if (hasSignificantBio) {
+                bioTab.style.display = 'flex'; // Show tab
+                bioTab.style.pointerEvents = 'auto';
+            } else {
+                bioTab.style.display = 'none'; // Hide tab
+                bioTab.style.pointerEvents = 'none';
+            }
+        }
 
         // Update projects tab
         updatePersonProjects(personId);
@@ -149,7 +205,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         updateStats(personId);
-        activateTab('bio');
+        
+        // Activate appropriate tab based on bio availability
+        const defaultTab = hasSignificantBio ? 'bio' : 'projects';
+        activateTab(defaultTab);
         
         // Remove loading state after content is loaded
         setTimeout(() => {

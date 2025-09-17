@@ -87,7 +87,7 @@ window.portfolioPeople = [
             discord: "{{ .Params.discord }}",
             website: "{{ .Params.website }}",
             url: "{{ .RelPermalink }}",
-            content: "{{ .Content }}"
+            content: {{ with .Content }}{{ . | jsonify }}{{ else }}""{{ end }}
         },
     {{- end -}}
 ];
