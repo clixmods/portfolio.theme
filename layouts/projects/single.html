@@ -1306,8 +1306,10 @@
 
 {{ end }}
 
-<!-- Project Content -->
-<div class="hero-to-content-transition"></div>
+<!-- Project Content (seulement si le projet a du contenu markdown) -->
+{{ if .Content }}
+{{ $trimmedContent := trim .Content " \n\r\t" }}
+{{ if $trimmedContent }}
 <div class="blog-theme blog-single-page">
     <!-- Conteneur principal avec layout 2 colonnes -->
     <div class="project-content-layout">
@@ -1335,37 +1337,40 @@
         {{ end }}
     </div>
     
-    <!-- Navigation entre projets (style simplifié comme les articles) -->
-    <nav class="blog-post-navigation">
-        {{ with .PrevInSection }}
-        <div class="blog-nav-item blog-nav-prev">
-            <span class="blog-nav-label">{{ i18n "previous_project" | default "Projet précédent" }}</span>
-            <a href="{{ .Permalink }}" class="blog-nav-link">
-                <h4>{{ .Title }}</h4>
-                {{ if .Params.period_start }}
-                <time>{{ .Params.period_start }}</time>
-                {{ else if .Date }}
-                <time>{{ .Date.Format "02 Jan 2006" }}</time>
-                {{ end }}
-            </a>
-        </div>
-        {{ end }}
+    </div>
+{{ end }}
+{{ end }}
 
-        {{ with .NextInSection }}
-        <div class="blog-nav-item blog-nav-next">
-            <span class="blog-nav-label">{{ i18n "next_project" | default "Projet suivant" }}</span>
-            <a href="{{ .Permalink }}" class="blog-nav-link">
-                <h4>{{ .Title }}</h4>
-                {{ if .Params.period_start }}
-                <time>{{ .Params.period_start }}</time>
-                {{ else if .Date }}
-                <time>{{ .Date.Format "02 Jan 2006" }}</time>
-                {{ end }}
-            </a>
-        </div>
-        {{ end }}
-    </nav>
-</div>
+<!-- Navigation entre projets (toujours visible) -->
+<nav class="blog-post-navigation">
+    {{ with .PrevInSection }}
+    <div class="blog-nav-item blog-nav-prev">
+        <span class="blog-nav-label">{{ i18n "previous_project" | default "Projet précédent" }}</span>
+        <a href="{{ .Permalink }}" class="blog-nav-link">
+            <h4>{{ .Title }}</h4>
+            {{ if .Params.period_start }}
+            <time>{{ .Params.period_start }}</time>
+            {{ else if .Date }}
+            <time>{{ .Date.Format "02 Jan 2006" }}</time>
+            {{ end }}
+        </a>
+    </div>
+    {{ end }}
+
+    {{ with .NextInSection }}
+    <div class="blog-nav-item blog-nav-next">
+        <span class="blog-nav-label">{{ i18n "next_project" | default "Projet suivant" }}</span>
+        <a href="{{ .Permalink }}" class="blog-nav-link">
+            <h4>{{ .Title }}</h4>
+            {{ if .Params.period_start }}
+            <time>{{ .Params.period_start }}</time>
+            {{ else if .Date }}
+            <time>{{ .Date.Format "02 Jan 2006" }}</time>
+            {{ end }}
+        </a>
+    </div>
+    {{ end }}
+</nav>
 
 <!-- Image Modal for Gallery -->
 <div id="imageModal" class="image-modal" onclick="closeImageModal()">
@@ -1555,7 +1560,6 @@ document.addEventListener('keydown', function(event) {
 // Enhanced blur transition effect
 document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
-    const transition = document.querySelector('.hero-to-content-transition');
     
     // Initialisation du système de widgets amélioré
     initializeInfoBoxSystem();

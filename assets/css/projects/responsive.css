@@ -346,10 +346,7 @@
         padding: 0.6rem 1.2rem;
     }
     
-    .hero-to-content-transition {
-        height: 12rem;
-        margin-top: -4rem;
-    }
+
     
     .project-detail {
         padding: 0 0 3rem 0;
@@ -575,7 +572,7 @@
     position: relative;
     z-index: 6; /* Au-dessus des effets de transition */
     overflow: hidden;
-    /* Pas de backdrop-filter pour Ã©viter le conflit avec hero-to-content-transition */
+    /* Effet de glassmorphisme maintenant possible */
 }
 
 .project-info-boxes-section::before {
@@ -1324,19 +1321,7 @@
     }
 }
 
-/* Classe pour dÃ©clencher l'animation */
-.blur-animated .hero-to-content-transition::before {
-    animation: blurFadeIn 1.2s ease-out forwards;
-}
 
-/* AmÃ©lioration pour les appareils avec performance limitÃ©e */
-@media (prefers-reduced-motion: reduce) {
-    .hero-to-content-transition::before {
-        backdrop-filter: blur(4px);
-        animation: none;
-        transition: none;
-    }
-}
 
 @media (max-width: 768px) {
     .image-modal-content {
