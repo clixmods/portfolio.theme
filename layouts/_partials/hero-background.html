@@ -33,7 +33,28 @@ if (!prefersReducedMotion) {
   document.addEventListener('DOMContentLoaded', function() {
     
     /**
+     * Seeded Random Generator for consistent animations
+     */
+    class SeededRandom {
+      constructor(seed = 12345) {
+        this.seed = seed;
+        this.originalSeed = seed;
+      }
+      
+      reset() {
+        this.seed = this.originalSeed;
+      }
+      
+      next() {
+        // Linear Congruential Generator
+        this.seed = (this.seed * 1664525 + 1013904223) % (2**32);
+        return this.seed / (2**32);
+      }
+    }
+    
+    /**
      * Fluid waves system inspired by Paper.js
+     * Now synchronized with system clock and deterministic across window resizes
      */
     class FluidWaves {
       constructor() {
@@ -45,6 +66,9 @@ if (!prefersReducedMotion) {
         
         // Initialize Paper.js
         paper.setup(this.canvas);
+        
+        // Seeded random generator for consistent animations
+        this.rng = new SeededRandom(42); // Fixed seed for consistency
         
         // Waves configuration
         this.h = window.innerHeight;
@@ -64,10 +88,25 @@ if (!prefersReducedMotion) {
         this.randomHeights = [];
         this.magnitude = 0.15; // Wave amplitude
         
+        // Initialize deterministic random values
+        this.initializeRandomValues();
+        
         this.readColors();
         
         this.init();
         this.observeTheme();
+      }
+      
+      initializeRandomValues() {
+        // Reset RNG to ensure consistency
+        this.rng.reset();
+        
+        // Generate consistent random values for waves
+        for (let i = 0; i < this.pathCount; i++) {
+          this.randomOffsets[i] = this.rng.next() * this.offsetRandom;
+          this.randomDistances[i] = Math.max(this.rng.next() * this.maxDistRandom, 0.3);
+          this.randomHeights[i] = Math.max(this.rng.next() + 0.5, 0.3);
+        }
       }
       
       readColors() {
@@ -117,11 +156,9 @@ if (!prefersReducedMotion) {
           this.paths = [];
         }
         
-        // Create new waves
+        // Create new waves using pre-calculated random values
         for (let i = 0; i < this.pathCount; i++) {
-          this.randomOffsets[i] = Math.random() * this.offsetRandom;
-          this.randomDistances[i] = Math.max(Math.random() * this.maxDistRandom, 0.3);
-          this.randomHeights[i] = Math.max(Math.random() + 0.5, 0.3);
+          // Use deterministic values instead of generating new ones
           
           // Create Paper.js path
           const path = new paper.Path();
@@ -146,13 +183,16 @@ if (!prefersReducedMotion) {
       
       animate() {
         paper.view.onFrame = (event) => {
+          // Use system time for synchronized animation across windows
+          const systemTime = Date.now() / 1000; // Convert to seconds
+          
           for (let p = 0; p < this.paths.length; p++) {
             // Loop through path segments
             for (let i = 0; i < this.pathPoints; i++) {
               const segment = this.paths[p].segments[i];
               
-              // Cyclic value between -1 and 1
-              const timeOffset = event.time * this.speed;
+              // Cyclic value between -1 and 1, synchronized with system clock
+              const timeOffset = systemTime * this.speed;
               const positionOffset = (i / this.pathPoints) * this.frequency * this.randomHeights[p];
               const randomOffset = this.randomOffsets[p];
               
@@ -180,8 +220,27 @@ if (!prefersReducedMotion) {
         // Resize Paper.js canvas
         paper.view.viewSize = new paper.Size(this.w, this.h);
         
-        // Recreate waves with new dimensions
-        this.createWaves();
+        // Update existing waves instead of recreating them
+        for (let i = 0; i < this.paths.length; i++) {
+          if (this.paths[i]) {
+            // Update stroke width based on new dimensions
+            this.paths[i].strokeWidth = this.strokeWidth * this.randomDistances[i];
+            
+            // Adjust wave points to new width
+            for (let v = 0; v < this.paths[i].segments.length; v++) {
+              const x = this.w * (v / (this.paths[i].segments.length - 1));
+              this.paths[i].segments[v].point.x = x;
+            }
+            
+            // Smooth the updated path
+            this.paths[i].smooth();
+          }
+        }
+        
+        // Only recreate waves if paths don't exist (first time or error)
+        if (this.paths.length === 0) {
+          this.createWaves();
+        }
       }
       
       setupEvents() {
@@ -201,6 +260,7 @@ if (!prefersReducedMotion) {
     
     /**
      * Particle system as per exact specifications
+     * Now with deterministic positioning and properties
      */
     class HeroParticles {
       constructor() {
@@ -213,6 +273,22 @@ if (!prefersReducedMotion) {
         this.ctx = this.canvas.getContext('2d');
         this.particles = [];
         this.animationId = null;
+        
+        // Seeded random generator for consistent particle generation
+        this.particleRng = new SeededRandom(123); // Different seed from waves
+        
+        // Window movement detection for particle impulse
+        this.lastWindowPosition = { x: window.screenX, y: window.screenY };
+        this.windowVelocity = { x: 0, y: 0 };
+        this.impulse = { x: 0, y: 0 };
+        this.impulseDecay = 0.95; // How fast the impulse fades
+        this.impulseMultiplier = 0.02; // How strong the impulse effect is
+        
+        // Mouse interaction for particle repulsion
+        this.mousePosition = { x: -1000, y: -1000 }; // Start offscreen
+        this.mouseActive = false;
+        this.mouseRepulsionRadius = 120; // Pixels radius of mouse effect
+        this.mouseRepulsionStrength = 1.2; // How strong the mouse repulsion is (more subtle)
         
         // Configuration as per specifications
         this.config = {
@@ -244,62 +320,98 @@ if (!prefersReducedMotion) {
         this.canvas.height = window.innerHeight;
       }
       
-      createParticle() {
-        const isNearWaves = Math.random() < 0.4; // 40% near waves
+      createParticle(index = null) {
+        // Use deterministic random generator for consistent particles
+        // Reset RNG to specific position based on particle index for consistency
+        if (index !== null) {
+          this.particleRng.seed = this.particleRng.originalSeed + index * 17; // Use index offset for variety
+        }
+        
+        const isNearWaves = this.particleRng.next() < 0.4; // 40% near waves
         let x, y;
         
         if (isNearWaves) {
           // Distribution concentrated around central waves
-          x = Math.random() * this.canvas.width;
-          y = this.canvas.height * 0.4 + (Math.random() - 0.5) * 200; // Central area with variation
+          x = this.particleRng.next() * this.canvas.width;
+          y = this.canvas.height * 0.4 + (this.particleRng.next() - 0.5) * 200; // Central area with variation
         } else {
           // Global distribution in space
-          x = Math.random() * this.canvas.width;
-          y = Math.random() * (this.canvas.height * 0.8);
+          x = this.particleRng.next() * this.canvas.width;
+          y = this.particleRng.next() * (this.canvas.height * 0.8);
           
           // Higher density in top right
-          if (Math.random() < 0.6) {
-            x = this.canvas.width * 0.3 + Math.random() * this.canvas.width * 0.7;
-            y = Math.random() * this.canvas.height * 0.5;
+          if (this.particleRng.next() < 0.6) {
+            x = this.canvas.width * 0.3 + this.particleRng.next() * this.canvas.width * 0.7;
+            y = this.particleRng.next() * this.canvas.height * 0.5;
           }
         }
         
         return {
           x, y,
-          size: this.config.sizes[Math.floor(Math.random() * this.config.sizes.length)],
-          color: this.config.colors[Math.floor(Math.random() * this.config.colors.length)],
-          baseOpacity: this.config.opacities[Math.floor(Math.random() * this.config.opacities.length)],
+          size: this.config.sizes[Math.floor(this.particleRng.next() * this.config.sizes.length)],
+          color: this.config.colors[Math.floor(this.particleRng.next() * this.config.colors.length)],
+          baseOpacity: this.config.opacities[Math.floor(this.particleRng.next() * this.config.opacities.length)],
           opacity: 0,
-          bokeh: Math.random() < this.config.bokehChance,
+          bokeh: this.particleRng.next() < this.config.bokehChance,
           drift: {
-            x: (Math.random() - 0.5) * 0.2,
-            y: (Math.random() - 0.5) * 0.2
+            x: (this.particleRng.next() - 0.5) * 0.2,
+            y: (this.particleRng.next() - 0.5) * 0.2
           },
-          pulse: Math.random() * Math.PI * 2,
+          // Add velocity for inertia system
+          velocity: {
+            x: 0,
+            y: 0
+          },
+          pulse: this.particleRng.next() * Math.PI * 2,
           age: 0,
-          maxAge: 1000 + Math.random() * 2000,
-          shape: Math.random() < 0.3 ? 'hexagon' : 'circle'
+          maxAge: 1000 + this.particleRng.next() * 2000,
+          shape: this.particleRng.next() < 0.3 ? 'hexagon' : 'circle',
+          index: index !== null ? index : -1 // Store particle index for consistency
         };
       }
       
       createParticles() {
         this.particles = [];
         for (let i = 0; i < this.config.count; i++) {
-          this.particles.push(this.createParticle());
+          this.particles.push(this.createParticle(i));
         }
       }
       
       updateParticle(particle) {
         particle.age++;
         
-        // Slow drift
-        particle.x += particle.drift.x;
-        particle.y += particle.drift.y;
+        // Apply window movement impulse to particle movement
+        // Smaller particles react more (lighter), larger particles react less (heavier)
+        const sizeInfluence = Math.max(0.1, (4 - particle.size) / 3); // Inverted size effect
+        const impulseEffect = {
+          x: this.impulse.x * sizeInfluence,
+          y: this.impulse.y * sizeInfluence
+        };
         
-        // Pulsation
-        particle.pulse += 0.02;
-        const pulseOffset = Math.sin(particle.pulse) * 0.1;
+        // Apply mouse repulsion to velocity
+        this.applyMouseRepulsion(particle);
+        
+        // Apply velocity damping for smooth deceleration
+        const velocityDamping = 0.95; // How fast velocity decays (95% retention per frame)
+        particle.velocity.x *= velocityDamping;
+        particle.velocity.y *= velocityDamping;
+        
+        // Apply all forces: drift + window impulse + velocity (from mouse repulsion)
+        particle.x += particle.drift.x + impulseEffect.x + particle.velocity.x;
+        particle.y += particle.drift.y + impulseEffect.y + particle.velocity.y;
+        
+        // Pulsation synchronized with system time for consistency
+        const systemTime = Date.now() / 1000;
+        const pulseOffset = Math.sin(systemTime * 2 + particle.pulse) * 0.1;
         particle.opacity = Math.max(0.1, Math.min(1, particle.baseOpacity + pulseOffset));
+        
+        // Add slight impulse effect to opacity (particles "flash" when window moves)
+        // Smaller particles flash more intensely (more reactive to movement)
+        const impulseIntensity = Math.abs(this.impulse.x) + Math.abs(this.impulse.y);
+        if (impulseIntensity > 0.5) {
+          const flashIntensity = sizeInfluence * 0.15; // Use same size influence for consistency
+          particle.opacity *= 1 + (impulseIntensity * flashIntensity);
+        }
         
         // Fade in/out
         const ageRatio = particle.age / particle.maxAge;
@@ -309,11 +421,12 @@ if (!prefersReducedMotion) {
           particle.opacity *= (1 - ageRatio) / 0.1;
         }
         
-        // Recycling
+        // Recycling with deterministic properties
         if (particle.age >= particle.maxAge || 
             particle.x < -50 || particle.x > this.canvas.width + 50 || 
             particle.y < -50 || particle.y > this.canvas.height + 50) {
-          Object.assign(particle, this.createParticle());
+          // Recycle particle with same index to maintain consistency
+          Object.assign(particle, this.createParticle(particle.index));
         }
       }
       
@@ -352,6 +465,9 @@ if (!prefersReducedMotion) {
       }
       
       animate() {
+        // Update window movement detection
+        this.updateWindowMovement();
+        
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
         this.particles.forEach(particle => {
@@ -365,8 +481,25 @@ if (!prefersReducedMotion) {
       setupEvents() {
         window.addEventListener('resize', () => {
           this.resizeCanvas();
-          this.config.count = this.getParticleCount();
-          this.createParticles();
+          this.adjustParticlesForResize();
+        });
+        
+        // Mouse interaction events - use document instead of canvas for better coverage
+        document.addEventListener('mousemove', (e) => {
+          const rect = this.canvas.getBoundingClientRect();
+          this.mousePosition.x = e.clientX - rect.left;
+          this.mousePosition.y = e.clientY - rect.top;
+          this.mouseActive = true;
+        });
+        
+        this.canvas.addEventListener('mouseenter', () => {
+          this.mouseActive = true;
+        });
+        
+        this.canvas.addEventListener('mouseleave', () => {
+          this.mouseActive = false;
+          this.mousePosition.x = -1000;
+          this.mousePosition.y = -1000;
         });
         
         document.addEventListener('visibilitychange', () => {
@@ -377,6 +510,96 @@ if (!prefersReducedMotion) {
             this.animate();
           }
         });
+      }
+      
+      applyMouseRepulsion(particle) {
+        // No repulsion if mouse is not active
+        if (!this.mouseActive) {
+          return;
+        }
+        
+        // Calculate distance between particle and mouse
+        const dx = particle.x - this.mousePosition.x;
+        const dy = particle.y - this.mousePosition.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // No repulsion if particle is outside the repulsion radius
+        if (distance > this.mouseRepulsionRadius || distance === 0) {
+          return;
+        }
+        
+        // Calculate repulsion strength (stronger when closer) with exponential falloff for more dramatic effect
+        const normalizedDistance = distance / this.mouseRepulsionRadius;
+        const repulsionIntensity = Math.pow(1 - normalizedDistance, 2); // Quadratic falloff for stronger effect
+        
+        // Calculate direction of repulsion (normalized)
+        const directionX = dx / distance;
+        const directionY = dy / distance;
+        
+        // Apply size influence - smaller particles are pushed more easily, but increase the effect
+        const sizeInfluence = Math.max(0.3, (4 - particle.size) / 2); // Increased minimum and scaling
+        
+        // Calculate final repulsion force with extra boost
+        const repulsionForce = this.mouseRepulsionStrength * repulsionIntensity * sizeInfluence;
+        
+        // Add to velocity instead of direct position change for inertia effect
+        particle.velocity.x += directionX * repulsionForce * 0.15; // Further reduced for subtler effect
+        particle.velocity.y += directionY * repulsionForce * 0.15;
+      }
+      
+      adjustParticlesForResize() {
+        const newCount = this.getParticleCount();
+        
+        // If we need more particles, add them with consistent indices
+        if (newCount > this.particles.length) {
+          for (let i = this.particles.length; i < newCount; i++) {
+            this.particles.push(this.createParticle(i));
+          }
+        }
+        // If we need fewer particles, remove excess ones
+        else if (newCount < this.particles.length) {
+          this.particles.splice(newCount);
+        }
+        
+        // Update existing particles positions to fit new canvas dimensions
+        this.particles.forEach((particle, index) => {
+          // Recalculate position ratios and apply them to new dimensions
+          if (particle.x > this.canvas.width) {
+            particle.x = this.canvas.width * 0.9; // Keep within bounds
+          }
+          if (particle.y > this.canvas.height) {
+            particle.y = this.canvas.height * 0.9; // Keep within bounds
+          }
+        });
+        
+        this.config.count = newCount;
+      }
+      
+      updateWindowMovement() {
+        // Detect window movement and calculate velocity
+        const currentPosition = { x: window.screenX, y: window.screenY };
+        
+        // Calculate velocity (difference from last position)
+        this.windowVelocity.x = currentPosition.x - this.lastWindowPosition.x;
+        this.windowVelocity.y = currentPosition.y - this.lastWindowPosition.y;
+        
+        // Apply impulse based on movement velocity
+        if (Math.abs(this.windowVelocity.x) > 1 || Math.abs(this.windowVelocity.y) > 1) {
+          this.impulse.x += this.windowVelocity.x * this.impulseMultiplier;
+          this.impulse.y += this.windowVelocity.y * this.impulseMultiplier;
+          
+          // Limit impulse magnitude to prevent extreme effects
+          const maxImpulse = 5;
+          this.impulse.x = Math.max(-maxImpulse, Math.min(maxImpulse, this.impulse.x));
+          this.impulse.y = Math.max(-maxImpulse, Math.min(maxImpulse, this.impulse.y));
+        }
+        
+        // Update last position
+        this.lastWindowPosition = currentPosition;
+        
+        // Apply decay to impulse
+        this.impulse.x *= this.impulseDecay;
+        this.impulse.y *= this.impulseDecay;
       }
     }
     
