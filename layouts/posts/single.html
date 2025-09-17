@@ -20,14 +20,6 @@
         <p class="blog-article-subtitle">{{ .Params.subtitle }}</p>
         {{ end }}
 
-        {{ if .Params.tags }}
-        <div class="blog-article-tags">
-            {{ range .Params.tags }}
-            <span class="blog-tag">{{ . }}</span>
-            {{ end }}
-        </div>
-        {{ end }}
-
         <!-- Featured Image -->
         {{ if .Params.image }}
         <div class="blog-article-image">
@@ -42,13 +34,12 @@
             {{ .Content }}
         </div>
 
-        <!-- Technologies Used (if applicable) -->
-        {{ $allTechnologies := partial "get-all-technologies.html" . }}
-        {{ if $allTechnologies }}
+        <!-- Tags (if applicable) -->
+        {{ if .Params.tags }}
         <div class="blog-article-technologies">
-            <h3>{{ i18n "technologies_used" | default "Technologies utilisées" }}</h3>
+            <h3>{{ i18n "tags" | default "Tags" }}</h3>
             <div class="blog-technologies">
-                {{ range $allTechnologies }}
+                {{ range .Params.tags }}
                 <span class="tech-chip">{{ . }}</span>
                 {{ end }}
             </div>
@@ -92,10 +83,15 @@
     <!-- Blog Article Footer -->
     <footer class="blog-article-footer">
         <!-- Author Info -->
-        <div class="blog-author-info">
+        <div class="blog-author-info clickable-person" data-person-id="clement-garcia" title="Voir le profil de {{ .Site.Data.profile.personal.fullName }}">
+            <div class="blog-author-avatar">
+                <img src="{{ .Site.Data.profile.media.profileImage }}" alt="{{ .Site.Data.profile.personal.fullName }}" loading="lazy">
+            </div>
             <div class="blog-author-content">
                 <h3>{{ i18n "about_author" | default "À propos de l'auteur" }}</h3>
-                <p>{{ .Site.Data.profile.bio | default (i18n "author_bio_default" | default "Développeur passionné par les nouvelles technologies et l'innovation.") }}</p>
+                <h4>{{ .Site.Data.profile.personal.fullName }}</h4>
+                <p>{{ .Site.Data.profile.personal.subtitle | default (i18n "author_bio_default" | default "Développeur passionné par les nouvelles technologies et l'innovation.") }}</p>
+                <small>{{ i18n "click_to_see_profile" | default "Cliquez pour voir le profil complet" }}</small>
             </div>
         </div>
 
