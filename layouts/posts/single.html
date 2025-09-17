@@ -100,19 +100,23 @@
             <h3>{{ i18n "share_article" | default "Partager cet article" }}</h3>
             <div class="blog-share-buttons">
                 <a href="https://twitter.com/intent/tweet?text={{ .Title }}&url={{ .Permalink }}" 
-                   class="read-more-btn" 
+                   class="blog-share-btn blog-share-twitter" 
                    target="_blank" 
-                   rel="noopener noreferrer">
-                    🐦 Twitter
+                   rel="noopener noreferrer"
+                   title="Partager sur Twitter">
+                    <img src="/images/social/twitter.svg" alt="Twitter" loading="lazy">
                 </a>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink }}" 
-                   class="read-more-btn" 
+                   class="blog-share-btn blog-share-linkedin" 
                    target="_blank" 
-                   rel="noopener noreferrer">
-                    💼 LinkedIn
+                   rel="noopener noreferrer"
+                   title="Partager sur LinkedIn">
+                    <img src="/images/social/linkedin.svg" alt="LinkedIn" loading="lazy">
                 </a>
-                <button class="read-more-btn" onclick="copyToClipboard('{{ .Permalink }}')">
-                    📋 {{ i18n "copy_link" | default "Copier le lien" }}
+                <button class="blog-share-btn blog-share-copy" 
+                        onclick="copyToClipboard('{{ .Permalink }}')"
+                        title="{{ i18n "copy_link" | default "Copier le lien" }}">
+                    <img src="/images/social/external-link.svg" alt="Copier le lien" loading="lazy">
                 </button>
             </div>
         </div>
@@ -140,6 +144,7 @@
             {{ end }}
         </nav>
 
+        {{/*
         <!-- Related Posts -->
         {{ $related := .Site.RegularPages.Related . }}
         {{ with $related }}
@@ -147,26 +152,64 @@
             <h3>{{ i18n "related_posts" | default "Articles similaires" }}</h3>
             <div class="blog-related-grid">
                 {{ range first 3 . }}
-                <article class="blog-related-card">
-                    <div class="blog-related-image">
-                        {{ if .Params.image }}
+                <article class="blog-card {{ if not .Params.image }}blog-card--no-image{{ end }}" 
+                         data-category="{{ .Params.category | default "tech" | lower }}"
+                         data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," }}{{ end }}"
+                         data-date="{{ .Date.Format "2006-01-02" }}"
+                         data-title="{{ .Title | lower }}">
+                    
+                    <!-- Blog Category (top left) -->
+                    {{ if .Params.category }}
+                    <span class="post-category">{{ .Params.category | title }}</span>
+                    {{ end }}
+                    
+                    <!-- Reading Time (top right) -->
+                    {{ if .ReadingTime }}
+                    <div class="blog-reading-time">{{ .ReadingTime }} {{ i18n "reading_minutes" | default "min de lecture" }}</div>
+                    {{ end }}
+
+                    {{ if .Params.image }}
+                    <!-- Blog Image -->
+                    <div class="blog-image">
                         <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
-                        {{ else }}
-                        <div class="blog-image-placeholder">
-                            <div class="blog-icon">📝</div>
-                        </div>
-                        {{ end }}
                     </div>
-                    <div class="blog-related-content">
-                        <time class="post-date">{{ .Date.Format "02 Jan" }}</time>
-                        <h4><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
-                        <p>{{ .Summary | truncate 80 }}</p>
+                    {{ end }}
+
+                    <!-- Blog Content -->
+                    <div class="blog-content">
+                        <!-- Blog Title -->
+                        <h2 class="blog-title">
+                            <a href="{{ .Permalink }}" class="blog-title-link">{{ .Title }}</a>
+                        </h2>
+
+                        <!-- Blog Description -->
+                        <p class="blog-description">
+                            {{ if .Params.description }}
+                                {{ .Params.description | truncate 150 "..." }}
+                            {{ else }}
+                                {{ .Summary | truncate 150 "..." }}
+                            {{ end }}
+                        </p>
+                    </div>
+
+                    <!-- Blog Footer -->
+                    <div class="blog-card-footer">
+                        <!-- Date (bottom left) -->
+                        <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                            {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "02 Jan 2006") }}
+                        </time>
+                        
+                        <!-- Read Article Button (bottom right) -->
+                        <a href="{{ .Permalink }}" class="read-more-btn">
+                            {{ i18n "read_article" | default "Lire l'article" }}
+                        </a>
                     </div>
                 </article>
                 {{ end }}
             </div>
         </section>
         {{ end }}
+        */}}
 
         <!-- Back to Blog -->
         <div class="blog-back-to-list">
