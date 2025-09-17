@@ -314,6 +314,12 @@
     font-size: 15px;
     text-align: justify;
     margin-top: -2px;
+    quotes: none; /* Supprime les guillemets par défaut du blockquote */
+    
+    &::before,
+    &::after {
+        content: none; /* S'assure qu'aucun contenu n'est ajouté avant ou après */
+    }
 }
 
 .modal-testimonial-author {

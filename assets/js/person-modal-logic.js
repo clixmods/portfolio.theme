@@ -267,8 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 testimonialEl.innerHTML = `
                     <div class="modal-testimonial-content">
-                        <div class="modal-testimonial-quote-icon">❝</div>
-                        <blockquote class="modal-testimonial-text">${testimonial.text}</blockquote>
+                        <blockquote class="modal-testimonial-text">❝ ${testimonial.text}</blockquote>
                     </div>
                 `;
                 testimonialsSection.appendChild(testimonialEl);
