@@ -7,19 +7,19 @@
 (function() {
   'use strict';
   
-  // Variables globales
+  // Global variables
   let isReducedMotion = false;
   let dock = null;
   let dockButtons = [];
   
   /**
-   * Détecte si l'utilisateur préfère les animations réduites
+   * Detects if user prefers reduced animations
    */
   function detectReducedMotion() {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     isReducedMotion = mediaQuery.matches;
     
-    // Écoute les changements de préférence
+    // Listen for preference changes
     mediaQuery.addEventListener('change', function(e) {
       isReducedMotion = e.matches;
       updateAnimationDuration();
@@ -27,7 +27,7 @@
   }
   
   /**
-   * Met à jour la durée des animations selon les préférences
+   * Updates animation duration according to preferences
    */
   function updateAnimationDuration() {
     const duration = isReducedMotion ? '50ms' : '150ms';
@@ -35,7 +35,7 @@
   }
   
   /**
-   * Ajoute la classe hover sur un bouton
+   * Adds hover class to a button
    */
   function addHoverState(button) {
     if (!button) return;
@@ -57,7 +57,7 @@
     const button = event.currentTarget;
     addHoverState(button);
     
-    // Effet optionnel sur les boutons adjacents (scale 1.1)
+    // Optional effect on adjacent buttons (scale 1.1)
     const siblings = getSiblingButtons(button);
     siblings.forEach(sibling => {
       sibling.style.transform = 'scale(1.05)';
@@ -65,13 +65,13 @@
   }
   
   /**
-   * Gère l'événement mouseleave sur un bouton
+   * Handles mouseleave event on a button
    */
   function handleMouseLeave(event) {
     const button = event.currentTarget;
     removeHoverState(button);
     
-    // Remet les boutons adjacents à l'état normal
+    // Reset adjacent buttons to normal state
     const siblings = getSiblingButtons(button);
     siblings.forEach(sibling => {
       sibling.style.transform = '';
@@ -79,7 +79,7 @@
   }
   
   /**
-   * Gère l'événement focus sur un bouton
+   * Handles focus event on a button
    */
   function handleFocus(event) {
     const button = event.currentTarget;
@@ -87,7 +87,7 @@
   }
   
   /**
-   * Gère l'événement blur sur un bouton
+   * Handles blur event on a button
    */
   function handleBlur(event) {
     const button = event.currentTarget;
@@ -95,19 +95,19 @@
   }
   
   /**
-   * Gère les événements clavier
+   * Handles keyboard events
    */
   function handleKeyDown(event) {
     const button = event.currentTarget;
     
-    // Activation avec Entrée ou Espace
+    // Activation with Enter or Space
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       
-      // Ajoute un feedback visuel
+      // Add visual feedback
       button.style.transform = 'scale(1.15)';
       
-      // Déclenche le clic après une courte animation
+      // Trigger click after short animation
       setTimeout(() => {
         button.style.transform = '';
         if (button.href) {
@@ -118,7 +118,7 @@
       }, 100);
     }
     
-    // Navigation avec les flèches
+    // Navigation with arrows
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault();
       navigateWithArrows(button, event.key);
@@ -126,7 +126,7 @@
   }
   
   /**
-   * Navigation avec les flèches du clavier
+   * Navigation with keyboard arrows
    */
   function navigateWithArrows(currentButton, direction) {
     const currentIndex = dockButtons.indexOf(currentButton);
@@ -145,18 +145,18 @@
   }
   
   /**
-   * Récupère les boutons adjacents à un bouton donné
+   * Gets buttons adjacent to a given button
    */
   function getSiblingButtons(button) {
     const index = dockButtons.indexOf(button);
     const siblings = [];
     
-    // Bouton précédent
+    // Previous button
     if (index > 0) {
       siblings.push(dockButtons[index - 1]);
     }
     
-    // Bouton suivant
+    // Next button
     if (index < dockButtons.length - 1) {
       siblings.push(dockButtons[index + 1]);
     }
@@ -165,7 +165,7 @@
   }
   
   /**
-   * Gère le scroll horizontal sur mobile
+   * Handles horizontal scroll on mobile
    */
   function handleMobileScroll() {
     if (window.innerWidth > 767) return;
@@ -173,7 +173,7 @@
     const dockList = dock.querySelector('.dock-list');
     if (!dockList) return;
     
-    // Scroll fluide vers le centre au focus d'un élément
+    // Smooth scroll to center on element focus
     dockButtons.forEach(button => {
       button.addEventListener('focus', function() {
         const buttonRect = button.getBoundingClientRect();
@@ -191,22 +191,22 @@
   }
   
   /**
-   * Ajoute les event listeners à tous les boutons
+   * Adds event listeners to all buttons
    */
   function attachEventListeners() {
     dockButtons.forEach(button => {
-      // Événements souris
+      // Mouse events
       button.addEventListener('mouseenter', handleMouseEnter);
       button.addEventListener('mouseleave', handleMouseLeave);
       
-      // Événements focus/blur
+      // Focus/blur events
       button.addEventListener('focus', handleFocus);
       button.addEventListener('blur', handleBlur);
       
-      // Événements clavier
+      // Keyboard events
       button.addEventListener('keydown', handleKeyDown);
       
-      // Amélioration pour les appareils tactiles
+      // Enhancement for touch devices
       button.addEventListener('touchstart', function(e) {
         addHoverState(button);
       }, { passive: true });
@@ -227,7 +227,7 @@
       return;
     }
     
-    // Récupère tous les boutons du dock
+    // Get all dock buttons
     dockButtons = Array.from(dock.querySelectorAll('.dock-button'));
     
     if (dockButtons.length === 0) {
@@ -235,17 +235,17 @@
       return;
     }
     
-    // Attache les event listeners
+    // Attach event listeners
     attachEventListeners();
     
-    // Gère le scroll mobile
+    // Handle mobile scroll
     handleMobileScroll();
     
-    // Détecte les préférences d'animation
+    // Detect animation preferences
     detectReducedMotion();
     updateAnimationDuration();
     
-    // Gère le redimensionnement de la fenêtre
+    // Handle window resize
     let resizeTimeout;
     window.addEventListener('resize', function() {
       clearTimeout(resizeTimeout);
@@ -256,7 +256,7 @@
   }
   
   /**
-   * Point d'entrée principal
+   * Main entry point
    */
   function init() {
     if (document.readyState === 'loading') {
@@ -266,10 +266,10 @@
     }
   }
   
-  // Démarre l'initialisation
+  // Start initialization
   init();
   
-  // Export pour tests ou utilisation externe (optionnel)
+  // Export for tests or external usage (optional)
   window.DockNavigation = {
     addHoverState,
     removeHoverState,

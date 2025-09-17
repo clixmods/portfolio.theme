@@ -13,7 +13,7 @@ Usage: {{ $person := partial "helpers/get-person.html" (dict "context" $ "person
 {{ if $personPage }}
     {{ $person = $personPage }}
 {{ else }}
-    {{/* Si pas trouvé, chercher dans toutes les pages people par ID */}}
+    {{/* If not found, search in all people pages by ID */}}
     {{ $peopleSection := $context.Site.GetPage "/people" }}
     {{ if $peopleSection }}
         {{ range $peopleSection.Pages }}

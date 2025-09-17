@@ -1549,73 +1549,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialisation du système de widgets amélioré
     initializeInfoBoxSystem();
     
-    // Smart gallery slideshow with preloading
+    // Smart gallery slideshow with reusable class
     const galleryBoxes = document.querySelectorAll('.gallery-box:not(.expanded)');
     
-    galleryBoxes.forEach(function(galleryBox) {
-        const galleryImages = galleryBox.querySelectorAll('.gallery-background .gallery-mini-item img');
-        const imageUrls = Array.from(galleryImages).map(img => img.src);
+    galleryBoxes.forEach(function(galleryBox, index) {
+        // Add unique temporary ID for selector
+        const uniqueId = `gallery-slideshow-${index}`;
+        galleryBox.id = uniqueId;
         
-        if (imageUrls.length <= 1) return; // Pas de slideshow pour une seule image
-        
-        let currentIndex = 0;
-        let preloadedImages = [];
-        let isPreloaded = false;
-        
-        // Précharger toutes les images
-        function preloadImages() {
-            let loadedCount = 0;
-            
-            imageUrls.forEach(function(url, index) {
-                const img = new Image();
-                img.onload = function() {
-                    preloadedImages[index] = true;
-                    loadedCount++;
-                    
-                    // Toutes les images sont chargées
-                    if (loadedCount === imageUrls.length) {
-                        isPreloaded = true;
-                        startSlideshow();
-                    }
-                };
-                img.src = url;
-            });
-        }
-        
-        // Démarrer le slideshow seulement quand toutes les images sont prêtes
-        function startSlideshow() {
-            // Masquer toutes les images sauf la première
-            galleryImages.forEach(function(img, index) {
-                img.parentElement.style.opacity = index === 0 ? '1' : '0';
-            });
-            
-            // Changer d'image toutes les 4 secondes
-            setInterval(function() {
-                if (galleryBox.classList.contains('expanded')) return; // Arrêter si ouvert
-                
-                const currentImg = galleryImages[currentIndex];
-                const nextIndex = (currentIndex + 1) % galleryImages.length;
-                const nextImg = galleryImages[nextIndex];
-                
-                // Créer une nouvelle image pour s'assurer qu'elle est chargée
-                const preloadImg = new Image();
-                preloadImg.onload = function() {
-                    // L'image suivante est prête, faire la transition
-                    currentImg.parentElement.style.transition = 'opacity 1s ease-in-out';
-                    nextImg.parentElement.style.transition = 'opacity 1s ease-in-out';
-                    
-                    currentImg.parentElement.style.opacity = '0';
-                    nextImg.parentElement.style.opacity = '1';
-                    
-                    // Mettre à jour l'index seulement après la transition
-                    currentIndex = nextIndex;
-                };
-                preloadImg.src = nextImg.src;
-            }, 4000);
-        }
-        
-        // Commencer le préchargement
-        preloadImages();
+        // Initialize slideshow with our centralized class
+        const slideshow = new GallerySlideshow(`#${uniqueId}`, {
+            interval: 4000,
+            transitionDuration: 1000,
+            preloadAll: true,
+            pauseWhenExpanded: true
+        });
     });
     
     // Trigger blur animation after page load

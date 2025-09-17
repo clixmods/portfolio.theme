@@ -76,11 +76,11 @@ if (!prefersReducedMotion) {
         this.colors = [1,2,3,4,5,6,7].map(i => {
           let c = cs.getPropertyValue(`--hero-wave-color-${i}`).trim();
           if (isLight) {
-            // Si couleur fournie sans alpha explicit (rgb), on ajoute un alpha plus élevé
+            // If color provided without explicit alpha (rgb), add a higher alpha
             if (/^rgb\(\s*\d+/.test(c) && !/rgba/.test(c)) {
               c = c.replace(/^rgb\((.*)\)$/,'rgba($1,0.85)');
             } else if (/rgba\(/.test(c)) {
-              // augmente légèrement alpha existant
+              // slightly increase existing alpha
               c = c.replace(/rgba\((\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,)([^)]+)\)/, (m,prefix,a)=> {
                 let val=parseFloat(a); if(isNaN(val)) return m; return `rgba(${prefix}${Math.min(1,val+0.25)})`; });
             }

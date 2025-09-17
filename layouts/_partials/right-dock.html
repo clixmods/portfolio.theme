@@ -1,8 +1,8 @@
-<!-- Right Dock - Système complet de la barre droite -->
+<!-- Right Dock - Complete right bar system -->
 <nav id="right-dock" class="right-dock" role="navigation" aria-label="{{ i18n "right_toolbar" | default "Barre d'outils droite" }}">
   <div class="right-dock-container">
     
-    <!-- Bouton Trophées -->
+    <!-- Trophies button -->
     <div class="dock-item trophies-item">
       <button class="dock-button trophies-btn" 
         title="Trophées" 
@@ -92,11 +92,11 @@
         title="Langue" 
         aria-label="{{ i18n "select_language" | default "Sélectionner la langue" }}">
         <svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <!-- Cercle principal de la sphère -->
+          <!-- Main circle of the sphere -->
           <circle cx="12" cy="12" r="10" fill="none"></circle>
-          <!-- Équateur horizontal -->
+          <!-- Horizontal equator -->
           <line x1="2" y1="12" x2="22" y2="12"></line>
-          <!-- Méridien central vertical -->
+          <!-- Central vertical meridian -->
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none"></path>
         </svg>
         <span class="language-flag">{{ cond (eq .Site.Language.Lang "fr") "🇫🇷" "🇬🇧" }}</span>
@@ -134,7 +134,7 @@
   </div>
 </nav>
 
-<!-- Indicateur de batterie (mobile seulement) -->
+<!-- Battery indicator (mobile only) -->
 <div class="battery-indicator" id="battery-indicator" style="display: none;">
   <svg class="battery-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
     <rect x="1" y="6" width="18" height="12" rx="2" ry="2"></rect>
@@ -144,10 +144,10 @@
   <div class="battery-fill" id="battery-fill"></div>
 </div>
 
-<!-- Container pour les notifications toast -->
+<!-- Container for toast notifications -->
 <div class="toast-container right_dock" id="toast-container"></div>
 
-<!-- Popup trophées plein écran -->
+<!-- Full screen trophies popup -->
 <div class="trophies-modal" id="trophies-modal">
   <div class="trophies-modal-overlay"></div>
   <div class="trophies-modal-content">
@@ -176,7 +176,7 @@
     </div>
     
     <div class="trophies-grid" id="trophies-grid">
-      <!-- Les trophées seront chargés dynamiquement par JavaScript -->
+      <!-- Trophies will be loaded dynamically by JavaScript -->
     </div>
   </div>
 </div>

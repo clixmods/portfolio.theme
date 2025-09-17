@@ -184,505 +184,83 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize tech badge colors
     initializeTechBadgeColors();
     
-    // Tab switching functionality
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const projectCards = document.querySelectorAll('.ps5-project-tile');
-    const sectionDescription = document.getElementById('section-description');
-    
-    const descriptions = {
-        games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
-        "apps-web": "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
-        "mods-tools": "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs."
-    };
-    
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const category = btn.getAttribute('data-category');
-            
-            // Update active tab
-            tabBtns.forEach(tab => tab.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Update description
-            if (sectionDescription) {
-                sectionDescription.textContent = descriptions[category];
-            }
-            
-            // Show/hide cards based on category
-            projectCards.forEach(card => {
-                if (card.getAttribute('data-category') === category) {
-                    card.style.display = 'flex';
-                    card.classList.remove('hiding');
-                    card.classList.add('showing');
-                } else {
-                    card.classList.remove('showing');
-                    card.classList.add('hiding');
-                    setTimeout(() => {
-                        if (card.classList.contains('hiding')) {
-                            card.style.display = 'none';
-                        }
-                    }, 400);
-                }
-            });
-            
-            // Animate visible tiles
-            setTimeout(() => {
-                const visibleTiles = Array.from(projectCards).filter(tile => 
-                    tile.getAttribute('data-category') === category && 
-                    getComputedStyle(tile).display !== 'none'
-                );
-                
-                visibleTiles.forEach((tile, index) => {
-                    tile.classList.add('tile-ready');
-                    setTimeout(() => {
-                        tile.classList.add('tile-visible');
-                    }, index * 90);
-                });
-            }, 100);
-        });
+    // Projects tabs using TabController
+    const projectTabs = new TabController('.tab-btn', {
+        animationType: 'cards',
+        cardSelector: '.ps5-project-tile',
+        cardAnimationDelay: 90,
+        updateDescription: true,
+        descriptionSelector: '#section-description',
+        descriptions: {
+            games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
+            "apps-web": "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
+            "mods-tools": "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs."
+        }
     });
-    
+
     // Initialize card animations
+    const projectCards = document.querySelectorAll('.ps5-project-tile');
     projectCards.forEach(card => {
         card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-    });
-    
-    // Initialize projects display - show only the active category (games by default)
-    const activeTab = document.querySelector('.tab-btn.active');
-    if (activeTab) {
-        const activeCategory = activeTab.getAttribute('data-category');
-        
-        // Update description for active category
-        if (sectionDescription && descriptions[activeCategory]) {
-            sectionDescription.textContent = descriptions[activeCategory];
-        }
-        
-        // Show/hide cards based on active category
-        projectCards.forEach(card => {
-            if (card.getAttribute('data-category') === activeCategory) {
-                card.style.display = 'flex';
-                card.classList.remove('hiding');
-                card.classList.add('showing');
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-    
-    // Initialize tile visibility animation (similar to ps5-projects.js)
-    projectCards.forEach(tile => tile.classList.add('tile-ready'));
-    
-    // Staggered fade-in for visible tiles
-    const visibleTiles = Array.from(projectCards).filter(tile => 
-        getComputedStyle(tile).display !== 'none'
-    );
-    
-    visibleTiles.forEach((tile, index) => {
-        setTimeout(() => {
-            tile.classList.add('tile-visible');
-        }, index * 90);
     });
 });
 
 // Education Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const eduTabBtns = document.querySelectorAll('.edu-tab-btn');
-    const educationTimeline = document.getElementById('education-timeline');
-    const certificationsTimeline = document.getElementById('certifications-timeline');
-    
-    eduTabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const category = btn.getAttribute('data-category');
-            
-            // Update active tab
-            eduTabBtns.forEach(tab => tab.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Show/hide timelines with animation
-            if (category === 'education') {
-                // Hide certifications
-                if (certificationsTimeline) {
-                    certificationsTimeline.style.opacity = '0';
-                    certificationsTimeline.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        certificationsTimeline.style.display = 'none';
-                    }, 300);
-                }
-                
-                // Show education
-                if (educationTimeline) {
-                    setTimeout(() => {
-                        educationTimeline.style.display = 'block';
-                        setTimeout(() => {
-                            educationTimeline.style.opacity = '1';
-                            educationTimeline.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, 300);
-                }
-            } else if (category === 'certifications') {
-                // Hide education
-                if (educationTimeline) {
-                    educationTimeline.style.opacity = '0';
-                    educationTimeline.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        educationTimeline.style.display = 'none';
-                    }, 300);
-                }
-                
-                // Show certifications
-                if (certificationsTimeline) {
-                    setTimeout(() => {
-                        certificationsTimeline.style.display = 'block';
-                        setTimeout(() => {
-                            certificationsTimeline.style.opacity = '1';
-                            certificationsTimeline.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, 300);
-                }
-            }
-        });
+    // Education tabs using TabController with fade animation
+    const educationTabs = new TabController('.edu-tab-btn', {
+        contentSelector: '.timeline-container[data-tab]',
+        contentAttribute: 'data-tab',
+        animationType: 'fade',
+        animationDuration: 300
     });
-    
-    // Initialize timeline animations
-    const timelines = [educationTimeline, certificationsTimeline];
+
+    // Initialize timeline styles
+    const timelines = [
+        document.getElementById('education-timeline'),
+        document.getElementById('certifications-timeline')
+    ];
     timelines.forEach(timeline => {
         if (timeline) {
             timeline.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            timeline.style.opacity = timeline.id === 'education-timeline' ? '1' : '0';
-            timeline.style.transform = 'translateY(0)';
         }
     });
 });
 
 // Experience Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const expTabBtns = document.querySelectorAll('.exp-tab-btn');
-    const experiencesTimeline = document.getElementById('experiences-timeline');
-    const internshipsTimeline = document.getElementById('internships-timeline');
-    
-    expTabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const category = btn.getAttribute('data-category');
-            
-            // Update active tab
-            expTabBtns.forEach(tab => tab.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Show/hide timelines with animation
-            if (category === 'experiences') {
-                // Hide internships
-                if (internshipsTimeline) {
-                    internshipsTimeline.style.opacity = '0';
-                    internshipsTimeline.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        internshipsTimeline.style.display = 'none';
-                    }, 300);
-                }
-                
-                // Show experiences
-                if (experiencesTimeline) {
-                    setTimeout(() => {
-                        experiencesTimeline.style.display = 'block';
-                        setTimeout(() => {
-                            experiencesTimeline.style.opacity = '1';
-                            experiencesTimeline.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, 300);
-                }
-            } else if (category === 'internships') {
-                // Hide experiences
-                if (experiencesTimeline) {
-                    experiencesTimeline.style.opacity = '0';
-                    experiencesTimeline.style.transform = 'translateY(20px)';
-                    setTimeout(() => {
-                        experiencesTimeline.style.display = 'none';
-                    }, 300);
-                }
-                
-                // Show internships
-                if (internshipsTimeline) {
-                    setTimeout(() => {
-                        internshipsTimeline.style.display = 'block';
-                        setTimeout(() => {
-                            internshipsTimeline.style.opacity = '1';
-                            internshipsTimeline.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, 300);
-                }
-            }
-        });
+    // Experience tabs using TabController with slide animation
+    const experienceTabs = new TabController('.exp-tab-btn', {
+        contentSelector: '.experience-timeline[data-tab]',
+        contentAttribute: 'data-tab',
+        animationType: 'slide',
+        animationDuration: 300
     });
-    
-    // Initialize timeline animations
-    const expTimelines = [experiencesTimeline, internshipsTimeline];
+
+    // Initialize timeline styles
+    const expTimelines = [
+        document.getElementById('experiences-timeline'),
+        document.getElementById('internships-timeline')
+    ];
     expTimelines.forEach(timeline => {
         if (timeline) {
             timeline.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            timeline.style.opacity = timeline.id === 'experiences-timeline' ? '1' : '0';
-            timeline.style.transform = 'translateY(0)';
         }
     });
 });
 
-// Testimonials Slider
+// Testimonials Slider - Using CarouselController
 document.addEventListener('DOMContentLoaded', function() {
     const slider = document.querySelector('.testimonials-slider');
     if (!slider) return;
 
-    const track = slider.querySelector('.testimonials-track');
-    const cards = slider.querySelectorAll('.testimonial-card');
-    const prevBtn = slider.querySelector('.slider-btn.prev');
-    const nextBtn = slider.querySelector('.slider-btn.next');
-    const indicators = slider.querySelectorAll('.indicator');
-    
-    let currentIndex = 0;
-    const totalCards = cards.length;
-    let autoplayInterval = null;
-    let progressInterval = null;
-    let isPaused = false;
-    let pausedProgress = 0;
-    
-    // Barre de progression
-    const progressContainer = slider.querySelector('.autoplay-progress-container');
-    const progressBar = slider.querySelector('.autoplay-progress-bar');
-
-    // Function to update slider position
-    function updateSlider() {
-        if (track) {
-            const translateX = -currentIndex * 100;
-            track.style.transform = `translateX(${translateX}%)`;
-        }
-        
-        // Update indicators
-        indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === currentIndex);
-        });
-        
-        // Update button states
-        if (prevBtn) prevBtn.disabled = currentIndex === 0;
-        if (nextBtn) nextBtn.disabled = currentIndex === totalCards - 1;
-    }
-
-    // Function to start autoplay with synchronized progress bar
-    function startAutoplay() {
-        // Clear any existing intervals
-        if (autoplayInterval) {
-            clearInterval(autoplayInterval);
-        }
-        if (progressInterval) {
-            clearInterval(progressInterval);
-        }
-        
-        // Reset progress bar if not resuming from pause
-        if (!isPaused && progressBar) {
-            progressBar.style.width = '0%';
-            pausedProgress = 0;
-        }
-        
-        // Unified timer for both progress and slide change
-        let progress = isPaused ? pausedProgress : 0;
-        const totalDuration = 5000; // 5 seconds
-        const updateFrequency = 50; // Update every 50ms for smooth animation
-        const increment = (100 / totalDuration) * updateFrequency; // Progress increment per update
-        
-        autoplayInterval = setInterval(() => {
-            // Only update if not paused (local OR global)
-            if (!isPaused && !window.testimonialsGlobalPause) {
-                progress += increment;
-                
-                // Update progress bar
-                if (progressBar) {
-                    progressBar.style.width = `${Math.min(progress, 100)}%`;
-                }
-                
-                // Store current progress in case of pause
-                pausedProgress = progress;
-                
-                // When progress reaches 100%, change slide and restart
-                if (progress >= 100) {
-                    // Clear current interval to prevent overlap
-                    clearInterval(autoplayInterval);
-                    
-                    // Change slide
-                    if (currentIndex < totalCards - 1) {
-                        currentIndex++;
-                    } else {
-                        currentIndex = 0;
-                    }
-                    
-                    // Update slider immediately
-                    updateSlider();
-                    
-                    // Reset progress for next cycle
-                    progress = 0;
-                    pausedProgress = 0;
-                    if (progressBar) {
-                        progressBar.style.width = '0%';
-                    }
-                    
-                    // Start next cycle after a small delay to ensure DOM update
-                    setTimeout(() => {
-                        if (!isPaused) {
-                            startAutoplay();
-                        }
-                    }, 100);
-                    
-                    return; // Exit current interval
-                }
-            }
-        }, updateFrequency);
-    }
-
-    // Function to pause autoplay
-    function pauseAutoplay() {
-        isPaused = true;
-    }
-
-    // Function to resume autoplay
-    function resumeAutoplay() {
-        isPaused = false;
-    }
-
-    // Function to reset autoplay (restart the timer)
-    function resetAutoplay() {
-        // Clear existing intervals
-        if (autoplayInterval) {
-            clearInterval(autoplayInterval);
-        }
-        if (progressInterval) {
-            clearInterval(progressInterval);
-        }
-        
-        isPaused = false;
-        pausedProgress = 0;
-        
-        // Reset progress bar
-        if (progressBar) {
-            progressBar.style.width = '0%';
-        }
-        
-        // Start autoplay after a short delay
-        setTimeout(() => {
-            startAutoplay();
-        }, 50);
-    }
-
-    // Next button
-    nextBtn.addEventListener('click', () => {
-        if (currentIndex < totalCards - 1) {
-            currentIndex++;
-            updateSlider();
-            resetAutoplay(); // Reset the autoplay timer
-        }
+    // Initialize carousel with our centralized class
+    new CarouselController('.testimonials-slider', {
+        autoplayDuration: 5000,
+        enableSwipe: true,
+        pauseOnHover: true,
+        loop: true
     });
-
-    // Previous button
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateSlider();
-            resetAutoplay(); // Reset the autoplay timer
-        }
-    });
-
-    // Indicator clicks
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            currentIndex = index;
-            updateSlider();
-            resetAutoplay(); // Reset the autoplay timer
-        });
-    });
-
-    // Start autoplay
-    startAutoplay();
-
-    // Initialize slider
-    updateSlider();
-
-    // Mouse hover events for pause/resume on testimonial cards only
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            pauseAutoplay();
-        });
-
-        card.addEventListener('mouseleave', () => {
-            resumeAutoplay();
-        });
-    });
-
-    // Touch/swipe support for mobile
-    let startX = null;
-    let startY = null;
-
-    slider.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-    });
-
-    slider.addEventListener('touchmove', (e) => {
-        if (!startX || !startY) return;
-        
-        const currentX = e.touches[0].clientX;
-        const currentY = e.touches[0].clientY;
-        
-        const diffX = startX - currentX;
-        const diffY = startY - currentY;
-        
-        // Only handle horizontal swipes
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            e.preventDefault();
-        }
-    });
-
-    slider.addEventListener('touchend', (e) => {
-        if (!startX || !startY) return;
-        
-        const endX = e.changedTouches[0].clientX;
-        const diffX = startX - endX;
-        
-        // Minimum swipe distance
-        if (Math.abs(diffX) > 50) {
-            if (diffX > 0 && currentIndex < totalCards - 1) {
-                // Swipe left - next slide
-                currentIndex++;
-                updateSlider();
-                resetAutoplay(); // Reset the autoplay timer
-            } else if (diffX < 0 && currentIndex > 0) {
-                // Swipe right - previous slide
-                currentIndex--;
-                updateSlider();
-                resetAutoplay(); // Reset the autoplay timer
-            }
-        }
-        
-        startX = null;
-        startY = null;
-    });
-    
-    // Enregistrer ce slider dans le système global de contrôle des témoignages
-    if (slider) {
-        const mainSliderController = {
-            pauseRotation: pauseAutoplay,
-            resumeRotation: resumeAutoplay,
-            stopRotation: () => {
-                if (autoplayInterval) {
-                    clearInterval(autoplayInterval);
-                    autoplayInterval = null;
-                }
-                isPaused = false;
-                pausedProgress = 0;
-                if (progressBar) {
-                    progressBar.style.width = '0%';
-                }
-            },
-            startRotation: startAutoplay,
-            container: slider
-        };
-        
-        // Enregistrer ce controller dans la liste globale
-        window.testimonialsControllers.push(mainSliderController);
-    }
 });
 
 // Contact Form Functionality

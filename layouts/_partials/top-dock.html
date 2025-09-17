@@ -1,22 +1,20 @@
-<!-- Top Dock - Actions principales (CV et réseaux sociaux) -->
+<!-- Top Dock - Main actions (CV and social networks) -->
 <nav id="top-dock" class="top-dock" role="navigation" aria-label="{{ i18n "main_actions" | default "Actions principales" }}">
   <div class="top-dock-container">
-    <!-- Actions principales groupées -->
+    <!-- Main actions grouped -->
     <div class="primary-actions-group">
-      <!-- Download CV -->
-      <a href="{{ with .Site.Data.profile }}{{ .media.resumeFile }}{{ end }}" 
-         download="{{ with .Site.Data.profile }}{{ .media.resumeFilename | default "CV_Clement_GARCIA.pdf" }}{{ end }}" 
-         class="dock-button primary-btn download-btn" 
-         title="{{ i18n "download_resume" | default "Télécharger le CV" }}">
-        <svg class="dock-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-          <polyline points="14 2 14 8 20 8"></polyline>
-          <line x1="12" y1="18" x2="12" y2="12"></line>
-          <polyline points="9 15 12 18 15 15"></polyline>
+      <!-- Open CV Choice Modal -->
+      <a href="/cv/" 
+         class="dock-button primary-btn download-btn cv-choice-trigger" 
+         title="{{ i18n "download_resume" | default "Télécharger le CV" }}"
+         aria-label="{{ i18n "download_resume" | default "Télécharger le CV" }}">
+        <svg class="dock-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+          <path d="M12 11v6m-3-3l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
       
-      <!-- Bouton Contact Modal -->
+      <!-- Contact Modal Button -->
       <button class="dock-button primary-btn contact-btn contact-modal-trigger" 
               id="contact-modal-trigger-dock"
               title="{{ i18n "contact_me" | default "Contactez-moi" }}"
@@ -28,10 +26,10 @@
       </button>
     </div>
     
-    <!-- Séparateur -->
+    <!-- Separator -->
     <div class="dock-separator"></div>
     
-    <!-- Réseaux sociaux groupés -->
+    <!-- Social networks grouped -->
     <div class="social-actions-group">
       {{ range .Site.Data.config.social }}
       <a href="{{ .url }}" 

@@ -1,0 +1,71 @@
+{{/*
+  Generic partial for displaying a project tile
+  
+  Expected parameters:
+  - .project : the project page
+  - .category : category for data-category (games, apps-web, mods-tools)
+  - .icon : icon to display (🎮, 🛒, 🔧)
+  - .displayStyle : CSS display style (ex: "display:none;" to hide by default)
+*/}}
+
+{{ $project := .project }}
+{{ $category := .category }}
+{{ $icon := .icon }}
+{{ $displayStyle := .displayStyle | default "" }}
+
+<div class="ps5-project-tile"
+     data-project-id="{{ $project.File.BaseFileName }}"
+     data-background-image="{{ $project.Params.background_image | default $project.Params.image }}"
+     data-sector="{{ $project.Params.sector }}"
+     data-category="{{ $category }}"
+     data-technologies='{{ partial "combined-technologies.html" $project }}'
+     {{ with $displayStyle }}style="{{ . }}"{{ end }}>
+    
+    <!-- Main tile image -->
+    <div class="ps5-tile-image">
+        <img loading="lazy" 
+             src="{{ with $project.Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" 
+             alt="{{ $project.Title }}">
+        <div class="ps5-tile-overlay"></div>
+    </div>
+    
+    <!-- Featured badge -->
+    {{ if $project.Params.featured }}
+    <div class="ps5-tile-badge">★</div>
+    {{ end }}
+    
+    <!-- Sector icon -->
+    <div class="ps5-tile-sector-icon">{{ $icon }}</div>
+    
+    <!-- Base content -->
+    <div class="ps5-tile-content">
+        <h3 class="ps5-tile-title">{{ $project.Title }}</h3>
+        <p class="ps5-tile-subtitle">{{ $project.Params.subtitle }}</p>
+    </div>
+    
+    <!-- Detailed information on hover -->
+    <div class="ps5-tile-info">
+        <div class="ps5-tile-info-content">
+            <h3 class="ps5-tile-info-title">{{ $project.Title }}</h3>
+            <p class="ps5-tile-info-subtitle">{{ $project.Params.subtitle }}</p>
+            <p class="ps5-tile-description">{{ $project.Params.description }}</p>
+            
+            <!-- Technologies -->
+            {{ partial "project-technologies.html" $project }}
+        </div>
+        
+        <!-- Meta information -->
+        <div class="ps5-tile-meta">
+            <span class="ps5-tile-date">{{ $project.Date.Format "2006" }}</span>
+            <a href="{{ $project.Permalink }}" class="ps5-tile-btn">
+                {{ i18n "see_project" | default "Voir le projet" }}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Invisible main link -->
+    <a href="{{ $project.Permalink }}" class="ps5-tile-link" aria-label="{{ i18n "see_project" | default "Voir le projet" }}: {{ $project.Title }}"></a>
+</div>

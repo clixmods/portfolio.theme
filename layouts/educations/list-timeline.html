@@ -12,12 +12,12 @@
 
     <!-- Navigation Tabs -->
     <div class="education-tabs">
-        <button class="edu-tab-btn active" data-category="education">Formation</button>
-        <button class="edu-tab-btn" data-category="certifications">Certifications</button>
+        <button class="edu-tab-btn active" data-tab="education">Formation</button>
+        <button class="edu-tab-btn" data-tab="certifications">Certifications</button>
     </div>
 
     <!-- Education Timeline -->
-    <div class="timeline-container" id="education-timeline">
+    <div class="timeline-container" id="education-timeline" data-tab="education">
         <div class="timeline-line"></div>
         
         {{ range ((where .Site.RegularPages "Section" "educations").ByParam "end_date").Reverse }}
@@ -245,7 +245,7 @@
     </div>
 
     <!-- Certifications Timeline -->
-    <div class="timeline-container" id="certifications-timeline" style="display: none;">
+    <div class="timeline-container" id="certifications-timeline" data-tab="certifications" style="display: none;">
         <div class="timeline-line"></div>
         
         {{ range $index, $cert := .Site.Data.certifications }}
@@ -272,33 +272,26 @@
     </div>
 </section>
 
-<!-- JavaScript pour les tabs et interactivité -->
+<!-- Education tabs using TabController -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Gestion des tabs
-    const tabButtons = document.querySelectorAll('.edu-tab-btn');
-    const educationTimeline = document.getElementById('education-timeline');
-    const certificationsTimeline = document.getElementById('certifications-timeline');
-    
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Retirer la classe active de tous les boutons
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Ajouter la classe active au bouton cliqué
-            this.classList.add('active');
-            
-            // Afficher/masquer les timelines correspondantes
-            const category = this.getAttribute('data-category');
-            
-            if (category === 'education') {
-                educationTimeline.style.display = 'block';
-                certificationsTimeline.style.display = 'none';
-            } else if (category === 'certifications') {
-                educationTimeline.style.display = 'none';
-                certificationsTimeline.style.display = 'block';
-            }
-        });
+    // Education tabs using TabController with fade animation
+    const educationTabs = new TabController('.edu-tab-btn', {
+        contentSelector: '.timeline-container[data-tab]',
+        contentAttribute: 'data-tab',
+        animationType: 'fade',
+        animationDuration: 300
+    });
+
+    // Initialize timeline styles
+    const timelines = [
+        document.getElementById('education-timeline'),
+        document.getElementById('certifications-timeline')
+    ];
+    timelines.forEach(timeline => {
+        if (timeline) {
+            timeline.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        }
     });
 });
 </script>

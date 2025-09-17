@@ -3,30 +3,30 @@
   Inclut automatiquement le person modal si des personnes sont détectées sur la page
 */}}
 
-{{/* Vérifier s'il y a des personnes sur cette page */}}
+{{/* Check if there are people on this page */}}
 {{- $hasPersons := false -}}
 
-{{/* Force inclusion si spécifié dans les paramètres */}}
+{{/* Force inclusion if specified in parameters */}}
 {{- if .Params.force_person_modal -}}
     {{- $hasPersons = true -}}
 {{- end -}}
 
-{{/* Vérifier dans les données de témoignages */}}
+{{/* Check in testimonials data */}}
 {{- if .Site.Data.testimonials -}}
     {{- $hasPersons = true -}}
 {{- end -}}
 
-{{/* Vérifier dans les paramètres de la page (contributeurs, témoignages) */}}
+{{/* Check in page parameters (contributors, testimonials) */}}
 {{- if or .Params.contributors .Params.testimonials -}}
     {{- $hasPersons = true -}}
 {{- end -}}
 
-{{/* Inclure le modal et les ressources seulement si nécessaire */}}
+{{/* Include modal and resources only if necessary */}}
 {{- if $hasPersons -}}
     {{/* Person Modal HTML */}}
     {{ partial "person-modal.html" . }}
 
-    {{/* Script de débogage pour analyser le problème */}}
+    {{/* Debug script to analyze the issue */}}
     <script>
         window.debugPersonModal = function() {
             console.log('=== DEBUG PERSON MODAL ===');
@@ -47,7 +47,7 @@
                 });
             }
             
-            // Test pour un contributeur spécifique
+            // Test for a specific contributor
             const testPersonId = 'francois-bertrand';
             console.log(`Testing projects for ${testPersonId}:`);
             if (window.portfolioProjects) {
@@ -58,7 +58,7 @@
             }
         };
         
-        // Lancer automatiquement le debug après le chargement
+        // Automatically launch debug after loading
         setTimeout(() => {
             console.log('Auto-running debug...');
             window.debugPersonModal();
@@ -76,17 +76,17 @@
     {{/* Script d'initialisation */}}
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Attendre un peu que tous les scripts soient chargés
+        // Wait a bit for all scripts to be loaded
         setTimeout(function() {
-            // Vérifier que le modal des personnes est disponible
+            // Verify that the person modal is available
             if (typeof window.openPersonModal === 'function') {
                 console.log('Person modal ready - Found {{ len .Site.Data.testimonials }} testimonials');
                 
-                // Compter les éléments cliquables
+                // Count clickable elements
                 const clickablePersons = document.querySelectorAll('.clickable-person');
                 console.log(`Found ${clickablePersons.length} clickable person elements`);
                 
-                // S'assurer que tous les éléments avec data-person-id sont cliquables
+                // Ensure all elements with data-person-id are clickable
                 const personElements = document.querySelectorAll('[data-person-id]');
                 console.log(`Found ${personElements.length} elements with data-person-id`);
                 
@@ -94,7 +94,7 @@
                     const personId = element.getAttribute('data-person-id');
                     console.log(`Element ${index}: person-id="${personId}"`);
                     
-                    // S'assurer que l'événement de clic est attaché
+                    // Ensure click event is attached
                     if (!element.hasAttribute('data-click-attached')) {
                         element.setAttribute('data-click-attached', 'true');
                         element.style.cursor = 'pointer';
@@ -111,10 +111,10 @@
                             }
                         });
                         
-                        // Ajouter un indicateur visuel
+                        // Add visual indicator
                         element.style.position = 'relative';
                         
-                        // Créer un petit indicateur visuel
+                        // Create small visual indicator
                         const indicator = document.createElement('div');
                         indicator.className = 'person-click-indicator';
                         indicator.innerHTML = '👤';
@@ -138,7 +138,7 @@
                         
                         element.appendChild(indicator);
                         
-                        // Afficher l'indicateur au survol
+                        // Display indicator on hover
                         element.addEventListener('mouseenter', () => {
                             indicator.style.opacity = '0.8';
                         });

@@ -1,27 +1,27 @@
-{{/* Partial pour combiner toutes les technologies d'un projet en une chaîne pour data-technologies */}}
+{{/* Partial to combine all project technologies into a string for data-technologies */}}
 {{/* Combine programming_languages, frameworks_engines, tools et technologies (legacy) */}}
 {{ $allTech := slice }}
 
-{{/* Ajouter les langages de programmation */}}
+{{/* Add programming languages */}}
 {{ with .Params.programming_languages }}
     {{ $allTech = $allTech | append . }}
 {{ end }}
 
-{{/* Ajouter les frameworks et moteurs */}}
+{{/* Add frameworks and engines */}}
 {{ with .Params.frameworks_engines }}
     {{ $allTech = $allTech | append . }}
 {{ end }}
 
-{{/* Ajouter les outils */}}
+{{/* Add tools */}}
 {{ with .Params.tools }}
     {{ $allTech = $allTech | append . }}
 {{ end }}
 
-{{/* Ajouter les technologies legacy pour compatibilité */}}
+{{/* Add legacy technologies for compatibility */}}
 {{ with .Params.technologies }}
     {{ $allTech = $allTech | append . }}
 {{ end }}
 
-{{/* Dédupliquer et joindre avec des virgules */}}
+{{/* Deduplicate and join with commas */}}
 {{ $allTech = $allTech | uniq }}
 {{ delimit $allTech "," }}

@@ -1,26 +1,10 @@
-{{/* Variables Globales (toujours) */}}
-{{- with resources.Get "css/variables.global.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* Global Variables (always) */}}
+{{ partial "helpers/load-css.html" "css/variables.global.css" }}
 
-{{/* Variables Widgets (toujours – nécessaires aux widgets transverses) */}}
-{{- with resources.Get "css/variables.widgets.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* Widget Variables (always - necessary for cross-cutting widgets) */}}
+{{ partial "helpers/load-css.html" "css/variables.widgets.css" }}
 
-{{/* Détermination du type de page pour charger les variables dédiées */}}
+{{/* Determine page type to load dedicated variables */}}
 {{- $pageType := "" -}}
 {{- if .IsHome -}}
   {{- $pageType = "portfolio" -}}
@@ -32,139 +16,42 @@
   {{- $pageType = "portfolio" -}}
 {{- end -}}
 {{- $varFile := printf "css/variables.%s.css" $pageType -}}
-{{- with resources.Get $varFile }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" $varFile }}
 
-{{/* Ajout Hero Background global */}}
-{{- with resources.Get "css/hero-background.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* Add global Hero Background */}}
+{{ partial "helpers/load-css.html" "css/hero-background.css" }}
 
-{{/* (Ancien) variables.css retiré – NE PLUS UTILISER */}}
+{{/* (Legacy) variables.css removed – DO NOT USE ANYMORE */}}
 
 {{/* Base Stylesheets - Load first */}}
-{{- with resources.Get "css/style.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/style.css" }}
+{{ partial "helpers/load-css.html" "css/main.css" }}
 
-{{- with resources.Get "css/main.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{/* Footer Translucide Styles */}}
-{{- with resources.Get "css/footer.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* Translucent Footer Styles */}}
+{{ partial "helpers/load-css.html" "css/footer.css" }}
 
 {{/* Tech Icons Styles */}}
 <link rel="stylesheet" href="/css/tech-icons.css">
 
 {{/* Tools Styles */}}
-{{- with resources.Get "css/tools.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/tools.css" }}
 
 {{/* Profile Stats Styles */}}
-{{- with resources.Get "css/profile-stats.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/profile-stats.css" }}
 
 {{/* Dock Styles */}}
-{{- with resources.Get "scss/dock.scss" }}
-  {{- with . | toCSS | minify }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-scss.html" "scss/dock.scss" }}
 
 {{/* Top Dock Styles */}}
-{{- with resources.Get "scss/top-dock.scss" }}
-  {{- with . | toCSS | minify }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-scss.html" "scss/top-dock.scss" }}
 
 {{/* Profile Badge Styles */}}
-{{- with resources.Get "scss/profile-badge.scss" }}
-  {{- with . | toCSS | minify }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-scss.html" "scss/profile-badge.scss" }}
 
 {{/* Right Dock Styles */}}
-{{- with resources.Get "scss/right-dock.scss" }}
-  {{- with . | toCSS | minify }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-scss.html" "scss/right-dock.scss" }}
 
-{{/* CSS Fix pour les dropdowns seulement */}}
+{{/* CSS Fix for dropdowns only */}}
 {{- if hugo.IsDevelopment }}
   {{- with resources.Get "css/dropdown-fix.css" }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
@@ -172,71 +59,23 @@
 {{- end }}
 
 {{/* Trophies Modal Styles */}}
-{{- with resources.Get "scss/modal/trophies/trophies.scss" }}
-  {{- with . | toCSS | minify }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-scss.html" "scss/modal/trophies/trophies.scss" }}
 
 {{/* Contact Modal Styles */}}
-{{- with resources.Get "scss/contact-modal.scss" }}
-  {{- with . | toCSS | minify }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-scss.html" "scss/contact-modal.scss" }}
 
 {{/* Skill Modal Styles */}}
-{{- with resources.Get "scss/skill-modal.scss" }}
-  {{- with . | toCSS | minify }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-scss.html" "scss/skill-modal.scss" }}
 
 {{/* Skills Page Styles */}}
 {{- if eq .Section "competences" }}
-{{- with resources.Get "css/skills.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+  {{ partial "helpers/load-css.html" "css/skills.css" }}
 {{- end }}
 
 {{/* Discord Modal Styles */}}
-{{- with resources.Get "scss/discord-modal.scss" }}
-  {{- with . | toCSS | minify }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-scss.html" "scss/discord-modal.scss" }}
 
-{{/* Technologies séparées - SCSS */}}
+{{/* Separated technologies - SCSS (special template execution) */}}
 {{- with resources.Get "scss/separated-technologies.scss" }}
   {{- with . | resources.ExecuteAsTemplate "separated-technologies.scss" . | css.Sass }}
     {{- if hugo.IsDevelopment }}
@@ -249,274 +88,62 @@
   {{- end }}
 {{- end }}
 
-{{- with resources.Get "css/background.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/background.css" }}
 
 {{/* Layout Components */}}
 
 {{/* Section-specific Stylesheets */}}
-{{- with resources.Get "css/profile-hero.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/profile-hero.css" }}
 
 {{/* Project Wheel Styles */}}
-{{- with resources.Get "scss/project-wheel.scss" }}
-  {{- with . | toCSS | minify }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-scss.html" "scss/project-wheel.scss" }}
 
-{{- with resources.Get "css/info-sections.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/info-sections.css" }}
 
-{{- with resources.Get "css/projects.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/projects.css" }}
 
 {{/* Technical Specifications Styles */}}
-{{- with resources.Get "css/technical-specs.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/technical-specs.css" }}
 
-{{- with resources.Get "css/blog.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/blog.css" }}
 
-{{- with resources.Get "css/experience.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/experience.css" }}
+{{ partial "helpers/load-css.html" "css/education.css" }}
+{{ partial "helpers/load-css.html" "css/testimonials.css" }}
 
-{{- with resources.Get "css/education.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css.html" "css/forms.css" }}
+{{ partial "helpers/load-css.html" "css/project-detail.css" }}
+{{ partial "helpers/load-css.html" "css/ps5-projects.css" }}
 
-{{- with resources.Get "css/testimonials.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* Removed duplications - already loaded above */}}
 
-{{- with resources.Get "css/forms.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* Developer Widgets Styles - Specialties and Tools */}}
+{{ partial "helpers/load-css.html" "css/developer-widgets.css" }}
 
-{{- with resources.Get "css/project-detail.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- with resources.Get "css/ps5-projects.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- with resources.Get "css/projects.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- with resources.Get "css/experience.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- with resources.Get "css/forms.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- with resources.Get "css/main.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- with resources.Get "css/education.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- with resources.Get "css/testimonials.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{/* Developer Widgets Styles - Spécialités et Outils */}}
-{{- with resources.Get "css/developer-widgets.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{/* Ajout variables PS5 spécifiques si section projects */}}
+{{/* Add specific PS5 variables if projects section */}}
 {{ if eq .Section "projects" }}
-  {{ with resources.Get "css/variables.ps5.css" }}
-    {{ if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{ else }}
-      {{ with . | minify | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{ end }}
-    {{ end }}
-  {{ end }}
+  {{ partial "helpers/load-css.html" "css/variables.ps5.css" }}
 {{ end }}
 
 {{/* Section-specific widget */}}
-{{- $widgets := resources.Match "css/shared/widgets/*.css" }}
-{{- range sort $widgets "Name" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css-pattern.html" "css/shared/widgets/*.css" }}
 
 {{/* Section-specific component */}}
-{{- $components := resources.Match "css/shared/components/*.css" }}
-{{- range sort $components "Name" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{ partial "helpers/load-css-pattern.html" "css/shared/components/*.css" }}
 
 {{/* Section-specific project page */}}
-{{- $projects := resources.Match "css/projects/*.css" }}
-{{- range sort $projects "Name" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
+{{ partial "helpers/load-css-pattern.html" "css/projects/*.css" }}
+
+{{/* CV page styles (loaded only on CV page) */}}
+{{- $isCV := or
+  (eq .Layout "cv")
+  (in .RelPermalink "/cv/")
+  (in .RelPermalink "/cv")
+  (and .File (or (in .File.Path "content/cv.md") (in .File.Path "/cv.md")))
+ -}}
+{{- if $isCV }}
+  {{ partial "helpers/load-scss.html" "scss/cv.scss" }}
 {{- end }}
 
-{{/* CV page styles (chargés uniquement sur la page CV) */}}
-{{- if or (eq .Layout "cv") (and .File (in .File.Path "/cv")) }}
-  {{- with resources.Get "scss/cv.scss" }}
-    {{- with . | toCSS | minify }}
-      {{- if hugo.IsDevelopment }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}">
-      {{- else }}
-        {{- with . | fingerprint }}
-          <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-        {{- end }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* CV Choice Modal - Load on all pages to intercept /cv/ links */}}
+{{ partial "helpers/load-scss.html" "scss/cv-choice-modal.scss" }}

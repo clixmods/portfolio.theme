@@ -1,0 +1,149 @@
+<section class="skills-section">
+    <div class="skills-header">
+        <h2>{{ i18n "technical_skills" | default "Compétences Techniques" }}</h2>
+        <p class="skills-subtitle">{{ i18n "skills_subtitle" | default "Maîtrise des technologies modernes pour créer des expériences utilisateur exceptionnelles et des solutions techniques robustes. 💻" }}</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="skills-navigation">
+        <button class="skill-category-btn active" data-category="all">{{ i18n "all" | default "Toutes" }}</button>
+        <button class="skill-category-btn" data-category="programming-languages">{{ i18n "programming_languages" | default "Langages" }}</button>
+        <button class="skill-category-btn" data-category="engines">{{ i18n "engines" | default "Moteurs" }}</button>
+        <button class="skill-category-btn" data-category="frameworks">{{ i18n "frameworks" | default "Frameworks" }}</button>
+        <button class="skill-category-btn" data-category="environments">{{ i18n "environments" | default "Environnements" }}</button>
+        <button class="skill-category-btn" data-category="tools">{{ i18n "tools" | default "Outils" }}</button>
+        <button class="skill-category-btn" data-category="specialties">{{ i18n "specialties" | default "Spécialités" }}</button>
+        <button class="skill-category-btn" data-category="soft-skills">{{ i18n "soft_skills" | default "Soft Skills" }}</button>
+    </div>
+
+    <!-- Description Text -->
+    <div class="skills-description">
+        <p id="skills-section-description">{{ i18n "skills_description" | default "Explorez toutes mes compétences techniques organisées par catégories. Cliquez sur une catégorie pour filtrer les compétences." }}</p>
+    </div>
+
+    <div class="skills-full-categories-grid">
+        
+        {{/* Programming Languages */}}
+        <div class="skills-category" data-category="programming-languages">
+            <h4>{{ i18n "programming_languages" | default "Langages de programmation" }}</h4>
+            <div class="skills-grid">
+                {{ range .Site.Data.programming_languages }}
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "programming-language" "skillCategory" "programming-languages" "context" $ "useRelURL" true) }}
+                {{ end }}
+            </div>
+        </div>
+
+        {{/* Frameworks */}}
+        <div class="skills-category" data-category="frameworks">
+            <h4>{{ i18n "frameworks" | default "Frameworks" }}</h4>
+            <div class="skills-grid">
+                {{ range .Site.Data.frameworks_engines }}
+                    {{ if not (or (in .name "Unity") (in .name "Unreal") (in .name "engine") (in .name "Engine")) }}
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "framework" "skillCategory" "frameworks" "context" $ "useRelURL" true) }}
+                    {{ end }}
+                {{ end }}
+            </div>
+        </div>
+
+        {{/* Game Engines */}}
+        <div class="skills-category" data-category="engines">
+            <h4>{{ i18n "game_engines" | default "Moteurs de jeu" }}</h4>
+            <div class="skills-grid">
+                {{ range .Site.Data.frameworks_engines }}
+                    {{ if or (in .name "Unity") (in .name "Unreal") (in .name "engine") (in .name "Engine") }}
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "engine" "skillCategory" "engines" "context" $ "useRelURL" true) }}
+                    {{ end }}
+                {{ end }}
+            </div>
+        </div>
+
+        {{/* Environments */}}
+        <div class="skills-category" data-category="environments">
+            <h4>{{ i18n "environments" | default "Environnements de développement" }}</h4>
+            <div class="skills-grid">
+                {{ range sort .Site.Data.tools "experience" "desc" }}
+                    {{ if eq .category "ide" }}
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "environment" "skillCategory" "environments" "context" $ "useRelURL" true) }}
+                    {{ end }}
+                {{ end }}
+            </div>
+        </div>
+
+        {{/* Tools */}}
+        <div class="skills-category" data-category="tools">
+            <h4>{{ i18n "tools" | default "Outils" }}</h4>
+            <div class="skills-grid">
+                {{ range sort .Site.Data.tools "experience" "desc" }}
+                    {{ if ne .category "ide" }}
+                    {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "tool" "skillCategory" "tools" "context" $ "useRelURL" true) }}
+                    {{ end }}
+                {{ end }}
+            </div>
+        </div>
+
+        {{/* Specialties */}}
+        <div class="skills-category" data-category="specialties">
+            <h4>{{ i18n "specialties" | default "Spécialités" }}</h4>
+            <div class="skills-grid">
+                {{ range .Site.Data.specialties }}
+                {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "specialty" "skillCategory" "specialties" "context" $ "useRelURL" true "showExperience" false) }}
+                {{ end }}
+            </div>
+        </div>
+
+        {{/* Soft Skills */}}
+        <div class="skills-category" data-category="soft-skills">
+            <h4>{{ i18n "soft_skills" | default "Soft Skills" }}</h4>
+            <div class="skills-grid">
+                {{ range .Site.Data.soft_skills }}
+                <div class="skill-block clickable" 
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     data-skill-name="{{ .name }}"
+                     data-skill-type="soft-skill"
+                     data-skill-category="soft-skills">
+                    <span class="skill-icon">
+                        {{ if .iconPath }}
+                          <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                        {{ else }}
+                          <span class="tech-icon-emoji">{{ .icon }}</span>
+                        {{ end }}
+                    </span>
+                    <span class="skill-name">{{ .name }}</span>
+                    {{ if .subtitle }}
+                    <span class="skill-level">{{ .subtitle }}</span>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryBtns = document.querySelectorAll('.skill-category-btn');
+    const skillCategories = document.querySelectorAll('.skills-category');
+    const description = document.getElementById('skills-section-description');
+    
+    const descriptions = {
+        'all': 'Explorez toutes mes compétences techniques organisées par catégories. Cliquez sur une catégorie pour filtrer les compétences.',
+        'programming-languages': 'Découvrez les langages de programmation que je maîtrise pour développer des applications robustes et performantes.',
+        'frameworks': 'Explorez les frameworks web et applications que j\'utilise pour créer des solutions modernes et efficaces.',
+        'engines': 'Plongez dans les moteurs de jeu que je maîtrise pour créer des expériences interactives immersives.',
+        'tools': 'Découvrez les outils et environnements de développement que j\'utilise au quotidien.',
+        'specialties': 'Explorez mes domaines de spécialisation et d\'expertise particulière.',
+        'soft-skills': 'Découvrez mes compétences interpersonnelles et organisationnelles.'
+    };
+    
+    // Skills tabs using TabController
+    const skillsTabs = new TabController('.category-btn', {
+        contentSelector: '.skill-category',
+        animationType: 'fade',
+        animationDuration: 300,
+        updateDescription: true,
+        descriptionSelector: '.section-description',
+        descriptions: descriptions
+    });
+});
+</script>

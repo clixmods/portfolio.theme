@@ -1,5 +1,5 @@
-{{/* Partial pour afficher les technologies dans les spécifications techniques d'un projet */}}
-{{/* Prend en paramètre le type de technologies et la liste des noms */}}
+{{/* Partial to display technologies in project technical specifications */}}
+{{/* Takes technology type and list of names as parameters */}}
 
 {{ $techType := .TechType }}
 {{ $techList := .TechList }}
@@ -10,7 +10,7 @@
     {{ $techName := . }}
     {{ $found := false }}
     
-    {{/* Chercher dans programming_languages */}}
+    {{/* Search in programming_languages */}}
     {{ if eq $techType "programming_languages" }}
         {{ range $site.Data.programming_languages }}
             {{ if eq .name $techName }}
@@ -26,7 +26,7 @@
         {{ end }}
     {{ end }}
     
-    {{/* Chercher dans frameworks_engines */}}
+    {{/* Search in frameworks_engines */}}
     {{ if eq $techType "frameworks_engines" }}
         {{ range $site.Data.frameworks_engines }}
             {{ if eq .name $techName }}
@@ -42,7 +42,7 @@
         {{ end }}
     {{ end }}
     
-    {{/* Si pas trouvé, afficher avec style par défaut */}}
+    {{/* If not found, display with default style */}}
     {{ if not $found }}
     <span class="tech-chip clickable" 
           onclick="openSkillModal('{{ $techName }}', '', '', 'Non spécifié', 'emoji')"

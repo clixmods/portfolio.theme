@@ -1,35 +1,35 @@
-{{/* Helper pour récupérer toutes les technologies d'un projet (page ou objet) */}}
+{{/* Helper to retrieve all technologies from a project (page or object) */}}
 {{/* Usage: {{ partial "get-all-technologies.html" $projectPage }} */}}
 {{ $allTech := slice }}
 
-{{/* Si c'est une page Hugo, utiliser .Params */}}
+{{/* If it's a Hugo page, use .Params */}}
 {{ if .Params }}
-    {{/* Ajouter les langages de programmation */}}
+    {{/* Add programming languages */}}
     {{ with .Params.programming_languages }}
         {{ $allTech = $allTech | append . }}
     {{ end }}
 
-    {{/* Ajouter les frameworks et moteurs */}}
+    {{/* Add frameworks and engines */}}
     {{ with .Params.frameworks_engines }}
         {{ $allTech = $allTech | append . }}
     {{ end }}
 
-    {{/* Ajouter les spécialités */}}
+    {{/* Add specialties */}}
     {{ with .Params.specialties }}
         {{ $allTech = $allTech | append . }}
     {{ end }}
 
-    {{/* Ajouter les outils de développement */}}
+    {{/* Add development tools */}}
     {{ with .Params.tools }}
         {{ $allTech = $allTech | append . }}
     {{ end }}
 
-    {{/* Ajouter les technologies legacy pour compatibilité */}}
+    {{/* Add legacy technologies for compatibility */}}
     {{ with .Params.technologies }}
         {{ $allTech = $allTech | append . }}
     {{ end }}
 {{ else }}
-    {{/* Si c'est un objet direct (projet inline) */}}
+    {{/* If it's a direct object (inline project) */}}
     {{ with .programming_languages }}
         {{ $allTech = $allTech | append . }}
     {{ end }}
@@ -51,5 +51,5 @@
     {{ end }}
 {{ end }}
 
-{{/* Dédupliquer et retourner */}}
+{{/* Deduplicate and return */}}
 {{ return ($allTech | uniq) }}

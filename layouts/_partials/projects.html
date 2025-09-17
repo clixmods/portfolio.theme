@@ -18,168 +18,35 @@
 
     <!-- Projects Grid -->
     <div class="projects-grid" id="projects-grid">
-        <!-- Games Projects -->
-        {{ range where .Site.RegularPages "Section" "projects" }}
-        {{ if and .Params.featured (hasPrefix .Params.sector "games") }}
-        <div class="ps5-project-tile"
-             data-project-id="{{ .File.BaseFileName }}"
-             data-background-image="{{ .Params.background_image | default .Params.image }}"
-             data-sector="{{ .Params.sector }}"
-             data-category="games"
-             data-technologies='{{ partial "combined-technologies.html" . }}'>
-            <!-- Image principale de la tuile -->
-            <div class="ps5-tile-image">
-                <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}">
-                <div class="ps5-tile-overlay"></div>
-            </div>
-            
-            <!-- Badge featured -->
-            {{ if .Params.featured }}
-            <div class="ps5-tile-badge">★</div>
-            {{ end }}
-            
-            <!-- Icône secteur -->
-            <div class="ps5-tile-sector-icon">🎮</div>
-            
-            <!-- Contenu de base -->
-            <div class="ps5-tile-content">
-                <h3 class="ps5-tile-title">{{ .Title }}</h3>
-                <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
-            </div>
-            
-            <!-- Informations détaillées au hover -->
-            <div class="ps5-tile-info">
-                <div class="ps5-tile-info-content">
-                    <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
-                    <p class="ps5-tile-info-subtitle">{{ .Params.subtitle }}</p>
-                    <p class="ps5-tile-description">{{ .Params.description }}</p>
+        {{/* Load categories configuration */}}
+        {{ $categories := partial "project-categories-config.html" . }}
+        
+        {{/* Loop through each category and display its projects dynamically */}}
+        {{ range $categoryKey, $config := $categories }}
+            {{ range where $.Site.RegularPages "Section" "projects" }}
+                {{ if .Params.featured }}
+                    {{/* Dynamic filtering logic based on configuration */}}
+                    {{ $shouldShow := false }}
                     
-                    <!-- Technologies -->
-                    {{ partial "project-technologies.html" . }}
-                </div>
-                
-                <!-- Meta informations -->
-                <div class="ps5-tile-meta">
-                    <span class="ps5-tile-date">{{ .Date.Format "2006" }}</span>
-                    <a href="{{ .Permalink }}" class="ps5-tile-btn">
-                        {{ i18n "see_project" | default "Voir le projet" }}
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Lien principal invisible -->
-            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="{{ i18n "see_project" | default "Voir le projet" }}: {{ .Title }}"></a>
-        </div>
-        {{ end }}
-        {{ end }}
-
-        <!-- Apps/Web Projects -->
-        {{ range where .Site.RegularPages "Section" "projects" }}
-        {{ if and .Params.featured (hasPrefix .Params.sector "appsweb") }}
-        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="{{ .Params.sector }}" data-category="apps-web" data-technologies='{{ partial "combined-technologies.html" . }}' style="display:none;">
-            <!-- Image principale de la tuile -->
-            <div class="ps5-tile-image">
-                <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}">
-                <div class="ps5-tile-overlay"></div>
-            </div>
-            
-            <!-- Badge featured -->
-            {{ if .Params.featured }}
-            <div class="ps5-tile-badge">★</div>
-            {{ end }}
-            
-            <!-- Icône secteur -->
-            <div class="ps5-tile-sector-icon">🛒</div>
-            
-            <!-- Contenu de base -->
-            <div class="ps5-tile-content">
-                <h3 class="ps5-tile-title">{{ .Title }}</h3>
-                <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
-            </div>
-            
-            <!-- Informations détaillées au hover -->
-            <div class="ps5-tile-info">
-                <div class="ps5-tile-info-content">
-                    <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
-                    <p class="ps5-tile-info-subtitle">{{ .Params.subtitle }}</p>
-                    <p class="ps5-tile-description">{{ .Params.description }}</p>
+                    {{ if eq $categoryKey "games" }}
+                        {{ if hasPrefix .Params.sector "games" }}{{ $shouldShow = true }}{{ end }}
+                    {{ else if eq $categoryKey "apps-web" }}
+                        {{ if hasPrefix .Params.sector "appsweb" }}{{ $shouldShow = true }}{{ end }}
+                    {{ else if eq $categoryKey "mods-tools" }}
+                        {{ if or (eq .Params.sector "mods") (eq .Params.sector "tools") }}{{ $shouldShow = true }}{{ end }}
+                    {{ end }}
                     
-                    <!-- Technologies -->
-                    {{ partial "project-technologies.html" . }}
-                </div>
-                
-                <!-- Meta informations -->
-                <div class="ps5-tile-meta">
-                    <span class="ps5-tile-date">{{ .Date.Format "2006" }}</span>
-                    <a href="{{ .Permalink }}" class="ps5-tile-btn">
-                        {{ i18n "see_project" | default "Voir le projet" }}
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Lien principal invisible -->
-            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="{{ i18n "see_project" | default "Voir le projet" }}: {{ .Title }}"></a>
-        </div>
-        {{ end }}
-        {{ end }}
-
-        <!-- Mods & Tools Projects -->
-        {{ range where .Site.RegularPages "Section" "projects" }}
-        {{ if and .Params.featured (or (eq .Params.sector "mods") (eq .Params.sector "tools")) }}
-        <div class="ps5-project-tile" data-project-id="{{ .File.BaseFileName }}" data-background-image="{{ .Params.background_image | default .Params.image }}" data-sector="{{ .Params.sector }}" data-category="mods-tools" data-technologies='{{ partial "combined-technologies.html" . }}' style="display:none;">
-            <!-- Image principale de la tuile -->
-            <div class="ps5-tile-image">
-                <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}">
-                <div class="ps5-tile-overlay"></div>
-            </div>
-            
-            <!-- Badge featured -->
-            {{ if .Params.featured }}
-            <div class="ps5-tile-badge">★</div>
+                    {{/* Display tile if conditions are met */}}
+                    {{ if $shouldShow }}
+                        {{ partial "project-tile.html" (dict 
+                            "project" . 
+                            "category" $categoryKey 
+                            "icon" $config.icon 
+                            "displayStyle" $config.displayStyle
+                        ) }}
+                    {{ end }}
+                {{ end }}
             {{ end }}
-            
-            <!-- Icône secteur -->
-            <div class="ps5-tile-sector-icon">🔧</div>
-            
-            <!-- Contenu de base -->
-            <div class="ps5-tile-content">
-                <h3 class="ps5-tile-title">{{ .Title }}</h3>
-                <p class="ps5-tile-subtitle">{{ .Params.subtitle }}</p>
-            </div>
-            
-            <!-- Informations détaillées au hover -->
-            <div class="ps5-tile-info">
-                <div class="ps5-tile-info-content">
-                    <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
-                    <p class="ps5-tile-info-subtitle">{{ .Params.subtitle }}</p>
-                    <p class="ps5-tile-description">{{ .Params.description }}</p>
-                    
-                    <!-- Technologies -->
-                    {{ partial "project-technologies.html" . }}
-                </div>
-                
-                <!-- Meta informations -->
-                <div class="ps5-tile-meta">
-                    <span class="ps5-tile-date">{{ .Date.Format "2006" }}</span>
-                    <a href="{{ .Permalink }}" class="ps5-tile-btn">
-                        {{ i18n "see_project" | default "Voir le projet" }}
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Lien principal invisible -->
-            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="{{ i18n "see_project" | default "Voir le projet" }}: {{ .Title }}"></a>
-        </div>
-        {{ end }}
         {{ end }}
     </div>
     

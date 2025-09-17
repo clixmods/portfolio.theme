@@ -2,8 +2,8 @@
  * EXPERIENCE TILES INTERACTION SCRIPT
  * ===================================
  * 
- * Ce script gère les interactions des tuiles de projets dans la section expérience
- * Il s'inspire du système PS5 pour créer des effets visuels immersifs
+ * This script handles project tiles interactions in the experience section
+ * It draws inspiration from the PS5 system to create immersive visual effects
  */
 
 class ExperienceTiles {
@@ -14,7 +14,7 @@ class ExperienceTiles {
     }
 
     init() {
-        // Attendre que le DOM soit chargé
+        // Wait for DOM to be loaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.setup());
         } else {
@@ -40,33 +40,33 @@ class ExperienceTiles {
     }
 
     bindEvents() {
-        // Événements pour les tuiles de projets
+        // Events for project tiles
         this.projectTiles.forEach(tile => {
             tile.addEventListener('mouseenter', (e) => this.handleTileHover(e));
             tile.addEventListener('mouseleave', (e) => this.handleTileLeave(e));
             tile.addEventListener('mousemove', (e) => this.handleTileMouseMove(e));
         });
 
-        // Événements pour les onglets d'expérience
+        // Events for experience tabs
         this.tabButtons.forEach(btn => {
             btn.addEventListener('click', (e) => this.handleTabChange(e));
         });
 
-        // Redimensionnement de la fenêtre
+        // Window resize
         window.addEventListener('resize', () => this.handleResize());
     }
 
     handleTileHover(e) {
         const tile = e.currentTarget;
         
-        // Effet de glow
+        // Glow effect
         tile.style.setProperty('--glow-opacity', '1');
         
-        // Effet de profondeur
+        // Depth effect
         tile.style.transform = 'translateY(-8px) scale(1.02)';
         tile.style.zIndex = '10';
         
-        // Animation du contenu
+        // Content animation
         const content = tile.querySelector('.project-tile-content');
         const info = tile.querySelector('.project-tile-info');
         
@@ -81,12 +81,12 @@ class ExperienceTiles {
     handleTileLeave(e) {
         const tile = e.currentTarget;
         
-        // Réinitialiser les effets
+        // Reset effects
         tile.style.setProperty('--glow-opacity', '0');
         tile.style.transform = '';
         tile.style.zIndex = '';
         
-        // Animation du contenu
+        // Content animation
         const content = tile.querySelector('.project-tile-content');
         const info = tile.querySelector('.project-tile-info');
         
@@ -106,7 +106,7 @@ class ExperienceTiles {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        // Calcul de l'inclinaison basée sur la position de la souris
+        // Calculate tilt based on mouse position
         const rotateX = (y - centerY) / centerY * -2;
         const rotateY = (x - centerX) / centerX * 2;
         
@@ -117,14 +117,14 @@ class ExperienceTiles {
         const clickedTab = e.currentTarget;
         const category = clickedTab.dataset.category;
         
-        // Mise à jour des onglets actifs
+        // Update active tabs
         this.tabButtons.forEach(btn => btn.classList.remove('active'));
         clickedTab.classList.add('active');
         
-        // Animation de changement de timeline
+        // Timeline change animation
         this.switchTimeline(category);
         
-        // Feedback tactile (vibration sur mobile)
+        // Haptic feedback (vibration on mobile)
         if (navigator.vibrate) {
             navigator.vibrate(50);
         }
@@ -139,7 +139,7 @@ class ExperienceTiles {
                 timeline.style.opacity = '0';
                 timeline.style.transform = 'translateY(20px)';
                 
-                // Animation d'apparition
+                // Appearance animation
                 setTimeout(() => {
                     timeline.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
                     timeline.style.opacity = '1';
@@ -150,7 +150,7 @@ class ExperienceTiles {
             }
         });
         
-        // Ré-initialiser les tuiles pour la nouvelle timeline
+        // Re-initialize tiles for the new timeline
         setTimeout(() => {
             this.cacheElements();
             this.bindEvents();
@@ -159,7 +159,7 @@ class ExperienceTiles {
     }
 
     addLoadingAnimation() {
-        // Animation d'entrée progressive des tuiles
+        // Progressive entry animation for tiles
         this.projectTiles.forEach((tile, index) => {
             tile.style.opacity = '0';
             tile.style.transform = 'translateY(30px)';
@@ -173,13 +173,13 @@ class ExperienceTiles {
     }
 
     handleResize() {
-        // Réinitialiser les transformations lors du redimensionnement
+        // Reset transformations on resize
         this.projectTiles.forEach(tile => {
             tile.style.transform = '';
         });
     }
 
-    // Méthode publique pour réinitialiser les tuiles
+    // Public method to reinitialize tiles
     refresh() {
         this.cacheElements();
         this.bindEvents();
@@ -187,7 +187,7 @@ class ExperienceTiles {
     }
 }
 
-// Auto-initialisation
+// Auto-initialization
 let experienceTilesInstance;
 
 if (document.readyState === 'loading') {
@@ -198,6 +198,6 @@ if (document.readyState === 'loading') {
     experienceTilesInstance = new ExperienceTiles();
 }
 
-// Export pour usage externe
+// Export for external usage
 window.ExperienceTiles = ExperienceTiles;
 window.experienceTilesInstance = experienceTilesInstance;

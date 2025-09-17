@@ -6,12 +6,12 @@
 
     <!-- Navigation Tabs -->
     <div class="education-tabs">
-    <button class="edu-tab-btn active" data-category="education">{{ i18n "education" | default "Formation" }}</button>
-    <button class="edu-tab-btn" data-category="certifications">{{ i18n "certifications" | default "Certifications" }}</button>
+    <button class="edu-tab-btn active" data-tab="education">{{ i18n "education" | default "Formation" }}</button>
+    <button class="edu-tab-btn" data-tab="certifications">{{ i18n "certifications" | default "Certifications" }}</button>
     </div>
 
     <!-- Education Timeline -->
-    <div class="timeline-container" id="education-timeline">
+    <div class="timeline-container" id="education-timeline" data-tab="education">
         <div class="timeline-line"></div>
         
         {{ range ((where (where .Site.RegularPages "Section" "educations") ".Params.displayedInPortfolio" "!=" false).ByParam "end_date").Reverse }}
@@ -51,7 +51,7 @@
                             <strong>{{ i18n "results" | default "Résultats :" }}</strong>
                             <div class="results-badges">
                                 {{ if .Params.years_detail }}
-                                    {{/* Utiliser les détails d'années personnalisés */}}
+                                    {{/* Use custom year details */}}
                                     {{ range .Params.years_detail }}
                                         {{ if eq .status "validated" }}
                                             <div class="result-badge validated">
@@ -83,9 +83,9 @@
                                             </div>
                                         {{ end }}
                                     {{ end }}
-                                    {{/* Badge final retiré - pas besoin de badge "Formation" supplémentaire */}}
+                                    {{/* Final badge removed - no need for additional "Training" badge */}}
                                 {{ else }}
-                                    {{/* Logique automatique classique */}}
+                                    {{/* Classic automatic logic */}}
                                     {{ if eq .Params.status "Obtenu" }}
                                         {{ $startYear := dateFormat "2006" .Params.start_date }}
                                         {{ $endYear := dateFormat "2006" .Params.end_date }}
@@ -96,7 +96,7 @@
                                                 <span class="badge-status">Validée</span>
                                             </div>
                                         {{ end }}
-                                        {{/* Badge final retiré - pas besoin de badge "Formation" supplémentaire */}}
+                                        {{/* Final badge removed - no need for additional "Training" badge */}}
                                     {{ else if eq .Params.status "En cours" }}
                                         {{ $startYear := dateFormat "2006" .Params.start_date }}
                                         {{ $currentYear := now.Format "2006" }}
@@ -129,60 +129,9 @@
                         <div class="timeline-skills">
                             <strong>{{ i18n "technical_skills" | default "Compétences techniques :" }}</strong>
                             <div class="skills-tags">
-                                {{ range .Params.programming_languages }}
-                                {{ $skillName := . }}
-                                {{ $found := false }}
-                                {{ range $.Site.Data.programming_languages }}
-                                {{ if eq .name $skillName }}
-                                <span class="skill-tag clickable" 
-                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                                      data-skill-name="{{ .name }}"
-                                      data-skill-type="programming-language">
-                                    {{ partial "tech-icon.html" . }} {{ .name }}
-                                </span>
-                                {{ $found = true }}
-                                {{ end }}
-                                {{ end }}
-                                {{ if not $found }}
-                                <span class="skill-tag programming">{{ $skillName }}</span>
-                                {{ end }}
-                                {{ end }}
-                                {{ range .Params.frameworks_engines }}
-                                {{ $skillName := . }}
-                                {{ $found := false }}
-                                {{ range $.Site.Data.frameworks_engines }}
-                                {{ if eq .name $skillName }}
-                                <span class="skill-tag clickable" 
-                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                                      data-skill-name="{{ .name }}"
-                                      data-skill-type="framework-engine">
-                                    {{ partial "tech-icon.html" . }} {{ .name }}
-                                </span>
-                                {{ $found = true }}
-                                {{ end }}
-                                {{ end }}
-                                {{ if not $found }}
-                                <span class="skill-tag framework">{{ $skillName }}</span>
-                                {{ end }}
-                                {{ end }}
-                                {{ range .Params.tools }}
-                                {{ $skillName := . }}
-                                {{ $found := false }}
-                                {{ range $.Site.Data.tools }}
-                                {{ if eq .name $skillName }}
-                                <span class="skill-tag clickable" 
-                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                                      data-skill-name="{{ .name }}"
-                                      data-skill-type="tool">
-                                    {{ partial "tech-icon.html" . }} {{ .name }}
-                                </span>
-                                {{ $found = true }}
-                                {{ end }}
-                                {{ end }}
-                                {{ if not $found }}
-                                <span class="skill-tag tool">{{ $skillName }}</span>
-                                {{ end }}
-                                {{ end }}
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.programming_languages "dataSource" "programming_languages" "skillType" "programming-language" "tagClass" "programming" "context" $ "usePartialTechIcon" true) }}
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.frameworks_engines "dataSource" "frameworks_engines" "skillType" "framework-engine" "tagClass" "framework" "context" $ "usePartialTechIcon" true) }}
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.tools "dataSource" "tools" "skillType" "tool" "tagClass" "tool" "context" $ "usePartialTechIcon" true) }}
                             </div>
                         </div>
                         {{ end }}
@@ -191,42 +140,8 @@
                         <div class="timeline-skills">
                             <strong>{{ i18n "cross_skills" | default "Compétences transversales :" }}</strong>
                             <div class="skills-tags">
-                                {{ range .Params.specialties }}
-                                {{ $skillName := . }}
-                                {{ $found := false }}
-                                {{ range $.Site.Data.specialties }}
-                                {{ if eq .name $skillName }}
-                                <span class="skill-tag clickable" 
-                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                                      data-skill-name="{{ .name }}"
-                                      data-skill-type="specialty">
-                                    {{ partial "tech-icon.html" . }} {{ .name }}
-                                </span>
-                                {{ $found = true }}
-                                {{ end }}
-                                {{ end }}
-                                {{ if not $found }}
-                                <span class="skill-tag specialty">{{ $skillName }}</span>
-                                {{ end }}
-                                {{ end }}
-                                {{ range .Params.soft_skills }}
-                                {{ $skillName := . }}
-                                {{ $found := false }}
-                                {{ range $.Site.Data.soft_skills }}
-                                {{ if eq .name $skillName }}
-                                <span class="skill-tag clickable" 
-                                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                                      data-skill-name="{{ .name }}"
-                                      data-skill-type="soft-skill">
-                                    {{ partial "tech-icon.html" . }} {{ .name }}
-                                </span>
-                                {{ $found = true }}
-                                {{ end }}
-                                {{ end }}
-                                {{ if not $found }}
-                                <span class="skill-tag soft">{{ $skillName }}</span>
-                                {{ end }}
-                                {{ end }}
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.specialties "dataSource" "specialties" "skillType" "specialty" "tagClass" "specialty" "context" $ "usePartialTechIcon" true) }}
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.soft_skills "dataSource" "soft_skills" "skillType" "soft-skill" "tagClass" "soft" "context" $ "usePartialTechIcon" true) }}
                             </div>
                         </div>
                         {{ end }}
@@ -239,7 +154,7 @@
     </div>
 
     <!-- Certifications Timeline -->
-    <div class="timeline-container" id="certifications-timeline" style="display: none;">
+    <div class="timeline-container" id="certifications-timeline" data-tab="certifications" style="display: none;">
         <div class="timeline-line"></div>
         
         {{ range $index, $cert := .Site.Data.certifications }}
