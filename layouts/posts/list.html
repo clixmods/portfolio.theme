@@ -1,4 +1,4 @@
-{{ define "main" }}
+﻿{{ define "main" }}
 <div class="blog-theme posts-list-page">
     <!-- Blog Header -->
     <header class="blog-header">
@@ -11,20 +11,42 @@
     <!-- Blog Navigation Tabs -->
     <div class="tabs">
         <button class="tab-btn active" data-category="all">
-            <span>📝</span><span>{{ i18n "all" | default "Tous" }}</span>
+            <span>📚</span><span>{{ i18n "all" | default "Tous" }}</span>
         </button>
-        <button class="tab-btn" data-category="tech">
-            <span>💻</span><span>{{ i18n "category_tech" | default "Tech" }}</span>
-        </button>
-        <button class="tab-btn" data-category="dev">
-            <span>⚡</span><span>{{ i18n "category_dev" | default "Développement" }}</span>
-        </button>
-        <button class="tab-btn" data-category="design">
-            <span>🎨</span><span>{{ i18n "category_design" | default "Design" }}</span>
-        </button>
-        <button class="tab-btn" data-category="opinion">
-            <span>💭</span><span>{{ i18n "category_opinion" | default "Opinion" }}</span>
-        </button>
+        {{/* Générer les tabs dynamiquement basé sur les catégories des posts publiés */}}
+        {{ $publishedPages := where .Pages "Draft" false }}
+        {{ $categories := slice }}
+        {{ range $publishedPages }}
+            {{ if .Params.category }}
+                {{ $categories = $categories | append .Params.category }}
+            {{ end }}
+        {{ end }}
+        {{ $uniqueCategories := $categories | uniq | sort }}
+        
+        {{/* Définir les icônes et labels pour chaque catégorie */}}
+        {{ $categoryConfig := dict 
+            "tech" (dict "icon" "💻" "label" (i18n "category_tech" | default "Tech"))
+            "parcours" (dict "icon" "🚀" "label" (i18n "category_parcours" | default "Parcours")) 
+            "culture" (dict "icon" "🎭" "label" (i18n "category_culture" | default "Culture"))
+            "demo" (dict "icon" "🔬" "label" (i18n "category_demo" | default "Demo"))
+            "dev" (dict "icon" "⚡" "label" (i18n "category_dev" | default "Développement"))
+            "design" (dict "icon" "🎨" "label" (i18n "category_design" | default "Design"))
+            "opinion" (dict "icon" "💭" "label" (i18n "category_opinion" | default "Opinion"))
+        }}
+        
+        {{ range $uniqueCategories }}
+            {{ $config := index $categoryConfig . }}
+            {{ if $config }}
+            <button class="tab-btn" data-category="{{ . }}">
+                <span>{{ $config.icon }}</span><span>{{ $config.label }}</span>
+            </button>
+            {{ else }}
+            {{/* Fallback pour les catégories non définies */}}
+            <button class="tab-btn" data-category="{{ . }}">
+                <span>📄</span><span>{{ . | title }}</span>
+            </button>
+            {{ end }}
+        {{ end }}
     </div>
 
     <!-- Blog Sort Controls -->
@@ -129,7 +151,8 @@ document.addEventListener('DOMContentLoaded', function() {
         contentAttribute: 'data-category',
         animationType: 'cards',
         cardSelector: '.blog-card',
-        cardAnimationDelay: 90
+        cardAnimationDelay: 90,
+        allCategoryValue: 'all'  // Support for "show all" category
     });
 
     // Search

@@ -337,61 +337,42 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
 
-        <h3>2. Système Complet avec Sous-onglets (page projets)</h3>
+        <h3>2. Système de Tabs (page projets)</h3>
         <div class="demo-element-wrapper">
             <div class="css-class-info">
                 <strong>Container principal :</strong> <code>.projects-filters-bar</code><br>
-                <strong>Navigation secteurs :</strong> <code>.ps5-sectors</code><br>
-                <strong>Boutons secteurs :</strong> <code>.ps5-sector-btn</code> + <code>.active</code><br>
-                <strong>Icônes secteurs :</strong> <code>.ps5-sector-icon</code><br>
-                <strong>Labels secteurs :</strong> <code>.ps5-sector-label</code><br>
-                <strong>Attributs :</strong> <code>data-sector="[nom]"</code>, <code>data-has-subfilters="true"</code>
+                <strong>Navigation tabs :</strong> <code>.projects-tabs</code><br>
+                <strong>Boutons tabs :</strong> <code>.tab-btn</code> + <code>.active</code><br>
+                <strong>Icônes tabs :</strong> <code>.tab-icon</code><br>
+                <strong>Labels tabs :</strong> <code>.tab-label</code><br>
+                <strong>Attributs :</strong> <code>data-category="[nom]"</code>, <code>role="tab"</code>, <code>aria-selected="true/false"</code>
             </div>
             <div class="projects-filters-bar">
-                <nav class="ps5-sectors">
-                    <button class="ps5-sector-btn active" data-sector="all">
-                        <span class="ps5-sector-icon">📦</span>
-                        <span class="ps5-sector-label">Tous</span>
+                <div class="tabs projects-tabs" role="tablist">
+                    <button class="tab-btn active" data-category="all" role="tab" aria-selected="true">
+                        <span class="tab-icon">📦</span>
+                        <span class="tab-label">Tous</span>
                     </button>
-                    <button class="ps5-sector-btn" data-sector="games" data-has-subfilters="true">
-                        <span class="ps5-sector-icon">🎮</span>
-                        <span class="ps5-sector-label">Games</span>
+                    <button class="tab-btn" data-category="games" role="tab" aria-selected="false">
+                        <span class="tab-icon">🎮</span>
+                        <span class="tab-label">Games</span>
                     </button>
-                    <button class="ps5-sector-btn" data-sector="appsweb" data-has-subfilters="true">
-                        <span class="ps5-sector-icon">🌐</span>
-                        <span class="ps5-sector-label">Apps & Web</span>
+                    <button class="tab-btn" data-category="appsweb" role="tab" aria-selected="false">
+                        <span class="tab-icon">🌐</span>
+                        <span class="tab-label">Apps & Web</span>
                     </button>
-                    <button class="ps5-sector-btn" data-sector="mods">
-                        <span class="ps5-sector-icon">🧩</span>
-                        <span class="ps5-sector-label">Mods</span>
+                    <button class="tab-btn" data-category="mods" role="tab" aria-selected="false">
+                        <span class="tab-icon">🧩</span>
+                        <span class="tab-label">Mods</span>
                     </button>
-                    <button class="ps5-sector-btn" data-sector="tools">
-                        <span class="ps5-sector-icon">🛠️</span>
-                        <span class="ps5-sector-label">Tools</span>
+                    <button class="tab-btn" data-category="tools" role="tab" aria-selected="false">
+                        <span class="tab-icon">🛠️</span>
+                        <span class="tab-label">Tools</span>
                     </button>
-                </nav>
-                
-                <!-- Sous-filtres pour Games -->
-                <div class="demo-element-wrapper">
-                    <div class="css-class-info">
-                        <strong>Container sous-filtres :</strong> <code>.ps5-subfilters</code><br>
-                        <strong>Boutons sous-filtres :</strong> <code>.ps5-subfilter-btn</code> + <code>.active</code><br>
-                        <strong>Attributs :</strong> <code>data-parent="[secteur]"</code>, <code>data-subsector="[nom]"</code>
-                    </div>
-                    <div class="ps5-subfilters" data-parent="games" style="display: none;">
-                        <button class="ps5-subfilter-btn active" data-subsector="all">Tous</button>
-                        <button class="ps5-subfilter-btn" data-subsector="professionnel">Professionnel</button>
-                        <button class="ps5-subfilter-btn" data-subsector="personnel">Personnel</button>
-                        <button class="ps5-subfilter-btn" data-subsector="gamejams">Game Jams</button>
-                    </div>
                 </div>
-                
-                <!-- Sous-filtres pour Apps & Web -->
-                <div class="ps5-subfilters" data-parent="appsweb" style="display: none;">
-                    <button class="ps5-subfilter-btn active" data-subsector="all">Tous</button>
-                    <button class="ps5-subfilter-btn" data-subsector="professionnel">Professionnel</button>
-                    <button class="ps5-subfilter-btn" data-subsector="etude">Étude</button>
-                </div>
+            </div>
+            <div class="demo-note">
+                <p><strong>Note :</strong> Le système utilise maintenant le TabController qui gère automatiquement le filtrage des projets selon les secteurs (games-*, appsweb-*, mods, tools).</p>
             </div>
         </div>
         

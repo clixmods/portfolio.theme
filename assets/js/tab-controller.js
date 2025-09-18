@@ -43,6 +43,9 @@ class TabController {
             cardSelector: '.card',
             cardAnimationDelay: 90,
             
+            // Special category handling
+            allCategoryValue: null,  // Value that means "show all" (e.g. 'all')
+            
             // Accessibility
             enableKeyboardNav: true,
             
@@ -335,7 +338,8 @@ class TabController {
         
         cards.forEach(card => {
             const cardCategory = card.getAttribute(this.config.contentAttribute);
-            const shouldShow = cardCategory === category;
+            const shouldShow = (this.config.allCategoryValue && category === this.config.allCategoryValue) || 
+                              cardCategory === category;
             
             if (shouldShow) {
                 card.style.display = 'flex';
@@ -354,10 +358,12 @@ class TabController {
         
         // Animate visible cards with stagger
         setTimeout(() => {
-            const visibleCards = Array.from(cards).filter(card => 
-                card.getAttribute(this.config.contentAttribute) === category && 
-                getComputedStyle(card).display !== 'none'
-            );
+            const visibleCards = Array.from(cards).filter(card => {
+                const cardCategory = card.getAttribute(this.config.contentAttribute);
+                const matchesCategory = (this.config.allCategoryValue && category === this.config.allCategoryValue) || 
+                                      cardCategory === category;
+                return matchesCategory && getComputedStyle(card).display !== 'none';
+            });
             
             visibleCards.forEach((card, index) => {
                 card.classList.add('tile-ready');
