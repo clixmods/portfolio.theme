@@ -1,0 +1,1133 @@
+{{ define "main" }}
+<style>
+.demo-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    color: var(--text-primary);
+}
+
+.demo-section {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-lg);
+}
+
+.demo-section h2 {
+    color: var(--primary-blue-text, #3498db);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-blue-border);
+}
+
+.demo-section h3 {
+    margin: 2rem 0 1rem 0;
+    color: var(--text-secondary);
+}
+
+.demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.demo-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.demo-color-palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.color-swatch {
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.demo-typography {
+    line-height: 1.6;
+}
+
+.demo-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
+    backdrop-filter: blur(5px);
+}
+
+.tech-badge-demo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin: 0.25rem;
+}
+
+.project-action-demo {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+/* Demo-specific tab panels */
+.tab-content {
+    margin-top: 1rem;
+    min-height: 60px;
+}
+
+.tab-panel {
+    display: none;
+    padding: 1rem;
+    background: var(--glass-bg);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--glass-border);
+}
+
+.tab-panel.active {
+    display: block;
+}
+</style>
+
+<script>
+// Fonctionnalité des onglets pour la démo
+document.addEventListener('DOMContentLoaded', function() {
+    // Onglets de projets basiques
+    const projectTabs = document.querySelectorAll('.projects-tabs .tab-btn');
+    const projectPanels = document.querySelectorAll('[data-category]');
+    
+    projectTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.dataset.category;
+            
+            // Mise à jour des boutons
+            projectTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            // Mise à jour des panneaux (seulement ceux dans la section projets)
+            const projectSection = tab.closest('.demo-section');
+            const panels = projectSection.querySelectorAll('.tab-panel[data-category]');
+            panels.forEach(panel => {
+                panel.classList.toggle('active', panel.dataset.category === category);
+            });
+        });
+    });
+
+    // Système complet avec sous-onglets (comme page projets)
+    const sectorButtons = document.querySelectorAll('.ps5-sector-btn');
+    const subfiltersContainers = document.querySelectorAll('.ps5-subfilters');
+    const projectsDemoText = document.getElementById('projects-demo-text');
+    
+    let currentSector = 'all';
+    let currentSubsector = null;
+    
+    const sectorIcons = {
+        'all': '📦',
+        'games': '🎮', 
+        'appsweb': '🌐',
+        'mods': '🧩',
+        'tools': '🛠️'
+    };
+    
+    const subsectorLabels = {
+        'games': {
+            'all': 'tous les jeux',
+            'professionnel': 'jeux professionnels',
+            'personnel': 'jeux personnels', 
+            'gamejams': 'game jams'
+        },
+        'appsweb': {
+            'all': 'toutes les apps & web',
+            'professionnel': 'projets professionnels',
+            'etude': 'projets d\'étude'
+        }
+    };
+    
+    function updateProjectsDemo(sector, subsector = null) {
+        const icon = sectorIcons[sector] || '📦';
+        let text = `${icon} Affichage `;
+        
+        if (sector === 'all') {
+            text += 'de tous les projets';
+        } else if (subsector && subsector !== 'all') {
+            const label = subsectorLabels[sector] && subsectorLabels[sector][subsector];
+            text += `des ${label || subsector}`;
+        } else {
+            const sectorNames = {
+                'games': 'des jeux',
+                'appsweb': 'des apps & web', 
+                'mods': 'des mods',
+                'tools': 'des outils'
+            };
+            text += sectorNames[sector] || `du secteur ${sector}`;
+        }
+        
+        if (projectsDemoText) {
+            projectsDemoText.textContent = text;
+        }
+    }
+    
+    sectorButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const sector = btn.dataset.sector;
+            const hasSubfilters = btn.dataset.hasSubfilters === 'true';
+            
+            // Mise à jour des boutons secteurs
+            sectorButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Gestion des sous-filtres
+            subfiltersContainers.forEach(container => {
+                if (container.dataset.parent === sector && hasSubfilters) {
+                    container.style.display = 'flex';
+                    // Reset du sous-secteur actif
+                    container.querySelectorAll('.ps5-subfilter-btn').forEach(sub => {
+                        sub.classList.remove('active');
+                        if (sub.dataset.subsector === 'all') {
+                            sub.classList.add('active');
+                        }
+                    });
+                } else {
+                    container.style.display = 'none';
+                }
+            });
+            
+            currentSector = sector;
+            currentSubsector = hasSubfilters ? 'all' : null;
+            updateProjectsDemo(currentSector, currentSubsector);
+        });
+    });
+    
+    // Gestion des sous-filtres
+    document.querySelectorAll('.ps5-subfilter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const subsector = btn.dataset.subsector;
+            const container = btn.closest('.ps5-subfilters');
+            
+            // Mise à jour des boutons sous-secteurs
+            container.querySelectorAll('.ps5-subfilter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            currentSubsector = subsector === 'all' ? null : subsector;
+            updateProjectsDemo(currentSector, currentSubsector);
+        });
+    });
+    
+    // Onglets d'expérience
+    const expTabs = document.querySelectorAll('.experience-tabs .exp-tab-btn');
+    const expPanels = document.querySelectorAll('[data-tab]');
+    
+    expTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabName = tab.dataset.tab;
+            
+            // Mise à jour des boutons
+            expTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            // Mise à jour des panneaux (seulement ceux dans la section expérience)
+            const expSection = tab.closest('.demo-section');
+            const panels = expSection.querySelectorAll('.tab-panel[data-tab]');
+            panels.forEach(panel => {
+                panel.classList.toggle('active', panel.dataset.tab === tabName);
+            });
+        });
+    });
+    
+    // Onglets d'éducation
+    const eduTabs = document.querySelectorAll('.education-tabs .edu-tab-btn');
+    eduTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            eduTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+        });
+    });
+    
+    // Onglets de blog
+    const blogTabs = document.querySelectorAll('.blog-tabs .blog-tab-btn');
+    blogTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            blogTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+        });
+    });
+});
+</script>
+
+<div class="demo-page">
+    <header>
+        <h1>🎨 Demo - Éléments du thème Portfolio</h1>
+        <p>Cette page présente tous les composants et éléments visuels disponibles dans le thème.</p>
+    </header>
+
+    <!-- Section Systèmes d'Onglets Fonctionnels -->
+    <section class="demo-section">
+        <h2>� Systèmes d'Onglets</h2>
+        
+        <h3>1. Onglets de Projets Basiques (page d'accueil)</h3>
+        <div class="projects-tabs">
+            <button class="tab-btn active" data-category="games">🎮 Jeux</button>
+            <button class="tab-btn" data-category="apps-web">💻 Apps/Web</button>
+            <button class="tab-btn" data-category="mods-tools">🛠️ Mods & Tools</button>
+        </div>
+        <div class="tab-content">
+            <div class="tab-panel active" data-category="games">
+                <p>🎮 Contenu des projets de jeux vidéo</p>
+            </div>
+            <div class="tab-panel" data-category="apps-web">
+                <p>💻 Contenu des applications web</p>
+            </div>
+            <div class="tab-panel" data-category="mods-tools">
+                <p>🛠️ Contenu des mods et outils</p>
+            </div>
+        </div>
+
+        <h3>2. Système Complet avec Sous-onglets (page projets)</h3>
+        <div class="projects-filters-bar">
+            <nav class="ps5-sectors">
+                <button class="ps5-sector-btn active" data-sector="all">
+                    <span class="ps5-sector-icon">📦</span>
+                    <span class="ps5-sector-label">Tous</span>
+                </button>
+                <button class="ps5-sector-btn" data-sector="games" data-has-subfilters="true">
+                    <span class="ps5-sector-icon">🎮</span>
+                    <span class="ps5-sector-label">Games</span>
+                </button>
+                <button class="ps5-sector-btn" data-sector="appsweb" data-has-subfilters="true">
+                    <span class="ps5-sector-icon">🌐</span>
+                    <span class="ps5-sector-label">Apps & Web</span>
+                </button>
+                <button class="ps5-sector-btn" data-sector="mods">
+                    <span class="ps5-sector-icon">🧩</span>
+                    <span class="ps5-sector-label">Mods</span>
+                </button>
+                <button class="ps5-sector-btn" data-sector="tools">
+                    <span class="ps5-sector-icon">🛠️</span>
+                    <span class="ps5-sector-label">Tools</span>
+                </button>
+            </nav>
+            
+            <!-- Sous-filtres pour Games -->
+            <div class="ps5-subfilters" data-parent="games" style="display: none;">
+                <button class="ps5-subfilter-btn active" data-subsector="all">Tous</button>
+                <button class="ps5-subfilter-btn" data-subsector="professionnel">Professionnel</button>
+                <button class="ps5-subfilter-btn" data-subsector="personnel">Personnel</button>
+                <button class="ps5-subfilter-btn" data-subsector="gamejams">Game Jams</button>
+            </div>
+            
+            <!-- Sous-filtres pour Apps & Web -->
+            <div class="ps5-subfilters" data-parent="appsweb" style="display: none;">
+                <button class="ps5-subfilter-btn active" data-subsector="all">Tous</button>
+                <button class="ps5-subfilter-btn" data-subsector="professionnel">Professionnel</button>
+                <button class="ps5-subfilter-btn" data-subsector="etude">Étude</button>
+            </div>
+        </div>
+        
+        <div class="demo-projects-content">
+            <p id="projects-demo-text">📦 Affichage de tous les projets</p>
+        </div>
+
+        <h3>2. Onglets d'Expérience (comme sur la vraie page)</h3>
+        <div class="experience-tabs">
+            <button class="exp-tab-btn active" data-tab="experiences">💼 Expériences</button>
+            <button class="exp-tab-btn" data-tab="internships">🏢 Stages & Recherche</button>
+        </div>
+        <div class="tab-content">
+            <div class="tab-panel active" data-tab="experiences">
+                <p>💼 Contenu des expériences professionnelles</p>
+            </div>
+            <div class="tab-panel" data-tab="internships">
+                <p>🏢 Contenu des stages et recherches</p>
+            </div>
+        </div>
+
+        <h3>3. Onglets d'Éducation</h3>
+        <div class="education-tabs">
+            <button class="edu-tab-btn active" data-tab="education">🎓 Formation</button>
+            <button class="edu-tab-btn" data-tab="certifications">📜 Certifications</button>
+        </div>
+
+        <h3>4. Onglets de Blog</h3>
+        <div class="blog-tabs">
+            <button class="blog-tab-btn active" data-category="all">📰 Tous</button>
+            <button class="blog-tab-btn" data-category="tech">💻 Tech</button>
+            <button class="blog-tab-btn" data-category="gamedev">🎮 GameDev</button>
+        </div>
+    </section>
+
+    <!-- Section Éléments Cliquables -->
+    <section class="demo-section">
+        <h2>🔘 Boutons & Éléments Cliquables</h2>
+        
+        <h3>1. Boutons d'action unifiés (btn-action) - AVEC icônes</h3>
+        <div class="demo-buttons">
+            <button class="btn-action">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                Bouton Standard
+            </button>
+            
+            <button class="btn-action primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                </svg>
+                Contact
+            </button>
+            
+            <button class="btn-action accent">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                </svg>
+                Télécharger CV
+            </button>
+        </div>
+
+        <h3>1b. Boutons d'action unifiés (btn-action) - SANS icônes</h3>
+        <div class="demo-buttons">
+            <button class="btn-action">
+                Bouton Standard
+            </button>
+            
+            <button class="btn-action primary">
+                Contact
+            </button>
+            
+            <button class="btn-action accent">
+                Télécharger CV
+            </button>
+        </div>
+
+        <h3>2. Boutons d'action de projet (project-action-button) - AVEC icônes</h3>
+        <div class="project-action-demo">
+            <a class="project-action-button primary steam">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.62 20.41 6.363 24.2 11.979 24.2c6.624 0 11.99-5.367 11.99-11.99C23.97 5.588 18.603.221 11.979 0z"/>
+                </svg>
+                Steam
+            </a>
+            
+            <a class="project-action-button github">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+            </a>
+            
+            <a class="project-action-button youtube">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                YouTube
+            </a>
+            
+            <a class="project-action-button gamepad">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="6" y1="2" x2="6" y2="6"/>
+                    <line x1="18" y1="2" x2="18" y2="6"/>
+                    <path d="M6 2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-4l-4 4-4-4H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+                </svg>
+                Jouer
+            </a>
+            
+            <a class="project-action-button external-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                </svg>
+                Lien externe
+            </a>
+            
+            <a class="project-action-button xbox">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4.102 21.033C6.211 22.881 8.977 24 12 24c3.026 0 5.789-1.119 7.902-2.967.055-.048-.354-.25-.354-.25s-4.069 2.178-7.548 2.178-7.548-2.178-7.548-2.178-.409.202-.35.25zM8.52 12.862c-.95-1.09-1.692-2.38-1.692-4.086 0-1.766.815-3.339 2.24-4.038-.036.189-.056.384-.056.583 0 2.513 1.378 4.711 3.43 5.915-.863 1.408-2.457 2.177-3.922 1.626zm6.96 0c-1.465.551-3.059-.218-3.922-1.626 2.052-1.204 3.43-3.402 3.43-5.915 0-.199-.02-.394-.056-.583 1.425.699 2.24 2.272 2.24 4.038 0 1.706-.742 2.996-1.692 4.086z"/>
+                </svg>
+                Xbox
+            </a>
+
+            <button class="project-action-button more-options">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="1"/>
+                    <circle cx="12" cy="5" r="1"/>
+                    <circle cx="12" cy="19" r="1"/>
+                </svg>
+            </button>
+        </div>
+
+        <h3>2b. Boutons d'action de projet (project-action-button) - SANS icônes</h3>
+        <div class="project-action-demo">
+            <a class="project-action-button primary steam">
+                Steam
+            </a>
+            
+            <a class="project-action-button github">
+                GitHub
+            </a>
+            
+            <a class="project-action-button youtube">
+                YouTube
+            </a>
+            
+            <a class="project-action-button gamepad">
+                Jouer
+            </a>
+            
+            <a class="project-action-button external-link">
+                Lien externe
+            </a>
+            
+            <a class="project-action-button xbox">
+                Xbox
+            </a>
+
+            <button class="project-action-button more-options">
+                Plus
+            </button>
+        </div>
+
+        <h3>3. Boutons "Voir tout" - AVEC icônes</h3>
+        <div class="demo-buttons">
+            <a href="#" class="btn-see-all">
+                <span>Voir tous les projets</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+            
+            <a href="#" class="view-all-posts">
+                Voir tous les articles
+            </a>
+        </div>
+
+        <h3>3b. Boutons "Voir tout" - SANS icônes</h3>
+        <div class="demo-buttons">
+            <a href="#" class="btn-see-all" style="justify-content: center;">
+                <span>Voir tous les projets</span>
+            </a>
+            
+            <a href="#" class="view-all-posts">
+                Voir tous les articles
+            </a>
+        </div>
+    </section>
+
+    <!-- Section Cards de Projets -->
+    <section class="demo-section">
+        <h2>🃏 Cards de Projets</h2>
+        
+        <h3>Tile de projet PS5 (style principal)</h3>
+        <div class="projects-grid">
+            <div class="ps5-project-tile" data-project-id="demo-project" data-category="games">
+                <div class="ps5-tile-image">
+                    <img src="/images/placeholder-project.jpg" alt="Projet Démo">
+                    <div class="ps5-tile-overlay"></div>
+                </div>
+                
+                <div class="ps5-tile-badge">★</div>
+                <div class="ps5-tile-sector-icon">🎮</div>
+                
+                <div class="ps5-tile-content">
+                    <h3 class="ps5-tile-title">Projet Démo</h3>
+                    <p class="ps5-tile-subtitle">Description du projet de démo</p>
+                </div>
+                
+                <div class="ps5-tile-info">
+                    <div class="ps5-tile-info-content">
+                        <h3 class="ps5-tile-info-title">Projet Démo</h3>
+                        <p class="ps5-tile-info-subtitle">Description détaillée qui apparaît au survol</p>
+                        
+                        <div class="ps5-tile-technologies">
+                            <div class="tech-badge-demo">
+                                <span>🔥 Unity</span>
+                            </div>
+                            <div class="tech-badge-demo">
+                                <span>⚡ C#</span>
+                            </div>
+                        </div>
+                        
+                        <div class="ps5-tile-actions">
+                            <a class="project-action-button primary steam">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.62 20.41 6.363 24.2 11.979 24.2c6.624 0 11.99-5.367 11.99-11.99C23.97 5.588 18.603.221 11.979 0z"/>
+                                </svg>
+                                Steam
+                            </a>
+                            
+                            <a class="project-action-button github">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Cards d'Expérience -->
+    <section class="demo-section">
+        <h2>💼 Cards d'Expérience</h2>
+        
+        <div class="experience-timeline">
+            <div class="experience-card current">
+                <div class="experience-header-card">
+                    <div class="company-info">
+                        <div class="company-logo">
+                            <img src="/images/placeholder-company.jpg" alt="Entreprise Demo">
+                        </div>
+                        <div class="company-details">
+                            <h3 class="job-title">Développeur Unity</h3>
+                            <h4 class="company-name">Studio La Moutarde</h4>
+                            <div class="job-meta">
+                                <span class="job-period">Sept 2024 - Présent</span>
+                                <span class="job-duration">3 mois</span>
+                            </div>
+                            <div class="job-info">
+                                <span class="job-type">Alternance</span>
+                                <span class="job-location">Lyon, France</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Docks de Navigation -->
+    <section class="demo-section">
+        <h2>🚀 Docks de Navigation</h2>
+        
+        <h3>1. Top Dock (Barre supérieure)</h3>
+        <div style="background: var(--glass-bg); padding: 1rem; border-radius: var(--border-radius-md); margin: 1rem 0;">
+            <nav class="top-dock" style="position: static; transform: none; background: transparent;">
+                <div class="top-dock-container">
+                    <!-- Actions principales -->
+                    <div class="primary-actions-group">
+                        <a href="/cv/" class="dock-button primary-btn download-btn" title="Télécharger le CV">
+                            <svg class="dock-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                                <path d="M12 11v6m-3-3l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        
+                        <button class="dock-button primary-btn contact-btn" title="Contactez-moi">
+                            <svg class="dock-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22 6 12 13 2 6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Séparateur -->
+                    <div class="dock-separator"></div>
+                    
+                    <!-- Réseaux sociaux -->
+                    <div class="social-actions-group">
+                        <a href="#" class="dock-button social-btn" title="LinkedIn">
+                            <svg class="dock-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        
+                        <a href="#" class="dock-button social-btn" title="GitHub">
+                            <svg class="dock-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        
+                        <a href="#" class="dock-button social-btn" title="Discord">
+                            <svg class="dock-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419-.0002 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1568 2.4189Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <h3>2. Right Dock (Barre latérale droite)</h3>
+        <div style="background: var(--glass-bg); padding: 1rem; border-radius: var(--border-radius-md); margin: 1rem 0; display: flex; justify-content: center;">
+            <nav class="right-dock" style="position: static; transform: none; background: transparent; flex-direction: row; gap: 1rem;">
+                <!-- Bouton Trophées -->
+                <div class="dock-item trophies-item">
+                    <button class="dock-button trophies-btn" title="Trophées">
+                        <img class="dock-icon" src="/images/trophy.png" alt="Trophées" width="20" height="20" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span style="display: none;">🏆</span>
+                        <span class="trophy-count">85%</span>
+                        <div class="trophy-progress">
+                            <svg class="trophy-progress-circle" viewBox="0 0 52 52">
+                                <circle class="trophy-progress-track" cx="26" cy="26" r="24" fill="none" stroke="rgba(255, 215, 0, 0.2)" stroke-width="2"/>
+                                <circle class="trophy-progress-bar" cx="26" cy="26" r="24" fill="none" stroke="url(#trophyGradient)" stroke-width="2" stroke-linecap="round" stroke-dasharray="150.72" stroke-dashoffset="30"/>
+                                <defs>
+                                    <linearGradient id="trophyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Bouton Theme Toggle -->
+                <div class="dock-item theme-item">
+                    <button class="dock-button theme-toggle" title="Thème">
+                        <svg class="theme-icon dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Bouton Scroll to Top -->
+                <div class="dock-item scroll-item">
+                    <button class="dock-button scroll-to-top" title="Retour en haut">
+                        <svg class="dock-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Bouton Language Toggle -->
+                <div class="dock-item language-item">
+                    <button class="dock-button language-toggle" title="Langue">
+                        <span class="dock-icon language-icon">🇫🇷</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Section Navigation Blog -->
+    <section class="demo-section">
+        <h2>📰 Navigation d'Articles</h2>
+        
+        <nav class="blog-post-navigation">
+            <div class="blog-nav-item blog-nav-prev">
+                <span class="blog-nav-label">Article précédent</span>
+                <a href="#" class="blog-nav-link">
+                    <span class="blog-nav-title">Guide Unity : Optimisation des performances</span>
+                </a>
+            </div>
+            
+            <div class="blog-nav-item blog-nav-next">
+                <span class="blog-nav-label">Article suivant</span>
+                <a href="#" class="blog-nav-link">
+                    <span class="blog-nav-title">C# : Nouvelles fonctionnalités .NET 8</span>
+                </a>
+            </div>
+        </nav>
+    </section>
+
+    <!-- Section Skill Blocks -->
+    <section class="demo-section">
+        <h2>🧠 Blocs de Compétences</h2>
+        
+        <h3>1. Langages de programmation (avec expérience)</h3>
+        <div class="skills-grid">
+            <div class="skill-block clickable" data-skill-name="C#" data-skill-type="programming-language">
+                <span class="skill-icon">
+                    <img src="/images/technologies/CSharp.svg" alt="C#" class="tech-icon-svg" width="28" height="28" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span class="tech-icon-emoji" style="display: none;">⚡</span>
+                </span>
+                <span class="skill-name">C#</span>
+                <span class="skill-level">6 ans</span>
+            </div>
+            
+            <div class="skill-block clickable" data-skill-name="JavaScript" data-skill-type="programming-language">
+                <span class="skill-icon">
+                    <img src="/images/technologies/JavaScript.svg" alt="JavaScript" class="tech-icon-svg" width="28" height="28" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span class="tech-icon-emoji" style="display: none;">📜</span>
+                </span>
+                <span class="skill-name">JavaScript</span>
+                <span class="skill-level">4 ans</span>
+            </div>
+            
+            <div class="skill-block clickable" data-skill-name="Python" data-skill-type="programming-language">
+                <span class="skill-icon">
+                    <img src="/images/technologies/Python.svg" alt="Python" class="tech-icon-svg" width="28" height="28" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span class="tech-icon-emoji" style="display: none;">🐍</span>
+                </span>
+                <span class="skill-name">Python</span>
+                <span class="skill-level">3 ans</span>
+            </div>
+        </div>
+
+        <h3>2. Frameworks & Moteurs (avec expérience)</h3>
+        <div class="skills-grid">
+            <div class="skill-block clickable" data-skill-name="Unity" data-skill-type="framework-engine">
+                <span class="skill-icon">
+                    <img src="/images/technologies/Unity.svg" alt="Unity" class="tech-icon-svg" width="28" height="28" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span class="tech-icon-emoji" style="display: none;">🎮</span>
+                </span>
+                <span class="skill-name">Unity</span>
+                <span class="skill-level">6 ans</span>
+            </div>
+            
+            <div class="skill-block clickable" data-skill-name="React" data-skill-type="framework-engine">
+                <span class="skill-icon">
+                    <img src="/images/technologies/React.svg" alt="React" class="tech-icon-svg" width="28" height="28" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span class="tech-icon-emoji" style="display: none;">⚛️</span>
+                </span>
+                <span class="skill-name">React</span>
+                <span class="skill-level">2 ans</span>
+            </div>
+            
+            <div class="skill-block clickable" data-skill-name="Blazor" data-skill-type="framework-engine">
+                <span class="skill-icon">
+                    <img src="/images/technologies/Blazor.svg" alt="Blazor" class="tech-icon-svg" width="28" height="28" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span class="tech-icon-emoji" style="display: none;">🔥</span>
+                </span>
+                <span class="skill-name">Blazor</span>
+                <span class="skill-level">2 ans</span>
+            </div>
+        </div>
+
+        <h3>3. Spécialités (sans expérience)</h3>
+        <div class="skills-grid">
+            <div class="skill-block clickable" data-skill-name="Game Development" data-skill-type="specialty">
+                <span class="skill-icon">
+                    <span class="tech-icon-emoji">🎮</span>
+                </span>
+                <span class="skill-name">Game Development</span>
+            </div>
+            
+            <div class="skill-block clickable" data-skill-name="UI/UX Design" data-skill-type="specialty">
+                <span class="skill-icon">
+                    <span class="tech-icon-emoji">🎨</span>
+                </span>
+                <span class="skill-name">UI/UX Design</span>
+            </div>
+            
+            <div class="skill-block clickable" data-skill-name="API Development" data-skill-type="specialty">
+                <span class="skill-icon">
+                    <span class="tech-icon-emoji">🔌</span>
+                </span>
+                <span class="skill-name">API Development</span>
+            </div>
+        </div>
+
+        <h3>4. Soft Skills (sans expérience)</h3>
+        <div class="skills-grid">
+            <div class="skill-block clickable" data-skill-name="Travail d'équipe" data-skill-type="soft-skill">
+                <span class="skill-icon">
+                    <span class="tech-icon-emoji">🤝</span>
+                </span>
+                <span class="skill-name">Travail d'équipe</span>
+            </div>
+            
+            <div class="skill-block clickable" data-skill-name="Résolution de problèmes" data-skill-type="soft-skill">
+                <span class="skill-icon">
+                    <span class="tech-icon-emoji">🧠</span>
+                </span>
+                <span class="skill-name">Résolution de problèmes</span>
+            </div>
+            
+            <div class="skill-block clickable" data-skill-name="Communication" data-skill-type="soft-skill">
+                <span class="skill-icon">
+                    <span class="tech-icon-emoji">💬</span>
+                </span>
+                <span class="skill-name">Communication</span>
+            </div>
+        </div>
+
+        <h3>5. Badges technologiques dans les projets</h3>
+        <div class="ps5-tile-technologies">
+            <span class="ps5-tile-tech-item">
+                <img src="/images/technologies/Unity.svg" alt="Unity" width="16" height="16" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">🎮</span>
+                Unity
+            </span>
+            
+            <span class="ps5-tile-tech-item">
+                <img src="/images/technologies/CSharp.svg" alt="C#" width="16" height="16" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">⚡</span>
+                C#
+            </span>
+            
+            <span class="ps5-tile-tech-item">
+                <img src="/images/technologies/Blender.svg" alt="Blender" width="16" height="16" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">🎭</span>
+                Blender
+            </span>
+            
+            <span class="ps5-tile-tech-more">+3</span>
+        </div>
+    </section>
+
+    <!-- Section Skill Tags -->
+    <section class="demo-section">
+        <h2>🏷️ Tags de Compétences</h2>
+        
+        <h3>1. Tags cliquables avec icônes (dans expériences/éducations)</h3>
+        <div class="skills-tags">
+            <span class="skill-tag clickable" data-skill-name="C#" data-skill-type="programming-language">
+                <img src="/images/technologies/CSharp.svg" alt="C#" class="tech-icon-svg" width="16" height="16" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">⚡</span>
+                C#
+            </span>
+            
+            <span class="skill-tag clickable" data-skill-name="Unity" data-skill-type="framework-engine">
+                <img src="/images/technologies/Unity.svg" alt="Unity" class="tech-icon-svg" width="16" height="16" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">🎮</span>
+                Unity
+            </span>
+            
+            <span class="skill-tag clickable" data-skill-name="Blender" data-skill-type="tool">
+                <img src="/images/technologies/Blender.svg" alt="Blender" class="tech-icon-svg" width="16" height="16" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">🎭</span>
+                Blender
+            </span>
+            
+            <span class="skill-tag clickable" data-skill-name="Git" data-skill-type="tool">
+                <img src="/images/technologies/Git.svg" alt="Git" class="tech-icon-svg" width="16" height="16" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">📝</span>
+                Git
+            </span>
+        </div>
+
+        <h3>2. Tags avec emojis uniquement (spécialités/soft skills)</h3>
+        <div class="skills-tags">
+            <span class="skill-tag clickable" data-skill-name="Game Development" data-skill-type="specialty">
+                🎮 Game Development
+            </span>
+            
+            <span class="skill-tag clickable" data-skill-name="UI/UX Design" data-skill-type="specialty">
+                🎨 UI/UX Design
+            </span>
+            
+            <span class="skill-tag clickable" data-skill-name="Travail d'équipe" data-skill-type="soft-skill">
+                🤝 Travail d'équipe
+            </span>
+            
+            <span class="skill-tag clickable" data-skill-name="Communication" data-skill-type="soft-skill">
+                💬 Communication
+            </span>
+        </div>
+
+        <h3>3. Tags non-cliquables (compétences non référencées)</h3>
+        <div class="skills-tags">
+            <span class="skill-tag programming">Compétence Inconnue 1</span>
+            <span class="skill-tag framework">Framework Externe</span>
+            <span class="skill-tag tool">Outil Personnalisé</span>
+            <span class="skill-tag specialty">Spécialité Unique</span>
+            <span class="skill-tag soft">Soft Skill Personnalisé</span>
+        </div>
+
+        <h3>4. Tags par catégories (avec classes CSS)</h3>
+        <div class="skills-tags">
+            <span class="skill-tag programming clickable">🔵 Programmation</span>
+            <span class="skill-tag framework clickable">🟢 Framework</span>
+            <span class="skill-tag tool clickable">🟡 Outil</span>
+            <span class="skill-tag specialty clickable">🟠 Spécialité</span>
+            <span class="skill-tag soft clickable">🟣 Soft Skill</span>
+        </div>
+
+        <h3>5. Tags compacts (style projets)</h3>
+        <div class="project-tile-tech">
+            <span class="project-tile-tech-item">
+                <img src="/images/technologies/Unity.svg" alt="Unity" width="12" height="12" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">🎮</span>
+                Unity
+            </span>
+            
+            <span class="project-tile-tech-item">
+                <img src="/images/technologies/CSharp.svg" alt="C#" width="12" height="12" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">⚡</span>
+                C#
+            </span>
+            
+            <span class="project-tile-tech-item">Photoshop</span>
+            <span class="project-tile-tech-item">+2</span>
+        </div>
+    </section>
+
+    <!-- Section Typographie -->
+    <section class="demo-section">
+        <h2>📝 Typographie</h2>
+        <div class="demo-typography">
+            <h1>Titre H1 - Portfolio Principal</h1>
+            <h2>Titre H2 - Section</h2>
+            <h3>Titre H3 - Sous-section</h3>
+            <h4>Titre H4 - Détail</h4>
+            <p><strong>Texte en gras</strong> et <em>texte en italique</em></p>
+            <p>Paragraphe normal avec du texte standard. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <blockquote>
+                "Ceci est une citation importante du portfolio"
+            </blockquote>
+            <code>code inline</code>
+            <pre><code>// Bloc de code
+function demo() {
+    return "Hello World";
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- Section Badges Technologiques -->
+    <section class="demo-section">
+        <h2>🏷️ Badges Technologies</h2>
+        <div class="demo-grid">
+            <div>
+                <h3>Langages de programmation</h3>
+                <div class="tech-badge-demo">
+                    <img src="/images/technologies/CSharp.svg" width="20" height="20" alt="C#">
+                    C#
+                </div>
+                <div class="tech-badge-demo">
+                    <img src="/images/technologies/JavaScript.svg" width="20" height="20" alt="JavaScript">
+                    JavaScript
+                </div>
+                <div class="tech-badge-demo">
+                    <img src="/images/technologies/Python.svg" width="20" height="20" alt="Python">
+                    Python
+                </div>
+            </div>
+            <div>
+                <h3>Frameworks</h3>
+                <div class="tech-badge-demo">
+                    <img src="/images/technologies/Unity.svg" width="20" height="20" alt="Unity">
+                    Unity
+                </div>
+                <div class="tech-badge-demo">
+                    <img src="/images/technologies/React.svg" width="20" height="20" alt="React">
+                    React
+                </div>
+                <div class="tech-badge-demo">
+                    <img src="/images/technologies/Hugo.svg" width="20" height="20" alt="Hugo">
+                    Hugo
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Cartes -->
+    <section class="demo-section">
+        <h2>🃏 Cartes et Conteneurs</h2>
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>Carte Projet</h3>
+                <p>Exemple de carte pour présenter un projet avec effet glassmorphisme.</p>
+                <div class="demo-buttons">
+                    <a class="btn-action primary">Voir le projet</a>
+                </div>
+            </div>
+            <div class="demo-card">
+                <h3>Carte Information</h3>
+                <p>Carte d'information avec bordure glassmorphisme et arrière-plan flou.</p>
+                <ul>
+                    <li>Point 1</li>
+                    <li>Point 2</li>
+                    <li>Point 3</li>
+                </ul>
+            </div>
+            <div class="demo-card">
+                <h3>Carte Contact</h3>
+                <p>Exemple de carte de contact ou testimonial.</p>
+                <div class="demo-buttons">
+                    <button class="btn-action accent">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.904.732-1.636 1.636-1.636h20.728C23.268 3.821 24 4.553 24 5.457zM16.545 10.182L12 13.773L7.455 10.182L12 6.545l4.545 3.637z"/>
+                        </svg>
+                        Contacter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Palette de couleurs -->
+    <section class="demo-section">
+        <h2>🎨 Palette de couleurs</h2>
+        <div class="demo-color-palette">
+            <div class="color-swatch" style="background: var(--primary-blue-bg);">
+                Primary Blue<br>
+                <code>--primary-blue-bg</code>
+            </div>
+            <div class="color-swatch" style="background: var(--glass-bg);">
+                Glass Background<br>
+                <code>--glass-bg</code>
+            </div>
+            <div class="color-swatch" style="background: rgba(255, 107, 53, 0.8);">
+                Accent Orange<br>
+                <code>#ff6b35</code>
+            </div>
+            <div class="color-swatch" style="background: var(--text-primary, #ffffff);">
+                Text Primary<br>
+                <code>--text-primary</code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Éléments interactifs -->
+    <section class="demo-section">
+        <h2>⚡ Éléments interactifs</h2>
+        
+        <h3>Formulaires</h3>
+        <form style="max-width: 500px;">
+            <div style="margin: 1rem 0;">
+                <label for="demo-input" style="display: block; margin-bottom: 0.5rem;">Input Text</label>
+                <input type="text" id="demo-input" placeholder="Exemple d'input" style="width: 100%; padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--glass-bg); color: var(--text-primary);">
+            </div>
+            <div style="margin: 1rem 0;">
+                <label for="demo-textarea" style="display: block; margin-bottom: 0.5rem;">Textarea</label>
+                <textarea id="demo-textarea" placeholder="Exemple de textarea" rows="4" style="width: 100%; padding: 0.75rem; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--glass-bg); color: var(--text-primary); resize: vertical;"></textarea>
+            </div>
+            <button type="button" class="btn-action primary">Envoyer</button>
+        </form>
+
+        <h3>Navigation</h3>
+        <nav style="display: flex; gap: 1rem; margin: 1rem 0;">
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid var(--glass-border); border-radius: 20px; text-decoration: none; color: var(--text-primary); background: var(--glass-bg);">Accueil</a>
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid var(--glass-border); border-radius: 20px; text-decoration: none; color: var(--text-primary); background: var(--glass-bg);">Projets</a>
+            <a href="#" style="padding: 0.5rem 1rem; border: 1px solid var(--glass-border); border-radius: 20px; text-decoration: none; color: var(--text-primary); background: var(--glass-bg);">Contact</a>
+        </nav>
+    </section>
+
+    <!-- Section Responsive -->
+    <section class="demo-section">
+        <h2>📱 Responsive Design</h2>
+        <p>Cette page s'adapte automatiquement aux différentes tailles d'écran :</p>
+        <ul>
+            <li><strong>Desktop</strong> : Affichage en grille multi-colonnes</li>
+            <li><strong>Tablette</strong> : Grille adaptée avec moins de colonnes</li>
+            <li><strong>Mobile</strong> : Affichage en colonne unique</li>
+        </ul>
+        <p>Redimensionnez votre navigateur pour voir l'adaptation automatique.</p>
+    </section>
+
+    <footer style="text-align: center; margin-top: 3rem; padding: 2rem; border-top: 1px solid var(--glass-border);">
+        <p>🎨 Demo du thème Portfolio - Tous les éléments visuels disponibles</p>
+        <div class="demo-buttons" style="justify-content: center;">
+            <a href="/" class="btn-action primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                Retour à l'accueil
+            </a>
+        </div>
+    </footer>
+</div>
+
+<!-- Auto-include person modal if needed -->
+{{ partial "auto-person-modal.html" . }}
+
+{{ end }}
