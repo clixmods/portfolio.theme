@@ -232,14 +232,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Experience Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Global flag to prevent double initialization
+    if (window.experienceTabsInitialized) {
+        return;
+    }
+    window.experienceTabsInitialized = true;
+    
     // Experience tabs using TabController - scoped to experience section to avoid interference
-    // Uses simple show/hide to prevent visual overlap issues
-    const experienceTabs = new TabController('.experience-section .tab-btn', {
-        contentSelector: '.experience-section .experience-timeline[data-tab]',
-        contentAttribute: 'data-tab',
-        animationType: 'none',
-        animationDuration: 300
-    });
+    const experienceSection = document.querySelector('.experience-section');
+    
+    if (experienceSection) {
+        const experienceTabButtons = experienceSection.querySelectorAll('.tab-btn');
+        const experienceTimelines = experienceSection.querySelectorAll('.experience-timeline');
+        
+        if (experienceTabButtons.length > 0 && experienceTimelines.length > 0) {
+            const experienceTabs = new TabController('.experience-section .tab-btn', {
+                contentSelector: '.experience-section .experience-timeline[data-tab]',
+                contentAttribute: 'data-tab',
+                animationType: 'none',
+                animationDuration: 0
+            });
+        }
+    }
 
     // Initialize timeline styles
     const expTimelines = [
@@ -447,8 +461,6 @@ function showNotification(message, type = 'info') {
 
 // Project Actions - Show More functionality
 function showMoreActions(button) {
-    console.log('showMoreActions called', button);
-    
     // Trouver la popup associée à ce bouton
     // Remonter jusqu'au conteneur des actions du projet
     let container = button.parentElement;
@@ -470,8 +482,6 @@ function showMoreActions(button) {
         }
     }
     
-    console.log('popup found:', popup);
-    
     if (popup) {
         // S'assurer que le popup a les bonnes propriétés CSS pour le centrage
         popup.style.display = 'flex';
@@ -485,20 +495,11 @@ function showMoreActions(button) {
         popup.style.zIndex = '9999';
         
         document.body.style.overflow = 'hidden';
-        console.log('popup shown and centered');
-    } else {
-        console.error('Popup not found!');
-        console.log('Button parent:', button.parentElement);
-        console.log('Button parent children:', button.parentElement.children);
-        // Afficher toutes les popups disponibles pour debug
-        console.log('All actions-popup elements:', document.querySelectorAll('.actions-popup'));
     }
 }
 
 // Gérer les actions YouTube avec le viewer intégré
 function handleYouTubeAction(url, title) {
-    console.log('handleYouTubeAction called with URL:', url, 'Title:', title);
-    
     // Ajouter un indicateur de chargement
     const loadingIndicator = document.createElement('div');
     loadingIndicator.className = 'youtube-loading-indicator';

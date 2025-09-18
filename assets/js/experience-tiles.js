@@ -32,24 +32,14 @@ class ExperienceTiles {
     cacheElements() {
         this.projectTiles = document.querySelectorAll('.project-item');
         this.experienceSection = document.querySelector('.experience-section');
-        this.tabButtons = document.querySelectorAll('.exp-tab-btn');
-        this.projectsContainers = document.querySelectorAll('.projects-container');
-        
-        // Debug info
-        console.log(`Found ${this.projectTiles.length} project tiles`);
     }
 
     bindEvents() {
-        // Events for project tiles
+        // Events for project tiles only - tabs are handled by TabController
         this.projectTiles.forEach(tile => {
             tile.addEventListener('mouseenter', (e) => this.handleTileHover(e));
             tile.addEventListener('mouseleave', (e) => this.handleTileLeave(e));
             tile.addEventListener('mousemove', (e) => this.handleTileMouseMove(e));
-        });
-
-        // Events for experience tabs
-        this.tabButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => this.handleTabChange(e));
         });
 
         // Window resize
@@ -113,22 +103,7 @@ class ExperienceTiles {
         tile.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
     }
 
-    handleTabChange(e) {
-        const clickedTab = e.currentTarget;
-        const category = clickedTab.dataset.category;
-        
-        // Update active tabs
-        this.tabButtons.forEach(btn => btn.classList.remove('active'));
-        clickedTab.classList.add('active');
-        
-        // Timeline change animation
-        this.switchTimeline(category);
-        
-        // Haptic feedback (vibration on mobile)
-        if (navigator.vibrate) {
-            navigator.vibrate(50);
-        }
-    }
+    // Tab handling is now managed by TabController in main.js
 
     switchTimeline(category) {
         const timelines = document.querySelectorAll('.experience-timeline');

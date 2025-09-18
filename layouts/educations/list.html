@@ -3,6 +3,9 @@
 {{ with resources.Get "css/education.css" }}
 <link rel="stylesheet" href="{{ .RelPermalink }}">
 {{ end }}
+{{ with resources.Get "css/tabs.css" }}
+<link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}
 
 <style>
 /* Ajustement pour le dock en haut */
@@ -19,9 +22,9 @@
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="education-tabs">
-        <button class="edu-tab-btn active" data-tab="education">Formation</button>
-        <button class="edu-tab-btn" data-tab="certifications">Certifications</button>
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="education">Formation</button>
+        <button class="tab-btn" data-tab="certifications">Certifications</button>
     </div>
 
     <!-- Education Timeline -->
@@ -284,7 +287,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Education tabs using TabController with fade animation
-    const educationTabs = new TabController('.edu-tab-btn', {
+    const educationTabs = new TabController('.education-section .tab-btn', {
         contentSelector: '.timeline-container[data-tab]',
         contentAttribute: 'data-tab',
         animationType: 'fade',
