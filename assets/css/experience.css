@@ -107,58 +107,7 @@
    =================================== */
 
 /**
- * Tab container with glass morphism effect
- * Provides navigation between different experience categories
  */
-.experience-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 0.2rem;
-    margin-bottom: 3rem;
-    background: var(--exp-tabs-bg, rgba(var(--slate-rgb),0.5));
-    backdrop-filter: blur(10px);
-    border-radius: 25px;
-    padding: 0.3rem;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    border: var(--exp-tabs-border, 1px solid rgba(var(--accent-rgb),0.2));
-}
-
-/**
- * Individual tab button styling
- * Transparent by default with smooth transitions
- */
-.exp-tab-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-neutral);
-    padding: 0.8rem 2rem;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-/**
- * Active tab button with gradient background
- * Highlighted state with teal gradient and shadow
- */
-.exp-tab-btn.active {
-    background: var(--exp-tab-active-gradient, linear-gradient(135deg, rgba(var(--accent-rgb),0.8), rgba(var(--accent-rgb),0.6)));
-    color: var(--text-primary);
-    box-shadow: var(--exp-tab-active-shadow, 0 4px 15px rgba(var(--accent-rgb),0.3));
-}
-
-/**
- * Hover state for inactive tab buttons
- * Subtle color change and background tint
- */
-.exp-tab-btn:hover:not(.active) {
-    color: var(--accent);
-    background: var(--exp-tab-hover-bg, rgba(var(--accent-rgb),0.1));
-}
 
 /* ===================================
    EXPERIENCE TIMELINE CONTAINER
@@ -1081,23 +1030,9 @@
     }
     
     /**
-     * Vertical tab layout for mobile
-     * Stacked tabs with full width
+     * OBSOLÈTE : Styles responsifs des anciens onglets supprimés
+     * Le responsive des onglets est maintenant géré dans css/shared/components/tabs.css
      */
-    .experience-tabs {
-        flex-direction: column;
-        width: 100%;
-        border-radius: 15px;
-    }
-    
-    /**
-     * Mobile tab button adjustments
-     * Reduced border radius and added margins
-     */
-    .exp-tab-btn {
-        border-radius: 10px;
-        margin: 0.1rem;
-    }
     
     /**
      * Vertical header card layout for mobile

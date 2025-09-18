@@ -1,0 +1,287 @@
+/**
+ * Unified tab system for Portfolio theme
+ * Based on blog-tabs style with btn-action design
+ * Supports main tabs and sub-tabs
+ */
+
+/* ========================================
+   MAIN TAB CONTAINER
+   ======================================== */
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+    margin-bottom: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 0.3rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================
+   TAB BUTTONS - BTN-ACTION INHERITANCE
+   ======================================== */
+.tab-btn {
+    /* Base inherited from btn-action */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    padding: 0.8rem 2rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    min-height: auto;
+    justify-content: center;
+    white-space: nowrap;
+    
+    /* Default tab style */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Hover state - Inspired by project tabs with btn-action style */
+.tab-btn:hover:not(.active) {
+    color: var(--primary-blue-text, #4fd1c7);
+    background: rgba(79, 209, 199, 0.1);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+/* Active state - Adapted btn-action primary style */
+.tab-btn.active {
+    background: var(--primary-blue-bg);
+    border-color: var(--primary-blue-border);
+    color: var(--text-primary);
+    box-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
+    font-weight: var(--font-weight-bold);
+}
+
+.tab-btn.active:hover {
+    background: var(--primary-blue-bg-hover);
+    border-color: var(--primary-blue-border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+/* Icons in tabs */
+.tab-btn svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* Emoji support */
+.tab-btn .tab-emoji {
+    font-size: 1.1em;
+    margin-right: 0.5rem;
+}
+
+/* ========================================
+   SUB-TAB SYSTEM (PROJECTS)
+   ======================================== */
+.sub-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem;
+    margin-bottom: 1.5rem;
+    background: rgba(var(--glass-bg-rgb), 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 0.2rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(var(--glass-border-rgb), 0.5);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sub-tab-btn {
+    /* Smaller than main tabs */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.6rem 1.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: var(--transition-smooth);
+    position: relative;
+    text-align: center;
+    justify-content: center;
+    white-space: nowrap;
+    
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.sub-tab-btn:hover {
+    background: rgba(var(--primary-blue-bg-rgb), 0.5);
+    color: var(--text-secondary);
+    transform: translateY(-1px);
+}
+
+.sub-tab-btn.active {
+    background: var(--primary-blue-bg);
+    color: var(--text-primary);
+    box-shadow: 0 1px 8px rgba(52, 152, 219, 0.2);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ========================================
+   RESPONSIVE LAYOUTS
+   ======================================== */
+@media (max-width: 768px) {
+    .tabs {
+        gap: 0.2rem;
+        padding: 0.2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .tab-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .sub-tabs {
+        gap: 0.1rem;
+        padding: 0.15rem;
+        margin-bottom: 1rem;
+    }
+    
+    .sub-tab-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tabs {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .tab-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+        min-width: auto;
+    }
+    
+    .sub-tabs {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+    
+    .sub-tab-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.7rem;
+    }
+}
+
+/* ========================================
+   ACCENT VARIANTS (FOR SPECIAL SECTIONS)
+   ======================================== */
+.tabs.accent .tab-btn.active {
+    background: var(--accent-bg, rgba(255, 107, 53, 0.15));
+    border-color: var(--accent-border, rgba(255, 107, 53, 0.4));
+    color: var(--accent-color, rgba(255, 107, 53, 1));
+    box-shadow: 0 2px 10px rgba(255, 107, 53, 0.3);
+}
+
+.tabs.accent .tab-btn:hover {
+    background: rgba(255, 107, 53, 0.1);
+    border-color: rgba(255, 107, 53, 0.3);
+}
+
+/* ========================================
+   TAB CONTENTS
+   ======================================== */
+.tab-content {
+    margin-top: 1rem;
+}
+
+.tab-panel {
+    display: none;
+    padding: 0;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* Fade-in animation for panels */
+.tab-panel.active {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   ADVANCED HOVER EFFECTS (inspired by project tabs)
+   ======================================== */
+
+/* Subtle shimmer effect on hover */
+.tab-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(79, 209, 199, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.tab-btn:hover:not(.active)::before {
+    left: 100%;
+}
+
+/* Hover with subtle gradient like project tabs */
+.tab-btn:hover:not(.active) {
+    background: rgba(79, 209, 199, 0.1);
+    box-shadow: 0 2px 10px rgba(79, 209, 199, 0.15);
+}
+
+/* ========================================
+   GRADIENT HOVER EFFECTS (Project tabs style)
+   ======================================== */
+
+/* Active state with gradient like project tabs */
+.tab-btn.active {
+    background: linear-gradient(135deg, rgba(79, 209, 199, 0.8), rgba(79, 209, 199, 0.6));
+    color: var(--text-primary);
+    box-shadow: 0 4px 15px rgba(79, 209, 199, 0.3);
+    font-weight: var(--font-weight-bold);
+}
+
+.tab-btn.active:hover {
+    background: linear-gradient(135deg, rgba(79, 209, 199, 0.9), rgba(79, 209, 199, 0.7));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 209, 199, 0.4);
+}

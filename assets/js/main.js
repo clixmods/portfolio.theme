@@ -184,8 +184,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize tech badge colors
     initializeTechBadgeColors();
     
-    // Projects tabs using TabController
-    const projectTabs = new TabController('.tab-btn', {
+    // Projects tabs using TabController - scoped to projects section to avoid interference
+    const projectTabs = new TabController('.projects-section .tab-btn', {
+        contentSelector: '.projects-section [data-category]',
+        contentAttribute: 'data-category',
         animationType: 'cards',
         cardSelector: '.ps5-project-tile',
         cardAnimationDelay: 90,
@@ -207,11 +209,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Education Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Education tabs using TabController with fade animation
-    const educationTabs = new TabController('.edu-tab-btn', {
-        contentSelector: '.timeline-container[data-tab]',
+    // Education tabs using TabController - scoped to education section to avoid interference
+    // Uses simple show/hide to prevent visual overlap issues
+    const educationTabs = new TabController('.education-section .tab-btn', {
+        contentSelector: '.education-section .timeline-container[data-tab]',
         contentAttribute: 'data-tab',
-        animationType: 'fade',
+        animationType: 'none',
         animationDuration: 300
     });
 
@@ -229,11 +232,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Experience Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Experience tabs using TabController with slide animation
-    const experienceTabs = new TabController('.exp-tab-btn', {
-        contentSelector: '.experience-timeline[data-tab]',
+    // Experience tabs using TabController - scoped to experience section to avoid interference
+    // Uses simple show/hide to prevent visual overlap issues
+    const experienceTabs = new TabController('.experience-section .tab-btn', {
+        contentSelector: '.experience-section .experience-timeline[data-tab]',
         contentAttribute: 'data-tab',
-        animationType: 'slide',
+        animationType: 'none',
         animationDuration: 300
     });
 

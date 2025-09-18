@@ -177,12 +177,22 @@ window.portfolioEducations = [
     {{- end -}}
 ];
 
-// Tab management & skill modal stats
+// Tab management & skill modal statistics
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('skillModal');
     if (!modal) return;
-    const tabButtons = modal.querySelectorAll('.skill-modal-tab');
-    const tabPanels = modal.querySelectorAll('.skill-modal-tab-panel');
+    
+    // Initialize TabController for skill modal - scoped to modal context to avoid interference
+    const skillModalTabs = new TabController('#skillModal .skill-modal-tab', {
+        contentSelector: '#skillModal .skill-modal-tab-panel',
+        contentAttribute: 'data-tab',
+        animationType: 'none', // Use CSS animations via class changes instead
+        useHiddenAttribute: true,
+        contentMatchingStrategy: 'id-pattern',
+        idPattern: 'skillModalTab{Category}',
+        enableKeyboardNav: true
+    });
+    
     const counts = {
         projects: document.getElementById('skillModalProjectsCount'),
         experiences: document.getElementById('skillModalExperiencesCount'),
@@ -190,43 +200,13 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     const quickStats = document.getElementById('skillModalQuickStats');
 
-    function activateTab(target) {
-        tabButtons.forEach(btn => {
-            const isActive = btn.dataset.tab === target;
-            btn.classList.toggle('active', isActive);
-            btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-        });
-        tabPanels.forEach(panel => {
-            const shouldShow = panel.id === 'skillModalTab' + target.charAt(0).toUpperCase() + target.slice(1);
-            panel.classList.toggle('active', shouldShow);
-            if (shouldShow) {
-                panel.removeAttribute('hidden');
-            } else {
-                panel.setAttribute('hidden','hidden');
-            }
-        });
-    }
-
-    tabButtons.forEach(btn => {
-        btn.addEventListener('click', () => activateTab(btn.dataset.tab));
-        btn.addEventListener('keydown', e => {
-            if (['ArrowRight','ArrowLeft'].includes(e.key)) {
-                e.preventDefault();
-                const arr = Array.from(tabButtons);
-                const idx = arr.indexOf(btn);
-                const next = e.key === 'ArrowRight' ? (idx + 1) % arr.length : (idx - 1 + arr.length) % arr.length;
-                arr[next].focus();
-            }
-        });
-    });
-
-    // Hook on existing openSkillModal to update stats
+    // Hook into existing openSkillModal function to update statistics and activate default tab
     const originalOpen = window.openSkillModal;
     if (typeof originalOpen === 'function') {
         window.openSkillModal = function(name, icon, level, experience, iconType) {
             originalOpen(name, icon, level, experience, iconType);
             updateStats(name);
-            activateTab('projects');
+            skillModalTabs.activateTab('projects');
         };
     }
 

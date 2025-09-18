@@ -25,6 +25,11 @@ class TabController {
             contentSelector: '.tab-content',      // Target content elements
             contentAttribute: 'data-category',    // Attribute to match tabs/content
             
+            // Content visibility management
+            useHiddenAttribute: false,            // Use hidden attribute instead of style.display
+            contentMatchingStrategy: 'attribute', // 'attribute' or 'id-pattern'
+            idPattern: null,                      // Pattern for ID-based matching (e.g., 'prefix{Category}')
+            
             // Animation types: 'none', 'fade', 'slide', 'cards'
             animationType: 'none',
             animationDuration: 300,
@@ -206,10 +211,41 @@ class TabController {
      */
     switchContentSimple(category) {
         this.contentElements.forEach(element => {
-            const elementCategory = element.getAttribute(this.config.contentAttribute);
-            const shouldShow = category === 'all' || elementCategory === category;
-            element.style.display = shouldShow ? 'block' : 'none';
+            const shouldShow = this.shouldShowElement(element, category);
+            this.setElementVisibility(element, shouldShow);
         });
+    }
+
+    /**
+     * Determine if an element should be shown for the given category
+     */
+    shouldShowElement(element, category) {
+        if (category === 'all') return true;
+        
+        if (this.config.contentMatchingStrategy === 'id-pattern' && this.config.idPattern) {
+            const expectedId = this.config.idPattern.replace('{Category}', 
+                category.charAt(0).toUpperCase() + category.slice(1));
+            return element.id === expectedId;
+        }
+        
+        const elementCategory = element.getAttribute(this.config.contentAttribute);
+        return elementCategory === category;
+    }
+
+    /**
+     * Set element visibility using the configured method
+     */
+    setElementVisibility(element, shouldShow) {
+        if (this.config.useHiddenAttribute) {
+            element.classList.toggle('active', shouldShow);
+            if (shouldShow) {
+                element.removeAttribute('hidden');
+            } else {
+                element.setAttribute('hidden', 'hidden');
+            }
+        } else {
+            element.style.display = shouldShow ? 'block' : 'none';
+        }
     }
 
     /**
@@ -219,8 +255,7 @@ class TabController {
         this.isAnimating = true;
         
         this.contentElements.forEach(element => {
-            const elementCategory = element.getAttribute(this.config.contentAttribute);
-            const shouldShow = category === 'all' || elementCategory === category;
+            const shouldShow = this.shouldShowElement(element, category);
             
             if (shouldShow) {
                 element.style.display = 'block';

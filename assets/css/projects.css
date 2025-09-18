@@ -77,62 +77,15 @@
 }
 
 /* ========================================
-   NAVIGATION TABS
+   NAVIGATION TABS - MIGRÉ VERS LE SYSTÈME UNIFIÉ
    ======================================== */
 
 /**
- * Container for navigation tabs
- * Creates a glassmorphism effect with centered layout
+ * OBSOLÈTE : Les onglets des projets utilisent maintenant le système unifié
+ * Voir : css/shared/components/tabs.css (.unified-tabs et .unified-tab-btn)
+ * L'ancien système .projects-tabs et .tab-btn a été supprimé
+ * Migration effectuée vers .unified-tabs dans layouts/_partials/projects.html
  */
-.projects-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 0.2rem;
-    margin-bottom: 2rem;
-    background: var(--projects-tabs-bg, rgba(55, 65, 81, 0.5));
-    backdrop-filter: blur(10px);
-    border-radius: 25px;
-    padding: 0.3rem;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    border: var(--projects-tabs-border, 1px solid rgba(var(--accent-rgb), 0.2));
-}
-
-/**
- * Individual tab button styling
- * Transparent by default with smooth transitions
- */
-.tab-btn {
-    background: transparent;
-    border: none;
-    color: var(--projects-tab-color, #a0a0a0);
-    padding: 0.8rem 2rem;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-/**
- * Active tab state
- * Applies gradient background and glowing effect
- */
-.tab-btn.active {
-    background: var(--projects-tab-active-gradient, linear-gradient(135deg, rgba(var(--accent-rgb), 0.8), rgba(var(--accent-rgb), 0.6)));
-    color: var(--projects-tab-active-color, #fff);
-    box-shadow: var(--projects-tab-active-shadow, 0 4px 15px rgba(var(--accent-rgb), 0.3));
-}
-
-/**
- * Tab hover state (only for non-active tabs)
- * Subtle highlight effect on hover
- */
-.tab-btn:hover:not(.active) {
-    color: var(--projects-tab-hover-color, #4fd1c7);
-    background: var(--projects-tab-hover-bg, rgba(var(--accent-rgb), 0.1));
-}
 
 /* ========================================
    TECHNOLOGY FILTER BADGES
@@ -405,21 +358,7 @@
     }
     
     /**
-     * Vertical tab layout for better mobile UX
      */
-    .projects-tabs {
-        flex-direction: column;
-        width: 100%;
-        border-radius: 15px;
-    }
-    
-    /**
-     * Adjusted tab button styling for vertical layout
-     */
-    .tab-btn {
-        border-radius: 10px;
-        margin: 0.1rem;
-    }
     
     /**
      * Added padding for technology filters on smaller screens
