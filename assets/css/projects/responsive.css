@@ -448,16 +448,9 @@
         flex-direction: column;
     }
     
-    .project-action-button {
-        padding: 0.6rem 1rem;
-        font-size: 0.8rem;
-        min-height: 40px;
+    .project-actions .btn-action {
         flex: none;
-    }
-    
-    .project-action-button svg {
-        width: 16px;
-        height: 16px;
+        max-width: none;
     }
     
     .fact-card {
