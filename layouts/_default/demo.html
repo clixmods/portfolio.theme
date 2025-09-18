@@ -88,12 +88,12 @@
 }
 
 /* Demo-specific tab panels */
-.tab-content {
+.demo-tab-content {
     margin-top: 1rem;
     min-height: 60px;
 }
 
-.tab-panel {
+.demo-tab-panel {
     display: none;
     padding: 1rem;
     background: var(--glass-bg);
@@ -101,12 +101,10 @@
     border: 1px solid var(--glass-border);
 }
 
-.tab-panel.active {
+.demo-tab-panel.active {
     display: block;
 }
-</style>
-
-<script>
+    </style><script>
 // Fonctionnalité des onglets pour la démo
 document.addEventListener('DOMContentLoaded', function() {
     // Onglets de projets basiques
@@ -123,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Mise à jour des panneaux (seulement ceux dans la section projets)
             const projectSection = tab.closest('.demo-section');
-            const panels = projectSection.querySelectorAll('.tab-panel[data-category]');
+            const panels = projectSection.querySelectorAll('.demo-tab-panel[data-category]');
             panels.forEach(panel => {
                 panel.classList.toggle('active', panel.dataset.category === category);
             });
@@ -244,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Mise à jour des panneaux (seulement ceux dans la section expérience)
             const expSection = tab.closest('.demo-section');
-            const panels = expSection.querySelectorAll('.tab-panel[data-tab]');
+            const panels = expSection.querySelectorAll('.demo-tab-panel[data-tab]');
             panels.forEach(panel => {
                 panel.classList.toggle('active', panel.dataset.tab === tabName);
             });
@@ -287,14 +285,14 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="tab-btn" data-category="apps-web">💻 Apps/Web</button>
             <button class="tab-btn" data-category="mods-tools">🛠️ Mods & Tools</button>
         </div>
-        <div class="tab-content">
-            <div class="tab-panel active" data-category="games">
+        <div class="demo-tab-content">
+            <div class="demo-tab-panel active" data-category="games">
                 <p>🎮 Contenu des projets de jeux vidéo</p>
             </div>
-            <div class="tab-panel" data-category="apps-web">
+            <div class="demo-tab-panel" data-category="apps-web">
                 <p>💻 Contenu des applications web</p>
             </div>
-            <div class="tab-panel" data-category="mods-tools">
+            <div class="demo-tab-panel" data-category="mods-tools">
                 <p>🛠️ Contenu des mods et outils</p>
             </div>
         </div>
@@ -349,11 +347,11 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="exp-tab-btn active" data-tab="experiences">💼 Expériences</button>
             <button class="exp-tab-btn" data-tab="internships">🏢 Stages & Recherche</button>
         </div>
-        <div class="tab-content">
-            <div class="tab-panel active" data-tab="experiences">
+        <div class="demo-tab-content">
+            <div class="demo-tab-panel active" data-tab="experiences">
                 <p>💼 Contenu des expériences professionnelles</p>
             </div>
-            <div class="tab-panel" data-tab="internships">
+            <div class="demo-tab-panel" data-tab="internships">
                 <p>🏢 Contenu des stages et recherches</p>
             </div>
         </div>
@@ -1101,6 +1099,98 @@ function demo() {
         </nav>
     </section>
 
+    <!-- Section 9: Testimonials (VRAI partial du thème) -->
+    <section class="demo-section">
+        <h2>💬 Testimonials & Slider</h2>
+        <p>Composant testimonials existant du thème avec ses vraies classes CSS.</p>
+        
+        {{ partial "testimonials.html" . }}
+    </section>
+
+    <!-- Section 10: Forms (VRAIES classes du forms.css existant) -->
+    <section class="demo-section">
+        <h2>📝 Formulaires & Inputs</h2>
+        <p>Formulaire utilisant les vraies classes CSS du fichier forms.css du thème.</p>
+        
+        <div class="contact-form-container">
+            <h3>Formulaire de Contact</h3>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="demo-name">Nom complet *</label>
+                    <input type="text" id="demo-name" name="name" class="form-input" required placeholder="Votre nom complet">
+                </div>
+                
+                <div class="form-group">
+                    <label for="demo-email">Adresse e-mail *</label>
+                    <input type="email" id="demo-email" name="email" class="form-input" required placeholder="votre.email@exemple.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="demo-subject">Sujet</label>
+                    <select id="demo-subject" name="subject" class="form-select">
+                        <option value="">Sélectionnez un sujet...</option>
+                        <option value="collaboration">💼 Collaboration professionnelle</option>
+                        <option value="projet">🚀 Nouveau projet</option>
+                        <option value="question">❓ Question technique</option>
+                        <option value="autre">💬 Autre</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="demo-message">Votre message *</label>
+                    <textarea id="demo-message" name="message" class="form-textarea" required placeholder="Décrivez votre projet ou votre demande..." rows="5"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">
+                        <span class="btn-text">Envoyer le message</span>
+                        <span class="btn-icon">📧</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Section 11: Education (VRAI partial du thème) -->
+    <section class="demo-section">
+        <h2>🎓 Education & Certifications</h2>
+        <p>Composant education existant du thème avec ses vraies classes CSS.</p>
+        
+        {{ partial "education.html" . }}
+    </section>
+
+    <!-- Section 12: Modals (VRAIS partials du thème) -->
+    <section class="demo-section">
+        <h2>🔲 Modals & Overlays</h2>
+        <p>Modals existants du thème avec leurs vraies interactions JavaScript.</p>
+        
+        <div class="demo-grid">
+            <div class="demo-item aero-glass">
+                <h4>Skill Modal Unity</h4>
+                <p>Modal skill existant - cliquez sur Unity dans la section Skills pour l'ouvrir.</p>
+                <button class="skill-trigger" data-skill="unity">
+                    <img src="/images/technologies/Unity.svg" alt="Unity" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">
+                    Ouvrir Unity Modal
+                </button>
+            </div>
+            
+            <div class="demo-item aero-glass">
+                <h4>Person Modal</h4>
+                <p>Modal de profil - cliquez sur une personne cliquable dans les testimonials.</p>
+                <div class="clickable-person" data-person-id="john-doe" style="cursor: pointer; padding: 1rem; border: 1px solid var(--glass-border); border-radius: 8px;">
+                    <img src="/images/avatar6.svg" alt="John Doe" style="width: 40px; height: 40px; border-radius: 50%; vertical-align: middle; margin-right: 10px;">
+                    John Doe - Cliquez pour voir le modal
+                </div>
+            </div>
+            
+            <div class="demo-item aero-glass">
+                <h4>Right Dock avec Notifications</h4>
+                <p>Système de notifications existant dans le dock droit.</p>
+                {{ partial "right-dock.html" . }}
+            </div>
+        </div>
+    </section>
+
     <!-- Section Responsive -->
     <section class="demo-section">
         <h2>📱 Responsive Design</h2>
@@ -1126,6 +1216,12 @@ function demo() {
         </div>
     </footer>
 </div>
+
+<!-- Inclure les VRAIS modals du thème -->
+{{ partial "skill-modal.html" . }}
+{{ partial "person-modal.html" . }}
+
+<!-- Les vrais JavaScripts du thème sont déjà chargés automatiquement -->
 
 <!-- Auto-include person modal if needed -->
 {{ partial "auto-person-modal.html" . }}
