@@ -16,26 +16,7 @@
     width: 100%;
 }
 
-.education-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.education-header h2 { 
-    color: var(--edu-title-text,#fff); 
-    font-size: 3rem; 
-    font-weight: 700;
-    margin-bottom: 1rem;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-
-.education-subtitle { 
-    color: var(--edu-muted-text,#a0a0a0); 
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto;
-}
+/* Education header styles are now handled by section-headers.css */
 
 
 /* Timeline Container */
@@ -531,9 +512,7 @@
         align-items: flex-start;
     }
     
-    .education-header h2 {
-        font-size: 2.5rem;
-    }
+    /* Education header responsive styles are now handled by section-headers.css */
     
 }
 

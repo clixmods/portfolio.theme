@@ -254,25 +254,7 @@ body {
     width: 100%;
 }
 
-.skills-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.skills-header h2 {
-    color: #fff;
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.skills-subtitle {
-    color: #a0a0a0;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto;
-}
+/* Skills header styles are now handled by section-headers.css */
 
 .skills-section h3 {
     color: var(--accent);
@@ -422,10 +404,7 @@ body {
         font-size: 0.65rem;
     }
     
-    /* Skills header responsive styles */
-    .skills-header h2 {
-        font-size: 2.5rem;
-    }
+    /* Skills header responsive styles are now handled by section-headers.css */
     
     /* Contact section responsive styles */
     .contact-content {
@@ -463,14 +442,7 @@ body {
 }
 
 @media (max-width: 480px) {
-    .skills-header h2 {
-        font-size: 2rem;
-    }
-    
-    .skills-subtitle {
-        font-size: 1rem;
-        padding: 0 1rem;
-    }
+    /* Skills header responsive styles are now handled by section-headers.css */
     
     .skills-categories-grid {
         gap: 1rem;

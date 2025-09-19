@@ -32,35 +32,7 @@
 
 /**
  * Header section containing title and subtitle
- * Centers content and provides proper spacing
- */
-.projects-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-/**
- * Main projects title styling
- * Large, bold text with white color
- */
-.projects-header h2 {
-    color: var(--projects-section-title-color, #fff);
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-/**
- * Subtitle text below the main title
- * Provides description with muted color and constrained width
- */
-.projects-subtitle {
-    color: var(--projects-section-subtitle-color, #a0a0a0);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto;
-}
+/* Projects header styles are now handled by section-headers.css */
 
 /**
  * Description paragraph styling
@@ -350,12 +322,7 @@
  * Adjusts layout for medium-sized screens
  */
 @media (max-width: 768px) {
-    /**
-     * Smaller header title for tablets
-     */
-    .projects-header h2 {
-        font-size: 2.5rem;
-    }
+    /* Projects header responsive styles are now handled by section-headers.css */
     
     /**
      */
@@ -452,20 +419,7 @@
  * Optimized for small mobile screens
  */
 @media (max-width: 480px) {
-    /**
-     * Even smaller header for mobile devices
-     */
-    .projects-header h2 {
-        font-size: 2rem;
-    }
-    
-    /**
-     * Adjusted subtitle with padding for mobile
-     */
-    .projects-subtitle {
-        font-size: 1rem;
-        padding: 0 1rem;
-    }
+    /* Projects header responsive styles are now handled by section-headers.css */
     
     /**
      * Reduced filter padding for small screens

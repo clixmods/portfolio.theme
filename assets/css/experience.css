@@ -70,37 +70,7 @@
    EXPERIENCE HEADER
    =================================== */
 
-/**
- * Header container with centered text alignment
- * Contains the main title and subtitle for the experience section
- */
-.experience-header {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-/**
- * Main heading for the experience section
- * Large, bold title with consistent typography
- */
-.experience-header h2 {
-    color: var(--text-primary);
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-/**
- * Subtitle text providing additional context
- * Muted color with limited width for better readability
- */
-.experience-subtitle {
-    color: var(--text-neutral);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 700px;
-    margin: 0 auto;
-}
+/* Experience header styles are now handled by section-headers.css */
 
 /* ===================================
    EXPERIENCE NAVIGATION TABS
@@ -1022,12 +992,7 @@
  * Optimized layout for smaller screens
  */
 @media (max-width: 768px) {
-    /**
-     * Smaller header font for mobile
-     */
-    .experience-header h2 {
-        font-size: 2.5rem;
-    }
+    /* Experience header responsive styles are now handled by section-headers.css */
     
     /**
      * OBSOLÈTE : Styles responsifs des anciens onglets supprimés

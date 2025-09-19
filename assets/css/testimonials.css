@@ -4,23 +4,7 @@
     width: 100%;
 }
 
-.testimonials-section .section-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.testimonials-section .section-header h2 {
-    color: var(--accent);
-    margin-bottom: 1rem;
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-.testimonials-section .section-subtitle {
-    color: #d1d5db;
-    font-size: 1.1rem;
-    margin-bottom: 0;
-}
+/* Section header styles are now handled by section-headers.css */
 
 .testimonials-section h3 {
     color: var(--accent);
