@@ -1,15 +1,15 @@
 {{ define "main" }}
-{{/* CSS PS5 déjà chargé via head. Garde fallback sécurisé si besoin. */}}
+{{/* PS5 CSS already loaded via head. Keep secure fallback if needed. */}}
 {{ with resources.Get "css/ps5-projects.css" }}
 <link rel="stylesheet" href="{{ .RelPermalink }}">
 {{ end }}
-<!-- Préchargement du placeholder pour éviter requêtes répétées -->
+<!-- Preload placeholder to avoid repeated requests -->
 <link rel="preload" as="image" href="/images/placeholder-project.jpg">
 
 <div class="ps5-projects-page">
-    <!-- Fond dynamique projet -->
+    <!-- Dynamic project background -->
     <div id="project-bg" aria-hidden="true"></div>
-    <!-- En-tête global projets -->
+    <!-- Global projects header -->
     <section class="projects-page-header" aria-labelledby="projects-main-title">
         <div class="projects-heading-block">
             <h1 id="projects-main-title" class="projects-list-title">{{ .Title | default (i18n "projects_title" | default "Mes projets") }}</h1>
@@ -17,7 +17,7 @@
                 {{ .Params.description | default ( i18n "projects_list_subtitle" | default "Sélection de mes créations : jeux vidéo, applications web et outils de développement." ) }}
             </p>
         </div>
-        <!-- Stats rapides optionnelles -->
+        <!-- Optional quick stats -->
         <div class="projects-quick-stats">
             {{ $all := where .Site.RegularPages "Section" "projects" }}
             {{ $games := where $all ".Params.sector" "in" (slice "games-professionnel" "games-personnel" "games-gamejams") }}
@@ -32,8 +32,8 @@
         </div>
     </section>
 
-    <!-- Barre de filtres sticky (secteurs) -->
-    <div class="projects-filters-bar" role="toolbar" aria-label="Filtres projets">
+    <!-- Sticky filters bar (sectors) -->
+    <div class="projects-filters-bar" role="toolbar" aria-label="Project filters">
       <div class="tabs projects-tabs" role="tablist" aria-label="Types de projets">
           <button class="tab-btn active" data-category="all" role="tab" aria-selected="true">
               <span class="tab-icon">📦</span>
@@ -57,26 +57,40 @@
           </button>
       </div>
       
-      <!-- Sous-filtres pour Games -->
+      <!-- Sub-filters for Games -->
       <div class="sub-tabs" id="games-subtabs" style="display: none;">
-          <button class="sub-tab-btn active" data-subcategory="games-all">Tous</button>
-          <button class="sub-tab-btn" data-subcategory="games-professionnel">Professionnel</button>
-          <button class="sub-tab-btn" data-subcategory="games-personnel">Personnel</button>
-          <button class="sub-tab-btn" data-subcategory="games-gamejams">Game Jams</button>
+          <button class="sub-tab-btn active" data-subcategory="games-all">
+              <span class="subtab-icon">📦</span>Tous
+          </button>
+          <button class="sub-tab-btn" data-subcategory="games-professionnel">
+              <span class="subtab-icon">💼</span>Professionnel
+          </button>
+          <button class="sub-tab-btn" data-subcategory="games-personnel">
+              <span class="subtab-icon">🎯</span>Personnel
+          </button>
+          <button class="sub-tab-btn" data-subcategory="games-gamejams">
+              <span class="subtab-icon">⚡</span>Game Jams
+          </button>
       </div>
       
-      <!-- Sous-filtres pour Apps & Web -->
+      <!-- Sub-filters for Apps & Web -->
       <div class="sub-tabs" id="appsweb-subtabs" style="display: none;">
-          <button class="sub-tab-btn active" data-subcategory="appsweb-all">Tous</button>
-          <button class="sub-tab-btn" data-subcategory="appsweb-professionnel">Professionnel</button>
-          <button class="sub-tab-btn" data-subcategory="appsweb-etude">Étude</button>
+          <button class="sub-tab-btn active" data-subcategory="appsweb-all">
+              <span class="subtab-icon">📦</span>Tous
+          </button>
+          <button class="sub-tab-btn" data-subcategory="appsweb-professionnel">
+              <span class="subtab-icon">🏢</span>Professionnel
+          </button>
+          <button class="sub-tab-btn" data-subcategory="appsweb-etude">
+              <span class="subtab-icon">🎓</span>Étude
+          </button>
       </div>
     </div>
 
-    <!-- Grille de projets scrollable -->
+    <!-- Scrollable projects grid -->
     <div class="projects-scroll-area">
     <div class="ps5-projects-tiles">
-        {{/* On liste tous les projets (hors _index) */}}
+        {{/* List all projects (excluding _index) */}}
         {{ $projects := where .Site.RegularPages "Section" "projects" }}
         {{ range $projects }}
         {{ if not (eq .File.LogicalName "_index.md") }}
@@ -86,16 +100,16 @@
          data-category="{{ .Params.sector }}"
          
          data-technologies='{{ partial "combined-technologies.html" . }}'>
-            <!-- Image principale -->
+            <!-- Main image -->
             <div class="ps5-tile-image">
                 <img loading="lazy" src="{{ with .Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" alt="{{ .Title }}" onerror="this.onerror=null;this.src='/images/placeholder-project.jpg';">
                 <div class="ps5-tile-overlay"></div>
             </div>
 
-            <!-- Badge featured -->
+            <!-- Featured badge -->
             {{ if .Params.featured }}<div class="ps5-tile-badge">★</div>{{ end }}
 
-            <!-- Icône secteur -->
+            <!-- Sector icon -->
             <div class="ps5-tile-sector-icon">
                 {{ if in .Params.sector "games-" }}🎮{{ end }}
                 {{ if in .Params.sector "appsweb-" }}🛒{{ end }}
@@ -103,20 +117,20 @@
                 {{ if eq .Params.sector "tools" }}🛠️{{ end }}
             </div>
 
-            <!-- Contenu court -->
+            <!-- Short content -->
             <div class="ps5-tile-content">
                 <h3 class="ps5-tile-title">{{ .Title }}</h3>
                 {{ with .Params.subtitle }}<p class="ps5-tile-subtitle">{{ . }}</p>{{ end }}
             </div>
 
-            <!-- Overlay détaillé -->
+            <!-- Detailed overlay -->
             <div class="ps5-tile-info">
                 <div class="ps5-tile-info-content">
                     <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
                     {{ with .Params.subtitle }}<p class="ps5-tile-info-subtitle">{{ . }}</p>{{ end }}
                     {{ with .Params.description }}<p class="ps5-tile-description">{{ . }}</p>{{ end }}
 
-                    <!-- Technologies principales -->
+                    <!-- Main technologies -->
                     {{ $allTechnologies := partial "get-all-technologies.html" . }}
                     {{ if $allTechnologies }}
                     <div class="ps5-tile-tech">
@@ -143,7 +157,7 @@
                 </div>
             </div>
 
-            <!-- Lien principal invisible -->
+            <!-- Invisible main link -->
             <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="{{ i18n "see_project" | default "Voir le projet" }}: {{ .Title }}"></a>
         </article>
         {{ end }}
@@ -153,18 +167,18 @@
 
 </div>
 
-{{/* Inclusion du JS TabController */}}
+{{/* Include TabController JS */}}
 {{ with resources.Get "js/tab-controller.js" }}
 <script src="{{ .RelPermalink }}"></script>
 {{ end }}
 <script>
-// Initialisation du système de tabs pour les projets
+// Initialize tab system for projects
 document.addEventListener('DOMContentLoaded', function() {
-    // Petit délai pour s'assurer que le DOM est complètement chargé
+    // Small delay to ensure DOM is fully loaded
     setTimeout(() => {
         console.log('=== PROJECTS TABS DEBUG ===');
     
-    // Sélection des éléments
+    // Element selection
     let tabBtns = document.querySelectorAll('.projects-page .tab-btn');
     if (tabBtns.length === 0) {
         tabBtns = document.querySelectorAll('.tab-btn');
@@ -192,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    // Fonction de filtrage personnalisée
+    // Custom filtering function
     function filterProjects(category, subcategory = null) {
         console.log('Filtering projects for category:', category, 'subcategory:', subcategory);
         let visibleCount = 0;
@@ -219,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 shouldShow = sector === category;
             }
             
-            // Animation avec transitions
+            // Animation with transitions
             if (shouldShow) {
                 visibleCount++;
                 tile.style.display = '';
@@ -241,22 +255,35 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Filtered: ${visibleCount}/${projectTiles.length} tiles visible`);
     }
     
-    // Fonction pour afficher/masquer les subtabs
+    // Function to show/hide subtabs
     function showSubtabs(category) {
-        // Masquer tous les subtabs
+        const mainTabsContainer = document.querySelector('.tabs.projects-tabs');
+        
+        // Hide all subtabs
         document.querySelectorAll('.sub-tabs').forEach(subtab => {
             subtab.style.display = 'none';
         });
         
-        // Afficher les subtabs appropriés
+        // Remove integration class
+        if (mainTabsContainer) {
+            mainTabsContainer.classList.remove('has-subtabs');
+        }
+        
+        // Show appropriate subtabs and add integration class
         if (category === 'games' && gamesSubtabs) {
             gamesSubtabs.style.display = 'flex';
+            if (mainTabsContainer) {
+                mainTabsContainer.classList.add('has-subtabs');
+            }
         } else if (category === 'appsweb' && appswebSubtabs) {
             appswebSubtabs.style.display = 'flex';
+            if (mainTabsContainer) {
+                mainTabsContainer.classList.add('has-subtabs');
+            }
         }
     }
     
-    // Gestion des clics sur les tabs
+    // Handle tab clicks
     tabBtns.forEach((tab, index) => {
         console.log(`Setting up tab ${index}:`, tab.getAttribute('data-category'));
         
@@ -264,24 +291,24 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             console.log('Tab clicked:', tab.getAttribute('data-category'));
             
-            // Retirer active de tous les tabs
+            // Remove active from all tabs
             tabBtns.forEach(t => {
                 t.classList.remove('active');
                 t.setAttribute('aria-selected', 'false');
             });
             
-            // Ajouter active au tab cliqué
+            // Add active to clicked tab
             tab.classList.add('active');
             tab.setAttribute('aria-selected', 'true');
             
-            // Filtrer les projets et gérer les subtabs
+            // Filter projects and manage subtabs
             const category = tab.getAttribute('data-category');
             console.log('Filtering by category:', category);
             
-            // Afficher/masquer les subtabs
+            // Show/hide subtabs
             showSubtabs(category);
             
-            // Réinitialiser les subtabs à "Tous"
+            // Reset subtabs to "All"
             if (category === 'games' || category === 'appsweb') {
                 const activeSubtabs = document.querySelectorAll(`#${category}-subtabs .sub-tab-btn`);
                 activeSubtabs.forEach(subtab => subtab.classList.remove('active'));
@@ -293,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Gestion des clics sur les subtabs
+    // Handle subtab clicks
     subtabBtns.forEach((subtab, index) => {
         console.log(`Setting up subtab ${index}:`, subtab.getAttribute('data-subcategory'));
         
@@ -302,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const subcategory = subtab.getAttribute('data-subcategory');
             console.log('Subtab clicked:', subcategory);
             
-            // Déterminer la catégorie parent
+            // Determine parent category
             let parentCategory = 'all';
             if (subcategory.startsWith('games-')) {
                 parentCategory = 'games';
@@ -310,29 +337,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 parentCategory = 'appsweb';
             }
             
-            // Retirer active des autres subtabs de la même catégorie
+            // Remove active from other subtabs of same category
             const parentSubtabs = document.querySelectorAll(`#${parentCategory}-subtabs .sub-tab-btn`);
             parentSubtabs.forEach(s => s.classList.remove('active'));
             
-            // Ajouter active au subtab cliqué
+            // Add active to clicked subtab
             subtab.classList.add('active');
             
-            // Filtrer les projets avec la subcategory
+            // Filter projects with subcategory
             filterProjects(parentCategory, subcategory);
         });
     });
     
-    // Ajouter les styles de transition aux tuiles
+    // Add transition styles to tiles
     projectTiles.forEach(tile => {
         tile.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
     });
     
-    // Initialiser avec "all"
+    // Initialize with "all"
     filterProjects('all');
-    }, 100); // délai de 100ms
+    }, 100); // 100ms delay
 });
 
-// Ajuste dynamiquement la hauteur de la zone scroll pour éviter coupures si header/filtres changent
+// Dynamically adjust scroll area height to avoid cuts if header/filters change
 (() => {
     const area = document.querySelector('.projects-scroll-area');
     if(!area) return;
@@ -343,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const headerH = header ? header.getBoundingClientRect().height : 0;
         const filtersH = filters ? filters.getBoundingClientRect().height : 0;
         const topOffset = area.getBoundingClientRect().top;
-        const available = viewportH - topOffset - 24; // marge bas
+        const available = viewportH - topOffset - 24; // bottom margin
         if(window.matchMedia('(max-width:560px)').matches){
             area.style.height = 'auto';
             area.style.maxHeight = 'none';

@@ -131,130 +131,119 @@
     border-color: rgba(52, 152, 219, 0.5);
 }
     </style><script>
-// Fonctionnalité des onglets pour la démo
+// Tab functionality for demo
 document.addEventListener('DOMContentLoaded', function() {
-    // Onglets de projets basiques
-    const projectTabs = document.querySelectorAll('.projects-tabs .tab-btn');
-    const projectPanels = document.querySelectorAll('[data-category]');
-    
-    projectTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const category = tab.dataset.category;
-            
-            // Mise à jour des boutons
-            projectTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            
-            // Mise à jour des panneaux (seulement ceux dans la section projets)
-            const projectSection = tab.closest('.demo-section');
-            const panels = projectSection.querySelectorAll('.demo-tab-panel[data-category]');
-            panels.forEach(panel => {
-                panel.classList.toggle('active', panel.dataset.category === category);
-            });
-        });
-    });
-
-    // Système complet avec sous-onglets (comme page projets)
-    const sectorButtons = document.querySelectorAll('.ps5-sector-btn');
-    const subfiltersContainers = document.querySelectorAll('.ps5-subfilters');
+    // Tab system with subtabs (interactive demo)
+    const demoTabs = document.querySelectorAll('.demo-tabs .tab-btn');
+    const demoGamesSubtabs = document.getElementById('demo-games-subtabs');
+    const demoAppswebSubtabs = document.getElementById('demo-appsweb-subtabs');
+    const demoSubtabBtns = document.querySelectorAll('.sub-tabs .sub-tab-btn');
     const projectsDemoText = document.getElementById('projects-demo-text');
     
-    let currentSector = 'all';
-    let currentSubsector = null;
+    // Handle main tabs
+    demoTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.dataset.demoCategory;
+            
+            // Update buttons
+            demoTabs.forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+            
+            // Handle subtabs
+            showDemoSubtabs(category);
+            
+            // Update demo text
+            updateDemoText(category);
+        });
+    });
     
-    const sectorIcons = {
-        'all': '📦',
-        'games': '🎮', 
-        'appsweb': '🌐',
-        'mods': '🧩',
-        'tools': '🛠️'
-    };
+    // Handle subtabs
+    demoSubtabBtns.forEach(subtab => {
+        subtab.addEventListener('click', () => {
+            const subcategory = subtab.dataset.demoSubcategory;
+            
+            // Determine parent category
+            let parentCategory = 'all';
+            if (subcategory.startsWith('games-')) {
+                parentCategory = 'games';
+            } else if (subcategory.startsWith('appsweb-')) {
+                parentCategory = 'appsweb';
+            }
+            
+            // Update subtabs of same category
+            const parentContainer = subtab.closest('.sub-tabs');
+            const siblings = parentContainer.querySelectorAll('.sub-tab-btn');
+            siblings.forEach(s => s.classList.remove('active'));
+            subtab.classList.add('active');
+            
+            // Update text
+            updateDemoText(parentCategory, subcategory);
+        });
+    });
     
-    const subsectorLabels = {
-        'games': {
-            'all': 'tous les jeux',
-            'professionnel': 'jeux professionnels',
-            'personnel': 'jeux personnels', 
-            'gamejams': 'game jams'
-        },
-        'appsweb': {
-            'all': 'toutes les apps & web',
-            'professionnel': 'projets professionnels',
-            'etude': 'projets d\'étude'
-        }
-    };
-    
-    function updateProjectsDemo(sector, subsector = null) {
-        const icon = sectorIcons[sector] || '📦';
-        let text = `${icon} Affichage `;
+    function showDemoSubtabs(category) {
+        const demoTabsContainer = document.querySelector('.demo-tabs');
         
-        if (sector === 'all') {
-            text += 'de tous les projets';
-        } else if (subsector && subsector !== 'all') {
-            const label = subsectorLabels[sector] && subsectorLabels[sector][subsector];
-            text += `des ${label || subsector}`;
-        } else {
-            const sectorNames = {
-                'games': 'des jeux',
-                'appsweb': 'des apps & web', 
-                'mods': 'des mods',
-                'tools': 'des outils'
-            };
-            text += sectorNames[sector] || `du secteur ${sector}`;
+        // Hide all subtabs
+        [demoGamesSubtabs, demoAppswebSubtabs].forEach(container => {
+            if (container) container.style.display = 'none';
+        });
+        
+        // Remove integration class
+        if (demoTabsContainer) {
+            demoTabsContainer.classList.remove('has-subtabs');
         }
         
-        if (projectsDemoText) {
-            projectsDemoText.textContent = text;
+        // Show appropriate subtabs
+        if (category === 'games' && demoGamesSubtabs) {
+            demoGamesSubtabs.style.display = 'flex';
+            if (demoTabsContainer) demoTabsContainer.classList.add('has-subtabs');
+            
+            // Reset to "All"
+            const allBtn = demoGamesSubtabs.querySelector('[data-demo-subcategory="games-all"]');
+            demoGamesSubtabs.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+            if (allBtn) allBtn.classList.add('active');
+            
+        } else if (category === 'appsweb' && demoAppswebSubtabs) {
+            demoAppswebSubtabs.style.display = 'flex';
+            if (demoTabsContainer) demoTabsContainer.classList.add('has-subtabs');
+            
+            // Reset to "All"
+            const allBtn = demoAppswebSubtabs.querySelector('[data-demo-subcategory="appsweb-all"]');
+            demoAppswebSubtabs.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+            if (allBtn) allBtn.classList.add('active');
         }
     }
     
-    sectorButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const sector = btn.dataset.sector;
-            const hasSubfilters = btn.dataset.hasSubfilters === 'true';
-            
-            // Mise à jour des boutons secteurs
-            sectorButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            // Gestion des sous-filtres
-            subfiltersContainers.forEach(container => {
-                if (container.dataset.parent === sector && hasSubfilters) {
-                    container.style.display = 'flex';
-                    // Reset du sous-secteur actif
-                    container.querySelectorAll('.ps5-subfilter-btn').forEach(sub => {
-                        sub.classList.remove('active');
-                        if (sub.dataset.subsector === 'all') {
-                            sub.classList.add('active');
-                        }
-                    });
-                } else {
-                    container.style.display = 'none';
-                }
-            });
-            
-            currentSector = sector;
-            currentSubsector = hasSubfilters ? 'all' : null;
-            updateProjectsDemo(currentSector, currentSubsector);
-        });
-    });
+    function updateDemoText(category, subcategory = null) {
+        const icons = {
+            'all': '📦', 'games': '🎮', 'appsweb': '🌐', 'mods': '🧩', 'tools': '🛠️'
+        };
+        
+        const subIcons = {
+            'games-all': '📦', 'games-professionnel': '💼', 'games-personnel': '🎯', 'games-gamejams': '⚡',
+            'appsweb-all': '📦', 'appsweb-professionnel': '🏢', 'appsweb-etude': '🎓'
+        };
+        
+        let text = '';
+        if (subcategory && subcategory !== category + '-all') {
+            const subName = subcategory.replace('games-', '').replace('appsweb-', '');
+            text = `${subIcons[subcategory]} Filtrage par ${subName} dans ${category}`;
+        } else {
+            text = `${icons[category]} Affichage de ${category === 'all' ? 'tous les projets' : category}`;
+        }
+        
+        if (projectsDemoText) projectsDemoText.textContent = text;
+    }
+
+    // Initialization
+    updateDemoText('all');
     
-    // Gestion des sous-filtres
-    document.querySelectorAll('.ps5-subfilter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const subsector = btn.dataset.subsector;
-            const container = btn.closest('.ps5-subfilters');
-            
-            // Mise à jour des boutons sous-secteurs
-            container.querySelectorAll('.ps5-subfilter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            currentSubsector = subsector === 'all' ? null : subsector;
-            updateProjectsDemo(currentSector, currentSubsector);
-        });
-    });
-    
-    // Onglets d'expérience
+    // Experience tabs
     const expTabs = document.querySelectorAll('.experience-tabs .tab-btn');
     const expPanels = document.querySelectorAll('[data-tab]');
     
@@ -262,11 +251,11 @@ document.addEventListener('DOMContentLoaded', function() {
         tab.addEventListener('click', () => {
             const tabName = tab.dataset.tab;
             
-            // Mise à jour des boutons
+            // Update buttons
             expTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             
-            // Mise à jour des panneaux (seulement ceux dans la section expérience)
+            // Update panels (only those in experience section)
             const expSection = tab.closest('.demo-section');
             const panels = expSection.querySelectorAll('.demo-tab-panel[data-tab]');
             panels.forEach(panel => {
@@ -275,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Onglets d'éducation
+    // Education tabs
     const eduTabs = document.querySelectorAll('.education-tabs .tab-btn');
     eduTabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -284,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Onglets de blog
+    // Blog tabs
     const blogTabs = document.querySelectorAll('.blog-tabs .tab-btn');
     blogTabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -348,31 +337,60 @@ document.addEventListener('DOMContentLoaded', function() {
                 <strong>Attributs :</strong> <code>data-category="[nom]"</code>, <code>role="tab"</code>, <code>aria-selected="true/false"</code>
             </div>
             <div class="projects-filters-bar">
-                <div class="tabs projects-tabs" role="tablist">
-                    <button class="tab-btn active" data-category="all" role="tab" aria-selected="true">
+                <div class="tabs projects-tabs demo-tabs" role="tablist">
+                    <button class="tab-btn active" data-demo-category="all" role="tab" aria-selected="true">
                         <span class="tab-icon">📦</span>
                         <span class="tab-label">Tous</span>
                     </button>
-                    <button class="tab-btn" data-category="games" role="tab" aria-selected="false">
+                    <button class="tab-btn" data-demo-category="games" role="tab" aria-selected="false">
                         <span class="tab-icon">🎮</span>
                         <span class="tab-label">Games</span>
                     </button>
-                    <button class="tab-btn" data-category="appsweb" role="tab" aria-selected="false">
+                    <button class="tab-btn" data-demo-category="appsweb" role="tab" aria-selected="false">
                         <span class="tab-icon">🌐</span>
                         <span class="tab-label">Apps & Web</span>
                     </button>
-                    <button class="tab-btn" data-category="mods" role="tab" aria-selected="false">
+                    <button class="tab-btn" data-demo-category="mods" role="tab" aria-selected="false">
                         <span class="tab-icon">🧩</span>
                         <span class="tab-label">Mods</span>
                     </button>
-                    <button class="tab-btn" data-category="tools" role="tab" aria-selected="false">
+                    <button class="tab-btn" data-demo-category="tools" role="tab" aria-selected="false">
                         <span class="tab-icon">🛠️</span>
                         <span class="tab-label">Tools</span>
                     </button>
                 </div>
+                
+                <!-- Subtabs pour Games -->
+                <div class="sub-tabs demo-games-subtabs" id="demo-games-subtabs" style="display: none;">
+                    <button class="sub-tab-btn active" data-demo-subcategory="games-all">
+                        <span class="subtab-icon">📦</span>Tous
+                    </button>
+                    <button class="sub-tab-btn" data-demo-subcategory="games-professionnel">
+                        <span class="subtab-icon">💼</span>Professionnel
+                    </button>
+                    <button class="sub-tab-btn" data-demo-subcategory="games-personnel">
+                        <span class="subtab-icon">🎯</span>Personnel
+                    </button>
+                    <button class="sub-tab-btn" data-demo-subcategory="games-gamejams">
+                        <span class="subtab-icon">⚡</span>Game Jams
+                    </button>
+                </div>
+                
+                <!-- Subtabs pour Apps & Web -->
+                <div class="sub-tabs demo-appsweb-subtabs" id="demo-appsweb-subtabs" style="display: none;">
+                    <button class="sub-tab-btn active" data-demo-subcategory="appsweb-all">
+                        <span class="subtab-icon">📦</span>Tous
+                    </button>
+                    <button class="sub-tab-btn" data-demo-subcategory="appsweb-professionnel">
+                        <span class="subtab-icon">🏢</span>Professionnel
+                    </button>
+                    <button class="sub-tab-btn" data-demo-subcategory="appsweb-etude">
+                        <span class="subtab-icon">🎓</span>Étude
+                    </button>
+                </div>
             </div>
             <div class="demo-note">
-                <p><strong>Note :</strong> Le système utilise maintenant le TabController qui gère automatiquement le filtrage des projets selon les secteurs (games-*, appsweb-*, mods, tools).</p>
+                <p><strong>Note :</strong> Les subtabs apparaissent automatiquement pour les catégories Games et Apps & Web, permettant un filtrage plus précis.</p>
             </div>
         </div>
         

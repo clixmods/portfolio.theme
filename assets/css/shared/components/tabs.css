@@ -23,6 +23,15 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Minimal modification of main tabs when subtabs are visible */
+.tabs.has-subtabs {
+    margin-bottom: 0; /* Remove only margin to stick to subtabs */
+    position: relative;
+    z-index: 2; /* Above subtabs for overlay effect */
+}
+
+/* ========================================
+
 
 
 /* ========================================
@@ -37,8 +46,8 @@
     color: var(--text-secondary);
     text-decoration: none;
     border-radius: 20px;
-    font-weight: 500;
-    font-size: 0.95rem;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
     transition: var(--transition-smooth);
     position: relative;
     overflow: hidden;
@@ -98,50 +107,91 @@
     display: flex;
     justify-content: center;
     gap: 0.4rem;
-    margin-top: 0.8rem;
-    margin-bottom: 1.5rem;
-    padding: 0;
+    margin-top: -10px; /* Overlap slightly to create fusion effect */
+    margin-bottom: 2rem;
+    padding: 0.8rem 1.2rem 0.8rem 1.2rem; /* Reduced padding for more compact height */
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    
+    /* Fusion style - shape that connects to main tabs */
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border-radius: 0 0 25px 25px; /* Rounded only at bottom for fusion effect */
+    border: 1px solid var(--glass-border);
+    border-top: none; /* No top border to create fusion effect */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    
+    /* Position to create fusion effect */
+    position: relative;
+    z-index: 1; /* Below main tabs for continuity effect */
+    
+    /* Smooth appearance animation */
+    opacity: 0;
+    transform: translateY(-8px);
+    animation: subtabs-fade-in 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes subtabs-fade-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .sub-tab-btn {
     display: inline-flex;
     align-items: center;
-    padding: 0.4rem 1rem;
-    color: var(--text-muted);
+    padding: 0.5rem 1.2rem;
+    color: var(--text-secondary);
     text-decoration: none;
-    border-radius: 12px;
-    font-weight: 400;
-    font-size: 0.8rem;
-    transition: all 0.2s ease;
+    border-radius: 18px;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
     justify-content: center;
     white-space: nowrap;
+    position: relative;
     
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: transparent;
+    border: none;
     cursor: pointer;
     font-family: inherit;
+    letter-spacing: 0.02em;
+    gap: 0.5rem;
 }
 
+.sub-tab-btn .subtab-icon {
+    font-size: 0.9em;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.sub-tab-btn.active .subtab-icon,
+.sub-tab-btn:hover .subtab-icon {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Hover and active states similar to main tabs but more subtle */
 .sub-tab-btn:hover:not(.active) {
-    color: var(--text-secondary);
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--primary-blue-text, #4fd1c7);
+    background: rgba(79, 209, 199, 0.08);
+    transform: translateY(-1px);
 }
 
 .sub-tab-btn.active {
-    background: rgba(79, 209, 199, 0.2);
-    border-color: rgba(79, 209, 199, 0.4);
+    background: rgba(79, 209, 199, 0.12);
     color: var(--text-primary);
-    font-weight: 500;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(79, 209, 199, 0.2);
 }
 
 .sub-tab-btn.active:hover {
-    background: rgba(79, 209, 199, 0.25);
-    border-color: rgba(79, 209, 199, 0.5);
+    background: rgba(79, 209, 199, 0.18);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 12px rgba(79, 209, 199, 0.25);
 }
 
 /* ========================================
