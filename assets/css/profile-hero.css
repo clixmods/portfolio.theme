@@ -147,6 +147,36 @@
     font-weight: 400;
 }
 
+.hero-name {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+.hero-title-job {
+    font-size: 2.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    color: #e2e8f0;
+}
+
+.hero-specialty {
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(90deg, #f59e0b, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle-actions {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
 .hero-title {
     font-size: 3.5rem;
     font-weight: 700;
@@ -164,7 +194,8 @@
 }
 
 /* Dégradés subtils et élégants pour chaque mot */
-.hero-action:nth-child(1) {
+.hero-action:nth-child(1),
+.hero-action:nth-child(2) {
     background: linear-gradient(
         90deg,
         #4ade80,
@@ -179,7 +210,7 @@
     animation: subtleFlow 4s ease-in-out infinite;
 }
 
-.hero-action:nth-child(2) {
+.hero-action:nth-child(3) {
     background: linear-gradient(
         90deg,
         #60a5fa,
@@ -195,7 +226,7 @@
     animation-delay: 1.3s;
 }
 
-.hero-action:nth-child(3) {
+.hero-action:nth-child(4) {
     background: linear-gradient(
         90deg,
         #f59e0b,
