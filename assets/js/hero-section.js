@@ -14,17 +14,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Hero section JavaScript loaded');
 
-    // Status Badge Click for More Info (Optional)
-    const statusBadge = document.querySelector('.status-badge');
-    if (statusBadge) {
-        statusBadge.addEventListener('click', function() {
-            // Add a small pulse effect on click
-            this.style.transform = 'translateX(-50%) scale(1.1)';
-            setTimeout(() => {
-                this.style.transform = 'translateX(-50%) scale(1)';
-            }, 200);
-        });
-    }
+
 
     // Navigation pills interaction - REMOVED (existing dock system)
 
@@ -137,36 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Avatar click for easter egg
-    const heroAvatar = document.querySelector('.hero-profile-image');
-    if (heroAvatar) {
-        let clickCount = 0;
-        heroAvatar.addEventListener('click', function() {
-            clickCount++;
-            this.style.transform = `scale(${1 + clickCount * 0.05})`;
-            
-            if (clickCount >= 5) {
-                // Easter egg after 5 clicks
-                this.style.filter = 'hue-rotate(360deg)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                    this.style.filter = 'none';
-                    clickCount = 0;
-                }, 1000);
-            }
-        });
-    }
 
-    // Add floating animation to avatar badge
-    const avatarBadge = document.querySelector('.avatar-badge');
-    if (avatarBadge) {
-        setInterval(() => {
-            avatarBadge.style.animation = 'none';
-            setTimeout(() => {
-                avatarBadge.style.animation = 'bounce 1s ease-in-out';
-            }, 10);
-        }, 5000);
-    }
+
+
 
     // Subtle gradient text animation for hero actions
     const heroActions = document.querySelectorAll('.hero-action');
@@ -245,8 +208,6 @@ style.textContent = `
         color: #ff6b35;
     }
 
-    .hero-profile-image:hover {
-        cursor: pointer;
-    }
+
 `;
 document.head.appendChild(style);

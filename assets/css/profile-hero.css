@@ -2,7 +2,7 @@
  * PROFILE SECTION STYLES - HERO CENTERED LAYOUT
  * 
  * This file contains all styles related to the profile section of the portfolio website.
- * It includes styles for the centered hero layout, navigation pills, action buttons,
+ * It includes styles for the centered hero layout, avatar with status badge, action buttons,
  * and responsive design adaptations for different screen sizes.
  * 
  * Author: Portfolio Theme
@@ -47,89 +47,111 @@
     margin: 0 auto;
     z-index: 1; /* Below docks but above background */
     position: relative;
+    padding: 0 20px; /* Prevents overflow on sides */
 }
 
 /* ==========================================================================
-   HERO AVATAR
+   HERO AVATAR - CLEAN AND MODERN VERSION
    ========================================================================== */
 
 .hero-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0.0rem;
+}
+
+.avatar-container {
     position: relative;
-    margin-bottom: 1rem;
+    display: inline-block;
 }
 
 .hero-profile-image {
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #ff6b35;
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    border: none;
+    padding: 0;
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.35),
+        0 0 0 3px rgba(79, 209, 199, 0.12),
+        0 0 30px rgba(79, 209, 199, 0.25),
+        0 0 80px rgba(79, 209, 199, 0.08),
+        inset 0 2px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.avatar-badge {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    background: #ff6b35;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    border: 2px solid white;
-    transition: all 0.3s ease;
-    cursor: pointer;
+.hero-profile-image:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.45),
+        0 0 0 3px rgba(79, 209, 199, 0.25),
+        0 0 50px rgba(79, 209, 199, 0.4),
+        0 0 120px rgba(79, 209, 199, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.15);
 }
 
-.avatar-badge:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.6);
-}
 
-/* Status Badge Styles */
+
+/* Status Badge - Positioned at bottom right of avatar */
 .status-badge {
     position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 8px;
+    right: -100px;
     background: linear-gradient(135deg, #4f46e5, #7c3aed);
     color: white;
     padding: 6px 12px;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 4px 12px rgba(79, 70, 229, 0.4),
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    cursor: default;
+    pointer-events: none;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.status-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 .status-badge.available {
     background: linear-gradient(135deg, #059669, #10b981);
-    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+    box-shadow: 
+        0 4px 12px rgba(5, 150, 105, 0.4),
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .status-badge.unavailable {
     background: linear-gradient(135deg, #dc2626, #ef4444);
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
-}
-
-.status-badge:hover {
-    transform: translateX(-50%) scale(1.05);
-    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
-}
-
-.status-badge.available:hover {
-    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.6);
-}
-
-.status-badge.unavailable:hover {
-    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
+    box-shadow: 
+        0 4px 12px rgba(220, 38, 38, 0.4),
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 /* ==========================================================================
@@ -143,7 +165,7 @@
 .hero-greeting {
     color: #c4d3e0;
     font-size: 1.2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-weight: 400;
 }
 
@@ -182,6 +204,7 @@
     font-weight: 700;
     margin-bottom: 0.5rem;
     line-height: 1.1;
+    white-space: nowrap;
 }
 
 .hero-action {
@@ -193,7 +216,7 @@
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Dégradés subtils et élégants pour chaque mot */
+/* Subtle and elegant gradients for each word */
 .hero-action:nth-child(1),
 .hero-action:nth-child(2) {
     background: linear-gradient(
@@ -363,7 +386,7 @@
    ========================================================================== */
 
 .hero-bottom {
-    margin: 4rem auto 3rem;
+    margin: 2rem auto 1.5rem;
     width: fit-content;
     height: fit-content;
     display: flex;
@@ -411,6 +434,8 @@
         transform: translateY(-4px);
     }
 }
+
+
 
 @keyframes softGlow {
     0%, 100% {
@@ -477,6 +502,7 @@
 
     .hero-title {
         font-size: 2.5rem;
+        white-space: normal;
     }
     
     .hero-subtitle {
@@ -505,16 +531,26 @@
         width: 100px;
     }
     
+    /* Avatar Mobile Styles */
+    .hero-profile-image {
+        width: 150px;
+        height: 150px;
+    }
+    
+
+    
     /* Status Badge Mobile Styles */
     .status-badge {
-        font-size: 10px;
+        bottom: 6px;
+        right: -80px;
+        font-size: 9px;
         padding: 4px 8px;
-        bottom: -6px;
+        border-radius: 16px;
     }
     
     /* Hero Bottom Arrow Mobile */
     .hero-bottom {
-        margin: 3rem auto 2rem;
+        margin: 1.5rem auto 1rem;
     }
     
     .hero-scroll-indicator {
@@ -530,6 +566,7 @@
     
     .hero-title {
         font-size: 2rem;
+        white-space: normal;
     }
     
     .hero-subtitle {
@@ -544,16 +581,27 @@
         margin-top: 1.5rem;
     }
     
+    /* Avatar Extra Small Mobile */
+    .hero-profile-image {
+        width: 120px;
+        height: 120px;
+    }
+    
+
+    
     /* Status Badge for very small screens */
     .status-badge {
-        font-size: 9px;
+        bottom: 4px;
+        right: -60px;
+        font-size: 8px;
         padding: 3px 6px;
-        bottom: -5px;
+        border-radius: 12px;
+        border-width: 1px;
     }
     
     /* Hero Bottom Arrow Small Mobile */
     .hero-bottom {
-        margin: 2.5rem auto 1.5rem;
+        margin: 1rem auto 0.5rem;
     }
     
     .hero-scroll-indicator {

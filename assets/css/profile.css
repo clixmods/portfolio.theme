@@ -99,24 +99,14 @@
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #ff6b35;
-    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    border: none;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 0 2px rgba(79, 209, 199, 0.15),
+        0 0 20px rgba(79, 209, 199, 0.2);
 }
 
-.avatar-badge {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    background: #ff6b35;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    border: 2px solid white;
-}
+
 
 /* ==========================================================================
    HERO TEXT CONTENT

@@ -4,9 +4,11 @@
     <div class="hero-main">
         <!-- Avatar Circle with Status Badge -->
         <div class="hero-avatar">
-            <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="hero-profile-image">
-            <div class="avatar-badge status-badge {{ if .availability.available }}available{{ else }}unavailable{{ end }}">
-                {{ .availability.status }}
+            <div class="avatar-container">
+                <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="hero-profile-image">
+                <div class="status-badge {{ if .availability.available }}available{{ else }}unavailable{{ end }}">
+                    {{ .availability.status }}
+                </div>
             </div>
         </div>
 
@@ -95,7 +97,7 @@
     </div>
 
     <!-- Bottom Section -->
-    <div class="hero-bottom" onclick="document.querySelector('#recommandations, main .main-content section:first-child')?.scrollIntoView({ behavior: 'smooth', block: 'start' })">
+    <div class="hero-bottom" onclick="(function(){const target=document.querySelector('main.main-content section:first-child') || document.querySelector('#recommandations');if(target){const rect=target.getBoundingClientRect();const pos=rect.top+window.pageYOffset;window.scrollTo({top:pos-100,behavior:'smooth'});}else{console.log('No target section found');}})()">
         <div class="hero-scroll-indicator">
             <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
                 <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
