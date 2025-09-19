@@ -18,6 +18,12 @@ section {
     animation: sectionFadeIn 0.8s ease forwards;
 }
 
+/* Reduce spacing for the first section after profile */
+.main-content section:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+
 @keyframes sectionFadeIn {
     to {
         opacity: 1;
