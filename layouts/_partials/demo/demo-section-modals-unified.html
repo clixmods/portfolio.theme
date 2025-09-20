@@ -1,0 +1,793 @@
+<!-- MODAL UNIFIÉ - NOUVEAU SYSTÈME -->
+<section class="demo-section">
+    <h2>🎯 Modal Unifié - Nouveau Système</h2>
+    <p>
+      Modal basé sur skill-modal avec système de tabs et btn-action unifiés pour
+      remplacer tous les autres modals.
+    </p>
+
+    <!-- Modal Unifié - Cas d'usage Skill/Technology -->
+    <div class="modal-demo-container">
+      <div class="css-class-info">
+        <strong>Nom :</strong> Unified Modal - Skill/Technology<br />
+        <strong>Classe principale :</strong> <code>.unified-modal</code><br />
+        <strong>Système tabs :</strong> <code>.tab-btn</code> (unifié)<br />
+        <strong>Boutons :</strong> <code>.btn-action</code> (unifié)<br />
+        <strong>Remplace :</strong> skill-modal
+      </div>
+      <div class="modal-demo-preview unified-modal-preview">
+        <div class="unified-modal-content">
+          <!-- Header unifié avec close -->
+          <div class="unified-modal-header">
+            <button class="unified-modal-close">&times;</button>
+          </div>
+
+          <div class="unified-modal-body">
+            <!-- Content Header avec icône/avatar et titre -->
+            <div class="unified-modal-content-header">
+              <div class="unified-modal-content-header-left">
+                <div class="unified-modal-icon-large">
+                  <img
+                    src="/images/technologies/CSharp.svg"
+                    alt="C#"
+                    width="64"
+                    height="64"
+                  />
+                </div>
+                <div class="unified-modal-title-block">
+                  <h2>C#</h2>
+                  <div class="unified-modal-chips">
+                    <span class="chip">Avancé</span>
+                    <span class="chip secondary">4 ans d'expérience</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Système de tabs unifié -->
+            <div class="tabs unified-modal-tabs">
+              <button class="tab-btn active" data-tab="projects">
+                <span class="tab-icon">💼</span>
+                <span class="tab-label">Projets</span>
+                <span class="count">12</span>
+              </button>
+              <button class="tab-btn" data-tab="experiences">
+                <span class="tab-icon">🏢</span>
+                <span class="tab-label">Expériences</span>
+                <span class="count">3</span>
+              </button>
+              <button class="tab-btn" data-tab="formations">
+                <span class="tab-icon">🎓</span>
+                <span class="tab-label">Formations</span>
+                <span class="count">2</span>
+              </button>
+            </div>
+
+            <!-- Content Panels -->
+            <div class="unified-modal-panels">
+              <div class="unified-modal-panel active" data-panel="projects">
+                <div class="projects-grid">
+                  <div class="project-card">
+                    <h4>Nuketown Zombies Remastered</h4>
+                    <p>Projet de mod complet avec mécaniques avancées</p>
+                    <div class="card-actions">
+                      <button class="btn-action primary">Voir le projet</button>
+                    </div>
+                  </div>
+                  <div class="project-card">
+                    <h4>Studio La Moutarde - Tools</h4>
+                    <p>Outils internes de développement</p>
+                    <div class="card-actions">
+                      <button class="btn-action">Détails</button>
+                    </div>
+                  </div>
+                  <div class="project-card">
+                    <h4>Fish'n'Ship</h4>
+                    <p>Jeu de pêche en multijoueur développé en Unity</p>
+                    <div class="card-actions">
+                      <button class="btn-action">Voir le projet</button>
+                    </div>
+                  </div>
+                  <div class="project-card">
+                    <h4>Demon's Tower</h4>
+                    <p>Jeu de plateforme avec mécaniques de combat</p>
+                    <div class="card-actions">
+                      <button class="btn-action">Voir le projet</button>
+                    </div>
+                  </div>
+                  <div class="project-card">
+                    <h4>Aspiro Shop</h4>
+                    <p>Application e-commerce développée en Blazor</p>
+                    <div class="card-actions">
+                      <button class="btn-action">Voir le projet</button>
+                    </div>
+                  </div>
+                  <div class="project-card">
+                    <h4>Portfolio Website</h4>
+                    <p>Site portfolio personnel avec Hugo et C#</p>
+                    <div class="card-actions">
+                      <button class="btn-action">Voir le projet</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="unified-modal-panel" data-panel="experiences">
+                <div class="experiences-list">
+                  <div class="experience-item">
+                    <h4>Développeur chez Studio La Moutarde</h4>
+                    <p>Alternance - Développement d'outils et applications</p>
+                    <div class="item-actions">
+                      <button class="btn-action accent">
+                        Voir l'expérience
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="unified-modal-panel" data-panel="formations">
+                <div class="formations-list">
+                  <div class="formation-item">
+                    <h4>BUT IAMSI - IUT Montpellier</h4>
+                    <p>Intégration d'Application et Management des SI</p>
+                    <div class="item-actions">
+                      <button class="btn-action">Voir la formation</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Unifié - Cas d'usage Person/Profile -->
+    <div class="modal-demo-container">
+      <div class="css-class-info">
+        <strong>Nom :</strong> Unified Modal - Person/Profile<br />
+        <strong>Classe principale :</strong> <code>.unified-modal</code><br />
+        <strong>Système tabs :</strong> <code>.tab-btn</code> (unifié)<br />
+        <strong>Boutons :</strong> <code>.btn-action</code> (unifié)<br />
+        <strong>Remplace :</strong> person-modal
+      </div>
+      <div class="modal-demo-preview unified-modal-preview">
+        <div class="unified-modal-content">
+          <div class="unified-modal-header">
+            <button class="unified-modal-close">&times;</button>
+          </div>
+
+          <div class="unified-modal-body">
+            <!-- Content Header avec avatar et info personne -->
+            <div class="unified-modal-content-header">
+              <div class="unified-modal-content-header-left">
+                <div class="unified-modal-icon-large">
+                  <img
+                    src="/images/people/clement-garcia.jpg"
+                    alt="Clément Garcia"
+                    width="80"
+                    height="80"
+                    style="border-radius: 50%"
+                  />
+                </div>
+                <div class="unified-modal-title-block">
+                  <h2>Clément 'Clix' GARCIA</h2>
+                  <div class="unified-modal-chips">
+                    <span class="chip">Développeur Logiciel</span>
+                    <span class="chip secondary">Studio La Moutarde</span>
+                  </div>
+                </div>
+              </div>
+              <div class="unified-modal-content-header-right">
+                <div class="contact-social-actions">
+                  <button class="btn-action-icon" title="Email">📧</button>
+                  <button class="btn-action-icon" title="LinkedIn">💼</button>
+                  <button class="btn-action-icon" title="GitHub">💻</button>
+                  <button class="btn-action-icon" title="Discord">💬</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Système de tabs unifié -->
+            <div class="tabs unified-modal-tabs">
+              <button class="tab-btn active" data-tab="about">
+                <span class="tab-icon">👤</span>
+                <span class="tab-label">À propos</span>
+              </button>
+              <button class="tab-btn" data-tab="skills">
+                <span class="tab-icon">🛠️</span>
+                <span class="tab-label">Compétences</span>
+              </button>
+              <button class="tab-btn" data-tab="projects">
+                <span class="tab-icon">💼</span>
+                <span class="tab-label">Projets</span>
+                <span class="count">8</span>
+              </button>
+            </div>
+
+            <!-- Content Panels -->
+            <div class="unified-modal-panels">
+              <div class="unified-modal-panel active" data-panel="about">
+                <div class="about-content">
+                  <p>
+                    Développeur polyvalent spécialisé dans les mécaniques de
+                    jeu, le design visuel et la production de jeux vidéo.
+                    Actuellement étudiant en 3ᵉ année à l'IUT de
+                    Montpellier-Sète en filière IAMSI et en alternance chez
+                    Studio La Moutarde.
+                  </p>
+                </div>
+              </div>
+              <div class="unified-modal-panel" data-panel="skills">
+                <div class="skills-content">
+                  <div class="skills-list">
+                    <span class="skill-tag">C#</span>
+                    <span class="skill-tag">Unity</span>
+                    <span class="skill-tag">Blazor</span>
+                    <span class="skill-tag">Game Design</span>
+                  </div>
+                </div>
+              </div>
+              <div class="unified-modal-panel" data-panel="projects">
+                <div class="projects-grid">
+                  <div class="project-card">
+                    <h4>Nuketown Zombies</h4>
+                    <p>Directeur créatif</p>
+                    <div class="card-actions">
+                      <button class="btn-action primary">Voir le projet</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Unifié - Cas d'usage Contact -->
+    <div class="modal-demo-container">
+      <div class="css-class-info">
+        <strong>Nom :</strong> Unified Modal - Contact<br />
+        <strong>Classe principale :</strong> <code>.unified-modal</code><br />
+        <strong>Système tabs :</strong> <code>.tab-btn</code> (unifié)<br />
+        <strong>Boutons :</strong> <code>.btn-action</code> (unifié)<br />
+        <strong>Remplace :</strong> contact-modal
+      </div>
+      <div class="modal-demo-preview unified-modal-preview">
+        <div class="unified-modal-content">
+          <div class="unified-modal-header">
+            <button class="unified-modal-close">&times;</button>
+          </div>
+
+          <div class="unified-modal-body">
+            <!-- Content Header simple -->
+            <div class="unified-modal-content-header">
+              <div class="unified-modal-content-header-left">
+                <div class="unified-modal-icon-large">
+                  <span style="font-size: 48px">📬</span>
+                </div>
+                <div class="unified-modal-title-block">
+                  <h2>Contactez-moi</h2>
+                  <div class="unified-modal-chips">
+                    <span class="chip">Disponible pour projets</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contenu en deux colonnes (sans tabs) -->
+            <div class="unified-modal-two-columns">
+              <div class="contact-info-column">
+                <h4>📋 Mes coordonnées</h4>
+                <div class="contact-info">
+                  <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-details">
+                      <div class="contact-title">Email</div>
+                      <div class="contact-value">
+                        clement.g.developer@gmail.com
+                      </div>
+                    </div>
+                    <a
+                      href="mailto:clement.g.developer@gmail.com"
+                      class="contact-link"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M8 12L16 12"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        />
+                        <path
+                          d="M12 8L16 12L12 16"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                  <div class="contact-item">
+                    <div class="contact-icon">💼</div>
+                    <div class="contact-details">
+                      <div class="contact-title">LinkedIn</div>
+                      <div class="contact-value">linkedin.com/in/clixmods</div>
+                    </div>
+                    <a
+                      href="https://linkedin.com/in/clixmods"
+                      target="_blank"
+                      class="contact-link"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M8 12L16 12"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        />
+                        <path
+                          d="M12 8L16 12L12 16"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                  <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-details">
+                      <div class="contact-title">Localisation</div>
+                      <div class="contact-value">Montpellier</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-form-column">
+                <h4>✉️ Envoyez-moi un message</h4>
+                <div class="contact-form-content">
+                  <form class="contact-form">
+                    <div class="form-group">
+                      <label>Nom complet</label>
+                      <input type="text" placeholder="Votre nom" />
+                    </div>
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input type="email" placeholder="votre@email.com" />
+                    </div>
+                    <div class="form-group">
+                      <label>Message</label>
+                      <textarea
+                        rows="4"
+                        placeholder="Votre message..."
+                      ></textarea>
+                    </div>
+                    <div class="form-actions">
+                      <button type="submit" class="btn-action primary">
+                        <span class="icon">📤</span> Envoyer
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Unifié - Cas d'usage Discord -->
+    <div class="modal-demo-container">
+      <div class="css-class-info">
+        <strong>Nom :</strong> Unified Modal - Discord<br />
+        <strong>Classe principale :</strong> <code>.unified-modal</code><br />
+        <strong>Système simple :</strong> Sans tabs (contenu court)<br />
+        <strong>Boutons :</strong> <code>.btn-action</code> (unifié)<br />
+        <strong>Remplace :</strong> discord-modal
+      </div>
+      <div class="modal-demo-preview unified-modal-preview">
+        <div class="unified-modal-content">
+          <div class="unified-modal-header">
+            <button class="unified-modal-close">&times;</button>
+          </div>
+
+          <div class="unified-modal-body">
+            <!-- Content Header simple -->
+            <div class="unified-modal-content-header">
+              <div class="unified-modal-content-header-left">
+                <div class="unified-modal-icon-large">
+                  <img
+                    src="/images/social/discord.svg"
+                    alt="Discord"
+                    width="48"
+                    height="48"
+                  />
+                </div>
+                <div class="unified-modal-title-block">
+                  <h2>Mon Discord</h2>
+                  <div class="unified-modal-chips">
+                    <span class="chip">Actif quotidiennement</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Content simple (sans tabs) -->
+            <div class="unified-modal-simple-content">
+              <p>Voici mon ID Discord :</p>
+              <div class="discord-id-display">
+                <code class="discord-id">clixmods</code>
+                <button class="btn-action primary">
+                  <span class="icon">📋</span> Copier
+                </button>
+              </div>
+              <p class="note">
+                Tu peux m'ajouter sur Discord ou m'envoyer un message !
+              </p>
+              <div class="simple-actions">
+                <button class="btn-action accent">
+                  <span class="icon">💬</span> Ouvrir Discord
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Unifié - Cas d'usage Project Actions -->
+    <div class="modal-demo-container">
+      <div class="css-class-info">
+        <strong>Nom :</strong> Unified Modal - Project Actions<br />
+        <strong>Classe principale :</strong> <code>.unified-modal</code><br />
+        <strong>Système simple :</strong> Sans tabs (liste d'actions)<br />
+        <strong>Boutons :</strong> <code>.btn-action</code> (unifié)<br />
+        <strong>Remplace :</strong> actions-popup
+      </div>
+      <div class="modal-demo-preview unified-modal-preview">
+        <div class="unified-modal-content">
+          <div class="unified-modal-header">
+            <button class="unified-modal-close">&times;</button>
+          </div>
+
+          <div class="unified-modal-body">
+            <!-- Content Header simple -->
+            <div class="unified-modal-content-header">
+              <div class="unified-modal-content-header-left">
+                <div class="unified-modal-icon-large">
+                  <span style="font-size: 48px">🎮</span>
+                </div>
+                <div class="unified-modal-title-block">
+                  <h2>Actions du projet</h2>
+                </div>
+              </div>
+            </div>
+
+            <!-- Content simple (liste d'actions) -->
+            <div class="unified-modal-simple-content">
+              <div class="actions-list">
+                <div class="action-item">
+                  <div class="action-icon">🎮</div>
+                  <div class="action-content">
+                    <div class="action-title">Télécharger le projet</div>
+                    <div class="action-desc">Version complète (2.5 GB)</div>
+                  </div>
+                  <button class="btn-action primary">Télécharger</button>
+                </div>
+                <div class="action-item">
+                  <div class="action-icon">📂</div>
+                  <div class="action-content">
+                    <div class="action-title">Voir les fichiers</div>
+                    <div class="action-desc">Code source et assets</div>
+                  </div>
+                  <button class="btn-action">GitHub</button>
+                </div>
+                <div class="action-item">
+                  <div class="action-icon">📖</div>
+                  <div class="action-content">
+                    <div class="action-title">Documentation</div>
+                    <div class="action-desc">Guide d'installation et API</div>
+                  </div>
+                  <button class="btn-action">Lire</button>
+                </div>
+                <div class="action-item">
+                  <div class="action-icon">🎥</div>
+                  <div class="action-content">
+                    <div class="action-title">Vidéo démo</div>
+                    <div class="action-desc">Aperçu du gameplay</div>
+                  </div>
+                  <button class="btn-action accent">Regarder</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-actions">
+      <h3>Actions de Test</h3>
+      <div class="demo-buttons">
+        <button onclick="openTestSkillModal()" class="demo-btn">
+          Ouvrir Skill Modal (real)
+        </button>
+        <button onclick="openTestContactModal()" class="demo-btn">
+          Ouvrir Contact Modal (real)
+        </button>
+        <button onclick="openTestPersonModal()" class="demo-btn">
+          Ouvrir Person Modal (real)
+        </button>
+        <button onclick="openTestDiscordModal()" class="demo-btn">
+          Ouvrir Discord Modal (real)
+        </button>
+        <button onclick="openTestActionsPopup()" class="demo-btn">
+          Ouvrir Actions Popup (real)
+        </button>
+      </div>
+    </div>
+
+    <!-- Script pour les fonctions de test des modals -->
+    <script>
+    // Fonctions de test pour les modals unifiés
+    function openTestSkillModal() {
+        // Test avec une technologie existante (C#)
+        if (typeof window.openSkillModal === 'function') {
+            window.openSkillModal('C#', '/images/technologies/CSharp.svg', 'Avancé', '4 ans', 'svg');
+        } else {
+            console.error('Skill modal function not available');
+            alert('Le système de modal de compétences n\'est pas disponible sur cette page.');
+        }
+    }
+
+    function openTestContactModal() {
+        // Créer un modal de contact unifié
+        createUnifiedModal({
+            type: 'contact',
+            title: 'Contactez-moi',
+            icon: '📬',
+            chips: ['Disponible pour projets']
+        });
+    }
+
+    function openTestPersonModal() {
+        // Test avec une personne (soi-même)
+        if (typeof window.openPersonModal === 'function') {
+            window.openPersonModal('clement-garcia');
+        } else {
+            console.error('Person modal function not available');
+            alert('Le système de modal de personne n\'est pas disponible sur cette page.');
+        }
+    }
+
+    function openTestDiscordModal() {
+        // Créer un modal Discord unifié
+        createUnifiedModal({
+            type: 'discord',
+            title: 'Mon Discord',
+            icon: '/images/social/discord.svg',
+            chips: ['Actif quotidiennement'],
+            content: {
+                discordId: 'clixmods'
+            }
+        });
+    }
+
+    function openTestActionsPopup() {
+        // Créer un modal d'actions unifié
+        createUnifiedModal({
+            type: 'actions',
+            title: 'Actions du projet',
+            icon: '🎮',
+            content: {
+                actions: [
+                    { icon: '🎮', title: 'Télécharger le projet', desc: 'Version complète (2.5 GB)', action: 'download' },
+                    { icon: '📂', title: 'Voir les fichiers', desc: 'Code source et assets', action: 'github' },
+                    { icon: '📖', title: 'Documentation', desc: 'Guide d\'installation et API', action: 'docs' },
+                    { icon: '🎥', title: 'Vidéo démo', desc: 'Aperçu du gameplay', action: 'video' }
+                ]
+            }
+        });
+    }
+
+    // Fonction générique pour créer un modal unifié
+    function createUnifiedModal(config) {
+        // Vérifier si un modal unifié existe déjà
+        let modal = document.getElementById('unifiedModal');
+        if (!modal) {
+            // Créer le modal s'il n'existe pas
+            modal = document.createElement('div');
+            modal.id = 'unifiedModal';
+            modal.className = 'unified-modal';
+            modal.style.cssText = `
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 10000;
+                backdrop-filter: blur(10px);
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Créer le contenu du modal selon le type
+        modal.innerHTML = generateUnifiedModalContent(config);
+
+        // Afficher le modal
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+
+        // Gérer la fermeture
+        const closeBtn = modal.querySelector('.unified-modal-close');
+        if (closeBtn) {
+            closeBtn.onclick = () => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            };
+        }
+
+        // Fermeture en cliquant à l'extérieur
+        modal.onclick = (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        };
+    }
+
+    // Générer le contenu du modal selon le type
+    function generateUnifiedModalContent(config) {
+        const iconHtml = config.icon.startsWith('/') ? 
+            `<img src="${config.icon}" alt="${config.title}" width="48" height="48" />` :
+            `<span style="font-size: 48px">${config.icon}</span>`;
+
+        const chipsHtml = config.chips ? 
+            config.chips.map(chip => `<span class="chip">${chip}</span>`).join('') : '';
+
+        let contentHtml = '';
+
+        switch(config.type) {
+            case 'contact':
+                contentHtml = `
+                    <div class="unified-modal-two-columns">
+                        <div class="contact-info-column">
+                            <h4>📋 Mes coordonnées</h4>
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <div class="contact-icon">📧</div>
+                                    <div class="contact-details">
+                                        <div class="contact-title">Email</div>
+                                        <div class="contact-value">clement.g.developer@gmail.com</div>
+                                    </div>
+                                    <a href="mailto:clement.g.developer@gmail.com" class="contact-link">→</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-form-column">
+                            <h4>✉️ Envoyez-moi un message</h4>
+                            <div class="contact-form-content">
+                                <form class="contact-form">
+                                    <div class="form-group">
+                                        <label>Nom complet</label>
+                                        <input type="text" placeholder="Votre nom" />
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn-action primary">📤 Envoyer</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                break;
+
+            case 'discord':
+                contentHtml = `
+                    <div class="unified-modal-simple-content">
+                        <p>Voici mon ID Discord :</p>
+                        <div class="discord-id-display">
+                            <code class="discord-id">${config.content.discordId}</code>
+                            <button class="btn-action primary" onclick="navigator.clipboard.writeText('${config.content.discordId}')">📋 Copier</button>
+                        </div>
+                        <div class="simple-actions">
+                            <button class="btn-action accent">💬 Ouvrir Discord</button>
+                        </div>
+                    </div>
+                `;
+                break;
+
+            case 'actions':
+                const actionsHtml = config.content.actions.map(action => `
+                    <div class="action-item">
+                        <div class="action-icon">${action.icon}</div>
+                        <div class="action-content">
+                            <div class="action-title">${action.title}</div>
+                            <div class="action-desc">${action.desc}</div>
+                        </div>
+                        <button class="btn-action ${action.action === 'video' ? 'accent' : action.action === 'download' ? 'primary' : ''}">${action.title.split(' ')[0]}</button>
+                    </div>
+                `).join('');
+
+                contentHtml = `
+                    <div class="unified-modal-simple-content">
+                        <div class="actions-list">
+                            ${actionsHtml}
+                        </div>
+                    </div>
+                `;
+                break;
+        }
+
+        return `
+            <div class="unified-modal-content" style="
+                max-width: 90vw;
+                max-height: 90vh;
+                width: ${config.type === 'contact' ? '800px' : '600px'};
+                margin: 5vh auto;
+                background: white;
+                border-radius: 16px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                overflow: hidden;
+                position: relative;
+            ">
+                <div class="unified-modal-header" style="
+                    position: absolute;
+                    top: 16px;
+                    right: 16px;
+                    z-index: 1;
+                ">
+                    <button class="unified-modal-close" style="
+                        background: rgba(0, 0, 0, 0.1);
+                        border: none;
+                        border-radius: 50%;
+                        width: 32px;
+                        height: 32px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        font-size: 18px;
+                        font-weight: bold;
+                    ">&times;</button>
+                </div>
+
+                <div class="unified-modal-body" style="padding: 32px;">
+                    <div class="unified-modal-content-header" style="
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 24px;
+                    ">
+                        <div class="unified-modal-content-header-left" style="
+                            display: flex;
+                            align-items: center;
+                        ">
+                            <div class="unified-modal-icon-large" style="margin-right: 16px;">
+                                ${iconHtml}
+                            </div>
+                            <div class="unified-modal-title-block">
+                                <h2 style="margin: 0; font-size: 24px; font-weight: 600;">${config.title}</h2>
+                                <div class="unified-modal-chips" style="margin-top: 8px;">
+                                    ${chipsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${contentHtml}
+                </div>
+            </div>
+        `;
+    }
+    </script>
+ 
+</section>
