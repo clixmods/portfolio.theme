@@ -1,0 +1,547 @@
+// MODAL UNIFIÉ - Système unifié pour remplacer tous les modals
+// Basé sur skill-modal avec intégration des systèmes .tab-btn et .btn-action existants
+
+.unified-modal-demo {
+    /* Container de démo pour la page /demo/ */
+    .unified-modal-content {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        box-shadow: 
+            0 25px 45px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        max-width: 900px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+}
+
+/* === HEADER UNIFIÉ === */
+.unified-modal-header {
+    position: relative;
+    padding: 15px 70px 0 20px; /* Réserver de l'espace à droite pour le bouton close */
+    
+    .unified-modal-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: rgba(255, 255, 255, 0.8);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10; /* S'assurer qu'il est au-dessus de tout */
+        
+        &:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: scale(1.05);
+        }
+    }
+}
+
+/* === BODY UNIFIÉ === */
+.unified-modal-body {
+    padding: 20px;
+    padding-top: 20px;
+    padding-right: 70px;
+    background: rgba(0, 0, 0, 0.1); /* Nuance plus foncée que le header */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Séparation visuelle */
+    max-height: 70vh; /* Hauteur max pour permettre le scroll */
+    overflow-y: auto; /* Scroll vertical si nécessaire */
+}
+
+/* === CONTENT HEADER UNIFIÉ === */
+.unified-modal-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    gap: 20px;
+    
+    .unified-modal-content-header-left {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .unified-modal-content-header-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-shrink: 0;
+    }
+}
+
+.unified-modal-icon-large {
+    flex-shrink: 0;
+    
+    img {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+    }
+    
+    span {
+        display: block;
+        font-size: 48px;
+        line-height: 1;
+    }
+}
+
+.unified-modal-title-block {
+    h2 {
+        margin: 0 0 10px 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.unified-modal-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    
+    .chip {
+        background: rgba(74, 222, 128, 0.2);
+        border: 1px solid rgba(74, 222, 128, 0.3);
+        color: #4ade80;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        
+        &.secondary {
+            background: rgba(156, 163, 175, 0.2);
+            border-color: rgba(156, 163, 175, 0.3);
+            color: #9ca3af;
+        }
+    }
+}
+
+/* === LAYOUT DEUX COLONNES === */
+.unified-modal-two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    
+    h4 {
+        margin: 0 0 20px 0;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .contact-info-column,
+    .contact-form-column {
+        min-width: 0; /* Permet la compression */
+    }
+}
+
+/* === SYSTÈME DE TABS UNIFIÉ === */
+.unified-modal-tabs {
+    /* Utilise les styles .tabs existants du thème */
+    margin-bottom: 25px;
+    
+    /* Styles spécifiques pour les tabs dans les modals */
+    .tab-btn {
+        /* Les styles existants du thème s'appliquent automatiquement */
+        
+        .count {
+            margin-left: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        &.active .count {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    }
+}
+
+/* === PANELS DE CONTENU === */
+.unified-modal-panels {
+    .unified-modal-panel {
+        display: none;
+        
+        &.active {
+            display: block;
+        }
+    }
+}
+
+/* === CONTENU SIMPLE (sans tabs) === */
+.unified-modal-simple-content {
+    p {
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+    
+    .note {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+        font-style: italic;
+    }
+}
+
+/* === GRILLES ET LISTES === */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.project-card, .experience-item, .formation-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    
+    h4 {
+        margin: 0 0 8px 0;
+        color: white;
+        font-weight: 600;
+    }
+    
+    p {
+        margin: 0 0 15px 0;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+    }
+    
+    .card-actions, .item-actions {
+        margin-top: 15px;
+    }
+}
+
+.experiences-list, .formations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* === CONTENU CONTACT === */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+    }
+    
+    .contact-icon {
+        font-size: 24px;
+        flex-shrink: 0;
+    }
+    
+    .contact-details {
+        flex: 1;
+        
+        .contact-title {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        
+        .contact-value {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+        }
+    }
+    
+    .contact-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(79, 209, 199, 0.1);
+        border: 1px solid rgba(79, 209, 199, 0.3);
+        color: #4fd1c7;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+        
+        &:hover {
+            background: rgba(79, 209, 199, 0.2);
+            border-color: rgba(79, 209, 199, 0.5);
+            transform: scale(1.05);
+        }
+        
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
+/* === FORMULAIRE CONTACT === */
+.contact-form-content {
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        
+        label {
+            font-weight: 600;
+            color: white;
+            font-size: 14px;
+        }
+        
+        input, textarea {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-size: 14px;
+            
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.5);
+            }
+            
+            &:focus {
+                outline: none;
+                border-color: rgba(74, 222, 128, 0.5);
+                box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.1);
+            }
+        }
+    }
+    
+    .form-actions {
+        margin-top: 10px;
+    }
+}
+
+/* === CONTENU ABOUT === */
+.about-content {
+    p {
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.6;
+        font-size: 15px;
+    }
+}
+
+/* === SKILLS CONTENT === */
+.skills-content {
+    .skills-list {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        
+        .skill-tag {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #60a5fa;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    }
+}
+
+/* === CONTENU DISCORD === */
+.discord-id-display {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(88, 101, 242, 0.1);
+    border: 1px solid rgba(88, 101, 242, 0.3);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+    
+    .discord-id {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 8px 12px;
+        border-radius: 6px;
+        color: #5865f2;
+        font-family: 'Courier New', monospace;
+        font-weight: 600;
+        flex: 1;
+    }
+}
+
+.simple-actions {
+    margin-top: 20px;
+}
+
+/* === ACTIONS LIST === */
+.actions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.action-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
+    }
+    
+    .action-icon {
+        font-size: 32px;
+        flex-shrink: 0;
+    }
+    
+    .action-content {
+        flex: 1;
+        
+        .action-title {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+            font-size: 16px;
+        }
+        
+        .action-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+        }
+    }
+}
+
+/* === RESPONSIVE MEDIUM SCREENS === */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .unified-modal-two-columns {
+        gap: 25px;
+    }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .unified-modal-demo .unified-modal-content {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+    }
+    
+    .unified-modal-header {
+        padding: 15px 60px 0 15px; /* Moins d'espace mais toujours réservé pour le close */
+        
+        .unified-modal-close {
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+        }
+    }
+    
+    .unified-modal-content-header {
+        flex-direction: column;
+        gap: 15px;
+        
+        .unified-modal-content-header-left {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .unified-modal-content-header-right {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    
+    .contact-social-actions {
+        justify-content: center;
+    }
+    
+    .unified-modal-two-columns {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .unified-modal-quick-stats {
+        gap: 15px;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .action-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+        
+        .action-content {
+            order: 1;
+        }
+        
+        .btn-action {
+            order: 2;
+        }
+    }
+    
+    .discord-id-display {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+/* === BOUTONS SOCIAUX === */
+.contact-social-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+}
