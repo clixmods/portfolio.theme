@@ -424,22 +424,22 @@
     }
 }
 
-/* === CONTENU DISCORD === */
+/* === DISCORD CONTENT === */
 .discord-id-display {
     display: flex;
     align-items: center;
     gap: 15px;
-    background: rgba(88, 101, 242, 0.1);
-    border: 1px solid rgba(88, 101, 242, 0.3);
+    background: transparent; /* Remove blue background */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Neutral border */
     border-radius: 12px;
     padding: 15px;
     margin: 15px 0;
     
     .discord-id {
-        background: rgba(0, 0, 0, 0.3);
+        background: rgba(0, 0, 0, 0.2);
         padding: 8px 12px;
         border-radius: 6px;
-        color: #5865f2;
+        color: rgba(255, 255, 255, 0.9); /* Neutral text color */
         font-family: 'Courier New', monospace;
         font-weight: 600;
         flex: 1;
