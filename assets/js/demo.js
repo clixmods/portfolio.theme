@@ -485,37 +485,13 @@ function openTestPersonModal() {
  * Teste l'ouverture du modal Discord
  */
 function openTestDiscordModal() {
-    // Simuler le clic sur Discord dans le dock ou utiliser la fonction directe
-    if (window.discordHandler && typeof window.discordHandler.createDiscordModal === 'function') {
-        window.discordHandler.createDiscordModal();
-    } else {
-        // Créer manuellement la modal Discord pour le test
-        const existingModal = document.querySelector('#discord-modal');
-        if (existingModal) {
-            existingModal.remove();
-        }
-        
-        const modal = document.createElement('div');
-        modal.id = 'discord-modal';
-        modal.className = 'modal-overlay';
-        modal.style.display = 'flex';
-        modal.innerHTML = `
-            <div class="modal-content discord-modal">
-                <div class="modal-header">
-                    <h3>Mon ID Discord</h3>
-                    <button class="modal-close" onclick="document.getElementById('discord-modal').remove()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Voici mon ID Discord :</p>
-                    <div class="discord-id-container">
-                        <code class="discord-id">clixmods</code>
-                        <button class="copy-btn" title="Copier l'ID">📋</button>
-                    </div>
-                    <p class="discord-note">Tu peux m'ajouter sur Discord ou m'envoyer un message !</p>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
+    if (typeof window.UnifiedModal !== 'undefined') {
+        window.UnifiedModal.create({
+            type: 'discord',
+            title: 'Mon Discord',
+            icon: '/images/social/discord.svg',
+            content: { discordId: 'clixmods' }
+        });
     }
 }
 

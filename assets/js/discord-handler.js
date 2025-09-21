@@ -1,4 +1,16 @@
 /**
+ * DEPRECATED: Legacy Discord modal implementation
+ * This file is intentionally left blank and should not be referenced.
+ * The unified modal system replaces this implementation (see unified-modal-system.js).
+ */
+
+(function(){
+  if (typeof window !== 'undefined') {
+    console.warn('[deprecated] discord-handler.js is deprecated. Use UnifiedModal.create({type:"discord", ...}) instead.');
+  }
+})();
+
+/**
  * Discord Handler - Gestion du clic sur le bouton Discord
  * Affiche une modal avec l'ID Discord à copier ou copie directement dans le presse-papier
  * Version: 1.0.0

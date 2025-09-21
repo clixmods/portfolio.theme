@@ -72,8 +72,8 @@
   {{ partial "helpers/load-css.html" "css/skills.css" }}
 {{- end }}
 
-{{/* Discord Modal Styles */}}
-{{ partial "helpers/load-scss.html" "scss/discord-modal.scss" }}
+{{/* Unified Modal Styles (replaces legacy Discord modal styles) */}}
+{{ partial "helpers/load-scss.html" "scss/unified-modal.scss" }}
 
 {{/* Separated technologies - SCSS (special template execution) */}}
 {{- with resources.Get "scss/separated-technologies.scss" }}

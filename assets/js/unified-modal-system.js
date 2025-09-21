@@ -13,62 +13,8 @@
  */
 const MODAL_TEMPLATES = {
     base: {
-        containerStyles: `
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 10000;
-            backdrop-filter: blur(10px);
-        `,
-        contentStyles: `
-            max-width: 90vw;
-            max-height: 90vh;
-            margin: 5vh auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
-            position: relative;
-        `,
-        headerStyles: `
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            z-index: 1;
-        `,
-        closeButtonStyles: `
-            background: rgba(0, 0, 0, 0.1);
-            border: none;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            transition: background 0.2s ease;
-        `,
-        bodyStyles: `padding: 32px;`,
-        contentHeaderStyles: `
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        `,
-        contentHeaderLeftStyles: `
-            display: flex;
-            align-items: center;
-            flex: 1;
-        `,
-        iconStyles: `margin-right: 16px;`,
-        titleStyles: `margin: 0; font-size: 24px; font-weight: 600;`,
-        chipsStyles: `margin-top: 8px;`
+        // Base template now relies on SCSS for all visuals.
+        // Keep JS free of inline presentation to avoid overrides.
     },
     widths: {
         contact: '800px',
@@ -106,16 +52,11 @@ const CONTENT_TEMPLATES = {
             <p>Voici mon ID Discord :</p>
             <div class="discord-id-display">
                 <code class="discord-id">${config.content.discordId}</code>
-                <button class="btn-action primary" onclick="UnifiedModal.copyToClipboard('${config.content.discordId}')">
-                    <span class="icon">📋</span> Copier
+                <button class="btn-action" onclick="UnifiedModal.copyToClipboard('${config.content.discordId}', this)" aria-live="polite">
+                    ${UnifiedModal.getCopyIcon(18)} Copier
                 </button>
             </div>
             <p class="note">Tu peux m'ajouter sur Discord ou m'envoyer un message !</p>
-            <div class="simple-actions">
-                <button class="btn-action accent" onclick="UnifiedModal.openDiscordApp()">
-                    <span class="icon">💬</span> Ouvrir Discord
-                </button>
-            </div>
         </div>
     `,
     
@@ -412,6 +353,7 @@ function generateSkillsList(skills) {
  */
 class UnifiedModal {
     static currentModal = null;
+    static liveRegion = null;
 
     /**
      * Crée et affiche un modal unifié
@@ -421,6 +363,8 @@ class UnifiedModal {
         const content = this.generateModalContent(config);
         
         modal.innerHTML = content;
+        // Ensure an ARIA live region exists inside the modal for screen reader announcements
+        this.ensureLiveRegion(modal);
         this.showModal(modal, config);
         this.attachEventListeners(modal);
         this.currentModal = modal;
@@ -437,7 +381,6 @@ class UnifiedModal {
             modal = document.createElement('div');
             modal.id = 'unifiedModal';
             modal.className = 'unified-modal';
-            modal.style.cssText = MODAL_TEMPLATES.base.containerStyles;
             document.body.appendChild(modal);
         }
         return modal;
@@ -455,9 +398,10 @@ class UnifiedModal {
             return this.generateErrorContent(config.type);
         }
 
+        const contentClass = `unified-modal-content unified-modal-content--${config.type}`;
         return `
-            <div class="unified-modal-content" style="${MODAL_TEMPLATES.base.contentStyles} width: ${width};">
-                ${this.generateModalHeader()}
+            <div class="${contentClass}" style="width: ${width};">
+                ${this.generateModalHeader(config)}
                 ${this.generateModalBody(config, contentTemplate)}
             </div>
         `;
@@ -466,10 +410,11 @@ class UnifiedModal {
     /**
      * Génère le header du modal
      */
-    static generateModalHeader() {
+    static generateModalHeader(config) {
         return `
-            <div class="unified-modal-header" style="${MODAL_TEMPLATES.base.headerStyles}">
-                <button class="unified-modal-close" style="${MODAL_TEMPLATES.base.closeButtonStyles}">&times;</button>
+            <div class="unified-modal-header">
+                <button class="unified-modal-close">&times;</button>
+                ${this.generateContentHeader(config)}
             </div>
         `;
     }
@@ -479,8 +424,7 @@ class UnifiedModal {
      */
     static generateModalBody(config, contentTemplate) {
         return `
-            <div class="unified-modal-body" style="${MODAL_TEMPLATES.base.bodyStyles}">
-                ${this.generateContentHeader(config)}
+            <div class="unified-modal-body">
                 ${contentTemplate(config)}
             </div>
         `;
@@ -492,20 +436,25 @@ class UnifiedModal {
     static generateContentHeader(config) {
         const hasRightContent = config.headerRight;
         
+        // For Discord type, mimic demo's inline SVG color (#5865f2)
+        const iconMarkup = (config.type === 'discord')
+            ? `<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #5865f2;"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419-.0002 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1568 2.4189Z"/></svg>`
+            : generateIcon(config.icon, config.title, config.iconSize || 48);
+
         return `
-            <div class="unified-modal-content-header" style="${MODAL_TEMPLATES.base.contentHeaderStyles}">
-                <div class="unified-modal-content-header-left" style="${MODAL_TEMPLATES.base.contentHeaderLeftStyles}">
-                    <div class="unified-modal-icon-large" style="${MODAL_TEMPLATES.base.iconStyles}">
-                        ${generateIcon(config.icon, config.title, config.iconSize || 48)}
+            <div class="unified-modal-content-header">
+                <div class="unified-modal-content-header-left">
+                    <div class="unified-modal-icon-large">
+                        ${iconMarkup}
                     </div>
                     <div class="unified-modal-title-block">
-                        <h2 style="${MODAL_TEMPLATES.base.titleStyles}">${config.title}</h2>
-                        <div class="unified-modal-chips" style="${MODAL_TEMPLATES.base.chipsStyles}">
+                        <h2>${config.title}</h2>
+                        <div class="unified-modal-chips">
                             ${generateChips(config.chips)}
                         </div>
                     </div>
                 </div>
-                ${hasRightContent ? `<div class="unified-modal-content-header-right">${config.headerRight}</div>` : ''}
+                ${hasRightContent ? `<div class=\"unified-modal-content-header-right\">${config.headerRight}</div>` : ''}
             </div>
         `;
     }
@@ -514,13 +463,13 @@ class UnifiedModal {
      * Affiche le modal
      */
     static showModal(modal, config) {
-        // Animation d'entrée
-        modal.style.display = 'block';
-        modal.style.opacity = '0';
-        
+        // Prepare and show with CSS-driven animation
+    modal.classList.remove('fade-exit', 'fade-exit-active');
+    modal.style.display = 'flex';
+        modal.offsetHeight; // force reflow
+        modal.classList.add('fade-enter');
         requestAnimationFrame(() => {
-            modal.style.transition = 'opacity 0.3s ease';
-            modal.style.opacity = '1';
+            modal.classList.add('fade-enter-active');
         });
         
         document.body.style.overflow = 'hidden';
@@ -536,17 +485,21 @@ class UnifiedModal {
         const targetModal = modal || this.currentModal;
         if (!targetModal) return;
 
-        // Animation de sortie
-        targetModal.style.transition = 'opacity 0.3s ease';
-        targetModal.style.opacity = '0';
+        // Animation de sortie via classes
+        targetModal.classList.remove('fade-enter', 'fade-enter-active');
+        targetModal.classList.add('fade-exit');
+        targetModal.offsetHeight; // reflow
+        targetModal.classList.add('fade-exit-active');
         
         setTimeout(() => {
             targetModal.style.display = 'none';
             document.body.style.overflow = 'auto';
+            targetModal.classList.remove('fade-exit', 'fade-exit-active');
         }, 300);
         
         document.removeEventListener('keydown', this.handleKeyDown);
         this.currentModal = null;
+        this.liveRegion = null;
     }
 
     /**
@@ -637,13 +590,145 @@ class UnifiedModal {
     // HANDLERS D'ACTIONS
     // ================================
 
-    static copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            console.log('Copied to clipboard:', text);
-            // TODO: Afficher une notification de succès
-        }).catch(err => {
+    static copyToClipboard(text, triggerEl = null) {
+        // Prefer modern API with fallback for broader compatibility
+        const doSuccessFeedback = () => {
+            // Visual feedback on the button (if provided)
+            if (triggerEl) {
+                if (triggerEl.classList.contains('copied')) return; // Debounce multiple clicks
+                const originalHTML = triggerEl.innerHTML;
+                triggerEl.dataset.originalHtml = originalHTML;
+                triggerEl.classList.add('copied');
+                triggerEl.innerHTML = UnifiedModal.getCheckIcon(18) + ' Copié !';
+                triggerEl.setAttribute('aria-label', 'Copié dans le presse-papiers');
+                // Revert after a short delay
+                setTimeout(() => {
+                    triggerEl.classList.remove('copied');
+                    triggerEl.innerHTML = triggerEl.dataset.originalHtml || originalHTML;
+                }, 1800);
+            }
+            // Screen reader announcement
+            this.announce('Copié dans le presse-papiers');
+        };
+
+        const doErrorFeedback = (err) => {
             console.error('Failed to copy:', err);
-        });
+            if (triggerEl) {
+                const originalHTML = triggerEl.innerHTML;
+                triggerEl.dataset.originalHtml = originalHTML;
+                triggerEl.classList.add('copy-error');
+                triggerEl.innerHTML = UnifiedModal.getWarningIcon(18) + ' Échec';
+                triggerEl.setAttribute('aria-label', 'Échec de la copie');
+                setTimeout(() => {
+                    triggerEl.classList.remove('copy-error');
+                    triggerEl.innerHTML = triggerEl.dataset.originalHtml || originalHTML;
+                }, 1800);
+            }
+            this.announce('Échec de la copie');
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(doSuccessFeedback).catch((err) => {
+                // Try fallback on error
+                try {
+                    this.fallbackCopy(text) ? doSuccessFeedback() : doErrorFeedback(err);
+                } catch (e) {
+                    doErrorFeedback(e);
+                }
+            });
+        } else {
+            try {
+                this.fallbackCopy(text) ? doSuccessFeedback() : doErrorFeedback(new Error('Unsupported copy API'));
+            } catch (e) {
+                doErrorFeedback(e);
+            }
+        }
+    }
+
+    // Fallback using a temporary textarea
+    static fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        const selected = document.getSelection().rangeCount > 0 ? document.getSelection().getRangeAt(0) : null;
+        ta.select();
+        let success = false;
+        try {
+            success = document.execCommand('copy');
+        } catch (e) {
+            success = false;
+        }
+        document.body.removeChild(ta);
+        if (selected) {
+            const sel = document.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(selected);
+        }
+        return success;
+    }
+
+    // Ensure a single live region exists inside the current modal
+    static ensureLiveRegion(modal) {
+        if (this.liveRegion && this.liveRegion.isConnected) return;
+        const region = document.createElement('div');
+        region.id = 'unified-modal-live-region';
+        region.setAttribute('role', 'status');
+        region.setAttribute('aria-live', 'polite');
+        region.setAttribute('aria-atomic', 'true');
+        region.style.position = 'absolute';
+        region.style.width = '1px';
+        region.style.height = '1px';
+        region.style.margin = '-1px';
+        region.style.border = '0';
+        region.style.padding = '0';
+        region.style.overflow = 'hidden';
+        region.style.clip = 'rect(0 0 0 0)';
+        modal.appendChild(region);
+        this.liveRegion = region;
+    }
+
+    static announce(message) {
+        const modal = this.currentModal || document.getElementById('unifiedModal');
+        if (!modal) return;
+        this.ensureLiveRegion(modal);
+        // Clear then set to force announcement
+        this.liveRegion.textContent = '';
+        setTimeout(() => {
+            this.liveRegion.textContent = message;
+        }, 10);
+    }
+
+    // ================================
+    // SVG ICON HELPERS (stroke icons using currentColor)
+    // ================================
+    static getCopyIcon(size = 16) {
+        return `
+            <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="11" height="11" rx="2" ry="2"></rect>
+                <rect x="4" y="4" width="11" height="11" rx="2" ry="2"></rect>
+            </svg>
+        `;
+    }
+
+    static getCheckIcon(size = 16) {
+        return `
+            <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 13l4 4L19 7"></path>
+            </svg>
+        `;
+    }
+
+    static getWarningIcon(size = 16) {
+        return `
+            <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3l9 16H3L12 3z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <circle cx="12" cy="17" r="1"></circle>
+            </svg>
+        `;
     }
 
     static openDiscordApp() {

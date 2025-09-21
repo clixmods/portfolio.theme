@@ -163,7 +163,7 @@
                     <button class="btn-action-icon" title="Email" onclick="window.location.href='mailto:clement.g.developer@gmail.com'">📧</button>
                     <button class="btn-action-icon" title="LinkedIn" onclick="window.open('https://linkedin.com/in/clixmods', '_blank')">💼</button>
                     <button class="btn-action-icon" title="GitHub" onclick="window.open('https://github.com/clixmods', '_blank')">💻</button>
-                    <button class="btn-action-icon" title="Discord" onclick="UnifiedModal.create({type:'discord', title:'Mon Discord', icon:'/images/social/discord.svg', chips:[{text:'Actif quotidiennement', type:'accent'}], content:{discordId:'clixmods'}})">💬</button>
+                    <button class="btn-action-icon" title="Discord" onclick="UnifiedModal.create({type:'discord', title:'Mon Discord', icon:'/images/social/discord.svg', content:{discordId:'clixmods'}})">💬</button>
                 </div>
             `,
             tabs: [
@@ -216,9 +216,6 @@
             type: 'discord',
             title: 'Mon Discord',
             icon: '/images/social/discord.svg',
-            chips: [
-                { text: 'Actif quotidiennement', type: 'accent' }
-            ],
             content: {
                 discordId: 'clixmods'
             }

@@ -1,6 +1,41 @@
 // MODAL UNIFIÉ - Système unifié pour remplacer tous les modals
 // Basé sur skill-modal avec intégration des systèmes .tab-btn et .btn-action existants
 
+.unified-modal {
+    /* Overlay container (matches /demo/ ambiance) */
+    display: none; /* Shown via JS */
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    backdrop-filter: blur(10px);
+    /* Center modal */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+}
+
+.unified-modal .unified-modal-content {
+    /* Glassy content container consistent with /demo/ */
+    max-width: 90vw;
+    max-height: 90vh;
+    margin: 0 auto; /* centered by flex container */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow:
+        0 25px 45px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Base header/body/content-header rules already exist below in the unified section; avoid duplications here. */
+
 .unified-modal-demo {
     /* Container de démo pour la page /demo/ */
     .unified-modal-content {
@@ -100,7 +135,7 @@
     background: rgba(0, 0, 0, 0.1); /* Darker shade than header */
     border-top: none; /* No border - continuity with tabs */
     border-radius: 0 0 20px 20px; /* Rounded only at bottom */
-    max-height: 60vh; /* Reduced max height as header is larger */
+    max-height: 75vh; /* Taller body for better readability */
     overflow-y: auto; /* Vertical scroll if needed */
 }
 
@@ -443,6 +478,20 @@
         font-family: 'Courier New', monospace;
         font-weight: 600;
         flex: 1;
+    }
+
+    /* Button feedback states scoped to modal */
+
+    /* Button feedback states scoped to modal */
+    .btn-action.copied {
+        background: rgba(74, 222, 128, 0.2);
+        border: 1px solid rgba(74, 222, 128, 0.5);
+        color: #4ade80;
+    }
+    .btn-action.copy-error {
+        background: rgba(244, 63, 94, 0.2);
+        border: 1px solid rgba(244, 63, 94, 0.5);
+        color: #f43f5e;
     }
 }
 
@@ -944,3 +993,4 @@
         grid-template-columns: 1fr;
     }
 }
+

@@ -71,17 +71,11 @@
   {{ if $personalNotificationsJs }}
     <script>{{ $personalNotificationsJs.Content | safeJS }}</script>
   {{ end }}
-  
-  <!-- Scripts pour le gestionnaire Discord -->
-  {{ $discordHandlerJs := resources.Get "js/discord-handler.js" }}
-  {{ if $discordHandlerJs }}
-    <script>
-      // Données Discord pour le script
-      window.discordData = {
-        id: "{{ with .Site.Data.profile.contact.discord }}{{ . }}{{ else }}clixmods{{ end }}"
-      };
-      {{ $discordHandlerJs.Content | safeJS }}
-    </script>
+
+  <!-- Unified Modal System (replaces legacy Discord modal and others) -->
+  {{ $unifiedModalJs := resources.Get "js/unified-modal-system.js" }}
+  {{ if $unifiedModalJs }}
+    <script>{{ $unifiedModalJs.Content | safeJS }}</script>
   {{ end }}
   
   <!-- Scripts pour la modal de choix CV -->

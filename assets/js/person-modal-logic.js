@@ -193,13 +193,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
         contacts.forEach(contact => {
             if (contact.value && contact.value !== '' && contact.value !== '""') {
-                const href = contact.type === 'email' ? `mailto:${contact.value}` : contact.value;
                 const buttonEl = document.createElement('a');
-                buttonEl.href = href;
-                buttonEl.target = contact.type === 'url' ? '_blank' : '_self';
                 buttonEl.className = 'person-modal-contact-button';
                 buttonEl.title = `${contact.label}: ${contact.value}`;
                 buttonEl.innerHTML = contact.svg;
+
+                // Special handling for Discord: open unified modal with the demo design
+                if (contact.label === 'Discord') {
+                    buttonEl.href = '#';
+                    buttonEl.onclick = function(e) {
+                        e.preventDefault();
+                        const discordId = String(contact.value || '').trim();
+                        if (!discordId) return;
+                        if (typeof window.UnifiedModal !== 'undefined') {
+                            window.UnifiedModal.create({
+                                type: 'discord',
+                                title: 'Mon Discord',
+                                icon: '/images/social/discord.svg',
+                                content: { discordId }
+                            });
+                        }
+                    };
+                } else {
+                    // Default link behavior for other contacts
+                    const href = contact.type === 'email' ? `mailto:${contact.value}` : contact.value;
+                    buttonEl.href = href;
+                    buttonEl.target = contact.type === 'url' ? '_blank' : '_self';
+                }
+
                 contactButtons.appendChild(buttonEl);
             }
         });
