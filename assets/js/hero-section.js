@@ -25,34 +25,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (primaryBtn) {
         primaryBtn.addEventListener('click', function() {
             console.log('Primary action clicked: Contact');
-            // Ouvre la modal de contact
-            let contactModalTrigger = document.getElementById('contact-modal-trigger');
-            if (!contactModalTrigger) {
-                // Fallback : cherche par ID alternatif
-                contactModalTrigger = document.getElementById('contact-modal-trigger-dock');
-            }
-            if (!contactModalTrigger) {
-                // Fallback : cherche par classe
-                contactModalTrigger = document.querySelector('.contact-modal-trigger');
-            }
-            
-            if (contactModalTrigger) {
-                contactModalTrigger.click();
-            } else {
-                // Fallback : utilise la fonction globale de contact modal si disponible
-                if (window.contactModal && window.contactModal.open) {
-                    window.contactModal.open();
-                } else {
-                    // Dernier fallback : scroll vers la section contact si elle existe
+            // Unified Modal is opened by the button's inline handler.
+            // Fallback: scroll to the contact section if UnifiedModal is unavailable
+            setTimeout(() => {
+                if (typeof window.UnifiedModal === 'undefined') {
                     const contactSection = document.querySelector('#contact');
                     if (contactSection) {
-                        contactSection.scrollIntoView({ 
+                        contactSection.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start'
                         });
                     }
                 }
-            }
+            }, 0);
         });
     }
 

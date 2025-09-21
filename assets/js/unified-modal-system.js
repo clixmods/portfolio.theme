@@ -166,9 +166,13 @@ function generateActionItem(action) {
  * Génère les éléments de contact
  */
 function generateContactItems(contacts) {
-    return contacts.map(contact => `
+    return contacts.map(contact => {
+        const iconMarkup = (typeof contact.icon === 'string' && contact.icon.startsWith('/'))
+            ? `<img src="${contact.icon}" alt="" width="20" height="20" style="object-fit:contain" />`
+            : `${contact.icon}`;
+        return `
         <div class="contact-item">
-            <div class="contact-icon">${contact.icon}</div>
+            <div class="contact-icon">${iconMarkup}</div>
             <div class="contact-details">
                 <div class="contact-title">${contact.title}</div>
                 <div class="contact-value">${contact.value}</div>
@@ -182,7 +186,7 @@ function generateContactItems(contacts) {
                 </a>
             ` : ''}
         </div>
-    `).join('');
+    `}).join('');
 }
 
 /**
@@ -354,6 +358,7 @@ function generateSkillsList(skills) {
 class UnifiedModal {
     static currentModal = null;
     static liveRegion = null;
+    static previousActiveElement = null;
 
     /**
      * Crée et affiche un modal unifié
@@ -365,6 +370,8 @@ class UnifiedModal {
         modal.innerHTML = content;
         // Ensure an ARIA live region exists inside the modal for screen reader announcements
         this.ensureLiveRegion(modal);
+        // Remember trigger element for focus restoration
+        this.previousActiveElement = document.activeElement;
         this.showModal(modal, config);
         this.attachEventListeners(modal);
         this.currentModal = modal;
@@ -383,6 +390,9 @@ class UnifiedModal {
             modal.className = 'unified-modal';
             document.body.appendChild(modal);
         }
+        // Accessibility semantics
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
         return modal;
     }
 
@@ -399,8 +409,10 @@ class UnifiedModal {
         }
 
         const contentClass = `unified-modal-content unified-modal-content--${config.type}`;
+        // Avoid inline sizing for contact to let SCSS control width per demo parity
+        const styleAttr = config.type === 'contact' ? '' : ` style="width: ${width};"`;
         return `
-            <div class="${contentClass}" style="width: ${width};">
+            <div class="${contentClass}"${styleAttr}>
                 ${this.generateModalHeader(config)}
                 ${this.generateModalBody(config, contentTemplate)}
             </div>
@@ -448,7 +460,7 @@ class UnifiedModal {
                         ${iconMarkup}
                     </div>
                     <div class="unified-modal-title-block">
-                        <h2>${config.title}</h2>
+                        <h2 id="unified-modal-title">${config.title}</h2>
                         <div class="unified-modal-chips">
                             ${generateChips(config.chips)}
                         </div>
@@ -473,9 +485,14 @@ class UnifiedModal {
         });
         
         document.body.style.overflow = 'hidden';
+        // Tie label for a11y
+        modal.setAttribute('aria-labelledby', 'unified-modal-title');
         
         // Gestion de la touche Escape
         document.addEventListener('keydown', this.handleKeyDown);
+        // Focus management
+        this.enableFocusTrap(modal);
+        this.focusFirstElement(modal);
     }
 
     /**
@@ -498,6 +515,12 @@ class UnifiedModal {
         }, 300);
         
         document.removeEventListener('keydown', this.handleKeyDown);
+        this.disableFocusTrap(targetModal);
+        // Restore focus to the trigger element
+        if (this.previousActiveElement && typeof this.previousActiveElement.focus === 'function') {
+            try { this.previousActiveElement.focus(); } catch (e) {}
+        }
+        this.previousActiveElement = null;
         this.currentModal = null;
         this.liveRegion = null;
     }
@@ -533,6 +556,58 @@ class UnifiedModal {
         
         // Gestion des formulaires
         this.setupFormHandlers(modal);
+    }
+
+    // ================================
+    // FOCUS MANAGEMENT (Trap within modal)
+    // ================================
+    static focusableSelectors = [
+        'a[href]','area[href]','input:not([disabled])','select:not([disabled])','textarea:not([disabled])',
+        'button:not([disabled])','iframe','object','embed','[tabindex]:not([tabindex="-1"])','[contenteditable]'
+    ].join(',');
+
+    static getFocusableElements(modal) {
+        return Array.from(modal.querySelectorAll(this.focusableSelectors))
+            .filter(el => (el.offsetParent !== null) || el === modal);
+    }
+
+    static focusFirstElement(modal) {
+        const focusables = this.getFocusableElements(modal);
+        if (focusables.length) {
+            focusables[0].focus();
+        } else {
+            modal.setAttribute('tabindex', '-1');
+            modal.focus();
+        }
+    }
+
+    static focusTrapHandler = (e) => {
+        if (e.key !== 'Tab') return;
+        const modal = this.currentModal;
+        if (!modal) return;
+        const focusables = this.getFocusableElements(modal);
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            }
+        } else {
+            if (document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+    }
+
+    static enableFocusTrap(modal) {
+        modal.addEventListener('keydown', this.focusTrapHandler);
+    }
+
+    static disableFocusTrap(modal) {
+        modal.removeEventListener('keydown', this.focusTrapHandler);
     }
 
     /**

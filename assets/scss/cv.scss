@@ -1157,7 +1157,6 @@
   /* Force color printing - preserve ALL colors and backgrounds exactly as on screen */
   * {
     -webkit-print-color-adjust: exact !important;
-    color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
@@ -1165,7 +1164,7 @@
   .cv-version-nav,
   .cv-external-controls,
   #dock, #top-dock, #left-dock, #right-dock, #hero-background, 
-  footer, .contact-modal, .toast-container, .trophies-modal, 
+  footer, .toast-container, .trophies-modal, 
   .right-dock, .top-dock, .left-dock, .dock, .dock-top, .dock-left, .dock-right,
   nav, header:not(.cv-header), .navigation, .menu, .navbar,
   .floating-dock, .dock-container, .top-bar, .topbar,

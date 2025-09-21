@@ -388,7 +388,6 @@
 
   // Modifier les modals pour qu'elles s'affichent en inline au lieu de fullscreen
   .skill-modal-content,
-  .contact-modal-content,
   .person-modal-content {
     position: relative !important;
     top: auto !important;
@@ -412,7 +411,6 @@
 
   // Désactiver les boutons de fermeture en demo
   .skill-modal-close,
-  .contact-modal-close,
   .person-modal-close,
   .modal-close,
   .popup-close {

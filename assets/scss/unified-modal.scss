@@ -34,6 +34,13 @@
     position: relative;
 }
 
+/* Contact type specific sizing (strict parity with /demo/) */
+.unified-modal-content--contact {
+    width: 800px; /* matches demo target width */
+    max-width: calc(100vw - 40px);
+    min-height: 420px;
+}
+
 /* Base header/body/content-header rules already exist below in the unified section; avoid duplications here. */
 
 .unified-modal-demo {
@@ -493,6 +500,18 @@
         border: 1px solid rgba(244, 63, 94, 0.5);
         color: #f43f5e;
     }
+}
+
+/* Scoped feedback states for copy buttons inside contact as well */
+.unified-modal-content--contact .btn-action.copied {
+    background: rgba(74, 222, 128, 0.2);
+    border: 1px solid rgba(74, 222, 128, 0.5);
+    color: #4ade80;
+}
+.unified-modal-content--contact .btn-action.copy-error {
+    background: rgba(244, 63, 94, 0.2);
+    border: 1px solid rgba(244, 63, 94, 0.5);
+    color: #f43f5e;
 }
 
 .simple-actions {

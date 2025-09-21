@@ -460,12 +460,21 @@ function openTestSkillModal() {
  * Teste l'ouverture du modal de contact
  */
 function openTestContactModal() {
-    const modal = document.getElementById('contact-modal');
-    if (modal) {
-        modal.style.display = 'block';
-        modal.setAttribute('aria-hidden', 'false');
+    if (typeof window.UnifiedModal !== 'undefined') {
+        window.UnifiedModal.create({
+            type: 'contact',
+            title: 'Contactez-moi',
+            icon: '📬',
+            content: {
+                contacts: [
+                    { icon: '📧', title: 'Email', value: 'clement.g.developer@gmail.com', link: 'mailto:clement.g.developer@gmail.com' },
+                    { icon: '/images/social/linkedin.svg', title: 'LinkedIn', value: 'linkedin.com/in/clixmods', link: 'https://linkedin.com/in/clixmods', external: true },
+                    { icon: '📍', title: 'Localisation', value: 'Montpellier' }
+                ]
+            }
+        });
     } else {
-        showDemoNotification('Contact Modal non trouvé. Le modal sera inclus uniquement si présent dans le thème.');
+        showDemoNotification('Unified Modal non disponible.');
     }
 }
 

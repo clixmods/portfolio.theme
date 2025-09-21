@@ -59,16 +59,6 @@
   {{- end }}
 {{- end }}
 
-{{/* Contact Modal Script */}}
-{{- with resources.Get "js/contact-modal.js" }}
-  {{- if hugo.IsDevelopment }}
-    <script src="{{ .RelPermalink }}"></script>
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
-    {{- end }}
-  {{- end }}
-{{- end }}
 
 {{/* Skill Modal Script */}}
 {{- with resources.Get "js/skill-modal.js" }}

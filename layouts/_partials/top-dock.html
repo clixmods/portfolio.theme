@@ -14,11 +14,15 @@
         </svg>
       </a>
       
-      <!-- Contact Modal Button -->
-      <button class="dock-button primary-btn contact-btn contact-modal-trigger" 
-              id="contact-modal-trigger-dock"
+      <!-- Contact Modal Button (Unified Modal) -->
+      <button class="dock-button primary-btn contact-btn"
               title="{{ i18n "contact_me" | default "Contactez-moi" }}"
-              aria-label="{{ i18n "contact_me" | default "Contactez-moi" }}">
+              aria-label="{{ i18n "contact_me" | default "Contactez-moi" }}"
+              onclick="event.preventDefault(); UnifiedModal.create({ type: 'contact', title: 'Contactez-moi', icon: '📬', content: { contacts: [
+                { icon: '📧', title: 'Email', value: '{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}', link: 'mailto:{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}' },
+                { icon: '/images/social/linkedin.svg', title: 'LinkedIn', value: '{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', link: 'https://{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', external: true },
+                { icon: '📍', title: 'Localisation', value: '{{ with $.Site.Data.profile.contact.location }}{{ . }}{{ else }}Montpellier{{ end }}' }
+              ] } });">
         <svg class="dock-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
           <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
         </svg>
