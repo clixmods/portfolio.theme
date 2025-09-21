@@ -35,10 +35,12 @@
     }
 }
 
-/* === HEADER UNIFIÉ === */
+/* === UNIFIED HEADER - NOW CONTAINS CONTENT-HEADER AND TABS === */
 .unified-modal-header {
     position: relative;
-    padding: 15px 70px 0 20px; /* Réserver de l'espace à droite pour le bouton close */
+    padding: 15px 70px 0px 20px; /* No bottom padding for cut-out effect */
+    border-radius: 20px 20px 0 0; /* Rounded only at top */
+    overflow: hidden; /* To contain child elements */
     
     .unified-modal-close {
         position: absolute;
@@ -56,7 +58,7 @@
         color: rgba(255, 255, 255, 0.8);
         cursor: pointer;
         transition: all 0.3s ease;
-        z-index: 10; /* S'assurer qu'il est au-dessus de tout */
+        z-index: 10; /* Ensure it's above everything */
         
         &:hover {
             background: rgba(255, 255, 255, 0.2);
@@ -64,25 +66,47 @@
             transform: scale(1.05);
         }
     }
+    
+    /* Content header within header */
+    .unified-modal-content-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    
+    /* Tabs in header - Original tab system color */
+    .unified-modal-tabs {
+        margin: 15px -20px 0 -20px; /* Top margin to space from content-header */
+        width: calc(100% + 90px); /* Also compensate right padding (70px for close button) */
+        padding: 8px 20px 8px 20px; /* Reduced vertical padding */
+        background: rgba(0, 0, 0, 0.25); /* Original tab system color */
+        border-radius: 0; /* No rounding */
+        border: none; /* No borders */
+        box-sizing: border-box;
+        position: relative;
+        
+        /* Cut-out effect with inner shadow */
+        box-shadow: 
+            inset 0 1px 0 rgba(255, 255, 255, 0.05),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    }
 }
 
-/* === BODY UNIFIÉ === */
+/* === UNIFIED BODY - PERFECTLY INTEGRATES WITH HEADER === */
 .unified-modal-body {
     padding: 20px;
-    padding-top: 20px;
-    padding-right: 70px;
-    background: rgba(0, 0, 0, 0.1); /* Nuance plus foncée que le header */
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Séparation visuelle */
-    max-height: 70vh; /* Hauteur max pour permettre le scroll */
-    overflow-y: auto; /* Scroll vertical si nécessaire */
+    background: rgba(0, 0, 0, 0.1); /* Darker shade than header */
+    border-top: none; /* No border - continuity with tabs */
+    border-radius: 0 0 20px 20px; /* Rounded only at bottom */
+    max-height: 60vh; /* Reduced max height as header is larger */
+    overflow-y: auto; /* Vertical scroll if needed */
 }
 
-/* === CONTENT HEADER UNIFIÉ === */
+/* === UNIFIED CONTENT HEADER - NOW WITHIN THE HEADER === */
 .unified-modal-content-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 30px;
+    /* Styles are now in .unified-modal-header .unified-modal-content-header */
     gap: 20px;
     
     .unified-modal-content-header-left {
@@ -171,14 +195,14 @@
     }
 }
 
-/* === SYSTÈME DE TABS UNIFIÉ === */
+/* === UNIFIED TAB SYSTEM === */
 .unified-modal-tabs {
-    /* Utilise les styles .tabs existants du thème */
+    /* Uses existing .tabs styles from theme */
     margin-bottom: 25px;
     
-    /* Styles spécifiques pour les tabs dans les modals */
+    /* Specific styles for tabs in modals */
     .tab-btn {
-        /* Les styles existants du thème s'appliquent automatiquement */
+        /* Existing theme styles apply automatically */
         
         .count {
             margin-left: 8px;
@@ -195,7 +219,7 @@
     }
 }
 
-/* === PANELS DE CONTENU === */
+/* === CONTENT PANELS === */
 .unified-modal-panels {
     .unified-modal-panel {
         display: none;
@@ -206,7 +230,7 @@
     }
 }
 
-/* === CONTENU SIMPLE (sans tabs) === */
+/* === SIMPLE CONTENT (no tabs) === */
 .unified-modal-simple-content {
     p {
         color: rgba(255, 255, 255, 0.9);
@@ -561,4 +585,362 @@
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
+}
+
+/* =================================== */
+/* SYSTÈME UNIFIÉ REFACTORISÉ - NOUVEAUX STYLES */
+/* =================================== */
+
+/* Modal principal - version finale */
+.unified-modal {
+    &.fade-enter {
+        opacity: 0;
+        
+        .unified-modal-content {
+            transform: translateY(-20px) scale(0.95);
+        }
+    }
+    
+    &.fade-enter-active {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+        
+        .unified-modal-content {
+            transform: translateY(0) scale(1);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    }
+    
+    &.fade-exit {
+        opacity: 1;
+        
+        .unified-modal-content {
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    &.fade-exit-active {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        
+        .unified-modal-content {
+            transform: translateY(-20px) scale(0.95);
+            transition: transform 0.3s ease;
+        }
+    }
+}
+
+/* Chips avec variants de type */
+.unified-modal-chips {
+    .chip {
+        &.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        &.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        &.accent {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        &.success {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+        }
+        
+        &.warning {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #8b4513;
+        }
+    }
+}
+
+/* Amélioration des tabs avec compteurs */
+.unified-modal-tabs {
+    .tab-btn {
+        .count {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        &.active .count {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+    }
+}
+
+/* Gestion des erreurs */
+.error-content {
+    padding: 40px;
+    text-align: center;
+    
+    .error-message {
+        background: rgba(255, 0, 0, 0.1);
+        border: 1px solid rgba(255, 0, 0, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        
+        h3 {
+            color: #ff4757;
+            margin: 0 0 10px 0;
+        }
+        
+        p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+    }
+}
+
+/* Responsive amélioré */
+@media (max-width: 768px) {
+    .unified-modal-content {
+        width: 95vw !important;
+        margin: 2vh auto;
+        max-height: 95vh;
+    }
+    
+    .unified-modal-body {
+        padding: 20px !important;
+    }
+    
+    .unified-modal-two-columns {
+        flex-direction: column;
+        gap: 30px;
+        
+        .contact-info-column,
+        .contact-form-column {
+            width: 100%;
+        }
+    }
+    
+    .contact-social-actions {
+        justify-content: center;
+        margin-top: 15px;
+    }
+    
+    .unified-modal-content-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 15px;
+        
+        .unified-modal-content-header-left {
+            width: 100%;
+        }
+        
+        .unified-modal-content-header-right {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .unified-modal-tabs {
+        flex-wrap: wrap;
+        gap: 8px;
+        
+        .tab-btn {
+            flex: 1;
+            min-width: calc(50% - 4px);
+            
+            .tab-label {
+                display: none;
+            }
+            
+            .tab-icon {
+                font-size: 20px;
+            }
+        }
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Performance - utilisation de will-change pour les animations */
+.unified-modal-content {
+    will-change: transform, opacity;
+}
+
+.tab-btn {
+    will-change: background, transform;
+}
+
+.btn-action,
+.btn-action-icon {
+    will-change: transform, background;
+}
+
+/* Accessibilité améliorée */
+.unified-modal {
+    &:focus-within {
+        outline: none;
+    }
+}
+
+.unified-modal-close,
+.tab-btn,
+.btn-action,
+.btn-action-icon {
+    &:focus-visible {
+        outline: 2px solid #667eea;
+        outline-offset: 2px;
+    }
+}
+
+/* Support pour les thèmes sombres */
+@media (prefers-color-scheme: dark) {
+    .unified-modal-content {
+        background: rgba(25, 25, 25, 0.95);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .error-content .error-message {
+        background: rgba(139, 0, 0, 0.2);
+        border-color: rgba(255, 69, 0, 0.4);
+    }
+}
+
+/* =================================== */
+/* NAVIGATION DES TYPES DE MODALS - ARCHITECTURE MODULAIRE */
+/* =================================== */
+
+.modal-types-navigation {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    
+    h3 {
+        margin: 0 0 20px 0;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 18px;
+        font-weight: 600;
+    }
+}
+
+.modal-types-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.modal-type-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .modal-type-icon {
+        font-size: 24px;
+        margin-right: 12px;
+        flex-shrink: 0;
+    }
+    
+    strong {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 600;
+        margin-right: 8px;
+    }
+    
+    .modal-type-file {
+        font-family: 'Monaco', 'Menlo', monospace;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.6);
+        background: rgba(0, 0, 0, 0.2);
+        padding: 4px 8px;
+        border-radius: 6px;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+}
+
+/* Amélioration des boutons de démo */
+.demo-actions {
+    margin-top: 40px;
+    
+    h3 {
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 20px;
+        font-size: 20px;
+    }
+}
+
+.demo-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    
+    .demo-btn {
+        padding: 16px 24px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        &:active {
+            transform: translateY(0);
+        }
+    }
+}
+
+/* Responsive pour la navigation */
+@media (max-width: 768px) {
+    .modal-types-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-type-item {
+        flex-direction: column;
+        align-items: flex-start;
+        
+        .modal-type-icon {
+            margin-bottom: 8px;
+            margin-right: 0;
+        }
+        
+        .modal-type-file {
+            margin-left: 0;
+            margin-top: 8px;
+        }
+    }
+    
+    .demo-buttons {
+        grid-template-columns: 1fr;
+    }
 }

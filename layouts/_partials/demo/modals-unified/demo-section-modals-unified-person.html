@@ -1,0 +1,103 @@
+<!-- Unified Modal - Person/Profile Use Case -->
+<div class="modal-demo-container">
+  <div class="css-class-info">
+    <strong>Name:</strong> Unified Modal - Person/Profile<br />
+    <strong>Main class:</strong> <code>.unified-modal</code><br />
+    <strong>Tab system:</strong> <code>.tab-btn</code> (unified)<br />
+    <strong>Buttons:</strong> <code>.btn-action</code> (unified)<br />
+    <strong>Replaces:</strong> person-modal
+  </div>
+  <div class="modal-demo-preview unified-modal-preview">
+    <div class="unified-modal-content">
+      <div class="unified-modal-header">
+        <button class="unified-modal-close">&times;</button>
+        
+        <!-- Content Header with avatar and person info -->
+        <div class="unified-modal-content-header">
+          <div class="unified-modal-content-header-left">
+            <div class="unified-modal-icon-large">
+              <img
+                src="/images/people/clement-garcia.jpg"
+                alt="Clément Garcia"
+                width="80"
+                height="80"
+                style="border-radius: 50%"
+              />
+            </div>
+            <div class="unified-modal-title-block">
+              <h2>Clément 'Clix' GARCIA</h2>
+              <div class="unified-modal-chips">
+                <span class="chip">Développeur Logiciel</span>
+                <span class="chip secondary">Studio La Moutarde</span>
+              </div>
+            </div>
+          </div>
+          <div class="unified-modal-content-header-right">
+            <div class="contact-social-actions">
+              <button class="btn-action-icon" title="Email">📧</button>
+              <button class="btn-action-icon" title="LinkedIn">💼</button>
+              <button class="btn-action-icon" title="GitHub">💻</button>
+              <button class="btn-action-icon" title="Discord">💬</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unified tab system -->
+        <div class="tabs unified-modal-tabs">
+          <button class="tab-btn active" data-tab="about">
+            <span class="tab-icon">👤</span>
+            <span class="tab-label">À propos</span>
+          </button>
+          <button class="tab-btn" data-tab="skills">
+            <span class="tab-icon">🛠️</span>
+            <span class="tab-label">Compétences</span>
+          </button>
+          <button class="tab-btn" data-tab="projects">
+            <span class="tab-icon">💼</span>
+            <span class="tab-label">Projets</span>
+            <span class="count">8</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="unified-modal-body">
+
+        <!-- Content Panels -->
+        <div class="unified-modal-panels">
+          <div class="unified-modal-panel active" data-panel="about">
+            <div class="about-content">
+              <p>
+                Développeur polyvalent spécialisé dans les mécaniques de
+                jeu, le design visuel et la production de jeux vidéo.
+                Actuellement étudiant en 3ᵉ année à l'IUT de
+                Montpellier-Sète en filière IAMSI et en alternance chez
+                Studio La Moutarde.
+              </p>
+            </div>
+          </div>
+          <div class="unified-modal-panel" data-panel="skills">
+            <div class="skills-content">
+              <div class="skills-list">
+                <span class="skill-tag">C#</span>
+                <span class="skill-tag">Unity</span>
+                <span class="skill-tag">Blazor</span>
+                <span class="skill-tag">Game Design</span>
+              </div>
+            </div>
+          </div>
+          <div class="unified-modal-panel" data-panel="projects">
+            <div class="projects-grid">
+              <div class="project-card">
+                <h4>Nuketown Zombies</h4>
+                <p>Directeur créatif</p>
+                <div class="card-actions">
+                  <button class="btn-action primary">Voir le projet</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
