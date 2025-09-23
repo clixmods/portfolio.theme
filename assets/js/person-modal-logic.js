@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePersonProjects(personId);
 
         // Update contact buttons
-        const contactButtons = document.getElementById('personModalContactButtons');
+    const contactButtons = document.getElementById('personModalContactButtons');
         contactButtons.innerHTML = '';
         
         const contacts = [
@@ -194,8 +194,10 @@ document.addEventListener('DOMContentLoaded', function() {
         contacts.forEach(contact => {
             if (contact.value && contact.value !== '' && contact.value !== '""') {
                 const buttonEl = document.createElement('a');
-                buttonEl.className = 'person-modal-contact-button';
+                // Use unified icon action style while keeping legacy class for compatibility
+                buttonEl.className = 'person-modal-contact-button btn-action-icon';
                 buttonEl.title = `${contact.label}: ${contact.value}`;
+                buttonEl.setAttribute('aria-label', contact.label);
                 buttonEl.innerHTML = contact.svg;
 
                 // Special handling for Discord: open unified modal with the demo design
@@ -219,6 +221,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     const href = contact.type === 'email' ? `mailto:${contact.value}` : contact.value;
                     buttonEl.href = href;
                     buttonEl.target = contact.type === 'url' ? '_blank' : '_self';
+                    if (buttonEl.target === '_blank') {
+                        buttonEl.rel = 'noopener noreferrer';
+                    }
                 }
 
                 contactButtons.appendChild(buttonEl);
@@ -241,10 +246,15 @@ document.addEventListener('DOMContentLoaded', function() {
             window.pauseAllTestimonials();
         }
         
-        console.log('Setting modal display to flex...');
+        // Align opening animation with unified modal (fade + content transform)
+        modal.classList.remove('fade-exit', 'fade-exit-active');
         modal.style.display = 'flex';
+        modal.offsetHeight; // force reflow
+        modal.classList.add('fade-enter');
+        requestAnimationFrame(() => {
+            modal.classList.add('fade-enter-active');
+        });
         console.log('Modal display after setting:', modal.style.display);
-        console.log('Modal computed display:', getComputedStyle(modal).display);
         document.body.style.overflow = 'hidden';
         console.log('Modal should now be visible!');
     };
@@ -256,8 +266,16 @@ document.addEventListener('DOMContentLoaded', function() {
             window.resumeAllTestimonials();
         }
         
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
+        // Animate close like unified modal
+        modal.classList.remove('fade-enter', 'fade-enter-active');
+        modal.classList.add('fade-exit');
+        modal.offsetHeight; // reflow
+        modal.classList.add('fade-exit-active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            modal.classList.remove('fade-exit', 'fade-exit-active');
+        }, 300);
     };
 
     // Close modal on Escape key
