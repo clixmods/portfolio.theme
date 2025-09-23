@@ -196,7 +196,8 @@ if (!prefersReducedMotion) {
               const positionOffset = (i / this.pathPoints) * this.frequency * this.randomHeights[p];
               const randomOffset = this.randomOffsets[p];
               
-              const sinus = Math.sin(timeOffset + positionOffset + randomOffset);
+              // Reverse horizontal wave direction: use sin(t - kx) instead of sin(t + kx)
+              const sinus = Math.sin(timeOffset - positionOffset + randomOffset);
               
               // Y position variation based on wave index
               const baseY = this.halfH + (p - this.pathCount/2) * 40;
