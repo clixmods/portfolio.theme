@@ -108,8 +108,15 @@ function openSkillModal(name, icon, level, experience, iconType) {
         window.pauseAllTestimonials();
     }
     
-    // Show modal
+    // Show modal with unified-like animation
+    modal.classList.remove('fade-exit', 'fade-exit-active');
     modal.style.display = 'block';
+    // Force reflow
+    modal.offsetHeight;
+    modal.classList.add('fade-enter');
+    requestAnimationFrame(() => {
+        modal.classList.add('fade-enter-active');
+    });
     document.body.style.overflow = 'hidden'; // Prevent page scrolling
 }
 
@@ -122,8 +129,16 @@ function closeSkillModal() {
         window.resumeAllTestimonials();
     }
     
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto'; // Restore page scrolling
+    // Animate close like unified modal
+    modal.classList.remove('fade-enter', 'fade-enter-active');
+    modal.classList.add('fade-exit');
+    modal.offsetHeight; // reflow
+    modal.classList.add('fade-exit-active');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore page scrolling
+        modal.classList.remove('fade-exit', 'fade-exit-active');
+    }, 300);
 }
 
 // Function to load projects associated with a skill/technology
