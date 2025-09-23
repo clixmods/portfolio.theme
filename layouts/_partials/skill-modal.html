@@ -1,58 +1,57 @@
 {{/* Modal for displaying skill/technology details - Glassmorphism Design */}}
 <div id="skillModal" class="skill-modal" style="display: none;">
     <div class="skill-modal-backdrop" onclick="closeSkillModal()"></div>
-    <div class="skill-modal-content">
-        <div class="skill-modal-header">
-            <button class="skill-modal-close" onclick="closeSkillModal()">&times;</button>
-        </div>
-        
-        <div class="skill-modal-body skill-modal-layout">
-            <!-- Skill header -->
-            <div class="skill-info skill-modal-header-section">
-                <div class="skill-modal-header-left">
-                                    <div class="skill-modal-skill-icon-large" id="skillIconLarge">
+    <div class="skill-modal-content unified-modal-content">
+        <div class="skill-modal-header unified-modal-header">
+            <button class="skill-modal-close unified-modal-close" onclick="closeSkillModal()">&times;</button>
+
+            <!-- Unified content header inside header -->
+            <div class="skill-info skill-modal-header-section unified-modal-content-header">
+                <div class="skill-modal-header-left unified-modal-content-header-left">
+                    <div class="skill-modal-skill-icon-large unified-modal-icon-large" id="skillIconLarge">
                         <span id="modalSkillIcon"></span>
                     </div>
-                    <div class="skill-modal-title-block">
+                    <div class="skill-modal-title-block unified-modal-title-block">
                         <h2 id="modalSkillName"></h2>
-                        <div class="skill-modal-chips">
-                            <span class="skill-modal-chip" id="modalSkillLevel" hidden></span>
-                            <span class="skill-modal-chip secondary" id="modalSkillExperience" hidden></span>
+                        <div class="skill-modal-chips unified-modal-chips">
+                            <span class="skill-modal-chip chip" id="modalSkillLevel" hidden></span>
+                            <span class="skill-modal-chip chip secondary" id="modalSkillExperience" hidden></span>
                         </div>
                     </div>
                 </div>
-                
             </div>
 
-            <!-- Tab bar -->
-            <div class="skill-modal-tabs" role="tablist">
-                <button class="skill-modal-tab active" role="tab" aria-selected="true" aria-controls="skillModalTabProjects" data-tab="projects">
+            <!-- Unified tab bar inside header -->
+            <div class="skill-modal-tabs unified-modal-tabs" role="tablist">
+                <button class="skill-modal-tab tab-btn active" role="tab" aria-selected="true" aria-controls="skillModalTabProjects" data-tab="projects">
                     <span class="icon">💼</span><span>Projets</span>
-                    <span class="skill-modal-tab-count" id="skillModalProjectsCount"></span>
+                    <span class="skill-modal-tab-count count" id="skillModalProjectsCount"></span>
                 </button>
-                <button class="skill-modal-tab" role="tab" aria-selected="false" aria-controls="skillModalTabExperiences" data-tab="experiences">
+                <button class="skill-modal-tab tab-btn" role="tab" aria-selected="false" aria-controls="skillModalTabExperiences" data-tab="experiences">
                     <span class="icon">🏢</span><span>Expériences</span>
-                    <span class="skill-modal-tab-count" id="skillModalExperiencesCount"></span>
+                    <span class="skill-modal-tab-count count" id="skillModalExperiencesCount"></span>
                 </button>
-                <button class="skill-modal-tab" role="tab" aria-selected="false" aria-controls="skillModalTabEducations" data-tab="educations">
+                <button class="skill-modal-tab tab-btn" role="tab" aria-selected="false" aria-controls="skillModalTabEducations" data-tab="educations">
                     <span class="icon">🎓</span><span>Formations</span>
-                    <span class="skill-modal-tab-count" id="skillModalEducationsCount"></span>
+                    <span class="skill-modal-tab-count count" id="skillModalEducationsCount"></span>
                 </button>
             </div>
+        </div>
 
+        <div class="skill-modal-body unified-modal-body skill-modal-layout">
             <!-- Panels -->
-            <div class="skill-modal-tab-panels">
-                <div class="skill-modal-tab-panel active" id="skillModalTabProjects" role="tabpanel" aria-labelledby="skillModalTabBtnProjects">
+            <div class="skill-modal-tab-panels unified-modal-panels">
+                <div class="skill-modal-tab-panel unified-modal-panel active" id="skillModalTabProjects" role="tabpanel" aria-labelledby="skillModalTabBtnProjects">
                     <div id="modalProjectsList" class="skill-modal-projects-grid" data-empty-text="Aucun projet trouvé pour cette technologie.">
                         <!-- Projects -->
                     </div>
                 </div>
-                <div class="skill-modal-tab-panel" id="skillModalTabExperiences" role="tabpanel" aria-labelledby="skillModalTabBtnExperiences" hidden>
+                <div class="skill-modal-tab-panel unified-modal-panel" id="skillModalTabExperiences" role="tabpanel" aria-labelledby="skillModalTabBtnExperiences" hidden>
                     <div id="modalExperiencesList" class="skill-modal-experiences-list" data-empty-text="Aucune expérience trouvée.">
                         <!-- Experiences -->
                     </div>
                 </div>
-                <div class="skill-modal-tab-panel" id="skillModalTabEducations" role="tabpanel" aria-labelledby="skillModalTabBtnEducations" hidden>
+                <div class="skill-modal-tab-panel unified-modal-panel" id="skillModalTabEducations" role="tabpanel" aria-labelledby="skillModalTabBtnEducations" hidden>
                     <div id="modalEducationsList" class="skill-modal-educations-list" data-empty-text="Aucune formation trouvée.">
                         <!-- Educations -->
                     </div>

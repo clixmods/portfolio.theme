@@ -33,46 +33,50 @@
 }
 
 .skill-modal-content {
+    /* Align look & feel with unified modal */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 1000px;
-    height: 85vh;
-    max-height: 85vh;
-    background: var(--glass-bg);
+    /* Wider modal: keep margins on small screens and cap on large */
+    width: calc(100vw - 60px);
+    max-width: 1360px;
+    height: auto;
+    max-height: 90vh;
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: var(--shadow-glass);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     display: flex;
     flex-direction: column;
 }
 
-.skill-modal-header {
+.skill-modal-header:not(.unified-modal-header) {
+    /* Unify with unified-modal header spacing */
     display: flex;
     justify-content: flex-end;
-    padding: 12px 16px;
+    padding: 15px 20px 0 20px; /* top-right spacing, no bottom padding */
     flex-shrink: 0;
-    background: var(--glass-bg-light);
-    border-bottom: 1px solid var(--glass-border);
+    background: transparent;
+    border-bottom: none;
 }
 
 .skill-modal-close {
-    background: var(--glass-bg-light);
+    /* Mirror unified close button */
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    font-size: 16px;
-    color: var(--text-primary);
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     padding: 0;
     transition: all 0.3s ease;
     line-height: 1;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,17 +84,20 @@
 }
 
 .skill-modal-close:hover {
-    background: var(--glass-bg-hover);
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
     transform: scale(1.05);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-    border-color: var(--glass-border-lighter);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
-.skill-modal-body {
+.skill-modal-body:not(.unified-modal-body) {
     flex: 1;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background: rgba(0, 0, 0, 0.1); /* unified body */
+    border-radius: 0 0 20px 20px;
 }
 
 /* ==================================================
@@ -103,14 +110,20 @@
     gap: 0;
 }
 
-.skill-modal-header-section {
+/* Specific height override for Skill Modal when using unified layout */
+#skillModal .unified-modal-body {
+    max-height: 65vh;
+}
+
+.skill-modal-header-section:not(.unified-modal-content-header) {
+    /* Unify with unified-modal content header inside header */
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
-    padding: 20px 24px 12px;
-    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-    border-bottom: 1px solid var(--glass-border);
-    gap: 32px;
+    align-items: flex-start;
+    padding: 15px 20px 0 20px;
+    background: transparent;
+    border-bottom: none;
+    gap: 20px;
 }
 
 .skill-modal-header-left { 
@@ -125,38 +138,37 @@
     gap: 8px; 
 }
 
-.skill-modal-title-block h2 { 
-    margin: 0; 
-    font-size: 26px; 
-    font-weight: 600; 
-    letter-spacing: .5px;
-    color: var(--text-primary);
-    background: var(--gradient-blue);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+.skill-modal-title-block h2 {
+    /* Use unified title style */
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.skill-modal-chips { 
-    display: flex; 
-    gap: 8px; 
-    flex-wrap: wrap; 
+.skill-modal-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
-.skill-modal-chip { 
-    background: var(--glass-bg-light); 
-    border: 1px solid var(--glass-border); 
-    padding: 6px 12px; 
-    border-radius: 30px; 
-    font-size: 13px; 
-    font-weight: 500; 
-    backdrop-filter: blur(12px); 
-    box-shadow: 0 2px 4px rgba(0,0,0,.15);
-    color: var(--text-primary);
+.skill-modal-chip:not(.chip) {
+    /* Match unified .chip primary */
+    background: rgba(74, 222, 128, 0.2);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    color: #4ade80;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
-.skill-modal-chip.secondary { 
-    background: rgba(255,255,255,0.06); 
+.skill-modal-chip.secondary:not(.chip) {
+    /* Match unified .chip.secondary */
+    background: rgba(156, 163, 175, 0.2);
+    border-color: rgba(156, 163, 175, 0.3);
+    color: #9ca3af;
 }
 
 .skill-modal-header-right { 
@@ -167,24 +179,25 @@
 /* Quick stats removed from skill modal */
 
 
-.skill-modal-skill-icon-large {
-    width: 60px;
-    height: 60px;
-    border-radius: var(--border-radius-md);
-    background: var(--glass-bg-light);
+.skill-modal-skill-icon-large:not(.unified-modal-icon-large) {
+    /* Align with unified icon size */
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow-tech);
+    margin-bottom: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
 }
 
 .skill-modal-skill-icon-large:hover {
     transform: scale(1.05);
-    box-shadow: var(--shadow-primary);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
 }
 
 .skill-modal-tech-icon-emoji {
@@ -201,58 +214,59 @@
 /* ==================================================
    TABS SYSTEM
    ================================================== */
-.skill-modal-tabs { 
-    display: flex; 
-    padding: 0 16px; 
-    gap: 6px; 
-    border-bottom: 1px solid var(--glass-border); 
-    background: rgba(0,0,0,0.25); 
-    position: sticky; 
-    top: 0; 
-    z-index: 5; 
+.skill-modal-tabs:not(.unified-modal-tabs) { 
+    /* Match unified tabs container visuals */
+    display: flex;
+    padding: 8px 20px; /* reduced vertical padding */
+    gap: 6px;
+    border-bottom: none;
+    background: rgba(0, 0, 0, 0.25);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
-.skill-modal-tab { 
-    position: relative; 
-    background: transparent; 
-    border: 0; 
-    color: var(--text-secondary); 
-    font-size: 13px; 
-    font-weight: 500; 
-    padding: 12px 18px; 
-    cursor: pointer; 
-    display: flex; 
-    gap: 6px; 
-    align-items: center; 
-    letter-spacing: .3px; 
-    transition: .25s; 
-    border-radius: 10px 10px 0 0; 
+.skill-modal-tab:not(.tab-btn) { 
+    position: relative;
+    background: transparent;
+    border: 0;
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 16px;
+    cursor: pointer;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    letter-spacing: .3px;
+    transition: .25s;
+    border-radius: 10px 10px 0 0;
 }
 
 .skill-modal-tab .icon { font-size: 16px; }
 
-.skill-modal-tab-count { 
-    background: rgba(255,255,255,0.07); 
-    padding: 2px 6px; 
-    border-radius: 10px; 
-    font-size: 11px; 
-    font-weight: 600; 
+.skill-modal-tab-count:not(.count) { 
+    /* Match unified .count */
+    margin-left: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
 }
 
-.skill-modal-tab.active { 
-    background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05)); 
-    color: var(--text-primary); 
-    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.4) inset, 0 2px 4px rgba(0,0,0,0.3); 
+.skill-modal-tab.active:not(.tab-btn) { 
+    color: #fff;
 }
 
-.skill-modal-tab.active .skill-modal-tab-count { 
-    background: var(--primary-color); 
-    color: #fff; 
+.skill-modal-tab.active .skill-modal-tab-count:not(.count) { 
+    background: rgba(255, 255, 255, 0.3);
 }
 
-.skill-modal-tab:hover:not(.active) { 
-    color: var(--text-primary); 
-    background: rgba(255,255,255,0.05); 
+.skill-modal-tab:hover:not(.active):not(.tab-btn) { 
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .skill-modal-tab-panels { 
