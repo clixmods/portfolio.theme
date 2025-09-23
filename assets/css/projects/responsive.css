@@ -1338,3 +1338,95 @@
         padding: 0.75rem;
     }
 }
+
+/* ========================================
+   HORIZONTAL MOSAIC OVERRIDE FOR INFO BOXES (DESKTOP/TABLET)
+   - 3-row horizontal grid with horizontal scroll
+   - Base unit variable (--ibox-unit) controls tile height (default 170px)
+   - Default tile: 3x1; Gallery/YouTube: 3x2
+   - Mobile remains vertical (existing rules)
+   ======================================== */
+
+/* Base unit for tile sizing */
+.project-info-boxes-section {
+    --ibox-unit: 170px; /* Adjust here if needed */
+}
+
+@media (min-width: 769px) {
+    /* Full-bleed section so the mosaic spans the entire viewport width */
+    .project-info-boxes-section {
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+    }
+
+    /* Scroll container setup with snap behavior */
+    .project-info-boxes-wrapper {
+        max-width: none;
+        width: 100vw;
+        margin: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x proximity;
+        scrollbar-gutter: stable both-inline;
+        /* Align snap positions with existing horizontal padding */
+        scroll-padding-inline: 2rem;
+    }
+
+    /* 3-row horizontal grid; columns flow to the right */
+    .project-info-boxes {
+        /* Disable the fixed 12/8 column templates for this view */
+        grid-template-columns: none;
+        /* Three fixed-height rows */
+        grid-template-rows: repeat(3, var(--ibox-unit));
+        grid-auto-rows: var(--ibox-unit);
+        /* Flow items by columns to create horizontal mosaic */
+        grid-auto-flow: column;
+        /* Each auto column is 3 units wide (3x1 default width) */
+        grid-auto-columns: calc(var(--ibox-unit) * 3);
+        align-content: start;
+        justify-content: start;
+        /* Let the grid expand to its content width so scrolling reveals all tiles */
+        width: max-content;
+    }
+
+    /* Normalize box placement and enable snapping */
+    .project-info-boxes > .info-box {
+        /* Neutralize size-based column spans inside the mosaic */
+        grid-column: auto !important;
+        /* Stretch to fill its grid area (1 row high by default) */
+        align-self: stretch;
+        box-sizing: border-box;
+        margin: 0; /* prevent extra vertical spacing */
+        overflow: hidden; /* keep previews tidy when closed */
+        min-height: 0; /* allow shrinking to track size */
+        scroll-snap-align: start;
+    }
+
+    /* Default row span for items (3x1) */
+    .project-info-boxes > .info-box,
+    .project-info-boxes > .info-box.tile-3x1 {
+        grid-row: span 1;
+    }
+
+    /* Taller tiles (3x2) for media-rich boxes */
+    .project-info-boxes > .info-box.tile-3x2,
+    .project-info-boxes > .info-box.gallery-box,
+    .project-info-boxes > .info-box.youtube-box,
+    .project-info-boxes > .info-box.youtube-single-box {
+        grid-row: span 2; /* occupy exactly 2 row tracks */
+        align-self: stretch; /* fill the spanned area including row gap */
+    }
+
+    /* Expanded boxes are free from height caps */
+    .project-info-boxes > .info-box.expanded {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible;
+    }
+
+    /* In mosaic view, remove forced aspect ratio for gallery so it fits 3x1 or 3x2 exactly */
+    .project-info-boxes > .info-box.gallery-box {
+        aspect-ratio: auto;
+    }
+}
