@@ -74,10 +74,5 @@
     <script>{{ $unifiedModalJs.Content | safeJS }}</script>
   {{ end }}
   
-  <!-- Scripts pour la modal de choix CV -->
-  {{ $cvChoiceModalJs := resources.Get "js/cv-choice-modal.js" }}
-  {{ if $cvChoiceModalJs }}
-    <script>{{ $cvChoiceModalJs.Content | safeJS }}</script>
-  {{ end }}
 </body>
 </html>

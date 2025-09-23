@@ -22,6 +22,7 @@ const MODAL_TEMPLATES = {
         skill: '750px',
         actions: '600px',
         discord: '500px',
+        cv: '580px',
         default: '600px'
     }
 };
@@ -80,6 +81,30 @@ const CONTENT_TEMPLATES = {
         <div class="unified-modal-panels">
             ${config.tabs ? config.tabs.map(tab => generateTabPanel(tab, config.content[tab.key])).join('') : generatePersonContent(config.content)}
         </div>
+    `,
+
+    cv: (config) => `
+        <div class="unified-modal-simple-content cv-content">
+            <p>Choisissez la version à télécharger :</p>
+            <div class="cv-options">
+                <button class="btn-action cv-option" onclick="UnifiedModal.downloadFile('/cv/clement-garcia-cv-couleur.pdf','Clément_GARCIA_CV_Couleur.pdf')">
+                    <div class="cv-icon">${getDocumentIcon(32)}</div>
+                    <div class="cv-text">
+                        <div class="cv-title">Version couleur</div>
+                        <div class="cv-desc">PDF avec design complet et couleurs</div>
+                        <span class="badge">Recommandée écran</span>
+                    </div>
+                </button>
+                <button class="btn-action cv-option" onclick="UnifiedModal.downloadFile('/cv/clement-garcia-cv-impression.pdf','Clément_GARCIA_CV_Impression.pdf')">
+                    <div class="cv-icon">${getPrinterIcon(32)}</div>
+                    <div class="cv-text">
+                        <div class="cv-title">Version imprimable</div>
+                        <div class="cv-desc">PDF noir et blanc, optimisé pour l'impression</div>
+                        <span class="badge">Économise l'encre</span>
+                    </div>
+                </button>
+            </div>
+        </div>
     `
 };
 
@@ -95,6 +120,30 @@ function generateIcon(icon, alt = '', size = 48) {
         return `<img src="${icon}" alt="${alt}" width="${size}" height="${size}" style="object-fit: cover;" />`;
     }
     return `<span style="font-size: ${size}px">${icon}</span>`;
+}
+
+// Simple inline SVGs for CV options (stroke icons using currentColor)
+function getDocumentIcon(size = 24) {
+    return `
+        <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <path d="M14 2v6h6"/>
+            <path d="M12 11v6"/>
+            <path d="M9 14l3 3 3-3"/>
+        </svg>
+    `;
+}
+
+function getPrinterIcon(size = 24) {
+    return `
+        <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9V2h12v7"/>
+            <rect x="6" y="13" width="12" height="8" rx="2"/>
+            <path d="M6 17h12"/>
+            <path d="M6 13h12"/>
+            <path d="M6 9h12a4 4 0 0 1 4 4v4h-4"/>
+        </svg>
+    `;
 }
 
 /**
@@ -451,7 +500,7 @@ class UnifiedModal {
         // For Discord type, mimic demo's inline SVG color (#5865f2)
         const iconMarkup = (config.type === 'discord')
             ? `<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #5865f2;"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419-.0002 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1568 2.4189Z"/></svg>`
-            : generateIcon(config.icon, config.title, config.iconSize || 48);
+            : (config.type === 'cv' ? getDocumentIcon(48) : generateIcon(config.icon, config.title, config.iconSize || 48));
 
         return `
             <div class="unified-modal-content-header">
@@ -556,6 +605,20 @@ class UnifiedModal {
         
         // Gestion des formulaires
         this.setupFormHandlers(modal);
+    }
+
+    // Intercept any /cv or .cv-choice-trigger click to open unified CV modal
+    static setupGlobalCVInterceptor() {
+        if (this._cvInterceptorAttached) return;
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href^="/cv"], .cv-choice-trigger');
+            if (!link) return;
+            // Allow normal navigation on the dedicated CV page (if it's already inside /cv/ page)
+            // But here we always open modal to choose version per original behavior
+            e.preventDefault();
+            UnifiedModal.create({ type: 'cv', title: 'Télécharger mon CV', icon: '/images/social/website.svg' });
+        });
+        this._cvInterceptorAttached = true;
     }
 
     // ================================
@@ -831,6 +894,36 @@ class UnifiedModal {
         }
     }
 
+    // Robust download with fetch->blob and fallback
+    static downloadFile(url, fileName) {
+        try {
+            fetch(url).then(resp => {
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                return resp.blob();
+            }).then(blob => {
+                if (!blob || blob.size === 0) throw new Error('Empty file');
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = fileName || '';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1500);
+            }).catch(() => {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName || '';
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            });
+        } catch (err) {
+            console.error('Download error', err);
+        }
+    }
+
     static handleContactSubmit(event) {
         event.preventDefault();
         
@@ -867,4 +960,13 @@ window.createUnifiedModal = function(config) {
 // Export for module usage
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { UnifiedModal, MODAL_TEMPLATES, CONTENT_TEMPLATES };
+}
+
+// Initialize global CV interceptor after DOM ready
+if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => UnifiedModal.setupGlobalCVInterceptor());
+    } else {
+        UnifiedModal.setupGlobalCVInterceptor();
+    }
 }
