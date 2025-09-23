@@ -11,8 +11,81 @@ function openSkillModal(name, icon, level, experience, iconType) {
     
     // Fill basic information
     modalName.textContent = name;
-    modalLevel.textContent = level || 'Non spécifié';
-    modalExperience.textContent = experience || 'Non spécifié';
+    // Level chip: hide if unspecified ('Non spécifié') or empty
+    try {
+        if (modalLevel) {
+            let hideLevel = false;
+            let levelText = '';
+            if (level === null || level === undefined) {
+                hideLevel = true;
+            } else {
+                const rawLevel = String(level).trim();
+                if (!rawLevel) {
+                    hideLevel = true;
+                } else {
+                    const normalized = rawLevel.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    if (normalized === 'non specifie') {
+                        hideLevel = true;
+                    } else {
+                        levelText = rawLevel;
+                    }
+                }
+            }
+            if (hideLevel) {
+                modalLevel.textContent = '';
+                modalLevel.style.display = 'none';
+                modalLevel.hidden = true;
+            } else {
+                modalLevel.textContent = levelText;
+                modalLevel.style.display = '';
+                modalLevel.hidden = false;
+            }
+        }
+    } catch (e) { /* no-op */ }
+    // Experience chip: hide if unspecified or 0, otherwise format as "X an(s) d'expérience"
+    try {
+        if (modalExperience) {
+            let shouldHide = false;
+            let years = 0;
+
+            if (experience === null || experience === undefined) {
+                shouldHide = true;
+            } else if (typeof experience === 'number') {
+                years = experience;
+                shouldHide = !(years > 0);
+            } else {
+                const raw = String(experience).trim();
+                if (!raw) {
+                    shouldHide = true;
+                } else {
+                    const normalized = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                    if (normalized === 'non specifie') {
+                        shouldHide = true;
+                    } else {
+                        const parsed = parseFloat(raw.replace(/[^0-9.,-]/g, '').replace(',', '.'));
+                        if (!isNaN(parsed)) {
+                            years = parsed;
+                        }
+                        shouldHide = !(years > 0);
+                    }
+                }
+            }
+
+            if (shouldHide) {
+                modalExperience.textContent = '';
+                modalExperience.style.display = 'none';
+                modalExperience.hidden = true;
+            } else {
+                const isOne = Math.abs(years - 1) < 1e-9;
+                const yearsStr = Number.isInteger(years) ? years.toString() : years.toLocaleString('fr-FR', { maximumFractionDigits: 1 });
+                modalExperience.textContent = `${yearsStr} ${isOne ? 'an' : 'ans'} d'expérience`;
+                modalExperience.style.display = '';
+                modalExperience.hidden = false;
+            }
+        }
+    } catch (e) {
+        // No-op: in case of DOM issues, fail silently as per French-first UX
+    }
     
     // Handle icon
     if (iconType === 'svg') {

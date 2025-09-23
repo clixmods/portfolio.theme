@@ -164,27 +164,8 @@
     align-items: center; 
 }
 
-.skill-modal-quick-stats { 
-    display: flex; 
-    gap: 10px; 
-}
+/* Quick stats removed from skill modal */
 
-.skill-modal-stat-chip { 
-    display: flex; 
-    align-items: center; 
-    gap: 6px; 
-    background: var(--glass-bg-light); 
-    border: 1px solid var(--glass-border); 
-    padding: 6px 10px 6px 8px; 
-    border-radius: 14px; 
-    font-size: 12px; 
-    line-height: 1; 
-    font-weight: 500; 
-}
-
-.skill-modal-stat-chip .icon { font-size: 14px; }
-.skill-modal-stat-chip .val { font-weight: 600; }
-.skill-modal-stat-chip .lbl { opacity: .7; }
 
 .skill-modal-skill-icon-large {
     width: 60px;
@@ -896,7 +877,6 @@
         gap: 18px; 
     }
     .skill-modal-header-right { width: 100%; }
-    .skill-modal-quick-stats { flex-wrap: wrap; }
     .skill-modal-title-block h2 { font-size: 22px; }
 }
 

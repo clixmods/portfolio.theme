@@ -16,16 +16,12 @@
                     <div class="skill-modal-title-block">
                         <h2 id="modalSkillName"></h2>
                         <div class="skill-modal-chips">
-                            <span class="skill-modal-chip" id="modalSkillLevel"></span>
-                            <span class="skill-modal-chip secondary" id="modalSkillExperience"></span>
+                            <span class="skill-modal-chip" id="modalSkillLevel" hidden></span>
+                            <span class="skill-modal-chip secondary" id="modalSkillExperience" hidden></span>
                         </div>
                     </div>
                 </div>
-                <div class="skill-modal-header-right">
-                    <div class="skill-modal-quick-stats" id="skillModalQuickStats">
-                        <!-- Dynamic stats (projects, experiences, educations) -->
-                    </div>
-                </div>
+                
             </div>
 
             <!-- Tab bar -->
@@ -198,13 +194,74 @@ document.addEventListener('DOMContentLoaded', function() {
         experiences: document.getElementById('skillModalExperiencesCount'),
         educations: document.getElementById('skillModalEducationsCount')
     };
-    const quickStats = document.getElementById('skillModalQuickStats');
+    // quick stats removed
 
     // Hook into existing openSkillModal function to update statistics and activate default tab
     const originalOpen = window.openSkillModal;
     if (typeof originalOpen === 'function') {
         window.openSkillModal = function(name, icon, level, experience, iconType) {
             originalOpen(name, icon, level, experience, iconType);
+
+            // Level chip: hide if "Non spécifié" or empty
+            try {
+                const lvlEl = document.getElementById('modalSkillLevel');
+                if (lvlEl) {
+                    const raw = lvlEl.textContent ? lvlEl.textContent.trim() : '';
+                    let hide = false;
+                    if (!raw) hide = true;
+                    else {
+                        const normalized = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                        if (normalized === 'non specifie') hide = true;
+                    }
+                    if (hide) {
+                        lvlEl.textContent = '';
+                        lvlEl.style.display = 'none';
+                        lvlEl.hidden = true;
+                    } else {
+                        lvlEl.style.display = '';
+                        lvlEl.hidden = false;
+                    }
+                }
+            } catch (e) { /* no-op */ }
+
+            // Update experience chip: hide if "Non spécifié" or 0, else show "X an(s) d'expérience"
+            try {
+                const expEl = document.getElementById('modalSkillExperience');
+                if (expEl) {
+                    let shouldHide = false;
+                    if (experience === null || experience === undefined) {
+                        shouldHide = true;
+                    } else if (typeof experience === 'number') {
+                        shouldHide = !(experience > 0);
+                    } else {
+                        const raw = String(experience).trim();
+                        if (!raw) {
+                            shouldHide = true;
+                        } else {
+                            const normalized = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+                            if (normalized === 'non specifie') {
+                                shouldHide = true;
+                            } else {
+                                const parsed = parseFloat(raw.replace(/[^0-9.,-]/g, '').replace(',', '.'));
+                                shouldHide = !(parsed > 0);
+                            }
+                        }
+                    }
+
+                    if (shouldHide) {
+                        expEl.textContent = '';
+                        expEl.style.display = 'none';
+                    } else {
+                        const yearsNum = typeof experience === 'number' ? experience : parseFloat(String(experience).replace(/[^0-9.,-]/g, '').replace(',', '.'));
+                        const years = isNaN(yearsNum) ? 0 : yearsNum;
+                        const isOne = Math.abs(years - 1) < 1e-9;
+                        const yearsStr = Number.isInteger(years) ? years.toString() : years.toLocaleString('fr-FR', { maximumFractionDigits: 1 });
+                        expEl.textContent = `${yearsStr} ${isOne ? 'an' : 'ans'} d'expérience`;
+                        expEl.style.display = '';
+                    }
+                }
+            } catch (e) { /* no-op */ }
+
             updateStats(name);
             skillModalTabs.activateTab('projects');
         };
@@ -222,20 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (counts.experiences) counts.experiences.textContent = exp.length > 0 ? exp.length : '0';
         if (counts.educations) counts.educations.textContent = edu.length > 0 ? edu.length : '0';
 
-        if (quickStats) {
-            quickStats.innerHTML = '';
-            const stats = [
-                { label: 'Projets', value: proj.length, icon: '💼'},
-                { label: 'Expériences', value: exp.length, icon: '🏢'},
-                { label: 'Formations', value: edu.length, icon: '🎓'}
-            ];
-            stats.forEach(s => {
-                const el = document.createElement('div');
-                el.className = 'skill-modal-stat-chip';
-                el.innerHTML = `<span class="icon">${s.icon}</span><span class="val">${s.value}</span><span class="lbl">${s.label}</span>`;
-                quickStats.appendChild(el);
-            });
-        }
+        // quick stats removed
     }
 });
 </script>
