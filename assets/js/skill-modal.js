@@ -1,6 +1,18 @@
 // Skill/technology modal management
 let skillModalData = null;
 
+// Utility: check if ANY overlay modal (unified / skill / person) remains open
+function isAnyOverlayModalStillOpen(excludeId) {
+    const ids = ['unifiedModal','skillModal','personModal'];
+    return ids.some(id => {
+        if (id === excludeId) return false; // ignore the one we are closing
+        const el = document.getElementById(id);
+        if (!el) return false;
+        const display = (el.style && el.style.display) ? el.style.display : window.getComputedStyle(el).display;
+        return display && display !== 'none';
+    });
+}
+
 // Function to open modal with skill details
 function openSkillModal(name, icon, level, experience, iconType) {
     const modal = document.getElementById('skillModal');
@@ -147,16 +159,22 @@ function closeSkillModal() {
     modal.classList.add('fade-exit-active');
     setTimeout(() => {
         modal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Restore page scrolling
         modal.classList.remove('fade-exit', 'fade-exit-active', 'skill-modal--nested');
-        // Restore unified modal state if it was a parent
+        // Restore parent state(s)
         try {
             const unified = document.getElementById('unifiedModal');
             if (unified && unified.classList.contains('unified-modal--nested-parent')) {
+                // Only remove nested state if no other child modal still open
                 unified.classList.remove('unified-modal--nested-parent');
                 unified.style.zIndex = '10000';
             }
         } catch(e) { /* no-op */ }
+        // Body scroll: only restore if NOTHING else is open
+        if (isAnyOverlayModalStillOpen()) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
     }, 300);
 }
 

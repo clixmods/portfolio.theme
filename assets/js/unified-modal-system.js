@@ -622,6 +622,34 @@ class UnifiedModal {
         if (modalContent) {
             modalContent.classList.add('unified-modal-content--projectWidget');
             modalContent.classList.remove('unified-modal-content--projectWidget-full');
+            // Attach person link handlers for dynamically cloned contributor items
+            try {
+                const personElems = modalContent.querySelectorAll('[data-person-id]');
+                personElems.forEach(el => {
+                    // Avoid double binding
+                    if (el.getAttribute('data-person-handler') === '1') return;
+                    el.setAttribute('data-person-handler', '1');
+                    el.style.cursor = 'pointer';
+                    el.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const id = el.getAttribute('data-person-id');
+                        if (id && typeof window.openPersonModal === 'function') {
+                            window.openPersonModal(id);
+                        }
+                    });
+                    el.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            el.click();
+                        }
+                    });
+                    if (!el.hasAttribute('tabindex')) {
+                        el.setAttribute('tabindex', '0');
+                        el.setAttribute('role', 'button');
+                        el.setAttribute('aria-label', 'Ouvrir le profil');
+                    }
+                });
+            } catch(err) { /* silent */ }
         }
     }
 
@@ -664,7 +692,20 @@ class UnifiedModal {
         
         setTimeout(() => {
             targetModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            // Only restore body scroll if no other overlay modal is still visible
+            try {
+                const ids = ['unifiedModal','skillModal','personModal'];
+                const anyOpen = ids.some(id => {
+                    if (id === 'unifiedModal' && targetModal.id !== 'unifiedModal') return true; // skip current only
+                    const el = document.getElementById(id);
+                    if (!el) return false;
+                    const display = (el.style && el.style.display) ? el.style.display : window.getComputedStyle(el).display;
+                    return display && display !== 'none' && el !== targetModal;
+                });
+                document.body.style.overflow = anyOpen ? 'hidden' : 'auto';
+            } catch(e) {
+                document.body.style.overflow = 'auto';
+            }
             targetModal.classList.remove('fade-exit', 'fade-exit-active');
         }, 300);
         

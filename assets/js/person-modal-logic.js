@@ -94,6 +94,21 @@ document.addEventListener('DOMContentLoaded', function() {
     window.openPersonModal = function(personId) {
         console.log('=== OPENING PERSON MODAL ===');
         console.log('Person ID:', personId);
+        // Handle nesting above existing unified or skill modals
+        try {
+            const personModal = document.getElementById('personModal');
+            const unified = document.getElementById('unifiedModal');
+            if (personModal && unified && unified.style.display !== 'none') {
+                personModal.classList.add('person-modal--nested');
+                unified.classList.add('unified-modal--nested-parent');
+                unified.style.zIndex = '10000';
+            }
+            const skill = document.getElementById('skillModal');
+            if (personModal && skill && skill.style.display !== 'none') {
+                personModal.classList.add('person-modal--nested');
+                skill.classList.add('skill-modal--nested-parent');
+            }
+        } catch(e) { /* no-op */ }
         
         // Check data availability first
         console.log('Data check at modal opening:');
@@ -273,8 +288,32 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.classList.add('fade-exit-active');
         setTimeout(() => {
             modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
             modal.classList.remove('fade-exit', 'fade-exit-active');
+            modal.classList.remove('person-modal--nested');
+            try {
+                const unified = document.getElementById('unifiedModal');
+                if (unified && unified.classList.contains('unified-modal--nested-parent')) {
+                    unified.classList.remove('unified-modal--nested-parent');
+                    unified.style.zIndex = '10000';
+                }
+                const skill = document.getElementById('skillModal');
+                if (skill && skill.classList.contains('skill-modal--nested-parent')) {
+                    skill.classList.remove('skill-modal--nested-parent');
+                }
+            } catch(e) { /* no-op */ }
+            // Body scroll control: only restore if no other modal still open
+            try {
+                const anyOpen = (function(){
+                    const ids = ['unifiedModal','skillModal','personModal'];
+                    return ids.some(id => {
+                        const el = document.getElementById(id);
+                        if (!el) return false;
+                        const display = (el.style && el.style.display) ? el.style.display : window.getComputedStyle(el).display;
+                        return display && display !== 'none';
+                    });
+                })();
+                document.body.style.overflow = anyOpen ? 'hidden' : 'auto';
+            } catch(e) { /* no-op */ }
         }, 300);
     };
 

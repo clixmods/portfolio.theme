@@ -26,13 +26,16 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 10000;
+    /* Above unified modal (10000) & skill modal (10010) when nested */
+    z-index: 10020;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
 }
+
+.person-modal.person-modal--nested { z-index: 10020; }
 
 /* Match unified modal open/close animations */
 #personModal {
