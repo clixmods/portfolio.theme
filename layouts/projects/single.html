@@ -418,7 +418,7 @@
             {{ $hasFrameworks := .Params.frameworks_engines }}
             {{ $hasTechSpecs := .Params.technical_specs }}
             {{ if or (and $hasProgLang (gt (len $hasProgLang) 0)) (and $hasFrameworks (gt (len $hasFrameworks) 0)) (and $hasTechSpecs (gt (len $hasTechSpecs) 0)) }}
-            <div class="info-box technical-specs-box expanded {{ .Params.technical_specs_size | default "size-medium" }}">
+            <div class="info-box technical-specs-box {{ .Params.technical_specs_size | default "size-medium" }}">
                 <div class="info-box-header" onclick="toggleInfoBox(this)">
                     <div class="info-box-icon technical">
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -794,7 +794,7 @@
 
             <!-- YouTube Videos Box -->
             {{ if .Params.youtube_videos }}
-            <div class="info-box youtube-box {{ .Params.youtube_size | default "size-large" }} expanded">
+            <div class="info-box youtube-box {{ .Params.youtube_size | default "size-large" }}">
                 <div class="info-box-header" onclick="toggleInfoBox(this)">
                     <div class="info-box-icon youtube">
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -1167,7 +1167,7 @@
 
             <!-- Multiple YouTube Galleries Boxes -->
             {{ range $ytGalleryIndex, $ytGallery := .Params.youtube_galleries }}
-            <div class="info-box youtube-box multiple-youtube-gallery-{{ $ytGalleryIndex }} {{ $ytGallery.size | default "size-large" }} expanded">
+            <div class="info-box youtube-box multiple-youtube-gallery-{{ $ytGalleryIndex }} {{ $ytGallery.size | default "size-large" }}">
                 <div class="info-box-header" onclick="toggleInfoBox(this)">
                     <div class="info-box-icon youtube">
                         <svg viewBox="0 0 24 24" fill="currentColor">
