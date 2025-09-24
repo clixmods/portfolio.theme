@@ -23,6 +23,7 @@ const MODAL_TEMPLATES = {
         actions: '600px',
         discord: '500px',
         cv: '580px',
+        projectWidget: '860px', // Base width; can be overridden per widget size via desiredWidth
         default: '600px'
     }
 };
@@ -104,6 +105,13 @@ const CONTENT_TEMPLATES = {
                     </div>
                 </button>
             </div>
+        </div>
+    `,
+
+    // New dynamic template for project widgets opened fullscreen
+    projectWidget: (config) => `
+        <div class="unified-modal-project-widget-wrapper" data-original-widget-id="${config.content?.widgetId || ''}">
+            ${config.content?.html || '<div class="project-widget-error">Aucun contenu disponible pour ce widget.</div>'}
         </div>
     `
 };
@@ -449,7 +457,7 @@ class UnifiedModal {
      * Génère le contenu du modal
      */
     static generateModalContent(config) {
-        const width = MODAL_TEMPLATES.widths[config.type] || MODAL_TEMPLATES.widths.default;
+        const width = config.desiredWidth || MODAL_TEMPLATES.widths[config.type] || MODAL_TEMPLATES.widths.default;
         const contentTemplate = CONTENT_TEMPLATES[config.type];
         
         if (!contentTemplate) {
@@ -458,8 +466,8 @@ class UnifiedModal {
         }
 
         const contentClass = `unified-modal-content unified-modal-content--${config.type}`;
-        // Avoid inline sizing for contact to let SCSS control width per demo parity
-        const styleAttr = config.type === 'contact' ? '' : ` style="width: ${width};"`;
+        // Avoid inline sizing only for contact (managed by SCSS); all others including projectWidget get explicit width
+        const styleAttr = (config.type === 'contact') ? '' : ` style="width: ${width};"`;
         return `
             <div class="${contentClass}"${styleAttr}>
                 ${this.generateModalHeader(config)}
@@ -474,7 +482,7 @@ class UnifiedModal {
     static generateModalHeader(config) {
         return `
             <div class="unified-modal-header">
-                <button class="unified-modal-close">&times;</button>
+                <button class="unified-modal-close" aria-label="Fermer">&times;</button>
                 ${this.generateContentHeader(config)}
             </div>
         `;
@@ -498,9 +506,16 @@ class UnifiedModal {
         const hasRightContent = config.headerRight;
         
         // For Discord type, mimic demo's inline SVG color (#5865f2)
-        const iconMarkup = (config.type === 'discord')
-            ? `<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #5865f2;"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419-.0002 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1568 2.4189Z"/></svg>`
-            : (config.type === 'cv' ? getDocumentIcon(48) : generateIcon(config.icon, config.title, config.iconSize || 48));
+        let iconMarkup;
+        if (config.rawIcon) {
+            iconMarkup = config.rawIcon; // direct markup provided
+        } else if (config.type === 'discord') {
+            iconMarkup = `<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="color: #5865f2;"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419-.0002 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1568 2.4189Z"/></svg>`;
+        } else if (config.type === 'cv') {
+            iconMarkup = getDocumentIcon(48);
+        } else {
+            iconMarkup = generateIcon(config.icon || '', config.title, config.iconSize || 48);
+        }
 
         return `
             <div class="unified-modal-content-header">
@@ -518,6 +533,96 @@ class UnifiedModal {
                 ${hasRightContent ? `<div class=\"unified-modal-content-header-right\">${config.headerRight}</div>` : ''}
             </div>
         `;
+    }
+
+    /**
+     * Open a project widget inside a unified fullscreen modal.
+     * Clones the widget HTML, adapts classes, and provides a close control.
+     */
+    static openProjectWidget(widgetElem) {
+        if (!widgetElem) return;
+        const widgetId = widgetElem.getAttribute('id') || '';
+        const widgetClasses = widgetElem.className;
+
+        // Simple icon inference by class keywords
+        const iconMap = [
+            { key: 'contributors', icon: '👥' },
+            { key: 'development-time', icon: '⏱️' },
+            { key: 'gallery', icon: '🖼️' },
+            { key: 'technical-specs', key2: 'technical', icon: '🛠️' },
+            { key: 'awards', icon: '🏆' },
+            { key: 'testimonials', icon: '💬' },
+            { key: 'youtube', icon: '▶️' },
+            { key: 'specialties', icon: '🧩' },
+            { key: 'tools', icon: '🔧' }
+        ];
+        let inferredIcon = '';
+        for (const entry of iconMap) {
+            if (widgetClasses.includes(entry.key) || (entry.key2 && widgetClasses.includes(entry.key2))) {
+                inferredIcon = entry.icon;
+                break;
+            }
+        }
+
+    // Fullscreen removed per new requirement; we keep all modals centered.
+
+    // Clone widget, but we'll strip its header to avoid duplication in modal
+    const clone = widgetElem.cloneNode(true);
+        // Remove any expanded state to rely on modal scrolling layout
+        clone.classList.remove('expanded');
+        clone.classList.add('project-widget-modal-view');
+
+        // Remove inline onclick toggles inside cloned version to avoid nested toggles
+        const headers = clone.querySelectorAll('.project-widget-header');
+        let extractedHeaderIconMarkup = '';
+        if (headers.length) {
+            // Take full outerHTML so original classes (color/background) remain
+            const iconEl = headers[0].querySelector('.project-widget-icon');
+            if (iconEl) {
+                // Add an accessibility marker
+                iconEl.setAttribute('aria-hidden', 'true');
+                extractedHeaderIconMarkup = iconEl.outerHTML.trim();
+            }
+            headers.forEach(h => h.remove()); // remove headers inside content clone
+        }
+
+        // Ensure content is visible in modal
+        const content = clone.querySelector('.project-widget-content');
+        if (content) {
+            content.style.display = 'block';
+        }
+
+        const html = clone.innerHTML;
+        // Determine a width based on widget sizing classes
+        let desiredWidth = '860px';
+        if (widgetClasses.includes('size-large')) desiredWidth = '1000px';
+        else if (widgetClasses.includes('size-small')) desiredWidth = '640px';
+
+        this.create({
+            type: 'projectWidget',
+            // Title kept for accessibility (aria-labelledby) but not visually repeated
+            title: widgetElem.querySelector('.project-widget-title')?.textContent?.trim() || 'Widget',
+            icon: inferredIcon,
+            rawIcon: extractedHeaderIconMarkup || null,
+            chips: [],
+            desiredWidth,
+            content: {
+                html: `<div class=\"project-widget-modal-container\">${html}</div>`,
+                widgetId: widgetId
+            }
+        });
+
+        // Add a marker class to modal content for styling
+        const modalRoot = document.getElementById('unifiedModal');
+        if (modalRoot) {
+            modalRoot.classList.add('unified-modal--projectWidget');
+            modalRoot.classList.remove('unified-modal--projectWidget-full');
+        }
+        const modalContent = document.querySelector('#unifiedModal .unified-modal-content');
+        if (modalContent) {
+            modalContent.classList.add('unified-modal-content--projectWidget');
+            modalContent.classList.remove('unified-modal-content--projectWidget-full');
+        }
     }
 
     /**
@@ -956,6 +1061,11 @@ class UnifiedModal {
 window.createUnifiedModal = function(config) {
     return UnifiedModal.create(config);
 };
+
+// Also expose the class itself for advanced usage (toggleInfoBox relies on window.UnifiedModal.openProjectWidget)
+if (typeof window !== 'undefined') {
+    window.UnifiedModal = UnifiedModal;
+}
 
 // Export for module usage
 if (typeof module !== 'undefined' && module.exports) {

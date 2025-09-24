@@ -1461,58 +1461,17 @@ function initializeInfoBoxSystem() {
 
 function toggleInfoBox(header) {
     const infoBox = header.closest('.project-widget');
-    const isExpanded = infoBox.classList.contains('expanded');
-    
-    // Vérifier si une animation est déjà en cours
-    if (infoBox.classList.contains('expanding') || infoBox.classList.contains('collapsing')) {
+    if (!infoBox) return;
+
+    // Nouvel objectif : ouvrir en modal plein écran si UnifiedModal disponible
+    if (window.UnifiedModal && typeof window.UnifiedModal.openProjectWidget === 'function') {
+        window.UnifiedModal.openProjectWidget(infoBox);
         return;
     }
-    
-    // Stocker la taille originale si ce n'est pas déjà fait
-    if (!infoBox.hasAttribute('data-original-span')) {
-        const computedStyle = window.getComputedStyle(infoBox);
-        const gridColumn = computedStyle.gridColumn;
-        infoBox.setAttribute('data-original-span', gridColumn);
-        infoBox.style.setProperty('--original-span', gridColumn);
-    }
-    
-    if (isExpanded) {
-        // Fermeture avec animation
-        infoBox.classList.add('collapsing');
-        infoBox.classList.remove('expanded');
-        
-        // Scroll vers le widget qui se ferme AVANT qu'il se ferme complètement
-        setTimeout(() => {
-            infoBox.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center',
-                inline: 'nearest'
-            });
-        }, 50); // Scroll presque immédiatement
-        
-        // Retirer la classe d'animation après l'animation
-        setTimeout(() => {
-            infoBox.classList.remove('collapsing');
-        }, 300);
-    } else {
-        // Ouverture avec animation
-        infoBox.classList.add('expanding');
-        infoBox.classList.add('expanded');
-        
-        // Retirer la classe d'animation après l'animation
-        setTimeout(() => {
-            infoBox.classList.remove('expanding');
-        }, 400);
-        
-        // Scroll vers le widget ouvert APRÈS qu'il commence à s'ouvrir
-        setTimeout(() => {
-            infoBox.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center',
-                inline: 'nearest'
-            });
-        }, 200);
-    }
+
+    // Fallback legacy (ancien comportement expand/collapse) si le système unifié n'est pas chargé
+    const isExpanded = infoBox.classList.contains('expanded');
+    infoBox.classList.toggle('expanded', !isExpanded);
 }
 
 function openImageModal(imageUrl, caption) {

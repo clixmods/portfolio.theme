@@ -899,9 +899,14 @@ function initTestimonialsRotator() {
 // ========================================
 // Toggle ouvert/fermé pour les project-widgets
 function toggleInfoBox(headerElem) {
-    // Uses unified .project-widget naming (legacy class removed)
     const box = headerElem.closest('.project-widget');
-    if (box) {
+    if (!box) return;
+
+    // Nouvelle logique : ouverture en modal plein écran via UnifiedModal
+    if (typeof window.UnifiedModal !== 'undefined' && window.UnifiedModal.openProjectWidget) {
+        window.UnifiedModal.openProjectWidget(box);
+    } else {
+        // Fallback: ancien comportement expand/collapse si UnifiedModal n'est pas chargé
         box.classList.toggle('expanded');
     }
 }
