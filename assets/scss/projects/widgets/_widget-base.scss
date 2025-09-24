@@ -136,12 +136,22 @@ $widget-transition-smooth: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: $widget-transition;
   }
   
-  &:not(.expanded) .project-widget-content {
-    max-height: 200px;
-    overflow: hidden;
+  // Closed state: content completely hidden
+  &:not(.expanded) {
+    .project-widget-content {
+      display: none;
+    }
+    
+    .project-widget-header {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
   }
   
+  // Expanded state: content visible
   &.expanded .project-widget-content {
+    display: block;
     max-height: none;
     overflow-y: auto;
   }

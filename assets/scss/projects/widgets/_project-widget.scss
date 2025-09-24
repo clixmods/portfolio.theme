@@ -68,10 +68,25 @@
     }
   }
   
+  // Closed state: only header is visible
   &:not(.expanded) {
     .project-widget-content {
-      max-height: 200px;
-      overflow: hidden;
+      display: none;
+    }
+    
+    .project-widget-header {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+  }
+  
+  // Expanded state: header + content visible
+  &.expanded {
+    .project-widget-content {
+      display: block;
+      max-height: none;
+      overflow-y: auto;
     }
   }
   
