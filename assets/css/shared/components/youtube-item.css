@@ -144,7 +144,7 @@
 }
 
 /* AperÃ§u pour la box fermÃ©e */
-.info-box:not(.expanded) .youtube-preview {
+.project-widget:not(.expanded) .youtube-preview {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -222,9 +222,9 @@
 
 /* Masquer la liste complÃ¨te quand la box est fermÃ©e */
 /* youtube-list toujours visible */
-.info-box.youtube-box:not(.expanded) .youtube-list {
+.project-widget.youtube-box:not(.expanded) .youtube-list {
     display: none;
 }
-.info-box.youtube-box.expanded .youtube-list {
+.project-widget.youtube-box.expanded .youtube-list {
     display: grid;
 }

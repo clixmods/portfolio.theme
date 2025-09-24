@@ -1,0 +1,18 @@
+/* Project Widget - Clients Styles (renamed from widget-client.css) */
+/* Liste des clients */
+.project-widget-clients-list { display:flex; flex-direction:column; gap:1.2rem; }
+.project-widget-client-item { display:flex; align-items:center; gap:1.2rem; padding:1rem; background: var(--clients-item-bg); border: var(--clients-item-border); border-radius: var(--border-radius-sm); transition: all 0.3s ease; backdrop-filter: blur(10px); }
+.project-widget-client-item:hover { transform: translateY(-2px); background: var(--clients-item-hover-bg); border-color: var(--clients-item-hover-border-color); box-shadow: var(--clients-item-hover-shadow); }
+.project-widget-client-logo { width:4rem; height:4rem; border-radius: var(--border-radius-sm); overflow:hidden; display:flex; align-items:center; justify-content:center; background: var(--clients-logo-gradient); flex-shrink:0; border: var(--clients-logo-border-strong); }
+.project-widget-client-logo img { width:100%; height:100%; object-fit:cover; }
+.project-widget-client-logo.placeholder { color:#fff; font-weight: var(--font-weight-bold); font-size:1.4rem; }
+.project-widget-client-info { flex:1; min-width:0; }
+.project-widget-client-name { color: var(--text-primary); font-weight: var(--font-weight-bold); font-size:1.1rem; margin-bottom:0.3rem; }
+.project-widget-client-description { color: var(--text-secondary); font-size:0.9rem; line-height:1.4; margin-bottom:0.2rem; }
+.project-widget-client-role { color: var(--primary-teal); font-size:0.85rem; font-weight: var(--font-weight-semibold); }
+.project-widget-clients-preview { display:flex; align-items:center; gap:0.8rem; margin-top:0.5rem; }
+.project-widget-clients-preview-logos { display:flex; gap:0.4rem; }
+.project-widget-client-logo-mini { width:24px; height:24px; border-radius:4px; overflow:hidden; display:flex; align-items:center; justify-content:center; background: var(--clients-logo-gradient); border: var(--clients-logo-mini-border); }
+.project-widget-client-logo-mini img { width:100%; height:100%; object-fit:cover; }
+.project-widget-client-logo-mini.placeholder { color:#fff; font-weight:600; font-size:0.7rem; }
+.project-widget-clients-preview-more { color: var(--text-muted); font-size:0.75rem; margin-left:0.2rem; }

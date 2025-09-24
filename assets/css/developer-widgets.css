@@ -416,12 +416,12 @@
    WIDGET INFO-BOX ICONS - ICÔNES SPÉCIALISÉES
    ======================================== */
 
-.info-box-icon.specialties {
+.project-widget-icon.specialties {
     background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
     color: white;
 }
 
-.info-box-icon.tools {
+.project-widget-icon.tools {
     background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
     color: white;
 }
@@ -430,27 +430,27 @@
    PREVIEW VISIBILITY - MASQUAGE AUTOMATIQUE
    ======================================== */
 
-.info-box.developer-specialties-box.expanded .specialties-preview {
+.project-widget.developer-specialties-box.expanded .specialties-preview {
     display: none;
 }
 
-.info-box.developer-tools-box.expanded .tools-preview {
+.project-widget.developer-tools-box.expanded .tools-preview {
     display: none;
 }
 
-.info-box.developer-specialties-box:not(.expanded) .specialties-grid {
+.project-widget.developer-specialties-box:not(.expanded) .specialties-grid {
     display: none;
 }
 
-.info-box.developer-tools-box:not(.expanded) .tools-by-category {
+.project-widget.developer-tools-box:not(.expanded) .tools-by-category {
     display: none;
 }
 
-.info-box.developer-specialties-box:not(.expanded) .developer-profile-note {
+.project-widget.developer-specialties-box:not(.expanded) .developer-profile-note {
     display: none;
 }
 
-.info-box.developer-tools-box:not(.expanded) .developer-profile-note {
+.project-widget.developer-tools-box:not(.expanded) .developer-profile-note {
     display: none;
 }
 

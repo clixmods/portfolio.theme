@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Fonction pour animer l'entrée des spécifications techniques
 function animateTechnicalSpecs() {
-    const specItems = document.querySelectorAll('.spec-item');
+    // Support both legacy and new prefixed class names during migration
+    const specItems = document.querySelectorAll('.project-widget-spec-item, .spec-item');
     
     specItems.forEach(function(item, index) {
         // Petit délai pour chaque item
@@ -66,7 +67,7 @@ const observer = new IntersectionObserver(function(entries) {
 
 // Observer la section des spécifications techniques
 document.addEventListener('DOMContentLoaded', function() {
-    const techSpecsList = document.querySelector('.technical-specs-list');
+    const techSpecsList = document.querySelector('.project-widget-technical-specs-list, .technical-specs-list');
     if (techSpecsList) {
         observer.observe(techSpecsList);
     }

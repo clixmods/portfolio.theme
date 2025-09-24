@@ -7,13 +7,13 @@
    ======================================== */
 
 /* Liste des clients */
-.clients-list {
+.project-widget-clients-list {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
 }
 
-.client-item {
+.project-widget-client-item {
     display: flex;
     align-items: center;
     gap: 1.2rem;
@@ -25,14 +25,14 @@
     backdrop-filter: blur(10px);
 }
 
-.client-item:hover {
+.project-widget-client-item:hover {
     transform: translateY(-2px);
     background: var(--clients-item-hover-bg, linear-gradient(135deg, rgba(255, 255, 255, 0.05) 100%));
     border-color: var(--clients-item-hover-border-color, rgba(52, 152, 219, 0.3));
     box-shadow: var(--clients-item-hover-shadow, 0 8px 25px rgba(0, 0, 0, 0.2));
 }
 
-.client-logo {
+.project-widget-client-logo {
     width: 4rem;
     height: 4rem;
     border-radius: var(--border-radius-sm);
@@ -45,7 +45,7 @@
     border: var(--clients-logo-border, 1px solid rgba(255, 255, 255, 0.1));
 }
 
-.client-logo img {
+.project-widget-client-logo img {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -53,22 +53,22 @@
     transition: filter 0.3s ease;
 }
 
-.client-item:hover .client-logo img {
+.project-widget-client-item:hover .project-widget-client-logo img {
     filter: brightness(1.1);
 }
 
-.client-logo.placeholder {
+.project-widget-client-logo.placeholder {
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
     color: white;
     font-weight: var(--font-weight-bold);
     font-size: 1.2rem;
 }
 
-.client-info {
+.project-widget-client-info {
     flex: 1;
 }
 
-.client-name {
+.project-widget-client-name {
     color: var(--text-primary);
     font-weight: var(--font-weight-bold);
     font-size: 1.1rem;
@@ -76,14 +76,14 @@
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.client-description {
+.project-widget-client-description {
     color: var(--text-muted);
     font-size: 0.9rem;
     line-height: 1.5;
     margin-bottom: 0.4rem;
 }
 
-.client-role {
+.project-widget-client-role {
     color: var(--text-secondary);
     font-size: 0.85rem;
     font-weight: 500;
@@ -94,7 +94,7 @@
 }
 
 /* Aperçu pour la box fermée */
-.info-box:not(.expanded) .clients-preview {
+.project-widget:not(.expanded) .project-widget-clients-preview {
     display: flex;
     align-items: center;
     gap: 0.8rem;
@@ -106,14 +106,14 @@
     overflow: hidden;
 }
 
-.clients-preview-logos {
+.project-widget-clients-preview-logos {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
     flex: 1;
 }
 
-.client-logo-mini {
+.project-widget-client-logo-mini {
     width: 30px;
     height: 30px;
     border-radius: 4px;
@@ -125,21 +125,21 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.client-logo-mini img {
+.project-widget-client-logo-mini img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     filter: brightness(0.9);
 }
 
-.client-logo-mini.placeholder {
+.project-widget-client-logo-mini.placeholder {
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
     color: white;
     font-size: 0.7rem;
     font-weight: bold;
 }
 
-.clients-preview-more {
+.project-widget-clients-preview-more {
     color: var(--text-muted);
     font-size: 0.8rem;
     white-space: nowrap;
@@ -150,12 +150,12 @@
    ======================================== */
 
 /* Contenu de la note */
-.grade-content {
+.project-widget-grade-content {
     text-align: center;
     padding: 1.5rem;
 }
 
-.grade-display {
+.project-widget-grade-display {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -163,7 +163,7 @@
     margin-bottom: 1.5rem;
 }
 
-.grade-value {
+.project-widget-grade-value {
     font-size: 3rem;
     font-weight: var(--font-weight-bold);
     color: var(--text-primary);
@@ -175,37 +175,37 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.grade-scale {
+.project-widget-grade-scale {
     color: var(--text-muted);
     font-size: 1.2rem;
     font-weight: 500;
 }
 
-.grade-details {
+.project-widget-grade-details {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
 }
 
-.grade-subject {
+.project-widget-grade-subject {
     color: var(--text-primary);
     font-size: 1.1rem;
     font-weight: var(--font-weight-semibold);
     margin-bottom: 0.5rem;
 }
 
-.grade-professor {
+.project-widget-grade-professor {
     color: var(--text-secondary);
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
 }
 
-.grade-date {
+.project-widget-grade-date {
     color: var(--text-muted);
     font-size: 0.85rem;
 }
 
-.grade-comment {
+.project-widget-grade-comment {
     color: var(--text-muted);
     font-size: 0.9rem;
     line-height: 1.5;
@@ -216,7 +216,7 @@
 }
 
 /* Aperçu pour la box fermée */
-.info-box:not(.expanded) .grade-preview {
+.project-widget:not(.expanded) .project-widget-grade-preview {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -227,7 +227,7 @@
     border-left: var(--grade-preview-border-left, 2px solid var(--primary-teal));
 }
 
-.grade-preview-value {
+.project-widget-grade-preview-value {
     font-size: 1.8rem;
     font-weight: var(--font-weight-bold);
     background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
@@ -236,20 +236,20 @@
     background-clip: text;
 }
 
-.grade-preview-info {
+.project-widget-grade-preview-info {
     text-align: right;
     flex: 1;
     margin-left: 1rem;
 }
 
-.grade-preview-subject {
+.project-widget-grade-preview-subject {
     color: var(--text-primary);
     font-size: 0.9rem;
     font-weight: var(--font-weight-semibold);
     margin-bottom: 0.2rem;
 }
 
-.grade-preview-scale {
+.project-widget-grade-preview-scale {
     color: var(--text-muted);
     font-size: 0.8rem;
 }
@@ -259,12 +259,12 @@
    ======================================== */
 
 /* Contenu des téléchargements */
-.downloads-content {
+.project-widget-downloads-content {
     text-align: center;
     padding: 1.5rem;
 }
 
-.downloads-display {
+.project-widget-downloads-display {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -272,7 +272,7 @@
     margin-bottom: 1.5rem;
 }
 
-.downloads-value {
+.project-widget-downloads-value {
     font-size: 2.5rem;
     font-weight: var(--font-weight-bold);
     color: var(--text-primary);
@@ -283,7 +283,7 @@
     background-clip: text;
 }
 
-.downloads-label {
+.project-widget-downloads-label {
     color: var(--text-muted);
     font-size: 1rem;
     font-weight: 500;
@@ -291,13 +291,13 @@
     letter-spacing: 0.5px;
 }
 
-.downloads-details {
+.project-widget-downloads-details {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
 }
 
-.downloads-platform {
+.project-widget-downloads-platform {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -307,19 +307,19 @@
     border: var(--downloads-platform-border, 1px solid rgba(255, 255, 255, 0.08));
 }
 
-.downloads-platform-name {
+.project-widget-downloads-platform-name {
     color: var(--text-secondary);
     font-size: 0.9rem;
     font-weight: 500;
 }
 
-.downloads-platform-count {
+.project-widget-downloads-platform-count {
     color: var(--primary-teal);
     font-weight: var(--font-weight-semibold);
     font-size: 0.9rem;
 }
 
-.downloads-last-updated {
+.project-widget-downloads-last-updated {
     color: var(--text-muted);
     font-size: 0.8rem;
     margin-top: 1rem;
@@ -328,7 +328,7 @@
 }
 
 /* Aperçu pour la box fermée */
-.info-box:not(.expanded) .downloads-preview {
+.project-widget:not(.expanded) .project-widget-downloads-preview {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -339,7 +339,7 @@
     border-left: var(--downloads-preview-border-left, 2px solid #27ae60);
 }
 
-.downloads-preview-value {
+.project-widget-downloads-preview-value {
     font-size: 1.8rem;
     font-weight: var(--font-weight-bold);
     background: linear-gradient(135deg, #27ae60, #2ecc71);
@@ -348,20 +348,20 @@
     background-clip: text;
 }
 
-.downloads-preview-info {
+.project-widget-downloads-preview-info {
     text-align: right;
     flex: 1;
     margin-left: 1rem;
 }
 
-.downloads-preview-label {
+.project-widget-downloads-preview-label {
     color: var(--text-primary);
     font-size: 0.9rem;
     font-weight: var(--font-weight-semibold);
     margin-bottom: 0.2rem;
 }
 
-.downloads-preview-date {
+.project-widget-downloads-preview-date {
     color: var(--text-muted);
     font-size: 0.8rem;
 }
@@ -371,12 +371,12 @@
    ======================================== */
 
 /* Contenu du classement */
-.ranking-content {
+.project-widget-ranking-content {
     text-align: center;
     padding: 1.5rem;
 }
 
-.ranking-display {
+.project-widget-ranking-display {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -384,7 +384,7 @@
     margin-bottom: 1.5rem;
 }
 
-.ranking-position {
+.project-widget-ranking-position {
     font-size: 3rem;
     font-weight: var(--font-weight-bold);
     color: var(--text-primary);
@@ -396,7 +396,7 @@
     position: relative;
 }
 
-.ranking-position::after {
+.project-widget-ranking-position::after {
     content: attr(data-suffix);
     font-size: 1.2rem;
     position: absolute;
@@ -404,37 +404,37 @@
     margin-left: 0.2rem;
 }
 
-.ranking-total {
+.project-widget-ranking-total {
     color: var(--text-muted);
     font-size: 1.1rem;
     font-weight: 500;
 }
 
-.ranking-details {
+.project-widget-ranking-details {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
 }
 
-.ranking-event {
+.project-widget-ranking-event {
     color: var(--text-primary);
     font-size: 1.1rem;
     font-weight: var(--font-weight-semibold);
     margin-bottom: 0.5rem;
 }
 
-.ranking-category {
+.project-widget-ranking-category {
     color: var(--text-secondary);
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
 }
 
-.ranking-date {
+.project-widget-ranking-date {
     color: var(--text-muted);
     font-size: 0.85rem;
 }
 
-.ranking-achievement {
+.project-widget-ranking-achievement {
     color: var(--text-muted);
     font-size: 0.9rem;
     line-height: 1.5;
@@ -445,7 +445,7 @@
 }
 
 /* Aperçu pour la box fermée */
-.info-box:not(.expanded) .ranking-preview {
+.project-widget:not(.expanded) .project-widget-ranking-preview {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -456,7 +456,7 @@
     border-left: var(--ranking-preview-border-left, 2px solid #f39c12);
 }
 
-.ranking-preview-position {
+.project-widget-ranking-preview-position {
     font-size: 1.8rem;
     font-weight: var(--font-weight-bold);
     background: linear-gradient(135deg, #f39c12, #e67e22);
@@ -466,7 +466,7 @@
     position: relative;
 }
 
-.ranking-preview-position::after {
+.project-widget-ranking-preview-position::after {
     content: attr(data-suffix);
     font-size: 0.9rem;
     position: absolute;
@@ -474,75 +474,75 @@
     margin-left: 0.1rem;
 }
 
-.ranking-preview-info {
+.project-widget-ranking-preview-info {
     text-align: right;
     flex: 1;
     margin-left: 1rem;
 }
 
-.ranking-preview-event {
+.project-widget-ranking-preview-event {
     color: var(--text-primary);
     font-size: 0.9rem;
     font-weight: var(--font-weight-semibold);
     margin-bottom: 0.2rem;
 }
 
-.ranking-preview-total {
+.project-widget-ranking-preview-total {
     color: var(--text-muted);
     font-size: 0.8rem;
 }
 
 /* Masquer les aperçus quand les boxes sont ouvertes */
-.info-box.clients-box.expanded .clients-preview {
+.project-widget.clients-box.expanded .project-widget-clients-preview {
     display: none;
 }
 
-.info-box.grade-box.expanded .grade-preview {
+.project-widget.grade-box.expanded .project-widget-grade-preview {
     display: none;
 }
 
-.info-box.downloads-box.expanded .downloads-preview {
+.project-widget.downloads-box.expanded .project-widget-downloads-preview {
     display: none;
 }
 
-.info-box.ranking-box.expanded .ranking-preview {
+.project-widget.ranking-box.expanded .project-widget-ranking-preview {
     display: none;
 }
 
 /* Masquer les contenus complets quand les boxes sont fermées */
-.info-box.clients-box:not(.expanded) .clients-list {
+.project-widget.clients-box:not(.expanded) .project-widget-clients-list {
     display: none;
 }
 
-.info-box.grade-box:not(.expanded) .grade-content {
+.project-widget.grade-box:not(.expanded) .project-widget-grade-content {
     display: none;
 }
 
-.info-box.downloads-box:not(.expanded) .downloads-content {
+.project-widget.downloads-box:not(.expanded) .project-widget-downloads-content {
     display: none;
 }
 
-.info-box.ranking-box:not(.expanded) .ranking-content {
+.project-widget.ranking-box:not(.expanded) .project-widget-ranking-content {
     display: none;
 }
 
 /* Icônes pour les nouveaux widgets */
-.info-box-icon.clients::before {
+.project-widget-icon.clients::before {
     content: '🏢';
     font-size: 1.2rem;
 }
 
-.info-box-icon.grade::before {
+.project-widget-icon.grade::before {
     content: '📊';
     font-size: 1.2rem;
 }
 
-.info-box-icon.downloads::before {
+.project-widget-icon.downloads::before {
     content: '⬇️';
     font-size: 1.2rem;
 }
 
-.info-box-icon.ranking::before {
+.project-widget-icon.ranking::before {
     content: '🏆';
     font-size: 1.2rem;
 }

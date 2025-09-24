@@ -828,7 +828,7 @@ function initTestimonialsRotator() {
         
         // Vérifier si le conteneur est visible
         function checkVisibility() {
-            const infoBox = container.closest('.info-box');
+            const infoBox = container.closest('.project-widget');
             const isTestimonialsBox = infoBox && infoBox.classList.contains('widget-testimonials-box');
             
             // Pour la testimonials-box, démarrer la rotation seulement si fermée
@@ -853,7 +853,7 @@ function initTestimonialsRotator() {
         }
         
         // Observer les changements de classe expanded
-        const infoBox = container.closest('.info-box');
+    const infoBox = container.closest('.project-widget');
         if (infoBox) {
             const observer = new MutationObserver(() => {
                 setTimeout(checkVisibility, 100); // Petit délai pour laisser le CSS s'appliquer
@@ -895,11 +895,12 @@ function initTestimonialsRotator() {
     });
 }
 // ========================================
-// INFO BOX TOGGLE FUNCTIONALITY
+// PROJECT WIDGET TOGGLE FUNCTIONALITY
 // ========================================
-// Toggle ouvert/fermé pour les info-box
+// Toggle ouvert/fermé pour les project-widgets
 function toggleInfoBox(headerElem) {
-    const box = headerElem.closest('.info-box');
+    // Uses unified .project-widget naming (legacy class removed)
+    const box = headerElem.closest('.project-widget');
     if (box) {
         box.classList.toggle('expanded');
     }

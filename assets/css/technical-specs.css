@@ -11,7 +11,7 @@
    TECHNICAL SPECIFICATIONS CONTAINER
    ======================================== */
 
-.technical-specs-list {
+.technical-specs-list, .project-widget-technical-specs-list {
     display: flex;
     flex-direction: column;
     gap: 0.875rem;
@@ -178,7 +178,7 @@
    ======================================== */
 
 @media (max-width: 768px) {
-    .technical-specs-list {
+    .technical-specs-list, .project-widget-technical-specs-list {
         gap: 0.75rem;
     }
     
@@ -385,12 +385,12 @@
    ======================================== */
 
 /* Assurer que le contenu est visible quand expanded */
-.info-box.technical-specs-box.expanded .info-box-content {
+.project-widget.technical-specs-box.expanded .project-widget-content {
     display: block;
 }
 
 /* Masquer le contenu quand pas expanded */
-.info-box.technical-specs-box:not(.expanded) .info-box-content {
+.project-widget.technical-specs-box:not(.expanded) .project-widget-content {
     display: none;
 }
 
@@ -400,6 +400,6 @@
 
 /* Les tech-chips utilisent déjà les styles définis dans experience.css */
 /* Petit ajustement pour l'intégration dans les spécifications techniques */
-.technical-specs-list .tech-chips {
+.technical-specs-list .tech-chips, .project-widget-technical-specs-list .tech-chips {
     margin-top: 0.5rem;
 }
