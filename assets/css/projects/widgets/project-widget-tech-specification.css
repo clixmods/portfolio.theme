@@ -1,6 +1,0 @@
-/* Project Widget - Technical Specifications Styles (renamed from widget-tech-specification.css) */
-.project-widget-technical-specs-list { display:flex; flex-direction:column; gap:1rem; }
-.project-widget-spec-item { display:flex; justify-content:space-between; align-items:center; padding:1rem; background: var(--spec-item-bg); border-radius: var(--border-radius-sm); border-left: var(--spec-item-border-left); transition: all 0.3s ease; backdrop-filter: blur(10px); }
-.project-widget-spec-item:hover { transform: translateX(4px); border-left-color: var(--primary-teal); background: var(--spec-item-hover-bg); border-left: var(--spec-item-hover-border-left); }
-.project-widget-spec-label { color: var(--text-secondary); font-weight:500; font-size:0.9rem; }
-.project-widget-spec-value { color: var(--text-primary); font-weight: var(--font-weight-semibold); font-size:0.9rem; text-align:right; max-width:60%; }

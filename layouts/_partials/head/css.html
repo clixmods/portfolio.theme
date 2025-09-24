@@ -126,8 +126,8 @@
   {{ partial "helpers/load-css.html" "css/variables.ps5.css" }}
 {{ end }}
 
-{{/* Section-specific project widgets (moved from shared/widgets) */}}
-{{ partial "helpers/load-css-pattern.html" "css/projects/widgets/*.css" }}
+{{/* Project widgets SCSS (refactored from CSS) */}}
+{{ partial "helpers/load-scss.html" "scss/projects/widgets/_index.scss" }}
 
 {{/* Section-specific component */}}
 {{ partial "helpers/load-css-pattern.html" "css/shared/components/*.css" }}
