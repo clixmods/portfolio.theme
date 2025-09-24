@@ -592,6 +592,62 @@ class UnifiedModal {
             content.style.display = 'block';
         }
 
+        // Special enhancement: Contributors widget richer layout inside modal
+        if (widgetClasses.includes('contributors-box')) {
+            try {
+                const list = clone.querySelector('.project-widget-contributors-list');
+                if (list) {
+                    const items = Array.from(list.querySelectorAll('.project-widget-contributor-item'));
+                    const contributors = items.map(item => {
+                        return {
+                            id: item.getAttribute('data-person-id'),
+                            name: item.querySelector('.project-widget-contributor-name')?.textContent?.trim() || '',
+                            role: item.querySelector('.project-widget-contributor-role')?.textContent?.trim() || '',
+                            avatarHTML: item.querySelector('.project-widget-contributor-avatar')?.innerHTML || '',
+                            hasAvatar: !!item.querySelector('.project-widget-contributor-avatar img')
+                        };
+                    });
+                    // Group by role
+                    const groups = {};
+                    contributors.forEach(c => {
+                        const key = c.role || 'Autres';
+                        groups[key] = groups[key] || [];
+                        groups[key].push(c);
+                    });
+                    const distinctRoles = Object.keys(groups);
+                    const total = contributors.length;
+                    const roleChips = distinctRoles.map(r => `<span class=\"contrib-role-chip\">${r} (${groups[r].length})</span>`).join('');
+                    // Build new grid
+                    let newHTML = `<div class=\"contributors-modal-enhanced\">` +
+                        `<div class=\"contributors-stats-bar\">` +
+                        `<div class=\"contributors-count\"><strong>${total}</strong> contributeur${total>1?'s':''}</div>` +
+                        `<div class=\"contributors-roles\">${roleChips}</div>` +
+                        `</div>`;
+                    distinctRoles.forEach(role => {
+                        newHTML += `<div class=\"contributors-group\">` +
+                            `<div class=\"contributors-group-title\">${role}</div>` +
+                            `<div class=\"contributors-grid\">` +
+                            groups[role].map(c => {
+                                const initials = c.name ? c.name.charAt(0).toUpperCase() : '?';
+                                const avatar = c.hasAvatar ? `<div class=\"contrib-avatar\">${c.avatarHTML}</div>` : `<div class=\"contrib-avatar placeholder\">${avatarHTMLSafe(initials)}</div>`;
+                                return `<div class=\"contrib-card\" data-person-id=\"${c.id}\" tabindex=\"0\" role=\"button\" aria-label=\"Voir le profil de ${escapeHtml(c.name)}\">` +
+                                    `${avatar}` +
+                                    `<div class=\"contrib-info\">` +
+                                        `<div class=\"contrib-name\">${escapeHtml(c.name)}</div>` +
+                                        (c.role?`<div class=\"contrib-role\">${escapeHtml(c.role)}</div>`:'') +
+                                        `<button class=\"contrib-action btn-action secondary\" data-person-id=\"${c.id}\">Profil</button>` +
+                                    `</div>` +
+                                `</div>`;
+                            }).join('') +
+                            `</div>` +
+                        `</div>`;
+                    });
+                    newHTML += `</div>`;
+                    list.innerHTML = newHTML;
+                }
+            } catch(e) { /* silent enhancement fail */ }
+        }
+
         const html = clone.innerHTML;
         // Determine a width based on widget sizing classes
         let desiredWidth = '860px';
@@ -1120,4 +1176,18 @@ if (typeof document !== 'undefined') {
     } else {
         UnifiedModal.setupGlobalCVInterceptor();
     }
+}
+
+// Basic HTML escape to avoid injecting unsafe text into enhanced contributors layout
+function escapeHtml(str) {
+    return String(str || '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
+}
+
+function avatarHTMLSafe(initial) {
+    return `<span>${escapeHtml(initial)}</span>`;
 }
