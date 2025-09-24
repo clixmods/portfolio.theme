@@ -10,10 +10,16 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 9999;
+    /* Must sit above unified modal (10000) when opened from inside another modal */
+    z-index: 10010;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Explicit nested state (added via JS) if we want differentiated styling later */
+.skill-modal.skill-modal--nested {
+    z-index: 10010; /* keep explicit for clarity */
 }
 
 .skill-modal[style*="block"] {

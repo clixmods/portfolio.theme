@@ -108,6 +108,17 @@ function openSkillModal(name, icon, level, experience, iconType) {
         window.pauseAllTestimonials();
     }
     
+    // If a unified modal is currently open, mark this as nested and reduce parent backdrop intensity
+    try {
+        const unified = document.getElementById('unifiedModal');
+        if (unified && unified.style.display !== 'none') {
+            modal.classList.add('skill-modal--nested');
+            unified.classList.add('unified-modal--nested-parent');
+            // Lower parent z-index slightly so nested sits above (CSS override ensures ordering)
+            unified.style.zIndex = '10000';
+        }
+    } catch(e) { /* no-op */ }
+
     // Show modal with unified-like animation
     modal.classList.remove('fade-exit', 'fade-exit-active');
     modal.style.display = 'block';
@@ -137,7 +148,15 @@ function closeSkillModal() {
     setTimeout(() => {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto'; // Restore page scrolling
-        modal.classList.remove('fade-exit', 'fade-exit-active');
+        modal.classList.remove('fade-exit', 'fade-exit-active', 'skill-modal--nested');
+        // Restore unified modal state if it was a parent
+        try {
+            const unified = document.getElementById('unifiedModal');
+            if (unified && unified.classList.contains('unified-modal--nested-parent')) {
+                unified.classList.remove('unified-modal--nested-parent');
+                unified.style.zIndex = '10000';
+            }
+        } catch(e) { /* no-op */ }
     }, 300);
 }
 
