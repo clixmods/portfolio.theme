@@ -4,21 +4,6 @@
 	 ======================================== */
 
 /* Testimonials Box - Widget complet */
-.widget-testi/* (legacy truncated artifact left intentionally empty) */
-.widget-testimonial-preview-quote {
-		color: var(--text-secondary);
-		font-size: 1rem;
-		line-height: 1.6;
-		font-style: italic;
-		position: relative;
-		display: block;
-		text-align: left;
-		margin: 0;
-		overflow: visible;
-		flex: none;
-		width: 100%;
-		max-width: none;
-}
 
 .project-widget.widget-testimonials-box { position: relative; overflow:hidden; }
 .project-widget.widget-testimonials-box .project-widget-header { flex-direction:row !important; align-items:stretch !important; justify-content:flex-start; padding:0 !important; position:relative; }

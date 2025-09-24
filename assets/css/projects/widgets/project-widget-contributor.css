@@ -7,4 +7,4 @@
 .project-widget-contributor-avatar.placeholder { background: var(--contributor-avatar-placeholder-gradient); }
 .project-widget-contributor-info { flex:1; }
 .project-widget-contributor-name { color: var(--text-primary); font-weight: var(--font-weight-semibold); font-size:1rem; margin-bottom:0.2rem; text-shadow:0 1px 2px rgba(0,0,0,0.1); }
-.project-widget-contributor-role { color: var(--text-muted); font-size:1.1rem; opacity:0.8; }
+.project-widget-contributor-role { color: var(--text-muted); font-size:0.9rem; opacity:0.8; }
