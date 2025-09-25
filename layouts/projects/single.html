@@ -295,7 +295,7 @@
                     {{- end -}}
                     
                     {{/* Utiliser le partial enhanced pour l'affichage modal */}}
-                    {{ partial "projects/widgets/modal/contributors-enhanced.html" (dict "contributors" $contributorsData "projectId" .File.BaseFileName) }}
+                    {{ partial "projects/widgets/modal/contributors.html" (dict "contributors" $contributorsData "projectId" .File.BaseFileName) }}
                 </div>
             </div>
             {{ end }}
@@ -539,31 +539,8 @@
                     </div>
                 </div>
                 <div class="project-widget-content">
-                    <div class="developer-profile-note">
-                        <div class="profile-avatar">
-                            <img src="{{ site.Data.profile.media.profileImage }}" alt="{{ site.Data.profile.personal.fullName }}">
-                        </div>
-                        <div class="profile-note-content">
-                            <div class="profile-note-title">Spécialités de {{ site.Data.profile.personal.firstName }} pour ce projet</div>
-                            <div class="profile-note-subtitle">{{ site.Data.profile.personal.title }}</div>
-                        </div>
-                    </div>
-                    <div class="specialties-grid">
-                        {{ range $usedSpecialities }}
-                        <div class="specialty-item clickable" onclick="openSkillModal('{{ .name }}', '{{ .icon }}', 'Spécialité', '{{ .experience }} an{{ if gt .experience 1 }}s{{ end }}', 'emoji')" title="Cliquez pour voir les détails">
-                            <div class="specialty-header">
-                                <div class="specialty-icon">{{ .icon }}</div>
-                                <div class="specialty-info">
-                                    <div class="specialty-name">{{ .name }}</div>
-                                    <div class="specialty-subtitle">{{ .subtitle }}</div>
-                                </div>
-                            </div>
-                            <div class="specialty-experience">
-                                <div class="experience-text">{{ .experience }} an{{ if gt .experience 1 }}s{{ end }}</div>
-                            </div>
-                        </div>
-                        {{ end }}
-                    </div>
+                    {{/* Utiliser le partial pour l'affichage modal */}}
+                    {{ partial "projects/widgets/modal/specialties.html" (dict "specialties" $usedSpecialities "projectId" .File.BaseFileName "profileData" site.Data.profile) }}
                 </div>
             </div>
             {{ end }}

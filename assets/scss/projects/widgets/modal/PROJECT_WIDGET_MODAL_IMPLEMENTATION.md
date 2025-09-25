@@ -22,20 +22,20 @@ themes/portfolio.theme/
 ├── assets/js/
 │   └── unified-modal-system.js        # Modal interactions (NO HTML generation)
 └── layouts/_partials/projects/widgets/modal/
-    ├── {widget}-enhanced.html          # Complex widget HTML structure
+    ├── {widget}.html          # Complex widget HTML structure
 ```
 
 ## Implementation Steps
 
 ### 1. Create Hugo Partial for HTML Structure
 
-**Location**: `/layouts/_partials/projects/widgets/modal/{widget}-enhanced.html`
+**Location**: `/layouts/_partials/projects/widgets/modal/{widget}.html`
 
 **Template Structure**:
 ```html
 {{/* Widget-specific Hugo partial */}}
 {{/* Access project data via Hugo context: .Project, .Site, etc. */}}
-<div class="widget-modal-enhanced">
+<div class="widget-modal">
   <div class="widget-header">
     <h3>{{ .Title }}</h3>
   </div>
@@ -67,7 +67,7 @@ themes/portfolio.theme/
 **Style Structure**:
 ```scss
 // Widget-specific modal styles
-.widget-modal-enhanced {
+.widget-modal{
   // Base widget container
   display: flex;
   flex-direction: column;
@@ -131,7 +131,7 @@ themes/portfolio.theme/
   
   {{/* Widget integration */}}
   {{ if .Params.widget_data }}
-    {{ partial "projects/widgets/modal/{widget}-enhanced.html" (dict "Project" . "Title" "Widget Title") }}
+    {{ partial "projects/widgets/modal/{widget}-.html" (dict "Project" . "Title" "Widget Title") }}
   {{ end }}
 </div>
 ```

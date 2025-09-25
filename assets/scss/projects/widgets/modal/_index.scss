@@ -3,8 +3,20 @@
 // =============================================================================
 // Modal-specific styles for project widgets
 
+// ARCHITECTURE:
+// 1. _project-widget-base.scss - Reusable glassmorphism components (.widget-card, .widget-stats-bar, etc.)
+// 2. Individual widget files - Specific layouts using @extend from base components
+
+// REUSABLE BASE COMPONENTS:
+// .widget-stats-bar - Stats bar with glassmorphism effect
+// .widget-card - Base card with hover effects and variants (--compact, --static)
+// .widget-icon - Icon container with size variants (--sm, --md, --lg, --xl)
+// .widget-badge - Badge/chip with size variants (--sm, --lg)
+// .widget-note - Info/note section with glassmorphism
+
 // Base modal styles for project widgets
 @import 'project-widget-base';
 
 // Specific modal components
 @import 'project-widget-contributors';
+@import 'project-widget-specialties';

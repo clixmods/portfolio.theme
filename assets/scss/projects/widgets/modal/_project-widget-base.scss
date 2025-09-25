@@ -1,6 +1,200 @@
 // Project Widget Modal Base Styles
 // Base styles for project widget modals in the unified modal system
 
+// =============================================================================
+// REUSABLE GLASSMORPHISM COMPONENTS
+// =============================================================================
+
+// Base stats bar component (used in contributors, specialties, etc.)
+.widget-stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+  align-items: center;
+  padding: .75rem 1rem;
+  background: linear-gradient(120deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+  
+  .widget-count { 
+    font-size: .95rem; 
+    font-weight: 600; 
+    letter-spacing: .5px; 
+  }
+}
+
+// Base card component with glassmorphism effect
+.widget-card {
+  position: relative;
+  background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 1.2rem;
+  transition: .35s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+  cursor: pointer;
+
+  &:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.18), transparent 60%);
+    opacity: 0; 
+    transition: .4s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px) scale(1.01);
+    border-color: rgba(255,255,255,0.3);
+    box-shadow: 0 8px 24px -6px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,0.08) inset;
+    
+    &:before { 
+      opacity: 1; 
+    }
+  }
+
+  // Variant for smaller cards (like contributors)
+  &.widget-card--compact {
+    padding: .85rem .9rem;
+    display: flex;
+    gap: .75rem;
+
+    &:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 28px -8px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,0.08) inset;
+    }
+
+    &:active { 
+      transform: translateY(-2px) scale(1.01); 
+    }
+  }
+
+  // Non-interactive variant
+  &.widget-card--static {
+    cursor: default;
+    
+    &:hover {
+      transform: none;
+      border-color: rgba(255,255,255,0.15);
+      box-shadow: none;
+      
+      &:before { 
+        opacity: 0; 
+      }
+    }
+  }
+}
+
+// Base icon component with glassmorphism
+.widget-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 10px;
+  box-shadow: 0 3px 12px -3px rgba(0,0,0,.4);
+
+  // Size variants
+  &.widget-icon--sm {
+    width: 24px;
+    height: 24px;
+    font-size: 1rem;
+    border-radius: 6px;
+  }
+
+  &.widget-icon--md {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+  }
+
+  &.widget-icon--lg {
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+    border-radius: 10px;
+  }
+
+  &.widget-icon--xl {
+    width: 52px;
+    height: 52px;
+    font-size: 1.5rem;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px -4px rgba(0,0,0,.5);
+  }
+}
+
+// Base badge/chip component
+.widget-badge {
+  display: inline-block;
+  padding: .3rem .7rem;
+  border-radius: 8px;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.8);
+
+  // Size variants
+  &.widget-badge--sm {
+    padding: .25rem .5rem;
+    font-size: .65rem;
+    border-radius: 6px;
+  }
+
+  &.widget-badge--lg {
+    padding: .4rem .8rem;
+    font-size: .75rem;
+    border-radius: 10px;
+  }
+}
+
+// Base note/info section component
+.widget-note {
+  background: linear-gradient(120deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 1.2rem;
+  backdrop-filter: blur(6px);
+
+  .widget-note-header {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: .9rem;
+
+    .widget-note-title {
+      font-size: .95rem;
+      font-weight: 600;
+      letter-spacing: .3px;
+      margin: 0;
+    }
+  }
+
+  .widget-note-content {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+    font-size: .9rem;
+    
+    p {
+      margin: 0 0 .7rem 0;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// MODAL LAYOUT COMPONENTS
+// =============================================================================
+
 // Fullscreen adaptation for project widget modal type
 // Centered modal variant for project widgets (non-fullscreen)
 .unified-modal .unified-modal-content.unified-modal-content--projectWidget {
