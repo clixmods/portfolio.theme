@@ -1,0 +1,162 @@
+{{/*
+  Partial: Tools Modal Layout
+  Description: Structure HTML pour l'affichage des outils utilisés dans les modals de project widget
+  Context: 
+    - .tools (slice) - Liste des outils utilisés dans le projet
+    - .projectId (string) - ID du projet pour contextualiser les actions
+    - .profileData (dict) - Données du profil pour la section développeur
+*/}}
+
+{{- $tools := .tools -}}
+{{- $projectId := .projectId | default "" -}}
+{{- $profileData := .profileData -}}
+
+{{/* DEBUG - Affichage des outils reçus */}}
+<!-- DEBUG: Tools received: {{ $tools }} -->
+<!-- DEBUG: Total tools in data: {{ len site.Data.tools }} -->
+
+{{/* Récupération des données des outils depuis site.Data.tools */}}
+{{- $allTools := site.Data.tools -}}
+{{- $usedTools := slice -}}
+{{- $totalExperience := 0 -}}
+{{- $toolCategories := dict -}}
+
+{{/* Traitement des outils utilisés */}}
+{{- range $toolName := $tools -}}
+  {{- range $allTools -}}
+    {{- if eq .name $toolName -}}
+      {{- $usedTools = $usedTools | append . -}}
+      {{- $totalExperience = add $totalExperience .experience -}}
+      
+      {{/* Groupement par catégorie */}}
+      {{- $category := .category | default "other" -}}
+      {{- $categoryTools := index $toolCategories $category | default slice -}}
+      {{- $categoryTools = $categoryTools | append . -}}
+      {{- $toolCategories = merge $toolCategories (dict $category $categoryTools) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $total := len $usedTools -}}
+
+{{- if gt $total 0 -}}
+  <div class="tools-modal">
+    {{/* Barre de statistiques */}}
+    <div class="tools-stats-bar">
+      <div class="widget-count">
+        <strong>{{ $total }}</strong> outil{{ if gt $total 1 }}s{{ end }}
+      </div>
+      {{/* Affichage des catégories */}}
+      <div class="tools-categories">
+        {{- range $category, $categoryTools := $toolCategories -}}
+          {{- $categoryName := "" -}}
+          {{- if eq $category "version_control" -}}{{ $categoryName = "Contrôle de version" }}
+          {{- else if eq $category "development" -}}{{ $categoryName = "Développement" }}
+          {{- else if eq $category "design" -}}{{ $categoryName = "Design" }}
+          {{- else if eq $category "productivity" -}}{{ $categoryName = "Productivité" }}
+          {{- else if eq $category "communication" -}}{{ $categoryName = "Communication" }}
+          {{- else -}}{{ $categoryName = "Autres" }}
+          {{- end -}}
+          
+          <div class="tool-category-chip widget-badge widget-badge--sm">
+            {{ $categoryName }} ({{ len $categoryTools }})
+          </div>
+        {{- end -}}
+      </div>
+    </div>
+    
+    {{/* Note développeur */}}
+    {{- if $profileData -}}
+    <div class="developer-profile-note">
+      <div class="profile-avatar widget-icon widget-icon--lg">
+        <img src="{{ $profileData.media.profileImage }}" alt="{{ $profileData.personal.fullName }}" loading="lazy">
+      </div>
+      <div class="profile-note-content">
+        <div class="profile-note-title">Outils utilisés par {{ $profileData.personal.firstName }} pour ce projet</div>
+        <div class="profile-note-subtitle">{{ $profileData.personal.title }}</div>
+      </div>
+    </div>
+    {{- end -}}
+    
+    {{/* Grille des outils par catégorie */}}
+    {{- range $category, $categoryTools := $toolCategories -}}
+      {{- $categoryName := "" -}}
+      {{- if eq $category "version_control" -}}{{ $categoryName = "Contrôle de version" }}
+      {{- else if eq $category "development" -}}{{ $categoryName = "Développement" }}
+      {{- else if eq $category "design" -}}{{ $categoryName = "Design" }}
+      {{- else if eq $category "productivity" -}}{{ $categoryName = "Productivité" }}
+      {{- else if eq $category "communication" -}}{{ $categoryName = "Communication" }}
+      {{- else -}}{{ $categoryName = "Autres" }}
+      {{- end -}}
+      
+      <div class="tools-category-section">
+        <div class="tools-category-title">{{ $categoryName }}</div>
+        
+        <div class="tools-grid">
+          {{- range $categoryTools -}}
+            {{- $toolName := .name | default "Outil" -}}
+            {{- $toolDescription := .description | default "" -}}
+            {{- $toolExperience := .experience | default 0 -}}
+            {{- $toolIcon := .iconPath | default "" -}}
+            {{- $toolColor := .color | default "#666" -}}
+            
+            <div class="tool-card widget-card" 
+                 data-tool="{{ $toolName }}" 
+                 tabindex="0" 
+                 role="button" 
+                 aria-label="Voir les détails de {{ $toolName }}">
+              
+              {{/* En-tête de l'outil */}}
+              <div class="tool-header">
+                <div class="tool-icon widget-icon widget-icon--lg" aria-hidden="true">
+                  {{- if $toolIcon -}}
+                    <img src="/{{ $toolIcon }}" alt="{{ $toolName }}" loading="lazy">
+                  {{- else -}}
+                    🛠️
+                  {{- end -}}
+                </div>
+                <div class="tool-info">
+                  <div class="tool-title">{{ $toolName }}</div>
+                  {{- if $toolDescription -}}
+                    <div class="tool-description">{{ $toolDescription }}</div>
+                  {{- end -}}
+                </div>
+              </div>
+              
+              {{/* Badge avec années d'expérience */}}
+              <div class="tool-badge widget-badge">
+                {{ $toolExperience }} an{{ if gt $toolExperience 1 }}s{{ end }}
+              </div>
+            </div>
+          {{- end -}}
+        </div>
+      </div>
+    {{- end -}}
+    
+    {{/* Note d'interaction */}}
+    <div class="tools-interaction-note">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
+      </svg>
+      Cliquez sur un outil pour voir les projets associés et plus de détails
+    </div>
+  </div>
+{{- else -}}
+  <div class="tools-modal">
+    <div class="tools-stats-bar">
+      <div class="widget-count">
+        <strong>0</strong> outils
+      </div>
+    </div>
+    
+    <div class="tools-empty-state widget-note">
+      <div class="widget-note-header">
+        <div class="widget-note-icon widget-icon widget-icon--md">🛠️</div>
+        <div class="widget-note-title">Aucun outil spécifique</div>
+      </div>
+      <div class="widget-note-content">
+        <p>Ce projet n'utilise pas d'outils spécifiques répertoriés dans le portfolio.</p>
+      </div>
+    </div>
+  </div>
+{{- end -}}

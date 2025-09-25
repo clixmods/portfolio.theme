@@ -597,56 +597,8 @@
                     </div>
                 </div>
                 <div class="project-widget-content">
-                    <div class="developer-profile-note">
-                        <div class="profile-avatar">
-                            <img src="{{ site.Data.profile.media.profileImage }}" alt="{{ site.Data.profile.personal.fullName }}">
-                        </div>
-                        <div class="profile-note-content">
-                            <div class="profile-note-title">Stack technique de {{ site.Data.profile.personal.firstName }} pour ce projet</div>
-                            <div class="profile-note-subtitle">{{ site.Data.profile.personal.title }}</div>
-                        </div>
-                    </div>
-                    <div class="tools-by-category">
-                        {{ $categories := dict 
-                            "ide" "Environnements de Développement"
-                            "version_control" "Gestion de Versions"
-                            "cloud" "Cloud & Déploiement"
-                            "quality_tools" "Outils de Qualité"
-                            "design" "Design & Graphisme"
-                            "communication" "Communication & Collaboration"
-                            "other" "Autres Outils"
-                        }}
-                        {{ range $category, $categoryName := $categories }}
-                        {{ $categoryTools := where $usedTools "category" $category }}
-                        {{ if $categoryTools }}
-                        <div class="tools-category">
-                            <h4 class="tools-category-title">{{ $categoryName }}</h4>
-                            <div class="tools-grid">
-                                {{ range $categoryTools }}
-                                <div class="tool-item clickable" onclick="openSkillModal('{{ .name }}', '/{{ .iconPath }}', 'Outil', '{{ .experience }} an{{ if gt .experience 1 }}s{{ end }}', 'svg')" title="Cliquez pour voir les détails">
-                                    <div class="tool-header">
-                                        <div class="tool-icon" {{ if .color }}style="--tool-color: {{ .color }}"{{ end }}>
-                                            {{ if .iconPath }}
-                                            <img src="/{{ .iconPath }}" alt="{{ .name }}">
-                                            {{ else }}
-                                            <span>{{ substr .name 0 2 | upper }}</span>
-                                            {{ end }}
-                                        </div>
-                                        <div class="tool-info">
-                                            <div class="tool-name">{{ .name }}</div>
-                                            <div class="tool-description">{{ .description }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="tool-experience">
-                                        <div class="experience-text">{{ .experience }} an{{ if gt .experience 1 }}s{{ end }}</div>
-                                    </div>
-                                </div>
-                                {{ end }}
-                            </div>
-                        </div>
-                        {{ end }}
-                        {{ end }}
-                    </div>
+                    {{/* Utiliser le partial tools pour l'affichage modal */}}
+                    {{ partial "projects/widgets/modal/tools.html" (dict "tools" $projectTools "projectId" .File.BaseFileName "profileData" site.Data.profile) }}
                 </div>
             </div>
             {{ end }}
