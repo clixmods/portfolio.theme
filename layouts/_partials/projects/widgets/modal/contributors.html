@@ -1,0 +1,96 @@
+{{/*
+  Partial: Contributors Modal Enhanced Layout
+  Description: Structure HTML pour l'affichage amélioré des contributeurs dans les modals de project widget
+  Context: 
+    - .contributors (slice) - Liste des contributeurs avec leurs données
+    - .projectId (string) - ID du projet pour contextualiser les actions
+*/}}
+
+{{- $contributors := .contributors -}}
+{{- $projectId := .projectId | default "" -}}
+
+{{- if $contributors -}}
+  {{- $total := len $contributors -}}
+  {{- $groups := dict -}}
+  {{- $distinctRoles := slice -}}
+  
+  {{/* Grouper les contributeurs par rôle et collecter les rôles uniques */}}
+  {{- range $contributors -}}
+    {{- $role := .role | default "Contributeur" -}}
+    {{- $existing := index $groups $role | default (slice) -}}
+    {{- $groups = merge $groups (dict $role ($existing | append .)) -}}
+    {{/* Ajouter le rôle à la liste s'il n'y est pas déjà */}}
+    {{- if not (in $distinctRoles $role) -}}
+      {{- $distinctRoles = $distinctRoles | append $role -}}
+    {{- end -}}
+  {{- end -}}
+
+  <div class="contributors-modal-enhanced">
+    <div class="contributors-stats-bar">
+      <div class="contributors-count">
+        <strong>{{ $total }}</strong> contributeur{{ if gt $total 1 }}s{{ end }}
+      </div>
+      <div class="contributors-roles">
+        {{- range $role := $distinctRoles -}}
+          {{- $count := len (index $groups $role) -}}
+          <span class="contrib-role-chip">{{ $role }} ({{ $count }})</span>
+        {{- end -}}
+      </div>
+    </div>
+    
+    {{- range $role := $distinctRoles -}}
+      {{- $roleContributors := index $groups $role -}}
+      <div class="contributors-group">
+        <div class="contributors-group-title">{{ $role }}</div>
+        <div class="contributors-grid">
+          {{- range $roleContributors -}}
+            {{- $initials := substr (.name | default "?") 0 1 | upper -}}
+            {{- $personId := .id | default "" -}}
+            {{- $personName := .name | default "Contributeur" -}}
+            {{- $personRole := .role | default "" -}}
+            {{- $hasAvatar := .hasAvatar | default false -}}
+            {{- $avatarPath := .avatarPath | default "" -}}
+            
+            <div class="contrib-card" 
+                 data-person-id="{{ $personId }}" 
+                 tabindex="0" 
+                 role="button" 
+                 aria-label="Voir le profil de {{ $personName }}">
+              
+              {{/* Avatar du contributeur */}}
+              <div class="contrib-avatar{{ if not $hasAvatar }} placeholder{{ end }}">
+                {{- if $hasAvatar -}}
+                  <img src="{{ $avatarPath }}" alt="Avatar de {{ $personName }}" loading="lazy" />
+                {{- else -}}
+                  <span>{{ $initials }}</span>
+                {{- end -}}
+              </div>
+              
+              {{/* Informations du contributeur */}}
+              <div class="contrib-info">
+                <div class="contrib-name">{{ $personName }}</div>
+                {{- if $personRole -}}
+                  <div class="contrib-role">{{ $personRole }}</div>
+                {{- end -}}
+              </div>
+            </div>
+          {{- end -}}
+        </div>
+      </div>
+    {{- end -}}
+  </div>
+{{- else -}}
+  <div class="contributors-modal-enhanced">
+    <div class="contributors-stats-bar">
+      <div class="contributors-count">
+        <strong>0</strong> contributeurs
+      </div>
+    </div>
+    <div class="contributors-group">
+      <div class="contributors-group-title">Aucun contributeur</div>
+      <div class="contributors-grid">
+        <p>Aucun contributeur n'a été trouvé pour ce projet.</p>
+      </div>
+    </div>
+  </div>
+{{- end -}}

@@ -279,31 +279,23 @@
                     </div>
                 </div>
                 <div class="project-widget-content">
-                    <div class="project-widget-contributors-list">
-                        {{ range .Params.contributors }}
-                        {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) }}
-                        {{ if $person }}
-                        <div class="project-widget-contributor-item{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ .person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
-                            {{ if $person.Params.avatar }}
-                            <div class="project-widget-contributor-avatar">
-                                <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
-                            </div>
-                            {{ else }}
-                            <div class="project-widget-contributor-avatar placeholder">
-                                <span>{{ substr $person.Params.title 0 1 | upper }}</span>
-                            </div>
-                            {{ end }}
-                            <div class="project-widget-contributor-info">
-                                <div class="project-widget-contributor-name">{{ $person.Params.title }}</div>
-                                {{ if .role }}
-                                <div class="project-widget-contributor-role">{{ .role }}</div>
-                                {{ end }}
-
-                            </div>
-                        </div>
-                        {{ end }}
-                        {{ end }}
-                    </div>
+                    {{/* Préparer les données pour le partial contributors-enhanced */}}
+                    {{- $contributorsData := slice -}}
+                    {{- range .Params.contributors -}}
+                        {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) -}}
+                        {{- if $person -}}
+                            {{- $contributorsData = $contributorsData | append (dict 
+                                "id" .person
+                                "name" $person.Params.title
+                                "role" (.role | default "")
+                                "hasAvatar" (ne $person.Params.avatar nil)
+                                "avatarPath" ($person.Params.avatar | default "")
+                            ) -}}
+                        {{- end -}}
+                    {{- end -}}
+                    
+                    {{/* Utiliser le partial enhanced pour l'affichage modal */}}
+                    {{ partial "projects/widgets/modal/contributors-enhanced.html" (dict "contributors" $contributorsData "projectId" .File.BaseFileName) }}
                 </div>
             </div>
             {{ end }}

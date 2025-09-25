@@ -1,5 +1,6 @@
 // Project Widget Modal - Contributors Layout
 // Enhanced contributors layout for project widget modals
+// IMPORTANT: HTML structure should come from Hugo partial, not JavaScript
 
 // Enhanced Contributors Layout inside projectWidget modal
 .contributors-modal-enhanced {
@@ -94,12 +95,6 @@
             &:before { 
                 opacity: 1; 
             }
-            
-            .contrib-action { 
-                opacity: 1; 
-                transform: translateY(0); 
-                pointer-events: auto; 
-            }
         }
         
         &:active { 
@@ -157,16 +152,5 @@
         opacity: .6; 
     }
     
-    .contrib-action { 
-        position: absolute; 
-        bottom: .55rem; 
-        right: .55rem; 
-        font-size: .65rem; 
-        padding: .35rem .55rem; 
-        border-radius: 6px; 
-        opacity: 0; 
-        transform: translateY(6px); 
-        transition: .35s; 
-        pointer-events: none;
-    }
+
 }
