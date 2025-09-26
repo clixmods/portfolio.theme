@@ -55,7 +55,9 @@
                  data-person-id="{{ $personId }}" 
                  tabindex="0" 
                  role="button" 
-                 aria-label="Voir le profil de {{ $personName }}">
+                 aria-label="Voir le profil de {{ $personName }}"
+                 onclick="openPersonModal('{{ $personId }}')"
+                 style="cursor: pointer;">
               
               {{/* Avatar du contributeur */}}
               <div class="contrib-avatar{{ if not $hasAvatar }} placeholder{{ end }}">

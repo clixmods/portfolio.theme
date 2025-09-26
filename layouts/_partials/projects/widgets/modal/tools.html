@@ -104,7 +104,9 @@
                  data-tool="{{ $toolName }}" 
                  tabindex="0" 
                  role="button" 
-                 aria-label="Voir les détails de {{ $toolName }}">
+                 aria-label="Voir les détails de {{ $toolName }}"
+                 onclick="openSkillModal('{{ $toolName }}', '{{ if $toolIcon }}/{{ $toolIcon }}{{ else }}🛠️{{ end }}', 'Outil', '{{ $toolExperience }} an{{ if gt $toolExperience 1 }}s{{ end }}', '{{ if $toolIcon }}svg{{ else }}emoji{{ end }}')"
+                 style="cursor: pointer;">
               
               {{/* En-tête de l'outil */}}
               <div class="tool-header">

@@ -61,7 +61,9 @@
              data-specialty="{{ $specialtyName }}" 
              tabindex="0" 
              role="button" 
-             aria-label="Voir les détails de {{ $specialtyName }}">
+             aria-label="Voir les détails de {{ $specialtyName }}"
+             onclick="openSkillModal('{{ $specialtyName }}', '{{ $specialtyIcon }}', 'Spécialité', '{{ $specialtyExperience }} an{{ if gt $specialtyExperience 1 }}s{{ end }}', 'emoji')"
+             style="cursor: pointer;">
           
           {{/* En-tête de spécialité */}}
           <div class="specialty-header">
