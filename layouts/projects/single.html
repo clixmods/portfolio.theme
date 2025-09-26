@@ -320,34 +320,8 @@
                     </div>
                 </div>
                 <div class="project-widget-content">
-                    <div class="project-widget-development-time-content">
-                        <div class="project-widget-time-stat">
-                            <div class="project-widget-time-value">{{ .Params.development_time.total }}</div>
-                            <div class="project-widget-time-label">{{ i18n "total_time" | default "Temps total" }}</div>
-                        </div>
-                        {{ if .Params.development_time.start_date }}
-                        <div class="project-widget-time-stat">
-                            <div class="project-widget-time-value">{{ .Params.development_time.start_date }}</div>
-                            <div class="project-widget-time-label">{{ i18n "project_start" | default "Début du projet" }}</div>
-                        </div>
-                        {{ end }}
-                        {{ if .Params.development_time.end_date }}
-                        <div class="project-widget-time-stat">
-                            <div class="project-widget-time-value">{{ .Params.development_time.end_date }}</div>
-                            <div class="project-widget-time-label">{{ i18n "project_end" | default "Fin du projet" }}</div>
-                        </div>
-                        {{ end }}
-                        {{ if .Params.development_time.phases }}
-                        <div class="project-widget-time-phases">
-                            {{ range .Params.development_time.phases }}
-                            <div class="project-widget-phase-item">
-                                <div class="project-widget-phase-name">{{ .name }}</div>
-                                <div class="project-widget-phase-duration">{{ .duration }}</div>
-                            </div>
-                            {{ end }}
-                        </div>
-                        {{ end }}
-                    </div>
+                    {{/* Utiliser le partial enhanced pour l'affichage modal du temps de développement */}}
+                    {{ partial "projects/widgets/modal/development-time.html" (dict "development_time" .Params.development_time "projectId" .File.BaseFileName) }}
                 </div>
             </div>
             {{ end }}
