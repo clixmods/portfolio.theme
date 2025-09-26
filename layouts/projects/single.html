@@ -625,22 +625,8 @@
                     </div>
                 </div>
                 <div class="project-widget-content">
-                    <div class="awards-list">
-                        {{ range .Params.awards }}
-                        <div class="award-item">
-                            <div class="award-icon">🏆</div>
-                            <div class="award-info">
-                                <div class="award-title">{{ .title }}</div>
-                                {{ if .organization }}
-                                <div class="award-organization">{{ .organization }}</div>
-                                {{ end }}
-                                {{ if .date }}
-                                <div class="award-date">{{ .date }}</div>
-                                {{ end }}
-                            </div>
-                        </div>
-                        {{ end }}
-                    </div>
+                    {{/* Utiliser le partial awards pour l'affichage modal */}}
+                    {{ partial "projects/widgets/modal/awards.html" (dict "awards" .Params.awards "projectId" .File.BaseFileName "profileData" site.Data.profile) }}
                 </div>
             </div>
             {{ end }}
