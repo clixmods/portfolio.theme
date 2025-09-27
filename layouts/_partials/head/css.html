@@ -73,6 +73,9 @@
 {{/* Unified Modal Styles (replaces legacy Discord modal styles) */}}
 {{ partial "helpers/load-scss.html" "scss/unified-modal.scss" }}
 
+{{/* Image Modal Styles - for full screen image display */}}
+{{ partial "helpers/load-css.html" "css/image-modal.css" }}
+
 {{/* Separated technologies - SCSS (special template execution) */}}
 {{- with resources.Get "scss/separated-technologies.scss" }}
   {{- with . | resources.ExecuteAsTemplate "separated-technologies.scss" . | css.Sass }}

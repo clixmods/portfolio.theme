@@ -586,13 +586,15 @@ class UnifiedModal {
             headers.forEach(h => h.remove()); // remove headers inside content clone
         }
 
+        // Remove gallery preview elements that shouldn't appear in modal
+        const galleryPreviews = clone.querySelectorAll('.project-widget-gallery-preview, .gallery-preview');
+        galleryPreviews.forEach(preview => preview.remove());
+
         // Ensure content is visible in modal
         const content = clone.querySelector('.project-widget-content');
         if (content) {
             content.style.display = 'block';
         }
-
-
 
         const html = clone.innerHTML;
         // Determine a width based on widget sizing classes
