@@ -1,0 +1,72 @@
+{{/*
+  Partial: YouTube Videos Widget
+  Description: Widget compact pour afficher les vidéos YouTube d'un projet
+  Context: 
+    - .Params (dict) - Paramètres du projet avec .youtube_videos
+    - .File.BaseFileName (string) - ID du projet
+*/}}
+
+{{- if .Params.youtube_videos -}}
+<div class="project-widget youtube-box {{ .Params.youtube_size | default "size-large" }}">
+  <div class="project-widget-header" onclick="toggleInfoBox(this)">
+    <div class="project-widget-icon youtube">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+    </div>
+    <div class="project-widget-header-content">
+      <h3 class="project-widget-title">Vidéos YouTube</h3>
+      <div class="project-widget-summary">{{ len .Params.youtube_videos }} vidéo{{ if gt (len .Params.youtube_videos) 1 }}s{{ end }}</div>
+      <!-- Aperçu de la première vidéo -->
+      {{- if .Params.youtube_videos -}}
+        {{- $firstVideo := index .Params.youtube_videos 0 -}}
+      <div class="youtube-preview" onclick="openYouTubeModal('{{ $firstVideo.video_id }}', '{{ $firstVideo.title }}'); event.stopPropagation();" data-video-id="{{ $firstVideo.video_id }}" data-video-title="{{ $firstVideo.title }}">
+        <div class="youtube-preview-thumbnail">
+          <img src="https://img.youtube.com/vi/{{ $firstVideo.video_id }}/mqdefault.jpg" alt="{{ $firstVideo.title }}">
+          <div class="youtube-preview-play"></div>
+        </div>
+        <div class="youtube-preview-info">
+          <div class="youtube-preview-title">{{ $firstVideo.title }}</div>
+        </div>
+      </div>
+      {{- end -}}
+    </div>
+    <div class="project-widget-toggle">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+      </svg>
+    </div>
+  </div>
+  <div class="project-widget-content">
+    <div class="youtube-list">
+      {{- range .Params.youtube_videos -}}
+      <div class="youtube-item" onclick="event.stopPropagation(); openYouTubeModal('{{ .video_id }}', '{{ .title }}')">
+        <div class="youtube-thumbnail">
+          <img src="https://img.youtube.com/vi/{{ .video_id }}/maxresdefault.jpg" alt="{{ .title }}">
+          <div class="youtube-play-button"></div>
+          {{- if .duration -}}
+          <div class="youtube-duration">{{ .duration }}</div>
+          {{- end -}}
+        </div>
+        <div class="youtube-info">
+          <h4 class="youtube-title">{{ .title }}</h4>
+          {{- if .description -}}
+          <p class="youtube-description">{{ .description }}</p>
+          {{- end -}}
+          <div class="youtube-meta">
+            {{- if .date -}}
+            <div class="youtube-date">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19,3H18V1H16V3H8V1H6V3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z"/>
+              </svg>
+              {{ .date }}
+            </div>
+            {{- end -}}
+          </div>
+        </div>
+      </div>
+      {{- end -}}
+    </div>
+  </div>
+</div>
+{{- end -}}

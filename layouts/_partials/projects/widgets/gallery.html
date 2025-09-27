@@ -1,0 +1,44 @@
+{{/*
+  Partial: Gallery Widget
+  Description: Widget compact pour afficher la galerie d'un projet
+  Context: 
+    - .Params (dict) - Paramètres du projet avec .gallery
+    - .File.BaseFileName (string) - ID du projet
+*/}}
+
+{{- if .Params.gallery -}}
+<div class="project-widget gallery-box {{ .Params.gallery_size | default "size-large" }}{{ if eq .Params.gallery_aspect "16:9" }} gallery-16x9{{ end }}" onclick="toggleInfoBox(this)">
+  <!-- Gallery Preview Background pour l'état fermé -->
+  <div class="project-widget-gallery-preview gallery-background"
+       style="--count: {{ len .Params.gallery }}; background-image: url('{{ (index .Params.gallery 0).url }}'); background-size: cover; background-position: center;">
+    <div class="project-widget-gallery-carousel">
+      {{- range $idx, $img := .Params.gallery -}}
+      <div class="project-widget-gallery-mini-item" style="--i: {{$idx}};">
+        <img src="{{ $img.url }}" alt="{{ $img.caption }}" loading="lazy">
+      </div>
+      {{- end -}}
+    </div>
+  </div>
+  
+  <div class="project-widget-header">
+    <div class="project-widget-icon gallery">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z"/>
+      </svg>
+    </div>
+    <div class="project-widget-header-content">
+      <h3 class="project-widget-title">Galerie du projet</h3>
+      <div class="project-widget-summary">{{ len .Params.gallery }} image{{ if gt (len .Params.gallery) 1 }}s{{ end }}</div>
+    </div>
+    <div class="project-widget-toggle">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+      </svg>
+    </div>
+  </div>
+  <div class="project-widget-content">
+    {{/* Contenu modal enhanced - uniquement ce qui doit apparaître dans le modal */}}
+    {{ partial "projects/widgets/modal/gallery.html" (dict "gallery" .Params.gallery "projectId" .File.BaseFileName) }}
+  </div>
+</div>
+{{- end -}}

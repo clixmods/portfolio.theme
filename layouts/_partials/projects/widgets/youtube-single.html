@@ -1,0 +1,39 @@
+{{/*
+  Partial: YouTube Single Video Widget
+  Description: Widget pour afficher une vidéo YouTube unique
+  Context: 
+    - .Params (dict) - Paramètres du projet avec .youtube_single
+    - .File.BaseFileName (string) - ID du projet
+*/}}
+
+{{- if .Params.youtube_single -}}
+<div class="project-widget project-widget-youtube-single-box {{ .Params.youtube_single_size | default "size-medium" }}">
+  <div class="project-widget-content">
+    <div class="project-widget-youtube-single-item" onclick="event.stopPropagation(); openYouTubeModal('{{ .Params.youtube_single.video_id }}', '{{ .Params.youtube_single.title }}')">
+      <div class="project-widget-youtube-single-thumbnail">
+        <img src="https://img.youtube.com/vi/{{ .Params.youtube_single.video_id }}/maxresdefault.jpg" alt="{{ .Params.youtube_single.title }}">
+        <div class="project-widget-youtube-single-play-button"></div>
+        {{- if .Params.youtube_single.duration -}}
+        <div class="project-widget-youtube-single-duration">{{ .Params.youtube_single.duration }}</div>
+        {{- end -}}
+      </div>
+      <div class="project-widget-youtube-single-info">
+        <h4 class="project-widget-youtube-single-title">{{ .Params.youtube_single.title }}</h4>
+        {{- if .Params.youtube_single.description -}}
+        <p class="project-widget-youtube-single-description">{{ .Params.youtube_single.description }}</p>
+        {{- end -}}
+        <div class="project-widget-youtube-single-meta">
+          {{- if .Params.youtube_single.date -}}
+          <div class="project-widget-youtube-single-date">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19,3H18V1H16V3H8V1H6V3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z"/>
+            </svg>
+            {{ .Params.youtube_single.date }}
+          </div>
+          {{- end -}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{- end -}}

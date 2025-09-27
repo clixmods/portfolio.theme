@@ -1,0 +1,32 @@
+{{/*
+  Partial: Development Time Widget
+  Description: Widget compact pour afficher le temps de développement d'un projet
+  Context: 
+    - .Params (dict) - Paramètres du projet avec .development_time
+    - .File.BaseFileName (string) - ID du projet
+*/}}
+
+{{- if .Params.development_time -}}
+<div class="project-widget development-time-box {{ .Params.development_time_size | default "size-medium" }}">
+  <div class="project-widget-header" onclick="toggleInfoBox(this)">
+    <div class="project-widget-icon time">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/>
+      </svg>
+    </div>
+    <div class="project-widget-header-content">
+      <h3 class="project-widget-title">{{ i18n "development_time" | default "Temps de développement" }}</h3>
+      <div class="project-widget-summary">{{ .Params.development_time.total }}</div>
+    </div>
+    <div class="project-widget-toggle">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+      </svg>
+    </div>
+  </div>
+  <div class="project-widget-content">
+    {{/* Utiliser le partial enhanced pour l'affichage modal du temps de développement */}}
+    {{ partial "projects/widgets/modal/development-time.html" (dict "development_time" .Params.development_time "projectId" .File.BaseFileName) }}
+  </div>
+</div>
+{{- end -}}

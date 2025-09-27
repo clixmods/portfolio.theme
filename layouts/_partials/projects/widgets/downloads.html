@@ -1,0 +1,59 @@
+{{/*
+  Partial: Downloads Widget
+  Description: Widget compact pour afficher les statistiques de téléchargement d'un projet
+  Context: 
+    - .Params (dict) - Paramètres du projet avec .downloads
+    - .File.BaseFileName (string) - ID du projet
+*/}}
+
+{{- if .Params.downloads -}}
+<div class="project-widget downloads-box {{ .Params.downloads_size | default "size-medium" }}">
+  <div class="project-widget-header" onclick="toggleInfoBox(this)">
+    <div class="project-widget-icon downloads">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+      </svg>
+    </div>
+    <div class="project-widget-header-content">
+      <h3 class="project-widget-title">Téléchargements</h3>
+      <div class="project-widget-summary">{{ .Params.downloads.total | default 0 }} téléchargements</div>
+      <!-- Aperçu des téléchargements -->
+      <div class="project-widget-downloads-preview">
+        <div class="project-widget-downloads-preview-value">{{ .Params.downloads.total }}</div>
+        <div class="project-widget-downloads-preview-info">
+          <div class="project-widget-downloads-preview-label">Téléchargements</div>
+          {{- if .Params.downloads.last_updated -}}
+          <div class="project-widget-downloads-preview-date">{{ .Params.downloads.last_updated }}</div>
+          {{- end -}}
+        </div>
+      </div>
+    </div>
+    <div class="project-widget-toggle">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+      </svg>
+    </div>
+  </div>
+  <div class="project-widget-content">
+    <div class="project-widget-downloads-content">
+      <div class="project-widget-downloads-display">
+        <div class="project-widget-downloads-value">{{ .Params.downloads.total }}</div>
+        <div class="project-widget-downloads-label">Téléchargements</div>
+      </div>
+      {{- if .Params.downloads.platforms -}}
+      <div class="project-widget-downloads-details">
+        {{- range .Params.downloads.platforms -}}
+        <div class="project-widget-downloads-platform">
+          <div class="project-widget-downloads-platform-name">{{ .name }}</div>
+          <div class="project-widget-downloads-platform-count">{{ .count }}</div>
+        </div>
+        {{- end -}}
+      </div>
+      {{- end -}}
+      {{- if .Params.downloads.last_updated -}}
+      <div class="project-widget-downloads-last-updated">Dernière mise à jour : {{ .Params.downloads.last_updated }}</div>
+      {{- end -}}
+    </div>
+  </div>
+</div>
+{{- end -}}

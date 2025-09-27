@@ -1,0 +1,56 @@
+{{/*
+  Partial: Ranking Widget
+  Description: Widget compact pour afficher le classement d'un projet
+  Context: 
+    - .Params (dict) - Paramètres du projet avec .ranking
+    - .File.BaseFileName (string) - ID du projet
+*/}}
+
+{{- if .Params.ranking -}}
+<div class="project-widget ranking-box {{ .Params.ranking_size | default "size-small" }}">
+  <div class="project-widget-header" onclick="toggleInfoBox(this)">
+    <div class="project-widget-icon ranking">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M5,16L3,5H11L9,16H5M10,4V1H14V4H10M14,16L12,5H20L18,16H14Z"/>
+      </svg>
+    </div>
+    <div class="project-widget-header-content">
+      <h3 class="project-widget-title">Classement</h3>
+      <div class="project-widget-summary">{{ .Params.ranking.event | default "Concours" }}</div>
+      <!-- Aperçu du classement -->
+      <div class="project-widget-ranking-preview">
+        <div class="project-widget-ranking-preview-position" data-suffix="{{ .Params.ranking.suffix | default "è" }}">{{ .Params.ranking.position }}</div>
+        <div class="project-widget-ranking-preview-info">
+          <div class="project-widget-ranking-preview-event">{{ .Params.ranking.event }}</div>
+          <div class="project-widget-ranking-preview-total">/ {{ .Params.ranking.total }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="project-widget-toggle">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+      </svg>
+    </div>
+  </div>
+  <div class="project-widget-content">
+    <div class="project-widget-ranking-content">
+      <div class="project-widget-ranking-display">
+        <div class="project-widget-ranking-position" data-suffix="{{ .Params.ranking.suffix | default "è" }}">{{ .Params.ranking.position }}</div>
+        <div class="project-widget-ranking-total">/ {{ .Params.ranking.total }}</div>
+      </div>
+      <div class="project-widget-ranking-details">
+        <div class="project-widget-ranking-event">{{ .Params.ranking.event }}</div>
+        {{- if .Params.ranking.category -}}
+        <div class="project-widget-ranking-category">{{ .Params.ranking.category }}</div>
+        {{- end -}}
+        {{- if .Params.ranking.date -}}
+        <div class="project-widget-ranking-date">{{ .Params.ranking.date }}</div>
+        {{- end -}}
+        {{- if .Params.ranking.achievement -}}
+        <div class="project-widget-ranking-achievement">{{ .Params.ranking.achievement }}</div>
+        {{- end -}}
+      </div>
+    </div>
+  </div>
+</div>
+{{- end -}}

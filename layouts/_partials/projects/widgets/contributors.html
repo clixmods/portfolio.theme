@@ -1,0 +1,70 @@
+{{/*
+  Partial: Contributors Widget
+  Description: Widget compact pour afficher les contributeurs d'un projet
+  Context: 
+    - .Params (dict) - Paramètres du projet avec .contributors
+    - partial "helpers/get-person.html" - Helper pour récupérer les données des personnes
+    - .File.BaseFileName (string) - ID du projet
+*/}}
+
+{{- if .Params.contributors -}}
+<div class="project-widget contributors-box {{ .Params.contributors_size | default "size-medium" }}">
+  <div class="project-widget-header" onclick="toggleInfoBox(this)">
+    <div class="project-widget-icon contributors">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z"/>
+      </svg>
+    </div>
+    <div class="project-widget-header-content">
+      <h3 class="project-widget-title">{{ i18n "contributors" | default "Contributeurs" }}</h3>
+      <div class="project-widget-summary">{{ len .Params.contributors }} contributeur{{ if gt (len .Params.contributors) 1 }}s{{ end }}</div>
+      <!-- Aperçu des avatars -->
+      <div class="contributors-preview">
+        <div class="contributor-avatars">
+          {{- range first 4 .Params.contributors -}}
+            {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) -}}
+            {{- if $person -}}
+          <div class="contributor-avatar-mini {{ if not $person.Params.avatar }}placeholder{{ end }}{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ .person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
+            {{- if $person.Params.avatar -}}
+            <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
+            {{- else -}}
+            <span>{{ substr $person.Params.title 0 1 | upper }}</span>
+            {{- end -}}
+          </div>
+            {{- end -}}
+          {{- end -}}
+          {{- if gt (len .Params.contributors) 4 -}}
+          <div class="contributor-avatar-mini placeholder">
+            <span>+{{ sub (len .Params.contributors) 4 }}</span>
+          </div>
+          {{- end -}}
+        </div>
+      </div>
+    </div>
+    <div class="project-widget-toggle">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+      </svg>
+    </div>
+  </div>
+  <div class="project-widget-content">
+    {{/* Préparer les données pour le partial contributors-enhanced */}}
+    {{- $contributorsData := slice -}}
+    {{- range .Params.contributors -}}
+      {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) -}}
+      {{- if $person -}}
+        {{- $contributorsData = $contributorsData | append (dict 
+            "id" .person
+            "name" $person.Params.title
+            "role" (.role | default "")
+            "hasAvatar" (ne $person.Params.avatar nil)
+            "avatarPath" ($person.Params.avatar | default "")
+        ) -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{/* Utiliser le partial enhanced pour l'affichage modal */}}
+    {{ partial "projects/widgets/modal/contributors.html" (dict "contributors" $contributorsData "projectId" .File.BaseFileName) }}
+  </div>
+</div>
+{{- end -}}
