@@ -717,8 +717,9 @@ function initTestimonialsRotator() {
     const previewContainers = document.querySelectorAll('.widget-testimonials-rotator');
     
     previewContainers.forEach(container => {
-        const items = container.querySelectorAll('.widget-testimonial-preview-item');
+        const items = container.querySelectorAll('.widget-testimonial-data-item');
         const progressBar = container.parentElement.querySelector('.widget-testimonials-progress');
+        const quoteElement = container.querySelector('.widget-testimonial-preview-quote');
         
         if (items.length <= 1) return;
         
@@ -729,12 +730,97 @@ function initTestimonialsRotator() {
         let pausedProgress = 0;
         
         function showTestimonial(index) {
-            // Masquer tous les testimonials
-            items.forEach(item => item.classList.remove('active'));
-            
-            // Afficher le testimonial à l'index donné
+            // Récupérer l'item à l'index donné
             if (items[index]) {
-                items[index].classList.add('active');
+                const activeItem = items[index];
+                const testimonialQuote = activeItem.getAttribute('data-testimonial-quote');
+                
+                // Mettre à jour le contenu du témoignage
+                if (quoteElement && testimonialQuote) {
+                    quoteElement.textContent = `"${testimonialQuote}"`;
+                }
+                
+                // Mettre à jour le header avec l'avatar et nom du témoigneur actuel
+                updateTestimonialHeader(container, activeItem);
+            }
+        }
+        
+        function updateTestimonialHeader(container, activeItem) {
+            // Trouver le widget parent
+            const widget = container.closest('.widget-testimonials-box');
+            if (!widget) return;
+            
+            // Trouver les éléments du header à mettre à jour
+            const headerTitleElement = widget.querySelector('.project-widget-title-testimonial');
+            if (!headerTitleElement) return;
+            
+            // Récupérer les informations du testimonial actif depuis les data attributes
+            const personId = activeItem.getAttribute('data-person-id');
+            const personName = activeItem.getAttribute('data-person-name');
+            const personAvatar = activeItem.getAttribute('data-person-avatar');
+            const personTitle = activeItem.getAttribute('data-person-title');
+            
+            // Si pas de nom de personne, utiliser un nom par défaut
+            const displayName = personName || 'Témoignage anonyme';
+            
+            // Mettre à jour l'avatar dans le header
+            const headerAvatar = headerTitleElement.querySelector('.project-widget-title-avatar');
+            if (headerAvatar) {
+                if (personAvatar) {
+                    headerAvatar.classList.remove('placeholder');
+                    headerAvatar.innerHTML = `<img src="${personAvatar}" alt="${displayName}">`;
+                } else {
+                    headerAvatar.classList.add('placeholder');
+                    headerAvatar.innerHTML = `<span>${displayName.charAt(0).toUpperCase()}</span>`;
+                }
+            }
+            
+            // Mettre à jour le nom dans le header
+            const headerTitle = headerTitleElement.querySelector('.project-widget-title');
+            if (headerTitle) {
+                headerTitle.textContent = displayName;
+            }
+            
+            // Mettre à jour les attributs clickable-person si nécessaire
+            if (personId) {
+                // Supprimer d'abord les anciens attributs pour forcer la mise à jour
+                headerTitleElement.removeAttribute('data-person-id');
+                headerTitleElement.removeAttribute('title');
+                headerTitleElement.classList.remove('clickable-person');
+                
+                // Puis ajouter les nouveaux
+                setTimeout(() => {
+                    headerTitleElement.setAttribute('data-person-id', personId);
+                    headerTitleElement.setAttribute('title', personTitle || `Voir le profil de ${displayName}`);
+                    headerTitleElement.classList.add('clickable-person');
+                    
+                    // Supprimer l'ancien event listener s'il existe
+                    if (headerTitleElement._testimonialClickHandler) {
+                        headerTitleElement.removeEventListener('click', headerTitleElement._testimonialClickHandler);
+                    }
+                    
+                    // Ajouter un nouvel event listener spécifique
+                    headerTitleElement._testimonialClickHandler = function(e) {
+                        if (this.classList.contains('clickable-person')) {
+                            e.stopPropagation();
+                            const currentPersonId = this.getAttribute('data-person-id');
+                            if (currentPersonId && typeof window.openPersonModal === 'function') {
+                                console.log('Opening person modal for:', currentPersonId);
+                                window.openPersonModal(currentPersonId);
+                            }
+                        }
+                    };
+                    
+                    headerTitleElement.addEventListener('click', headerTitleElement._testimonialClickHandler);
+                    
+                    console.log('Updated header with person ID:', personId, 'for:', displayName);
+                }, 10);
+            } else {
+                headerTitleElement.removeAttribute('data-person-id');
+                headerTitleElement.removeAttribute('title');
+                headerTitleElement.classList.remove('clickable-person');
+                
+                console.log('Removed clickable-person for anonymous testimonial');
             }
         }
         
@@ -890,6 +976,9 @@ function initTestimonialsRotator() {
         
         // Enregistrer ce controller dans la liste globale
         window.testimonialsControllers.push(controller);
+        
+        // Les gestionnaires d'événements pour les clics sur les personnes sont maintenant
+        // gérés dynamiquement dans updateTestimonialHeader()
         
         // Démarrer immédiatement si visible
         setTimeout(checkVisibility, 500); // Délai initial pour s'assurer que le DOM est prêt

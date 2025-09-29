@@ -7,32 +7,44 @@
 */}}
 
 {{- if .Params.testimonials -}}
-<div class="project-widget widget-testimonials-box {{ .Params.testimonials_size | default "size-large" }}">
+<div class="project-widget widget-testimonials-box {{ .Params.testimonials_size | default "size-large" }}" data-modal-title="Témoignages">
   <div class="project-widget-header" onclick="toggleInfoBox(this)">
     <div class="project-widget-header-content">
-      <h3 class="project-widget-title">Témoignages</h3>
+      {{- if .Params.testimonials -}}
+        {{- $firstTestimonial := index .Params.testimonials 0 -}}
+        {{- $firstPerson := partial "helpers/get-person.html" (dict "context" $ "personId" $firstTestimonial.person) -}}
+        {{- if $firstPerson -}}
+      <div class="project-widget-title-testimonial{{ if $firstPerson }} clickable-person{{ end }}"{{ if $firstPerson }} data-person-id="{{ $firstTestimonial.person }}" title="Voir le profil de {{ $firstPerson.Params.title }}"{{ end }}>
+        <div class="project-widget-title-avatar {{ if not $firstPerson.Params.avatar }}placeholder{{ end }}">
+          {{- if $firstPerson.Params.avatar -}}
+          <img src="{{ $firstPerson.Params.avatar }}" alt="{{ $firstPerson.Params.title }}">
+          {{- else -}}
+          <span>{{ substr $firstPerson.Params.title 0 1 | upper }}</span>
+          {{- end -}}
+        </div>
+        <h3 class="project-widget-title">{{ $firstPerson.Params.title }}{{ if $firstTestimonial.role }}, {{ $firstTestimonial.role }}{{ end }}</h3>
+      </div>
+        {{- end -}}
+      {{- end -}}
       <!-- Aperçu rotatif des testimonials -->
       {{- if .Params.testimonials -}}
       <div class="widget-testimonials-preview">
         <div class="widget-testimonials-rotator">
-          {{- range $index, $testimonial := .Params.testimonials -}}
-            {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" $testimonial.person) -}}
-            {{- if $person -}}
-          <div class="widget-testimonial-preview-item {{ if eq $index 0 }}active{{ end }}" data-index="{{ $index }}">
-            <div class="widget-testimonial-preview-header{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ $testimonial.person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
-              <div class="widget-testimonial-preview-avatar {{ if not $person.Params.avatar }}placeholder{{ end }}">
-                {{- if $person.Params.avatar -}}
-                <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
-                {{- else -}}
-                <span>{{ substr $person.Params.title 0 1 | upper }}</span>
-                {{- end -}}
-              </div>
-              <div class="widget-testimonial-preview-author">{{ $person.Params.title }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}</div>
+          <!-- Zone unique pour afficher le témoignage actuel -->
+          <div class="widget-testimonial-preview-content">
+            <div class="widget-testimonial-preview-quote">
+              {{- $firstTestimonial := index .Params.testimonials 0 -}}
+              {{ $firstTestimonial.quote | markdownify | default "Témoignage en cours de chargement..." }}
             </div>
-            <div class="widget-testimonial-preview-quote">{{ $testimonial.quote }}</div>
           </div>
+          
+          <!-- Données cachées pour le JavaScript -->
+          <div class="widget-testimonials-data" style="display: none;">
+            {{- range $index, $testimonial := .Params.testimonials -}}
+              {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" $testimonial.person) -}}
+            <div class="widget-testimonial-data-item" data-index="{{ $index }}" data-testimonial-quote="{{ $testimonial.quote }}"{{ if $person }} data-person-id="{{ $testimonial.person }}" data-person-name="{{ $person.Params.title }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}" data-person-avatar="{{ $person.Params.avatar }}" data-person-title="Voir le profil de {{ $person.Params.title }}"{{ else }}{{ if $testimonial.person }} data-person-name="{{ $testimonial.person }}{{ if $testimonial.role }}, {{ $testimonial.role }}{{ end }}"{{ end }}{{ end }}></div>
             {{- end -}}
-          {{- end -}}
+          </div>
         </div>
         <div class="widget-testimonials-progress"></div>
       </div>

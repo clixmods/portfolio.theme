@@ -630,10 +630,15 @@ class UnifiedModal {
         // Utiliser la largeur spécifique au type de widget ou la largeur par défaut
         const desiredWidth = MODAL_TEMPLATES.widths[widgetType] || MODAL_TEMPLATES.widths.projectWidget;
 
+        // Vérifier s'il y a un titre de modal spécifique défini
+        const modalTitle = widgetElem.getAttribute('data-modal-title') || 
+                          widgetElem.querySelector('.project-widget-title')?.textContent?.trim() || 
+                          'Widget';
+
         this.create({
             type: 'projectWidget',
             // Title kept for accessibility (aria-labelledby) but not visually repeated
-            title: widgetElem.querySelector('.project-widget-title')?.textContent?.trim() || 'Widget',
+            title: modalTitle,
             icon: inferredIcon,
             rawIcon: extractedHeaderIconMarkup || null,
             chips: [],

@@ -15,6 +15,9 @@
     justify-content: flex-start;
     padding: 0 !important;
     position: relative;
+    background: linear-gradient(135deg, rgba(79,209,199,0.08) 0%, rgba(52,152,219,0.05) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
   }
   
   .project-widget-header-content {
@@ -31,6 +34,56 @@
     font-size: 1.1rem;
     font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
+  }
+  
+  // Nouveau style pour le titre avec avatar du témoigneur
+  .project-widget-title-testimonial {
+    display: flex;
+    align-items: center;
+    gap: $widget-gap-sm;
+    padding: ($widget-padding + 0.5rem) $widget-padding-lg 1rem $widget-padding-lg; // Padding-top augmenté
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 10; // S'assurer que le titre est au-dessus de la zone cliquable
+    
+    &.clickable-person {
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: var(--border-radius-sm);
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        
+        .project-widget-title {
+          color: var(--accent-primary);
+        }
+      }
+    }
+    
+    .project-widget-title-avatar {
+      @extend %widget-avatar;
+      width: 20px;
+      height: 20px;
+      background: map-get($widget-gradients, 'primary');
+      border: 2px solid rgba(255,255,255,0.2);
+      flex-shrink: 0; 
+      
+      &.placeholder {
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.75rem;
+      }
+    }
+    
+    .project-widget-title {
+      padding: 0;
+      margin: 0;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
   
   .project-widget-summary {
@@ -64,10 +117,8 @@
   overflow: hidden;
   position: relative;
   border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
-  background: linear-gradient(135deg, rgba(79,209,199,0.08) 0%, rgba(52,152,219,0.05) 100%);
-  backdrop-filter: blur(10px);
   flex: 1;
-  min-height: 0;
+  min-height: 120px; // Hauteur minimale pour afficher le contenu
   width: 100%;
 }
 
@@ -76,65 +127,22 @@
   height: 100%;
 }
 
-.widget-testimonial-preview-item {
+.widget-testimonial-preview-content {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.5rem;
   padding: $widget-padding-lg;
   border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
   border-left: none;
-  transition: all 0.5s ease;
-  opacity: 0;
-  transform: translateY(10px);
   height: 100%;
   box-sizing: border-box;
-  overflow: visible;
-  
-  &.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  &.fade-out {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  
-  &.fade-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  overflow: hidden;
 }
 
-.widget-testimonial-preview-header {
-  display: flex;
-  align-items: center;
-  gap: $widget-gap-sm;
-  margin-bottom: 0.5rem;
-}
-
-.widget-testimonial-preview-avatar {
-  @extend %widget-avatar;
-  width: 40px;
-  height: 40px;
-  background: map-get($widget-gradients, 'primary');
-  border: 2px solid rgba(255,255,255,0.2);
-  
-  &.placeholder {
-    color: #fff;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-}
-
-.widget-testimonial-preview-author {
-  color: var(--text-primary);
-  font-weight: var(--font-weight-semibold);
-  font-size: 0.9rem;
-  line-height: 1.3;
+.widget-testimonials-data {
+  display: none !important;
 }
 
 .widget-testimonial-preview-quote {
@@ -143,11 +151,17 @@
   line-height: 1.6;
   font-style: italic;
   position: relative;
-  display: block;
+  display: -webkit-box; // Pour le support multi-ligne avec ellipses
+  -webkit-line-clamp: 3; // Limite à 3 lignes
+  line-clamp: 3; // Propriété standard pour la compatibilité
+  -webkit-box-orient: vertical;
   text-align: left;
   margin: 0;
-  overflow: visible;
-  flex: none;
+  overflow: hidden; // Cache le débordement
+  text-overflow: ellipsis; // Ajoute les ellipses
+  flex: 1; // Permet au texte de prendre l'espace disponible
+  min-height: 0; // Permet la réduction
+  transition: opacity 0.3s ease, transform 0.3s ease; // Animation fluide pour les changements
 }
 
 .widget-testimonials-progress {
