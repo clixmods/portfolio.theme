@@ -174,6 +174,7 @@ window.openYouTubeModal = openYouTubeModal;
 window.closeYouTubeModal = closeYouTubeModal;
 window.toggleYouTubeEmbed = toggleYouTubeEmbed;
 window.toggleInfoBox = toggleInfoBox;
+window.initializeProjectWidgetHandlers = initializeProjectWidgetHandlers;
 window.showMoreActions = showMoreActions;
 window.hideMoreActions = hideMoreActions;
 window.handleYouTubeAction = handleYouTubeAction;
@@ -184,6 +185,9 @@ window.showNotification = showNotification;
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize tech badge colors
     initializeTechBadgeColors();
+    
+    // Initialize project widget event handlers
+    initializeProjectWidgetHandlers();
     
     // Projects tabs using TabController - scoped to projects section to avoid interference
     const projectTabs = new TabController('.projects-section .tab-btn', {
@@ -987,6 +991,40 @@ function initTestimonialsRotator() {
 // ========================================
 // PROJECT WIDGET TOGGLE FUNCTIONALITY
 // ========================================
+// Initialize event handlers for project widgets
+function initializeProjectWidgetHandlers() {
+    // Find all project widget headers and add click handlers
+    const widgetHeaders = document.querySelectorAll('.project-widget-header');
+    
+    widgetHeaders.forEach(header => {
+        // Avoid double binding
+        if (header.getAttribute('data-handler-bound') === 'true') return;
+        header.setAttribute('data-handler-bound', 'true');
+        
+        // Add click handler
+        header.addEventListener('click', function(e) {
+            e.preventDefault();
+            toggleInfoBox(this);
+        });
+        
+        // Add keyboard handler for accessibility
+        header.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleInfoBox(this);
+            }
+        });
+        
+        // Make it focusable for keyboard navigation
+        if (!header.hasAttribute('tabindex')) {
+            header.setAttribute('tabindex', '0');
+        }
+        
+        // Add visual cursor indication
+        header.style.cursor = 'pointer';
+    });
+}
+
 // Toggle ouvert/fermé pour les project-widgets
 function toggleInfoBox(headerElem) {
     const box = headerElem.closest('.project-widget');

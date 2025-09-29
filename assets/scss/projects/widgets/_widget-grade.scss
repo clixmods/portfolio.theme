@@ -63,9 +63,23 @@
   
   .project-widget-grade-preview-value {
     @extend .preview-value;
-    @include widget-gradient-text('grade-value');
     font-size: 1.5rem;
-    min-width: 40px;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    min-width: 60px;
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    
+    // Forcer la couleur du texte sans gradient pour éviter la transparence
+    -webkit-text-fill-color: var(--text-primary);
+    text-fill-color: var(--text-primary);
+  }
+  
+  .project-widget-grade-preview-scale {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-medium);
   }
   
   .project-widget-grade-preview-info {
@@ -74,9 +88,12 @@
   
   .project-widget-grade-preview-subject {
     @extend .preview-label;
+    color: var(--text-primary);
   }
   
-  .project-widget-grade-preview-scale {
-    @extend .preview-meta;
+  .project-widget-grade-percentage {
+    color: var(--primary-green);
+    font-weight: var(--font-weight-bold);
+    font-size: 0.9rem;
   }
 }

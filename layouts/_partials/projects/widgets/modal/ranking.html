@@ -1,0 +1,99 @@
+{{/*
+  Partial: Ranking Modal Widget
+  Description: Modal version of the competition ranking widget for detailed view
+  Context: 
+    - .Project (Page) - Project page context
+    - .Title (string) - Modal title
+*/}}
+
+{{- if .Project.Params.ranking -}}
+<div class="ranking-modal-enhanced">
+  <div class="ranking-stats-bar">
+    <div class="competition-info">
+      <span class="competition-chip">{{ .Project.Params.ranking.competition | default "Compétition" }}</span>
+    </div>
+    {{- if .Project.Params.ranking.total_participants -}}
+    <div class="participants-info">
+      {{ .Project.Params.ranking.total_participants }} participants
+    </div>
+    {{- end -}}
+  </div>
+  
+  <div class="ranking-modal-display">
+    <div class="ranking-position-large">
+      <div class="position-number position-{{ .Project.Params.ranking.position }}">
+        {{ .Project.Params.ranking.position }}
+        <span class="position-suffix">{{ if eq .Project.Params.ranking.position 1 }}er{{ else }}e{{ end }}</span>
+      </div>
+      {{- if .Project.Params.ranking.competition -}}
+      <div class="competition-name">{{ .Project.Params.ranking.competition }}</div>
+      {{- end -}}
+    </div>
+    
+    {{- if .Project.Params.ranking.competitors -}}
+    <div class="competitors-podium">
+      <div class="podium-title">Classement général</div>
+      <div class="podium-grid">
+        {{- range .Project.Params.ranking.competitors -}}
+        <div class="competitor-card">
+          <div class="competitor-position pos-{{ .position }}">{{ .position }}</div>
+          
+          {{- if .avatar -}}
+          <div class="competitor-avatar">
+            <img src="{{ .avatar }}" alt="{{ .name }}" loading="lazy">
+          </div>
+          {{- end -}}
+          
+          <div class="competitor-name">{{ .name }}</div>
+          
+          <div class="competitor-details">
+            {{- if .score -}}
+            <div class="detail-item">
+              <span class="detail-label">Score:</span>
+              <span class="detail-value">{{ .score }}</span>
+            </div>
+            {{- end -}}
+            
+            {{- if .team -}}
+            <div class="detail-item">
+              <span class="detail-label">Équipe:</span>
+              <span class="detail-value">{{ .team }}</span>
+            </div>
+            {{- end -}}
+          </div>
+        </div>
+        {{- end -}}
+      </div>
+    </div>
+    {{- end -}}
+    
+    {{- if or .Project.Params.ranking.total_participants .Project.Params.ranking.date .Project.Params.ranking.category -}}
+    <div class="ranking-details">
+      <div class="details-title">Détails de la compétition</div>
+      <div class="details-grid">
+        {{- if .Project.Params.ranking.total_participants -}}
+        <div class="detail-card">
+          <div class="detail-label">Participants</div>
+          <div class="detail-value">{{ .Project.Params.ranking.total_participants }}</div>
+        </div>
+        {{- end -}}
+        
+        {{- if .Project.Params.ranking.date -}}
+        <div class="detail-card">
+          <div class="detail-label">Date</div>
+          <div class="detail-value">{{ .Project.Params.ranking.date }}</div>
+        </div>
+        {{- end -}}
+        
+        {{- if .Project.Params.ranking.category -}}
+        <div class="detail-card">
+          <div class="detail-label">Catégorie</div>
+          <div class="detail-value">{{ .Project.Params.ranking.category }}</div>
+        </div>
+        {{- end -}}
+      </div>
+    </div>
+    {{- end -}}
+  </div>
+</div>
+{{- end -}}

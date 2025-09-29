@@ -7,8 +7,8 @@
 */}}
 
 {{- if .Params.ranking -}}
-<div class="project-widget ranking-box {{ .Params.ranking_size | default "size-small" }}">
-  <div class="project-widget-header" onclick="toggleInfoBox(this)">
+<div class="project-widget ranking-box {{ .Params.ranking_size | default "size-small" }}" onclick="toggleInfoBox(this)">
+  <div class="project-widget-header">
     <div class="project-widget-icon ranking">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M5,16L3,5H11L9,16H5M10,4V1H14V4H10M14,16L12,5H20L18,16H14Z"/>
@@ -33,24 +33,8 @@
     </div>
   </div>
   <div class="project-widget-content">
-    <div class="project-widget-ranking-content">
-      <div class="project-widget-ranking-display">
-        <div class="project-widget-ranking-position" data-suffix="{{ .Params.ranking.suffix | default "è" }}">{{ .Params.ranking.position }}</div>
-        <div class="project-widget-ranking-total">/ {{ .Params.ranking.total }}</div>
-      </div>
-      <div class="project-widget-ranking-details">
-        <div class="project-widget-ranking-event">{{ .Params.ranking.event }}</div>
-        {{- if .Params.ranking.category -}}
-        <div class="project-widget-ranking-category">{{ .Params.ranking.category }}</div>
-        {{- end -}}
-        {{- if .Params.ranking.date -}}
-        <div class="project-widget-ranking-date">{{ .Params.ranking.date }}</div>
-        {{- end -}}
-        {{- if .Params.ranking.achievement -}}
-        <div class="project-widget-ranking-achievement">{{ .Params.ranking.achievement }}</div>
-        {{- end -}}
-      </div>
-    </div>
+    {{/* Contenu modal enhanced - uniquement ce qui doit apparaître dans le modal */}}
+    {{ partial "projects/widgets/modal/ranking.html" (dict "Project" . "Title" "Classement") }}
   </div>
 </div>
 {{- end -}}

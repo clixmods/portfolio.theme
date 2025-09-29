@@ -33,6 +33,10 @@ const MODAL_TEMPLATES = {
         'projectWidget-testimonials': '960px', // Widget témoignages
         'projectWidget-tools': '860px',       // Widget outils
         'projectWidget-specialties': '860px', // Widget spécialités
+        'projectWidget-clients': '900px',     // Widget clients
+        'projectWidget-grade': '700px',       // Widget note académique
+        'projectWidget-downloads': '850px',   // Widget téléchargements
+        'projectWidget-ranking': '800px',     // Widget classement
         default: '600px'
     }
 };
@@ -563,7 +567,11 @@ class UnifiedModal {
             { key: 'testimonials', icon: '💬' },
             { key: 'youtube', icon: '▶️' },
             { key: 'specialties', icon: '🧩' },
-            { key: 'tools', icon: '🔧' }
+            { key: 'tools', icon: '🔧' },
+            { key: 'clients-box', key2: 'clients', icon: '🏢' },
+            { key: 'grade-box', key2: 'grade', icon: '📊' },
+            { key: 'downloads-box', key2: 'downloads', icon: '⬇️' },
+            { key: 'ranking-box', key2: 'ranking', icon: '🏅' }
         ];
         let inferredIcon = '';
         for (const entry of iconMap) {
@@ -625,6 +633,14 @@ class UnifiedModal {
             widgetType = 'projectWidget-tools';
         } else if (widgetClasses.includes('specialties')) {
             widgetType = 'projectWidget-specialties';
+        } else if (widgetClasses.includes('clients-box') || widgetClasses.includes('clients')) {
+            widgetType = 'projectWidget-clients';
+        } else if (widgetClasses.includes('grade-box') || widgetClasses.includes('grade')) {
+            widgetType = 'projectWidget-grade';
+        } else if (widgetClasses.includes('downloads-box') || widgetClasses.includes('downloads')) {
+            widgetType = 'projectWidget-downloads';
+        } else if (widgetClasses.includes('ranking-box') || widgetClasses.includes('ranking')) {
+            widgetType = 'projectWidget-ranking';
         }
         
         // Utiliser la largeur spécifique au type de widget ou la largeur par défaut
