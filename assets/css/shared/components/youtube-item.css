@@ -220,6 +220,80 @@
     font-size: 0.75rem;
 }
 
+/* Grid des aperçus vidéos (max 3 + indicateur) */
+.youtube-previews-grid {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.youtube-preview-mini {
+    flex: 1;
+    max-width: 60px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.youtube-preview-mini:hover {
+    transform: scale(1.05);
+}
+
+.youtube-preview-thumbnail-mini {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #000;
+}
+
+.youtube-preview-thumbnail-mini img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.youtube-preview-play-mini {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 0, 0, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.youtube-preview-play-mini::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 6px solid white;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    margin-left: 1px;
+}
+
+.youtube-preview-more {
+    flex: 1;
+    max-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    aspect-ratio: 16/9;
+}
+
+.youtube-more-count {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
 /* Masquer la liste complÃ¨te quand la box est fermÃ©e */
 /* youtube-list toujours visible */
 .project-widget.youtube-box:not(.expanded) .youtube-list {

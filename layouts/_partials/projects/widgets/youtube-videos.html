@@ -35,17 +35,24 @@
     <div class="project-widget-header-content">
       <h3 class="project-widget-title">{{ $galleryTitle }}</h3>
       <div class="project-widget-summary">{{ len $videos }} vidéo{{ if gt (len $videos) 1 }}s{{ end }}</div>
-      <!-- Aperçu de la première vidéo -->
+      <!-- Aperçu des vidéos (max 3) -->
       {{- if $videos -}}
-        {{- $firstVideo := index $videos 0 -}}
-      <div class="youtube-preview" onclick="openYouTubeModal('{{ $firstVideo.video_id }}', '{{ $firstVideo.title }}'); event.stopPropagation();" data-video-id="{{ $firstVideo.video_id }}" data-video-title="{{ $firstVideo.title }}">
-        <div class="youtube-preview-thumbnail">
-          <img src="https://img.youtube.com/vi/{{ $firstVideo.video_id }}/mqdefault.jpg" alt="{{ $firstVideo.title }}">
-          <div class="youtube-preview-play"></div>
+      <div class="youtube-previews-grid">
+        {{- range $index, $video := $videos -}}
+          {{- if lt $index 3 -}}
+        <div class="youtube-preview-mini" onclick="openYouTubeModal('{{ $video.video_id }}', '{{ $video.title }}'); event.stopPropagation();" data-video-id="{{ $video.video_id }}" data-video-title="{{ $video.title }}">
+          <div class="youtube-preview-thumbnail-mini">
+            <img src="https://img.youtube.com/vi/{{ $video.video_id }}/mqdefault.jpg" alt="{{ $video.title }}">
+            <div class="youtube-preview-play-mini"></div>
+          </div>
         </div>
-        <div class="youtube-preview-info">
-          <div class="youtube-preview-title">{{ $firstVideo.title }}</div>
+          {{- end -}}
+        {{- end -}}
+        {{- if gt (len $videos) 3 -}}
+        <div class="youtube-preview-more">
+          <span class="youtube-more-count">+{{ sub (len $videos) 3 }}</span>
         </div>
+        {{- end -}}
       </div>
       {{- end -}}
     </div>
