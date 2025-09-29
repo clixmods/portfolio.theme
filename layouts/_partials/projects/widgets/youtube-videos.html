@@ -2,12 +2,36 @@
   Partial: YouTube Videos Widget
   Description: Widget compact pour afficher les vidéos YouTube d'un projet
   Context: 
-    - .Params (dict) - Paramètres du projet avec .youtube_videos
+    - .Params (dict) - Paramètres du projet avec .youtube_videos ou .youtube_galleries
     - .File.BaseFileName (string) - ID du projet
 */}}
 
+{{- $videos := "" -}}
+{{- $galleryTitle := "" -}}
+{{- $gallerySize := "" -}}
+
 {{- if .Params.youtube_videos -}}
-<div class="project-widget youtube-box {{ .Params.youtube_size | default "size-large" }}">
+  {{- $videos = .Params.youtube_videos -}}
+  {{- $galleryTitle = "Vidéos YouTube" -}}
+  {{- $gallerySize = (.Params.youtube_size | default "size-large") -}}
+{{- else if .Params.youtube_galleries -}}
+  {{- range $gallery := .Params.youtube_galleries -}}
+    {{- $videos = $gallery.videos -}}
+    {{- $galleryTitle = ($gallery.title | default "Galerie de vidéos YouTube") -}}
+    {{- $gallerySize = ($gallery.size | default "size-large") -}}
+    {{- break -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $videos -}}
+  {{- if eq (len $videos) 1 -}}
+    {{/* Affichage direct pour une seule vidéo */}}
+    {{- $video := index $videos 0 -}}
+  {{/* Réutilise le widget youtube-single pour cohérence (header 16:9 + ouverture directe) */}}
+  {{ partial "projects/widgets/youtube-single.html" (dict "video" $video "size" $gallerySize) }}
+  {{- else -}}
+    {{/* Widget traditionnel pour plusieurs vidéos */}}
+<div class="project-widget youtube-box {{ $gallerySize }}">
   <div class="project-widget-header" onclick="toggleInfoBox(this)">
     <div class="project-widget-icon youtube">
       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -15,11 +39,11 @@
       </svg>
     </div>
     <div class="project-widget-header-content">
-      <h3 class="project-widget-title">Vidéos YouTube</h3>
-      <div class="project-widget-summary">{{ len .Params.youtube_videos }} vidéo{{ if gt (len .Params.youtube_videos) 1 }}s{{ end }}</div>
+      <h3 class="project-widget-title">{{ $galleryTitle }}</h3>
+      <div class="project-widget-summary">{{ len $videos }} vidéo{{ if gt (len $videos) 1 }}s{{ end }}</div>
       <!-- Aperçu de la première vidéo -->
-      {{- if .Params.youtube_videos -}}
-        {{- $firstVideo := index .Params.youtube_videos 0 -}}
+      {{- if $videos -}}
+        {{- $firstVideo := index $videos 0 -}}
       <div class="youtube-preview" onclick="openYouTubeModal('{{ $firstVideo.video_id }}', '{{ $firstVideo.title }}'); event.stopPropagation();" data-video-id="{{ $firstVideo.video_id }}" data-video-title="{{ $firstVideo.title }}">
         <div class="youtube-preview-thumbnail">
           <img src="https://img.youtube.com/vi/{{ $firstVideo.video_id }}/mqdefault.jpg" alt="{{ $firstVideo.title }}">
@@ -39,8 +63,8 @@
   </div>
   <div class="project-widget-content">
     <div class="youtube-list">
-      {{- range .Params.youtube_videos -}}
-      <div class="youtube-item" onclick="event.stopPropagation(); openYouTubeModal('{{ .video_id }}', '{{ .title }}')">
+      {{- range $videos -}}
+      <div class="youtube-item" onclick="event.stopPropagation(); toggleYouTubeEmbed(this, '{{ .video_id }}', '{{ .title }}')">
         <div class="youtube-thumbnail">
           <img src="https://img.youtube.com/vi/{{ .video_id }}/maxresdefault.jpg" alt="{{ .title }}">
           <div class="youtube-play-button"></div>
@@ -64,9 +88,21 @@
             {{- end -}}
           </div>
         </div>
+        <div class="project-widget-youtube-single-embed" style="display: none;">
+          <iframe 
+            class="youtube-embed-iframe"
+            src="" 
+            title="{{ .title }}"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
       </div>
       {{- end -}}
     </div>
   </div>
 </div>
+  {{- end -}}
 {{- end -}}

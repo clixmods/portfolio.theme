@@ -172,6 +172,7 @@ function getNotificationIcon(type) {
 // Expose functions globally for inline onclick handlers
 window.openYouTubeModal = openYouTubeModal;
 window.closeYouTubeModal = closeYouTubeModal;
+window.toggleYouTubeEmbed = toggleYouTubeEmbed;
 window.toggleInfoBox = toggleInfoBox;
 window.showMoreActions = showMoreActions;
 window.hideMoreActions = hideMoreActions;
@@ -970,6 +971,35 @@ function closeYouTubeModal() {
         }, 300);
         
         document.body.style.overflow = '';
+    }
+}
+
+// Basculer l'affichage de la vidéo YouTube intégrée
+function toggleYouTubeEmbed(element, videoId, title) {
+    const embedContainer = element.querySelector('.project-widget-youtube-single-embed');
+    const thumbnail = element.querySelector('.project-widget-youtube-single-thumbnail');
+    const iframe = embedContainer.querySelector('iframe');
+    
+    if (embedContainer.style.display === 'none') {
+        // Afficher la vidéo intégrée
+        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+        embedContainer.style.display = 'block';
+        thumbnail.style.display = 'none';
+        
+        // Pause all testimonials when showing video
+        if (typeof window.pauseAllTestimonials === 'function') {
+            window.pauseAllTestimonials();
+        }
+    } else {
+        // Masquer la vidéo intégrée
+        iframe.src = '';
+        embedContainer.style.display = 'none';
+        thumbnail.style.display = 'block';
+        
+        // Resume all testimonials when hiding video
+        if (typeof window.resumeAllTestimonials === 'function') {
+            window.resumeAllTestimonials();
+        }
     }
 }
 
