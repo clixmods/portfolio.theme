@@ -63,46 +63,8 @@
     </div>
   </div>
   <div class="project-widget-content">
-    <div class="youtube-list">
-      {{- range $videos -}}
-      <div class="youtube-item" onclick="event.stopPropagation(); toggleYouTubeEmbed(this, '{{ .video_id }}', '{{ .title }}')">
-        <div class="youtube-thumbnail">
-          <img src="https://img.youtube.com/vi/{{ .video_id }}/maxresdefault.jpg" alt="{{ .title }}">
-          <div class="youtube-play-button"></div>
-          {{- if .duration -}}
-          <div class="youtube-duration">{{ .duration }}</div>
-          {{- end -}}
-        </div>
-        <div class="youtube-info">
-          <h4 class="youtube-title">{{ .title }}</h4>
-          {{- if .description -}}
-          <p class="youtube-description">{{ .description }}</p>
-          {{- end -}}
-          <div class="youtube-meta">
-            {{- if .date -}}
-            <div class="youtube-date">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19,3H18V1H16V3H8V1H6V3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z"/>
-              </svg>
-              {{ .date }}
-            </div>
-            {{- end -}}
-          </div>
-        </div>
-        <div class="project-widget-youtube-single-embed" style="display: none;">
-          <iframe 
-            class="youtube-embed-iframe"
-            src="" 
-            title="{{ .title }}"
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            allowfullscreen
-            loading="lazy">
-          </iframe>
-        </div>
-      </div>
-      {{- end -}}
-    </div>
+    {{/* Contenu modal enhanced - utilise la nouvelle partial modal pour YouTube */}}
+    {{ partial "projects/widgets/modal/youtube-videos.html" (dict "videos" $videos "projectId" $.File.BaseFileName) }}
   </div>
 </div>
 {{- end -}}

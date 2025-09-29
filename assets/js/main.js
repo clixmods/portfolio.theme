@@ -970,7 +970,24 @@ function closeYouTubeModal() {
             modalContent.classList.remove('loading');
         }, 300);
         
-        document.body.style.overflow = '';
+        // Vérifier s'il y a d'autres modals ouvertes avant de remettre le body en scrollable
+        try {
+            const modalIds = ['unifiedModal', 'skillModal', 'personModal'];
+            const anyModalOpen = modalIds.some(id => {
+                const el = document.getElementById(id);
+                if (!el) return false;
+                const display = (el.style && el.style.display) ? el.style.display : window.getComputedStyle(el).display;
+                return display && display !== 'none';
+            });
+            
+            // Seulement remettre le body en scrollable s'il n'y a plus de modals ouvertes
+            if (!anyModalOpen) {
+                document.body.style.overflow = '';
+            }
+        } catch(e) {
+            // En cas d'erreur, remettre en scrollable (comportement par défaut)
+            document.body.style.overflow = '';
+        }
     }
 }
 

@@ -23,7 +23,16 @@ const MODAL_TEMPLATES = {
         actions: '600px',
         discord: '500px',
         cv: '580px',
-        projectWidget: '860px', // Base width; can be overridden per widget size via desiredWidth
+        projectWidget: '1154px', // Largeur par défaut pour tous les widgets de projet
+        // Largeurs spécifiques par type de widget (ajustez selon vos besoins) :
+        'projectWidget-youtube': '1154px',     // Widget YouTube videos - grille 3x3
+        'projectWidget-contributors': '860px', // Widget contributeurs
+        'projectWidget-gallery': '860px',     // Widget galerie
+        'projectWidget-specs': '860px',       // Widget spécifications techniques
+        'projectWidget-awards': '860px',      // Widget récompenses
+        'projectWidget-testimonials': '960px', // Widget témoignages
+        'projectWidget-tools': '860px',       // Widget outils
+        'projectWidget-specialties': '860px', // Widget spécialités
         default: '600px'
     }
 };
@@ -597,10 +606,29 @@ class UnifiedModal {
         }
 
         const html = clone.innerHTML;
-        // Determine a width based on widget sizing classes
-        let desiredWidth = '860px';
-        if (widgetClasses.includes('size-large')) desiredWidth = '1000px';
-        else if (widgetClasses.includes('size-small')) desiredWidth = '640px';
+        
+        // Détection du type de widget pour la largeur spécifique
+        let widgetType = 'projectWidget'; // default
+        if (widgetClasses.includes('youtube')) {
+            widgetType = 'projectWidget-youtube';
+        } else if (widgetClasses.includes('contributors')) {
+            widgetType = 'projectWidget-contributors';
+        } else if (widgetClasses.includes('gallery')) {
+            widgetType = 'projectWidget-gallery';
+        } else if (widgetClasses.includes('technical-specs') || widgetClasses.includes('technical')) {
+            widgetType = 'projectWidget-specs';
+        } else if (widgetClasses.includes('awards')) {
+            widgetType = 'projectWidget-awards';
+        } else if (widgetClasses.includes('testimonials')) {
+            widgetType = 'projectWidget-testimonials';
+        } else if (widgetClasses.includes('tools')) {
+            widgetType = 'projectWidget-tools';
+        } else if (widgetClasses.includes('specialties')) {
+            widgetType = 'projectWidget-specialties';
+        }
+        
+        // Utiliser la largeur spécifique au type de widget ou la largeur par défaut
+        const desiredWidth = MODAL_TEMPLATES.widths[widgetType] || MODAL_TEMPLATES.widths.projectWidget;
 
         this.create({
             type: 'projectWidget',
