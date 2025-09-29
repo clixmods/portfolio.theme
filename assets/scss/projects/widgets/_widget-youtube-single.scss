@@ -85,8 +85,8 @@
 }
 
 .project-widget.youtube-single-widget .youtube-single-play-button {
-  width: 70px;
-  height: 70px;
+  width: 88px;   // bigger default
+  height: 88px;  // bigger default
   background: rgba(255, 0, 0, 0.85);
   border-radius: 50%;
   display: flex;
@@ -96,10 +96,10 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 40px;   // enlarge play triangle
+    height: 40px;
     color: #fff;
-    margin-left: 2px;
+    margin-left: 3px; // slight offset for visual centering
   }
 }
 
@@ -167,17 +167,26 @@
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
     border-left-color: #cc0000;
-    
-    .youtube-single-thumbnail img {
-      transform: scale(1.05);
-    }
-    
+
+    .youtube-single-thumbnail img { transform: scale(1.05); }
     .youtube-single-play-button {
       transform: scale(1.1);
       background: rgba(255, 0, 0, 0.9);
     }
   }
 }
+
+// Responsive sizing per widget size (triangle and button)
+.youtube-single-widget.size-small .youtube-single-play-button { width: 72px; height: 72px; }
+.youtube-single-widget.size-small .youtube-single-play-button svg { width: 34px; height: 34px; }
+
+.youtube-single-widget.size-medium .youtube-single-play-button { width: 84px; height: 84px; }
+.youtube-single-widget.size-medium .youtube-single-play-button svg { width: 38px; height: 38px; }
+
+.youtube-single-widget.size-large .youtube-single-play-button,
+.youtube-single-widget.size-xl  .youtube-single-play-button { width: 92px; height: 92px; }
+.youtube-single-widget.size-large .youtube-single-play-button svg,
+.youtube-single-widget.size-xl  .youtube-single-play-button svg { width: 44px; height: 44px; }
 
 // Layout horizontal pour tuiles larges (3x1, 2x1, etc.)
 .youtube-single-widget.size-large .youtube-single-card,
