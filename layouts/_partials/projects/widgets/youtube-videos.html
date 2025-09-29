@@ -13,24 +13,18 @@
 {{- if .Params.youtube_videos -}}
   {{- $videos = .Params.youtube_videos -}}
   {{- $galleryTitle = "Vidéos YouTube" -}}
-  {{- $gallerySize = (.Params.youtube_size | default "size-large") -}}
+  {{- $gallerySize = "size-small" -}}
 {{- else if .Params.youtube_galleries -}}
   {{- range $gallery := .Params.youtube_galleries -}}
     {{- $videos = $gallery.videos -}}
     {{- $galleryTitle = ($gallery.title | default "Galerie de vidéos YouTube") -}}
-    {{- $gallerySize = ($gallery.size | default "size-large") -}}
+    {{- $gallerySize = "size-small" -}}
     {{- break -}}
   {{- end -}}
 {{- end -}}
 
 {{- if $videos -}}
-  {{- if eq (len $videos) 1 -}}
-    {{/* Affichage direct pour une seule vidéo */}}
-    {{- $video := index $videos 0 -}}
-  {{/* Réutilise le widget youtube-single pour cohérence (header 16:9 + ouverture directe) */}}
-  {{ partial "projects/widgets/youtube-single.html" (dict "video" $video "size" $gallerySize) }}
-  {{- else -}}
-    {{/* Widget traditionnel pour plusieurs vidéos */}}
+  {{/* Widget youtube-box pour toutes les vidéos (une ou plusieurs) avec taille fixe 3x1 */}}
 <div class="project-widget youtube-box {{ $gallerySize }}">
   <div class="project-widget-header" onclick="toggleInfoBox(this)">
     <div class="project-widget-icon youtube">
@@ -104,5 +98,4 @@
     </div>
   </div>
 </div>
-  {{- end -}}
 {{- end -}}

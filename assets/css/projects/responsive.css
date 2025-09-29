@@ -1422,7 +1422,6 @@
     /* Taller tiles (3x2) for media-rich boxes */
     .project-widgets > .project-widget.tile-3x2,
     .project-widgets > .project-widget.gallery-box,
-    .project-widgets > .project-widget.youtube-box,
     .project-widgets > .project-widget.youtube-single-box {
         grid-row: span 2; /* occupy exactly 2 row tracks */
         align-self: stretch; /* fill the spanned area including row gap */
