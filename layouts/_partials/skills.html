@@ -10,7 +10,7 @@
         <div class="skills-category">
             <h4>{{ i18n "programming_languages" | default "Langages de programmation" }}</h4>
             <div class="skills-grid">
-                {{ range sort .Site.Data.programming_languages "order" }}
+                {{ range sort .Site.Data.programming_languages "experience" "desc" }}
                     {{ if .displayedInPortfolio }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "programming-language" "context" $) }}
                     {{ end }}

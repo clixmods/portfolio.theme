@@ -15,8 +15,8 @@
       </svg>
     </div>
     <div class="project-widget-header-content">
-      {{- $total := (default 0 .Params.downloads.total) | int -}}
-      <h3 class="project-widget-title"><span class="project-widget-count">{{ $total }}</span> {{ if eq $total 1 }}téléchargement{{ else }}téléchargements{{ end }}</h3>
+      {{- $total := default 0 .Params.downloads.total -}}
+      <h3 class="project-widget-title">{{ partial "helpers/format-number.html" $total }} {{ if eq $total 1 }}téléchargement{{ else }}téléchargements{{ end }}</h3>
     </div>
     <div class="project-widget-toggle">
       <svg viewBox="0 0 24 24" fill="currentColor">

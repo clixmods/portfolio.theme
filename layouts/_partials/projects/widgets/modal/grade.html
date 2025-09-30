@@ -16,7 +16,7 @@
       </div>
       <div class="grade-meta">
         {{- if $grade.date -}}
-          <span class="grade-date-chip">{{ $grade.date }}</span>
+          <span class="grade-date-chip">{{ $grade.date | dateFormat "2 January 2006" }}</span>
         {{- end -}}
         {{- if $grade.professor -}}
           <span class="grade-prof-chip">{{ $grade.professor }}</span>

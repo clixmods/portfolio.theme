@@ -67,14 +67,37 @@
   @include widget-item-with-accent(var(--primary-gold));
 }
 
+// Styles spécifiques pour l'icône ranking
+.project-widget.ranking-box {
+  .project-widget-icon.ranking {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #8B4513;
+    
+    svg {
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+  }
+  
+  .project-widget-title,
+  .project-widget-summary {
+    color: var(--text-primary);
+    -webkit-text-fill-color: var(--text-primary);
+  }
+}
+
 // Preview mode (for collapsed state)
 .project-widget-ranking-preview {
   @extend %widget-preview-item;
   
   .project-widget-ranking-preview-position {
     @extend .preview-value;
-    @include widget-gradient-text('ranking-position');
+    color: #FFD700;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
     position: relative;
     min-width: 40px;
     
@@ -82,6 +105,7 @@
       content: attr(data-suffix);
       font-size: 0.7rem;
       color: var(--text-muted);
+      -webkit-text-fill-color: var(--text-muted);
       position: absolute;
       top: 0.2rem;
       right: -0.8rem;
@@ -92,11 +116,10 @@
     @extend .preview-info;
   }
   
-  .project-widget-ranking-preview-event {
-    @extend .preview-label;
-  }
-  
   .project-widget-ranking-preview-total {
     @extend .preview-meta;
+    color: var(--text-secondary);
+    -webkit-text-fill-color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
   }
 }

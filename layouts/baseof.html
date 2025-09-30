@@ -73,6 +73,18 @@
   {{ if $unifiedModalJs }}
     <script>{{ $unifiedModalJs.Content | safeJS }}</script>
   {{ end }}
+
+  <!-- Number Formatter Utility -->
+  {{ $numberFormatterJs := resources.Get "js/utils/number-formatter.js" }}
+  {{ if $numberFormatterJs }}
+    <script>{{ $numberFormatterJs.Content | safeJS }}</script>
+  {{ end }}
+
+  <!-- Widgets Formatter (pour ranking, downloads, etc.) -->
+  {{ $widgetsFormatterJs := resources.Get "js/widgets-formatter.js" }}
+  {{ if $widgetsFormatterJs }}
+    <script>{{ $widgetsFormatterJs.Content | safeJS }}</script>
+  {{ end }}
   
 </body>
 </html>

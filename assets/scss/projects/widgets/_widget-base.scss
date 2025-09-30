@@ -242,7 +242,7 @@ $widget-transition-smooth: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 %widget-preview-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   margin-top: 0.5rem;
   
   .preview-value {

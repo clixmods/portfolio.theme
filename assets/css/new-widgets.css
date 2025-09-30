@@ -492,6 +492,74 @@
     font-size: 0.8rem;
 }
 
+/* ========================================
+   AMÉLIORATIONS POUR WIDGETS FORMATÉS
+   ======================================== */
+
+/* Styles pour les nouvelles classes de ranking */
+.position-number.position-1 {
+    background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+    text-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+
+.position-number.position-2 {
+    background: linear-gradient(135deg, #C0C0C0, #A8A8A8) !important;
+    text-shadow: 0 2px 8px rgba(192, 192, 192, 0.4);
+}
+
+.position-number.position-3 {
+    background: linear-gradient(135deg, #CD7F32, #B87333) !important;
+    text-shadow: 0 2px 8px rgba(205, 127, 50, 0.4);
+}
+
+.position-number.position-top10 {
+    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue)) !important;
+}
+
+/* Styles pour les nouvelles chips d'événement */
+.event-type-chip {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: linear-gradient(135deg, rgba(243, 156, 18, 0.15) 0%, rgba(230, 126, 34, 0.1) 100%);
+    color: var(--text-primary);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-semibold);
+    border: 1px solid rgba(243, 156, 18, 0.2);
+}
+
+.event-name-chip {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    color: var(--text-secondary);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-left: 0.5rem;
+}
+
+/* Séparateur entre les chips */
+.event-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* Animation pour les nombres formatés */
+.participants-count,
+.downloads-total,
+.platform-count {
+    transition: color 0.3s ease;
+}
+
+.participants-count:hover,
+.downloads-total:hover,
+.platform-count:hover {
+    color: var(--primary-accent, var(--primary-teal));
+}
+
 /* Masquer les aperçus quand les boxes sont ouvertes */
 .project-widget.clients-box.expanded .project-widget-clients-preview {
     display: none;

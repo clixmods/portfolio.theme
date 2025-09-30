@@ -15,14 +15,14 @@
     {{/* Stats bar avec informations contextuelles */}}
     <div class="downloads-stats-bar">
       <div class="downloads-context">
-        <strong>{{ $total }}</strong> téléchargements
+        <strong>{{ partial "helpers/format-number.html" $total }}</strong> téléchargements
       </div>
       <div class="downloads-meta">
         {{- if $platforms -}}
-          <span class="platforms-count-chip">{{ len $platforms }} plateformes</span>
+          <span class="platforms-count-chip">{{ len $platforms }} plateforme(s)</span>
         {{- end -}}
         {{- if $downloads.last_updated -}}
-          <span class="update-date-chip">{{ $downloads.last_updated }}</span>
+          <span class="update-date-chip">{{ $downloads.last_updated | dateFormat "January 2006" }}</span>
         {{- end -}}
       </div>
     </div>
@@ -55,9 +55,15 @@
             {{/* Informations de la plateforme */}}
             <div class="platform-info">
               <div class="platform-name">{{ $platformName }}</div>
-              <div class="platform-downloads">{{ $platformDownloads }} téléchargements</div>
-              {{- if .percentage -}}
-                <div class="platform-percentage">{{ .percentage }}% du total</div>
+              <div class="platform-downloads">
+                {{ partial "helpers/format-number.html" $platformDownloads }} téléchargements
+              </div>
+              {{- if and $platformDownloads $total (gt $total 0) -}}
+              <div class="platform-percentage">
+                {{- $percentage := div (mul $platformDownloads 100.0) $total -}}
+                {{- $roundedPercentage := math.Round $percentage -}}
+                {{ $roundedPercentage }}% du total
+              </div>
               {{- end -}}
             </div>
           </div>
