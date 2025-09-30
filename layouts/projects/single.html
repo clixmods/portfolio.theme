@@ -182,7 +182,7 @@
                         <div class="project-meta-bottom">
                             <div class="meta-item-bottom">
                                 <span class="meta-label-bottom">{{ i18n "date" | default "Date" }}</span>
-                                <span class="meta-value-bottom">{{ .Date.Format (.Site.Data.config.blog.dateFormat | default "Jan 2006") }}</span>
+                                <span class="meta-value-bottom">{{ .Date | time.Format ":date_long" }}</span>
                             </div>
                             
                             {{ if .Params.status }}
