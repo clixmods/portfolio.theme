@@ -136,7 +136,7 @@
   {{ $widgets = $widgets | append $widget }}
 {{ end }}
 
-{{ if .Params.ranking }}
+{{ if and .Params.ranking .Params.ranking.position .Params.ranking.total }}
   {{ $order := 130 }}
   {{ if .Params.widget_order.ranking }}
     {{ $order = .Params.widget_order.ranking }}
