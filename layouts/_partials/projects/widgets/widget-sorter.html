@@ -13,6 +13,7 @@
   - gallery: 30
   - technical_specs: 40
   - specialties: 50
+  - soft_skills: 55
   - tools: 60
   - awards: 70
   - testimonials: 80
@@ -70,6 +71,15 @@
     {{ $order = .Params.widget_order.specialties }}
   {{ end }}
   {{ $widget := dict "type" "specialties" "order" $order "data" . }}
+  {{ $widgets = $widgets | append $widget }}
+{{ end }}
+
+{{ if .Params.soft_skills }}
+  {{ $order := 55 }}
+  {{ if .Params.widget_order.soft_skills }}
+    {{ $order = .Params.widget_order.soft_skills }}
+  {{ end }}
+  {{ $widget := dict "type" "soft_skills" "order" $order "data" . }}
   {{ $widgets = $widgets | append $widget }}
 {{ end }}
 
@@ -193,6 +203,8 @@
     {{ partial "projects/widgets/technical-specs.html" .data }}
   {{ else if eq .type "specialties" }}
     {{ partial "projects/widgets/specialties.html" .data }}
+  {{ else if eq .type "soft_skills" }}
+    {{ partial "projects/widgets/soft-skills.html" .data }}
   {{ else if eq .type "tools" }}
     {{ partial "projects/widgets/tools.html" .data }}
   {{ else if eq .type "awards" }}
