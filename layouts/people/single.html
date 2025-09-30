@@ -6,6 +6,10 @@
             <div class="people-avatar">
                 <img src="{{ .Params.avatar }}" alt="{{ .Title }}">
             </div>
+            {{ else }}
+            <div class="people-avatar placeholder">
+                <span>{{ substr .Title 0 1 | upper }}</span>
+            </div>
             {{ end }}
             
             <div class="people-info">

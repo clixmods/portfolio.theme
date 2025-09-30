@@ -1226,3 +1226,123 @@ function initSkillsFiltering() {
         allButton.click();
     }
 }
+
+/**
+ * Global handler for avatar images that fail to load
+ * Converts failed avatar images to placeholder with initial
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to handle avatar image errors
+    function handleAvatarError(img) {
+        const parent = img.parentElement;
+        if (!parent) return;
+        
+        // Try to extract the person name from various sources
+        let personName = '';
+        
+        // Method 1: Get from alt attribute (clean version)
+        const altText = img.alt || '';
+        if (altText && altText !== 'Avatar') {
+            // Remove "Avatar de " or similar prefixes
+            personName = altText.replace(/^Avatar\s+(de\s+)?/i, '').trim();
+        }
+        
+        // Method 2: Get from nearby elements (for contrib cards, testimonial cards, etc.)
+        if (!personName) {
+            const card = parent.closest('.contrib-card, .testimonial-item, .testimonial-author');
+            if (card) {
+                const nameElement = card.querySelector('.contrib-name, .author-name, .testimonial-name');
+                if (nameElement) {
+                    personName = nameElement.textContent.trim();
+                }
+            }
+        }
+        
+        // Method 3: Get from data attributes
+        if (!personName) {
+            const dataElement = parent.closest('[data-person-name]');
+            if (dataElement) {
+                personName = dataElement.getAttribute('data-person-name');
+            }
+        }
+        
+        // Method 4: Get from title attribute
+        if (!personName && parent.title) {
+            personName = parent.title.replace(/^Voir le profil de\s+/i, '').trim();
+        }
+        
+        // Fallback to first letter of alt or '?'
+        const initial = personName ? personName.charAt(0).toUpperCase() : (altText ? altText.charAt(0).toUpperCase() : '?');
+        
+        // Hide the image
+        img.style.display = 'none';
+        
+        // Add placeholder class to parent
+        parent.classList.add('placeholder');
+        
+        // Create or update the span with initial
+        let span = parent.querySelector('span');
+        if (!span) {
+            span = document.createElement('span');
+            parent.appendChild(span);
+        }
+        span.textContent = initial;
+    }
+    
+    // Add error handlers to all avatar images
+    const avatarSelectors = [
+        '.contributor-avatar-mini img',
+        '.contrib-avatar img',
+        '.author-avatar img',
+        '.testimonial-avatar:not(.placeholder)',
+        '.project-widget-title-avatar img',
+        '.people-avatar img'
+    ];
+    
+    avatarSelectors.forEach(selector => {
+        const images = document.querySelectorAll(selector);
+        images.forEach(img => {
+            // Check if image is already loaded and failed
+            if (img.complete && img.naturalHeight === 0) {
+                handleAvatarError(img);
+            }
+            // Add error handler for future errors
+            img.addEventListener('error', function() {
+                handleAvatarError(this);
+            });
+        });
+    });
+    
+    // Observer for dynamically added images
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+                if (node.nodeType === 1) { // Element node
+                    avatarSelectors.forEach(selector => {
+                        // Check the node itself
+                        if (node.matches && node.matches(selector)) {
+                            const img = node.tagName === 'IMG' ? node : node.querySelector('img');
+                            if (img) {
+                                img.addEventListener('error', function() {
+                                    handleAvatarError(this);
+                                });
+                            }
+                        }
+                        // Check descendants
+                        const images = node.querySelectorAll ? node.querySelectorAll(selector) : [];
+                        images.forEach(img => {
+                            img.addEventListener('error', function() {
+                                handleAvatarError(this);
+                            });
+                        });
+                    });
+                }
+            });
+        });
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+});

@@ -133,14 +133,23 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modalPersonCompany').textContent = person.company || '';
         
         const avatarImg = document.getElementById('modalPersonAvatar');
+        const avatarContainer = document.getElementById('personAvatarLarge');
+        
         if (person.avatar && person.avatar !== '') {
             avatarImg.src = person.avatar;
             avatarImg.style.display = 'block';
+            avatarContainer.classList.remove('placeholder');
             avatarImg.onerror = function() {
+                // If image fails to load, show initials instead
                 this.style.display = 'none';
+                avatarContainer.classList.add('placeholder');
+                avatarContainer.innerHTML = `<span>${person.name.charAt(0).toUpperCase()}</span>`;
             };
         } else {
+            // No avatar, show initials
             avatarImg.style.display = 'none';
+            avatarContainer.classList.add('placeholder');
+            avatarContainer.innerHTML = `<span>${person.name.charAt(0).toUpperCase()}</span>`;
         }
 
         // Update bio tab

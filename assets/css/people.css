@@ -1,0 +1,116 @@
+/* People Profile Page Styles */
+
+.people-page {
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.people-profile {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.people-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 3px solid var(--accent, #4fd1c7);
+    box-shadow: 0 0 20px rgba(79, 209, 199, 0.3);
+}
+
+.people-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.people-avatar.placeholder {
+    background: linear-gradient(135deg, var(--primary-blue, #1e3a8a), var(--primary-teal, #0d9488));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+}
+
+.people-info {
+    flex: 1;
+}
+
+.people-info h1 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color, #ffffff);
+}
+
+.people-position {
+    color: var(--accent, #4fd1c7);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.people-company {
+    color: var(--text-color-secondary, #a0a0a0);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.people-bio {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.people-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: rgba(79, 209, 199, 0.1);
+    border: 1px solid rgba(79, 209, 199, 0.3);
+    border-radius: 8px;
+    color: var(--accent, #4fd1c7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+    background: rgba(79, 209, 199, 0.2);
+    transform: translateY(-2px);
+}
+
+.people-content {
+    margin-top: 2rem;
+    line-height: 1.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .people-profile {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .people-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .people-avatar.placeholder {
+        font-size: 2.5rem;
+    }
+    
+    .people-contact {
+        justify-content: center;
+    }
+}

@@ -17,15 +17,22 @@
                     </p>
                     <div class="testimonial-author{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ .personId }}" title="Voir le profil de {{ $person.Title }}"{{ end }}>
                         {{ if $person }}
-                            {{ $avatar := $person.Params.avatar | default "/images/avatar6.svg" }}
-                            <img src="{{ $avatar }}" alt="{{ $person.Title }}" class="testimonial-avatar" onerror="this.style.display='none'">
+                            {{ if $person.Params.avatar }}
+                            <img src="{{ $person.Params.avatar }}" alt="{{ $person.Title }}" class="testimonial-avatar">
+                            {{ else }}
+                            <div class="testimonial-avatar placeholder">
+                                <span>{{ substr $person.Title 0 1 | upper }}</span>
+                            </div>
+                            {{ end }}
                             <div class="testimonial-info">
                                 <div class="testimonial-name">{{ $person.Title }}</div>
                                 <div class="testimonial-position">{{ .position }}</div>
                                 <div class="testimonial-company">{{ .company }}</div>
                             </div>
                         {{ else }}
-                            <img src="/images/avatar6.svg" alt="Unknown" class="testimonial-avatar">
+                            <div class="testimonial-avatar placeholder">
+                                <span>{{ substr .personId 0 1 | upper }}</span>
+                            </div>
                             <div class="testimonial-info">
                                 <div class="testimonial-name">Personne inconnue ({{ .personId }})</div>
                                 <div class="testimonial-position">{{ .position }}</div>
