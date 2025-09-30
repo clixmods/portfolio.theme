@@ -45,7 +45,8 @@
   {{ $widgets = $widgets | append $widget }}
 {{ end }}
 
-{{ if or .Params.gallery .Params.galleries }}
+{{/* Only include the legacy single gallery widget if .Params.gallery is present */}}
+{{ if .Params.gallery }}
   {{ $order := 30 }}
   {{ if .Params.widget_order.gallery }}
     {{ $order = .Params.widget_order.gallery }}
@@ -146,9 +147,10 @@
 
 {{/* Widgets multiples - Galeries individuelles */}}
 {{ range $galleryIndex, $gallery := .Params.galleries }}
-  {{ $order := 30 }}
+  {{/* Fallback to file order when no explicit order is set */}}
+  {{ $order := add 30 $galleryIndex }}
   {{ if $gallery.order }}
-    {{ $order = $gallery.order }}
+    {{ $order = int $gallery.order }}
   {{ end }}
   {{ $widget := dict "type" "gallery_multiple" "order" $order "data" $gallery "index" $galleryIndex "context" $ }}
   {{ $widgets = $widgets | append $widget }}
@@ -156,11 +158,23 @@
 
 {{/* Widgets multiples - Vidéos YouTube individuelles */}}
 {{ range $videoIndex, $video := .Params.youtube_singles }}
-  {{ $order := 90 }}
+  {{/* Fallback to file order when no explicit order is set */}}
+  {{ $order := add 90 $videoIndex }}
   {{ if $video.order }}
-    {{ $order = $video.order }}
+    {{ $order = int $video.order }}
   {{ end }}
   {{ $widget := dict "type" "youtube_single" "order" $order "data" $video "index" $videoIndex "context" $ }}
+  {{ $widgets = $widgets | append $widget }}
+{{ end }}
+
+{{/* Widgets multiples - Galeries YouTube */}}
+{{ range $galleryIndex, $gallery := .Params.youtube_galleries }}
+  {{/* Fallback to file order when no explicit order is set */}}
+  {{ $order := add 65 $galleryIndex }}
+  {{ if $gallery.order }}
+    {{ $order = int $gallery.order }}
+  {{ end }}
+  {{ $widget := dict "type" "youtube_gallery" "order" $order "data" $gallery "index" $galleryIndex "context" $ }}
   {{ $widgets = $widgets | append $widget }}
 {{ end }}
 
@@ -197,6 +211,7 @@
     {{ partial "projects/widgets/ranking.html" .data }}
   {{ else if eq .type "gallery_multiple" }}
     {{/* Affichage galerie multiple individuelle */}}
+    {{ if .data.images }}
     <div class="project-widget gallery-box multiple-gallery-{{ .index }} {{ .data.size | default "size-large" }}{{ if eq .data.gallery_aspect "16:9" }} gallery-16x9{{ end }}" onclick="toggleInfoBox(this)">
         <!-- Gallery Preview Background pour l'état fermé -->
         <div class="gallery-preview gallery-background"
@@ -233,6 +248,11 @@
             {{ partial "projects/widgets/modal/gallery.html" (dict "gallery" .data.images "projectId" .context.File.BaseFileName) }}
         </div>
     </div>
+    {{ else }}
+    {{/* Galerie sans images - ne pas afficher le widget */}}
+    {{ end }}
+  {{ else if eq .type "youtube_gallery" }}
+    {{ partial "projects/widgets/youtube-gallery.html" (dict "gallery" .data "context" .context) }}
   {{ else if eq .type "youtube_single" }}
     {{ partial "projects/widgets/youtube-single.html" (dict "video" .data "context" .context) }}
   {{ end }}
