@@ -6,11 +6,16 @@
         --hero-bg-image: url('{{ .Params.image }}');
     }
 </style>
+{{ end }}
+
+<!-- Include Sector Badge Styles -->
+{{ $sectorBadgeStyles := resources.Get "scss/sector-badge.scss" | css.Sass }}
+<link rel="stylesheet" href="{{ $sectorBadgeStyles.RelPermalink }}">
+
 <script>
     // Ajouter la classe project-page au body pour gérer les z-index des canvas
     document.body.classList.add('project-page');
 </script>
-{{ end }}
 <!-- Fixed Background Overlay -->
 <div class="project-hero-overlay"></div>
 <section class="project-hero">
@@ -166,6 +171,13 @@
                     <div class="description-content">
                         <h3 class="description-title">{{ i18n "project_information" | default "Informations du projet" }}</h3>
                         
+                        <!-- Sector Badge in Description -->
+                        {{ if .Params.sector }}
+                        <div class="description-sector-badge">
+                            {{ partial "projects/sector-badge.html" .Params.sector }}
+                        </div>
+                        {{ end }}
+                        
                         <!-- Meta Information -->
                         <div class="project-meta-bottom">
                             <div class="meta-item-bottom">
@@ -177,13 +189,6 @@
                             <div class="meta-item-bottom">
                                 <span class="meta-label-bottom">{{ i18n "status" | default "Statut" }}</span>
                                 <span class="meta-value-bottom status-{{ .Params.status | lower }}">{{ .Params.status }}</span>
-                            </div>
-                            {{ end }}
-                            
-                            {{ if .Params.sector }}
-                            <div class="meta-item-bottom">
-                                <span class="meta-label-bottom">{{ i18n "sector" | default "Secteur" }}</span>
-                                <span class="meta-value-bottom">{{ .Params.sector }}</span>
                             </div>
                             {{ end }}
                             
