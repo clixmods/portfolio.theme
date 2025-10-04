@@ -10,18 +10,14 @@
 <div class="project-widget downloads-box {{ .Params.downloads_size | default "size-medium" }}" onclick="toggleInfoBox(this)">
   <div class="project-widget-header">
     <div class="project-widget-icon downloads">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
-      </svg>
+      {{- partial "icon.html" (dict "iconId" "download") -}}
     </div>
     <div class="project-widget-header-content">
       {{- $total := default 0 .Params.downloads.total -}}
       <h3 class="project-widget-title">{{ partial "helpers/format-number.html" $total }} {{ if eq $total 1 }}téléchargement{{ else }}téléchargements{{ end }}</h3>
     </div>
     <div class="project-widget-toggle">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
-      </svg>
+      {{- partial "icon.html" (dict "iconId" "chevron-down") -}}
     </div>
   </div>
   <div class="project-widget-content">

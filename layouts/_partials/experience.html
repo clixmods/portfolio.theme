@@ -105,9 +105,7 @@
                                         <!-- Project actions -->
                                         <div class="project-tile-actions">
                                             <a href="{{ $projectPage.RelPermalink }}" class="project-tile-btn">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                                                    <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
-                                                </svg>
+                                                {{- partial "icon.html" (dict "iconId" "external-link" "size" "12") -}}
                                                 {{ i18n "see_project" | default "Voir projet" }}
                                             </a>
                                         </div>
@@ -165,16 +163,12 @@
                                     <div class="project-tile-actions">
                                         {{ if .link }}
                                         <a href="{{ .link }}" class="project-tile-btn" target="_blank">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
-                                            </svg>
+                                            {{- partial "icon.html" (dict "iconId" "external-link" "size" "12") -}}
                                             {{ i18n "see_project" | default "Voir projet" }}
                                         </a>
                                         {{ else }}
                                         <span class="project-tile-btn" style="opacity: 0.6;">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.1V11.1C14.8,11.6 14.4,12 13.9,12H10.1C9.6,12 9.2,11.6 9.2,11.1V10.1C9.2,8.6 10.6,7 12,7Z"/>
-                                            </svg>
+                                            {{- partial "icon.html" (dict "iconId" "external-link" "size" "12") -}}
                                             {{ i18n "confidential" | default "Confidentiel" }}
                                         </span>
                                         {{ end }}

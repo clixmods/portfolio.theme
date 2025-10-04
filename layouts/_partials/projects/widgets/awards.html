@@ -10,19 +10,14 @@
 <div class="project-widget awards-box {{ .Params.awards_size | default "size-medium" }}">
   <div class="project-widget-header" onclick="toggleInfoBox(this)">
     <div class="project-widget-icon awards">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-label="Award Star" role="img">
-        <!-- Classic 5-point star icon -->
-        <path d="M12 17.27L18.18 21 16.54 13.97 22 9.24 14.81 8.63 12 2 9.19 8.63 2 9.24 7.46 13.97 5.82 21 12 17.27Z"/>
-      </svg>
+      {{- partial "icon.html" (dict "iconId" "award") -}}
     </div>
     <div class="project-widget-header-content">
       <h3 class="project-widget-title">Récompenses & Reconnaissance</h3>
       <div class="project-widget-summary">{{ len .Params.awards }} récompense{{ if gt (len .Params.awards) 1 }}s{{ end }}</div>
     </div>
     <div class="project-widget-toggle">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
-      </svg>
+      {{- partial "icon.html" (dict "iconId" "chevron-down") -}}
     </div>
   </div>
   <div class="project-widget-content">

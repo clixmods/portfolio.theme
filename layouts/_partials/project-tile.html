@@ -59,9 +59,7 @@
             <span class="ps5-tile-date">{{ $project.Date.Format "2006" }}</span>
             <a href="{{ $project.Permalink }}" class="ps5-tile-btn">
                 {{ i18n "see_project" | default "Voir le projet" }}
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
+                {{- partial "icon.html" (dict "iconId" "arrow-right" "size" "12") -}}
             </a>
         </div>
     </div>
