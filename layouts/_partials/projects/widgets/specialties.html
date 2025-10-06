@@ -31,22 +31,6 @@
     <div class="project-widget-header-content">
       <h3 class="project-widget-title">Spécialités utilisées</h3>
       <div class="project-widget-summary">{{ len $usedSpecialities }} domaine{{ if gt (len $usedSpecialities) 1 }}s{{ end }} appliqué{{ if gt (len $usedSpecialities) 1 }}s{{ end }}</div>
-      <!-- Aperçu des spécialités -->
-      <div class="specialties-preview">
-        <div class="specialty-badges-preview">
-          {{- range first 3 $usedSpecialities -}}
-          <div class="specialty-badge-mini clickable" onclick="openSkillModal('{{ .name }}', '{{ .icon }}', 'Spécialité', '{{ .experience }} an{{ if gt .experience 1 }}s{{ end }}', 'emoji')" title="Cliquez pour voir les détails">
-            <span class="specialty-icon">{{ .icon }}</span>
-            <span class="specialty-name">{{ .name }}</span>
-          </div>
-          {{- end -}}
-          {{- if gt (len $usedSpecialities) 3 -}}
-          <div class="specialty-badge-mini more">
-            <span class="specialty-more">+{{ sub (len $usedSpecialities) 3 }}</span>
-          </div>
-          {{- end -}}
-        </div>
-      </div>
     </div>
     <div class="project-widget-toggle">
       <svg viewBox="0 0 24 24" fill="currentColor">
