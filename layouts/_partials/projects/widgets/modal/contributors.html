@@ -38,6 +38,30 @@
       </div>
     </div>
     
+    {{/* Note développeur - Chercher Clément dans les contributeurs */}}
+    {{- $ownerContributor := dict -}}
+    {{- range $contributors -}}
+      {{- if eq .id "clement-garcia" -}}
+        {{- $ownerContributor = . -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{- if $ownerContributor.id -}}
+    <div class="developer-profile-note">
+      <div class="profile-avatar">
+        {{- if $ownerContributor.hasAvatar -}}
+          <img src="{{ $ownerContributor.avatarPath }}" alt="{{ $ownerContributor.name }}" loading="lazy">
+        {{- else -}}
+          <span>{{ substr $ownerContributor.name 0 1 | upper }}</span>
+        {{- end -}}
+      </div>
+      <div class="profile-note-content">
+        <div class="profile-note-title">Rôle de {{ $ownerContributor.name }} dans ce projet</div>
+        <div class="profile-note-subtitle">{{ $ownerContributor.role }}</div>
+      </div>
+    </div>
+    {{- end -}}
+    
     {{- range $role := $distinctRoles -}}
       {{- $roleContributors := index $groups $role -}}
       <div class="contributors-group">
@@ -50,8 +74,9 @@
             {{- $personRole := .role | default "" -}}
             {{- $hasAvatar := .hasAvatar | default false -}}
             {{- $avatarPath := .avatarPath | default "" -}}
+            {{- $isOwner := eq $personId "clement-garcia" -}}
             
-            <div class="contrib-card" 
+            <div class="contrib-card{{ if $isOwner }} contrib-card--owner{{ end }}" 
                  data-person-id="{{ $personId }}" 
                  tabindex="0" 
                  role="button" 
