@@ -8,7 +8,8 @@
 
 {{- $downloads := .Project.Params.downloads -}}
 {{- if $downloads -}}
-  {{- $total := $downloads.total | default 0 -}}
+  {{- $total := $downloads.total | default "0" -}}
+  {{- $total = int $total -}}
   {{- $platforms := $downloads.platforms | default slice -}}
   
   <div class="downloads-modal-enhanced">
@@ -34,7 +35,8 @@
       <div class="platforms-grid">
         {{- range $platforms -}}
           {{- $platformName := .name | default "Plateforme" -}}
-          {{- $platformDownloads := .downloads | default 0 -}}
+          {{- $platformDownloads := .downloads | default "0" -}}
+          {{- $platformDownloads = int $platformDownloads -}}
           {{- $hasIcon := .icon | default false -}}
           {{- $initials := substr $platformName 0 1 | upper -}}
           
