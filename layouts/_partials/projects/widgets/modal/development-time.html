@@ -35,7 +35,14 @@
               </svg>
             </div>
             <div class="devtime-date-content">
-              <div class="devtime-date-value">{{ $devTime.start_date }}</div>
+              <div class="devtime-date-value">
+                {{- $startDate := $devTime.start_date -}}
+                {{- if and $startDate (findRE "T|Z|\\d{4}-\\d{2}-\\d{2}" $startDate) -}}
+                  {{ time $startDate | dateFormat "January 2006" | title }}
+                {{- else -}}
+                  {{ $startDate }}
+                {{- end -}}
+              </div>
               <div class="devtime-date-label">{{ i18n "project_start" | default "Début du projet" }}</div>
             </div>
           </div>
@@ -53,7 +60,14 @@
               </svg>
             </div>
             <div class="devtime-date-content">
-              <div class="devtime-date-value">{{ $devTime.end_date }}</div>
+              <div class="devtime-date-value">
+                {{- $endDate := $devTime.end_date -}}
+                {{- if and $endDate (findRE "T|Z|\\d{4}-\\d{2}-\\d{2}" $endDate) -}}
+                  {{ time $endDate | dateFormat "January 2006" | title }}
+                {{- else -}}
+                  {{ $endDate }}
+                {{- end -}}
+              </div>
               <div class="devtime-date-label">{{ i18n "project_end" | default "Fin du projet" }}</div>
             </div>
           </div>
