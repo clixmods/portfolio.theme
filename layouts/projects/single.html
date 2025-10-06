@@ -40,24 +40,46 @@
                         {{ if le $actionsCount 2 }}
                             <!-- Afficher toutes les actions si 2 ou moins -->
                             {{ range .Params.actions }}
+                            {{ if eq .type "youtube" }}
+                            {{ $videoId := "" }}
+                            {{ if findRE "youtu\\.be/([^&\\n?#]+)" .url }}
+                                {{ $videoId = replaceRE ".*youtu\\.be/([^&\\n?#]+).*" "$1" .url }}
+                            {{ else if findRE "youtube\\.com/watch\\?.*v=([^&\\n?#]+)" .url }}
+                                {{ $videoId = replaceRE ".*[?&]v=([^&\\n?#]+).*" "$1" .url }}
+                            {{ else if findRE "youtube\\.com/embed/([^&\\n?#]+)" .url }}
+                                {{ $videoId = replaceRE ".*youtube\\.com/embed/([^&\\n?#]+).*" "$1" .url }}
+                            {{ end }}
+                            <button class="btn-action {{ if .primary }}primary{{ end }}" onclick="openYouTubeModal('{{ $videoId }}', '{{ .label }}');">
+                                {{ partial "action-icon.html" .type }}
+                                {{ .label }}
+                            </button>
+                            {{ else }}
                             <a href="{{ .url }}" {{ if ne .url "#" }}target="_blank"{{ end }} class="btn-action {{ if .primary }}primary{{ end }}">
                                 {{ partial "action-icon.html" .type }}
                                 {{ .label }}
                             </a>
                             {{ end }}
+                            {{ end }}
                         {{ else }}
                             <!-- Afficher les 2 premières actions + bouton ... -->
                             {{ range first 2 .Params.actions }}
                             {{ if eq .type "youtube" }}
-                            <button class="btn-action {{ if .primary }}primary{{ end }}" onclick="handleYouTubeAction('{{ .url }}', '{{ .label }}');">
-                            {{ else }}
-                            <a href="{{ .url }}" {{ if ne .url "#" }}target="_blank"{{ end }} class="btn-action {{ if .primary }}primary{{ end }}">
+                            {{ $videoId := "" }}
+                            {{ if findRE "youtu\\.be/([^&\\n?#]+)" .url }}
+                                {{ $videoId = replaceRE ".*youtu\\.be/([^&\\n?#]+).*" "$1" .url }}
+                            {{ else if findRE "youtube\\.com/watch\\?.*v=([^&\\n?#]+)" .url }}
+                                {{ $videoId = replaceRE ".*[?&]v=([^&\\n?#]+).*" "$1" .url }}
+                            {{ else if findRE "youtube\\.com/embed/([^&\\n?#]+)" .url }}
+                                {{ $videoId = replaceRE ".*youtube\\.com/embed/([^&\\n?#]+).*" "$1" .url }}
                             {{ end }}
+                            <button class="btn-action {{ if .primary }}primary{{ end }}" onclick="openYouTubeModal('{{ $videoId }}', '{{ .label }}');">
                                 {{ partial "action-icon.html" .type }}
                                 {{ .label }}
-                            {{ if eq .type "youtube" }}
                             </button>
                             {{ else }}
+                            <a href="{{ .url }}" {{ if ne .url "#" }}target="_blank"{{ end }} class="btn-action {{ if .primary }}primary{{ end }}">
+                                {{ partial "action-icon.html" .type }}
+                                {{ .label }}
                             </a>
                             {{ end }}
                             {{ end }}
@@ -84,7 +106,15 @@
                                     <div class="popup-actions">
                                         {{ range after 2 .Params.actions }}
                                         {{ if eq .type "youtube" }}
-                                        <div class="popup-action-item youtube-action" onclick="handleYouTubeAction('{{ .url }}', '{{ .label }}'); hideMoreActions(this);">
+                                        {{ $videoId := "" }}
+                                        {{ if findRE "youtu\\.be/([^&\\n?#]+)" .url }}
+                                            {{ $videoId = replaceRE ".*youtu\\.be/([^&\\n?#]+).*" "$1" .url }}
+                                        {{ else if findRE "youtube\\.com/watch\\?.*v=([^&\\n?#]+)" .url }}
+                                            {{ $videoId = replaceRE ".*[?&]v=([^&\\n?#]+).*" "$1" .url }}
+                                        {{ else if findRE "youtube\\.com/embed/([^&\\n?#]+)" .url }}
+                                            {{ $videoId = replaceRE ".*youtube\\.com/embed/([^&\\n?#]+).*" "$1" .url }}
+                                        {{ end }}
+                                        <div class="popup-action-item youtube-action" onclick="openYouTubeModal('{{ $videoId }}', '{{ .label }}'); hideMoreActions(this);">
                                         {{ else }}
                                         <a href="{{ .url }}" {{ if ne .url "#" }}target="_blank"{{ end }} class="popup-action-item">
                                         {{ end }}
