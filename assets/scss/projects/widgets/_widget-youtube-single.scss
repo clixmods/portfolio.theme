@@ -46,6 +46,7 @@
   align-items: center;
   flex: 0 0 auto; // footer keeps its natural height
   margin-top: auto; // push footer to the bottom
+  max-width: 100% !important; // Override any max-width constraint (was 70%)
 }
 
 .project-widget.youtube-single-widget .youtube-single-footer .project-widget-title {
@@ -61,6 +62,7 @@
   right: auto !important;
   bottom: auto !important;
   width: 100%;
+  max-width: 100% !important; // Override any max-width constraint
   margin: 0;
   background: none; // remove banner background per request
   backdrop-filter: none;
