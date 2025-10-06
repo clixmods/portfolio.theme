@@ -405,7 +405,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Check if person is in contributors
             const hasPerson = contributors.some(contributor => {
                 const exactMatch = contributor.person === personId;
-                console.log(`  Comparison: "${contributor.person}" vs "${personId}" -> match: ${exactMatch} (role: ${contributor.role})`);
+                // Safe role display handling
+                let roleDisplay = 'N/A';
+                if (contributor.roles && Array.isArray(contributor.roles)) {
+                    roleDisplay = contributor.roles.join(', ');
+                } else if (contributor.role) {
+                    roleDisplay = contributor.role;
+                }
+                console.log(`  Comparison: "${contributor.person}" vs "${personId}" -> match: ${exactMatch} (role: ${roleDisplay})`);
                 return exactMatch;
             });
             

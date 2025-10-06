@@ -129,7 +129,16 @@ if (!window.portfolioProjects) {
                     {{- range .Params.contributors -}}
                     {
                         person: "{{ .person }}",
-                        role: "{{ .role }}"
+                        {{- if .roles -}}
+                        roles: {{ .roles | jsonify }},
+                        role: "{{ delimit .roles ", " }}"
+                        {{- else if .role -}}
+                        role: "{{ .role }}",
+                        roles: ["{{ .role }}"]
+                        {{- else -}}
+                        role: "Contributeur",
+                        roles: ["Contributeur"]
+                        {{- end -}}
                     },
                     {{- end -}}
                 ],

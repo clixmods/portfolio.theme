@@ -14,14 +14,48 @@
   {{- $groups := dict -}}
   {{- $distinctRoles := slice -}}
   
-  {{/* Grouper les contributeurs par rôle et collecter les rôles uniques */}}
-  {{- range $contributors -}}
-    {{- $role := .role | default "Contributeur" -}}
-    {{- $existing := index $groups $role | default (slice) -}}
-    {{- $groups = merge $groups (dict $role ($existing | append .)) -}}
-    {{/* Ajouter le rôle à la liste s'il n'y est pas déjà */}}
-    {{- if not (in $distinctRoles $role) -}}
-      {{- $distinctRoles = $distinctRoles | append $role -}}
+  {{/* Charger les poids des rôles depuis le fichier JSON d'abord */}}
+  {{- $rolesData := site.Data.role_contributor -}}
+  {{- $roleWeights := dict -}}
+  {{- range $rolesData -}}
+    {{- $roleWeights = merge $roleWeights (dict .name (.weight | default 50)) -}}
+  {{- end -}}
+  
+  {{/* Assigner chaque contributeur à son rôle le plus important */}}
+  {{- range $contributor := $contributors -}}
+    {{/* Support des deux formats: roles (tableau) et role (string legacy) */}}
+    {{- $contributorRoles := slice -}}
+    
+    {{/* Vérifier d'abord si roles existe et n'est pas vide */}}
+    {{- if $contributor.roles -}}
+      {{- $contributorRoles = $contributor.roles -}}
+    {{- else if $contributor.role -}}
+      {{/* Fallback sur l'ancien format role */}}
+      {{- $contributorRoles = slice $contributor.role -}}
+    {{- else -}}
+      {{/* Par défaut si aucun rôle n'est défini */}}
+      {{- $contributorRoles = slice "Contributeur" -}}
+    {{- end -}}
+    
+    {{/* Trouver le rôle avec le poids le plus élevé */}}
+    {{- $highestWeight := 0 -}}
+    {{- $primaryRole := "" -}}
+    {{- range $role := $contributorRoles -}}
+      {{- $weight := index $roleWeights $role | default 50 -}}
+      {{- if gt $weight $highestWeight -}}
+        {{- $highestWeight = $weight -}}
+        {{- $primaryRole = $role -}}
+      {{- end -}}
+    {{- end -}}
+    
+    {{/* Assigner le contributeur à son rôle principal uniquement */}}
+    {{- if $primaryRole -}}
+      {{- $existing := index $groups $primaryRole | default (slice) -}}
+      {{- $groups = merge $groups (dict $primaryRole ($existing | append $contributor)) -}}
+      {{/* Ajouter le rôle à la liste s'il n'y est pas déjà */}}
+      {{- if not (in $distinctRoles $primaryRole) -}}
+        {{- $distinctRoles = $distinctRoles | append $primaryRole -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 
@@ -56,13 +90,27 @@
         {{- end -}}
       </div>
       <div class="profile-note-content">
-        <div class="profile-note-title">Rôle de {{ $ownerContributor.name }} dans ce projet</div>
-        <div class="profile-note-subtitle">{{ $ownerContributor.role }}</div>
+        <div class="profile-note-title">Rôle{{ if gt (len ($ownerContributor.roles | default (slice))) 1 }}s{{ end }} de {{ $ownerContributor.name }} dans ce projet</div>
+        <div class="profile-note-subtitle">
+          {{- $ownerRoles := $ownerContributor.roles | default (slice ($ownerContributor.role | default "Contributeur")) -}}
+          {{- delimit $ownerRoles ", " -}}
+        </div>
       </div>
     </div>
     {{- end -}}
     
-    {{- range $role := $distinctRoles -}}
+    {{/* Trier les rôles par poids (du plus important au moins important) */}}
+    {{- $sortedRoles := slice -}}
+    {{- range $distinctRoles -}}
+      {{- $weight := index $roleWeights . | default 50 -}}
+      {{- $sortedRoles = $sortedRoles | append (dict "name" . "weight" $weight) -}}
+    {{- end -}}
+    
+    {{/* Tri par poids décroissant */}}
+    {{- $sortedRoles = sort $sortedRoles "weight" "desc" -}}
+    
+    {{- range $roleData := $sortedRoles -}}
+      {{- $role := $roleData.name -}}
       {{- $roleContributors := index $groups $role -}}
       <div class="contributors-group">
         <div class="contributors-group-title">{{ $role }}</div>
@@ -71,7 +119,8 @@
             {{- $initials := substr (.name | default "?") 0 1 | upper -}}
             {{- $personId := .id | default "" -}}
             {{- $personName := .name | default "Contributeur" -}}
-            {{- $personRole := .role | default "" -}}
+            {{- $personRoles := .roles | default (slice (.role | default "")) -}}
+            {{- $personRole := delimit $personRoles ", " -}}
             {{- $hasAvatar := .hasAvatar | default false -}}
             {{- $avatarPath := .avatarPath | default "" -}}
             {{- $isOwner := eq $personId "clement-garcia" -}}

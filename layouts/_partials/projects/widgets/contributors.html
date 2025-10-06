@@ -53,6 +53,7 @@
             "id" .person
             "name" $person.Params.title
             "role" (.role | default "")
+            "roles" (.roles | default slice)
             "hasAvatar" (ne $person.Params.avatar nil)
             "avatarPath" ($person.Params.avatar | default "")
         ) -}}
