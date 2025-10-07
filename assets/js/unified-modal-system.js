@@ -215,20 +215,18 @@ function generateTabPanel(tab, content) {
  * Generate action item
  */
 function generateActionItem(action) {
-    const buttonClass = getActionButtonClass(action.action);
-    const actionHandler = `UnifiedModal.handleAction('${action.action}', '${action.url || ''}', '${action.title}')`;
+    // For YouTube actions, pass the videoId; for others, pass the URL
+    const actionData = action.action === 'youtube' ? (action.videoId || '') : (action.url || '');
+    const actionHandler = `UnifiedModal.handleAction('${action.action}', '${actionData}', '${action.title}')`;
     
     return `
-        <div class="action-item">
+        <button class="action-item" onclick="${actionHandler}">
             <div class="action-icon">${action.icon}</div>
             <div class="action-content">
                 <div class="action-title">${action.title}</div>
                 <div class="action-desc">${action.desc}</div>
             </div>
-            <button class="btn-action ${buttonClass}" onclick="${actionHandler}">
-                ${getActionButtonText(action)}
-            </button>
-        </div>
+        </button>
     `;
 }
 
@@ -327,9 +325,11 @@ function generatePersonContent(content) {
 function getActionButtonClass(action) {
     const classMap = {
         'video': 'accent',
+        'youtube': 'accent',
         'download': 'primary',
         'github': 'secondary',
-        'docs': 'secondary'
+        'docs': 'secondary',
+        'link': 'secondary'
     };
     return classMap[action] || '';
 }
@@ -1076,6 +1076,16 @@ class UnifiedModal {
         console.log('Action:', actionType, url, title);
         
         switch(actionType) {
+            case 'youtube':
+                // Close the actions modal first
+                this.hideModal();
+                // Then open the YouTube modal with the video ID
+                if (url && typeof window.openYouTubeModal === 'function') {
+                    setTimeout(() => {
+                        window.openYouTubeModal(url, title);
+                    }, 300);
+                }
+                break;
             case 'download':
                 if (url) window.open(url, '_blank');
                 break;
@@ -1088,8 +1098,12 @@ class UnifiedModal {
             case 'video':
                 if (url) window.open(url, '_blank');
                 break;
+            case 'link':
+                if (url) window.open(url, '_blank');
+                break;
             default:
                 console.log('Unhandled action:', actionType);
+                if (url) window.open(url, '_blank');
         }
     }
 

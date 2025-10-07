@@ -465,42 +465,10 @@ function showNotification(message, type = 'info') {
 }
 
 // Project Actions - Show More functionality
+// DEPRECATED: Old action popup system - now using unified modal
+// Keeping for backward compatibility during transition
 function showMoreActions(button) {
-    // Trouver la popup associée à ce bouton
-    // Remonter jusqu'au conteneur des actions du projet
-    let container = button.parentElement;
-    let popup = null;
-    
-    // Chercher la popup dans le conteneur direct
-    popup = container.querySelector('.actions-popup');
-    
-    // Si pas trouvé, remonter d'un niveau (au cas où la structure serait différente)
-    if (!popup && container.parentElement) {
-        popup = container.parentElement.querySelector('.actions-popup');
-    }
-    
-    // Si toujours pas trouvé, chercher dans tout le projet
-    if (!popup) {
-        const projectContainer = button.closest('.project-item, .project-detail, .project-single');
-        if (projectContainer) {
-            popup = projectContainer.querySelector('.actions-popup');
-        }
-    }
-    
-    if (popup) {
-        // S'assurer que le popup a les bonnes propriétés CSS pour le centrage
-        popup.style.display = 'flex';
-        popup.style.position = 'fixed';
-        popup.style.top = '0';
-        popup.style.left = '0';
-        popup.style.width = '100%';
-        popup.style.height = '100%';
-        popup.style.alignItems = 'center';
-        popup.style.justifyContent = 'center';
-        popup.style.zIndex = '9999';
-        
-        document.body.style.overflow = 'hidden';
-    }
+    console.warn('showMoreActions is deprecated - use openProjectActionsModal instead');
 }
 
 // Gérer les actions YouTube avec le viewer intégré
@@ -577,28 +545,11 @@ function extractYouTubeVideoId(url) {
     return null;
 }
 
+// DEPRECATED: Old action popup system - now using unified modal
+// Keeping for backward compatibility during transition
 function hideMoreActions(element) {
-    // Remonter jusqu'à trouver la popup
-    let popup = element.closest('.actions-popup');
-    if (!popup) {
-        popup = element.parentElement.querySelector('.actions-popup');
-    }
-    
-    if (popup) {
-        popup.style.display = 'none';
-        document.body.style.overflow = '';
-    }
+    console.warn('hideMoreActions is deprecated - unified modal handles closing automatically');
 }
-
-// Fermer le popup avec Escape
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        const openPopup = document.querySelector('.actions-popup[style*="flex"]');
-        if (openPopup) {
-            hideMoreActions(openPopup);
-        }
-    }
-});
 
 /**
  * PROJECT HERO BLUR EFFECT

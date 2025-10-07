@@ -50,12 +50,12 @@
                                 {{ $videoId = replaceRE ".*youtube\\.com/embed/([^&\\n?#]+).*" "$1" .url }}
                             {{ end }}
                             <button class="btn-action {{ if .primary }}primary{{ end }}" onclick="openYouTubeModal('{{ $videoId }}', '{{ .label }}');">
-                                {{ partial "action-icon.html" .type }}
+                                {{ partial "icon.html" (dict "iconId" .type "size" "18") }}
                                 {{ .label }}
                             </button>
                             {{ else }}
                             <a href="{{ .url }}" {{ if ne .url "#" }}target="_blank"{{ end }} class="btn-action {{ if .primary }}primary{{ end }}">
-                                {{ partial "action-icon.html" .type }}
+                                {{ partial "icon.html" (dict "iconId" .type "size" "18") }}
                                 {{ .label }}
                             </a>
                             {{ end }}
@@ -73,67 +73,24 @@
                                 {{ $videoId = replaceRE ".*youtube\\.com/embed/([^&\\n?#]+).*" "$1" .url }}
                             {{ end }}
                             <button class="btn-action {{ if .primary }}primary{{ end }}" onclick="openYouTubeModal('{{ $videoId }}', '{{ .label }}');">
-                                {{ partial "action-icon.html" .type }}
+                                {{ partial "icon.html" (dict "iconId" .type "size" "18") }}
                                 {{ .label }}
                             </button>
                             {{ else }}
                             <a href="{{ .url }}" {{ if ne .url "#" }}target="_blank"{{ end }} class="btn-action {{ if .primary }}primary{{ end }}">
-                                {{ partial "action-icon.html" .type }}
+                                {{ partial "icon.html" (dict "iconId" .type "size" "18") }}
                                 {{ .label }}
                             </a>
                             {{ end }}
                             {{ end }}
-                            <!-- Bouton ... for more options -->
-                            <button class="btn-action-icon" onclick="showMoreActions(this);">
+                            <!-- Bouton ... for more options using unified modal -->
+                            <button class="btn-action-icon" onclick="openProjectActionsModal();">
                                 <svg viewBox="0 0 24 24" fill="currentColor">
                                     <circle cx="5" cy="12" r="2"/>
                                     <circle cx="12" cy="12" r="2"/>
                                     <circle cx="19" cy="12" r="2"/>
                                 </svg>
                             </button>
-                            <!-- Popup des actions cachées -->
-                            <div class="actions-popup" style="display: none;">
-                                <div class="popup-overlay" onclick="hideMoreActions(this)"></div>
-                                <div class="popup-content">
-                                    <div class="popup-header">
-                                        <h3>{{ i18n "more_options" | default "Plus d'options" }}</h3>
-                                        <button class="popup-close" onclick="hideMoreActions(this)">
-                                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="popup-actions">
-                                        {{ range after 2 .Params.actions }}
-                                        {{ if eq .type "youtube" }}
-                                        {{ $videoId := "" }}
-                                        {{ if findRE "youtu\\.be/([^&\\n?#]+)" .url }}
-                                            {{ $videoId = replaceRE ".*youtu\\.be/([^&\\n?#]+).*" "$1" .url }}
-                                        {{ else if findRE "youtube\\.com/watch\\?.*v=([^&\\n?#]+)" .url }}
-                                            {{ $videoId = replaceRE ".*[?&]v=([^&\\n?#]+).*" "$1" .url }}
-                                        {{ else if findRE "youtube\\.com/embed/([^&\\n?#]+)" .url }}
-                                            {{ $videoId = replaceRE ".*youtube\\.com/embed/([^&\\n?#]+).*" "$1" .url }}
-                                        {{ end }}
-                                        <div class="popup-action-item youtube-action" onclick="openYouTubeModal('{{ $videoId }}', '{{ .label }}'); hideMoreActions(this);">
-                                        {{ else }}
-                                        <a href="{{ .url }}" {{ if ne .url "#" }}target="_blank"{{ end }} class="popup-action-item">
-                                        {{ end }}
-                                            <div class="action-icon">
-                                                {{ partial "action-icon.html" .type }}
-                                            </div>
-                                            <div class="action-content">
-                                                <div class="action-label">{{ .label }}</div>
-                                                <div class="action-type">{{ .type | title }}</div>
-                                            </div>
-                                        {{ if eq .type "youtube" }}
-                                        </div>
-                                        {{ else }}
-                                        </a>
-                                        {{ end }}
-                                        {{ end }}
-                                    </div>
-                                </div>
-                            </div>
                         {{ end }}
                     </div>
                     {{ end }}
@@ -311,21 +268,55 @@
 </div>
 
 <script>
-function showMoreActions(button) {
-    const popup = button.nextElementSibling;
-    if (popup && popup.classList.contains('actions-popup')) {
-        popup.style.display = 'block';
-        setTimeout(() => popup.classList.add('active'), 10);
-    }
-}
+// Project actions data for unified modal
+{{ if .Params.actions }}
+{{ if gt (len .Params.actions) 2 }}
+const projectActionsData = [
+    {{ range after 2 .Params.actions }}
+    {
+        icon: `{{ partial "icon.html" (dict "iconId" .type "size" "32") | safeJS }}`,
+        title: '{{ .label | safeJS }}',
+        desc: '{{ .type | title }}',
+        action: '{{ .type }}',
+        url: '{{ .url }}',
+        {{ if eq .type "youtube" }}
+        {{ $videoId := "" }}
+        {{ if findRE "youtu\\.be/([^&\\n?#]+)" .url }}
+            {{ $videoId = replaceRE ".*youtu\\.be/([^&\\n?#]+).*" "$1" .url }}
+        {{ else if findRE "youtube\\.com/watch\\?.*v=([^&\\n?#]+)" .url }}
+            {{ $videoId = replaceRE ".*[?&]v=([^&\\n?#]+).*" "$1" .url }}
+        {{ else if findRE "youtube\\.com/embed/([^&\\n?#]+)" .url }}
+            {{ $videoId = replaceRE ".*youtube\\.com/embed/([^&\\n?#]+).*" "$1" .url }}
+        {{ end }}
+        videoId: '{{ $videoId }}',
+        {{ end }}
+        buttonText: '{{ .label | safeJS }}'
+    },
+    {{ end }}
+];
 
-function hideMoreActions(element) {
-    const popup = element.closest('.actions-popup');
-    if (popup) {
-        popup.classList.remove('active');
-        setTimeout(() => popup.style.display = 'none', 300);
-    }
+function openProjectActionsModal() {
+    UnifiedModal.create({
+        type: 'actions',
+        title: '{{ i18n "more_options" | default "Plus d'options" | safeJS }}',
+        icon: '•••',
+        content: {
+            actions: projectActionsData
+        }
+    });
 }
+{{ else }}
+// No additional actions to show in modal
+function openProjectActionsModal() {
+    console.warn('No additional actions to display');
+}
+{{ end }}
+{{ else }}
+// No actions defined for this project
+function openProjectActionsModal() {
+    console.warn('No actions defined for this project');
+}
+{{ end }}
 
 function initializeInfoBoxSystem() {
     const infoBoxes = document.querySelectorAll('.project-widget');
