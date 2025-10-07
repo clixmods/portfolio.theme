@@ -181,21 +181,6 @@
     opacity: 1;
 }
 
-/* Badge Experience */
-.ps5-skill-tile .ps5-tile-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: linear-gradient(135deg, var(--ps5-blue), var(--ps5-blue-light));
-    color: var(--ps5-white);
-    padding: 0.3rem 0.6rem;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
 /* Sector icon */
 .ps5-skill-tile .ps5-tile-sector-icon {
     position: absolute;

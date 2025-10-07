@@ -69,8 +69,7 @@ class PS5ProjectsPage {
         this.projects = Array.from(this.projectTiles).map(tile => ({
             element: tile,
             sector: tile.dataset.sector,
-            title: tile.querySelector('.ps5-tile-title').textContent,
-            featured: tile.querySelector('.ps5-tile-badge') !== null
+            title: tile.querySelector('.ps5-tile-title').textContent
         }));
     }
 
