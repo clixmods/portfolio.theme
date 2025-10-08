@@ -1109,8 +1109,8 @@
 
 .language-flag {
   position: absolute;
-  bottom: -2px;
-  right: -2px;
+  bottom: 0px;
+  right: 0px;
   font-size: 12px;
   line-height: 1;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
@@ -1539,6 +1539,14 @@ body.notifications-menu-open .toast-container .toast {
     --right-dock-gap: 6px;
     --right-dock-top: 12px;
     --right-dock-right: 12px;
+  }
+  
+  /* Hide right dock visually on mobile - features moved to mobile menu */
+  /* Keep it in DOM for functionality but hide it */
+  .right-dock {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
   }
   
   .right-dock {

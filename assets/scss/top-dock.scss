@@ -396,63 +396,571 @@
   }
 }
 
-@media (max-width: 768px) {
-  #top-dock {
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    transform: none;
-    max-width: none;
+/* ========================================
+   MOBILE MENU - HAMBURGER & DROPDOWN
+   ======================================== */
+
+/* Mobile Menu Toggle Button - Hidden on desktop */
+.mobile-menu-toggle {
+  display: none; /* Hidden by default on desktop */
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 2000;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 24px;
+  background: var(--top-dock-bg);
+  backdrop-filter: blur(var(--top-dock-blur));
+  border: 1px solid var(--top-dock-border);
+  box-shadow: 0 4px 16px var(--top-dock-shadow);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  -webkit-tap-highlight-color: transparent;
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px var(--top-dock-shadow);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  &.is-open {
+    background: var(--top-dock-accent);
     
-    /* En mode compact sur mobile, reste centré mais plus compact */
-    &.is-compact {
-      left: 12px;
-      right: 12px;
-      transform: none;
+    .hamburger-line {
+      background: #ffffff;
       
-      .top-dock-container {
-        padding: 6px 12px;
-        justify-content: center;
+      &:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+      }
+      
+      &:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      
+      &:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
       }
     }
   }
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto;
+}
+
+.hamburger-line {
+  width: 20px;
+  height: 2px;
+  background: var(--top-dock-text);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   
-  .top-dock-container {
-    padding: 8px 16px;
-    gap: 8px;
-    height: 56px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  &:not(:last-child) {
+    margin-bottom: 4px;
+  }
+}
+
+/* Mobile Menu Overlay - Darkens background when menu is open */
+.mobile-menu-overlay {
+  display: none; /* Hidden by default on desktop */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1998;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+  
+  &.is-open {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+/* Mobile Dropdown Menu - Hidden on desktop */
+.mobile-menu-dropdown {
+  display: none; /* Hidden by default on desktop */
+  position: fixed;
+  top: 68px;
+  right: 12px;
+  z-index: 1999;
+  width: 320px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 88px);
+  overflow-y: auto;
+  
+  background: var(--top-dock-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid var(--top-dock-border);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+  
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  
+  &.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
   }
   
-  .top-dock-container .dock-button {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    scroll-snap-align: center;
+  /* Scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
     
     &:hover {
-      transform: scale(1.15);
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
+
+.mobile-menu-content {
+  padding: 20px;
+}
+
+/* Mobile Menu Profile Header */
+.mobile-menu-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  margin-bottom: 16px;
+  transition: all 0.2s ease-out;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+.mobile-profile-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mobile-profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.mobile-profile-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--top-dock-text);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-profile-role {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--top-dock-text);
+  opacity: 0.7;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-menu-section {
+  margin-bottom: 16px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.mobile-menu-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--top-dock-text);
+  opacity: 0.6;
+  margin: 0 0 12px 0;
+  padding: 0 8px;
+}
+
+.mobile-menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--top-dock-text);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  width: 100%;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(4px);
+  }
+  
+  &:active {
+    transform: translateX(2px) scale(0.98);
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.mobile-menu-item-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+/* Light theme adjustments */
+[data-theme="light"] {
+  .mobile-menu-toggle {
+    &.is-open .hamburger-line {
+      background: #ffffff;
     }
   }
   
-  .top-dock-container .dock-icon {
-    width: 20px;
-    height: 20px;
+  .mobile-menu-item {
+    background: rgba(0, 0, 0, 0.05);
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    &:active {
+      background: rgba(0, 0, 0, 0.15);
+    }
   }
   
-  .top-dock-container .dock-emoji {
-    font-size: 16px;
+  .mobile-menu-title {
+    color: var(--top-dock-text);
+    opacity: 0.7;
   }
   
-  .top-dock-container .dock-separator {
-    height: 24px;
-    margin: 0 4px;
+  .mobile-menu-separator {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-menu-language-section {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  .mobile-menu-language-option {
+    background: rgba(0, 0, 0, 0.03);
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    &.active {
+      background: rgba(0, 112, 243, 0.15);
+    }
+  }
+  
+  .trophy-count-badge {
+    background: rgba(255, 215, 0, 0.25);
+    color: #C9A000;
+  }
+  
+  .notification-badge-mobile {
+    background: rgba(255, 59, 48, 0.25);
+    color: #D32F2F;
+  }
+  
+  .mobile-menu-trophies .mobile-menu-icon {
+    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.4));
+  }
+  
+  .mobile-menu-profile {
+    background: rgba(0, 0, 0, 0.08);
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.12);
+    }
+  }
+  
+  .mobile-profile-avatar {
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+}
+
+.mobile-menu-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--top-dock-accent);
+  position: static !important;
+  transform: none !important;
+  opacity: 1 !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+.mobile-menu-emoji {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.mobile-menu-label {
+  flex: 1;
+  color: var(--top-dock-text);
+}
+
+.mobile-menu-separator {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 16px 0;
+}
+
+/* Trophy count badge in mobile menu */
+.trophy-count-badge {
+  padding: 4px 10px;
+  background: rgba(255, 215, 0, 0.2);
+  color: #FFD700;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 36px;
+  text-align: center;
+}
+
+/* Notification badge in mobile menu */
+.notification-badge-mobile {
+  padding: 4px 10px;
+  background: rgba(255, 59, 48, 0.2);
+  color: #FF3B30;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Theme toggle icons in mobile menu */
+.mobile-menu-theme {
+  .theme-icon-dark,
+  .theme-icon-light {
+    position: static !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  .theme-icon-dark {
+    display: none;
+  }
+  
+  .theme-icon-light {
+    display: inline-block;
+  }
+}
+
+[data-theme="light"] .mobile-menu-theme {
+  .theme-icon-dark {
+    display: inline-block;
+  }
+  
+  .theme-icon-light {
+    display: none;
+  }
+}
+
+/* Special styling for trophies button with icon */
+.mobile-menu-trophies {
+  .mobile-menu-icon {
+    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.3));
+  }
+}
+
+/* Language section in mobile menu */
+.mobile-menu-language-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-menu-language-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--top-dock-text);
+  font-weight: 500;
+}
+
+.mobile-menu-language-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 32px;
+}
+
+.mobile-menu-language-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--top-dock-text);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease-out;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+  }
+  
+  &.active {
+    background: rgba(79, 209, 199, 0.15);
+    color: var(--top-dock-accent);
+    font-weight: 600;
+  }
+}
+
+.mobile-menu-language-option .language-flag {
+  font-size: 18px;
+  line-height: 1;
+  position: static !important;
+  bottom: auto !important;
+  right: auto !important;
+  flex-shrink: 0;
+}
+
+.language-name {
+  flex: 1;
+}
+
+.language-check {
+  color: var(--top-dock-accent);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  /* Show mobile menu elements */
+  .mobile-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Override hover/active transforms on mobile */
+    &:hover,
+    &:active {
+      transform: none !important;
+    }
+    
+    /* Keep only scale on active for feedback */
+    &:active {
+      transform: scale(0.95) !important;
+    }
+  }
+  
+  .mobile-menu-overlay {
+    display: block;
+  }
+  
+  .mobile-menu-dropdown {
+    display: block;
+  }
+  
+  /* Hide desktop dock container on mobile */
+  #top-dock .top-dock-container {
+    display: none !important;
+  }
+  
+  /* Adjust top-dock positioning - override all states on mobile */
+  #top-dock {
+    top: 12px !important;
+    left: 12px !important;
+    right: 68px !important; /* Make room for hamburger button */
+    transform: none !important;
+    max-width: none !important;
+    padding: 0 !important; /* Remove padding since container is hidden */
+    background: transparent !important; /* Make transparent since only menu button is shown */
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    
+    /* Disable is-compact behavior on mobile - keep position fixed */
+    &.is-compact {
+      left: 12px !important;
+      right: 68px !important;
+      transform: none !important;
+      top: 12px !important;
+    }
+    
+    /* Disable is-detaching behavior on mobile */
+    &.is-detaching {
+      left: 12px !important;
+      right: 68px !important;
+      transform: none !important;
+      top: 12px !important;
+    }
   }
 }
 

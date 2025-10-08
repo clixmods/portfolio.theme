@@ -44,6 +44,12 @@
   <!-- Dock de navigation -->
   {{ partial "dock.html" . }}
   
+  <!-- Scripts pour le menu mobile -->
+  {{ $mobileMenuJs := resources.Get "js/mobile-menu.js" }}
+  {{ if $mobileMenuJs }}
+    <script>{{ $mobileMenuJs.Content | safeJS }}</script>
+  {{ end }}
+  
   <!-- Scripts pour la modal des compétences -->
   {{ $skillModalJs := resources.Get "js/skill-modal.js" }}
   {{ if $skillModalJs }}

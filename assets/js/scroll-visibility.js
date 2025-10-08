@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initScrollVisibility() {
+    // Check if we're on mobile - if so, disable scroll visibility management
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
     // Éléments à gérer
     const profileBadge = document.getElementById('profile-badge');
     const topDock = document.getElementById('top-dock');
@@ -24,6 +29,7 @@ function initScrollVisibility() {
     console.log('Profile badge:', profileBadge);
     console.log('Top dock:', topDock);
     console.log('Hero section:', heroSection);
+    console.log('Is mobile:', isMobile());
     
     // Boutons spécifiques dans le top-dock à cacher
     const downloadBtn = topDock?.querySelector('.download-btn');
@@ -35,6 +41,37 @@ function initScrollVisibility() {
     if (!heroSection) {
         console.warn('Hero section not found');
         return;
+    }
+    
+    // If mobile, disable scroll visibility management completely
+    if (isMobile()) {
+        console.log('Mobile detected - disabling scroll visibility management');
+        // Ensure everything is visible and reset any compact state
+        if (profileBadge) {
+            profileBadge.style.opacity = '';
+            profileBadge.style.pointerEvents = '';
+            profileBadge.style.transform = '';
+        }
+        if (topDock) {
+            topDock.classList.remove('is-compact', 'is-detaching');
+        }
+        [downloadBtn, contactBtn].forEach(btn => {
+            if (btn) {
+                btn.style.opacity = '';
+                btn.style.pointerEvents = '';
+                btn.style.transform = '';
+            }
+        });
+        
+        // Listen for resize to re-enable on desktop
+        window.addEventListener('resize', () => {
+            if (!isMobile()) {
+                console.log('Switched to desktop - re-initializing scroll visibility');
+                initScrollVisibility();
+            }
+        });
+        
+        return; // Exit early on mobile
     }
 
     // Application des styles de transition CSS dès le début
@@ -50,6 +87,11 @@ function initScrollVisibility() {
 
     // Fonction pour gérer la visibilité
     function updateVisibility(isInHero) {
+        // Don't update visibility on mobile
+        if (isMobile()) {
+            return;
+        }
+        
         console.log(`Updating visibility - In Hero: ${isInHero}`);
         
         // Gestion du profile-badge

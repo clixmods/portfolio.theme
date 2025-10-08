@@ -108,49 +108,14 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  /* Hide desktop profile badge on mobile - moved to mobile menu */
   #profile-badge {
-    top: 16px;
-    left: 16px;
-    padding: 10px 12px;
-    gap: 10px;
-  }
-  
-  .profile-badge .profile-avatar {
-    width: 36px;
-    height: 36px;
-  }
-  
-  .profile-badge .profile-name {
-    font-size: 14px;
-    max-width: 120px;
-  }
-  
-  .profile-badge .profile-role {
-    font-size: 11px;
-    max-width: 120px;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
   }
 }
 
 @media (max-width: 480px) {
-  #profile-badge {
-    top: 12px;
-    left: 12px;
-    padding: 8px 10px;
-    gap: 8px;
-  }
-  
-  .profile-badge .profile-avatar {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .profile-badge .profile-name {
-    font-size: 13px;
-    max-width: 100px;
-  }
-  
-  .profile-badge .profile-role {
-    font-size: 10px;
-    max-width: 100px;
-  }
+  /* Profile badge already hidden on mobile */
 }
