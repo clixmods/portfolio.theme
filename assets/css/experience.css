@@ -1006,40 +1006,91 @@
     .experience-header-card {
         flex-direction: column;
         gap: 1rem;
+        padding: 1.5rem;
     }
     
     /**
-     * Centered company info on mobile
-     * Vertical layout with centered alignment
+     * Left-aligned company info on mobile
+     * Horizontal layout with logo and details side by side
      */
     .company-info {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        width: 100%;
+        gap: 1rem;
     }
     
     /**
-     * Larger company logo on mobile
-     * Increased size for better visibility
+     * Smaller company logo on mobile to fit alongside text
+     * More compact for better layout
      */
     .company-logo {
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
     }
     
     /**
-     * Centered job metadata on mobile
+     * Company details take remaining space
+     */
+    .company-details {
+        flex: 1;
+        min-width: 0; /* Allow text truncation if needed */
+    }
+    
+    /**
+     * Adjust job title size for mobile
+     */
+    .job-title {
+        font-size: 1.1rem;
+        line-height: 1.2;
+        margin-bottom: 0.3rem;
+    }
+    
+    /**
+     * Adjust company name size for mobile
+     */
+    .company-name {
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    /**
+     * Left-aligned job metadata on mobile
      */
     .job-meta {
-        justify-content: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
     }
     
     /**
-     * Centered badges on mobile
+     * Adjust badge sizes for mobile
+     */
+    .job-period {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.6rem;
+    }
+    
+    .job-duration {
+        font-size: 0.8rem;
+    }
+    
+    .job-type,
+    .job-location {
+        font-size: 0.8rem;
+    }
+    
+    /**
+     * Full width badges on mobile
      */
     .current-badge,
+    .completed-badge,
     .seeking-badge {
-        align-self: center;
+        align-self: stretch;
+        text-align: center;
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
     }
     
     /**
@@ -1051,10 +1102,13 @@
     
     /**
      * Mobile adjustments for project tiles
+     * Remove fixed heights and allow natural content flow
      */
     .project-item {
-        min-height: 200px;
+        min-height: auto;
         border-radius: 15px;
+        display: flex;
+        flex-direction: column;
     }
     
     /**
@@ -1062,23 +1116,72 @@
      */
     .experience-section .projects-section .projects-header {
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.5rem;
         align-items: flex-start;
     }
     
+    /**
+     * Single column layout for horizontal projects on mobile
+     */
     .projects-container-horizontal {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
     
+    /**
+     * Horizontal projects display as stacked cards on mobile
+     */
+    .projects-container-horizontal .project-item {
+        min-height: auto;
+        aspect-ratio: unset;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /**
+     * Project image takes natural height on mobile
+     */
+    .projects-container-horizontal .project-tile-image {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        border-radius: 15px 15px 0 0;
+    }
+    
+    /**
+     * Project content below image on mobile
+     */
+    .projects-container-horizontal .project-tile-content,
+    .projects-container-horizontal .project-tile-info {
+        position: relative;
+        width: 100%;
+        border-radius: 0 0 15px 15px;
+        padding: 1rem;
+    }
+    
+    /**
+     * Overlay info on hover for horizontal projects
+     */
+    .projects-container-horizontal .project-tile-info {
+        position: absolute;
+        top: 180px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0 0 15px 15px;
+    }
+    
+    /**
+     * Vertical layout becomes stacked cards on mobile
+     */
     .projects-container-vertical .project-item {
         flex-direction: column;
-        min-height: 250px;
+        min-height: auto;
     }
     
     .projects-container-vertical .project-tile-image {
         width: 100%;
-        height: 120px;
+        height: 160px;
         border-radius: 15px 15px 0 0;
     }
     
@@ -1090,31 +1193,57 @@
     
     .projects-container-vertical .project-tile-info {
         left: 0;
-        top: 120px;
+        top: 160px;
         border-radius: 0 0 15px 15px;
     }
     
+    /**
+     * Project content padding for all layouts
+     */
     .project-tile-content,
     .project-tile-info {
         padding: 1rem;
     }
     
+    /**
+     * Adjust project text sizes
+     */
     .project-name {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
     }
     
     .project-desc,
     .project-detailed-desc {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        line-height: 1.4;
     }
     
+    /**
+     * Smaller tech badges
+     */
     .project-tile-tech-item {
         font-size: 0.65rem;
         padding: 0.25rem 0.5rem;
     }
     
+    /**
+     * Smaller action buttons
+     */
     .project-tile-btn {
         font-size: 0.7rem;
         padding: 0.5rem 0.8rem;
+    }
+    
+    /**
+     * Adjust tasks list for mobile
+     */
+    .experience-tasks {
+        padding-left: 1.2rem;
+    }
+    
+    .experience-tasks li {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
     }
 }

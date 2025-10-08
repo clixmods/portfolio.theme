@@ -466,50 +466,124 @@
    RESPONSIVE DESIGN
    =================================== */
 
-/* Responsive Timeline */
+/* Responsive Timeline - Mobile Version without timeline */
 @media (max-width: 768px) {
+    /* Hide timeline line completely on mobile */
     .timeline-line {
-        left: 30px;
+        display: none;
     }
     
+    /* Remove timeline layout - stack cards vertically */
     .timeline-item {
-        flex-direction: row !important;
-        padding-left: 80px;
+        flex-direction: column !important;
+        align-items: stretch;
+        padding: 0;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
     }
     
+    /* Ensure even items follow same layout */
     .timeline-item:nth-child(even) {
-        flex-direction: row !important;
+        flex-direction: column !important;
     }
     
+    /* First item has normal margin */
+    .timeline-item:first-child {
+        margin-top: 0;
+    }
+    
+    /* Reposition marker above the card instead of on the side */
     .timeline-marker {
-        left: 30px;
-        width: 50px;
-        height: 50px;
+        position: relative;
+        left: 0;
+        transform: none;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 1rem auto;
     }
     
     .timeline-icon {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
     
     .timeline-school-logo {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         padding: 3px;
     }
     
+    /* Content takes full width */
     .timeline-content {
-        width: calc(100% - 80px);
-        padding: 0 1rem;
+        width: 100%;
+        padding: 0;
         text-align: left !important;
     }
     
+    /* Remove arrow decorations on mobile */
     .timeline-card::before {
         display: none;
+    }
+    
+    /* Card styling adjustments for mobile */
+    .timeline-card {
+        padding: 1.5rem;
     }
     
     .timeline-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .timeline-title {
+        font-size: 1.2rem;
+    }
+    
+    .timeline-institution {
+        font-size: 1rem;
+    }
+    
+    .timeline-description {
+        font-size: 0.95rem;
+    }
+    
+    /* Adjust badges for mobile */
+    .results-badges {
+        gap: 0.4rem;
+    }
+    
+    .result-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
+    }
+    
+    /* Adjust skill tags for mobile */
+    .skills-tags {
+        gap: 0.4rem;
+    }
+    
+    .skill-tag.clickable {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.6rem;
+    }
+    
+    .skill-tag.clickable .tech-icon-svg {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .skill-tag.clickable .tech-icon-emoji {
+        font-size: 12px;
+    }
+    
+    /* Adjust spacing for education section tabs on mobile */
+    .education-section .tabs {
+        margin-bottom: 2rem;
+    }
+    
+    /* Adjust timeline container padding */
+    .timeline-container {
+        padding: 1.5rem 0;
     }
     
     /* Education header responsive styles are now handled by section-headers.css */

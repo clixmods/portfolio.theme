@@ -382,10 +382,14 @@
     
     /**
      * Single column grid for better mobile viewing
+     * Reduced gap for more compact layout
      */
     .projects-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1.25rem;
+        padding: 0;
+        margin-left: 0;
+        margin-right: 0;
     }
     
     /**
@@ -434,6 +438,14 @@
     .tech-badge {
         font-size: 0.75rem;
         padding: 0.3rem 0.6rem;
+    }
+    
+    /**
+     * Extended grid to edges on mobile
+     */
+    .projects-grid {
+        gap: 1rem;
+        padding: 0;
     }
     
     /**

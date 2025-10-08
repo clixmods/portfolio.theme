@@ -447,8 +447,18 @@ body {
     }
 }
 
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1.5rem 0.20rem;
+    }
+}
+
 @media (max-width: 480px) {
     /* Skills header responsive styles are now handled by section-headers.css */
+    
+    .main-content {
+        padding: 1rem 0.20rem;
+    }
     
     .skills-categories-grid {
         gap: 1rem;
