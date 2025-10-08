@@ -530,7 +530,11 @@
         min-width: 200px;
     }
     
-
+    /* Section "Voir tous" sur mobile */
+    .projects-see-all {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+    }
     
     .social-icons {
         gap: 0.8rem;

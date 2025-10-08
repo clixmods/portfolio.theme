@@ -201,3 +201,22 @@ button.btn-action-icon {
     height: 20px;
     flex-shrink: 0;
 }
+
+/* ===================================
+   RESPONSIVE - MOBILE
+   =================================== */
+
+@media (max-width: 768px) {
+    /* Boutons "Voir tous..." prennent toute la largeur sur mobile */
+    .btn-action {
+        width: 100%;
+        display: flex;
+        white-space: normal; /* Permet le retour à la ligne si nécessaire */
+        text-align: center;
+    }
+    
+    /* Les boutons icône gardent leur taille fixe */
+    .btn-action-icon {
+        width: 44px;
+    }
+}
