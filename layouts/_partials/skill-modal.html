@@ -66,14 +66,18 @@
 window.portfolioProjects = [
     {{- range where .Site.RegularPages "Section" "projects" -}}
         {{- $allTechnologies := partial "get-all-technologies.html" . -}}
+        {{- $projectImage := .Params.image | default "/images/placeholder-project.jpg" -}}
+        {{- $optimizedProjectImage := partial "get-optimized-image.html" (dict "imagePath" $projectImage "width" 600 "quality" 85) -}}
         
         {
             title: {{ .Title | jsonify }},
             subtitle: {{ (.Params.subtitle | default .Params.description) | jsonify }},
             description: {{ .Params.description | jsonify }},
             url: {{ .RelPermalink | jsonify }},
-            image: {{ (.Params.image | default "/images/placeholder-project.jpg") | jsonify }},
-            background_image: {{ (.Params.image | default "/images/placeholder-project.jpg") | jsonify }},
+            image: "{{ $optimizedProjectImage.src }}",
+            imageWidth: {{ $optimizedProjectImage.width }},
+            imageHeight: {{ $optimizedProjectImage.height }},
+            background_image: "{{ $optimizedProjectImage.src }}",
             year: {{ (.Params.year | default (.Date.Format "2006")) | jsonify }},
             technologies: {{ $allTechnologies | jsonify }},
             sector: {{ .Params.sector | jsonify }},

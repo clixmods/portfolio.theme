@@ -18,7 +18,13 @@
                     <div class="testimonial-author{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ .personId }}" title="Voir le profil de {{ $person.Title }}"{{ end }}>
                         {{ if $person }}
                             {{ if $person.Params.avatar }}
-                            <img src="{{ $person.Params.avatar }}" alt="{{ $person.Title }}" class="testimonial-avatar">
+                                {{- $avatar := partial "get-optimized-image.html" (dict "imagePath" $person.Params.avatar "width" 200 "quality" 85) -}}
+                                <img src="{{ $avatar.src }}" 
+                                     alt="{{ $person.Title }}" 
+                                     class="testimonial-avatar"
+                                     {{- if and $avatar.isResource (gt $avatar.width 0) }} width="{{ $avatar.width }}"{{ end -}}
+                                     {{- if and $avatar.isResource (gt $avatar.height 0) }} height="{{ $avatar.height }}"{{ end -}}
+                                     loading="lazy">
                             {{ else }}
                             <div class="testimonial-avatar placeholder">
                                 <span>{{ substr $person.Title 0 1 | upper }}</span>

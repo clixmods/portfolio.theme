@@ -18,7 +18,12 @@
             <div class="experience-header-card">
                 <div class="company-info">
                     <div class="company-logo">
-                        <img src="{{ $exp.Params.logo }}" alt="{{ $exp.Params.company }}" onerror="this.onerror=null;this.src='/images/placeholder-company.jpg'">
+                        {{- $companyLogo := partial "get-optimized-image.html" (dict "imagePath" $exp.Params.logo "width" 200 "quality" 90) -}}
+                        <img src="{{ $companyLogo.src }}" 
+                             alt="{{ $exp.Params.company }}"
+                             {{- if and $companyLogo.isResource (gt $companyLogo.width 0) }} width="{{ $companyLogo.width }}"{{ end -}}
+                             {{- if and $companyLogo.isResource (gt $companyLogo.height 0) }} height="{{ $companyLogo.height }}"{{ end -}}
+                             loading="lazy">
                     </div>
                     <div class="company-details">
                         <h3 class="job-title">{{ $exp.Title }}</h3>
@@ -67,11 +72,19 @@
                                 <!-- Project image from referenced project -->
                                 <div class="project-tile-image">
                                     {{ if $projectPage.Params.image }}
-                                <img src="{{ $projectPage.Params.image }}" 
-                                    alt="{{ $projectPage.Title }}" 
-                                    onerror="this.onerror=null;this.src='/images/placeholder-project.jpg'">
+                                        {{- $projectImg := partial "get-optimized-image.html" (dict "imagePath" $projectPage.Params.image "width" 600 "quality" 85) -}}
+                                        <img src="{{ $projectImg.src }}" 
+                                             alt="{{ $projectPage.Title }}"
+                                             {{- if and $projectImg.isResource (gt $projectImg.width 0) }} width="{{ $projectImg.width }}"{{ end -}}
+                                             {{- if and $projectImg.isResource (gt $projectImg.height 0) }} height="{{ $projectImg.height }}"{{ end -}}
+                                             loading="lazy">
                                     {{ else }}
-                                        <img src="/images/placeholder-project.jpg" alt="{{ $projectPage.Title }}">
+                                        {{- $placeholderImg := partial "get-optimized-image.html" (dict "imagePath" "images/placeholder-project.jpg" "width" 600 "quality" 85) -}}
+                                        <img src="{{ $placeholderImg.src }}" 
+                                             alt="{{ $projectPage.Title }}"
+                                             {{- if and $placeholderImg.isResource (gt $placeholderImg.width 0) }} width="{{ $placeholderImg.width }}"{{ end -}}
+                                             {{- if and $placeholderImg.isResource (gt $placeholderImg.height 0) }} height="{{ $placeholderImg.height }}"{{ end -}}
+                                             loading="lazy">
                                     {{ end }}
                                     <div class="project-tile-overlay"></div>
                                 </div>
@@ -122,9 +135,12 @@
                             {{/* Handle inline project definition */}}
                             <!-- Project image (placeholder for inline projects) -->
                             <div class="project-tile-image">
-                          <img src="/images/projects/{{ lower (.name | urlize) }}/thumbnail.jpg" 
-                              alt="{{ .name }}" 
-                              onerror="this.onerror=null;this.src='/images/placeholder-project.jpg'">
+                                {{- $inlineImg := partial "get-optimized-image.html" (dict "imagePath" (printf "/images/projects/%s/thumbnail.jpg" (lower (.name | urlize))) "width" 600 "quality" 85) -}}
+                                <img src="{{ $inlineImg.src }}" 
+                                     alt="{{ .name }}"
+                                     {{- if and $inlineImg.isResource (gt $inlineImg.width 0) }} width="{{ $inlineImg.width }}"{{ end -}}
+                                     {{- if and $inlineImg.isResource (gt $inlineImg.height 0) }} height="{{ $inlineImg.height }}"{{ end -}}
+                                     loading="lazy">
                                 <div class="project-tile-overlay"></div>
                             </div>
                             

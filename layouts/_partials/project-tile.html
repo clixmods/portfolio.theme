@@ -23,9 +23,14 @@
     
     <!-- Main tile image -->
     <div class="ps5-tile-image">
+        {{- $imagePath := $project.Params.image | default "images/placeholder-project.jpg" -}}
+        {{- $optimizedImage := partial "get-optimized-image.html" (dict "imagePath" $imagePath "width" 800 "quality" 85) -}}
+        
         <img loading="lazy" 
-             src="{{ with $project.Params.image }}{{ . | relURL }}{{ else }}{{ "images/placeholder-project.jpg" | relURL }}{{ end }}" 
-             alt="{{ $project.Title }}">
+             src="{{ $optimizedImage.src }}" 
+             alt="{{ $project.Title }}"
+             {{- if and $optimizedImage.isResource (gt $optimizedImage.width 0) }} width="{{ $optimizedImage.width }}"{{ end -}}
+             {{- if and $optimizedImage.isResource (gt $optimizedImage.height 0) }} height="{{ $optimizedImage.height }}"{{ end -}}>
         <div class="ps5-tile-overlay"></div>
     </div>
     

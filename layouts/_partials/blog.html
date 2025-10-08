@@ -24,7 +24,12 @@
 
                 {{ if .Params.image }}
                 <div class="blog-image">
-                    <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
+                    {{- $blogImage := partial "get-optimized-image.html" (dict "imagePath" .Params.image "width" 800 "quality" 85) -}}
+                    <img src="{{ $blogImage.src }}" 
+                         alt="{{ .Title }}" 
+                         {{- if and $blogImage.isResource (gt $blogImage.width 0) }} width="{{ $blogImage.width }}"{{ end -}}
+                         {{- if and $blogImage.isResource (gt $blogImage.height 0) }} height="{{ $blogImage.height }}"{{ end -}}
+                         loading="lazy">
                 </div>
                 {{ end }}
                 

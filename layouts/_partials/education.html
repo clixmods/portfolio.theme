@@ -19,7 +19,13 @@
         <div class="timeline-item education-item" data-category="education">
             <div class="timeline-marker" style="background-color: {{ .Params.color }};">
                 {{ if .Params.school_logo }}
-                    <img src="{{ .Params.school_logo }}" alt="{{ .Params.institution }}" class="timeline-school-logo">
+                    {{- $logo := partial "get-optimized-image.html" (dict "imagePath" .Params.school_logo "width" 150 "quality" 90) -}}
+                    <img src="{{ $logo.src }}" 
+                         alt="{{ .Params.institution }}" 
+                         class="timeline-school-logo"
+                         {{- if and $logo.isResource (gt $logo.width 0) }} width="{{ $logo.width }}"{{ end -}}
+                         {{- if and $logo.isResource (gt $logo.height 0) }} height="{{ $logo.height }}"{{ end -}}
+                         loading="lazy">
                 {{ else }}
                     <span class="timeline-icon">{{ .Params.icon }}</span>
                 {{ end }}

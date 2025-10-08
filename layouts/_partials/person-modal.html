@@ -73,10 +73,17 @@
 <script>
 window.portfolioPeople = [
     {{- range where .Site.RegularPages "Section" "people" -}}
+        {{- $avatarPath := .Params.avatar | default "" -}}
+        {{- $optimizedAvatar := dict "src" $avatarPath "width" 0 "height" 0 -}}
+        {{- if $avatarPath -}}
+            {{- $optimizedAvatar = partial "get-optimized-image.html" (dict "imagePath" $avatarPath "width" 300 "quality" 90) -}}
+        {{- end -}}
         {
             id: "{{ .Params.id }}",
             name: "{{ .Title }}",
-            avatar: "{{ .Params.avatar }}",
+            avatar: "{{ $optimizedAvatar.src }}",
+            avatarWidth: {{ $optimizedAvatar.width }},
+            avatarHeight: {{ $optimizedAvatar.height }},
             position: "{{ .Params.position }}",
             company: "{{ .Params.company }}",
             bio: "{{ .Params.bio }}",
@@ -109,18 +116,22 @@ if (!window.portfolioProjects) {
     window.portfolioProjects = [
         {{- range where .Site.RegularPages "Section" "projects" -}}
             {{- $allTechnologies := partial "get-all-technologies.html" . -}}
+            {{- $projectImage := .Params.image | default "/images/placeholder-project.jpg" -}}
+            {{- $optimizedProjectImage := partial "get-optimized-image.html" (dict "imagePath" $projectImage "width" 600 "quality" 85) -}}
             {
                 title: {{ .Title | jsonify }},
                 subtitle: {{ .Params.subtitle | jsonify }},
                 description: {{ .Params.description | jsonify }},
-                image: {{ .Params.image | jsonify }},
+                image: "{{ $optimizedProjectImage.src }}",
+                imageWidth: {{ $optimizedProjectImage.width }},
+                imageHeight: {{ $optimizedProjectImage.height }},
                 status: {{ .Params.status | jsonify }},
                 sector: {{ .Params.sector | jsonify }},
                 featured: {{ .Params.featured | default false }},
                 url: {{ .RelPermalink | jsonify }},
                 year: {{ (.Params.year | default (.Date.Format "2006")) | jsonify }},
                 technologies: {{ $allTechnologies | jsonify }},
-                background_image: {{ (.Params.image | default "/images/placeholder-project.jpg") | jsonify }},
+                background_image: "{{ $optimizedProjectImage.src }}",
                 github: {{ .Params.github | jsonify }},
                 demo: {{ .Params.demo | jsonify }},
                 website: {{ .Params.website | jsonify }},

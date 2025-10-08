@@ -5,7 +5,12 @@
         <!-- Avatar Circle with Status Badge -->
         <div class="hero-avatar">
             <div class="avatar-container">
-                <img src="{{ .media.profileImage }}" alt="{{ .personal.fullName }}" class="hero-profile-image">
+                {{- $profileImage := partial "get-optimized-image.html" (dict "imagePath" .media.profileImage "width" 400 "quality" 90) -}}
+                <img src="{{ $profileImage.src }}" 
+                     alt="{{ .personal.fullName }}" 
+                     class="hero-profile-image"
+                     {{- if and $profileImage.isResource (gt $profileImage.width 0) }} width="{{ $profileImage.width }}"{{ end -}}
+                     {{- if and $profileImage.isResource (gt $profileImage.height 0) }} height="{{ $profileImage.height }}"{{ end -}}>
                 <div class="status-badge {{ if .availability.available }}available{{ else }}unavailable{{ end }}">
                     {{ .availability.status }}
                 </div>
