@@ -89,8 +89,13 @@
 
             {{ if .Params.image }}
             <!-- Blog Image -->
+            {{- $blogImg := partial "get-optimized-image.html" (dict "imagePath" .Params.image "width" 800 "quality" 85) -}}
             <div class="blog-image">
-                <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
+                <img src="{{ $blogImg.src }}" 
+                     width="{{ $blogImg.width }}" 
+                     height="{{ $blogImg.height }}" 
+                     alt="{{ .Title }}" 
+                     loading="lazy">
             </div>
             {{ end }}
 

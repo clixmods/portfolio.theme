@@ -24,11 +24,15 @@
     
     <div class="gallery-modal-grid">
       {{- range $index, $image := $gallery -}}
+        {{- $optimizedImg := partial "get-optimized-image.html" (dict "imagePath" .url "width" 800 "quality" 85) -}}
+        {{- $fullResImg := partial "get-optimized-image.html" (dict "imagePath" .url "width" 2400 "quality" 100) -}}
         <div class="gallery-modal-item" 
              data-index="{{ $index }}"
-             onclick="openImageModal('{{ .url }}', '{{ .caption }}')">
+             onclick="openImageModal('{{ $fullResImg.src }}', '{{ .caption }}')">
           <div class="gallery-item-container">
-            <img src="{{ .url }}" 
+            <img src="{{ $optimizedImg.src }}" 
+                 width="{{ $optimizedImg.width }}" 
+                 height="{{ $optimizedImg.height }}"
                  alt="{{ .caption | default (printf "Image %d de la galerie" (add $index 1)) }}" 
                  loading="lazy">
             

@@ -1,9 +1,10 @@
 {{ define "main" }}
 <!-- Project Hero Section -->
 {{ if .Params.image }}
+{{- $heroImg := partial "get-optimized-image.html" (dict "imagePath" .Params.image "width" 1920 "quality" 100) -}}
 <style>
     body {
-        --hero-bg-image: url('{{ .Params.image }}');
+        --hero-bg-image: url('{{ $heroImg.src }}');
     }
 </style>
 {{ end }}

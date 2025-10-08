@@ -84,7 +84,8 @@
     <div class="developer-profile-note">
       <div class="profile-avatar">
         {{- if $ownerContributor.hasAvatar -}}
-          <img src="{{ $ownerContributor.avatarPath }}" alt="{{ $ownerContributor.name }}" loading="lazy">
+          {{- $ownerAvatar := partial "get-optimized-image.html" (dict "imagePath" $ownerContributor.avatarPath "width" 80 "quality" 90) -}}
+          <img src="{{ $ownerAvatar.src }}" width="{{ $ownerAvatar.width }}" height="{{ $ownerAvatar.height }}" alt="{{ $ownerContributor.name }}" loading="lazy">
         {{- else -}}
           <span>{{ substr $ownerContributor.name 0 1 | upper }}</span>
         {{- end -}}
@@ -136,7 +137,8 @@
               {{/* Avatar du contributeur */}}
               <div class="contrib-avatar{{ if not $hasAvatar }} placeholder{{ end }}">
                 {{- if $hasAvatar -}}
-                  <img src="{{ $avatarPath }}" alt="Avatar de {{ $personName }}" loading="lazy" />
+                  {{- $contribAvatar := partial "get-optimized-image.html" (dict "imagePath" $avatarPath "width" 80 "quality" 90) -}}
+                  <img src="{{ $contribAvatar.src }}" width="{{ $contribAvatar.width }}" height="{{ $contribAvatar.height }}" alt="Avatar de {{ $personName }}" loading="lazy" />
                 {{- else -}}
                   <span>{{ $initials }}</span>
                 {{- end -}}

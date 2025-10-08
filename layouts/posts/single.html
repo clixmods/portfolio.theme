@@ -22,8 +22,13 @@
 
         <!-- Featured Image -->
         {{ if .Params.image }}
+        {{- $featuredImg := partial "get-optimized-image.html" (dict "imagePath" .Params.image "width" 1200 "quality" 90) -}}
         <div class="blog-article-image">
-            <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
+            <img src="{{ $featuredImg.src }}" 
+                 width="{{ $featuredImg.width }}" 
+                 height="{{ $featuredImg.height }}" 
+                 alt="{{ .Title }}" 
+                 loading="lazy">
         </div>
         {{ end }}
     </header>
@@ -83,9 +88,14 @@
     <!-- Blog Article Footer -->
     <footer class="blog-article-footer">
         <!-- Author Info -->
+        {{- $authorAvatar := partial "get-optimized-image.html" (dict "imagePath" .Site.Data.profile.media.profileImage "width" 200 "quality" 90) -}}
         <div class="blog-author-info clickable-person" data-person-id="clement-garcia" title="Voir le profil de {{ .Site.Data.profile.personal.fullName }}">
             <div class="blog-author-avatar">
-                <img src="{{ .Site.Data.profile.media.profileImage }}" alt="{{ .Site.Data.profile.personal.fullName }}" loading="lazy">
+                <img src="{{ $authorAvatar.src }}" 
+                     width="{{ $authorAvatar.width }}" 
+                     height="{{ $authorAvatar.height }}" 
+                     alt="{{ .Site.Data.profile.personal.fullName }}" 
+                     loading="lazy">
             </div>
             <div class="blog-author-content">
                 <h3>{{ i18n "about_author" | default "À propos de l'auteur" }}</h3>

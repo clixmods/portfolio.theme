@@ -14,10 +14,14 @@
         {{- $firstTestimonial := index .Params.testimonials 0 -}}
         {{- $firstPerson := partial "helpers/get-person.html" (dict "context" $ "personId" $firstTestimonial.person) -}}
         {{- if $firstPerson -}}
+          {{- $testimonialAvatar := dict "src" "" "width" 0 "height" 0 -}}
+          {{- if $firstPerson.Params.avatar -}}
+            {{- $testimonialAvatar = partial "get-optimized-image.html" (dict "imagePath" $firstPerson.Params.avatar "width" 80 "quality" 90) -}}
+          {{- end -}}
       <div class="project-widget-title-testimonial{{ if $firstPerson }} clickable-person{{ end }}"{{ if $firstPerson }} data-person-id="{{ $firstTestimonial.person }}" title="Voir le profil de {{ $firstPerson.Params.title }}"{{ end }}>
         <div class="project-widget-title-avatar {{ if not $firstPerson.Params.avatar }}placeholder{{ end }}">
           {{- if $firstPerson.Params.avatar -}}
-          <img src="{{ $firstPerson.Params.avatar }}" alt="{{ $firstPerson.Params.title }}">
+          <img src="{{ $testimonialAvatar.src }}" width="{{ $testimonialAvatar.width }}" height="{{ $testimonialAvatar.height }}" alt="{{ $firstPerson.Params.title }}">
           {{- else -}}
           <span>{{ substr $firstPerson.Params.title 0 1 | upper }}</span>
           {{- end -}}

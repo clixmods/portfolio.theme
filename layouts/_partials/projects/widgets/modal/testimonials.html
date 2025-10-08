@@ -50,7 +50,10 @@
               <div class="author-avatar {{ if not $person.Params.avatar }}author-avatar--placeholder{{ end }}">
                 {{- if $person -}}
                   {{- if $person.Params.avatar -}}
-                    <img src="{{ $person.Params.avatar }}" 
+                    {{- $testimonialAvatar := partial "get-optimized-image.html" (dict "imagePath" $person.Params.avatar "width" 80 "quality" 90) -}}
+                    <img src="{{ $testimonialAvatar.src }}" 
+                         width="{{ $testimonialAvatar.width }}" 
+                         height="{{ $testimonialAvatar.height }}"
                          alt="Photo de {{ $person.Params.title }}"
                          loading="lazy">
                   {{- else -}}

@@ -22,9 +22,13 @@
           {{- range first 4 .Params.contributors -}}
             {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) -}}
             {{- if $person -}}
+              {{- $avatarImg := dict "src" "" "width" 0 "height" 0 -}}
+              {{- if $person.Params.avatar -}}
+                {{- $avatarImg = partial "get-optimized-image.html" (dict "imagePath" $person.Params.avatar "width" 80 "quality" 90) -}}
+              {{- end -}}
           <div class="contributor-avatar-mini {{ if not $person.Params.avatar }}placeholder{{ end }}{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ .person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
             {{- if $person.Params.avatar -}}
-            <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
+            <img src="{{ $avatarImg.src }}" width="{{ $avatarImg.width }}" height="{{ $avatarImg.height }}" alt="{{ $person.Params.title }}">
             {{- else -}}
             <span>{{ substr $person.Params.title 0 1 | upper }}</span>
             {{- end -}}
