@@ -1,9 +1,9 @@
 ﻿{{ define "main" }}
 <div class="blog-theme posts-list-page">
     <!-- Blog Header -->
-    <header class="blog-header">
-    <h1>{{ .Title | default (i18n "blog" | default "Blog") }}</h1>
-        <p class="blog-subtitle">
+    <header class="blog-header section-header-unified">
+    <h1 class="section-title-unified">{{ .Title | default (i18n "blog" | default "Blog") }}</h1>
+        <p class="blog-subtitle section-subtitle-unified">
             {{ .Params.description | default (i18n "blog_list_subtitle" | default "Découvrez tous mes articles et réflexions sur le développement, les technologies et l'innovation") }}
         </p>
     </header>
