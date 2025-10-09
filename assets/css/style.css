@@ -407,7 +407,7 @@ body {
     }
     
     .skill-level {
-        font-size: 0.65rem;
+        display: none;
     }
     
     /* Skills header responsive styles are now handled by section-headers.css */

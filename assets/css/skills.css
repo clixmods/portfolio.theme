@@ -246,7 +246,7 @@
     }
     
     .skill-level {
-        font-size: 0.65rem;
+        display: none;
     }
     
     .skills-header h2 {
