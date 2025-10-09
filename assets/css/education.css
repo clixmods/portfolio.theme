@@ -492,23 +492,26 @@
         margin-top: 0;
     }
     
-    /* Reposition marker above the card instead of on the side */
+    /* Reposition marker inside the card at top right */
     .timeline-marker {
-        position: relative;
-        left: 0;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        left: auto;
         transform: none;
-        width: 60px;
-        height: 60px;
-        margin: 0 auto 1rem auto;
+        width: 50px;
+        height: 50px;
+        margin: 0;
+        z-index: 10;
     }
     
     .timeline-icon {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
     
     .timeline-school-logo {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         padding: 3px;
     }
     
@@ -517,6 +520,7 @@
         width: 100%;
         padding: 0;
         text-align: left !important;
+        position: relative;
     }
     
     /* Remove arrow decorations on mobile */
@@ -527,6 +531,7 @@
     /* Card styling adjustments for mobile */
     .timeline-card {
         padding: 1.5rem;
+        padding-right: 5rem; /* Space for the icon on the right */
     }
     
     .timeline-header {
