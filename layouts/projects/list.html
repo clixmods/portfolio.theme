@@ -1,390 +1,91 @@
 {{ define "main" }}
-{{/* PS5 CSS already loaded via head. Keep secure fallback if needed. */}}
-{{ with resources.Get "css/ps5-projects.css" }}
-<link rel="stylesheet" href="{{ .RelPermalink }}">
-{{ end }}
-<!-- Preload placeholder to avoid repeated requests -->
-<link rel="preload" as="image" href="/images/placeholder-project.jpg">
 
-<div class="ps5-projects-page">
-    <!-- Dynamic project background -->
-    <div id="project-bg" aria-hidden="true"></div>
-    <!-- Global projects header -->
-    <section class="projects-page-header" aria-labelledby="projects-main-title">
-        <div class="projects-heading-block">
-            <h1 id="projects-main-title" class="projects-list-title">{{ .Title | default (i18n "projects_title" | default "Mes projets") }}</h1>
-            <p class="projects-list-subtitle">
-                {{ .Params.description | default ( i18n "projects_list_subtitle" | default "Sélection de mes créations : jeux vidéo, applications web et outils de développement." ) }}
-            </p>
-        </div>
-        <!-- Optional quick stats -->
-        <div class="projects-quick-stats">
-            {{ $all := where .Site.RegularPages "Section" "projects" }}
-            {{ $games := where $all ".Params.sector" "in" (slice "games-professionnel" "games-personnel" "games-gamejams") }}
-            {{ $apps := where $all ".Params.sector" "in" (slice "appsweb-professionnel" "appsweb-etude") }}
-            {{ $mods := where $all ".Params.sector" "mods" }}
-            {{ $tools := where $all ".Params.sector" "tools" }}
-            <div class="pqs-item"><span class="pqs-number">{{ len $all }}</span><span class="pqs-label">{{ i18n "total_projects" | default "Total" }}</span></div>
-            <div class="pqs-item"><span class="pqs-number">{{ len $games }}</span><span class="pqs-label">{{ i18n "games" | default "Jeux" }}</span></div>
-            <div class="pqs-item"><span class="pqs-number">{{ len $apps }}</span><span class="pqs-label">{{ i18n "apps_web" | default "Apps/Web" }}</span></div>
-            <div class="pqs-item"><span class="pqs-number">{{ len $mods }}</span><span class="pqs-label">Mods</span></div>
-            <div class="pqs-item"><span class="pqs-number">{{ len $tools }}</span><span class="pqs-label">Tools</span></div>
-        </div>
-    </section>
-
-    <!-- Sticky filters bar (sectors) -->
-    <div class="projects-filters-bar" role="toolbar" aria-label="Project filters">
-      <div class="tabs projects-tabs" role="tablist" aria-label="Types de projets">
-          <button class="tab-btn active" data-category="all" role="tab" aria-selected="true">
-              <span class="tab-icon">📦</span>
-              <span class="tab-label">Tous</span>
-          </button>
-          <button class="tab-btn" data-category="games" role="tab" aria-selected="false">
-              <span class="tab-icon">🎮</span>
-              <span class="tab-label">Games</span>
-          </button>
-          <button class="tab-btn" data-category="appsweb" role="tab" aria-selected="false">
-              <span class="tab-icon">🌐</span>
-              <span class="tab-label">Apps & Web</span>
-          </button>
-          <button class="tab-btn" data-category="mods" role="tab" aria-selected="false">
-              <span class="tab-icon">🧩</span>
-              <span class="tab-label">Mods</span>
-          </button>
-          <button class="tab-btn" data-category="tools" role="tab" aria-selected="false">
-              <span class="tab-icon">🛠️</span>
-              <span class="tab-label">Tools</span>
-          </button>
-      </div>
-      
-      <!-- Sub-filters for Games -->
-      <div class="sub-tabs" id="games-subtabs" style="display: none;">
-          <button class="sub-tab-btn active" data-subcategory="games-all">
-              <span class="subtab-icon">📦</span>Tous
-          </button>
-          <button class="sub-tab-btn" data-subcategory="games-professionnel">
-              <span class="subtab-icon">💼</span>Professionnel
-          </button>
-          <button class="sub-tab-btn" data-subcategory="games-personnel">
-              <span class="subtab-icon">🎯</span>Personnel
-          </button>
-          <button class="sub-tab-btn" data-subcategory="games-gamejams">
-              <span class="subtab-icon">⚡</span>Game Jams
-          </button>
-      </div>
-      
-      <!-- Sub-filters for Apps & Web -->
-      <div class="sub-tabs" id="appsweb-subtabs" style="display: none;">
-          <button class="sub-tab-btn active" data-subcategory="appsweb-all">
-              <span class="subtab-icon">📦</span>Tous
-          </button>
-          <button class="sub-tab-btn" data-subcategory="appsweb-professionnel">
-              <span class="subtab-icon">🏢</span>Professionnel
-          </button>
-          <button class="sub-tab-btn" data-subcategory="appsweb-etude">
-              <span class="subtab-icon">🎓</span>Étude
-          </button>
-      </div>
+<div class="container projects-list-page">
+    <!-- Progress bar pour indiquer le défilement -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar"></div>
     </div>
-
-    <!-- Scrollable projects grid -->
-    <div class="projects-scroll-area">
-    <div class="ps5-projects-tiles">
-        {{/* List all projects (excluding _index) */}}
-        {{ $projects := where .Site.RegularPages "Section" "projects" }}
-        {{ range $projects }}
-        {{ if not (eq .File.LogicalName "_index.md") }}
-    {{- $projectImg := .Params.image | default "/images/placeholder-project.jpg" -}}
-    {{- $optimizedImg := partial "get-optimized-image.html" (dict "imagePath" $projectImg "width" 900 "quality" 95) -}}
-    <article class="ps5-project-tile"
-         data-project-id="{{ .File.BaseFileName }}"
-         data-background-image="{{ $optimizedImg.src }}"
-         data-category="{{ .Params.sector }}"
-         
-         data-technologies='{{ partial "combined-technologies.html" . }}'>
-            <!-- Main image -->
-            <div class="ps5-tile-image">
-                <img loading="lazy" 
-                     src="{{ $optimizedImg.src }}" 
-                     width="{{ $optimizedImg.width }}" 
-                     height="{{ $optimizedImg.height }}" 
-                     alt="{{ .Title }}" 
-                     onerror="this.onerror=null;this.src='/images/placeholder-project.jpg';">
-                <div class="ps5-tile-overlay"></div>
+    
+    <main class="main-content projects-list-content">
+        <!-- Projects Section -->
+        <section class="projects-section projects-page">
+            <div class="projects-header section-header-unified">
+                <h1 class="section-title-unified">{{ i18n "projects_title" | default (i18n "projects") }}</h1>
+                <p class="projects-subtitle section-subtitle-unified">{{ i18n "projects_subtitle" | default "Construire des applications utiles qui simplifient la vie." }}</p>
             </div>
 
-            <!-- Sector icon -->
-            <div class="ps5-tile-sector-icon">
-                {{ if in .Params.sector "games-" }}🎮{{ end }}
-                {{ if in .Params.sector "appsweb-" }}🛒{{ end }}
-                {{ if eq .Params.sector "mods" }}🧩{{ end }}
-                {{ if eq .Params.sector "tools" }}🛠️{{ end }}
+            {{/* Calculate project counts for each category */}}
+            {{ $gamesCount := 0 }}
+            {{ $appsWebCount := 0 }}
+            {{ $modsToolsCount := 0 }}
+            
+            {{ range where $.Site.RegularPages "Section" "projects" }}
+                {{ if hasPrefix .Params.sector "games" }}
+                    {{ $gamesCount = add $gamesCount 1 }}
+                {{ else if hasPrefix .Params.sector "appsweb" }}
+                    {{ $appsWebCount = add $appsWebCount 1 }}
+                {{ else if or (eq .Params.sector "mods") (eq .Params.sector "tools") }}
+                    {{ $modsToolsCount = add $modsToolsCount 1 }}
+                {{ end }}
+            {{ end }}
+
+            <!-- Navigation Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-category="games">
+                    🎮 {{ i18n "games" | default "Jeux" }}
+                    <span class="count">{{ $gamesCount }}</span>
+                </button>
+                <button class="tab-btn" data-category="apps-web">
+                    💻 {{ i18n "apps_web" | default "Apps/Web" }}
+                    <span class="count">{{ $appsWebCount }}</span>
+                </button>
+                <button class="tab-btn" data-category="mods-tools">
+                    🛠️ {{ i18n "mods_tools" | default "Mods & Tools" }}
+                    <span class="count">{{ $modsToolsCount }}</span>
+                </button>
             </div>
 
-            <!-- Short content -->
-            <div class="ps5-tile-content">
-                <h3 class="ps5-tile-title">{{ .Title }}</h3>
-                {{ with .Params.subtitle }}<p class="ps5-tile-subtitle">{{ . }}</p>{{ end }}
+            <!-- Description Text -->
+            <div class="projects-description">
+                <p id="section-description">{{ i18n "projects_description" | default "Découvrez mes projets organisés par secteur d'expertise : jeux vidéo, applications web et outils de développement." }}</p>
             </div>
 
-            <!-- Detailed overlay -->
-            <div class="ps5-tile-info">
-                <div class="ps5-tile-info-content">
-                    <h3 class="ps5-tile-info-title">{{ .Title }}</h3>
-                    {{ with .Params.subtitle }}<p class="ps5-tile-info-subtitle">{{ . }}</p>{{ end }}
-                    {{ with .Params.description }}<p class="ps5-tile-description">{{ . }}</p>{{ end }}
-
-                    <!-- Main technologies -->
-                    {{ $allTechnologies := partial "get-all-technologies.html" . }}
-                    {{ if $allTechnologies }}
-                    <div class="ps5-tile-tech">
-                        {{ $techCount := len $allTechnologies }}
-                        {{ range first 3 $allTechnologies }}
-                            {{ $techName := . }}
-                            {{ $found := false }}
-                            {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines) }}
-                                {{ if eq .name $techName }}<span class="ps5-tile-tech-item">{{ partial "tech-icon.html" . }} {{ .name }}</span>{{ $found = true }}{{ end }}
-                            {{ end }}
-                            {{ if not $found }}<span class="ps5-tile-tech-item">{{ $techName }}</span>{{ end }}
+            <!-- Projects Grid -->
+            <div class="projects-grid" id="projects-grid">
+                {{/* Load categories configuration */}}
+                {{ $categories := partial "project-categories-config.html" . }}
+                
+                {{/* Loop through each category and display ALL projects (not just featured) */}}
+                {{ range $categoryKey, $config := $categories }}
+                    {{ range where $.Site.RegularPages "Section" "projects" }}
+                        {{/* Dynamic filtering logic based on configuration */}}
+                        {{ $shouldShow := false }}
+                        
+                        {{ if eq $categoryKey "games" }}
+                            {{ if hasPrefix .Params.sector "games" }}{{ $shouldShow = true }}{{ end }}
+                        {{ else if eq $categoryKey "apps-web" }}
+                            {{ if hasPrefix .Params.sector "appsweb" }}{{ $shouldShow = true }}{{ end }}
+                        {{ else if eq $categoryKey "mods-tools" }}
+                            {{ if or (eq .Params.sector "mods") (eq .Params.sector "tools") }}{{ $shouldShow = true }}{{ end }}
                         {{ end }}
-                        {{ if gt $techCount 3 }}<span class="ps5-tile-tech-more">+{{ sub $techCount 3 }}</span>{{ end }}
-                    </div>
+                        
+                        {{/* Display tile if conditions are met */}}
+                        {{ if $shouldShow }}
+                            {{ partial "project-tile.html" (dict 
+                                "project" . 
+                                "category" $categoryKey 
+                                "icon" $config.icon 
+                                "displayStyle" $config.displayStyle
+                            ) }}
+                        {{ end }}
                     {{ end }}
-
-                    <div class="ps5-tile-meta">
-                        <span class="ps5-tile-date">{{ .Date.Format "2006" }}</span>
-                        <a href="{{ .Permalink }}" class="ps5-tile-btn">
-                            {{ i18n "see_project" | default "Voir le projet" }}
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </a>
-                    </div>
-                </div>
+                {{ end }}
             </div>
-
-            <!-- Invisible main link -->
-            <a href="{{ .Permalink }}" class="ps5-tile-link" aria-label="{{ i18n "see_project" | default "Voir le projet" }}: {{ .Title }}"></a>
-        </article>
-        {{ end }}
-        {{ end }}
-    </div><!-- /.ps5-projects-tiles -->
-    </div><!-- /.projects-scroll-area -->
-
+        </section>
+    </main>
 </div>
 
-{{/* Include TabController JS */}}
-{{ with resources.Get "js/tab-controller.js" }}
-<script src="{{ .RelPermalink }}"></script>
-{{ end }}
-<script>
-// Initialize tab system for projects
-document.addEventListener('DOMContentLoaded', function() {
-    // Small delay to ensure DOM is fully loaded
-    setTimeout(() => {
-        console.log('=== PROJECTS TABS DEBUG ===');
-    
-    // Element selection
-    let tabBtns = document.querySelectorAll('.projects-page .tab-btn');
-    if (tabBtns.length === 0) {
-        tabBtns = document.querySelectorAll('.tab-btn');
-    }
-    if (tabBtns.length === 0) {
-        tabBtns = document.querySelectorAll('[data-category]');
-    }
-    
-    const subtabBtns = document.querySelectorAll('.sub-tab-btn');
-    const projectTiles = document.querySelectorAll('.ps5-project-tile');
-    const gamesSubtabs = document.getElementById('games-subtabs');
-    const appswebSubtabs = document.getElementById('appsweb-subtabs');
-    
-    console.log('Tab buttons found:', tabBtns.length);
-    console.log('Subtab buttons found:', subtabBtns.length);
-    console.log('Project tiles found:', projectTiles.length);
-    
-    if (tabBtns.length === 0) {
-        console.error('No tab buttons found with selector ".projects-page .tab-btn"');
-        return;
-    }
-    
-    if (projectTiles.length === 0) {
-        console.error('No project tiles found with selector ".ps5-project-tile"');
-        return;
-    }
-    
-    // Custom filtering function
-    function filterProjects(category, subcategory = null) {
-        console.log('Filtering projects for category:', category, 'subcategory:', subcategory);
-        let visibleCount = 0;
-        
-        projectTiles.forEach(tile => {
-            const sector = tile.getAttribute('data-category');
-            let shouldShow = false;
-            
-            if (category === 'all') {
-                shouldShow = true;
-            } else if (category === 'games') {
-                if (subcategory && subcategory !== 'games-all') {
-                    shouldShow = sector === subcategory;
-                } else {
-                    shouldShow = sector && sector.startsWith('games-');
-                }
-            } else if (category === 'appsweb') {
-                if (subcategory && subcategory !== 'appsweb-all') {
-                    shouldShow = sector === subcategory;
-                } else {
-                    shouldShow = sector && sector.startsWith('appsweb-');
-                }
-            } else {
-                shouldShow = sector === category;
-            }
-            
-            // Animation with transitions
-            if (shouldShow) {
-                visibleCount++;
-                tile.style.display = '';
-                tile.style.opacity = '0';
-                tile.style.transform = 'translateY(10px)';
-                setTimeout(() => {
-                    tile.style.opacity = '1';
-                    tile.style.transform = 'translateY(0)';
-                }, 50);
-            } else {
-                tile.style.opacity = '0';
-                tile.style.transform = 'translateY(-10px)';
-                setTimeout(() => {
-                    tile.style.display = 'none';
-                }, 300);
-            }
-        });
-        
-        console.log(`Filtered: ${visibleCount}/${projectTiles.length} tiles visible`);
-    }
-    
-    // Function to show/hide subtabs
-    function showSubtabs(category) {
-        const mainTabsContainer = document.querySelector('.tabs.projects-tabs');
-        
-        // Hide all subtabs
-        document.querySelectorAll('.sub-tabs').forEach(subtab => {
-            subtab.style.display = 'none';
-        });
-        
-        // Remove integration class
-        if (mainTabsContainer) {
-            mainTabsContainer.classList.remove('has-subtabs');
-        }
-        
-        // Show appropriate subtabs and add integration class
-        if (category === 'games' && gamesSubtabs) {
-            gamesSubtabs.style.display = 'flex';
-            if (mainTabsContainer) {
-                mainTabsContainer.classList.add('has-subtabs');
-            }
-        } else if (category === 'appsweb' && appswebSubtabs) {
-            appswebSubtabs.style.display = 'flex';
-            if (mainTabsContainer) {
-                mainTabsContainer.classList.add('has-subtabs');
-            }
-        }
-    }
-    
-    // Handle tab clicks
-    tabBtns.forEach((tab, index) => {
-        console.log(`Setting up tab ${index}:`, tab.getAttribute('data-category'));
-        
-        tab.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log('Tab clicked:', tab.getAttribute('data-category'));
-            
-            // Remove active from all tabs
-            tabBtns.forEach(t => {
-                t.classList.remove('active');
-                t.setAttribute('aria-selected', 'false');
-            });
-            
-            // Add active to clicked tab
-            tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
-            
-            // Filter projects and manage subtabs
-            const category = tab.getAttribute('data-category');
-            console.log('Filtering by category:', category);
-            
-            // Show/hide subtabs
-            showSubtabs(category);
-            
-            // Reset subtabs to "All"
-            if (category === 'games' || category === 'appsweb') {
-                const activeSubtabs = document.querySelectorAll(`#${category}-subtabs .sub-tab-btn`);
-                activeSubtabs.forEach(subtab => subtab.classList.remove('active'));
-                const allSubtab = document.querySelector(`#${category}-subtabs [data-subcategory="${category}-all"]`);
-                if (allSubtab) allSubtab.classList.add('active');
-            }
-            
-            filterProjects(category);
-        });
-    });
-    
-    // Handle subtab clicks
-    subtabBtns.forEach((subtab, index) => {
-        console.log(`Setting up subtab ${index}:`, subtab.getAttribute('data-subcategory'));
-        
-        subtab.addEventListener('click', (e) => {
-            e.preventDefault();
-            const subcategory = subtab.getAttribute('data-subcategory');
-            console.log('Subtab clicked:', subcategory);
-            
-            // Determine parent category
-            let parentCategory = 'all';
-            if (subcategory.startsWith('games-')) {
-                parentCategory = 'games';
-            } else if (subcategory.startsWith('appsweb-')) {
-                parentCategory = 'appsweb';
-            }
-            
-            // Remove active from other subtabs of same category
-            const parentSubtabs = document.querySelectorAll(`#${parentCategory}-subtabs .sub-tab-btn`);
-            parentSubtabs.forEach(s => s.classList.remove('active'));
-            
-            // Add active to clicked subtab
-            subtab.classList.add('active');
-            
-            // Filter projects with subcategory
-            filterProjects(parentCategory, subcategory);
-        });
-    });
-    
-    // Add transition styles to tiles
-    projectTiles.forEach(tile => {
-        tile.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-    });
-    
-    // Initialize with "all"
-    filterProjects('all');
-    }, 100); // 100ms delay
-});
+<!-- Auto-include person modal if needed -->
+{{ partial "auto-person-modal.html" . }}
 
-// Dynamically adjust scroll area height to avoid cuts if header/filters change
-(() => {
-    const area = document.querySelector('.projects-scroll-area');
-    if(!area) return;
-    const recalc = () => {
-        const header = document.querySelector('.projects-page-header');
-        const filters = document.querySelector('.projects-filters-bar');
-        const viewportH = window.innerHeight;
-        const headerH = header ? header.getBoundingClientRect().height : 0;
-        const filtersH = filters ? filters.getBoundingClientRect().height : 0;
-        const topOffset = area.getBoundingClientRect().top;
-        const available = viewportH - topOffset - 24; // bottom margin
-        if(window.matchMedia('(max-width:560px)').matches){
-            area.style.height = 'auto';
-            area.style.maxHeight = 'none';
-        } else {
-            area.style.height = available + 'px';
-        }
-    };
-    window.addEventListener('resize', recalc, { passive:true });
-    window.addEventListener('orientationchange', recalc);
-    setTimeout(recalc, 50);
-})();
-</script>
 {{ end }}

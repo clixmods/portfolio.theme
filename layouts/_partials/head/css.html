@@ -103,6 +103,13 @@
 
 {{ partial "helpers/load-css.html" "css/projects.css" }}
 
+{{/* Projects List Page Styles */}}
+{{ if eq .Section "projects" }}
+  {{ if not .IsHome }}
+    {{ partial "helpers/load-css.html" "css/projects-list.css" }}
+  {{ end }}
+{{ end }}
+
 {{/* Technical Specifications Styles */}}
 {{ partial "helpers/load-css.html" "css/technical-specs.css" }}
 
