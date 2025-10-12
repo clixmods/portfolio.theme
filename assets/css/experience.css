@@ -60,9 +60,11 @@
 /**
  * Main container for the experience section
  * Provides consistent spacing and full width layout
+ * Includes padding-top to compensate for fixed top dock
  */
 .experience-section {
-    margin: 4rem 0;
+    padding-top: 120px; /* Compensation for fixed dock (72px height + 20px top + margin) */
+    margin: 0 0 4rem 0; /* Remove top margin to avoid conflict with padding-top */
     width: 100%;
 }
 

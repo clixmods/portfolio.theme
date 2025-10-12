@@ -119,6 +119,14 @@
 
 {{ partial "helpers/load-css.html" "css/section-headers.css" }}
 {{ partial "helpers/load-css.html" "css/experience.css" }}
+
+{{/* Experiences List Page Styles */}}
+{{ if eq .Section "experiences" }}
+  {{ if not .IsHome }}
+    {{ partial "helpers/load-css.html" "css/experiences-list.css" }}
+  {{ end }}
+{{ end }}
+
 {{ partial "helpers/load-css.html" "css/education.css" }}
 {{ partial "helpers/load-css.html" "css/testimonials.css" }}
 
