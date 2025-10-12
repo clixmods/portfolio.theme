@@ -65,8 +65,13 @@
 {{/* Skill Modal Styles */}}
 {{ partial "helpers/load-scss.html" "scss/skill-modal.scss" }}
 
-{{/* Skills Page Styles */}}
-{{- if eq .Section "competences" }}
+{{/* Skills Page Styles 
+     IMPORTANT: This CSS must be loaded on both the home page (.IsHome) and the skills page (Section "competences")
+     because the skills partial is used on the homepage. If styles are not applying to skills section elements
+     on the homepage, verify this condition includes (.IsHome). Without it, elements like .skills-footer
+     will not have their styles applied on the homepage, causing layout issues like uncentered buttons.
+*/}}
+{{- if or (eq .Section "competences") (.IsHome) }}
   {{ partial "helpers/load-css.html" "css/skills.css" }}
 {{- end }}
 

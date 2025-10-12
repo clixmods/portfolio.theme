@@ -300,24 +300,20 @@
    BOUTON VOIR TOUTES LES COMPÉTENCES
    =================================== */
 
-.skills-section .skills-footer {
-    width: 100%;
+.skills-footer {
     text-align: center;
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    display: block;
 }
 
-.skills-section .skills-footer .btn-action {
-    display: inline-flex !important;
-    margin-left: auto;
-    margin-right: auto;
+.skills-footer .btn-action {
+    display: inline-flex;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .skills-section .skills-footer {
+    .skills-footer {
         margin-top: 2rem;
         padding-top: 1.5rem;
     }

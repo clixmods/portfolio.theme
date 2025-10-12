@@ -425,11 +425,13 @@
         {{ end }}
     </div>
 
-    <!-- Bouton voir toutes les expériences -->
+    <!-- Bouton voir toutes les expériences - Only show on homepage, not on the experiences list page -->
+    {{- if .IsHome }}
     <div class="experience-footer">
         <a href="{{ "/experiences/" | relLangURL }}" class="btn-action">
             <span>{{ i18n "see_all_experiences" | default "Voir toutes les expériences" }}</span>
             {{- partial "icon.html" (dict "iconId" "arrow-right" "size" "18") -}}
         </a>
     </div>
+    {{- end }}
 </section>
