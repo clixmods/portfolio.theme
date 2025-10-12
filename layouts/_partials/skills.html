@@ -51,6 +51,13 @@
                 {{ end }}
             </div>
         </div>
+    </div>
 
+    <!-- Bouton voir toutes les compétences -->
+    <div class="skills-footer">
+        <a href="{{ "/skills/" | relLangURL }}" class="btn-action">
+            <span>{{ i18n "see_all_skills" | default "Voir toutes les compétences" }}</span>
+            {{- partial "icon.html" (dict "iconId" "arrow-right" "size" "18") -}}
+        </a>
     </div>
 </section>

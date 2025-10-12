@@ -102,6 +102,7 @@ see_all_projects: "Voir tous les projets"
 
 # Skills section (extra)
 skills_subtitle: "Maîtrise des technologies modernes pour créer des expériences utilisateur exceptionnelles et des solutions techniques robustes. 💻"
+see_all_skills: "Voir toutes les compétences"
 
 # Experience section
 experience_title: "Expérience Professionnelle"
@@ -115,6 +116,7 @@ project_not_found: "Projet référencé non trouvé"
 confidential: "Confidentiel"
 responsibilities: "Responsabilités :"
 cross_skills: "Compétences transversales :"
+see_all_experiences: "Voir toutes les expériences"
 actively_seeking: "Recherche active"
 looking_for: "Recherché :"
 skills_to_apply: "Compétences à mettre en œuvre :"

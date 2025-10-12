@@ -813,6 +813,10 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.education-footer .btn-action {
+    display: inline-flex;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .education-footer {

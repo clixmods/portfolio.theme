@@ -322,6 +322,10 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.projects-see-all .btn-action {
+    display: inline-flex;
+}
+
 /* ================================
    5. SOCIAL ICONS
    ================================ */
