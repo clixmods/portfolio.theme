@@ -303,6 +303,12 @@
 /* Testimonials Section */
 .person-modal-testimonials-full-width {
     margin-top: 0;
+    /* Compensate for header padding to extend full width like tabs */
+    margin-left: -20px;
+    margin-right: -70px;
+    padding: 0 20px;
+    width: calc(100% + 90px); /* Same as tabs: compensate left (20px) + right (70px) */
+    box-sizing: border-box;
 }
 
 .person-modal-testimonial {
