@@ -579,29 +579,7 @@ function createExperienceItem(cleanedExperience, technologies) {
         experienceItem.appendChild(description);
     }
     
-    // Technologies utilisées dans cette expérience
-    if (technologies && technologies.length > 0) {
-        const techContainer = document.createElement('div');
-        techContainer.className = 'skill-modal-experience-technologies';
-        
-        const techLabel = document.createElement('span');
-        techLabel.className = 'skill-modal-experience-tech-label';
-        techLabel.textContent = 'Technologies utilisées:';
-        techContainer.appendChild(techLabel);
-        
-        const techList = document.createElement('div');
-        techList.className = 'skill-modal-experience-tech-list';
-        
-        technologies.forEach(tech => {
-            const techItem = document.createElement('span');
-            techItem.className = 'skill-modal-experience-tech-item';
-            techItem.textContent = tech;
-            techList.appendChild(techItem);
-        });
-        
-        techContainer.appendChild(techList);
-        experienceItem.appendChild(techContainer);
-    }
+    // Technologies section removed - no longer displayed in skill modal
     
     // Lien vers l'expérience détaillée
     if (cleanedExperience.url) {
@@ -610,8 +588,8 @@ function createExperienceItem(cleanedExperience, technologies) {
         
         const experienceLink = document.createElement('a');
         experienceLink.href = cleanedExperience.url;
-        experienceLink.className = 'skill-modal-experience-link';
-        experienceLink.textContent = '📄 Voir les détails';
+        experienceLink.className = 'skill-modal-experience-link btn-action';
+        experienceLink.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Voir les détails';
         
         linkContainer.appendChild(experienceLink);
         experienceItem.appendChild(linkContainer);
@@ -632,11 +610,17 @@ function createEducationItem(cleanedEducation, technologies) {
     const header = document.createElement('div');
     header.className = 'skill-modal-education-header';
     
-    // Icône de la formation
+    // Logo/Icône de la formation
     const iconContainer = document.createElement('div');
     iconContainer.className = 'skill-modal-education-icon';
     
-    if (cleanedEducation.icon) {
+    if (cleanedEducation.logo) {
+        // Use logo if available (similar to experiences)
+        const logoImg = document.createElement('img');
+        logoImg.src = cleanedEducation.logo;
+        logoImg.alt = cleanedEducation.institution || 'Logo';
+        iconContainer.appendChild(logoImg);
+    } else if (cleanedEducation.icon) {
         iconContainer.innerHTML = `<span class="skill-modal-education-icon-emoji">${cleanedEducation.icon}</span>`;
     } else {
         iconContainer.innerHTML = '<span class="skill-modal-education-icon-placeholder">🎓</span>';
@@ -702,29 +686,7 @@ function createEducationItem(cleanedEducation, technologies) {
         educationItem.appendChild(description);
     }
     
-    // Technologies utilisées dans cette formation
-    if (technologies && technologies.length > 0) {
-        const techContainer = document.createElement('div');
-        techContainer.className = 'skill-modal-education-technologies';
-        
-        const techLabel = document.createElement('span');
-        techLabel.className = 'skill-modal-education-tech-label';
-        techLabel.textContent = 'Technologies étudiées:';
-        techContainer.appendChild(techLabel);
-        
-        const techList = document.createElement('div');
-        techList.className = 'skill-modal-education-tech-list';
-        
-        technologies.forEach(tech => {
-            const techItem = document.createElement('span');
-            techItem.className = 'skill-modal-education-tech-item';
-            techItem.textContent = tech;
-            techList.appendChild(techItem);
-        });
-        
-        techContainer.appendChild(techList);
-        educationItem.appendChild(techContainer);
-    }
+    // Technologies section removed - no longer displayed in skill modal
     
     // Lien vers la formation détaillée
     if (cleanedEducation.url) {
@@ -733,8 +695,8 @@ function createEducationItem(cleanedEducation, technologies) {
         
         const educationLink = document.createElement('a');
         educationLink.href = cleanedEducation.url;
-        educationLink.className = 'skill-modal-education-link';
-        educationLink.textContent = '📚 Voir les détails';
+        educationLink.className = 'skill-modal-education-link btn-action';
+        educationLink.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Voir les détails';
         
         linkContainer.appendChild(educationLink);
         educationItem.appendChild(linkContainer);

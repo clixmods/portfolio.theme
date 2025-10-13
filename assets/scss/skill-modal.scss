@@ -51,8 +51,8 @@
     /* Wider modal: keep margins on small screens and cap on large */
     width: calc(100vw - 60px);
     max-width: 1360px;
-    height: auto;
-    max-height: 60vh; /* reduce overall height by ~1/3 from original 90vh */
+    height: 80vh; /* Fixed height instead of auto */
+    max-height: 80vh;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -144,6 +144,7 @@
     flex-direction: column;
     background: rgba(0, 0, 0, 0.1); /* unified body */
     border-radius: 0 0 20px 20px;
+    min-height: 0; /* Allow flex child to shrink below content size */
 }
 
 /* ==================================================
@@ -158,7 +159,33 @@
 
 /* Specific height override for Skill Modal when using unified layout */
 #skillModal .unified-modal-body {
-    max-height: 45vh; /* keep content area compact to match the shorter container */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Don't scroll the body itself */
+    min-height: 0; /* Critical for flex shrinking */
+}
+
+/* Ensure panels container takes full height */
+#skillModal .unified-modal-panels {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* Ensure active panel takes full height and is scrollable */
+#skillModal .unified-modal-panel {
+    display: none; /* Hide by default */
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    
+    &.active {
+        display: flex; /* Show and use flex for active panel */
+        flex: 1;
+    }
 }
 
 .skill-modal-header-section:not(.unified-modal-content-header) {
@@ -319,14 +346,18 @@
     flex: 1; 
     display: flex; 
     flex-direction: column; 
-    overflow: hidden; 
+    overflow: hidden;
+    min-height: 0; /* Allow flex child to shrink */
 }
 
 .skill-modal-tab-panel { 
-    height: 100%; 
-    overflow-y: auto; 
-    padding: 20px 24px 28px; 
-    animation: skillModalFade .35s ease; 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px 24px 28px;
+    animation: skillModalFade .35s ease;
+    min-height: 0; /* Allow flex child to shrink */
 }
 
 .skill-modal-tab-panel[hidden] { 
@@ -352,15 +383,19 @@
    ================================================== */
 .skill-modal-projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 400px));
     gap: 20px;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 8px;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) transparent;
     scroll-behavior: smooth;
     flex: 1;
     align-items: start;
+    min-height: 0; /* Critical for scrolling */
+    max-height: 100%; /* Ensure it doesn't exceed parent */
+    justify-content: start; /* Align cards to the left */
 }
 
 .skill-modal-projects-grid::-webkit-scrollbar {
@@ -469,8 +504,11 @@
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 16px;
     overflow-y: auto;
+    overflow-x: hidden;
     padding-right: 8px;
-    min-height: 150px;
+    flex: 1;
+    min-height: 0; /* Critical for scrolling */
+    max-height: 100%; /* Ensure it doesn't exceed parent */
 }
 
 .skill-modal-experiences-list::-webkit-scrollbar {
@@ -500,9 +538,9 @@
     padding: 18px;
     transition: all 0.3s ease;
     box-shadow: var(--shadow-glass);
-    min-height: 140px;
     display: flex;
     flex-direction: column;
+    gap: 12px;
 }
 
 .skill-modal-experience-item:hover {
@@ -515,7 +553,6 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    margin-bottom: 12px;
 }
 
 .skill-modal-experience-logo {
@@ -558,7 +595,7 @@
 .skill-modal-experience-company {
     font-size: 14px;
     color: var(--text-secondary);
-    margin: 0 0 6px 0;
+    margin: 0;
     font-weight: 500;
 }
 
@@ -579,11 +616,11 @@
     font-size: 14px;
     color: var(--text-secondary);
     line-height: 1.4;
-    margin: 8px 0 12px 0;
+    margin: 0;
 }
 
 .skill-modal-experience-technologies {
-    margin: 12px 0;
+    margin: 0;
 }
 
 .skill-modal-experience-tech-label {
@@ -618,24 +655,11 @@
 }
 
 .skill-modal-experience-actions {
-    margin-top: 12px;
+    margin-top: auto; /* Push to bottom */
+    padding-top: 8px;
 }
 
-.skill-modal-experience-link {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.skill-modal-experience-link:hover {
-    color: var(--primary-color-light);
-    text-decoration: underline;
-}
+/* Experience link uses .btn-action class from buttons.css */
 
 /* ==================================================
    EDUCATIONS SECTION
@@ -645,8 +669,11 @@
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 16px;
     overflow-y: auto;
+    overflow-x: hidden;
     padding-right: 8px;
-    min-height: 150px;
+    flex: 1;
+    min-height: 0; /* Critical for scrolling */
+    max-height: 100%; /* Ensure it doesn't exceed parent */
 }
 
 .skill-modal-educations-list::-webkit-scrollbar {
@@ -676,9 +703,9 @@
     padding: 18px;
     transition: all 0.3s ease;
     box-shadow: var(--shadow-glass);
-    min-height: 140px;
     display: flex;
     flex-direction: column;
+    gap: 12px;
 }
 
 .skill-modal-education-item:hover {
@@ -691,7 +718,6 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    margin-bottom: 12px;
 }
 
 .skill-modal-education-icon {
@@ -705,6 +731,13 @@
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.skill-modal-education-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .skill-modal-education-icon-emoji {
@@ -733,7 +766,7 @@
 .skill-modal-education-institution {
     font-size: 14px;
     color: var(--text-secondary);
-    margin: 0 0 6px 0;
+    margin: 0;
     font-weight: 500;
 }
 
@@ -754,11 +787,11 @@
     font-size: 14px;
     color: var(--text-secondary);
     line-height: 1.4;
-    margin: 8px 0 12px 0;
+    margin: 0;
 }
 
 .skill-modal-education-technologies {
-    margin: 12px 0;
+    margin: 0;
 }
 
 .skill-modal-education-tech-label {
@@ -793,24 +826,11 @@
 }
 
 .skill-modal-education-actions {
-    margin-top: 12px;
+    margin-top: auto; /* Push to bottom */
+    padding-top: 8px;
 }
 
-.skill-modal-education-link {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.skill-modal-education-link:hover {
-    color: var(--primary-color-light);
-    text-decoration: underline;
-}
+/* Education link uses .btn-action class from buttons.css */
 
 /* ==================================================
    EMPTY STATES
