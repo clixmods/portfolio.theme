@@ -144,7 +144,7 @@
 .read-more-btn:hover::after { transform:translateX(3px); }
 
 /* BLOG FOOTER */
-.blog-footer { text-align:center; padding:2rem; border-top:1px solid var(--blog-glass-border); margin-top:2rem; }
+.blog-footer { text-align:center; padding-bottom:2rem; border-bottom:1px solid var(--blog-glass-border); margin-top:2rem; }
 .blog-stats { color:var(--blog-text-muted); }
 
 /* ANIMATIONS */

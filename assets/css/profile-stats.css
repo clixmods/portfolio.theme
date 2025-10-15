@@ -25,35 +25,11 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     min-height: 100px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-}
-
-.hero-stats .stat-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #4fd1c7, transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.hero-stats .stat-item:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(79, 209, 199, 0.3);
-    box-shadow: 0 8px 32px rgba(79, 209, 199, 0.15);
-    transform: translateY(-2px);
-}
-
-.hero-stats .stat-item:hover::before {
-    opacity: 1;
 }
 
 .hero-stats .stat-value {

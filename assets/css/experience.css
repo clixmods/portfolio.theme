@@ -1257,8 +1257,8 @@
 .experience-footer {
     text-align: center;
     margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .experience-footer .btn-action {
@@ -1269,6 +1269,6 @@
 @media (max-width: 768px) {
     .experience-footer {
         margin-top: 2rem;
-        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
     }
 }

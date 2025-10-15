@@ -669,16 +669,8 @@
     padding: 1rem 1.5rem;
     background: var(--profile-stat-item-bg, rgba(79, 209, 199, 0.05));
     border-radius: 18px;
-    transition: all 0.3s ease;
     border: var(--profile-stat-item-border, 1px solid rgba(79, 209, 199, 0.15));
     min-width: 120px;
-}
-
-.stat-item:hover {
-    background: var(--profile-stat-item-bg-hover, rgba(79, 209, 199, 0.12));
-    border-color: var(--profile-stat-item-border-hover, rgba(79, 209, 199, 0.3));
-    transform: translateY(-3px);
-    box-shadow: var(--profile-stat-item-shadow-hover, 0 8px 25px rgba(79, 209, 199, 0.2));
 }
 
 .stat-number {
