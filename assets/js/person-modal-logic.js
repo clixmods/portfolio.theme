@@ -345,6 +345,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update testimonials section in header
         const testimonialsSection = document.getElementById('modalPersonTestimonials');
+        const toggleBtn = document.getElementById('testimonialsToggleBtn');
         testimonialsSection.innerHTML = '';
 
         if (testimonials.length > 0) {
@@ -359,6 +360,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 testimonialsSection.appendChild(testimonialEl);
             });
+            
+            // Show toggle button and set up event listener
+            if (toggleBtn) {
+                // Add class to enable button display on mobile via CSS
+                toggleBtn.classList.add('has-testimonials');
+                
+                // Check if mobile (window width < 768px)
+                const isMobile = window.innerWidth < 768;
+                if (isMobile) {
+                    // Start collapsed on mobile
+                    testimonialsSection.classList.add('collapsed');
+                    toggleBtn.classList.remove('expanded');
+                    toggleBtn.querySelector('.toggle-text').textContent = 'Voir les témoignages';
+                } else {
+                    // Always expanded on desktop
+                    testimonialsSection.classList.remove('collapsed');
+                }
+                
+                // Remove old listeners and add new one
+                const newToggleBtn = toggleBtn.cloneNode(true);
+                toggleBtn.parentNode.replaceChild(newToggleBtn, toggleBtn);
+                
+                newToggleBtn.addEventListener('click', function() {
+                    const isCollapsed = testimonialsSection.classList.contains('collapsed');
+                    
+                    if (isCollapsed) {
+                        testimonialsSection.classList.remove('collapsed');
+                        newToggleBtn.classList.add('expanded');
+                        newToggleBtn.querySelector('.toggle-text').textContent = 'Masquer les témoignages';
+                    } else {
+                        testimonialsSection.classList.add('collapsed');
+                        newToggleBtn.classList.remove('expanded');
+                        newToggleBtn.querySelector('.toggle-text').textContent = 'Voir les témoignages';
+                    }
+                });
+            }
+        } else {
+            // Remove class to hide toggle button if no testimonials
+            if (toggleBtn) {
+                toggleBtn.classList.remove('has-testimonials');
+            }
         }
     }
 
