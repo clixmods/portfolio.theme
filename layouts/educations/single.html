@@ -608,7 +608,7 @@
   font-weight: 600;
   flex-shrink: 0;
   text-align: center;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 2px solid rgba(var(--accent-rgb), 0.3);
   padding-bottom: 0.75rem;
 }
 
@@ -658,7 +658,7 @@
 .skill-block {
     background: rgba(75, 85, 99, 0.5);
     backdrop-filter: blur(10px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
     border-radius: 12px;
     padding: 0.75rem;
     display: flex;
@@ -675,9 +675,11 @@
 }
 
 .skill-block:hover {
-    background: rgba(75, 85, 99, 0.8);
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: rgba(var(--accent-rgb), 0.3);
+    border-color: rgba(var(--accent-rgb), 0.8);
+    box-shadow: 
+        0 8px 25px rgba(var(--accent-rgb), 0.3),
+        0 0 25px rgba(var(--accent-rgb), 0.2);
     transform: translateY(-2px) scale(1.02);
 }
 

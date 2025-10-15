@@ -120,7 +120,11 @@
             <div class="blog-card-footer">
                 <!-- Date (bottom left) -->
                 <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                    {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "02 Jan 2006") }}
+                    {{ if eq .Site.Language.Lang "fr" }}
+                        {{ .Date.Day }} {{ index (slice "janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre") (sub .Date.Month 1) }} {{ .Date.Year }}
+                    {{ else }}
+                        {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "Jan 02, 2006") }}
+                    {{ end }}
                 </time>
                 
                 <!-- Read Article Button (bottom right) -->
