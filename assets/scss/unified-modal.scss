@@ -669,13 +669,40 @@
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
-    .unified-modal-demo .unified-modal-content {
-        margin: 10px;
-        max-width: calc(100% - 20px);
+    /* FULLSCREEN MODE FOR ALL UNIFIED MODALS ON MOBILE */
+    .unified-modal,
+    .unified-modal.unified-modal--projectWidget {
+        padding: 0 !important; /* Remove all padding from modal container */
+        align-items: stretch !important;
+        justify-content: stretch !important;
+    }
+    
+    .unified-modal-content {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .unified-modal-demo .unified-modal-content,
+    .unified-modal-preview .unified-modal-content {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
     
     .unified-modal-header {
         padding: 15px 60px 0 15px; /* Moins d'espace mais toujours réservé pour le close */
+        border-radius: 0; /* No rounded corners on mobile fullscreen */
         
         .unified-modal-close {
             right: 15px;
@@ -683,6 +710,13 @@
             height: 35px;
             font-size: 20px;
         }
+    }
+    
+    .unified-modal-body {
+        border-radius: 0; /* No rounded corners on mobile fullscreen */
+        max-height: 100vh !important; /* Full height on mobile */
+        height: 100% !important; /* Take all available space */
+        flex: 1 !important; /* Grow to fill container */
     }
     
     .unified-modal-content-header {
@@ -875,16 +909,11 @@
     }
 }
 
-/* Responsive amélioré */
+/* Responsive amélioré - REMOVED: Fullscreen rules are now in main responsive section */
 @media (max-width: 768px) {
-    .unified-modal-content {
-        width: 95vw !important;
-        margin: 2vh auto;
-        max-height: 95vh;
-    }
-    
+    /* Modal body padding on mobile - reduced for fullscreen */
     .unified-modal-body {
-        padding: 20px !important;
+        padding: 15px !important;
     }
     
     .unified-modal-two-columns {

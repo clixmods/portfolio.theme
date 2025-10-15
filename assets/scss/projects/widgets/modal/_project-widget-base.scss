@@ -252,3 +252,36 @@
 .unified-modal-project-widget-wrapper .project-widget-title {
     font-size: 1.8rem;
 }
+
+// =============================================================================
+// MOBILE FULLSCREEN MODE
+// =============================================================================
+@media (max-width: 768px) {
+    // Remove all padding from project widget modal container on mobile
+    .unified-modal.unified-modal--projectWidget {
+        padding: 0 !important;
+        align-items: stretch !important;
+        justify-content: stretch !important;
+    }
+    
+    // Ensure content fills the screen
+    .unified-modal .unified-modal-content.unified-modal-content--projectWidget {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+    
+    // Adjust body to use full viewport height
+    .unified-modal .unified-modal-content.unified-modal-content--projectWidget .unified-modal-body {
+        max-height: calc(100vh - 60px) !important; // Account for minimal header
+        padding: 20px !important;
+    }
+    
+    // Adjust wrapper padding for mobile
+    .unified-modal-project-widget-wrapper {
+        padding: 0 !important;
+    }
+}
