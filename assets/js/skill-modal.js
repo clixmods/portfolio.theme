@@ -728,17 +728,11 @@ function createProjectTile(cleanedProject, technologies) {
     
     // Conteneur principal
     const projectTile = document.createElement('div');
-    projectTile.className = 'project-item skill-modal-project-tile';
-    
-    // Icône de tuile
-    const tileIcon = document.createElement('div');
-    tileIcon.className = 'project-tile-icon';
-    tileIcon.textContent = '🎯';
-    projectTile.appendChild(tileIcon);
+    projectTile.className = 'project-card-unified';
     
     // Conteneur de l'image
     const imageContainer = document.createElement('div');
-    imageContainer.className = 'project-tile-image';
+    imageContainer.className = 'project-card-unified-image';
     
     const image = document.createElement('img');
     image.src = cleanedProject.image || '/images/placeholder-project.jpg';
@@ -748,77 +742,67 @@ function createProjectTile(cleanedProject, technologies) {
         this.src = '/images/placeholder-project.jpg';
     };
     
-    const overlay = document.createElement('div');
-    overlay.className = 'project-tile-overlay';
-    
     imageContainer.appendChild(image);
-    imageContainer.appendChild(overlay);
     projectTile.appendChild(imageContainer);
     
     // Contenu par défaut (visible par défaut)
     const defaultContent = document.createElement('div');
-    defaultContent.className = 'project-tile-content';
+    defaultContent.className = 'project-card-unified-content';
     
     const title = document.createElement('h6');
-    title.className = 'project-name';
+    title.className = 'project-card-unified-title';
     title.textContent = cleanedProject.title;
     
-    const description = document.createElement('p');
-    description.className = 'project-desc';
-    description.textContent = cleanedProject.subtitle || cleanedProject.description || 'Découvrez ce projet innovant et ses fonctionnalités.';
+    const subtitle = document.createElement('p');
+    subtitle.className = 'project-card-unified-subtitle';
+    subtitle.textContent = cleanedProject.subtitle || cleanedProject.description || 'Découvrez ce projet innovant et ses fonctionnalités.';
     
     defaultContent.appendChild(title);
-    defaultContent.appendChild(description);
+    defaultContent.appendChild(subtitle);
     projectTile.appendChild(defaultContent);
     
     // Informations détaillées (affichées au hover)
     const detailedInfo = document.createElement('div');
-    detailedInfo.className = 'project-tile-info';
-    
-    const infoContent = document.createElement('div');
-    infoContent.className = 'project-tile-info-content';
+    detailedInfo.className = 'project-card-unified-detailed-info';
     
     const detailTitle = document.createElement('h6');
-    detailTitle.className = 'project-name';
+    detailTitle.className = 'project-card-unified-title';
     detailTitle.textContent = cleanedProject.title;
     
     const detailDescription = document.createElement('p');
-    detailDescription.className = 'project-detailed-desc';
+    detailDescription.className = 'project-card-unified-detailed-description';
     detailDescription.textContent = cleanedProject.description || cleanedProject.subtitle || 'Découvrez ce projet innovant et ses fonctionnalités.';
     
-    infoContent.appendChild(detailTitle);
-    infoContent.appendChild(detailDescription);
+    detailedInfo.appendChild(detailTitle);
+    detailedInfo.appendChild(detailDescription);
     
     // Technologies
     if (technologies && technologies.length > 0) {
         const techContainer = document.createElement('div');
-        techContainer.className = 'project-tile-tech';
+        techContainer.className = 'project-card-unified-technologies';
         
         technologies.slice(0, 4).forEach(tech => {
             const techItem = document.createElement('span');
-            techItem.className = 'project-tile-tech-item';
+            techItem.className = 'project-card-unified-tech-item';
             techItem.textContent = tech;
             techContainer.appendChild(techItem);
         });
         
         if (technologies.length > 4) {
             const moreItem = document.createElement('span');
-            moreItem.className = 'project-tile-tech-item';
+            moreItem.className = 'project-card-unified-tech-item';
             moreItem.textContent = `+${technologies.length - 4}`;
             techContainer.appendChild(moreItem);
         }
         
-        infoContent.appendChild(techContainer);
+        detailedInfo.appendChild(techContainer);
     }
     
     // Actions du projet
-    const actionsContainer = document.createElement('div');
-    actionsContainer.className = 'project-tile-actions';
-    
     if (cleanedProject.url) {
         const projectLink = document.createElement('a');
         projectLink.href = cleanedProject.url;
-        projectLink.className = 'project-tile-btn';
+        projectLink.className = 'project-card-unified-link';
         projectLink.onclick = function(event) {
             event.stopPropagation();
         };
@@ -837,11 +821,12 @@ function createProjectTile(cleanedProject, technologies) {
         projectLink.appendChild(svg);
         projectLink.appendChild(document.createTextNode(' Voir projet'));
         
-        actionsContainer.appendChild(projectLink);
+        detailedInfo.appendChild(projectLink);
     } else {
         const confidentialSpan = document.createElement('span');
-        confidentialSpan.className = 'project-tile-btn';
+        confidentialSpan.className = 'project-card-unified-link';
         confidentialSpan.style.opacity = '0.6';
+        confidentialSpan.style.cursor = 'default';
         
         // Créer le SVG pour confidentiel
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -857,11 +842,9 @@ function createProjectTile(cleanedProject, technologies) {
         confidentialSpan.appendChild(svg);
         confidentialSpan.appendChild(document.createTextNode(' Confidentiel'));
         
-        actionsContainer.appendChild(confidentialSpan);
+        detailedInfo.appendChild(confidentialSpan);
     }
     
-    infoContent.appendChild(actionsContainer);
-    detailedInfo.appendChild(infoContent);
     projectTile.appendChild(detailedInfo);
     
     return projectTile;

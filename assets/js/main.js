@@ -191,11 +191,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Projects tabs using TabController - scoped to projects section to avoid interference
     const projectTabs = new TabController('.projects-section .tab-btn', {
-        contentSelector: '.projects-section [data-category]',
+        contentSelector: '.projects-section .projects-grid',
         contentAttribute: 'data-category',
-        animationType: 'cards',
-        cardSelector: '.ps5-project-tile',
-        cardAnimationDelay: 90,
+        animationType: 'fade',
+        animationDuration: 300,
+        useHiddenAttribute: true,
         updateDescription: true,
         descriptionSelector: '#section-description',
         descriptions: {

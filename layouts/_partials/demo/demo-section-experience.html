@@ -37,67 +37,56 @@
         </div>
     </div>
 
-    <h3>Cards de projets dans les skill modals</h3>
+    <h3>Cards de projets dans les skill modals (utilise project-card-unified)</h3>
     <div class="demo-element-wrapper">
         <div class="css-class-info">
             <strong>Grid :</strong> <code>.skill-modal-projects-grid</code><br>
-            <strong>Tile :</strong> <code>.skill-modal-project-tile</code><br>
-            <strong>Image :</strong> <code>.skill-modal-project-tile-image</code><br>
-            <strong>Contenu :</strong> <code>.skill-modal-project-tile-content</code><br>
-            <strong>Info overlay :</strong> <code>.skill-modal-project-tile-info</code><br>
-            <strong>Titre :</strong> <code>.skill-modal-project-tile-title</code><br>
-            <strong>Sous-titre :</strong> <code>.skill-modal-project-tile-subtitle</code>
+            <strong>Note :</strong> Les cards utilisent maintenant le composant <code>project-card-unified</code> (voir section dédiée ci-dessous)<br>
+            <strong>JavaScript :</strong> Les cards sont générées dynamiquement par <code>skill-modal.js</code> avec les classes <code>.project-card-unified-*</code>
         </div>
         <div class="skill-modal-projects-grid" style="max-height: 300px;">
-            <div class="skill-modal-project-tile">
-                <img src="/images/placeholder-project.jpg" alt="Projet Unity" class="skill-modal-project-tile-image">
-                <div class="skill-modal-project-tile-content">
-                    <h4 class="skill-modal-project-tile-title">Jeu Unity</h4>
-                    <p class="skill-modal-project-tile-subtitle">Projet de jeu utilisant Unity</p>
-                </div>
-                <div class="skill-modal-project-tile-info">
-                    <h4 class="skill-modal-project-tile-title">Jeu Unity</h4>
-                    <p class="skill-modal-project-tile-subtitle">Détails du projet qui apparaissent au survol avec effet glassmorphisme</p>
-                </div>
-            </div>
-            <div class="skill-modal-project-tile">
-                <img src="/images/placeholder-project.jpg" alt="App C#" class="skill-modal-project-tile-image">
-                <div class="skill-modal-project-tile-content">
-                    <h4 class="skill-modal-project-tile-title">Application C#</h4>
-                    <p class="skill-modal-project-tile-subtitle">Application desktop en C#</p>
-                </div>
-                <div class="skill-modal-project-tile-info">
-                    <h4 class="skill-modal-project-tile-title">Application C#</h4>
-                    <p class="skill-modal-project-tile-subtitle">Application complète développée avec WPF et .NET</p>
-                </div>
-            </div>
-            <div class="skill-modal-project-tile">
-                <img src="/images/placeholder-project.jpg" alt="Outil JavaScript" class="skill-modal-project-tile-image">
-                <div class="skill-modal-project-tile-content">
-                    <h4 class="skill-modal-project-tile-title">Outil JavaScript</h4>
-                    <p class="skill-modal-project-tile-subtitle">Outil web en JavaScript</p>
-                </div>
-                <div class="skill-modal-project-tile-info">
-                    <h4 class="skill-modal-project-tile-title">Outil JavaScript</h4>
-                    <p class="skill-modal-project-tile-subtitle">Outil de développement utilisant Node.js et des frameworks modernes</p>
-                </div>
-            </div>
+            {{ partial "project-card-unified.html" (dict 
+                "title" "Jeu Unity" 
+                "subtitle" "Projet de jeu utilisant Unity" 
+                "description" "Détails du projet qui apparaissent au survol avec effet glassmorphisme"
+                "image" "/images/placeholder-project.jpg"
+                "url" "/projects/unity-game"
+                "technologies" (slice "Unity" "C#" "Blender")
+            ) }}
+            {{ partial "project-card-unified.html" (dict 
+                "title" "Application C#" 
+                "subtitle" "Application desktop en C#" 
+                "description" "Application complète développée avec WPF et .NET"
+                "image" "/images/placeholder-project.jpg"
+                "url" "/projects/csharp-app"
+                "technologies" (slice "C#" ".NET" "WPF" "XAML")
+            ) }}
+            {{ partial "project-card-unified.html" (dict 
+                "title" "Outil JavaScript" 
+                "subtitle" "Outil web en JavaScript" 
+                "description" "Outil de développement utilisant Node.js et des frameworks modernes"
+                "image" "/images/placeholder-project.jpg"
+                "technologies" (slice "JavaScript" "Node.js" "React" "Express" "MongoDB")
+            ) }}
         </div>
     </div>
 
     <h3>Cards de projets unifiées (project-card-unified)</h3>
     <div class="demo-element-wrapper">
         <div class="css-class-info">
-            <strong>Grid :</strong> <code>.person-modal-projects-grid</code><br>
+            <strong>Partial :</strong> <code>{{ "{{" }} partial "project-card-unified.html" (dict ...) {{ "}}" }}</code><br>
             <strong>Card :</strong> <code>.project-card-unified</code><br>
             <strong>Header :</strong> <code>.project-card-unified-header</code><br>
-            <strong>Image :</strong> <code>.project-card-unified-image</code><br>
+            <strong>Image :</strong> <code>.project-card-unified-image</code> (optimisée automatiquement)<br>
             <strong>Contenu de base :</strong> <code>.project-card-unified-content</code><br>
-            <strong>Contenu détaillé (hover) :</strong> <code>.project-card-unified-detailed-info</code><br>
+            <strong>Contenu détaillé (hover) :</strong> <code>.project-card-unified-detailed-info</code> avec effet glassmorphisme<br>
             <strong>Titre :</strong> <code>.project-card-unified-title</code><br>
             <strong>Sous-titre :</strong> <code>.project-card-unified-subtitle</code><br>
-            <strong>Meta :</strong> <code>.project-card-unified-meta</code>, <code>.project-card-unified-role</code>, <code>.project-card-unified-status</code>
+            <strong>Technologies :</strong> <code>.project-card-unified-technologies</code>, <code>.project-card-unified-tech-item</code> (optionnel)<br>
+            <strong>Meta :</strong> <code>.project-card-unified-meta</code>, <code>.project-card-unified-role</code>, <code>.project-card-unified-status</code><br>
+            <strong>Lien :</strong> <code>.project-card-unified-link</code>
         </div>
+        <p><strong>Exemple sans technologies :</strong></p>
         <div class="person-modal-projects-grid">
             {{ partial "project-card-unified.html" (dict 
                 "title" "Projet Collaboratif"
@@ -117,6 +106,30 @@
                 "url" "#"
                 "role" "Contributor"
                 "status" "Game Jam"
+            ) }}
+        </div>
+        
+        <p><strong>Exemple avec technologies :</strong></p>
+        <div class="person-modal-projects-grid">
+            {{ partial "project-card-unified.html" (dict 
+                "title" "Projet Unity 3D"
+                "subtitle" "Jeu d'aventure en 3D"
+                "description" "Développement complet d'un jeu d'aventure en 3D avec Unity, incluant la gestion de l'inventaire, des quêtes et un système de combat."
+                "image" "/images/placeholder-project.jpg"
+                "url" "#"
+                "technologies" (slice "Unity" "C#" "Blender" "Git" "Photoshop")
+                "maxTechnologies" 4
+            ) }}
+            
+            {{ partial "project-card-unified.html" (dict 
+                "title" "Application Web Full-Stack"
+                "subtitle" "Plateforme de gestion"
+                "description" "Application web moderne avec backend Node.js et frontend React, déployée sur Azure avec CI/CD."
+                "image" "/images/placeholder-project.jpg"
+                "url" "#"
+                "technologies" (slice "React" "Node.js" "TypeScript" "PostgreSQL" "Docker" "Azure")
+                "maxTechnologies" 4
+                "role" "Full-Stack Developer"
             ) }}
         </div>
     </div>

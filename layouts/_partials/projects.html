@@ -38,12 +38,35 @@
                     
                     {{/* Display tile if conditions are met */}}
                     {{ if $shouldShow }}
-                        {{ partial "project-tile.html" (dict 
-                            "project" . 
-                            "category" $categoryKey 
-                            "icon" $config.icon 
-                            "displayStyle" $config.displayStyle
-                        ) }}
+                        {{/* Get all technologies for this project */}}
+                        {{ $allTechnologies := slice }}
+                        {{ with .Params.programming_languages }}
+                            {{ $allTechnologies = $allTechnologies | append . }}
+                        {{ end }}
+                        {{ with .Params.frameworks_engines }}
+                            {{ $allTechnologies = $allTechnologies | append . }}
+                        {{ end }}
+                        {{ $allTechnologies = $allTechnologies | uniq }}
+                        
+                        <div data-project-id="{{ .File.BaseFileName }}"
+                             data-background-image="{{ .Params.background_image | default .Params.image }}"
+                             data-sector="{{ .Params.sector }}"
+                             data-category="{{ $categoryKey }}"
+                             data-technologies='{{ partial "combined-technologies.html" . }}'
+                             {{ with $config.displayStyle }}style="{{ . }}"{{ end }}>
+                            
+                            {{ partial "project-card-unified.html" (dict 
+                                "title" .Title
+                                "subtitle" .Params.subtitle
+                                "description" .Params.description
+                                "image" (.Params.image | default "images/placeholder-project.jpg")
+                                "url" .Permalink
+                                "role" $config.icon
+                                "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
+                                "technologies" $allTechnologies
+                                "maxTechnologies" 4
+                            ) }}
+                        </div>
                     {{ end }}
                 {{ end }}
             {{ end }}

@@ -37,12 +37,33 @@
     {{- if .Params.projects -}}
     <div class="projects">
       <h2>Projets</h2>
+      <div class="projects-container">
       {{- range .Params.projects -}}
-        <div class="project-item">
-          <h3>{{ .project_ref }}</h3>
-          <p>{{ .role_description }}</p>
-        </div>
+        {{- if .project_ref -}}
+          {{/* Get project page - handle both slug and path formats */}}
+          {{ $projectPage := "" }}
+          {{ if hasPrefix .project_ref "/" }}
+            {{ $projectPage = $.Site.GetPage .project_ref }}
+          {{ else }}
+            {{ $projectPage = $.Site.GetPage (printf "/projects/%s" .project_ref) }}
+          {{ end }}
+          {{ if $projectPage }}
+            {{ $allTechnologies := partial "get-all-technologies.html" $projectPage }}
+            {{ $projectImage := $projectPage.Params.image | default "images/placeholder-project.jpg" }}
+            
+            {{ partial "project-card-unified.html" (dict 
+              "title" $projectPage.Title
+              "subtitle" ($projectPage.Params.description | default $projectPage.Params.subtitle)
+              "description" (cond .role_description .role_description $projectPage.Params.description)
+              "image" $projectImage
+              "url" $projectPage.RelPermalink
+              "technologies" $allTechnologies
+              "maxTechnologies" 4
+            ) }}
+          {{ end }}
+        {{ end }}
       {{- end -}}
+      </div>
     </div>
     {{- end -}}
 

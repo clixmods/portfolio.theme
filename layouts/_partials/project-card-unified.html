@@ -10,13 +10,19 @@
   - .role: Contributor role (string, optional)
   - .status: Project status (string, optional)
   - .technologies: Array of technology names (optional)
+  - .maxTechnologies: Maximum number of technologies to display (default: 4)
 */}}
 
 <div class="project-card-unified">
     <div class="project-card-unified-header">
         {{ if .image }}
         <div class="project-card-unified-image">
-            <img src="{{ .image }}" alt="{{ .title }}" loading="lazy">
+            {{- $optimizedImg := partial "get-optimized-image.html" (dict "imagePath" .image "width" 600 "quality" 85) -}}
+            <img src="{{ $optimizedImg.src }}" 
+                 alt="{{ .title }}"
+                 {{- if and $optimizedImg.isResource (gt $optimizedImg.width 0) }} width="{{ $optimizedImg.width }}"{{ end -}}
+                 {{- if and $optimizedImg.isResource (gt $optimizedImg.height 0) }} height="{{ $optimizedImg.height }}"{{ end -}}
+                 loading="lazy">
         </div>
         {{ end }}
         
@@ -40,6 +46,19 @@
                 {{ if .description }}
                 <p class="project-card-unified-detailed-description">{{ .description }}</p>
                 {{ end }}
+                
+                {{ if .technologies }}
+                {{ $maxTech := .maxTechnologies | default 4 }}
+                <div class="project-card-unified-technologies">
+                    {{ range first $maxTech .technologies }}
+                    <span class="project-card-unified-tech-item">{{ . }}</span>
+                    {{ end }}
+                    {{ if gt (len .technologies) $maxTech }}
+                    <span class="project-card-unified-tech-item">+{{ sub (len .technologies) $maxTech }}</span>
+                    {{ end }}
+                </div>
+                {{ end }}
+                
                 {{ if or .role .status }}
                 <div class="project-card-unified-meta">
                     {{ if .role }}

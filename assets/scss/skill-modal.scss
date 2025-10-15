@@ -418,83 +418,7 @@
     background: var(--primary-color-dark);
 }
 
-.skill-modal-project-tile {
-    position: relative;
-    background: linear-gradient(145deg, var(--ps5-gray-800, #1f2937) 0%, var(--ps5-gray-750, #1a212a) 100%);
-    border: 1px solid rgba(79,209,199,0.3);
-    border-radius: 20px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-    cursor: pointer;
-    width: 100%;
-    height: 220px;
-    display: flex;
-    flex-direction: column;
-}
-
-.skill-modal-project-tile:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
-    border-color: rgba(79,209,199,0.6);
-}
-
-.skill-modal-project-tile .skill-modal-project-tile-image {
-    flex: 1;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 16px 16px 0 0;
-}
-
-.skill-modal-project-tile .skill-modal-project-tile-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 16px;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
-    color: white;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-.skill-modal-project-tile .skill-modal-project-tile-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 16px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid var(--glass-border);
-    color: var(--text-primary);
-    opacity: 0;
-    transform: translateY(100%);
-    transition: all 0.3s ease;
-}
-
-.skill-modal-project-tile:hover .skill-modal-project-tile-content {
-    opacity: 0;
-}
-
-.skill-modal-project-tile:hover .skill-modal-project-tile-info {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.skill-modal-project-tile .skill-modal-project-tile-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 6px 0;
-    line-height: 1.3;
-}
-
-.skill-modal-project-tile .skill-modal-project-tile-subtitle {
-    font-size: 13px;
-    opacity: 0.8;
-    margin: 0;
-    line-height: 1.2;
-}
+/* Project card styles moved to project-card-unified.scss */
 
 /* ==================================================
    EXPERIENCES SECTION
@@ -1032,10 +956,6 @@
         padding: 6px;
     }
     
-    .skill-modal-project-tile {
-        height: 200px;
-    }
-    
     .skill-modal-experience-item {
         padding: 14px;
         min-height: 120px;
@@ -1130,10 +1050,6 @@
         grid-template-columns: 1fr;
         gap: 14px;
         padding: 4px;
-    }
-    
-    .skill-modal-project-tile {
-        height: 180px;
     }
     
     .skill-modal-educations-list {

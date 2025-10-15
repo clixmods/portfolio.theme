@@ -56,7 +56,6 @@
                     {{ $layout := $exp.Params.projects_layout | default "horizontal" }}
                     <div class="projects-container projects-container-{{ $layout }}" data-default-layout="{{ $layout }}">
                     {{ range $exp.Params.projects }}
-                    <div class="project-item">
                         {{/* Handle project references */}}
                         {{ if .project_ref }}
                             {{/* Get project page - handle both slug and path formats */}}
@@ -69,130 +68,39 @@
                                 {{ $projectPage = $.Site.GetPage (printf "/projects/%s" .project_ref) }}
                             {{ end }}
                             {{ if $projectPage }}
-                                <!-- Project image from referenced project -->
-                                <div class="project-tile-image">
-                                    {{ if $projectPage.Params.image }}
-                                        {{- $projectImg := partial "get-optimized-image.html" (dict "imagePath" $projectPage.Params.image "width" 600 "quality" 85) -}}
-                                        <img src="{{ $projectImg.src }}" 
-                                             alt="{{ $projectPage.Title }}"
-                                             {{- if and $projectImg.isResource (gt $projectImg.width 0) }} width="{{ $projectImg.width }}"{{ end -}}
-                                             {{- if and $projectImg.isResource (gt $projectImg.height 0) }} height="{{ $projectImg.height }}"{{ end -}}
-                                             loading="lazy">
-                                    {{ else }}
-                                        {{- $placeholderImg := partial "get-optimized-image.html" (dict "imagePath" "images/placeholder-project.jpg" "width" 600 "quality" 85) -}}
-                                        <img src="{{ $placeholderImg.src }}" 
-                                             alt="{{ $projectPage.Title }}"
-                                             {{- if and $placeholderImg.isResource (gt $placeholderImg.width 0) }} width="{{ $placeholderImg.width }}"{{ end -}}
-                                             {{- if and $placeholderImg.isResource (gt $placeholderImg.height 0) }} height="{{ $placeholderImg.height }}"{{ end -}}
-                                             loading="lazy">
-                                    {{ end }}
-                                    <div class="project-tile-overlay"></div>
-                                </div>
+                                {{ $allTechnologies := partial "get-all-technologies.html" $projectPage }}
+                                {{ $projectImage := $projectPage.Params.image | default "images/placeholder-project.jpg" }}
                                 
-                                <!-- Default content (visible by default) -->
-                                <div class="project-tile-content">
-                                    <h6 class="project-name">{{ $projectPage.Title }}</h6>
-                                    <p class="project-desc">{{ $projectPage.Params.description | default $projectPage.Params.subtitle }}</p>
-                                </div>
-                                
-                                <!-- Detailed info (shown on hover) -->
-                                <div class="project-tile-info">
-                                    <div class="project-tile-info-content">
-                                        <h6 class="project-name">{{ $projectPage.Title }}</h6>
-                                        <p class="project-detailed-desc">
-                                            {{ if .role_description }}{{ .role_description }}{{ else }}{{ $projectPage.Params.description }}{{ end }}
-                                        </p>
-                                        
-                                        {{ $allTechnologies := partial "get-all-technologies.html" $projectPage }}
-                                        {{ if $allTechnologies }}
-                                        <div class="project-tile-tech">
-                                            {{ range first 4 $allTechnologies }}
-                                            <span class="project-tile-tech-item">{{ . }}</span>
-                                            {{ end }}
-                                            {{ if gt (len $allTechnologies) 4 }}
-                                            <span class="project-tile-tech-item">+{{ sub (len $allTechnologies) 4 }}</span>
-                                            {{ end }}
-                                        </div>
-                                        {{ end }}
-                                        
-                                        <!-- Project actions -->
-                                        <div class="project-tile-actions">
-                                            <a href="{{ $projectPage.RelPermalink }}" class="project-tile-btn">
-                                                {{- partial "icon.html" (dict "iconId" "external-link" "size" "12") -}}
-                                                {{ i18n "see_project" | default "Voir projet" }}
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                {{ partial "project-card-unified.html" (dict 
+                                    "title" $projectPage.Title
+                                    "subtitle" ($projectPage.Params.description | default $projectPage.Params.subtitle)
+                                    "description" (cond .role_description .role_description $projectPage.Params.description)
+                                    "image" $projectImage
+                                    "url" $projectPage.RelPermalink
+                                    "technologies" $allTechnologies
+                                    "maxTechnologies" 4
+                                ) }}
                             {{ else }}
-                                <!-- Fallback if project not found -->
-                                <div class="project-tile-content">
-                                    <h6 class="project-name">{{ .project_ref }}</h6>
-                                    <p class="project-desc">{{ i18n "project_not_found" | default "Projet référencé non trouvé" }}</p>
-                                </div>
+                                {{/* Fallback if project not found */}}
+                                {{ partial "project-card-unified.html" (dict 
+                                    "title" .project_ref
+                                    "subtitle" (i18n "project_not_found" | default "Projet référencé non trouvé")
+                                ) }}
                             {{ end }}
                         {{ else }}
                             {{/* Handle inline project definition */}}
-                            <!-- Project image (placeholder for inline projects) -->
-                            <div class="project-tile-image">
-                                {{- $inlineImg := partial "get-optimized-image.html" (dict "imagePath" (printf "/images/projects/%s/thumbnail.jpg" (lower (.name | urlize))) "width" 600 "quality" 85) -}}
-                                <img src="{{ $inlineImg.src }}" 
-                                     alt="{{ .name }}"
-                                     {{- if and $inlineImg.isResource (gt $inlineImg.width 0) }} width="{{ $inlineImg.width }}"{{ end -}}
-                                     {{- if and $inlineImg.isResource (gt $inlineImg.height 0) }} height="{{ $inlineImg.height }}"{{ end -}}
-                                     loading="lazy">
-                                <div class="project-tile-overlay"></div>
-                            </div>
+                            {{ $allTechnologies := partial "get-all-technologies.html" . }}
+                            {{ $inlineImagePath := printf "/images/projects/%s/thumbnail.jpg" (lower (.name | urlize)) }}
                             
-                            <!-- Default content (visible by default) -->
-                            <div class="project-tile-content">
-                                <h6 class="project-name">{{ .name }}</h6>
-                                <p class="project-desc">{{ .description }}</p>
-                            </div>
-                            
-                            <!-- Detailed info (shown on hover) -->
-                            <div class="project-tile-info">
-                                <div class="project-tile-info-content">
-                                    <h6 class="project-name">{{ .name }}</h6>
-                                    <p class="project-detailed-desc">
-                                        {{ if .role_description }}{{ .role_description }}{{ else }}{{ .description }}{{ end }}
-                                    </p>
-                                    
-                                    {{ if .tasks }}
-                                    <ul class="project-tasks">
-                                        {{ range .tasks }}
-                                        <li>{{ . }}</li>
-                                        {{ end }}
-                                    </ul>
-                                    {{ end }}
-                                    
-                                    {{ $allTechnologies := partial "get-all-technologies.html" . }}
-                                    {{ if $allTechnologies }}
-                                    <div class="project-tile-tech">
-                                        {{ range $allTechnologies }}
-                                        <span class="project-tile-tech-item">{{ . }}</span>
-                                        {{ end }}
-                                    </div>
-                                    {{ end }}
-                                    
-                                    <!-- Project actions -->
-                                    <div class="project-tile-actions">
-                                        {{ if .link }}
-                                        <a href="{{ .link }}" class="project-tile-btn" target="_blank">
-                                            {{- partial "icon.html" (dict "iconId" "external-link" "size" "12") -}}
-                                            {{ i18n "see_project" | default "Voir projet" }}
-                                        </a>
-                                        {{ else }}
-                                        <span class="project-tile-btn" style="opacity: 0.6;">
-                                            {{- partial "icon.html" (dict "iconId" "external-link" "size" "12") -}}
-                                            {{ i18n "confidential" | default "Confidentiel" }}
-                                        </span>
-                                        {{ end }}
-                                    </div>
-                                </div>
-                            </div>
+                            {{ partial "project-card-unified.html" (dict 
+                                "title" .name
+                                "subtitle" .description
+                                "description" (cond .role_description .role_description .description)
+                                "image" $inlineImagePath
+                                "url" .link
+                                "technologies" $allTechnologies
+                            ) }}
                         {{ end }}
-                    </div>
                     {{ end }}
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 {{/*
-  Generic partial for displaying a project tile
+  Generic partial for displaying a project tile - Now uses project-card-unified
   
   Expected parameters:
   - .project : the project page
@@ -13,57 +13,33 @@
 {{ $icon := .icon }}
 {{ $displayStyle := .displayStyle | default "" }}
 
-<div class="ps5-project-tile"
-     data-project-id="{{ $project.File.BaseFileName }}"
+{{/* Get all technologies for this project */}}
+{{ $allTechnologies := slice }}
+{{ with $project.Params.programming_languages }}
+    {{ $allTechnologies = $allTechnologies | append . }}
+{{ end }}
+{{ with $project.Params.frameworks_engines }}
+    {{ $allTechnologies = $allTechnologies | append . }}
+{{ end }}
+{{ $allTechnologies = $allTechnologies | uniq }}
+
+{{/* Call the unified component */}}
+<div data-project-id="{{ $project.File.BaseFileName }}"
      data-background-image="{{ $project.Params.background_image | default $project.Params.image }}"
      data-sector="{{ $project.Params.sector }}"
      data-category="{{ $category }}"
      data-technologies='{{ partial "combined-technologies.html" $project }}'
      {{ with $displayStyle }}style="{{ . }}"{{ end }}>
     
-    <!-- Main tile image -->
-    <div class="ps5-tile-image">
-        {{- $imagePath := $project.Params.image | default "images/placeholder-project.jpg" -}}
-        {{- $optimizedImage := partial "get-optimized-image.html" (dict "imagePath" $imagePath "width" 800 "quality" 85) -}}
-        
-        <img loading="lazy" 
-             src="{{ $optimizedImage.src }}" 
-             alt="{{ $project.Title }}"
-             {{- if and $optimizedImage.isResource (gt $optimizedImage.width 0) }} width="{{ $optimizedImage.width }}"{{ end -}}
-             {{- if and $optimizedImage.isResource (gt $optimizedImage.height 0) }} height="{{ $optimizedImage.height }}"{{ end -}}>
-        <div class="ps5-tile-overlay"></div>
-    </div>
-    
-    <!-- Sector icon -->
-    <div class="ps5-tile-sector-icon">{{ $icon }}</div>
-    
-    <!-- Base content -->
-    <div class="ps5-tile-content">
-        <h3 class="ps5-tile-title">{{ $project.Title }}</h3>
-        <p class="ps5-tile-subtitle">{{ $project.Params.subtitle }}</p>
-    </div>
-    
-    <!-- Detailed information on hover -->
-    <div class="ps5-tile-info">
-        <div class="ps5-tile-info-content">
-            <h3 class="ps5-tile-info-title">{{ $project.Title }}</h3>
-            <p class="ps5-tile-info-subtitle">{{ $project.Params.subtitle }}</p>
-            <p class="ps5-tile-description">{{ $project.Params.description }}</p>
-            
-            <!-- Technologies -->
-            {{ partial "project-technologies.html" $project }}
-        </div>
-        
-        <!-- Meta information -->
-        <div class="ps5-tile-meta">
-            <span class="ps5-tile-date">{{ $project.Date.Format "2006" }}</span>
-            <a href="{{ $project.Permalink }}" class="ps5-tile-btn">
-                {{ i18n "see_project" | default "Voir le projet" }}
-                {{- partial "icon.html" (dict "iconId" "arrow-right" "size" "12") -}}
-            </a>
-        </div>
-    </div>
-    
-    <!-- Invisible main link -->
-    <a href="{{ $project.Permalink }}" class="ps5-tile-link" aria-label="{{ i18n "see_project" | default "Voir le projet" }}: {{ $project.Title }}"></a>
+    {{ partial "project-card-unified.html" (dict 
+        "title" $project.Title
+        "subtitle" $project.Params.subtitle
+        "description" $project.Params.description
+        "image" ($project.Params.image | default "images/placeholder-project.jpg")
+        "url" $project.Permalink
+        "role" $icon
+        "status" (cond (eq $project.Params.status "completed") "Terminé" (cond (eq $project.Params.status "in-progress") "En cours" ""))
+        "technologies" $allTechnologies
+        "maxTechnologies" 4
+    ) }}
 </div>
