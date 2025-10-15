@@ -233,11 +233,13 @@
    ========================================================================== */
 
 .hero-bottom {
-    margin-top: 3rem;
+    margin: 3rem auto 1rem auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    width: fit-content;
+    position: relative;
 }
 
 .hero-explore {
@@ -250,6 +252,7 @@
     height: 24px;
     color: #64748b;
     animation: bounce 2s infinite;
+    transform-origin: center center;
 }
 
 @keyframes bounce {

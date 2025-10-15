@@ -114,7 +114,6 @@ body {
 /* Skill blocks backgrounds */
 .skill-block {
     background: var(--surface-alt, rgba(55, 65, 81, 0.6));
-    backdrop-filter: blur(15px) saturate(180%);
 }
 
 /* Shimmer effects backgrounds */
