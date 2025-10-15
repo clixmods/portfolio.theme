@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             personProjects.forEach(project => {
                 const projectEl = document.createElement('div');
-                projectEl.className = 'person-modal-project-card';
+                projectEl.className = 'project-card-unified';
                 
                 // Find this person's role in the project
                 const contributor = project.contributors.find(c => c.person === personId);
@@ -501,29 +501,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 const cleanImage = clean(project.image);
 
                 projectEl.innerHTML = `
-                    <div class="project-card-header">
+                    <div class="project-card-unified-header">
                         ${cleanImage ? `
-                            <div class="project-card-image">
+                            <div class="project-card-unified-image">
                                 <img src="${cleanImage}" alt="${cleanTitle}" loading="lazy">
                             </div>
                         ` : ''}
                         
                         <!-- Default content (visible by default) -->
-                        <div class="project-card-content">
-                            <h3 class="project-card-title">${cleanTitle}</h3>
-                            ${cleanSubtitle ? `<p class="project-card-subtitle">${cleanSubtitle}</p>` : ''}
-                            <div class="project-card-meta">
-                                <span class="project-card-role">${role}</span>
+                        <div class="project-card-unified-content">
+                            <h3 class="project-card-unified-title">${cleanTitle}</h3>
+                            ${cleanSubtitle ? `<p class="project-card-unified-subtitle">${cleanSubtitle}</p>` : ''}
+                            <div class="project-card-unified-meta">
+                                <span class="project-card-unified-role">${role}</span>
                             </div>
                         </div>
                         
                         <!-- Detailed info (shown on hover) -->
-                        <div class="project-card-detailed-info">
+                        <div class="project-card-unified-detailed-info">
                             <div>
-                                <h3 class="project-card-title">${cleanTitle}</h3>
-                                ${cleanDescription ? `<p class="project-card-detailed-description">${cleanDescription}</p>` : ''}
+                                <h3 class="project-card-unified-title">${cleanTitle}</h3>
+                                ${cleanDescription ? `<p class="project-card-unified-detailed-description">${cleanDescription}</p>` : ''}
                             </div>
-                            <a href="${cleanUrl}" class="project-card-link" target="_blank">
+                            <a href="${cleanUrl}" class="project-card-unified-link" target="_blank">
                                 Voir le projet
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M7 17L17 7M17 7H7M17 7V17"/>

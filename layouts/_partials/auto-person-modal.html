@@ -72,6 +72,10 @@
     {{/* CSS pour le modal des personnes */}}
     {{ $personModalCSS := resources.Get "scss/person-modal.scss" | css.Sass | resources.Minify }}
     <link rel="stylesheet" href="{{ $personModalCSS.RelPermalink }}">
+    
+    {{/* CSS pour les cards de projets unifiées */}}
+    {{ $projectCardCSS := resources.Get "scss/project-card-unified.scss" | css.Sass | resources.Minify }}
+    <link rel="stylesheet" href="{{ $projectCardCSS.RelPermalink }}">
 
     {{/* Script d'initialisation */}}
     <script>

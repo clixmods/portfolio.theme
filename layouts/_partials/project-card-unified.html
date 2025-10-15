@@ -1,0 +1,64 @@
+{{/*
+  Unified Project Card Component
+  
+  Parameters:
+  - .title: Project title (string)
+  - .subtitle: Project subtitle (string, optional)
+  - .description: Project description (string, optional)
+  - .image: Project image path (string, optional)
+  - .url: Project URL (string)
+  - .role: Contributor role (string, optional)
+  - .status: Project status (string, optional)
+  - .technologies: Array of technology names (optional)
+*/}}
+
+<div class="project-card-unified">
+    <div class="project-card-unified-header">
+        {{ if .image }}
+        <div class="project-card-unified-image">
+            <img src="{{ .image }}" alt="{{ .title }}" loading="lazy">
+        </div>
+        {{ end }}
+        
+        <!-- Default content (visible by default) -->
+        <div class="project-card-unified-content">
+            <h3 class="project-card-unified-title">{{ .title }}</h3>
+            {{ if .subtitle }}
+            <p class="project-card-unified-subtitle">{{ .subtitle }}</p>
+            {{ end }}
+            {{ if .role }}
+            <div class="project-card-unified-meta">
+                <span class="project-card-unified-role">{{ .role }}</span>
+            </div>
+            {{ end }}
+        </div>
+        
+        <!-- Detailed info (shown on hover) -->
+        <div class="project-card-unified-detailed-info">
+            <div>
+                <h3 class="project-card-unified-title">{{ .title }}</h3>
+                {{ if .description }}
+                <p class="project-card-unified-detailed-description">{{ .description }}</p>
+                {{ end }}
+                {{ if or .role .status }}
+                <div class="project-card-unified-meta">
+                    {{ if .role }}
+                    <span class="project-card-unified-role">{{ .role }}</span>
+                    {{ end }}
+                    {{ if .status }}
+                    <span class="project-card-unified-status status-{{ .status | lower }}">{{ .status }}</span>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+            {{ if .url }}
+            <a href="{{ .url }}" class="project-card-unified-link" target="_blank">
+                Voir le projet
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                </svg>
+            </a>
+            {{ end }}
+        </div>
+    </div>
+</div>
