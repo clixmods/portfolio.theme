@@ -1,3 +1,14 @@
+{{/* Tab Controller Script - MUST be loaded before main.js */}}
+{{- with resources.Get "js/tab-controller.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{- with resources.Get "js/main.js" }}
   {{- $opts := dict
     "minify" (not hugo.IsDevelopment)
@@ -117,17 +128,6 @@
 
 {{/* Gallery Slideshow Script */}}
 {{- with resources.Get "js/gallery-slideshow.js" }}
-  {{- if hugo.IsDevelopment }}
-    <script src="{{ .RelPermalink }}"></script>
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{/* Tab Controller Script */}}
-{{- with resources.Get "js/tab-controller.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}

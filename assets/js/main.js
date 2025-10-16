@@ -189,21 +189,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize project widget event handlers
     initializeProjectWidgetHandlers();
     
-    // Projects tabs using TabController - scoped to projects section to avoid interference
-    const projectTabs = new TabController('.projects-section .tab-btn', {
-        contentSelector: '.projects-section .projects-grid',
-        contentAttribute: 'data-category',
-        animationType: 'fade',
-        animationDuration: 300,
-        useHiddenAttribute: true,
-        updateDescription: true,
-        descriptionSelector: '#section-description',
-        descriptions: {
-            games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
-            "apps-web": "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
-            "mods-tools": "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs."
-        }
-    });
+    // Projects tabs using TabController - works for both home page and /projects/ page
+    const projectsSection = document.querySelector('.projects-section');
+    if (projectsSection) {
+        const projectTabs = new TabController('.projects-section .tab-btn', {
+            contentSelector: '.projects-section .project-card-wrapper',
+            contentAttribute: 'data-category',
+            animationType: 'cards',
+            animationDuration: 300,
+            cardSelector: '.projects-section .project-card-wrapper',
+            cardAnimationDelay: 50,
+            updateDescription: true,
+            descriptionSelector: '#section-description',
+            descriptions: {
+                games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
+                "apps-web": "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
+                "mods-tools": "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs."
+            }
+        });
+    }
 
     // Initialize card animations
     const projectCards = document.querySelectorAll('.ps5-project-tile');

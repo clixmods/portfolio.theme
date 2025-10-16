@@ -50,55 +50,31 @@
                 <p id="section-description">{{ i18n "projects_description" | default "Découvrez mes projets organisés par secteur d'expertise : jeux vidéo, applications web et outils de développement." }}</p>
             </div>
 
-            <!-- Projects Grids - One per category -->
-            {{/* Games Grid */}}
-            <div class="projects-grid active" data-category="games">
+            <!-- Single Projects Grid with all projects -->
+            <div class="projects-grid">
                 {{ range where $.Site.RegularPages "Section" "projects" }}
-                    {{ if hasPrefix .Params.sector "games" }}
-                        {{- $projectImage := .Params.background_image | default .Params.image | default "images/placeholder-project.jpg" -}}
-                        {{ partial "project-card-unified.html" (dict 
-                            "title" .Title
-                            "subtitle" .Params.subtitle
-                            "description" .Params.description
-                            "image" $projectImage
-                            "url" .Permalink
-                            "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
-                        ) }}
-                    {{ end }}
-                {{ end }}
-            </div>
-
-            {{/* Apps/Web Grid */}}
-            <div class="projects-grid" data-category="apps-web" hidden>
-                {{ range where $.Site.RegularPages "Section" "projects" }}
-                    {{ if hasPrefix .Params.sector "appsweb" }}
-                        {{- $projectImage := .Params.background_image | default .Params.image | default "images/placeholder-project.jpg" -}}
-                        {{ partial "project-card-unified.html" (dict 
-                            "title" .Title
-                            "subtitle" .Params.subtitle
-                            "description" .Params.description
-                            "image" $projectImage
-                            "url" .Permalink
-                            "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
-                        ) }}
-                    {{ end }}
-                {{ end }}
-            </div>
-
-            {{/* Mods & Tools Grid */}}
-            <div class="projects-grid" data-category="mods-tools" hidden>
-                {{ range where $.Site.RegularPages "Section" "projects" }}
-                    {{ if or (eq .Params.sector "mods") (eq .Params.sector "tools") }}
-                        {{- $projectImage := .Params.background_image | default .Params.image | default "images/placeholder-project.jpg" -}}
-                        {{ partial "project-card-unified.html" (dict 
-                            "title" .Title
-                            "subtitle" .Params.subtitle
-                            "description" .Params.description
-                            "image" $projectImage
-                            "url" .Permalink
-                            "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
-                        ) }}
-                    {{ end }}
+                    {{- $projectImage := .Params.background_image | default .Params.image | default "images/placeholder-project.jpg" -}}
+                    {{- $category := "" -}}
+                    {{- if hasPrefix .Params.sector "games" -}}
+                        {{- $category = "games" -}}
+                    {{- else if hasPrefix .Params.sector "appsweb" -}}
+                        {{- $category = "apps-web" -}}
+                    {{- else if or (eq .Params.sector "mods") (eq .Params.sector "tools") -}}
+                        {{- $category = "mods-tools" -}}
+                    {{- end -}}
+                    
+                    {{- if ne $category "" -}}
+                        <div class="project-card-wrapper" data-category="{{ $category }}">
+                            {{ partial "project-card-unified.html" (dict 
+                                "title" .Title
+                                "subtitle" .Params.subtitle
+                                "description" .Params.description
+                                "image" $projectImage
+                                "url" .Permalink
+                                "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
+                            ) }}
+                        </div>
+                    {{- end -}}
                 {{ end }}
             </div>
         </section>

@@ -16,59 +16,50 @@
     <p id="section-description">{{ i18n "projects_description" | default "Découvrez mes projets organisés par secteur d'expertise : jeux vidéo, applications web et outils de développement." }}</p>
     </div>
 
-    <!-- Projects Grid -->
+    <!-- Projects Grid with filterable cards -->
     <div class="projects-grid" id="projects-grid">
-        {{/* Load categories configuration */}}
-        {{ $categories := partial "project-categories-config.html" . }}
-        
-        {{/* Loop through each category and display its projects dynamically */}}
-        {{ range $categoryKey, $config := $categories }}
-            {{ range where $.Site.RegularPages "Section" "projects" }}
-                {{ if .Params.featured }}
-                    {{/* Dynamic filtering logic based on configuration */}}
-                    {{ $shouldShow := false }}
-                    
-                    {{ if eq $categoryKey "games" }}
-                        {{ if hasPrefix .Params.sector "games" }}{{ $shouldShow = true }}{{ end }}
-                    {{ else if eq $categoryKey "apps-web" }}
-                        {{ if hasPrefix .Params.sector "appsweb" }}{{ $shouldShow = true }}{{ end }}
-                    {{ else if eq $categoryKey "mods-tools" }}
-                        {{ if or (eq .Params.sector "mods") (eq .Params.sector "tools") }}{{ $shouldShow = true }}{{ end }}
+        {{ range where $.Site.RegularPages "Section" "projects" }}
+            {{ if .Params.featured }}
+                {{- $projectImage := .Params.background_image | default .Params.image | default "images/placeholder-project.jpg" -}}
+                {{- $category := "" -}}
+                {{- if hasPrefix .Params.sector "games" -}}
+                    {{- $category = "games" -}}
+                {{- else if hasPrefix .Params.sector "appsweb" -}}
+                    {{- $category = "apps-web" -}}
+                {{- else if or (eq .Params.sector "mods") (eq .Params.sector "tools") -}}
+                    {{- $category = "mods-tools" -}}
+                {{- end -}}
+                
+                {{- if ne $category "" -}}
+                    {{/* Get all technologies for this project */}}
+                    {{ $allTechnologies := slice }}
+                    {{ with .Params.programming_languages }}
+                        {{ $allTechnologies = $allTechnologies | append . }}
                     {{ end }}
+                    {{ with .Params.frameworks_engines }}
+                        {{ $allTechnologies = $allTechnologies | append . }}
+                    {{ end }}
+                    {{ $allTechnologies = $allTechnologies | uniq }}
                     
-                    {{/* Display tile if conditions are met */}}
-                    {{ if $shouldShow }}
-                        {{/* Get all technologies for this project */}}
-                        {{ $allTechnologies := slice }}
-                        {{ with .Params.programming_languages }}
-                            {{ $allTechnologies = $allTechnologies | append . }}
-                        {{ end }}
-                        {{ with .Params.frameworks_engines }}
-                            {{ $allTechnologies = $allTechnologies | append . }}
-                        {{ end }}
-                        {{ $allTechnologies = $allTechnologies | uniq }}
+                    <div class="project-card-wrapper"
+                         data-project-id="{{ .File.BaseFileName }}"
+                         data-background-image="{{ $projectImage }}"
+                         data-sector="{{ .Params.sector }}"
+                         data-category="{{ $category }}"
+                         data-technologies='{{ partial "combined-technologies.html" . }}'>
                         
-                        <div data-project-id="{{ .File.BaseFileName }}"
-                             data-background-image="{{ .Params.background_image | default .Params.image }}"
-                             data-sector="{{ .Params.sector }}"
-                             data-category="{{ $categoryKey }}"
-                             data-technologies='{{ partial "combined-technologies.html" . }}'
-                             {{ with $config.displayStyle }}style="{{ . }}"{{ end }}>
-                            
-                            {{ partial "project-card-unified.html" (dict 
-                                "title" .Title
-                                "subtitle" .Params.subtitle
-                                "description" .Params.description
-                                "image" (.Params.image | default "images/placeholder-project.jpg")
-                                "url" .Permalink
-                                "role" $config.icon
-                                "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
-                                "technologies" $allTechnologies
-                                "maxTechnologies" 4
-                            ) }}
-                        </div>
-                    {{ end }}
-                {{ end }}
+                        {{ partial "project-card-unified.html" (dict 
+                            "title" .Title
+                            "subtitle" .Params.subtitle
+                            "description" .Params.description
+                            "image" $projectImage
+                            "url" .Permalink
+                            "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
+                            "technologies" $allTechnologies
+                            "maxTechnologies" 4
+                        ) }}
+                    </div>
+                {{- end -}}
             {{ end }}
         {{ end }}
     </div>

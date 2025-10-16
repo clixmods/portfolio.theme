@@ -27,6 +27,7 @@ class TabController {
             
             // Content visibility management
             useHiddenAttribute: false,            // Use hidden attribute instead of style.display
+            displayType: 'block',                 // Display type when showing elements ('block', 'grid', 'flex', etc.)
             contentMatchingStrategy: 'attribute', // 'attribute' or 'id-pattern'
             idPattern: null,                      // Pattern for ID-based matching (e.g., 'prefix{Category}')
             
@@ -239,15 +240,17 @@ class TabController {
      * Set element visibility using the configured method
      */
     setElementVisibility(element, shouldShow) {
+        // Always toggle active class regardless of visibility method
+        element.classList.toggle('active', shouldShow);
+        
         if (this.config.useHiddenAttribute) {
-            element.classList.toggle('active', shouldShow);
             if (shouldShow) {
                 element.removeAttribute('hidden');
             } else {
                 element.setAttribute('hidden', 'hidden');
             }
         } else {
-            element.style.display = shouldShow ? 'block' : 'none';
+            element.style.display = shouldShow ? this.config.displayType : 'none';
         }
     }
 
@@ -261,7 +264,9 @@ class TabController {
             const shouldShow = this.shouldShowElement(element, category);
             
             if (shouldShow) {
-                element.style.display = 'block';
+                // Add active class and show element
+                element.classList.add('active');
+                element.style.display = this.config.displayType;
                 element.style.opacity = '0';
                 element.style.transform = 'translateY(10px)';
                 
@@ -271,6 +276,8 @@ class TabController {
                     element.style.transform = 'translateY(0)';
                 }, 50);
             } else {
+                // Remove active class and hide element
+                element.classList.remove('active');
                 element.style.transition = `opacity ${this.config.animationDuration}ms ease, transform ${this.config.animationDuration}ms ease`;
                 element.style.opacity = '0';
                 element.style.transform = 'translateY(-10px)';
@@ -299,6 +306,7 @@ class TabController {
         this.contentElements.forEach(element => {
             const elementCategory = element.getAttribute(this.config.contentAttribute);
             if (elementCategory !== category) {
+                element.classList.remove('active');
                 element.style.opacity = '0';
                 element.style.transform = 'translateY(20px)';
                 setTimeout(() => {
@@ -312,7 +320,8 @@ class TabController {
             this.contentElements.forEach(element => {
                 const elementCategory = element.getAttribute(this.config.contentAttribute);
                 if (elementCategory === category) {
-                    element.style.display = 'block';
+                    element.classList.add('active');
+                    element.style.display = this.config.displayType;
                     setTimeout(() => {
                         element.style.opacity = '1';
                         element.style.transform = 'translateY(0)';
@@ -336,37 +345,35 @@ class TabController {
         this.isAnimating = true;
         const cards = document.querySelectorAll(this.config.cardSelector);
         
+        // First pass: immediately hide cards that don't match (no animation)
         cards.forEach(card => {
             const cardCategory = card.getAttribute(this.config.contentAttribute);
             const shouldShow = (this.config.allCategoryValue && category === this.config.allCategoryValue) || 
                               cardCategory === category;
             
-            if (shouldShow) {
-                card.style.display = 'flex';
-                card.classList.remove('hiding');
-                card.classList.add('showing');
-            } else {
-                card.classList.remove('showing');
-                card.classList.add('hiding');
-                setTimeout(() => {
-                    if (card.classList.contains('hiding')) {
-                        card.style.display = 'none';
-                    }
-                }, 400);
+            // Reset animation classes
+            card.classList.remove('tile-ready', 'tile-visible', 'showing', 'hiding');
+            
+            if (!shouldShow) {
+                // Hide immediately without animation to prevent flash
+                card.style.display = 'none';
             }
         });
         
-        // Animate visible cards with stagger
+        // Second pass: show and animate the cards that match (instantaneous height change)
         setTimeout(() => {
             const visibleCards = Array.from(cards).filter(card => {
                 const cardCategory = card.getAttribute(this.config.contentAttribute);
-                const matchesCategory = (this.config.allCategoryValue && category === this.config.allCategoryValue) || 
-                                      cardCategory === category;
-                return matchesCategory && getComputedStyle(card).display !== 'none';
+                return (this.config.allCategoryValue && category === this.config.allCategoryValue) || 
+                       cardCategory === category;
             });
             
             visibleCards.forEach((card, index) => {
+                // Set display first (hidden)
+                card.style.display = 'flex';
                 card.classList.add('tile-ready');
+                
+                // Then animate in with stagger
                 setTimeout(() => {
                     card.classList.add('tile-visible');
                 }, index * this.config.cardAnimationDelay);
@@ -377,8 +384,8 @@ class TabController {
                 if (this.config.onAnimationComplete) {
                     this.config.onAnimationComplete(category);
                 }
-            }, visibleCards.length * this.config.cardAnimationDelay + 200);
-        }, 100);
+            }, visibleCards.length * this.config.cardAnimationDelay + 400);
+        }, 50);
     }
 
     /**
