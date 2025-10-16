@@ -23,7 +23,7 @@
 </div>
 
 <!-- Script for fluid waves Paper.js and particles -->
-{{- $paperjs := resources.Get "js/paper-full.min.js" -}}
+{{- $paperjs := resources.Get "js/paper-minimal.js" -}}
 <script src="{{ $paperjs.RelPermalink }}"></script>
 <script>
 // Check if animations are allowed
@@ -70,15 +70,33 @@ if (!prefersReducedMotion) {
         // Seeded random generator for consistent animations
         this.rng = new SeededRandom(42); // Fixed seed for consistency
         
-        // Waves configuration
+        // Detect if mobile device
+        this.isMobile = window.innerWidth <= 768 || 
+                       ('ontouchstart' in window) || 
+                       (navigator.maxTouchPoints > 0);
+        
+        // Waves configuration - adaptive based on device
         this.h = window.innerHeight;
         this.w = window.innerWidth;
         this.halfH = this.h * 0.5;
-        this.speed = 0.12; // Slower for smoothness
-        this.strokeWidth = 70;
-        this.frequency = 3;
-        this.pathCount = 7; // More waves
-        this.pathPoints = 24; // More points for smoothness
+        
+        // Mobile optimized settings
+        if (this.isMobile) {
+          this.speed = 0.15; // Slower animation on mobile
+          this.strokeWidth = 70; // Thinner strokes
+          this.frequency = 2.5; // Less frequency
+          this.pathCount = 5; // Fewer waves (7 -> 5)
+          this.pathPoints = 10; // Fewer points (24 -> 16)
+          this.magnitude = 0.07; // Smaller amplitude
+        } else {
+          // Desktop settings
+          this.speed = 0.22;
+          this.strokeWidth = 70;
+          this.frequency = 3;
+          this.pathCount = 7;
+          this.pathPoints = 24;
+          this.magnitude = 0.15;
+        }
         
         this.paths = [];
         this.offsetRandom = 3;
@@ -86,7 +104,7 @@ if (!prefersReducedMotion) {
         this.maxDistRandom = 1.2;
         this.randomDistances = [];
         this.randomHeights = [];
-        this.magnitude = 0.15; // Wave amplitude
+        this.magnitudeValue = this.magnitude; // Store for later use
         
         // Initialize deterministic random values
         this.initializeRandomValues();
@@ -182,41 +200,90 @@ if (!prefersReducedMotion) {
       }
       
       animate() {
+        // Track frame count for occasional smoothing
+        let frameCount = 0;
+        
+        // Adaptive smoothing based on device
+        const smoothInterval = this.isMobile ? 15 : 10; // Less frequent smoothing on mobile
+        const initialSmoothFrames = this.isMobile ? 20 : 30; // Shorter initial smooth period on mobile
+        
+        // Pre-calculate constants outside the animation loop
+        const pathCountHalf = this.pathCount / 2;
+        
         paper.view.onFrame = (event) => {
           // Use system time for synchronized animation across windows
           const systemTime = Date.now() / 1000; // Convert to seconds
+          const timeOffset = systemTime * this.speed;
+          frameCount++;
+          
+          // Smooth every frame during initial load, then at intervals
+          const shouldSmooth = frameCount <= initialSmoothFrames || frameCount % smoothInterval === 0;
           
           for (let p = 0; p < this.paths.length; p++) {
+            const path = this.paths[p];
+            const randomHeight = this.randomHeights[p];
+            const randomOffset = this.randomOffsets[p];
+            const baseY = this.halfH + (p - pathCountHalf) * 40;
+            const waveAmplitude = this.h * this.magnitudeValue * randomHeight;
+            
             // Loop through path segments
             for (let i = 0; i < this.pathPoints; i++) {
-              const segment = this.paths[p].segments[i];
+              const segment = path.segments[i];
               
               // Cyclic value between -1 and 1, synchronized with system clock
-              const timeOffset = systemTime * this.speed;
-              const positionOffset = (i / this.pathPoints) * this.frequency * this.randomHeights[p];
-              const randomOffset = this.randomOffsets[p];
+              const positionOffset = (i / this.pathPoints) * this.frequency * randomHeight;
               
               // Reverse horizontal wave direction: use sin(t - kx) instead of sin(t + kx)
               const sinus = Math.sin(timeOffset - positionOffset + randomOffset);
-              
-              // Y position variation based on wave index
-              const baseY = this.halfH + (p - this.pathCount/2) * 40;
-              const waveAmplitude = this.h * this.magnitude * this.randomHeights[p];
               
               // Change segment Y position
               segment.point.y = baseY + sinus * waveAmplitude;
             }
             
-            // Smooth the path every frame
-            this.paths[p].smooth();
+            // Smooth the path only occasionally for performance
+            if (shouldSmooth) {
+              path.smooth();
+            }
           }
         };
       }
       
       resize() {
+        const wasMobile = this.isMobile;
+        this.isMobile = window.innerWidth <= 768 || 
+                       ('ontouchstart' in window) || 
+                       (navigator.maxTouchPoints > 0);
+        
         this.h = window.innerHeight;
         this.w = window.innerWidth;
         this.halfH = this.h * 0.5;
+        
+        // If device type changed (mobile <-> desktop), recreate waves with new config
+        if (wasMobile !== this.isMobile) {
+          // Update configuration based on new device type
+          if (this.isMobile) {
+            this.speed = 0.15;
+            this.strokeWidth = 50;
+            this.frequency = 2.5;
+            this.pathCount = 5;
+            this.pathPoints = 16;
+            this.magnitudeValue = 0.12;
+          } else {
+            this.speed = 0.22;
+            this.strokeWidth = 70;
+            this.frequency = 3;
+            this.pathCount = 7;
+            this.pathPoints = 24;
+            this.magnitudeValue = 0.15;
+          }
+          
+          // Re-initialize random values for new wave count
+          this.initializeRandomValues();
+          
+          // Recreate waves with new configuration
+          this.createWaves();
+          return;
+        }
         
         // Resize Paper.js canvas
         paper.view.viewSize = new paper.Size(this.w, this.h);
@@ -278,6 +345,11 @@ if (!prefersReducedMotion) {
         // Seeded random generator for consistent particle generation
         this.particleRng = new SeededRandom(123); // Different seed from waves
         
+        // Detect if mobile device
+        this.isMobile = window.innerWidth <= 768 || 
+                       ('ontouchstart' in window) || 
+                       (navigator.maxTouchPoints > 0);
+        
         // Window movement detection for particle impulse
         this.lastWindowPosition = { x: window.screenX, y: window.screenY };
         this.windowVelocity = { x: 0, y: 0 };
@@ -291,20 +363,21 @@ if (!prefersReducedMotion) {
         this.mouseRepulsionRadius = 120; // Pixels radius of mouse effect
         this.mouseRepulsionStrength = 1.2; // How strong the mouse repulsion is (more subtle)
         
-        // Configuration as per specifications
+        // Configuration as per specifications - adaptive for mobile
         this.config = {
           count: this.getParticleCount(),
           colors: ['#FFFFFF', '#B0D2FF', '#D8ECFF'], // Exact colors
-          sizes: [1, 1.5, 2, 2.5, 3], // Radius 1-3px
-          opacities: [0.4, 0.5, 0.6, 0.7, 0.8], // 40-80%
-          bokehChance: 0.05 // < 5% blurred
+          sizes: this.isMobile ? [1, 1.5, 2] : [1, 1.5, 2, 2.5, 3], // Smaller sizes on mobile
+          opacities: this.isMobile ? [0.3, 0.4, 0.5, 0.6] : [0.4, 0.5, 0.6, 0.7, 0.8], // Lower opacity on mobile
+          bokehChance: this.isMobile ? 0.02 : 0.05 // Less blur on mobile (performance)
         };
         
         this.init();
       }
       
       getParticleCount() {
-        const baseCount = 150; // Reduced from 300 to 150 for performance
+        // Reduced particle count for better performance
+        const baseCount = this.isMobile ? 80 : 150; // 80 on mobile, 150 on desktop
         const screenRatio = (window.innerWidth * window.innerHeight) / (1920 * 1080);
         return Math.floor(baseCount * Math.min(screenRatio, 1.2));
       }
