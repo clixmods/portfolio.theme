@@ -324,8 +324,33 @@
 }
 
 @media (max-width: 480px) {
+    /* Prevent horizontal scroll on mobile */
+    body {
+        overflow-x: hidden !important;
+        max-width: 100vw;
+    }
+    
+    html {
+        overflow-x: hidden !important;
+        max-width: 100vw;
+    }
+    
     .project-hero {
-        min-height: 70vh;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+    
+    /* Make hero content take full height and push content to bottom */
+    .project-hero-content {
+        min-height: 100vh;
+        padding-bottom: 0;
+    }
+    
+    /* Push logo and buttons to bottom, hide "Informations du projet" below viewport */
+    .project-hero-bottom {
+        /* Push content to bottom with top padding that fills the viewport minus content height */
+        padding-top: calc(100vh - 24rem);
+        padding-bottom: 2rem;
     }
     
     .project-title {
@@ -346,20 +371,50 @@
         padding: 0.6rem 1.2rem;
     }
     
-
+    /* Hide notable facts cards on mobile - shown in hero section */
+    .project-notable-facts-hero {
+        display: none;
+    }
     
     .project-detail {
         padding: 0 0 3rem 0;
+    }
+    
+    /* Full width content on mobile */
+    .project-content-layout {
+        padding: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .project-main-content,
+    .blog-article-content {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    
+    .blog-theme,
+    .blog-single-page {
+        overflow-x: hidden;
+        max-width: 100vw;
     }
     
     .project-navigation,
     .project-sidebar {
         margin: 1rem;
         padding: 0 0.5rem;
+        max-width: calc(100vw - 2rem);
+        overflow-x: hidden;
     }
     
     .blog-content-wrapper {
         padding: 1rem;
+        margin: 0 !important;
+        max-width: 100% !important;
+        overflow-x: hidden;
     }
     
     .blog-content-wrapper h1 {
@@ -405,29 +460,57 @@
     
     .project-navigation {
         padding: 1.5rem;
+        margin-bottom: 8rem !important;
+    }
+    
+    /* Add padding at bottom of page to avoid content being hidden by dock */
+    .blog-theme.blog-single-page,
+    body.project-page {
+        padding-bottom: 8rem !important;
     }
     
     .project-info-grid {
         gap: 1.5rem;
     }
     
+    /* Notable facts - compact 2x2 grid on mobile */
+    .project-notable-facts-hero {
+        width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .notable-facts-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+    
     .fact-card-hero {
-        padding: 0.75rem 0;
+        padding: 0.75rem;
+        margin-bottom: 0;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
     }
     
     .fact-icon-hero {
-        width: 1.75rem;
-        height: 1.75rem;
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
+        margin: 0 auto 0.5rem auto;
+    }
+    
+    .fact-content-hero {
+        gap: 0.25rem;
     }
     
     .fact-value-hero {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        font-weight: 600;
     }
     
     .fact-label-hero {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
     
     .project-content {
@@ -439,13 +522,34 @@
     }
     
     .project-logo-img {
-        max-height: 160px;
+        max-height: 120px;
+    }
+    
+    .project-description-block {
+        padding: 0 1.5rem;
+        position: relative;
+    }
+    
+    /* Mobile sector badge - top right positioning */
+    .mobile-sector-badge {
+        display: block !important;
+        position: absolute;
+        top: 0;
+        right: 1.5rem;
+        z-index: 20;
+    }
+    
+    /* Hide sector badge in description on mobile */
+    .description-sector-badge {
+        display: none;
     }
     
     .project-actions {
-        margin: 1rem 0 1.5rem 0;
+        margin: 1.5rem 0 0 0;
         gap: 0.5rem;
         flex-direction: column;
+        /* Add large spacing after buttons to push "Informations du projet" off-screen */
+        margin-bottom: 15vh;
     }
     
     .project-actions .btn-action {
@@ -944,6 +1048,9 @@
         min-height: auto;
         /* Simplifier les transitions sur mobile */
         transition: all 0.3s ease;
+        /* Remove blur and transparency on mobile */
+        backdrop-filter: none !important;
+        background: rgb(20, 25, 35) !important;
     }
     
     /* Comportement spécial pour les widgets expanded sur mobile */

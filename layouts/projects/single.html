@@ -26,6 +26,13 @@
             <div class="project-info-grid">
                 <!-- Left: Project Description Block -->
                 <div class="project-description-block">
+                    <!-- Sector Badge - Mobile Top Right -->
+                    {{ if .Params.sector }}
+                    <div class="mobile-sector-badge">
+                        {{ partial "projects/sector-badge.html" .Params.sector }}
+                    </div>
+                    {{ end }}
+                    
                     {{ if .Params.logo }}
                     <div class="project-logo-bottom">
                         <img src="{{ .Params.logo }}" alt="{{ .Title }}" class="project-logo-img">
@@ -481,34 +488,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         body.classList.add('blur-animated');
     }, 300);
-    
-    // Smooth scroll-based blur intensity adjustment
-    let ticking = false;
-    
-    function updateBlur() {
-        const scrollY = window.pageYOffset;
-        const heroHeight = document.querySelector('.project-hero').offsetHeight;
-        const maxScroll = heroHeight * 0.8;
-        
-        // Calculate blur intensity based on scroll position
-        const blurProgress = Math.min(scrollY / maxScroll, 1);
-        const blurValue = 8 + (blurProgress * 4); // 8px to 12px
-        
-        document.documentElement.style.setProperty('--blur-intensity', `${blurValue}px`);
-        ticking = false;
-    }
-    
-    function requestTick() {
-        if (!ticking) {
-            requestAnimationFrame(updateBlur);
-            ticking = true;
-        }
-    }
-    
-    window.addEventListener('scroll', requestTick, { passive: true });
-    
-    // Initial call
-    updateBlur();
 });
 </script>
 

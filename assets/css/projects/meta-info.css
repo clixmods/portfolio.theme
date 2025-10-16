@@ -98,6 +98,16 @@
     max-width: 500px;
 }
 
+/* Hide mobile sector badge on desktop by default - only show on mobile */
+.mobile-sector-badge {
+    display: none !important;
+}
+
+/* Show sector badge in description on desktop */
+.description-sector-badge {
+    display: block;
+}
+
 .project-name-bottom {
     color: #fff;
     font-size: 1.5rem;
