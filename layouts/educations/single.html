@@ -353,28 +353,16 @@
               {{- range .Params.programming_languages -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}
               {{- range .Params.frameworks_engines -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}
               
-              {{- $icon := "🎯" -}}
-              {{- if in .Params.sector "games-" -}}{{ $icon = "🎮" }}{{- end -}}
-              {{- if in .Params.sector "appsweb-" -}}{{ $icon = "🛒" }}{{- end -}}
-              {{- if eq .Params.sector "mods" -}}{{ $icon = "🧩" }}{{- end -}}
-              {{- if eq .Params.sector "tools" -}}{{ $icon = "🛠️" }}{{- end -}}
-              
-              <div data-project-id="{{ .File.BaseFileName }}"
-                   data-background-image="{{ .Params.background_image | default .Params.image }}"
-                   data-sector="{{ .Params.sector }}">
-                
-                {{ partial "project-card-unified.html" (dict 
-                    "title" .Title
-                    "subtitle" .Params.subtitle
-                    "description" .Params.description
-                    "image" (.Params.image | default "images/placeholder-project.jpg")
-                    "url" .Permalink
-                    "role" $icon
-                    "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
-                    "technologies" $allTechnologies
-                    "maxTechnologies" 4
-                ) }}
-              </div>
+              {{ partial "project-card-unified.html" (dict 
+                  "title" .Title
+                  "subtitle" .Params.subtitle
+                  "description" .Params.description
+                  "image" (.Params.image | default "images/placeholder-project.jpg")
+                  "url" .Permalink
+                  "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
+                  "technologies" $allTechnologies
+                  "maxTechnologies" 4
+              ) }}
             {{- end -}}
           {{- end -}}
         {{- end -}}
@@ -718,6 +706,11 @@
   gap: 2rem;
   margin-top: 1.5rem;
   perspective: 1000px;
+}
+
+.ps5-projects-tiles .project-card-unified {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .additional-content {
