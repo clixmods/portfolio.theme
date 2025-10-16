@@ -174,11 +174,33 @@
     transform: scale(1.1);
 }
 
+/* Count badges in sub-tabs */
+.sub-tab-btn .count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    margin-left: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
 /* Hover and active states similar to main tabs but more subtle */
 .sub-tab-btn:hover:not(.active) {
     color: var(--primary-blue-text, #4fd1c7);
     background: rgba(79, 209, 199, 0.08);
     transform: translateY(-1px);
+}
+
+.sub-tab-btn:hover:not(.active) .count {
+    background: rgba(79, 209, 199, 0.15);
+    color: var(--primary-blue-text, #4fd1c7);
 }
 
 .sub-tab-btn.active {
@@ -188,10 +210,19 @@
     box-shadow: 0 2px 8px rgba(79, 209, 199, 0.2);
 }
 
+.sub-tab-btn.active .count {
+    background: rgba(79, 209, 199, 0.25);
+    color: var(--text-primary);
+}
+
 .sub-tab-btn.active:hover {
     background: rgba(79, 209, 199, 0.18);
     transform: translateY(-1px);
     box-shadow: 0 3px 12px rgba(79, 209, 199, 0.25);
+}
+
+.sub-tab-btn.active:hover .count {
+    background: rgba(79, 209, 199, 0.35);
 }
 
 /* ========================================
@@ -199,49 +230,133 @@
    ======================================== */
 @media (max-width: 768px) {
     .tabs {
-        gap: 0.2rem;
-        padding: 0.2rem;
+        gap: 0.25rem;
+        padding: 0.25rem;
         margin-bottom: 1.5rem;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        overflow-x: auto; /* Allow horizontal scroll if needed */
+        flex-wrap: nowrap; /* Keep in one line */
     }
     
     .tab-btn {
-        padding: 0.6rem 1rem;
+        padding: 0.65rem 1rem;
         font-size: 0.8rem;
+        gap: 0.3rem;
+        white-space: nowrap;
+        flex-shrink: 0; /* Prevent shrinking */
+    }
+    
+    .tab-btn .tab-icon,
+    .tab-btn .tab-emoji {
+        font-size: 0.95em;
+    }
+    
+    .tab-btn .count {
+        min-width: 18px;
+        height: 18px;
+        padding: 0 5px;
+        font-size: 0.65rem;
     }
     
     .sub-tabs {
-        gap: 0.1rem;
-        padding: 0.15rem;
-        margin-bottom: 1rem;
+        display: none !important; /* Hide sub-tabs on mobile */
     }
     
     .sub-tab-btn {
-        padding: 0.5rem 1rem;
+        padding: 0.55rem 0.9rem;
         font-size: 0.75rem;
+        gap: 0.3rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    .sub-tab-btn .subtab-icon {
+        font-size: 0.85em;
+    }
+    
+    .sub-tab-btn .count {
+        min-width: 16px;
+        height: 16px;
+        padding: 0 4px;
+        font-size: 0.6rem;
     }
 }
 
 @media (max-width: 480px) {
     .tabs {
-        flex-wrap: wrap;
-        width: 100%;
-        justify-content: center;
+        gap: 0.15rem;
+        padding: 0.15rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        justify-content: flex-start;
+        width: 100%; /* Full width instead of fit-content */
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        box-sizing: border-box;
     }
     
     .tab-btn {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.65rem;
         min-width: auto;
+        flex-shrink: 0;
+        gap: 0.25rem;
+    }
+    
+    .tab-btn .tab-icon,
+    .tab-btn .tab-emoji {
+        font-size: 0.85em;
+    }
+    
+    .tab-btn .tab-label {
+        font-size: 0.65rem;
+    }
+    
+    .tab-btn .count {
+        min-width: 14px;
+        height: 14px;
+        padding: 0 3px;
+        font-size: 0.55rem;
+        margin-left: 3px;
     }
     
     .sub-tabs {
-        flex-wrap: wrap;
-        width: 100%;
+        gap: 0.1rem;
+        padding: 0.4rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        width: 100%; /* Full width instead of fit-content */
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        box-sizing: border-box;
     }
     
     .sub-tab-btn {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.7rem;
+        padding: 0.35rem 0.55rem;
+        font-size: 0.6rem;
+        flex-shrink: 0;
+        gap: 0.25rem;
+    }
+    
+    .sub-tab-btn .subtab-icon {
+        font-size: 0.75em;
+    }
+    
+    .sub-tab-btn .count {
+        min-width: 12px;
+        height: 12px;
+        padding: 0 3px;
+        font-size: 0.5rem;
+        margin-left: 3px;
     }
 }
 

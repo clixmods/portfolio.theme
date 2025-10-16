@@ -15,34 +15,106 @@
             </div>
 
             {{/* Calculate project counts for each category */}}
+            {{ $allCount := 0 }}
             {{ $gamesCount := 0 }}
+            {{ $gamesProfCount := 0 }}
+            {{ $gamesPersoCount := 0 }}
+            {{ $gamesJamsCount := 0 }}
             {{ $appsWebCount := 0 }}
-            {{ $modsToolsCount := 0 }}
+            {{ $appsWebProfCount := 0 }}
+            {{ $appsWebEtudeCount := 0 }}
+            {{ $modsCount := 0 }}
+            {{ $toolsCount := 0 }}
             
             {{ range where $.Site.RegularPages "Section" "projects" }}
+                {{ $allCount = add $allCount 1 }}
                 {{ if hasPrefix .Params.sector "games" }}
                     {{ $gamesCount = add $gamesCount 1 }}
+                    {{ if eq .Params.sector "games-professionnel" }}
+                        {{ $gamesProfCount = add $gamesProfCount 1 }}
+                    {{ else if eq .Params.sector "games-personnel" }}
+                        {{ $gamesPersoCount = add $gamesPersoCount 1 }}
+                    {{ else if eq .Params.sector "games-gamejams" }}
+                        {{ $gamesJamsCount = add $gamesJamsCount 1 }}
+                    {{ end }}
                 {{ else if hasPrefix .Params.sector "appsweb" }}
                     {{ $appsWebCount = add $appsWebCount 1 }}
-                {{ else if or (eq .Params.sector "mods") (eq .Params.sector "tools") }}
-                    {{ $modsToolsCount = add $modsToolsCount 1 }}
+                    {{ if eq .Params.sector "appsweb-professionnel" }}
+                        {{ $appsWebProfCount = add $appsWebProfCount 1 }}
+                    {{ else if eq .Params.sector "appsweb-etude" }}
+                        {{ $appsWebEtudeCount = add $appsWebEtudeCount 1 }}
+                    {{ end }}
+                {{ else if eq .Params.sector "mods" }}
+                    {{ $modsCount = add $modsCount 1 }}
+                {{ else if eq .Params.sector "tools" }}
+                    {{ $toolsCount = add $toolsCount 1 }}
                 {{ end }}
             {{ end }}
 
-            <!-- Navigation Tabs -->
-            <div class="tabs">
-                <button class="tab-btn active" data-category="games">
-                    🎮 {{ i18n "games" | default "Jeux" }}
-                    <span class="count">{{ $gamesCount }}</span>
-                </button>
-                <button class="tab-btn" data-category="apps-web">
-                    💻 {{ i18n "apps_web" | default "Apps/Web" }}
-                    <span class="count">{{ $appsWebCount }}</span>
-                </button>
-                <button class="tab-btn" data-category="mods-tools">
-                    🛠️ {{ i18n "mods_tools" | default "Mods & Tools" }}
-                    <span class="count">{{ $modsToolsCount }}</span>
-                </button>
+            <!-- Sticky filters bar (main tabs + sub-tabs) -->
+            <div class="projects-filters-bar" role="toolbar" aria-label="Project filters">
+                <!-- Main Navigation Tabs -->
+                <div class="tabs projects-tabs" role="tablist" aria-label="Types de projets">
+                    <button class="tab-btn active" data-category="all" role="tab" aria-selected="true">
+                        <span class="tab-icon">📦</span>
+                        <span class="tab-label">{{ i18n "all" | default "Tous" }}</span>
+                        <span class="count">{{ $allCount }}</span>
+                    </button>
+                    <button class="tab-btn" data-category="games" role="tab" aria-selected="false">
+                        <span class="tab-icon">🎮</span>
+                        <span class="tab-label">{{ i18n "games" | default "Jeux" }}</span>
+                        <span class="count">{{ $gamesCount }}</span>
+                    </button>
+                    <button class="tab-btn" data-category="appsweb" role="tab" aria-selected="false">
+                        <span class="tab-icon">💻</span>
+                        <span class="tab-label">{{ i18n "apps_web" | default "Apps/Web" }}</span>
+                        <span class="count">{{ $appsWebCount }}</span>
+                    </button>
+                    <button class="tab-btn" data-category="mods" role="tab" aria-selected="false">
+                        <span class="tab-icon">🧩</span>
+                        <span class="tab-label">{{ i18n "mods" | default "Mods" }}</span>
+                        <span class="count">{{ $modsCount }}</span>
+                    </button>
+                    <button class="tab-btn" data-category="tools" role="tab" aria-selected="false">
+                        <span class="tab-icon">🛠️</span>
+                        <span class="tab-label">{{ i18n "tools" | default "Tools" }}</span>
+                        <span class="count">{{ $toolsCount }}</span>
+                    </button>
+                </div>
+                
+                <!-- Sub-filters for Games -->
+                <div class="sub-tabs" id="games-subtabs">
+                    <button class="sub-tab-btn active" data-subcategory="games-all">
+                        <span class="subtab-icon">📦</span>{{ i18n "all" | default "Tous" }}
+                    </button>
+                    <button class="sub-tab-btn" data-subcategory="games-professionnel">
+                        <span class="subtab-icon">💼</span>{{ i18n "professional" | default "Professionnel" }}
+                        <span class="count">{{ $gamesProfCount }}</span>
+                    </button>
+                    <button class="sub-tab-btn" data-subcategory="games-personnel">
+                        <span class="subtab-icon">🎯</span>{{ i18n "personal" | default "Personnel" }}
+                        <span class="count">{{ $gamesPersoCount }}</span>
+                    </button>
+                    <button class="sub-tab-btn" data-subcategory="games-gamejams">
+                        <span class="subtab-icon">⚡</span>{{ i18n "game_jams" | default "Game Jams" }}
+                        <span class="count">{{ $gamesJamsCount }}</span>
+                    </button>
+                </div>
+                
+                <!-- Sub-filters for Apps & Web -->
+                <div class="sub-tabs" id="appsweb-subtabs">
+                    <button class="sub-tab-btn active" data-subcategory="appsweb-all">
+                        <span class="subtab-icon">📦</span>{{ i18n "all" | default "Tous" }}
+                    </button>
+                    <button class="sub-tab-btn" data-subcategory="appsweb-professionnel">
+                        <span class="subtab-icon">🏢</span>{{ i18n "professional" | default "Professionnel" }}
+                        <span class="count">{{ $appsWebProfCount }}</span>
+                    </button>
+                    <button class="sub-tab-btn" data-subcategory="appsweb-etude">
+                        <span class="subtab-icon">🎓</span>{{ i18n "study" | default "Étude" }}
+                        <span class="count">{{ $appsWebEtudeCount }}</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Description Text -->
@@ -54,17 +126,10 @@
             <div class="projects-grid">
                 {{ range where $.Site.RegularPages "Section" "projects" }}
                     {{- $projectImage := .Params.background_image | default .Params.image | default "images/placeholder-project.jpg" -}}
-                    {{- $category := "" -}}
-                    {{- if hasPrefix .Params.sector "games" -}}
-                        {{- $category = "games" -}}
-                    {{- else if hasPrefix .Params.sector "appsweb" -}}
-                        {{- $category = "apps-web" -}}
-                    {{- else if or (eq .Params.sector "mods") (eq .Params.sector "tools") -}}
-                        {{- $category = "mods-tools" -}}
-                    {{- end -}}
+                    {{- $sector := .Params.sector -}}
                     
-                    {{- if ne $category "" -}}
-                        <div class="project-card-wrapper" data-category="{{ $category }}">
+                    {{- if ne $sector "" -}}
+                        <div class="project-card-wrapper" data-sector="{{ $sector }}">
                             {{ partial "project-card-unified.html" (dict 
                                 "title" .Title
                                 "subtitle" .Params.subtitle
@@ -83,5 +148,199 @@
 
 <!-- Auto-include person modal if needed -->
 {{ partial "auto-person-modal.html" . }}
+
+<script>
+// Initialize tab system for projects
+document.addEventListener('DOMContentLoaded', function() {
+    // Small delay to ensure DOM is fully loaded
+    setTimeout(() => {
+        console.log('=== PROJECTS TABS DEBUG ===');
+        
+        // Element selection
+        const tabBtns = document.querySelectorAll('.projects-tabs .tab-btn');
+        const subtabBtns = document.querySelectorAll('.sub-tab-btn');
+        const projectCards = document.querySelectorAll('.project-card-wrapper');
+        const gamesSubtabs = document.getElementById('games-subtabs');
+        const appswebSubtabs = document.getElementById('appsweb-subtabs');
+        
+        console.log('Tab buttons found:', tabBtns.length);
+        console.log('Subtab buttons found:', subtabBtns.length);
+        console.log('Project cards found:', projectCards.length);
+        
+        if (tabBtns.length === 0) {
+            console.error('No tab buttons found');
+            return;
+        }
+        
+        if (projectCards.length === 0) {
+            console.error('No project cards found');
+            return;
+        }
+        
+        // Filter function
+        function filterProjects(category, subcategory = null) {
+            console.log('Filtering projects for category:', category, 'subcategory:', subcategory);
+            let visibleCount = 0;
+            
+            projectCards.forEach(card => {
+                const sector = card.getAttribute('data-sector');
+                let shouldShow = false;
+                
+                if (category === 'all') {
+                    shouldShow = true;
+                } else if (category === 'games') {
+                    if (subcategory && subcategory !== 'games-all') {
+                        shouldShow = sector === subcategory;
+                    } else {
+                        shouldShow = sector && sector.startsWith('games-');
+                    }
+                } else if (category === 'appsweb') {
+                    if (subcategory && subcategory !== 'appsweb-all') {
+                        shouldShow = sector === subcategory;
+                    } else {
+                        shouldShow = sector && sector.startsWith('appsweb-');
+                    }
+                } else {
+                    shouldShow = sector === category;
+                }
+                
+                // Smooth animation
+                if (shouldShow) {
+                    visibleCount++;
+                    card.style.display = '';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(-10px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            console.log(`Filtered: ${visibleCount}/${projectCards.length} cards visible`);
+        }
+        
+        // Show/hide subtabs function
+        function showSubtabs(category) {
+            const mainTabsContainer = document.querySelector('.tabs.projects-tabs');
+            
+            // Hide all subtabs
+            document.querySelectorAll('.sub-tabs').forEach(subtab => {
+                subtab.style.display = 'none';
+            });
+            
+            // Remove integration class
+            if (mainTabsContainer) {
+                mainTabsContainer.classList.remove('has-subtabs');
+            }
+            
+            // Show appropriate subtabs
+            if (category === 'games' && gamesSubtabs) {
+                gamesSubtabs.style.display = 'flex';
+                if (mainTabsContainer) {
+                    mainTabsContainer.classList.add('has-subtabs');
+                }
+            } else if (category === 'appsweb' && appswebSubtabs) {
+                appswebSubtabs.style.display = 'flex';
+                if (mainTabsContainer) {
+                    mainTabsContainer.classList.add('has-subtabs');
+                }
+            }
+        }
+        
+        // Handle main tab clicks
+        tabBtns.forEach((tab, index) => {
+            console.log(`Setting up tab ${index}:`, tab.getAttribute('data-category'));
+            
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Tab clicked:', tab.getAttribute('data-category'));
+                
+                // Remove active from all tabs
+                tabBtns.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                
+                // Add active to clicked tab
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                
+                // Get category and manage subtabs
+                const category = tab.getAttribute('data-category');
+                console.log('Filtering by category:', category);
+                
+                // Show/hide subtabs (only on desktop - hidden on mobile via CSS)
+                const isMobile = window.innerWidth <= 768;
+                if (!isMobile) {
+                    showSubtabs(category);
+                }
+                
+                // Reset subtabs to "All"
+                if (category === 'games' || category === 'appsweb') {
+                    const activeSubtabs = document.querySelectorAll(`#${category}-subtabs .sub-tab-btn`);
+                    activeSubtabs.forEach(subtab => subtab.classList.remove('active'));
+                    const allSubtab = document.querySelector(`#${category}-subtabs [data-subcategory="${category}-all"]`);
+                    if (allSubtab) allSubtab.classList.add('active');
+                }
+                
+                // Filter projects
+                filterProjects(category);
+            });
+        });
+        
+        // Handle subtab clicks
+        subtabBtns.forEach((subtab, index) => {
+            console.log(`Setting up subtab ${index}:`, subtab.getAttribute('data-subcategory'));
+            
+            subtab.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Ignore clicks on mobile (subtabs are hidden)
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    console.log('Subtab clicks disabled on mobile');
+                    return;
+                }
+                
+                const subcategory = subtab.getAttribute('data-subcategory');
+                console.log('Subtab clicked:', subcategory);
+                
+                // Determine parent category
+                let parentCategory = 'all';
+                if (subcategory.startsWith('games-')) {
+                    parentCategory = 'games';
+                } else if (subcategory.startsWith('appsweb-')) {
+                    parentCategory = 'appsweb';
+                }
+                
+                // Remove active from other subtabs of same category
+                const parentSubtabs = document.querySelectorAll(`#${parentCategory}-subtabs .sub-tab-btn`);
+                parentSubtabs.forEach(s => s.classList.remove('active'));
+                
+                // Add active to clicked subtab
+                subtab.classList.add('active');
+                
+                // Filter projects with subcategory
+                filterProjects(parentCategory, subcategory);
+            });
+        });
+        
+        // Add transition styles to cards
+        projectCards.forEach(card => {
+            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        });
+        
+        // Initialize with "all"
+        filterProjects('all');
+    }, 100);
+});
+</script>
 
 {{ end }}

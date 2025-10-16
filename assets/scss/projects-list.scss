@@ -138,14 +138,17 @@
         width: 100%;
         box-sizing: border-box;
         max-width: 100%;
+        justify-content: center; // Center cards when less than full grid
     }
     
     .project-card-wrapper {
         // Wrapper must be block-level and fill its grid cell
         display: block;
         width: 100%;
+        max-width: 450px; // Limit max width to keep consistent size
         height: 100%;
         box-sizing: border-box;
+        margin: 0 auto; // Center card in its grid cell
         
         // Default: show all cards
         opacity: 1;
@@ -195,17 +198,6 @@
     
     // Both home page and list page
     .projects-section {
-        .tabs {
-            flex-direction: column;
-            align-items: stretch;
-            padding: 0 15px;
-            
-            .tab-btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-        
         .projects-grid {
             grid-template-columns: 1fr !important;
             gap: 15px !important;
@@ -248,5 +240,49 @@
             grid-template-columns: repeat(3, 1fr) !important;
             gap: 25px !important;
         }
+    }
+}
+
+// Filters bar container for sticky positioning
+.projects-filters-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 15px 0 0 0; // Remove bottom padding to let sub-tabs stick
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    // Sub-tabs initially hidden
+    .sub-tabs {
+        display: none;
+        margin-top: -27px; // Negative margin to stick to main tabs
+    }
+}
+
+// Mobile adjustments for filters bar
+@media (max-width: 768px) {
+    .projects-filters-bar {
+        padding: 10px 0 0 0;
+        width: 100%;
+        margin: 0;
+        overflow-x: hidden;
+    }
+    
+    .tabs, .sub-tabs {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .projects-filters-bar {
+        padding: 8px 0 0 0;
+        width: 100%;
+        margin: 0;
     }
 }
