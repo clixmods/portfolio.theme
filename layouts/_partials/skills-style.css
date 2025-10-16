@@ -126,23 +126,7 @@
     box-shadow: 0 0 10px currentColor;
 }
 
-/* Meta information */
-.ps5-tile-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.ps5-tile-date {
-    font-size: 0.85rem;
-    color: var(--ps5-text-muted);
-    font-weight: 600;
-}
-
-.ps5-tile-btn-placeholder {
-    width: 20px;
-    height: 20px;
-}
+/* Old PS5 tile meta classes removed - no longer used */
 
 /* Responsive */
 @media (max-width: 768px) {

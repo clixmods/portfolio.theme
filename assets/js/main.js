@@ -209,8 +209,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initialize card animations
-    const projectCards = document.querySelectorAll('.ps5-project-tile');
+    // Initialize card animations - using unified card classes
+    const projectCards = document.querySelectorAll('.project-card-unified');
     projectCards.forEach(card => {
         card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
     });

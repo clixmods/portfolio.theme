@@ -56,15 +56,15 @@ class ExperienceTiles {
         tile.style.transform = 'translateY(-8px) scale(1.02)';
         tile.style.zIndex = '10';
         
-        // Content animation
-        const content = tile.querySelector('.project-tile-content');
-        const info = tile.querySelector('.project-tile-info');
+        // Content animation - using unified card classes
+        const content = tile.querySelector('.project-card-unified-content');
+        const detailedInfo = tile.querySelector('.project-card-unified-detailed-info');
         
-        if (content && info) {
+        if (content && detailedInfo) {
             content.style.opacity = '0';
             content.style.transform = 'translateY(-15px)';
-            info.style.opacity = '1';
-            info.style.transform = 'translateY(0)';
+            detailedInfo.style.opacity = '1';
+            detailedInfo.style.transform = 'translateY(0)';
         }
     }
 
@@ -76,15 +76,15 @@ class ExperienceTiles {
         tile.style.transform = '';
         tile.style.zIndex = '';
         
-        // Content animation
-        const content = tile.querySelector('.project-tile-content');
-        const info = tile.querySelector('.project-tile-info');
+        // Content animation - using unified card classes
+        const content = tile.querySelector('.project-card-unified-content');
+        const detailedInfo = tile.querySelector('.project-card-unified-detailed-info');
         
-        if (content && info) {
+        if (content && detailedInfo) {
             content.style.opacity = '';
             content.style.transform = '';
-            info.style.opacity = '';
-            info.style.transform = '';
+            detailedInfo.style.opacity = '';
+            detailedInfo.style.transform = '';
         }
     }
 
