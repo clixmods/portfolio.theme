@@ -776,62 +776,40 @@ function createProjectTile(cleanedProject, technologies) {
     detailedInfo.appendChild(detailTitle);
     detailedInfo.appendChild(detailDescription);
     
-    // Technologies
-    if (technologies && technologies.length > 0) {
-        const techContainer = document.createElement('div');
-        techContainer.className = 'project-card-unified-technologies';
-        
-        technologies.slice(0, 4).forEach(tech => {
-            const techItem = document.createElement('span');
-            techItem.className = 'project-card-unified-tech-item';
-            techItem.textContent = tech;
-            techContainer.appendChild(techItem);
-        });
-        
-        if (technologies.length > 4) {
-            const moreItem = document.createElement('span');
-            moreItem.className = 'project-card-unified-tech-item';
-            moreItem.textContent = `+${technologies.length - 4}`;
-            techContainer.appendChild(moreItem);
-        }
-        
-        detailedInfo.appendChild(techContainer);
-    }
+    // Technologies section removed - not displayed in skill modal
     
     // Actions du projet
     if (cleanedProject.url) {
         const projectLink = document.createElement('a');
         projectLink.href = cleanedProject.url;
-        projectLink.className = 'project-card-unified-link';
+        projectLink.className = 'btn-action';
         projectLink.onclick = function(event) {
             event.stopPropagation();
         };
         
         // Créer le SVG
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('width', '12');
-        svg.setAttribute('height', '12');
         svg.setAttribute('viewBox', '0 0 24 24');
-        svg.setAttribute('fill', 'currentColor');
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', 'currentColor');
+        svg.setAttribute('stroke-width', '2');
         
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', 'M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z');
+        path.setAttribute('d', 'M7 17L17 7M17 7H7M17 7V17');
         
         svg.appendChild(path);
+        projectLink.appendChild(document.createTextNode('Voir le projet '));
         projectLink.appendChild(svg);
-        projectLink.appendChild(document.createTextNode(' Voir projet'));
         
         detailedInfo.appendChild(projectLink);
     } else {
         const confidentialSpan = document.createElement('span');
-        confidentialSpan.className = 'project-card-unified-link';
+        confidentialSpan.className = 'btn-action primary';
         confidentialSpan.style.opacity = '0.6';
         confidentialSpan.style.cursor = 'default';
         
         // Créer le SVG pour confidentiel
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('width', '12');
-        svg.setAttribute('height', '12');
         svg.setAttribute('viewBox', '0 0 24 24');
         svg.setAttribute('fill', 'currentColor');
         
@@ -839,8 +817,8 @@ function createProjectTile(cleanedProject, technologies) {
         path.setAttribute('d', 'M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.1V11.1C14.8,11.6 14.4,12 13.9,12H10.1C9.6,12 9.2,11.6 9.2,11.1V10.1C9.2,8.6 10.6,7 12,7Z');
         
         svg.appendChild(path);
+        confidentialSpan.appendChild(document.createTextNode('Confidentiel '));
         confidentialSpan.appendChild(svg);
-        confidentialSpan.appendChild(document.createTextNode(' Confidentiel'));
         
         detailedInfo.appendChild(confidentialSpan);
     }

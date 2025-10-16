@@ -4,7 +4,7 @@
 .project-card-unified {
     position: relative;
     background: linear-gradient(145deg, var(--ps5-gray-800, #1f2937) 0%, var(--ps5-gray-750, #1a212a) 100%);
-    border: 1px solid rgba(79, 209, 199, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 0;
     overflow: hidden;
@@ -17,8 +17,13 @@
 
 .project-card-unified:hover {
     transform: translateY(-5px) scale(1.02);
-    border-color: rgba(79, 209, 199, 0.5);
-    box-shadow: 0 12px 40px rgba(79, 209, 199, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.project-card-unified:hover .project-card-unified-image img {
+    filter: blur(3px);
+    transform: scale(1.05);
 }
 
 .project-card-unified:hover .project-card-unified-content {
@@ -74,12 +79,13 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 1.5rem;
+    padding: 0.25rem 1.25rem 1.5rem 1.25rem;
     background: linear-gradient(
         to top,
-        rgba(10, 14, 19, 0.75) 0%,
-        rgba(10, 14, 19, 0.3) 20%,
-        rgba(10, 14, 19, 0.05) 50%,
+        rgba(10, 14, 19, 0.95) 0%,
+        rgba(10, 14, 19, 0.85) 40%,
+        rgba(10, 14, 19, 0.55) 70%,
+        rgba(10, 14, 19, 0.2) 90%,
         transparent 100%
     );
     z-index: 2;
@@ -96,12 +102,12 @@
     padding: 1.5rem;
     background: linear-gradient(
         to bottom,
-        rgba(10, 14, 19, 0.70) 0%,
-        rgba(10, 14, 19, 0.80) 60%,
-        rgba(10, 14, 19, 0.85) 100%
+        rgba(10, 14, 19, 0.50) 0%,
+        rgba(10, 14, 19, 0.60) 60%,
+        rgba(10, 14, 19, 0.75) 100%
     );
-    backdrop-filter: blur(25px) saturate(150%);
-    -webkit-backdrop-filter: blur(25px) saturate(150%);
+    backdrop-filter: blur(15px) saturate(120%);
+    -webkit-backdrop-filter: blur(15px) saturate(120%);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -110,7 +116,7 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 4;
     border-radius: 20px;
-    border: 1px solid rgba(79, 209, 199, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
@@ -118,7 +124,7 @@
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--text-color);
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.4rem 0;
     line-height: 1.3;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
     display: -webkit-box;
@@ -131,7 +137,7 @@
 .project-card-unified-subtitle {
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.9);
-    margin: 0 0 1rem 0;
+    margin: 0;
     font-weight: 400;
     line-height: 1.4;
     display: -webkit-box;
@@ -149,13 +155,13 @@
 }
 
 .project-card-unified-role {
-    background: rgba(79, 209, 199, 0.2);
-    color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
     padding: 4px 8px;
     border-radius: 8px;
     font-size: 12px;
     font-weight: 500;
-    border: 1px solid rgba(79, 209, 199, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .project-card-unified-status {
@@ -210,8 +216,8 @@
 }
 
 .project-card-unified-tech-item {
-    background: rgba(79, 209, 199, 0.15);
-    border: 1px solid rgba(79, 209, 199, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.9);
     padding: 0.2rem 0.5rem;
     border-radius: 6px;
@@ -219,35 +225,37 @@
     font-weight: 500;
 }
 
-.project-card-unified-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--accent-color);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    padding: 8px 16px;
-    border-radius: 12px;
-    background: rgba(79, 209, 199, 0.15);
-    border: 1px solid rgba(79, 209, 199, 0.3);
-    backdrop-filter: blur(10px);
+/* Use btn-action from buttons.css for the project link */
+.project-card-unified-detailed-info .btn-action {
     margin-top: auto;
+    padding: 6px 12px !important;
+    font-size: 0.875rem !important;
+    min-height: 36px !important;
+    /* Ensure btn-action styles are applied in modals */
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    text-decoration: none !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
 }
 
-.project-card-unified-link:hover {
-    background: rgba(79, 209, 199, 0.25);
-    border-color: rgba(79, 209, 199, 0.5);
-    transform: translateX(2px);
+.project-card-unified-detailed-info .btn-action svg {
+    width: 14px !important;
+    height: 14px !important;
 }
 
-.project-card-unified-link svg {
-    transition: transform 0.3s ease;
-}
-
-.project-card-unified-link:hover svg {
-    transform: translateX(2px);
+/* Force btn-action styles in modal contexts */
+.person-modal .project-card-unified-detailed-info .btn-action,
+.skill-modal .project-card-unified-detailed-info .btn-action,
+.unified-modal .project-card-unified-detailed-info .btn-action {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 6px 12px !important;
+    font-size: 0.875rem !important;
+    min-height: 36px !important;
 }
 
 /* Mobile responsiveness */
