@@ -378,8 +378,7 @@
  * Styled like mini skill-blocks with glassmorphism effect and teal accent
  */
 .skill-tag.clickable {
-    background: rgba(75, 85, 99, 0.5);
-    backdrop-filter: blur(8px) saturate(150%);
+    background: rgba(75, 85, 99, 0.85);
     border: 1px solid rgba(var(--accent-rgb), 0.3);
     border-radius: 8px;
     padding: 0.4rem 0.8rem;
@@ -407,24 +406,6 @@
         0 4px 15px rgba(var(--accent-rgb), 0.3),
         0 0 15px rgba(var(--accent-rgb), 0.2);
     z-index: 10003;
-}
-
-.skill-tag.clickable::after {
-    content: '🎓';
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    font-size: 10px;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(0.8);
-    pointer-events: none;
-    z-index: 10004;
-}
-
-.skill-tag.clickable:hover::after {
-    opacity: 1;
-    transform: scale(1);
 }
 
 .skill-tag.clickable:active {

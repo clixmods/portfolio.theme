@@ -853,22 +853,6 @@
     box-shadow: var(--shadow-hover);
 }
 
-.skill-block.clickable::after {
-    content: '✨';
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 12px;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(0.8);
-}
-
-.skill-block.clickable:hover::after {
-    opacity: 1;
-    transform: scale(1);
-}
-
 /* ==================================================
    RESPONSIVE DESIGN
    ================================================== */
