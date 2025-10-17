@@ -23,8 +23,7 @@
     max-width: 90vw;
     max-height: 90vh;
     margin: 0 auto; /* centered by flex container */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
+    background: rgba(30, 30, 30, 0.98); /* More opaque background instead of blur */
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     box-shadow:
@@ -48,8 +47,7 @@
 .unified-modal-demo {
     /* Container de démo pour la page /demo/ */
     .unified-modal-content {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(20px);
+        background: rgba(30, 30, 30, 0.98); /* More opaque background instead of blur */
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 20px;
         box-shadow: 
@@ -65,8 +63,7 @@
 .unified-modal-preview {
     /* Style pour les prévisualisations statiques des modals */
     .unified-modal-content {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(20px);
+        background: rgba(30, 30, 30, 0.98); /* More opaque background instead of blur */
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 20px;
         box-shadow: 
@@ -141,7 +138,7 @@
 /* === UNIFIED BODY - PERFECTLY INTEGRATES WITH HEADER === */
 .unified-modal-body {
     padding: 20px;
-    background: rgba(0, 0, 0, 0.1); /* Darker shade than header */
+    background: rgb(34, 34, 34); /* Darker shade than header */
     border-top: none; /* No border - continuity with tabs */
     border-radius: 0 0 20px 20px; /* Rounded only at bottom */
     max-height: 75vh; /* Taller body for better readability */
@@ -1019,8 +1016,7 @@
 /* =================================== */
 
 .modal-types-navigation {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    background: rgba(40, 40, 40, 0.95); /* More opaque background instead of blur */
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     padding: 24px;
