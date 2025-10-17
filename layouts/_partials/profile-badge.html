@@ -1,12 +1,68 @@
-<!-- Profile Badge - User profile badge in top left corner -->
+<!-- Profile Badge - User profile badge with expandable actions on hover -->
 <div id="profile-badge" class="profile-badge">
-  <div class="profile-avatar">
-    <img src="{{ with .Site.Data.profile }}{{ .media.profileImage }}{{ end }}" 
-         alt="{{ with .Site.Data.profile }}{{ .personal.fullName }}{{ end }}" 
-         class="avatar-image">
+  <div class="profile-badge-header">
+    <div class="profile-avatar">
+      <img src="{{ with .Site.Data.profile }}{{ .media.profileImage }}{{ end }}" 
+           alt="{{ with .Site.Data.profile }}{{ .personal.fullName }}{{ end }}" 
+           class="avatar-image">
+    </div>
+    <div class="profile-info">
+      <span class="profile-name">{{ with .Site.Data.profile }}{{ .personal.firstName }}{{ end }}</span>
+      <span class="profile-role">{{ with .Site.Data.profile }}{{ .personal.title }}{{ end }}</span>
+    </div>
   </div>
-  <div class="profile-info">
-    <span class="profile-name">{{ with .Site.Data.profile }}{{ .personal.firstName }}{{ end }}</span>
-    <span class="profile-role">{{ with .Site.Data.profile }}{{ .personal.title }}{{ end }}</span>
+
+  <!-- Expandable Actions Content (revealed on hover) -->
+  <div class="profile-badge-actions">
+    <div class="profile-actions-separator"></div>
+    
+    <!-- Main Actions Group -->
+    <div class="profile-actions-group">
+      <a href="/cv/" 
+         class="dock-button primary-btn download-btn" 
+         title="{{ i18n "download_resume" | default "Télécharger le CV" }}"
+         aria-label="{{ i18n "download_resume" | default "Télécharger le CV" }}">
+        {{- partial "icon.html" (dict "iconId" "document-download" "size" "24" "class" "dock-icon") -}}
+      </a>
+      
+      <button class="dock-button primary-btn contact-btn"
+              title="{{ i18n "contact_me" | default "Contactez-moi" }}"
+              aria-label="{{ i18n "contact_me" | default "Contactez-moi" }}"
+              onclick="event.preventDefault(); UnifiedModal.create({ type: 'contact', title: 'Contactez-moi', icon: '📬', content: { contacts: [
+                { icon: '📧', title: 'Email', value: '{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}', link: 'mailto:{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}' },
+                { icon: '/images/social/linkedin.svg', title: 'LinkedIn', value: '{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', link: 'https://{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', external: true },
+                { icon: '📍', title: 'Localisation', value: '{{ with $.Site.Data.profile.contact.location }}{{ . }}{{ else }}Montpellier{{ end }}' }
+              ] } });">
+        {{- partial "icon.html" (dict "iconId" "email" "size" "24" "class" "dock-icon") -}}
+      </button>
+    </div>
+    
+    <div class="profile-actions-separator"></div>
+    
+    <!-- Social Networks Group -->
+    <div class="profile-actions-group social-group">
+      {{ range .Site.Data.config.social }}
+      <a href="{{ .url }}" 
+         {{ if .external }}target="_blank" rel="noopener noreferrer"{{ end }} 
+         class="dock-button social-btn" 
+         title="{{ if eq .title "LinkedIn" }}LinkedIn{{ else if eq .title "GitHub" }}GitHub{{ else if eq .title "Email" }}Email{{ else if eq .title "Discord" }}Discord{{ else }}{{ .title }}{{ end }}"
+         data-social="{{ lower .title }}"
+         {{ if eq .title "Discord" }}
+           onclick="event.preventDefault(); UnifiedModal.create({ type: 'discord', title: 'Mon Discord', icon: '/images/social/discord.svg', content: { discordId: '{{ with $.Site.Data.profile.contact.discord }}{{ . }}{{ else }}clixmods{{ end }}' } });"
+         {{ end }}>
+        {{ if eq .title "LinkedIn" }}
+        {{- partial "icon.html" (dict "iconId" "linkedin" "class" "dock-icon") -}}
+        {{ else if eq .title "GitHub" }}
+        {{- partial "icon.html" (dict "iconId" "github" "class" "dock-icon") -}}
+        {{ else if eq .title "Email" }}
+        {{- partial "icon.html" (dict "iconId" "email-outline" "class" "dock-icon") -}}
+        {{ else if eq .title "Discord" }}
+        {{- partial "icon.html" (dict "iconId" "discord" "class" "dock-icon") -}}
+        {{ else }}
+        <span class="dock-emoji">{{ .icon }}</span>
+        {{ end }}
+      </a>
+      {{ end }}
+    </div>
   </div>
 </div>
