@@ -18,7 +18,10 @@
     })();
   </script>
   <!-- Hero Background - Deep Space Aesthetic -->
-  {{ partial "hero-background.html" . }}
+  <!-- Désactiver les waves si le projet a une image background pour optimiser les ressources -->
+  {{ if not (and (eq .Section "projects") .Params.image) }}
+    {{ partial "hero-background.html" . }}
+  {{ end }}
   
   <!-- Mobile Menu - Menu hamburger pour mobile -->
   {{ partial "mobile-menu.html" . }}

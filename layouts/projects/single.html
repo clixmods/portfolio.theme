@@ -13,10 +13,12 @@
 {{ $sectorBadgeStyles := resources.Get "scss/sector-badge.scss" | css.Sass }}
 <link rel="stylesheet" href="{{ $sectorBadgeStyles.RelPermalink }}">
 
+{{ if not .Params.image }}
 <script>
     // Ajouter la classe project-page au body pour gérer les z-index des canvas
     document.body.classList.add('project-page');
 </script>
+{{ end }}
 <!-- Fixed Background Overlay -->
 <div class="project-hero-overlay"></div>
 <section class="project-hero">
