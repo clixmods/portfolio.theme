@@ -1440,7 +1440,10 @@
     }
     
     .image-modal img {
+        max-width: 90vw;
         max-height: 70vh;
+        width: auto;
+        height: auto;
     }
     
     .image-modal-close {

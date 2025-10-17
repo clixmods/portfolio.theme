@@ -47,42 +47,21 @@
         <div class="card-glow"></div>
         <div class="card-content">
           <div class="card-icon">
-            {{- partial "icon.html" (dict "iconId" "github" "size" "20") -}}
+            {{- partial "icon.html" (dict "iconId" "clock" "size" "20") -}}
           </div>
           <div class="card-text">
             <span class="card-label">{{ i18n "open_source" | default "Open Source" }}</span>
-            <a href="https://github.com/clixmods/portfolio" target="_blank" rel="noopener" class="card-link">
-              {{ i18n "view_on_github" | default "Voir sur GitHub" }}
-            </a>
+            <span class="card-designer">{{ i18n "coming_soon" | default "Coming Soon" }}</span>
           </div>
         </div>
-      </div>
-    </div>
-    
-    <!-- Animated separation line -->
-    <div class="footer-separator">
-      <div class="separator-line"></div>
-      <div class="separator-dots">
-        <span></span>
-        <span></span>
-        <span></span>
       </div>
     </div>
     
     <!-- Bottom section with copyright and legal information -->
     <div class="footer-bottom">
       <div class="footer-info">
-        <!-- Left: Copyright and location -->
-        <div class="footer-left-section">
-          <span class="copyright">&copy; {{ now.Year }} Clément GARCIA</span>
-          <span class="location">{{ i18n "footer_role_location" | default "Développeur Full-Stack • France" }}</span>
-        </div>
-        
-        <!-- Right: Theme -->
-        <div class="footer-tech-info">
-          <span class="tech-label">{{ i18n "theme" | default "Thème" }}</span>
-          <span class="theme-name">WaveGlass</span>
-        </div>
+        <span class="copyright">&copy; {{ now.Year }} Clément GARCIA</span>
+        <span class="location">{{ i18n "footer_role_location" | default "Développeur Full-Stack • France" }}</span>
       </div>
     </div>
   </div>
