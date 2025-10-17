@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <h3 class="project-card-unified-title">${cleanTitle}</h3>
                                 ${cleanDescription ? `<p class="project-card-unified-detailed-description">${cleanDescription}</p>` : ''}
                             </div>
-                            <a href="${cleanUrl}" class="btn-action" target="_blank">
+                            <a href="${cleanUrl}" class="btn-action">
                                 Voir le projet
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M7 17L17 7M17 7H7M17 7V17"/>
