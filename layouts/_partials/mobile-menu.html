@@ -12,7 +12,8 @@
 
 <!-- Mobile Dropdown Menu -->
 <div class="mobile-menu-dropdown" id="mobile-menu-dropdown">
-    <div class="mobile-menu-content">
+    <!-- Main Menu View -->
+    <div class="mobile-menu-content" id="mobile-menu-main-view">
       <!-- Profile Badge Header -->
       <div class="mobile-menu-profile">
         <div class="mobile-profile-avatar">
@@ -29,7 +30,6 @@
       <div class="mobile-menu-separator"></div>
       
       <div class="mobile-menu-section">
-        <h3 class="mobile-menu-title">{{ i18n "main_actions" | default "Actions principales" }}</h3>
         <div class="mobile-menu-actions">
           <a href="/cv/" 
              class="mobile-menu-item" 
@@ -53,7 +53,6 @@
       <div class="mobile-menu-separator"></div>
       
       <div class="mobile-menu-section">
-        <h3 class="mobile-menu-title">{{ i18n "social_networks" | default "Réseaux sociaux" }}</h3>
         <div class="mobile-menu-actions">
           {{ range .Site.Data.config.social }}
           <a href="{{ .url }}" 
@@ -83,7 +82,6 @@
       <div class="mobile-menu-separator"></div>
       
       <div class="mobile-menu-section">
-        <h3 class="mobile-menu-title">{{ i18n "settings" | default "Paramètres" }}</h3>
         <div class="mobile-menu-actions">
           <!-- Trophies Button -->
           <button class="mobile-menu-item mobile-menu-trophies" 
@@ -97,7 +95,7 @@
           
           <!-- Theme Toggle Button -->
           <button class="mobile-menu-item mobile-menu-theme" 
-                  onclick="document.querySelector('.right-dock .theme-toggle').click();">
+                  id="mobile-theme-toggle-btn">
             <div class="mobile-menu-item-content">
               {{- partial "icon.html" (dict "iconId" "moon" "size" "20" "class" "mobile-menu-icon theme-icon-dark") -}}
               {{- partial "icon.html" (dict "iconId" "sun" "size" "20" "class" "mobile-menu-icon theme-icon-light") -}}
@@ -107,7 +105,7 @@
           
           <!-- Notifications Button -->
           <button class="mobile-menu-item mobile-menu-notifications" 
-                  onclick="document.getElementById('mobile-menu-toggle').click(); document.querySelector('.right-dock .notifications-btn').click();">
+                  id="mobile-show-notifications-btn">
             <div class="mobile-menu-item-content">
               {{- partial "icon.html" (dict "iconId" "bell" "size" "20" "class" "mobile-menu-icon") -}}
               <span class="mobile-menu-label">{{ i18n "notifications" | default "Notifications" }}</span>
@@ -151,6 +149,40 @@
               {{ end }}
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Notifications View (Hidden by default) -->
+    <div class="mobile-menu-notifications-view" id="mobile-menu-notifications-view" style="display: none;">
+      <div class="mobile-menu-notifications-header">
+        <button class="mobile-notifications-back-btn" id="mobile-notifications-back-btn">
+          <svg class="back-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Retour</span>
+        </button>
+        <div class="mobile-notifications-title-row">
+          <h2 class="mobile-notifications-title">
+            {{- partial "icon.html" (dict "iconId" "bell" "size" "24" "class" "title-icon") -}}
+            <span>Notifications</span>
+          </h2>
+          <button class="mobile-clear-all-btn" id="mobile-clear-all-btn" style="display: none;">
+            <svg class="clear-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            <span>Tout effacer</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="mobile-menu-notifications-content" id="mobile-notifications-content">
+        <!-- Notifications will be dynamically loaded here -->
+        <div class="mobile-notifications-empty">
+          <div class="empty-state-icon">🔔</div>
+          <p class="empty-state-text">Aucune notification pour le moment</p>
         </div>
       </div>
     </div>
