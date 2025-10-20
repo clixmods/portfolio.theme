@@ -17,4 +17,6 @@
       {{- end }}
     {{- end }}
   {{- end }}
+{{- else }}
+  {{- errorf "SCSS file not found: %s (check assets/ directory)" . }}
 {{- end }}

@@ -672,6 +672,7 @@
         padding: 0 !important; /* Remove all padding from modal container */
         align-items: stretch !important;
         justify-content: stretch !important;
+        backdrop-filter: none !important; /* Remove blur effect on mobile */
     }
     
     .unified-modal-content {
@@ -681,6 +682,7 @@
         max-height: 100vh !important;
         margin: 0 !important;
         border-radius: 0 !important;
+        border: none !important;
         display: flex !important;
         flex-direction: column !important;
     }
@@ -693,6 +695,7 @@
         max-height: 100vh !important;
         margin: 0 !important;
         border-radius: 0 !important;
+        border: none !important;
         display: flex !important;
         flex-direction: column !important;
     }

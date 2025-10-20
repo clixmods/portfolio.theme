@@ -7,6 +7,9 @@
   - . (string): Glob pattern to match CSS files
 */}}
 {{- $resources := resources.Match . }}
+{{- if not $resources }}
+  {{- warnf "No CSS files found matching pattern: %s" . }}
+{{- end }}
 {{- range sort $resources "Name" }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
