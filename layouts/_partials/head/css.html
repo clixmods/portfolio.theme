@@ -21,8 +21,6 @@
 {{/* Add global Hero Background */}}
 {{ partial "helpers/load-css.html" "css/hero-background.css" }}
 
-{{/* (Legacy) variables.css removed – DO NOT USE ANYMORE */}}
-
 {{/* Base Stylesheets - Load first */}}
 {{ partial "helpers/load-css.html" "css/style.css" }}
 {{ partial "helpers/load-css.html" "css/main.css" }}
@@ -106,7 +104,6 @@
 {{/* Section-specific Stylesheets */}}
 {{ partial "helpers/load-css.html" "css/profile-hero.css" }}
 
-
 {{ partial "helpers/load-css.html" "css/info-sections.css" }}
 
 {{ partial "helpers/load-css.html" "css/projects.css" }}
@@ -140,8 +137,6 @@
 
 {{ partial "helpers/load-css.html" "css/forms.css" }}
 
-{{/* Removed duplications - already loaded above */}}
-
 {{/* Developer Widgets Styles - Specialties and Tools */}}
 {{ partial "helpers/load-css.html" "css/developer-widgets.css" }}
 
@@ -169,5 +164,3 @@
 {{- if $isCV }}
   {{ partial "helpers/load-scss.html" "scss/cv.scss" }}
 {{- end }}
-
-{{/* Legacy CV Choice Modal styles removed (migrated to unified modal) */}}
