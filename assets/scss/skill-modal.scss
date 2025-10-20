@@ -298,6 +298,9 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
+/* Mobile dropdown - inherits from unified-modal.scss */
+/* Skill modal uses .unified-modal-tabs-mobile class for dropdown */
+
 .skill-modal-tab:not(.tab-btn) { 
     position: relative;
     background: transparent;
@@ -910,11 +913,51 @@
         height: 30px;
     }
     
-    .skill-modal-tab { 
-        padding: 10px 12px; 
-        font-size: 12px; 
+    /* Mobile tabs optimization - Keep on single line */
+    .skill-modal-tabs.unified-modal-tabs {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        gap: 4px;
+        padding: 6px 12px;
+        justify-content: flex-start;
+        scrollbar-width: none; /* Firefox */
+        
+        &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+        }
     }
-    .skill-modal-tab .icon { font-size: 14px; }
+    
+    .skill-modal-tab.tab-btn { 
+        padding: 10px 14px; 
+        font-size: 13px;
+        flex-shrink: 0;
+        min-width: fit-content;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .skill-modal-tab .icon { 
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+    
+    .skill-modal-tab-count.count { 
+        margin-left: 6px;
+        padding: 3px 7px;
+        font-size: 11px;
+        min-width: 20px;
+        text-align: center;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
     .skill-modal-chip { 
         font-size: 12px; 
         padding: 5px 10px; 
@@ -956,11 +999,23 @@
 }
 
 @media (max-width: 640px) {
-    .skill-modal-tab { 
-        padding: 10px 12px; 
-        font-size: 12px; 
+    /* Further optimization for smaller tablets */
+    .skill-modal-tab.tab-btn { 
+        padding: 9px 12px; 
+        font-size: 12px;
+        gap: 5px;
     }
-    .skill-modal-tab .icon { font-size: 14px; }
+    
+    .skill-modal-tab .icon { 
+        font-size: 15px;
+    }
+    
+    .skill-modal-tab-count.count { 
+        padding: 2px 6px;
+        font-size: 10px;
+        min-width: 18px;
+    }
+    
     .skill-modal-chip { 
         font-size: 12px; 
         padding: 5px 10px; 
@@ -1017,6 +1072,9 @@
         font-size: 18px;
         margin-bottom: 8px;
     }
+    
+    /* Tabs dropdown handled by tabs-dropdown.css and tabs-dropdown.js */
+    /* No specific styles needed here, the unified system handles it */
     
     .skill-modal-experiences-list {
         gap: 10px;

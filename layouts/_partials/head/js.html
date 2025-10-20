@@ -82,6 +82,17 @@
   {{- end }}
 {{- end }}
 
+{{/* Unified Tabs Dropdown System Script */}}
+{{- with resources.Get "js/tabs-dropdown.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 {{/* Experience Tiles Script */}}
 {{- with resources.Get "js/experience-tiles.js" }}
   {{- if hugo.IsDevelopment }}

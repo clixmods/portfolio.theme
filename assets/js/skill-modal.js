@@ -141,6 +141,11 @@ function openSkillModal(name, icon, level, experience, iconType) {
         modal.classList.add('fade-enter-active');
     });
     document.body.style.overflow = 'hidden'; // Prevent page scrolling
+    
+    // Recreate dropdown immediately after modal is displayed
+    if (typeof window.recreateTabsDropdown === 'function') {
+        window.recreateTabsDropdown('skillModal');
+    }
 }
 
 // Function to close modal

@@ -281,6 +281,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Modal display after setting:', modal.style.display);
         document.body.style.overflow = 'hidden';
         console.log('Modal should now be visible!');
+        
+        // Recreate dropdown immediately after tabs visibility is updated
+        if (typeof window.recreateTabsDropdown === 'function') {
+            window.recreateTabsDropdown('personModal');
+        }
     };
 
     // Create closePersonModal function
