@@ -251,8 +251,7 @@
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(handleMobileScroll, 100);
     });
-    
-    console.log(`Dock initialisé avec ${dockButtons.length} boutons`);
+
   }
   
   /**

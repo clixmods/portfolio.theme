@@ -59,17 +59,6 @@
   {{- end }}
 {{- end }}
 
-{{/* Scroll Visibility Management */}}
-{{- with resources.Get "js/scroll-visibility.js" }}
-  {{- if hugo.IsDevelopment }}
-    <script src="{{ .RelPermalink }}"></script>
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
-    {{- end }}
-  {{- end }}
-{{- end }}
-
 
 {{/* Skill Modal Script */}}
 {{- with resources.Get "js/skill-modal.js" }}
@@ -84,17 +73,6 @@
 
 {{/* Unified Tabs Dropdown System Script */}}
 {{- with resources.Get "js/tabs-dropdown.js" }}
-  {{- if hugo.IsDevelopment }}
-    <script src="{{ .RelPermalink }}"></script>
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{/* Experience Tiles Script */}}
-{{- with resources.Get "js/experience-tiles.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -145,17 +123,5 @@
     {{- with . | minify | fingerprint }}
       <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
     {{- end }}
-  {{- end }}
-{{- end }}
-
-{{/* Debug Elements Script (DEV ONLY) */}}
-{{- if hugo.IsDevelopment }}
-  {{- with resources.Get "js/debug-elements.js" }}
-    <script src="{{ .RelPermalink }}"></script>
-  {{- end }}
-  
-  {{/* Test Persistent Notifications (DEV ONLY) */}}
-  {{- with resources.Get "js/test-persistent-notifications.js" }}
-    <script src="{{ .RelPermalink }}"></script>
   {{- end }}
 {{- end }}

@@ -260,11 +260,6 @@
   }
 }
 
-/* États de chargement et performance */
-.dock-button {
-  will-change: transform;
-}
-
 @media (hover: none) {
   .dock-button:hover {
     transform: none;

@@ -178,8 +178,18 @@ class CarouselController {
 
         // Update track position
         if (this.track) {
+            // Apply will-change before animation for performance
+            this.track.style.willChange = 'transform';
+            
             const translateX = -this.currentIndex * 100;
             this.track.style.transform = `translateX(${translateX}%)`;
+            
+            // Remove will-change after animation completes (600ms transition duration)
+            setTimeout(() => {
+                if (this.track) {
+                    this.track.style.willChange = 'auto';
+                }
+            }, 600);
         }
         
         // Update indicators

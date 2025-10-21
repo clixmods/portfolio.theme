@@ -428,7 +428,6 @@
 /* DEBUG: S'assurer que rien ne recouvre les étiquettes cliquables */
 .skill-tag.clickable {
     isolation: isolate;
-    will-change: transform;
 }
 
 /* Force le z-index pour toutes les étiquettes en cas de conflit de contexte */

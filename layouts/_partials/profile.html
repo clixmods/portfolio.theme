@@ -60,13 +60,7 @@
                     {{- $gamesPerso := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "games-personnel" -}}
                     {{- $gamesJams := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "games-gamejams" -}}
                     {{- $gamesCount := add (add (len $gamesPro) (len $gamesPerso)) (len $gamesJams) -}}
-                    <script>
-                        console.log("=== JEUX DEBUG ===");
-                        console.log("Games Pro ({{ len $gamesPro }}): {{ range $gamesPro }}{{ .Title }}, {{ end }}");
-                        console.log("Games Perso ({{ len $gamesPerso }}): {{ range $gamesPerso }}{{ .Title }}, {{ end }}");
-                        console.log("Games Jams ({{ len $gamesJams }}): {{ range $gamesJams }}{{ .Title }}, {{ end }}");
-                        console.log("Total jeux: {{ $gamesCount }}");
-                    </script>
+                
                     <div class="stat-value">{{ if eq $gamesCount 0 }}-1{{ else }}{{ $gamesCount }}{{ end }}</div>
                     <div class="stat-label">jeux créés</div>
                 </div>
@@ -74,12 +68,7 @@
                     {{- $appsPro := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "appsweb-professionnel" -}}
                     {{- $appsEtude := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "appsweb-etude" -}}
                     {{- $appsCount := add (len $appsPro) (len $appsEtude) -}}
-                    <script>
-                        console.log("=== APPS DEBUG ===");
-                        console.log("Apps Pro ({{ len $appsPro }}): {{ range $appsPro }}{{ .Title }}, {{ end }}");
-                        console.log("Apps Etude ({{ len $appsEtude }}): {{ range $appsEtude }}{{ .Title }}, {{ end }}");
-                        console.log("Total apps: {{ $appsCount }}");
-                    </script>
+               
                     <div class="stat-value">{{ if eq $appsCount 0 }}-1{{ else }}{{ $appsCount }}{{ end }}</div>
                     <div class="stat-label">apps web</div>
                 </div>
@@ -87,12 +76,7 @@
                     {{- $mods := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "mods" -}}
                     {{- $tools := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "tools" -}}
                     {{- $modsCount := add (len $mods) (len $tools) -}}
-                    <script>
-                        console.log("=== MODS/TOOLS DEBUG ===");
-                        console.log("Mods ({{ len $mods }}): {{ range $mods }}{{ .Title }}, {{ end }}");
-                        console.log("Tools ({{ len $tools }}): {{ range $tools }}{{ .Title }}, {{ end }}");
-                        console.log("Total mods/tools: {{ $modsCount }}");
-                    </script>
+                
                     <div class="stat-value">{{ if eq $modsCount 0 }}-1{{ else }}{{ $modsCount }}{{ end }}</div>
                     <div class="stat-label">mods & tools</div>
                 </div>

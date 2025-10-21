@@ -18,8 +18,6 @@
             return;
         }
         
-        console.log(`Initializing tabs dropdown for: ${collapseId}`);
-        
         // Find or create mobile dropdown container
         let mobileContainer = document.querySelector(`.tabs-mobile[data-collapse-id="${collapseId}"]`);
         
@@ -65,7 +63,6 @@
         countElements.forEach(countElement => {
             // Use MutationObserver to watch for text changes
             const observer = new MutationObserver(() => {
-                console.log(`Count changed for ${collapseId}, updating dropdown`);
                 updateDropdownCounts(collapseId);
             });
             
@@ -388,19 +385,19 @@
      * Recreate dropdown for a specific collapse ID (removes old one first)
      */
     function recreateDropdown(collapseId) {
-        console.log(`Recreating dropdown for: ${collapseId}`);
+    
         
         // Remove existing dropdown
         const oldDropdown = document.querySelector(`.tabs-mobile[data-collapse-id="${collapseId}"]`);
         if (oldDropdown) {
-            console.log(`Removing old dropdown for ${collapseId}`);
+        
             oldDropdown.remove();
         }
         
         // Reinitialize
         const tabsContainer = document.querySelector(`.tabs[data-collapse-id="${collapseId}"]`);
         if (tabsContainer) {
-            console.log(`Reinitializing dropdown for ${collapseId}`);
+   
             initTabsDropdown(tabsContainer);
             
             // Update counts after a brief delay to ensure they're populated
@@ -420,7 +417,7 @@
      */
     function initAllCollapsibleTabs() {
         const collapsibleTabs = document.querySelectorAll('.tabs[data-can-collapse="true"]');
-        console.log(`Found ${collapsibleTabs.length} collapsible tabs containers`);
+
         
         collapsibleTabs.forEach(tabsContainer => {
             initTabsDropdown(tabsContainer);

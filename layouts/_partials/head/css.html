@@ -1,9 +1,6 @@
 {{/* Global Variables (always) */}}
 {{ partial "helpers/load-css.html" "css/variables.global.css" }}
 
-{{/* Widget Variables (always - necessary for cross-cutting widgets) */}}
-{{ partial "helpers/load-css.html" "css/variables.widgets.css" }}
-
 {{/* Determine page type to load dedicated variables */}}
 {{- $pageType := "" -}}
 {{- if .IsHome -}}
@@ -30,9 +27,6 @@
 
 {{/* Tech Icons Styles */}}
 <link rel="stylesheet" href="/css/tech-icons.css">
-
-{{/* Tools Styles */}}
-{{ partial "helpers/load-css.html" "css/tools.css" }}
 
 {{/* Profile Stats Styles */}}
 {{ partial "helpers/load-css.html" "css/profile-stats.css" }}
@@ -137,22 +131,27 @@
 
 {{ partial "helpers/load-css.html" "css/forms.css" }}
 
-{{/* Developer Widgets Styles - Specialties and Tools */}}
-{{ partial "helpers/load-css.html" "css/developer-widgets.css" }}
-
-{{/* Add specific PS5 variables if projects section */}}
+{{/* Project-specific styles - Loaded only on project pages */}}
 {{ if eq .Section "projects" }}
-  {{ partial "helpers/load-css.html" "css/variables.ps5.css" }}
+  {{/* Project variables (PS5 and widgets) */}}
+  {{ partial "helpers/load-css.html" "css/projects/variables.widgets.css" }}
+  {{ partial "helpers/load-css.html" "css/projects/variables.ps5.css" }}
+  {{/* Developer Widgets Styles - Specialties and Tools (used in project widgets) */}}
+  {{ partial "helpers/load-css.html" "css/projects/developer-widgets.css" }}
 {{ end }}
 
-{{/* Project widgets SCSS (refactored from CSS) */}}
-{{ partial "helpers/load-scss.html" "scss/projects/widgets/_index.scss" }}
+{{/* Project widgets SCSS (refactored from CSS) - Loaded only on project pages */}}
+{{ if eq .Section "projects" }}
+  {{ partial "helpers/load-scss.html" "scss/projects/widgets/_index.scss" }}
+{{ end }}
 
 {{/* Section-specific component */}}
 {{ partial "helpers/load-css-pattern.html" "css/shared/components/*.css" }}
 
-{{/* Section-specific project page */}}
-{{ partial "helpers/load-css-pattern.html" "css/projects/*.css" }}
+{{/* Section-specific project page styles (loaded only on project pages) */}}
+{{ if eq .Section "projects" }}
+  {{ partial "helpers/load-css-pattern.html" "css/projects/*.css" }}
+{{ end }}
 
 {{/* CV page styles (loaded only on CV page) */}}
 {{- $isCV := or

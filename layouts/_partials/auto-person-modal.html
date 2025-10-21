@@ -1,4 +1,4 @@
-{{/* 
+﻿{{/* 
   Auto Person Modal Loader
   Inclut automatiquement le person modal si des personnes sont détectées sur la page
 */}}
@@ -26,45 +26,6 @@
     {{/* Person Modal HTML */}}
     {{ partial "person-modal.html" . }}
 
-    {{/* Debug script to analyze the issue */}}
-    <script>
-        window.debugPersonModal = function() {
-            console.log('=== DEBUG PERSON MODAL ===');
-            console.log('Current page:', window.location.pathname);
-            console.log('portfolioPeople:', window.portfolioPeople);
-            console.log('portfolioProjects:', window.portfolioProjects);
-            console.log('portfolioTestimonials:', window.portfolioTestimonials);
-            
-            if (window.portfolioProjects && Array.isArray(window.portfolioProjects)) {
-                console.log('Projects with contributors:');
-                window.portfolioProjects.forEach((project, index) => {
-                    console.log(`  ${index}. ${project.title}`);
-                    if (project.contributors) {
-                        project.contributors.forEach((contributor, cIndex) => {
-                            console.log(`    - ${contributor.person} (${contributor.role})`);
-                        });
-                    }
-                });
-            }
-            
-            // Test for a specific contributor
-            const testPersonId = 'francois-bertrand';
-            console.log(`Testing projects for ${testPersonId}:`);
-            if (window.portfolioProjects) {
-                const personProjects = window.portfolioProjects.filter(project => 
-                    project.contributors && project.contributors.some(contributor => contributor.person === testPersonId)
-                );
-                console.log(`Found ${personProjects.length} projects:`, personProjects);
-            }
-        };
-        
-        // Automatically launch debug after loading
-        setTimeout(() => {
-            console.log('Auto-running debug...');
-            window.debugPersonModal();
-        }, 1000);
-    </script>
-
     {{/* CSS pour les personnes cliquables */}}
     {{ $clickablePersonCSS := resources.Get "scss/clickable-person.scss" | css.Sass | resources.Minify }}
     <link rel="stylesheet" href="{{ $clickablePersonCSS.RelPermalink }}">
@@ -84,19 +45,19 @@
         setTimeout(function() {
             // Verify that the person modal is available
             if (typeof window.openPersonModal === 'function') {
-                console.log('Person modal ready - Found {{ len .Site.Data.testimonials }} testimonials');
+                
                 
                 // Count clickable elements
                 const clickablePersons = document.querySelectorAll('.clickable-person');
-                console.log(`Found ${clickablePersons.length} clickable person elements`);
+                
                 
                 // Ensure all elements with data-person-id are clickable
                 const personElements = document.querySelectorAll('[data-person-id]');
-                console.log(`Found ${personElements.length} elements with data-person-id`);
+                
                 
                 personElements.forEach((element, index) => {
                     const personId = element.getAttribute('data-person-id');
-                    console.log(`Element ${index}: person-id="${personId}"`);
+                    
                     
                     // Ensure click event is attached
                     if (!element.hasAttribute('data-click-attached')) {
@@ -106,7 +67,7 @@
                         element.addEventListener('click', function(e) {
                             e.preventDefault();
                             e.stopPropagation();
-                            console.log(`Clicked on person: ${personId}`);
+                            
                             
                             if (typeof window.openPersonModal === 'function') {
                                 window.openPersonModal(personId);

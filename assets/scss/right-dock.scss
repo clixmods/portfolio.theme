@@ -61,9 +61,6 @@
   border-radius: var(--right-dock-radius);
   box-shadow: 0 4px 16px var(--right-dock-shadow);
   
-  /* Optimisation des performances */
-  will-change: transform;
-  
   /* Transition harmonisée */
   transition: all var(--right-dock-transition);
 }
@@ -1656,11 +1653,6 @@ body {
   .right-dock .dock-label {
     transition-duration: 50ms;
   }
-}
-
-/* États de chargement et performance */
-.right-dock .dock-button {
-  will-change: transform;
 }
 
 @media (hover: none) {

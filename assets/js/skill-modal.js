@@ -191,8 +191,7 @@ function loadProjectsForSkill(skillName) {
     try {
         // Use data embedded in page instead of making API request
         const projects = window.portfolioProjects || [];
-        console.log('Projects retrieved from embedded data:', projects.length);
-        console.log('Searching projects for skill:', skillName);
+
         displayProjects(projects, skillName, projectsList);
     } catch (error) {
         console.error('Error loading projects:', error);
@@ -208,8 +207,7 @@ function loadExperiencesForSkill(skillName) {
     try {
         // Use data embedded in page instead of making API request
         const experiences = window.portfolioExperiences || [];
-        console.log('Experiences retrieved from embedded data:', experiences.length);
-        console.log('Searching experiences for skill:', skillName);
+
         displayExperiences(experiences, skillName, experiencesList);
     } catch (error) {
         console.error('Error loading experiences:', error);
@@ -225,8 +223,7 @@ function loadEducationsForSkill(skillName) {
     try {
         // Use data embedded in page instead of making API request
         const educations = window.portfolioEducations || [];
-        console.log('Educations retrieved from embedded data:', educations.length);
-        console.log('Searching educations for skill:', skillName);
+
         displayEducations(educations, skillName, educationsList);
     } catch (error) {
         console.error('Error loading educations:', error);
@@ -236,25 +233,17 @@ function loadEducationsForSkill(skillName) {
 
 // Function to display filtered projects with new PS5 design
 function displayProjects(projects, skillName, projectsList) {
-    console.log('=== FILTERING START ===');
-    console.log('Filtering projects for:', skillName);
-    console.log('Available projects:', projects.length);
     
     const relatedProjects = projects.filter(project => {
-        console.log(`\nAnalyzing project: "${project.title}"`);
-        console.log(`Project technologies RAW:`, project.technologies);
-        console.log(`Type:`, typeof project.technologies);
-        console.log(`Is array:`, Array.isArray(project.technologies));
-        
+
+    
         let technologies = project.technologies;
         
         // If it's a string, try to parse it as JSON
         if (typeof technologies === 'string') {
             try {
                 technologies = JSON.parse(technologies);
-                console.log(`Technologies after parsing:`, technologies);
-                console.log(`Type after parsing:`, typeof technologies);
-                console.log(`Is array after parsing:`, Array.isArray(technologies));
+    
             } catch (e) {
                 console.log(`❌ JSON parsing error for "${project.title}":`, e.message);
                 return false;
@@ -270,20 +259,18 @@ function displayProjects(projects, skillName, projectsList) {
         const hasSkill = technologies.some(tech => {
             const exactMatch = tech === skillName;
             const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
-            console.log(`  Comparison: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensitive: ${caseInsensitiveMatch}`);
+    
             return exactMatch || caseInsensitiveMatch;
         });
         
         if (hasSkill) {
-            console.log(`✅ Project "${project.title}" ACCEPTED with technologies:`, technologies);
+        
         } else {
             console.log(`❌ Project "${project.title}" rejected: no matching technology`);
         }
         return hasSkill;
     });
     
-    console.log('=== FILTERING RESULT ===');
-    console.log('Filtered projects found:', relatedProjects.length);
     relatedProjects.forEach(p => console.log(`- ${p.title}`));
     
     if (relatedProjects.length === 0) {
@@ -310,8 +297,7 @@ function displayProjects(projects, skillName, projectsList) {
         // Clean project before using it
         const cleanedProject = cleanProject(project);
         
-        // Debug: display cleaned project URL
-        console.log(`Project "${cleanedProject.title}" - URL: "${cleanedProject.url}"`);
+
         
         // Create main project tile element
         const projectTile = createProjectTile(cleanedProject, technologies);
@@ -321,13 +307,9 @@ function displayProjects(projects, skillName, projectsList) {
 
 // Fonction pour afficher les expériences professionnelles filtrées
 function displayExperiences(experiences, skillName, experiencesList) {
-    console.log('=== DÉBUT DU FILTRAGE DES EXPÉRIENCES ===');
-    console.log('Filtrage des expériences pour:', skillName);
-    console.log('Expériences disponibles:', experiences.length);
     
     const relatedExperiences = experiences.filter(experience => {
-        console.log(`\nAnalyse de l'expérience: "${experience.title}" chez ${experience.company}`);
-        console.log(`Technologies de l'expérience:`, experience.technologies);
+     
         
         let technologies = experience.technologies;
         
@@ -335,7 +317,7 @@ function displayExperiences(experiences, skillName, experiencesList) {
         if (typeof technologies === 'string') {
             try {
                 technologies = JSON.parse(technologies);
-                console.log(`Technologies après parsing:`, technologies);
+               
             } catch (e) {
                 console.log(`❌ Erreur de parsing JSON pour "${experience.title}":`, e.message);
                 return false;
@@ -351,21 +333,18 @@ function displayExperiences(experiences, skillName, experiencesList) {
         const hasSkill = technologies.some(tech => {
             const exactMatch = tech === skillName;
             const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
-            console.log(`  Comparaison: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
+         
             return exactMatch || caseInsensitiveMatch;
         });
         
         if (hasSkill) {
-            console.log(`✅ Expérience "${experience.title}" ACCEPTÉE avec technologies:`, technologies);
+            
         } else {
             console.log(`❌ Expérience "${experience.title}" rejetée: aucune technologie correspondante`);
         }
         return hasSkill;
     });
-    
-    console.log('=== RÉSULTAT DU FILTRAGE DES EXPÉRIENCES ===');
-    console.log('Expériences filtrées trouvées:', relatedExperiences.length);
-    relatedExperiences.forEach(e => console.log(`- ${e.title} chez ${e.company}`));
+
     
     if (relatedExperiences.length === 0) {
         experiencesList.classList.add('empty-state');
@@ -391,8 +370,7 @@ function displayExperiences(experiences, skillName, experiencesList) {
         // Nettoyer l'expérience avant de l'utiliser
         const cleanedExperience = cleanExperience(experience);
         
-        // Debug: afficher l'URL de l'expérience nettoyée
-        console.log(`Expérience "${cleanedExperience.title}" - URL: "${cleanedExperience.url}"`);
+  
         
         // Créer l'élément principal de l'expérience
         const experienceItem = createExperienceItem(cleanedExperience, technologies);
@@ -411,21 +389,17 @@ function cleanExperience(experience) {
 
 // Fonction pour afficher les formations filtrées
 function displayEducations(educations, skillName, educationsList) {
-    console.log('=== DÉBUT DU FILTRAGE DES FORMATIONS ===');
-    console.log('Filtrage des formations pour:', skillName);
-    console.log('Formations disponibles:', educations.length);
+  
     
     const relatedEducations = educations.filter(education => {
-        console.log(`\nAnalyse de la formation: "${education.title}" à ${education.institution}`);
-        console.log(`Technologies de la formation:`, education.technologies);
-        
+   
         let technologies = education.technologies;
         
         // Si c'est une string, essayer de la parser en JSON
         if (typeof technologies === 'string') {
             try {
                 technologies = JSON.parse(technologies);
-                console.log(`Technologies après parsing:`, technologies);
+        
             } catch (e) {
                 console.log(`❌ Erreur de parsing JSON pour "${education.title}":`, e.message);
                 return false;
@@ -446,15 +420,13 @@ function displayEducations(educations, skillName, educationsList) {
         });
         
         if (hasSkill) {
-            console.log(`✅ Formation "${education.title}" ACCEPTÉE avec technologies:`, technologies);
+        
         } else {
             console.log(`❌ Formation "${education.title}" rejetée: aucune technologie correspondante`);
         }
         return hasSkill;
     });
     
-    console.log('=== RÉSULTAT DU FILTRAGE DES FORMATIONS ===');
-    console.log('Formations filtrées trouvées:', relatedEducations.length);
     relatedEducations.forEach(e => console.log(`- ${e.title} à ${e.institution}`));
     
     if (relatedEducations.length === 0) {
@@ -481,9 +453,6 @@ function displayEducations(educations, skillName, educationsList) {
         // Nettoyer la formation avant de l'utiliser
         const cleanedEducation = cleanEducation(education);
         
-        // Debug: afficher l'URL de la formation nettoyée
-        console.log(`Formation "${cleanedEducation.title}" - URL: "${cleanedEducation.url}"`);
-        
         // Créer l'élément principal de la formation
         const educationItem = createEducationItem(cleanedEducation, technologies);
         educationsList.appendChild(educationItem);
@@ -501,7 +470,7 @@ function cleanEducation(education) {
 
 // Fonction pour créer un élément d'expérience professionnelle
 function createExperienceItem(cleanedExperience, technologies) {
-    console.log(`Création de l'élément expérience pour:`, cleanedExperience);
+   
     
     // Conteneur principal
     const experienceItem = document.createElement('div');
@@ -605,7 +574,7 @@ function createExperienceItem(cleanedExperience, technologies) {
 
 // Fonction pour créer un élément de formation
 function createEducationItem(cleanedEducation, technologies) {
-    console.log(`Création de l'élément formation pour:`, cleanedEducation);
+
     
     // Conteneur principal
     const educationItem = document.createElement('div');
@@ -729,7 +698,6 @@ function cleanProject(project) {
 
 // Fonction pour créer une tuile de projet avec des éléments DOM
 function createProjectTile(cleanedProject, technologies) {
-    console.log(`Création de la tuile pour:`, cleanedProject);
     
     // Conteneur principal
     const projectTile = document.createElement('div');
@@ -862,7 +830,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return project;
         });
-        console.log('Données des projets normalisées!');
+       
     }
     
     // Normaliser les données des expériences pour s'assurer que les technologies sont des tableaux
@@ -878,7 +846,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return experience;
         });
-        console.log('Données des expériences normalisées!');
+        
     }
     
     // Normaliser les données des formations pour s'assurer que les technologies sont des tableaux
@@ -894,108 +862,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return education;
         });
-        console.log('Données des formations normalisées!');
+        
     }
     
-    // Déboguer les données des projets chargées
-    console.log('Données des projets chargées:', window.portfolioProjects?.length || 0);
-    if (window.portfolioProjects?.length > 0) {
-        console.log('Premier projet exemple:', window.portfolioProjects[0]);
-        
-        // Afficher TOUS les projets avec leurs technologies
-        console.log('=== LISTE COMPLÈTE DES PROJETS ET LEURS TECHNOLOGIES ===');
-        window.portfolioProjects.forEach((project, index) => {
-            console.log(`${index + 1}. ${project.title}:`);
-            console.log(`   Technologies RAW:`, project.technologies);
-            console.log(`   Type de technologies:`, typeof project.technologies);
-            console.log(`   Est un tableau:`, Array.isArray(project.technologies));
-            
-            // Si c'est une string, essayer de la parser
-            if (typeof project.technologies === 'string') {
-                try {
-                    const parsed = JSON.parse(project.technologies);
-                    console.log(`   Technologies parsées:`, parsed);
-                    console.log(`   Type après parsing:`, typeof parsed);
-                    console.log(`   Est un tableau après parsing:`, Array.isArray(parsed));
-                } catch (e) {
-                    console.log(`   Erreur de parsing:`, e.message);
-                }
-            }
-            
-            if (Array.isArray(project.technologies)) {
-                console.log(`   Nombre d'éléments:`, project.technologies.length);
-                project.technologies.forEach((tech, techIndex) => {
-                    console.log(`     ${techIndex + 1}. "${tech}" (type: ${typeof tech})`);
-                });
-            }
-            console.log('   ---');
-        });
-        
-        console.log('Technologies disponibles:', 
-            [...new Set(window.portfolioProjects.flatMap(p => p.technologies || []))].sort()
-        );
-        
-        // Test spécifique pour Stone Keeper 2
-        const stoneKeeper2 = window.portfolioProjects.find(p => p.title === "Stone Keeper 2");
-        if (stoneKeeper2) {
-            console.log('Stone Keeper 2 trouvé:', stoneKeeper2);
-            console.log('Ses technologies:', stoneKeeper2.technologies);
-        } else {
-            console.log('Stone Keeper 2 NON trouvé dans les données');
-        }
-    }
+  
     
-    // Déboguer les données des expériences chargées
-    console.log('Données des expériences chargées:', window.portfolioExperiences?.length || 0);
-    if (window.portfolioExperiences?.length > 0) {
-        console.log('Première expérience exemple:', window.portfolioExperiences[0]);
-        
-        // Afficher TOUTES les expériences avec leurs technologies
-        console.log('=== LISTE COMPLÈTE DES EXPÉRIENCES ET LEURS TECHNOLOGIES ===');
-        window.portfolioExperiences.forEach((experience, index) => {
-            console.log(`${index + 1}. ${experience.title} chez ${experience.company}:`);
-            console.log(`   Technologies RAW:`, experience.technologies);
-            console.log(`   Type de technologies:`, typeof experience.technologies);
-            console.log(`   Est un tableau:`, Array.isArray(experience.technologies));
-            
-            if (Array.isArray(experience.technologies)) {
-                console.log(`   Nombre d'éléments:`, experience.technologies.length);
-                experience.technologies.forEach((tech, techIndex) => {
-                    console.log(`     ${techIndex + 1}. "${tech}" (type: ${typeof tech})`);
-                });
-            }
-            console.log('   ---');
-        });
-        
-        console.log('Technologies d\'expériences disponibles:', 
-            [...new Set(window.portfolioExperiences.flatMap(e => e.technologies || []))].sort()
-        );
-    }
+  
     
-    // Déboguer les données des formations chargées
-    console.log('Données des formations chargées:', window.portfolioEducations?.length || 0);
-    if (window.portfolioEducations?.length > 0) {
-        console.log('Première formation exemple:', window.portfolioEducations[0]);
-        
-        // Afficher TOUTES les formations avec leurs technologies
-        console.log('=== LISTE COMPLÈTE DES FORMATIONS ET LEURS TECHNOLOGIES ===');
-        window.portfolioEducations.forEach((education, index) => {
-            console.log(`${index + 1}. ${education.title} à ${education.institution}:`);
-            console.log(`   Technologies RAW:`, education.technologies);
-            console.log(`   Type de technologies:`, typeof education.technologies);
-            console.log(`   Est un tableau:`, Array.isArray(education.technologies));
-            
-            if (Array.isArray(education.technologies)) {
-                console.log(`   Nombre d'éléments:`, education.technologies.length);
-                education.technologies.forEach((tech, techIndex) => {
-                    console.log(`     ${techIndex + 1}. "${tech}" (type: ${typeof tech})`);
-                });
-            }
-            console.log('   ---');
-        });
-        
-        console.log('Technologies de formations disponibles:', 
-            [...new Set(window.portfolioEducations.flatMap(e => e.technologies || []))].sort()
-        );
-    }
+
 });

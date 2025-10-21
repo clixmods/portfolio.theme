@@ -162,7 +162,6 @@
       window.rightDockManager.showNotification(message, type);
     } else {
       // Fallback simple si les systèmes ne sont pas disponibles
-      console.log(`Discord: ${message}`);
       alert(message); // Fallback très simple
     }
   }
@@ -198,10 +197,7 @@
   function setupDiscordButton() {
     const discordButton = document.querySelector('a[data-social="discord"]');
     if (discordButton) {
-      console.log('Bouton Discord trouvé, ajout du gestionnaire de clic');
       discordButton.addEventListener('click', handleDiscordClick);
-    } else {
-      console.log('Bouton Discord non trouvé');
     }
   }
 

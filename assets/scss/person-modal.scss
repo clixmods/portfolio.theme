@@ -121,7 +121,6 @@
     /* Smooth fade: animate opacity (more reliable than animating backdrop-filter) */
     opacity: 1;
     transition: opacity 0.3s ease;
-    will-change: opacity;
 }
 
 .person-modal-content:not(.unified-modal-content) {

@@ -19,7 +19,6 @@
     var(--hero-linear-gradient);
   
   /* Optimisation performance */
-  will-change: transform;
   backface-visibility: hidden;
   transform: translateZ(0);
 }
@@ -84,11 +83,6 @@
   mix-blend-mode: multiply; /* bleu plus lisible sur fond clair */
   opacity: 0.95;
   filter: saturate(1.35) drop-shadow(0 0 6px rgba(0,118,255,0.35)) drop-shadow(0 0 14px rgba(0,140,255,0.25));
-}
-
-/* Optimisations performance globales */
-.hero-background * {
-  will-change: transform, opacity;
 }
 
 /* Responsive Design */

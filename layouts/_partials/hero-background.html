@@ -1,4 +1,4 @@
-<!-- Hero Background - Deep Space Aesthetic with Luminous Ribbon -->
+﻿<!-- Hero Background - Deep Space Aesthetic with Luminous Ribbon -->
 <div id="hero-background" class="hero-background">
   <!-- Canvas for particles -->
   <canvas id="particles-canvas"></canvas>
@@ -681,12 +681,11 @@ if (!prefersReducedMotion) {
     try {
       window.fluidWaves = new FluidWaves();
       window.heroParticles = new HeroParticles();
-      console.log('✅ Hero Background with fluid waves successfully initialized');
     } catch (error) {
       console.warn('⚠️ Error during Hero Background initialization:', error);
     }
   });
 } else {
-  console.log('⚠️ Animations disabled (prefers-reduced-motion)');
+  // Animations disabled due to user preference
 }
 </script>

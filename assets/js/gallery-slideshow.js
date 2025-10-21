@@ -53,7 +53,6 @@ class GallerySlideshow {
      */
     init() {
         if (this.totalImages <= 1) {
-            console.log('GallerySlideshow: Only one image, no slideshow needed');
             return;
         }
 

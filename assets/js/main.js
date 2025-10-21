@@ -764,22 +764,18 @@ function initTestimonialsRotator() {
                             e.stopPropagation();
                             const currentPersonId = this.getAttribute('data-person-id');
                             if (currentPersonId && typeof window.openPersonModal === 'function') {
-                                console.log('Opening person modal for:', currentPersonId);
                                 window.openPersonModal(currentPersonId);
                             }
                         }
                     };
                     
                     headerTitleElement.addEventListener('click', headerTitleElement._testimonialClickHandler);
-                    
-                    console.log('Updated header with person ID:', personId, 'for:', displayName);
                 }, 10);
             } else {
                 headerTitleElement.removeAttribute('data-person-id');
                 headerTitleElement.removeAttribute('title');
                 headerTitleElement.classList.remove('clickable-person');
-                
-                console.log('Removed clickable-person for anonymous testimonial');
+        
             }
         }
         

@@ -3,21 +3,15 @@
 
 // Tab management & person modal stats
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Person modal script loading...');
-    console.log('People data:', window.portfolioPeople);
-    console.log('Testimonials data:', window.portfolioTestimonials);
-    console.log('Projects data:', window.portfolioProjects);
-    
+
     const modal = document.getElementById('personModal');
     if (!modal) {
         console.error('Person modal element not found!');
         return;
     }
-    console.log('Person modal element found:', modal);
     
     const tabButtons = modal.querySelectorAll('.nav-tab');
     const tabPanels = modal.querySelectorAll('.content-panel');
-    const quickStats = document.getElementById('personModalQuickStats');
 
     // Function to check if biography content is meaningful
     function hasSignificantBiographyContent(content) {
@@ -92,8 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Create openPersonModal function
     window.openPersonModal = function(personId) {
-        console.log('=== OPENING PERSON MODAL ===');
-        console.log('Person ID:', personId);
         // Handle nesting above existing unified or skill modals
         try {
             const personModal = document.getElementById('personModal');
@@ -109,20 +101,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 skill.classList.add('skill-modal--nested-parent');
             }
         } catch(e) { /* no-op */ }
-        
-        // Check data availability first
-        console.log('Data check at modal opening:');
-        console.log('- portfolioPeople:', window.portfolioPeople?.length || 'N/A');
-        console.log('- portfolioProjects:', window.portfolioProjects?.length || 'N/A');
-        console.log('- portfolioTestimonials:', window.portfolioTestimonials?.length || 'N/A');
+
         
         const person = window.portfolioPeople.find(p => p.id === personId);
         if (!person) {
             console.error('Person not found:', personId);
-            console.log('Available people:', window.portfolioPeople?.map(p => p.id) || 'No people data');
             return;
         }
-        console.log('Found person:', person);
 
         // Add loading state
         modal.classList.add('loading');
@@ -278,9 +263,9 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(() => {
             modal.classList.add('fade-enter-active');
         });
-        console.log('Modal display after setting:', modal.style.display);
+      
         document.body.style.overflow = 'hidden';
-        console.log('Modal should now be visible!');
+      
         
         // Recreate dropdown immediately after tabs visibility is updated
         if (typeof window.recreateTabsDropdown === 'function') {
@@ -339,14 +324,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function updateStats(personId) {
-        console.log('=== Updating stats for person:', personId);
-        
         // Find testimonials for this person
         const testimonials = (window.portfolioTestimonials && Array.isArray(window.portfolioTestimonials)) 
             ? window.portfolioTestimonials.filter(t => t.personId === personId) 
             : [];
-        console.log('Testimonials data:', window.portfolioTestimonials);
-        console.log(`Found ${testimonials.length} testimonials for ${personId}:`, testimonials);
 
         // Update testimonials section in header
         const testimonialsSection = document.getElementById('modalPersonTestimonials');
@@ -410,26 +391,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updatePersonProjects(personId) {
-        console.log('=== PERSON PROJECTS FILTERING START ===');
-        console.log('Filtering projects for person:', personId);
-        
-        // Debug: Vérifier les données disponibles
-        console.log('window.portfolioProjects:', window.portfolioProjects);
-        console.log('Is array?', Array.isArray(window.portfolioProjects));
         
         if (!window.portfolioProjects || !Array.isArray(window.portfolioProjects)) {
             console.warn('No projects data or not an array');
             return [];
         }
 
-        console.log('Total projects available:', window.portfolioProjects.length);
+    
         
         // Debug: afficher tous les projets et leurs contributeurs avec le style de skill-modal
         const personProjects = window.portfolioProjects.filter(project => {
-            console.log(`\nAnalyzing project: "${project.title}"`);
-            console.log(`Project contributors RAW:`, project.contributors);
-            console.log(`Type:`, typeof project.contributors);
-            console.log(`Is array:`, Array.isArray(project.contributors));
             
             let contributors = project.contributors;
             
@@ -437,7 +408,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (typeof contributors === 'string') {
                 try {
                     contributors = JSON.parse(contributors);
-                    console.log(`Contributors after parsing:`, contributors);
                 } catch (e) {
                     console.log(`❌ JSON parsing error for "${project.title}":`, e.message);
                     return false;
@@ -459,21 +429,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (contributor.role) {
                     roleDisplay = contributor.role;
                 }
-                console.log(`  Comparison: "${contributor.person}" vs "${personId}" -> match: ${exactMatch} (role: ${roleDisplay})`);
                 return exactMatch;
             });
             
             if (hasPerson) {
-                console.log(`✅ Project "${project.title}" ACCEPTED with contributors:`, contributors);
+            
             } else {
                 console.log(`❌ Project "${project.title}" rejected: person not found in contributors`);
             }
             return hasPerson;
         });
-        
-        console.log('=== PERSON PROJECTS FILTERING RESULT ===');
-        console.log('Filtered projects found:', personProjects.length);
-        personProjects.forEach(p => console.log(`- ${p.title}`));
         
         // Update projects section
         const projectsContent = document.getElementById('modalPersonProjects');

@@ -163,9 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const gamesSubtabs = document.getElementById('games-subtabs');
         const appswebSubtabs = document.getElementById('appsweb-subtabs');
         
-        console.log('Tab buttons found:', tabBtns.length);
-        console.log('Subtab buttons found:', subtabBtns.length);
-        console.log('Project cards found:', projectCards.length);
         
         if (tabBtns.length === 0) {
             console.error('No tab buttons found');
@@ -223,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            console.log(`Filtered: ${visibleCount}/${projectCards.length} cards visible`);
+    
         }
         
         // Show/hide subtabs function

@@ -970,20 +970,6 @@
     }
 }
 
-/* Performance - utilisation de will-change pour les animations */
-.unified-modal-content {
-    will-change: transform, opacity;
-}
-
-.tab-btn {
-    will-change: background, transform;
-}
-
-.btn-action,
-.btn-action-icon {
-    will-change: transform, background;
-}
-
 /* Accessibilité améliorée */
 .unified-modal {
     &:focus-within {

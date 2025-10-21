@@ -8,7 +8,7 @@
   
   // Protection contre les exécutions multiples
   if (window.rightDockInitialized) {
-    console.log('⚠️ Right dock already initialized, skipping...');
+  
     return;
   }
   
@@ -21,9 +21,6 @@
   let notificationsBtn = null;
   let notificationsDropdown = null;
   let trophiesBtn = null;
-  let batteryIndicator = null;
-  let batteryLevel = null;
-  let batteryFill = null;
   let notifications = [];
   let currentTheme = 'dark';
   
@@ -44,7 +41,7 @@
         // Nettoyer les notifications anciennes (plus de 7 jours)
         cleanupOldNotifications();
         
-        console.log('✅ Notifications chargées depuis localStorage:', notifications.length);
+
       }
     } catch (error) {
       console.warn('⚠️ Erreur lors du chargement des notifications:', error);
@@ -65,7 +62,7 @@
     );
     
     if (notifications.length !== originalLength) {
-      console.log(`🗑️ ${originalLength - notifications.length} anciennes notifications nettoyées`);
+
       saveNotificationsToStorage();
     }
   }
@@ -76,10 +73,79 @@
   function saveNotificationsToStorage() {
     try {
       localStorage.setItem('notifications', JSON.stringify(notifications));
-      console.log('💾 Notifications sauvegardées dans localStorage');
+
     } catch (error) {
       console.warn('⚠️ Erreur lors de la sauvegarde des notifications:', error);
     }
+  }
+  
+  /**
+   * Performance optimization: Apply will-change only during animations
+   * This prevents excessive GPU memory consumption (budget exceeded warning)
+   */
+  function optimizeWillChange(element, properties) {
+    if (!element) return;
+    
+    // Apply will-change before animation
+    element.style.willChange = properties;
+    
+    // Remove will-change after animation completes
+    // Use a timeout matching the longest transition duration
+    setTimeout(() => {
+      element.style.willChange = 'auto';
+    }, 300);
+  }
+  
+  /**
+   * Add will-change optimization to elements with hover/active states
+   */
+  function setupWillChangeOptimization() {
+    // Dock buttons
+    const dockButtons = document.querySelectorAll('.dock-button, .right-dock .dock-button');
+    dockButtons.forEach(button => {
+      button.addEventListener('mouseenter', function() {
+        optimizeWillChange(this, 'transform');
+      });
+      
+      button.addEventListener('focus', function() {
+        optimizeWillChange(this, 'transform');
+      });
+    });
+    
+    // Modal content
+    const modalContents = document.querySelectorAll('.unified-modal-content');
+    modalContents.forEach(content => {
+      const modal = content.closest('.unified-modal');
+      if (modal) {
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+              if (modal.classList.contains('active')) {
+                optimizeWillChange(content, 'transform, opacity');
+              }
+            }
+          });
+        });
+        
+        observer.observe(modal, { attributes: true });
+      }
+    });
+    
+    // Dropdown backdrops
+    const backdrops = document.querySelectorAll('.skill-modal-backdrop, .person-modal-backdrop');
+    backdrops.forEach(backdrop => {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'class' || mutation.attributeName === 'style') {
+            if (backdrop.style.display !== 'none') {
+              optimizeWillChange(backdrop, 'opacity');
+            }
+          }
+        });
+      });
+      
+      observer.observe(backdrop, { attributes: true });
+    });
   }
   
   /**
@@ -166,8 +232,6 @@
     
     const selectedOption = event.target.closest('.language-option');
     if (!selectedOption) return;
-    
-    const selectedLang = selectedOption.dataset.lang;
     const selectedText = selectedOption.querySelector('span:last-child').textContent;
     const selectedFlag = selectedOption.querySelector('.flag').textContent;
     
@@ -523,14 +587,14 @@
    * Initialise les éléments du DOM
    */
   function initElements() {
-    console.log('🔍 Searching for right dock elements...');
+ 
     
     rightDock = document.getElementById('right-dock');
     if (!rightDock) {
       console.error('❌ Right dock element not found (#right-dock)');
       return false;
     }
-    console.log('✅ Right dock found:', rightDock);
+
     
     // Éléments du right dock
     languageBtn = rightDock.querySelector('.language-btn');
@@ -539,19 +603,7 @@
     notificationsBtn = rightDock.querySelector('.notifications-btn');
     notificationsDropdown = document.getElementById('notifications-dropdown');
     trophiesBtn = rightDock.querySelector('.trophies-btn');
-    
-    console.log('🔍 Element status:');
-    console.log('  - Language button:', languageBtn ? '✅' : '❌', languageBtn);
-    console.log('  - Language dropdown:', languageDropdown ? '✅' : '❌', languageDropdown);
-    console.log('  - Theme toggle:', themeToggle ? '✅' : '❌', themeToggle);
-    console.log('  - Notifications button:', notificationsBtn ? '✅' : '❌', notificationsBtn);
-    console.log('  - Notifications dropdown:', notificationsDropdown ? '✅' : '❌', notificationsDropdown);
-    console.log('  - Trophies button:', trophiesBtn ? '✅' : '❌', trophiesBtn);
-    
-    // Éléments globaux
-    batteryIndicator = document.getElementById('battery-indicator');
-    batteryLevel = document.getElementById('battery-level');
-    batteryFill = document.getElementById('battery-fill');
+
     
     return true;
   }
@@ -560,11 +612,11 @@
    * Initialise les event listeners
    */
   function initEventListeners() {
-    console.log('🔧 Initializing event listeners...');
+
     
     // Langue
     if (languageBtn && languageDropdown) {
-      console.log('✅ Adding language button listener');
+   
       // Supprimer les anciens listeners au cas où
       languageBtn.removeEventListener('click', toggleLanguageDropdown);
       languageBtn.addEventListener('click', toggleLanguageDropdown);
@@ -577,7 +629,7 @@
     
     // Thème
     if (themeToggle) {
-      console.log('✅ Adding theme toggle listener');
+  
       themeToggle.removeEventListener('click', handleThemeToggle);
       themeToggle.addEventListener('click', handleThemeToggle);
     } else {
@@ -586,7 +638,7 @@
     
     // Notifications
     if (notificationsBtn && notificationsDropdown) {
-      console.log('✅ Adding notifications button listener');
+
       notificationsBtn.removeEventListener('click', toggleNotificationsDropdown);
       notificationsBtn.addEventListener('click', toggleNotificationsDropdown);
     } else {
@@ -600,14 +652,8 @@
       clearAllBtn.addEventListener('click', clearAllNotifications);
     }
     
-    // Trophées (si pas déjà géré par trophies.js)
-    if (trophiesBtn && !window.trophiesManager) {
-      trophiesBtn.addEventListener('click', function() {
-        console.log('Trophées clicked - should be handled by trophies.js');
-      });
-    }
-    
-    console.log('🔧 Event listeners initialization complete');
+  
+
   }
   
   /**
@@ -619,8 +665,6 @@
       document.addEventListener('DOMContentLoaded', init);
       return;
     }
-    
-    console.log('🔧 Initializing Right Dock...');
     
     detectReducedMotion();
     initTheme();
@@ -635,12 +679,11 @@
     
     initEventListeners();
     updateAnimationDuration();
+    setupWillChangeOptimization();
     
     // Mettre à jour l'UI avec les notifications chargées
     updateNotificationsList();
     updateNotificationBadge();
-    
-    console.log('✅ Right Dock initialized successfully');
     
     // Marquer comme initialisé
     window.rightDockInitialized = true;
