@@ -65,12 +65,6 @@
     <script>{{ $personModalLogic.Content | safeJS }}</script>
   {{ end }}
   
-  <!-- Scripts pour le système de trophées -->
-  {{ $trophiesJs := resources.Get "js/trophies.js" }}
-  {{ if $trophiesJs }}
-    <script>{{ $trophiesJs.Content | safeJS }}</script>
-  {{ end }}
-  
   <!-- Scripts pour les notifications personnalisées v2 -->
   {{ $personalNotificationsJs := resources.Get "js/personal-notifications-v2.js" }}
   {{ if $personalNotificationsJs }}

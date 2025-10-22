@@ -493,8 +493,11 @@
             (trophy.condition && trophy.condition());
             
           if (isUnlocked) {
-            this.unlockTrophy(trophy.id);
-            newTrophies.push(trophy);
+            // unlockTrophy retourne true si le trophée a été réellement débloqué
+            const wasUnlocked = this.unlockTrophy(trophy.id);
+            if (wasUnlocked) {
+              newTrophies.push(trophy);
+            }
           }
         }
       });
@@ -514,19 +517,70 @@
      * Débloque un trophée
      */
     unlockTrophy(trophyId) {
-      if (!this.unlockedTrophies.includes(trophyId)) {
-        this.unlockedTrophies.push(trophyId);
-        localStorage.setItem('unlockedTrophies', JSON.stringify(this.unlockedTrophies));
-        
-        // Store unlock date
-        const now = new Date();
-        const dateStr = now.toLocaleDateString('fr-FR');
-        localStorage.setItem(`trophy_${trophyId}_date`, dateStr);
-        
-        // Add vibration if supported
-        if (navigator.vibrate) {
-          navigator.vibrate(200);
-        }
+      // Double vérification pour éviter les doublons
+      if (this.unlockedTrophies.includes(trophyId)) {
+        console.warn(`⚠️ Trophée déjà débloqué, notification ignorée: ${trophyId}`);
+        return false;
+      }
+      
+      this.unlockedTrophies.push(trophyId);
+      localStorage.setItem('unlockedTrophies', JSON.stringify(this.unlockedTrophies));
+      
+      // Store unlock date
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('fr-FR');
+      localStorage.setItem(`trophy_${trophyId}_date`, dateStr);
+      
+      // Update trophy display immediately
+      this.updateTrophyDisplay();
+      
+      // Get trophy details for notification
+      const trophy = this.trophies.find(t => t.id === trophyId);
+      
+      // Add persistent notification
+      if (trophy && typeof window.addNotification === 'function') {
+        window.addNotification(
+          `${trophy.icon} Trophée débloqué !`,
+          trophy.name,
+          'trophy'
+        );
+      }
+      
+      // Add vibration if supported
+      if (navigator.vibrate) {
+        navigator.vibrate(200);
+      }
+      
+      console.log(`🏆 Trophée débloqué: ${trophyId}`);
+      return true;
+    }
+
+    /**
+     * Test: Force le déblocage d'un trophée (pour débogage)
+     * Utilisation: window.trophySystem.testUnlockTrophy('trophy_id')
+     */
+    testUnlockTrophy(trophyId) {
+      const trophy = this.trophies.find(t => t.id === trophyId);
+      if (!trophy) {
+        console.error(`❌ Trophée introuvable: ${trophyId}`);
+        console.log('Trophées disponibles:', this.trophies.map(t => t.id));
+        return;
+      }
+      
+      if (this.unlockedTrophies.includes(trophyId)) {
+        console.warn(`⚠️ Trophée déjà débloqué: ${trophyId}`);
+        return;
+      }
+      
+      console.log(`🧪 Test: Déblocage forcé du trophée "${trophy.name}"`);
+      // unlockTrophy ajoute déjà la notification persistante
+      const wasUnlocked = this.unlockTrophy(trophyId);
+      
+      if (wasUnlocked) {
+        // Afficher uniquement le popup temporaire
+        this.showTrophyNotification(trophy);
+        this.renderTrophies();
+        this.updateProgress();
       }
     }
 
@@ -552,9 +606,8 @@
         <div class="trophy-desc">${trophy.name}</div>
       `;
       
-  // Append to right-dock or body if right-dock doesn't exist
-  const rightDockContainer = document.getElementById('right-dock');
-  (rightDockContainer || document.body).appendChild(notification);
+      // Always append to body to ensure proper centering (fixed position)
+      document.body.appendChild(notification);
       
       setTimeout(() => notification.classList.add('show'), 100);
       setTimeout(() => {
@@ -671,6 +724,73 @@
       if (unlockedStat) unlockedStat.textContent = stats.unlocked;
       if (completionStat) completionStat.textContent = `${stats.completion}%`;
     }
+
+    /**
+     * Test: Réinitialise tous les trophées (pour débogage)
+     * Utilisation: window.trophySystem.resetAllTrophies()
+     */
+    resetAllTrophies() {
+      console.log('🔄 Réinitialisation de tous les trophées...');
+      this.unlockedTrophies = [];
+      localStorage.setItem('unlockedTrophies', '[]');
+      
+      // Remove all trophy dates
+      this.trophies.forEach(trophy => {
+        localStorage.removeItem(`trophy_${trophy.id}_date`);
+      });
+      
+      this.updateTrophyDisplay();
+      this.renderTrophies();
+      this.updateProgress();
+      console.log('✅ Tous les trophées ont été réinitialisés');
+    }
+
+    /**
+     * Test: Liste tous les trophées (pour débogage)
+     * Utilisation: window.trophySystem.listTrophies()
+     */
+    listTrophies() {
+      console.log('📜 Liste des trophées:');
+      console.log('='.repeat(50));
+      this.trophies.forEach(trophy => {
+        const isUnlocked = this.unlockedTrophies.includes(trophy.id);
+        const status = isUnlocked ? '✅ Débloqué' : '🔒 Verrouillé';
+        console.log(`${status} | ${trophy.icon} ${trophy.name}`);
+        console.log(`   ID: ${trophy.id}`);
+        console.log(`   Description: ${trophy.description}`);
+        console.log(`   Rareté: ${trophy.rarity}`);
+        if (isUnlocked) {
+          const date = localStorage.getItem(`trophy_${trophy.id}_date`);
+          if (date) console.log(`   Débloqué le: ${date}`);
+        }
+        console.log('-'.repeat(50));
+      });
+      console.log(`\nTotal: ${this.trophies.length} | Débloqués: ${this.unlockedTrophies.length} | Progression: ${Math.round((this.unlockedTrophies.length / this.trophies.length) * 100)}%`);
+    }
+
+    /**
+     * Test: Affiche l'aide pour les commandes de débogage
+     * Utilisation: window.trophySystem.help()
+     */
+    help() {
+      console.log('🏆 SYSTÈME DE TROPHÉES - COMMANDES DE TEST');
+      console.log('='.repeat(60));
+      console.log('');
+      console.log('📜 Lister tous les trophées:');
+      console.log('   window.trophySystem.listTrophies()');
+      console.log('');
+      console.log('🧪 Débloquer un trophée:');
+      console.log('   window.trophySystem.testUnlockTrophy("trophy_id")');
+      console.log('');
+      console.log('🔄 Réinitialiser tous les trophées:');
+      console.log('   window.trophySystem.resetAllTrophies()');
+      console.log('');
+      console.log('📊 Voir les statistiques actuelles:');
+      console.log('   Débloqués: ' + this.unlockedTrophies.length + '/' + this.trophies.length);
+      console.log('   Progression: ' + Math.round((this.unlockedTrophies.length / this.trophies.length) * 100) + '%');
+      console.log('');
+      console.log('='.repeat(60));
+    }
   }
 
   // Initialisation du système de trophées quand le DOM est chargé
@@ -682,3 +802,4 @@
   window.TrophySystem = TrophySystem;
 
 })();
+
