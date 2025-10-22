@@ -104,6 +104,46 @@ html:has(body.mobile-menu-open) {
   }
 }
 
+/* Badge de notification sur le menu hamburger */
+.mobile-menu-notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #FF3B30;
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 12px rgba(255, 59, 48, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: pulse-mobile-badge 2s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes pulse-mobile-badge {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 
+      0 4px 12px rgba(255, 59, 48, 0.4),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 
+      0 6px 16px rgba(255, 59, 48, 0.6),
+      0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+}
+
 /* Mobile Menu Overlay - Darkens background when menu is open */
 .mobile-menu-overlay {
   display: none; /* Hidden by default on desktop */

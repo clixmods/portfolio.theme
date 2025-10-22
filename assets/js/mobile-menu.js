@@ -55,7 +55,7 @@
     }
     
     if (clearAllBtn) {
-      clearAllBtn.addEventListener('click', clearAllNotifications);
+      clearAllBtn.addEventListener('click', clearAllMobileNotifications);
     }
     
     // Theme toggle - don't close menu
@@ -93,6 +93,9 @@
     // Sync trophy count and notification badges
     syncBadges();
     
+    // Listen for custom event from right-dock when notification badge is updated
+    window.addEventListener('notificationBadgeUpdated', syncBadges);
+    
     // Watch for changes in trophy count
     const trophyCountObserver = new MutationObserver(syncBadges);
     const trophyCountEl = document.getElementById('trophy-count');
@@ -129,13 +132,26 @@
       mobileTrophyCount.textContent = desktopTrophyCount.textContent;
     }
     
-    // Sync notification badge
+    // Sync notification badge - both in menu and on hamburger button
     const desktopNotificationBadge = document.getElementById('notification-badge');
     const mobileNotificationBadge = document.getElementById('mobile-notification-badge');
-    if (desktopNotificationBadge && mobileNotificationBadge) {
+    const mobileMenuNotificationBadge = document.getElementById('mobile-menu-notification-badge');
+    
+    if (desktopNotificationBadge) {
       const isVisible = desktopNotificationBadge.style.display !== 'none';
-      mobileNotificationBadge.style.display = isVisible ? 'inline-block' : 'none';
-      mobileNotificationBadge.textContent = desktopNotificationBadge.textContent;
+      const badgeText = desktopNotificationBadge.textContent;
+      
+      // Sync the badge inside the menu
+      if (mobileNotificationBadge) {
+        mobileNotificationBadge.style.display = isVisible ? 'inline-block' : 'none';
+        mobileNotificationBadge.textContent = badgeText;
+      }
+      
+      // Sync the badge on the hamburger button
+      if (mobileMenuNotificationBadge) {
+        mobileMenuNotificationBadge.style.display = isVisible ? 'flex' : 'none';
+        mobileMenuNotificationBadge.textContent = badgeText;
+      }
     }
   }
   
@@ -165,6 +181,13 @@
     menuToggle.setAttribute('aria-expanded', 'true');
     menuToggle.setAttribute('aria-label', 'Fermer le menu');
     
+    // Hide notification badge when menu is open
+    const mobileMenuNotificationBadge = document.getElementById('mobile-menu-notification-badge');
+    if (mobileMenuNotificationBadge) {
+      mobileMenuNotificationBadge.style.opacity = '0';
+      mobileMenuNotificationBadge.style.pointerEvents = 'none';
+    }
+    
     // Prevent body scroll when menu is open
     document.body.classList.add('mobile-menu-open');
     document.documentElement.style.overflow = 'hidden';
@@ -181,6 +204,17 @@
     menuOverlay.classList.remove('is-open');
     menuToggle.setAttribute('aria-expanded', 'false');
     menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+    
+    // Show notification badge when menu is closed
+    const mobileMenuNotificationBadge = document.getElementById('mobile-menu-notification-badge');
+    const desktopNotificationBadge = document.getElementById('notification-badge');
+    if (mobileMenuNotificationBadge && desktopNotificationBadge) {
+      const shouldShow = desktopNotificationBadge.style.display !== 'none';
+      if (shouldShow) {
+        mobileMenuNotificationBadge.style.opacity = '1';
+        mobileMenuNotificationBadge.style.pointerEvents = 'none';
+      }
+    }
     
     // Restore body scroll
     document.body.classList.remove('mobile-menu-open');
@@ -341,14 +375,16 @@
   /**
    * Clear all notifications from mobile view
    */
-  function clearAllNotifications() {
+  function clearAllMobileNotifications() {
     const mobileContent = document.getElementById('mobile-notifications-content');
     if (!mobileContent) return;
     
     const notificationItems = mobileContent.querySelectorAll('.notification-item');
     
-    // Call the global clearAllNotifications function if it exists
-    if (typeof window.clearAllNotifications === 'function') {
+    // Call the global clearAllNotifications function to actually clear from storage
+    if (typeof window.rightDockManager !== 'undefined' && typeof window.rightDockManager.clearAllNotifications === 'function') {
+      window.rightDockManager.clearAllNotifications();
+    } else if (typeof window.clearAllNotifications === 'function') {
       window.clearAllNotifications();
     }
     
@@ -363,6 +399,8 @@
     // Show empty state after all animations complete
     setTimeout(() => {
       showEmptyState();
+      // Sync badges after clearing
+      syncBadges();
     }, notificationItems.length * 50 + 300);
   }
   

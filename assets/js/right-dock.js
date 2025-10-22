@@ -372,6 +372,9 @@
     } else {
       badge.style.display = 'none';
     }
+    
+    // Trigger custom event for mobile menu sync
+    window.dispatchEvent(new CustomEvent('notificationBadgeUpdated'));
   }
   
   /**
@@ -722,6 +725,7 @@
   window.removeNotification = removeNotification;
   window.addNotification = addNotification;
   window.showNotification = showNotification;
+  window.clearAllNotifications = clearAllNotifications;
   
   // Démarrer l'initialisation
   init();
