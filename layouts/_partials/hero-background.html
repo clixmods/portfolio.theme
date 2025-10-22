@@ -174,6 +174,14 @@ if (!prefersReducedMotion) {
           this.paths = [];
         }
         
+        // Store base Y positions and amplitudes to maintain them across resizes
+        if (!this.baseYPositions) {
+          this.baseYPositions = [];
+        }
+        if (!this.waveAmplitudes) {
+          this.waveAmplitudes = [];
+        }
+        
         // Create new waves using pre-calculated random values
         for (let i = 0; i < this.pathCount; i++) {
           // Use deterministic values instead of generating new ones
@@ -185,7 +193,16 @@ if (!prefersReducedMotion) {
           path.strokeWidth = this.strokeWidth * this.randomDistances[i];
           
           // Vertical position offset for each wave
-          const baseY = this.halfH + (i - this.pathCount/2) * 40;
+          // Store this permanently so it doesn't change on resize
+          if (!this.baseYPositions[i]) {
+            this.baseYPositions[i] = this.halfH + (i - this.pathCount/2) * 40;
+          }
+          const baseY = this.baseYPositions[i];
+          
+          // Store wave amplitude permanently so it doesn't change on resize
+          if (!this.waveAmplitudes[i]) {
+            this.waveAmplitudes[i] = this.h * this.magnitudeValue * this.randomHeights[i];
+          }
           
           // Add wave points
           for (let v = 0; v < this.pathPoints; v++) {
@@ -207,9 +224,6 @@ if (!prefersReducedMotion) {
         const smoothInterval = this.isMobile ? 15 : 10; // Less frequent smoothing on mobile
         const initialSmoothFrames = this.isMobile ? 20 : 30; // Shorter initial smooth period on mobile
         
-        // Pre-calculate constants outside the animation loop
-        const pathCountHalf = this.pathCount / 2;
-        
         paper.view.onFrame = (event) => {
           // Use system time for synchronized animation across windows
           const systemTime = Date.now() / 1000; // Convert to seconds
@@ -223,8 +237,10 @@ if (!prefersReducedMotion) {
             const path = this.paths[p];
             const randomHeight = this.randomHeights[p];
             const randomOffset = this.randomOffsets[p];
-            const baseY = this.halfH + (p - pathCountHalf) * 40;
-            const waveAmplitude = this.h * this.magnitudeValue * randomHeight;
+            
+            // Use stored base Y position and amplitude instead of recalculating
+            const baseY = this.baseYPositions[p];
+            const waveAmplitude = this.waveAmplitudes[p];
             
             // Loop through path segments
             for (let i = 0; i < this.pathPoints; i++) {
@@ -253,6 +269,9 @@ if (!prefersReducedMotion) {
         this.isMobile = window.innerWidth <= 768 || 
                        ('ontouchstart' in window) || 
                        (navigator.maxTouchPoints > 0);
+        
+        // Store old width for repositioning wave points
+        const oldW = this.w;
         
         this.h = window.innerHeight;
         this.w = window.innerWidth;
@@ -288,16 +307,20 @@ if (!prefersReducedMotion) {
         // Resize Paper.js canvas
         paper.view.viewSize = new paper.Size(this.w, this.h);
         
-        // Update existing waves instead of recreating them
+        // Stretch wave points horizontally to fill new width
+        // This maintains their relative horizontal position while covering the full viewport
         for (let i = 0; i < this.paths.length; i++) {
           if (this.paths[i]) {
             // Update stroke width based on new dimensions
             this.paths[i].strokeWidth = this.strokeWidth * this.randomDistances[i];
             
-            // Adjust wave points to new width
+            // Redistribute points across new width while maintaining wave phase
             for (let v = 0; v < this.paths[i].segments.length; v++) {
-              const x = this.w * (v / (this.paths[i].segments.length - 1));
-              this.paths[i].segments[v].point.x = x;
+              // Keep the same horizontal distribution ratio
+              const segment = this.paths[i].segments[v];
+              const xRatio = segment.point.x / oldW;
+              segment.point.x = this.w * xRatio;
+              // Y position will be updated by the animation loop
             }
             
             // Smooth the updated path
