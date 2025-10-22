@@ -94,7 +94,29 @@
 {{- end }}
 
 {{/* Right Dock Script */}}
+{{- with resources.Get "js/notifications-manager.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* Right Dock Script */}}
 {{- with resources.Get "js/right-dock.js" }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- else }}
+    {{- with . | minify | fingerprint }}
+      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+{{/* Personal Notifications Script - MUST load after notifications-manager.js */}}
+{{- with resources.Get "js/personal-notifications-v2.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}

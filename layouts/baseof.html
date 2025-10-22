@@ -64,12 +64,6 @@
   {{ if $personModalLogic }}
     <script>{{ $personModalLogic.Content | safeJS }}</script>
   {{ end }}
-  
-  <!-- Scripts pour les notifications personnalisées v2 -->
-  {{ $personalNotificationsJs := resources.Get "js/personal-notifications-v2.js" }}
-  {{ if $personalNotificationsJs }}
-    <script>{{ $personalNotificationsJs.Content | safeJS }}</script>
-  {{ end }}
 
   <!-- Unified Modal System (replaces legacy Discord modal and others) -->
   {{ $unifiedModalJs := resources.Get "js/unified-modal-system.js" }}

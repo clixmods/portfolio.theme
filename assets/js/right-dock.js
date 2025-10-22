@@ -1,6 +1,7 @@
 /**
  * Right Dock Navigation - Gestion des interactions
- * Version: 1.0.0
+ * Version: 2.0.0
+ * Now uses NotificationsManager for notification logic
  */
 
 (function() {
@@ -8,7 +9,6 @@
   
   // Protection contre les exécutions multiples
   if (window.rightDockInitialized) {
-  
     return;
   }
   
@@ -21,63 +21,7 @@
   let notificationsBtn = null;
   let notificationsDropdown = null;
   let trophiesBtn = null;
-  let notifications = [];
   let currentTheme = 'dark';
-  
-  /**
-   * Charge les notifications depuis localStorage
-   */
-  function loadNotificationsFromStorage() {
-    try {
-      const stored = localStorage.getItem('notifications');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        // Convertir les timestamps string en objets Date
-        notifications = parsed.map(notification => ({
-          ...notification,
-          timestamp: new Date(notification.timestamp)
-        }));
-        
-        // Nettoyer les notifications anciennes (plus de 7 jours)
-        cleanupOldNotifications();
-        
-
-      }
-    } catch (error) {
-      console.warn('⚠️ Erreur lors du chargement des notifications:', error);
-      notifications = [];
-    }
-  }
-  
-  /**
-   * Nettoie les notifications anciennes (plus de 7 jours)
-   */
-  function cleanupOldNotifications() {
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    
-    const originalLength = notifications.length;
-    notifications = notifications.filter(notification => 
-      new Date(notification.timestamp) > sevenDaysAgo
-    );
-    
-    if (notifications.length !== originalLength) {
-
-      saveNotificationsToStorage();
-    }
-  }
-  
-  /**
-   * Sauvegarde les notifications dans localStorage
-   */
-  function saveNotificationsToStorage() {
-    try {
-      localStorage.setItem('notifications', JSON.stringify(notifications));
-
-    } catch (error) {
-      console.warn('⚠️ Erreur lors de la sauvegarde des notifications:', error);
-    }
-  }
   
   /**
    * Performance optimization: Apply will-change only during animations
@@ -280,10 +224,12 @@
       themeToggle.style.transform = '';
     }, 150);
     
-    // Notification de changement
+    // Notification de changement via NotificationsManager
     const themeMessage = currentTheme === 'dark' ? '🌙 Mode sombre activé' : '☀️ Mode clair activé';
-    showNotification(themeMessage, 'success');
-    addNotification('Thème changé', themeMessage, 'success');
+    if (window.NotificationsManager) {
+      window.NotificationsManager.showNotification(themeMessage, 'success');
+      window.NotificationsManager.addNotification('Thème changé', themeMessage, 'success');
+    }
   }
   
   /**
@@ -351,199 +297,73 @@
   
   /**
    * Marque toutes les notifications comme lues
+   * WRAPPER: Delegated to NotificationsManager
    */
   function markNotificationsAsRead() {
-    notifications.forEach(notification => {
-      notification.read = true;
-    });
-    updateNotificationBadge();
+    if (window.NotificationsManager) {
+      window.NotificationsManager.markNotificationsAsRead();
+    }
   }
   
   /**
    * Met à jour le badge de notifications
+   * WRAPPER: Delegated to NotificationsManager
    */
   function updateNotificationBadge() {
-    const badge = document.getElementById('notification-badge');
-    const unreadCount = notifications.filter(n => !n.read).length;
-    
-    if (unreadCount > 0) {
-      badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
-      badge.style.display = 'flex';
-    } else {
-      badge.style.display = 'none';
+    if (window.NotificationsManager) {
+      window.NotificationsManager.updateNotificationBadge();
     }
-    
-    // Trigger custom event for mobile menu sync
-    window.dispatchEvent(new CustomEvent('notificationBadgeUpdated'));
   }
   
   /**
    * Ajoute une nouvelle notification
+   * WRAPPER: Delegated to NotificationsManager
    */
   function addNotification(title, message, type = 'info') {
-    const notification = {
-      id: Date.now(),
-      title,
-      message,
-      type,
-      timestamp: new Date(),
-      read: false
-    };
-    
-    notifications.unshift(notification);
-    updateNotificationsList();
-    updateNotificationBadge();
-    
-    // Limite le nombre de notifications stockées
-    if (notifications.length > 50) {
-      notifications = notifications.slice(0, 50);
+    if (window.NotificationsManager) {
+      return window.NotificationsManager.addNotification(title, message, type);
     }
-    
-    // Sauvegarde dans localStorage
-    saveNotificationsToStorage();
   }
   
   /**
    * Met à jour la liste des notifications
+   * WRAPPER: Delegated to NotificationsManager
    */
   function updateNotificationsList() {
-    const notificationsList = document.getElementById('notifications-list');
-    
-    if (notifications.length === 0) {
-      notificationsList.innerHTML = '<div class="no-notifications">Aucune notification</div>';
-      return;
+    if (window.NotificationsManager) {
+      window.NotificationsManager.updateNotificationsList();
     }
-    
-    notificationsList.innerHTML = notifications.map(notification => `
-      <div class="notification-item ${notification.type} ${notification.read ? 'read' : 'unread'}" data-id="${notification.id}">
-        <div class="notification-icon">${getNotificationTypeIcon(notification.type)}</div>
-        <div class="notification-content">
-          <div class="notification-title">${notification.title}</div>
-          <div class="notification-message">${notification.message}</div>
-          <div class="notification-time">${formatTime(notification.timestamp)}</div>
-        </div>
-        <button class="notification-close" onclick="removeNotification(${notification.id})">×</button>
-      </div>
-    `).join('');
-  }
-  
-  /**
-   * Retourne l'icône appropriée selon le type de notification
-   */
-  function getNotificationTypeIcon(type) {
-    const icons = {
-      'info': 'ℹ️',
-      'success': '✅',
-      'warning': '⚠️',
-      'error': '❌',
-      'trophy': '🏆'
-    };
-    return icons[type] || icons['info'];
   }
   
   /**
    * Supprime une notification
+   * WRAPPER: Delegated to NotificationsManager
    */
   function removeNotification(id) {
-    notifications = notifications.filter(n => n.id !== id);
-    updateNotificationsList();
-    updateNotificationBadge();
-    
-    // Sauvegarde dans localStorage
-    saveNotificationsToStorage();
+    if (window.NotificationsManager) {
+      window.NotificationsManager.removeNotification(id);
+    }
   }
   
   /**
    * Efface toutes les notifications
+   * WRAPPER: Delegated to NotificationsManager
    */
   function clearAllNotifications() {
-    notifications = [];
-    updateNotificationsList();
-    updateNotificationBadge();
+    if (window.NotificationsManager) {
+      window.NotificationsManager.clearAllNotifications();
+    }
     closeNotificationsDropdown();
-    
-    // Sauvegarde dans localStorage
-    saveNotificationsToStorage();
   }
   
   /**
-   * Formate un timestamp
-   */
-  function formatTime(date) {
-    const now = new Date();
-    const diff = now - date;
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    
-    if (minutes < 1) return 'À l\'instant';
-    if (minutes < 60) return `il y a ${minutes}m`;
-    if (hours < 24) return `il y a ${hours}h`;
-    return date.toLocaleDateString();
-  }
-  
-  /**
-   * Affiche une notification toast (unifié pour tous les types)
+   * Affiche une notification toast
+   * WRAPPER: Delegated to NotificationsManager
    */
   function showNotification(message, type = 'info', options = {}) {
-    const toastContainer = document.getElementById('toast-container');
-    if (!toastContainer) {
-      console.warn('Toast container not found');
-      return;
+    if (window.NotificationsManager) {
+      window.NotificationsManager.showNotification(message, type, options);
     }
-    
-    const toast = document.createElement('div');
-    let toastClasses = `toast toast-${type}`;
-    
-    // Structure du contenu basée sur la présence d'un avatar
-    let toastContent;
-    if (options.avatar) {
-      toastClasses += ' personal with-shine';
-      toastContent = `
-        <div class="toast-avatar">
-          <img src="${options.avatar}" alt="${options.avatarAlt || 'Avatar'}" />
-        </div>
-        <div class="toast-content">
-          ${options.title ? `<div class="toast-title">${options.title}</div>` : ''}
-          <div class="toast-text">${message}</div>
-        </div>
-      `;
-    } else {
-      toastContent = `<span class="toast-message">${message}</span>`;
-    }
-    
-    toast.className = toastClasses;
-    toast.innerHTML = `
-      ${toastContent}
-      <button class="toast-close" aria-label="Fermer">×</button>
-    `;
-    
-    toastContainer.appendChild(toast);
-    
-    // Animation d'entrée
-    requestAnimationFrame(() => {
-      toast.classList.add('show');
-    });
-    
-    // Gestion du bouton de fermeture
-    const closeBtn = toast.querySelector('.toast-close');
-    closeBtn.addEventListener('click', () => removeToast(toast));
-    
-    // Auto-remove après 5 secondes
-    setTimeout(() => {
-      removeToast(toast);
-    }, 5000);
-  }
-  
-  /**
-   * Supprime un toast
-   */
-  function removeToast(toast) {
-    toast.classList.remove('show');
-    setTimeout(() => {
-      if (toast.parentNode) {
-        toast.parentNode.removeChild(toast);
-      }
-    }, 300);
   }
   
   /**
@@ -672,9 +492,6 @@
     detectReducedMotion();
     initTheme();
     
-    // Charger les notifications persistées
-    loadNotificationsFromStorage();
-    
     if (!initElements()) {
       console.warn('❌ Right dock initialization failed - elements not found');
       return;
@@ -684,32 +501,10 @@
     updateAnimationDuration();
     setupWillChangeOptimization();
     
-    // Mettre à jour l'UI avec les notifications chargées
-    updateNotificationsList();
-    updateNotificationBadge();
-    
     // Marquer comme initialisé
     window.rightDockInitialized = true;
     
-    // Ajouter une notification de bienvenue seulement si c'est la première visite
-    setTimeout(() => {
-      const hasWelcomeNotification = notifications.some(n => n.title === '👋 Bienvenue !');
-      const lastWelcome = localStorage.getItem('lastWelcomeNotification');
-      const now = Date.now();
-      const dayInMs = 24 * 60 * 60 * 1000;
-      
-      // Afficher la notification de bienvenue seulement si:
-      // - Il n'y en a pas déjà une dans la liste
-      // - La dernière notification de bienvenue date de plus de 24h
-      if (!hasWelcomeNotification && (!lastWelcome || now - parseInt(lastWelcome) > dayInMs)) {
-        addNotification(
-          '👋 Bienvenue !',
-          'Interface dock maintenant active. Vos notifications seront conservées entre les pages !',
-          'success'
-        );
-        localStorage.setItem('lastWelcomeNotification', now.toString());
-      }
-    }, 1000);
+    console.log('✅ Right Dock initialized');
   }
   
   // Exposer certaines fonctions globalement
