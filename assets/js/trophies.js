@@ -225,6 +225,12 @@
         case 'speed_navigation':
           return this.checkSpeedNavigation(condition_data);
         
+        case 'scrolled_to_bottom':
+          return this.checkScrolledToBottom(condition_data);
+        
+        case 'skill_modal_opened':
+          return this.checkSkillModalOpened(condition_data);
+        
         default:
           console.warn(`Type de condition inconnu: ${condition_type}`);
           return false;
@@ -238,17 +244,27 @@
       const currentPath = window.location.pathname;
       const { paths, exclude_paths } = data;
       
-      // Vérifier l'exclusion
-      if (exclude_paths && exclude_paths.some(path => currentPath.includes(path) && currentPath !== path)) {
-        return false;
+      // Vérifier l'exclusion d'abord
+      if (exclude_paths) {
+        for (const excludePath of exclude_paths) {
+          // Si le chemin actuel correspond exactement à un chemin exclu, on exclut
+          if (currentPath === excludePath || currentPath.endsWith(excludePath)) {
+            return false;
+          }
+        }
       }
       
       // Vérifier l'inclusion
-      return paths.some(path => 
-        currentPath === path || 
-        currentPath.includes(path) || 
-        (path.includes('index') && (currentPath === '/' || currentPath.includes('index')))
-      );
+      return paths.some(path => {
+        // Pour les posts, on veut seulement les articles individuels, pas la liste
+        if (path === '/posts/') {
+          return currentPath.includes('/posts/') && !currentPath.endsWith('/posts/');
+        }
+        
+        return currentPath === path || 
+               currentPath.includes(path) || 
+               (path.includes('index') && (currentPath === '/' || currentPath.includes('index')));
+      });
     }
 
     /**
@@ -264,7 +280,9 @@
      * Vérifie le thème actuel
      */
     checkTheme(data) {
-      return localStorage.getItem('theme') === data.theme;
+      // Vérifier que l'utilisateur a activement changé le thème dans cette session
+      return sessionStorage.getItem('themeChangedToDark') === 'true' && 
+             localStorage.getItem('theme') === data.theme;
     }
 
     /**
@@ -279,7 +297,10 @@
      * Vérifie si une action a été effectuée
      */
     checkActionPerformed(data) {
-      return localStorage.getItem(data.action) === 'true';
+      const value = localStorage.getItem(data.action);
+      const result = value === 'true';
+      console.log('📊 Check action performed:', data.action, '=', value, 'Result:', result);
+      return result;
     }
 
     /**
@@ -311,15 +332,40 @@
      */
     checkSpeedNavigation(data) {
       const navigationData = JSON.parse(localStorage.getItem('speedNavigation') || '{"pages": 0, "startTime": null}');
+      
       if (!navigationData.startTime) {
-        navigationData.startTime = Date.now();
-        navigationData.pages = 1;
-        localStorage.setItem('speedNavigation', JSON.stringify(navigationData));
         return false;
       }
       
       const timeElapsed = (Date.now() - navigationData.startTime) / (1000 * 60); // en minutes
-      return navigationData.pages >= data.min_pages && timeElapsed <= data.max_minutes;
+      const hasEnoughPages = navigationData.pages >= data.min_pages;
+      const isWithinTimeLimit = timeElapsed <= data.max_minutes;
+      
+      console.log('📊 Speed Navigation Check:', {
+        pages: navigationData.pages,
+        minPages: data.min_pages,
+        timeElapsed: timeElapsed.toFixed(2),
+        maxMinutes: data.max_minutes,
+        hasEnoughPages,
+        isWithinTimeLimit
+      });
+      
+      return hasEnoughPages && isWithinTimeLimit;
+    }
+
+    /**
+     * Vérifie si l'utilisateur a scrollé jusqu'en bas d'une page
+     */
+    checkScrolledToBottom(data) {
+      // Toujours retourner true si déjà scrollé, peu importe la page actuelle
+      return localStorage.getItem('scrolledToBottomHome') === 'true';
+    }
+
+    /**
+     * Vérifie si une modal de compétence a été ouverte
+     */
+    checkSkillModalOpened(data) {
+      return localStorage.getItem('skillModalOpened') === 'true';
     }
 
     /**
@@ -327,6 +373,7 @@
      */
     init() {
       this.setupEventListeners();
+      this.setupScrollListener();
       this.trackVisit();
       this.updateTrophyDisplay();
       this.renderTrophies();
@@ -335,6 +382,47 @@
       
       // Vérifier les trophées toutes les 30 secondes
       setInterval(() => this.checkTrophies(), 30000);
+    }
+
+    /**
+     * Configure le listener de scroll pour détecter quand on atteint le bas de la page
+     */
+    setupScrollListener() {
+      const currentPath = window.location.pathname;
+      // Vérifier que c'est UNIQUEMENT la page d'accueil (racine ou index.html), PAS /portfolio/
+      const isHomePage = currentPath === '/' || 
+                         currentPath === '/index.html' || 
+                         currentPath === '/fr/' ||
+                         currentPath === '/fr/index.html';
+      
+      if (!isHomePage) {
+        console.log('📊 Scroll listener: Pas sur la page d\'accueil, pas de tracking. Path:', currentPath);
+        return;
+      }
+      
+      console.log('📊 Scroll listener: Setup sur la page d\'accueil', currentPath);
+      
+      // Déjà scrollé jusqu'en bas
+      if (localStorage.getItem('scrolledToBottomHome') === 'true') return;
+      
+      let scrollTimeout;
+      const checkScroll = () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const windowHeight = window.innerHeight;
+          const documentHeight = document.documentElement.scrollHeight;
+          
+          // Vérifier si on est à moins de 100px du bas
+          if (scrollTop + windowHeight >= documentHeight - 100) {
+            localStorage.setItem('scrolledToBottomHome', 'true');
+            window.removeEventListener('scroll', checkScroll);
+            setTimeout(() => this.checkTrophies(), 500);
+          }
+        }, 100);
+      };
+      
+      window.addEventListener('scroll', checkScroll);
     }
 
     /**
@@ -374,30 +462,36 @@
         });
       }
 
-      // Track CV download
-      const cvBtn = document.querySelector('.cv-btn');
-      if (cvBtn) {
-        cvBtn.addEventListener('click', () => {
-          localStorage.setItem('cvDownloaded', 'true');
-          setTimeout(() => this.checkTrophies(), 500);
-        });
-      }
+      // Note: CV download tracking is handled by UnifiedModal.downloadFile()
+      // which is called when clicking on .cv-option buttons in the modal
 
-      // Track social clicks
-      document.querySelectorAll('.social-link').forEach(link => {
+      // Track social clicks (both .social-link and .social-btn from profile badge)
+      const socialSelectors = '.social-link, .social-btn, .dock-button.social-btn';
+      document.querySelectorAll(socialSelectors).forEach(link => {
         link.addEventListener('click', (e) => {
           const href = link.getAttribute('href') || '';
+          const dataSocial = link.getAttribute('data-social') || '';
           let platform = 'unknown';
           
-          if (href.includes('linkedin')) platform = 'linkedin';
-          else if (href.includes('github')) platform = 'github';
-          else if (href.includes('twitter') || href.includes('x.com')) platform = 'twitter';
-          else if (href.includes('instagram')) platform = 'instagram';
+          // Try to get platform from data-social attribute first
+          if (dataSocial) {
+            platform = dataSocial.toLowerCase();
+          } else {
+            // Fallback to parsing the href
+            if (href.includes('linkedin')) platform = 'linkedin';
+            else if (href.includes('github')) platform = 'github';
+            else if (href.includes('twitter') || href.includes('x.com')) platform = 'twitter';
+            else if (href.includes('instagram')) platform = 'instagram';
+            else if (href.includes('discord')) platform = 'discord';
+          }
+          
+          console.log('📊 Social click tracked:', platform);
           
           const socialClicks = JSON.parse(localStorage.getItem('socialClicks') || '[]');
           if (!socialClicks.includes(platform)) {
             socialClicks.push(platform);
             localStorage.setItem('socialClicks', JSON.stringify(socialClicks));
+            console.log('📊 Social clicks count:', socialClicks.length, socialClicks);
             setTimeout(() => this.checkTrophies(), 500);
           }
         });
@@ -457,14 +551,43 @@
       }
 
       // Track visited projects
-      if (window.location.pathname.includes('/projects/') && !window.location.pathname.endsWith('/projects/')) {
-        const visitedProjects = JSON.parse(localStorage.getItem('visitedProjects') || '[]');
-        const projectName = window.location.pathname.split('/').pop();
-        if (projectName && !visitedProjects.includes(projectName)) {
-          visitedProjects.push(projectName);
-          localStorage.setItem('visitedProjects', JSON.stringify(visitedProjects));
+      const currentPath = window.location.pathname;
+      if (currentPath.includes('/projects/')) {
+        const pathParts = currentPath.split('/').filter(part => part.length > 0);
+        const projectIndex = pathParts.indexOf('projects');
+        
+        // Vérifier qu'il y a un slug après /projects/
+        if (projectIndex >= 0 && projectIndex < pathParts.length - 1) {
+          const projectSlug = pathParts[projectIndex + 1];
+          
+          if (projectSlug && projectSlug.length > 0) {
+            const visitedProjects = JSON.parse(localStorage.getItem('visitedProjects') || '[]');
+            
+            if (!visitedProjects.includes(projectSlug)) {
+              visitedProjects.push(projectSlug);
+              localStorage.setItem('visitedProjects', JSON.stringify(visitedProjects));
+              console.log(`📊 Projet visité: ${projectSlug} (Total: ${visitedProjects.length})`);
+              
+              // Vérifier les trophées immédiatement
+              setTimeout(() => this.checkTrophies(), 500);
+            }
+          }
         }
       }
+
+      // Track speed navigation
+      const navigationData = JSON.parse(localStorage.getItem('speedNavigation') || '{"pages": 0, "startTime": null}');
+      if (!navigationData.startTime) {
+        navigationData.startTime = Date.now();
+        navigationData.pages = 0;
+      }
+      navigationData.pages = (navigationData.pages || 0) + 1;
+      localStorage.setItem('speedNavigation', JSON.stringify(navigationData));
+      
+      console.log('📊 Speed Navigation Tracked:', {
+        pages: navigationData.pages,
+        startTime: new Date(navigationData.startTime).toLocaleTimeString()
+      });
     }
 
     /**
@@ -537,15 +660,6 @@
       // Get trophy details for notification
       const trophy = this.trophies.find(t => t.id === trophyId);
       
-      // Add persistent notification
-      if (trophy && typeof window.addNotification === 'function') {
-        window.addNotification(
-          `${trophy.icon} Trophée débloqué !`,
-          trophy.name,
-          'trophy'
-        );
-      }
-      
       // Add vibration if supported
       if (navigator.vibrate) {
         navigator.vibrate(200);
@@ -598,26 +712,31 @@
         }, 2000);
       }
       
-      const notification = document.createElement('div');
-      notification.className = 'new-trophy-notification';
-      notification.innerHTML = `
-        <span class="trophy-emoji">${trophy.icon}</span>
-        <div class="trophy-name">Trophée débloqué !</div>
-        <div class="trophy-desc">${trophy.name}</div>
-      `;
+      // Utiliser le système de notifications standard avec icône de trophée
+      const message = trophy.name;
       
-      // Always append to body to ensure proper centering (fixed position)
-      document.body.appendChild(notification);
-      
-      setTimeout(() => notification.classList.add('show'), 100);
-      setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-          if (notification.parentNode) {
-            notification.parentNode.removeChild(notification);
-          }
-        }, 500);
-      }, 3000);
+      if (window.NotificationsManager) {
+        // Créer un data URL avec l'emoji du trophée comme "avatar"
+        // On utilise un SVG avec un grand emoji comme image
+        const emojiSvg = `data:image/svg+xml,${encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <rect width="100" height="100" fill="%23FFD700" rx="20"/>
+            <text x="50" y="50" font-size="60" text-anchor="middle" dominant-baseline="central">${trophy.icon}</text>
+          </svg>
+        `)}`;
+        
+        // Afficher la notification toast avec l'emoji du trophée et style doré
+        window.NotificationsManager.showNotification(message, 'trophy', {
+          avatar: emojiSvg,
+          title: '🏆 Trophée débloqué !',
+          duration: 8000
+        });
+        
+        // Ajouter aussi à la liste persistante des notifications
+        window.NotificationsManager.addNotification('🏆 Trophée débloqué', `${trophy.icon} ${message}`, 'trophy');
+      } else {
+        console.warn('⚠️ NotificationsManager non disponible');
+      }
     }
 
     /**
@@ -795,7 +914,9 @@
 
   // Initialisation du système de trophées quand le DOM est chargé
   document.addEventListener('DOMContentLoaded', () => {
+    console.log('🏆 Initializing Trophy System...');
     window.trophySystem = new TrophySystem();
+    console.log('✅ Trophy System initialized:', window.trophySystem);
   });
 
   // Export pour utilisation externe

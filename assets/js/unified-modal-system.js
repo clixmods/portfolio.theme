@@ -710,6 +710,24 @@ class UnifiedModal {
      * Affiche le modal
      */
     static showModal(modal, config) {
+        // Track CV modal opening for trophy system
+        if (config && config.type === 'cv') {
+            console.log('✅ CV modal opened! Setting cvDownloaded flag');
+            localStorage.setItem('cvDownloaded', 'true');
+            
+            // Check trophies after a short delay
+            const checkTrophies = () => {
+                if (window.trophySystem) {
+                    console.log('✅ Checking trophies after CV modal opened');
+                    window.trophySystem.checkTrophies();
+                } else {
+                    console.warn('⚠️ Trophy system not yet available, retrying...');
+                    setTimeout(checkTrophies, 100);
+                }
+            };
+            setTimeout(checkTrophies, 100);
+        }
+        
         // Prepare and show with CSS-driven animation
     modal.classList.remove('fade-exit', 'fade-exit-active');
     modal.style.display = 'flex';
@@ -1109,6 +1127,8 @@ class UnifiedModal {
 
     // Robust download with fetch->blob and fallback
     static downloadFile(url, fileName) {
+        // Note: Trophy tracking is handled when the CV modal opens, not on download
+        
         try {
             fetch(url).then(resp => {
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);

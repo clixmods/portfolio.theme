@@ -21,6 +21,14 @@ function openSkillModal(name, icon, level, experience, iconType) {
     const modalLevel = document.getElementById('modalSkillLevel');
     const modalExperience = document.getElementById('modalSkillExperience');
     
+    // Track skill modal opened for trophy system
+    localStorage.setItem('skillModalOpened', 'true');
+    
+    // Check trophies after a short delay
+    if (window.trophySystem) {
+        setTimeout(() => window.trophySystem.checkTrophies(), 500);
+    }
+    
     // Fill basic information
     modalName.textContent = name;
     // Level chip: hide if unspecified ('Non spécifié') or empty

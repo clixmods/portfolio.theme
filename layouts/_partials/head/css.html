@@ -43,6 +43,9 @@
 {{/* Right Dock Styles */}}
 {{ partial "helpers/load-scss.html" "scss/right-dock.scss" }}
 
+{{/* Toast Notifications Styles */}}
+{{ partial "helpers/load-scss.html" "scss/toasts.scss" }}
+
 {{/* CSS Fix for dropdowns only */}}
 {{- if hugo.IsDevelopment }}
   {{- with resources.Get "css/dropdown-fix.css" }}

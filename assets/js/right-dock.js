@@ -218,6 +218,11 @@
     // Sauvegarde dans localStorage
     localStorage.setItem('theme', currentTheme);
     
+    // Marquer que l'utilisateur a changé le thème manuellement (session uniquement)
+    if (currentTheme === 'dark') {
+      sessionStorage.setItem('themeChangedToDark', 'true');
+    }
+    
     // Animation du bouton
     themeToggle.style.transform = 'scale(0.9)';
     setTimeout(() => {

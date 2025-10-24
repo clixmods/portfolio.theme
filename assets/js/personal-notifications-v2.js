@@ -234,7 +234,7 @@
     console.log('🔔 showPersonalNotification called with config:', config);
     console.log('🔔 window.showNotification exists?', typeof window.showNotification);
     
-    // Only show toast notification (not adding to list to avoid duplicates)
+    // Show toast notification
     if (typeof window.showNotification === 'function') {
       console.log('🔔 Calling window.showNotification...');
       window.showNotification(config.message, 'info', {
@@ -244,6 +244,18 @@
       });
     } else {
       console.warn('⚠️ showNotification function not available');
+    }
+    
+    // Add to persistent notifications list
+    if (window.NotificationsManager && typeof window.NotificationsManager.addNotification === 'function') {
+      console.log('🔔 Adding to persistent notifications...');
+      window.NotificationsManager.addNotification(
+        config.title || 'Message de Clément',
+        config.message,
+        'info'
+      );
+    } else {
+      console.warn('⚠️ NotificationsManager not available');
     }
   }
   
