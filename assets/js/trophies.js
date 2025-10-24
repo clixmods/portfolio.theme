@@ -307,16 +307,21 @@
      * Vérifie si une section a été vue
      */
     checkSectionViewed(data) {
-      const viewedSections = JSON.parse(localStorage.getItem('viewedSections') || '[]');
-      return viewedSections.includes(data.section);
+      const visitedSections = JSON.parse(localStorage.getItem('visitedSections') || '[]');
+      return visitedSections.includes(data.section);
     }
 
     /**
      * Vérifie si toutes les sections requises ont été visitées
      */
     checkAllSectionsVisited(data) {
-      const viewedSections = JSON.parse(localStorage.getItem('viewedSections') || '[]');
-      return data.required_sections.every(section => viewedSections.includes(section));
+      const visitedSections = JSON.parse(localStorage.getItem('visitedSections') || '[]');
+      console.log('📊 Checking all sections visited:', {
+        required: data.required_sections,
+        visited: visitedSections,
+        allVisited: data.required_sections.every(section => visitedSections.includes(section))
+      });
+      return data.required_sections.every(section => visitedSections.includes(section));
     }
 
     /**
@@ -548,6 +553,10 @@
       if (currentSection && !visitedSections.includes(currentSection)) {
         visitedSections.push(currentSection);
         localStorage.setItem('visitedSections', JSON.stringify(visitedSections));
+        console.log(`📊 Section visitée: ${currentSection} (Total: ${visitedSections.length})`, visitedSections);
+        
+        // Vérifier les trophées après avoir visité une nouvelle section
+        setTimeout(() => this.checkTrophies(), 500);
       }
 
       // Track visited projects
@@ -596,9 +605,11 @@
     getCurrentSection() {
       const path = window.location.pathname;
       if (path === '/' || path === '/portfolio/' || path.includes('index')) return 'home';
-      if (path.includes('/portfolio')) return 'portfolio';
+      if (path.includes('/skills')) return 'skills';
       if (path.includes('/projects')) return 'projects';
       if (path.includes('/posts')) return 'posts';
+      if (path.includes('/educations')) return 'educations';
+      if (path.includes('/experiences')) return 'experiences';
       return null;
     }
 
@@ -633,6 +644,55 @@
         newTrophies.forEach((trophy, index) => {
           setTimeout(() => this.showTrophyNotification(trophy), index * 1000);
         });
+        
+        // Check if 100% completion is reached
+        setTimeout(() => {
+          this.checkCompletionMilestone();
+        }, (newTrophies.length + 1) * 1000);
+      }
+    }
+
+    /**
+     * Vérifie si l'utilisateur a atteint 100% et affiche une notification spéciale
+     */
+    checkCompletionMilestone() {
+      // Get only enabled trophies
+      const enabledTrophies = this.trophies.filter(t => t.enabled !== false);
+      const totalEnabled = enabledTrophies.length;
+      const unlockedCount = this.unlockedTrophies.filter(id => {
+        const trophy = this.trophies.find(t => t.id === id);
+        return trophy && trophy.enabled !== false;
+      }).length;
+      
+      const completionPercentage = totalEnabled > 0 ? (unlockedCount / totalEnabled) * 100 : 0;
+      
+      // Check if 100% reached and not already shown
+      if (completionPercentage === 100 && !localStorage.getItem('completion100Shown')) {
+        console.log('🎉 100% completion reached! Showing special notification...');
+        
+        localStorage.setItem('completion100Shown', 'true');
+        
+        // Show personal notification from Clément
+        if (typeof window.showNotification === 'function') {
+          window.showNotification(
+            'Merci beaucoup d\'avoir collectionné tous les trophées ! 🏆',
+            'info',
+            {
+              avatar: '/images/people/clement-garcia.jpg',
+              title: 'Message de Clément',
+              duration: 10000
+            }
+          );
+        }
+        
+        // Add to persistent notifications
+        if (window.NotificationsManager && typeof window.NotificationsManager.addNotification === 'function') {
+          window.NotificationsManager.addNotification(
+            'Message de Clément',
+            'Merci beaucoup d\'avoir collectionné tous les trophées ! 🏆',
+            'info'
+          );
+        }
       }
     }
 

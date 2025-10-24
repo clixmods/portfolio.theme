@@ -8,7 +8,7 @@
   position: fixed;
   top: 140px;
   right: 20px;
-  z-index: 1005;
+  z-index: 10200; /* Au-dessus de tout (notifications: 10100, modals: 10000-10020, right-dock: 1004) */
   pointer-events: none;
 }
 
