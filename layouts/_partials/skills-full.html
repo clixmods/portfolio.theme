@@ -165,6 +165,13 @@
     margin: 0 auto;
 }
 
+/* Force 4 columns for skills grid in full page */
+.skills-full-categories-grid .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.75rem;
+}
+
 @media (max-width: 1024px) {
     .skills-full-categories-grid {
         grid-template-columns: 1fr;
