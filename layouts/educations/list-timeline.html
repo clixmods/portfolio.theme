@@ -11,9 +11,12 @@
     </div>
 
     <!-- Navigation Tabs -->
+    {{ $hasCertifications := gt (len .Site.Data.certifications) 0 }}
     <div class="education-tabs">
         <button class="edu-tab-btn active" data-tab="education">Formation</button>
+        {{ if $hasCertifications }}
         <button class="edu-tab-btn" data-tab="certifications">Certifications</button>
+        {{ end }}
     </div>
 
     <!-- Education Timeline -->
@@ -245,6 +248,7 @@
     </div>
 
     <!-- Certifications Timeline -->
+    {{ if $hasCertifications }}
     <div class="timeline-container" id="certifications-timeline" data-tab="certifications" style="display: none;">
         <div class="timeline-line"></div>
         
@@ -270,6 +274,7 @@
         </div>
         {{ end }}
     </div>
+    {{ end }}
 </section>
 
 <!-- Education tabs using TabController -->

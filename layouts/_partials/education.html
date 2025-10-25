@@ -5,9 +5,12 @@
     </div>
 
     <!-- Navigation Tabs -->
+    {{ $hasCertifications := gt (len .Site.Data.certifications) 0 }}
     <div class="tabs">
         <button class="tab-btn active" data-tab="education">🎓 {{ i18n "education" | default "Formation" }}</button>
+        {{ if $hasCertifications }}
         <button class="tab-btn" data-tab="certifications">📜 {{ i18n "certifications" | default "Certifications" }}</button>
+        {{ end }}
     </div>
 
     <!-- Education Timeline -->
@@ -160,6 +163,7 @@
     </div>
 
     <!-- Certifications Timeline -->
+    {{ if $hasCertifications }}
     <div class="timeline-container" id="certifications-timeline" data-tab="certifications" style="display: none;">
         <div class="timeline-line"></div>
         
@@ -185,6 +189,7 @@
         </div>
         {{ end }}
     </div>
+    {{ end }}
 
     <!-- Bouton voir toutes les formations -->
     <div class="education-footer">
