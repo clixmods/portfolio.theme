@@ -139,7 +139,7 @@
               <div class="notification-message">${notification.message}</div>
               <div class="notification-time">${formatTime(notification.timestamp)}</div>
             </div>
-            <button class="notification-close" onclick="window.NotificationsManager.removeNotification(${notification.id})">×</button>
+            <button class="notification-close" onclick="event.stopPropagation(); window.NotificationsManager.removeNotification(${notification.id})">×</button>
           </div>
         `).join('');
     
