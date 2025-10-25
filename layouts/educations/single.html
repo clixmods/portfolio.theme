@@ -27,10 +27,6 @@
           <span class="period">📅 {{ $startYear }} - {{ $endYear }}</span>
         {{- end -}}
         
-        {{- if .Params.grade -}}
-          <span class="grade">🏆 {{ .Params.grade }}</span>
-        {{- end -}}
-        
         <span class="status status-{{ if eq .Params.status "Obtenu" }}completed{{ else if eq .Params.status "En cours" }}current{{ else }}unknown{{ end }}">
           {{- if eq .Params.status "Obtenu" -}}
             ✅ {{ .Params.status }}
@@ -41,8 +37,10 @@
           {{- end -}}
         </span>
         
-        {{- if .Params.icon -}}
-          <span class="type">{{ .Params.icon }} Formation</span>
+        {{- if .Params.external_link -}}
+          <a href="{{ .Params.external_link }}" target="_blank" rel="noopener noreferrer" class="external-link-btn">
+            🔗 Voir la formation
+          </a>
         {{- end -}}
       </div>
     </div>
@@ -532,6 +530,28 @@
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
+.external-link-btn {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.external-link-btn:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+}
+
 .education-content {
   margin-top: 2rem;
 }
@@ -1017,6 +1037,73 @@
   margin-bottom: 2rem;
   font-weight: 700;
   text-align: center;
+}
+
+.years-progress {
+  padding: 0;
+}
+
+.years-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.year-item {
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  backdrop-filter: blur(15px) saturate(150%);
+}
+
+.year-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  display: block;
+}
+
+.year-status {
+  font-size: 1rem;
+  font-weight: 600;
+  display: block;
+}
+
+.year-item.status-validated {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: rgba(16, 185, 129, 0.7);
+}
+
+.year-item.status-validated .year-status {
+  color: #34d399;
+}
+
+.year-item.status-in_progress {
+  background: rgba(251, 146, 60, 0.25);
+  border-color: rgba(251, 146, 60, 0.7);
+}
+
+.year-item.status-in_progress .year-status {
+  color: #fbbf24;
+}
+
+.year-item.status-skipped {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: rgba(59, 130, 246, 0.7);
+}
+
+.year-item.status-skipped .year-status {
+  color: #60a5fa;
+}
+
+@media (max-width: 768px) {
+  .years-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Responsive Design */
