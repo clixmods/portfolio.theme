@@ -49,8 +49,8 @@
         {{ end }}
     </div>
 
-    <!-- Blog Sort Controls -->
-    <div class="blog-sort-controls">
+    <!-- Blog Sort Controls - Temporairement caché -->
+    <div class="blog-sort-controls" style="display: none;">
         <label for="blog-sort" class="blog-filter-label">{{ i18n "sort_by" | default "Trier par :" }}</label>
         <select id="blog-sort" class="blog-sort-select">
             <option value="date-desc">{{ i18n "newest" | default "Plus récent" }}</option>
@@ -60,8 +60,8 @@
         </select>
     </div>
 
-    <!-- Blog Search -->
-    <div class="blog-search">
+    <!-- Blog Search - Temporairement caché -->
+    <div class="blog-search" style="display: none;">
         <input type="text" 
                class="blog-search-input" 
                placeholder="{{ i18n "search_posts" | default "Rechercher un article..." }}" 

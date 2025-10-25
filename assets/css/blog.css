@@ -48,12 +48,11 @@
 .blog-search-input { background:var(--blog-glass-bg); border:1px solid var(--blog-glass-border); color:var(--blog-text-primary); padding:1rem 1.5rem; border-radius:25px; width:100%; max-width:400px; backdrop-filter:blur(10px); font-size:1rem; transition:var(--blog-transition); }
 .blog-search-input::placeholder { color:var(--blog-text-muted); }
 .blog-search-input:focus { outline:none; border-color:var(--blog-accent-50, rgba(79,209,199,0.5)); box-shadow:0 0 20px var(--blog-accent-30, rgba(79,209,199,0.3)); background:rgba(var(--slate-rgb,55,65,81),0.5); }
-.blog-sort { display:flex; justify-content:center; align-items:center; gap:1rem; margin-bottom:2rem; padding:1rem; background:var(--blog-glass-bg); backdrop-filter:blur(15px); border-radius:15px; border:1px solid var(--blog-glass-border); max-width:400px; margin-left:auto; margin-right:auto; }
-.blog-sort-label { color:var(--blog-text-secondary); font-size:1rem; font-weight:500; white-space:nowrap; }
-.blog-sort-select { background:rgba(255,255,255,0.05); border:1px solid var(--blog-glass-border); color:var(--blog-text-primary); padding:.8rem 1.2rem; border-radius:15px; backdrop-filter:blur(10px); font-size:.9rem; transition:var(--blog-transition); cursor:pointer; min-width:150px; }
-.blog-sort-select:focus { outline:none; border-color:var(--blog-accent-50, rgba(79,209,199,0.5)); box-shadow:0 0 20px var(--blog-accent-20, rgba(79,209,199,0.2)); background:var(--blog-primary-alpha); }
-.blog-sort-select:hover { background:rgba(255,255,255,0.1); border-color:var(--blog-accent-30, rgba(79,209,199,0.3)); }
-.blog-sort-select option { background:rgba(var(--slate-rgb,55,65,81),0.95); color:var(--blog-text-primary); }
+
+/* ========================================
+   DROPDOWN STYLES - See dropdown.scss
+   ======================================== */
+/* Dropdown styles are now managed by dropdown.scss */
 
 /* ========================================
    BLOG FILTER CONTROLS
@@ -68,8 +67,7 @@
 .blog-tag-filter.active { background:var(--blog-primary-alpha); border-color:var(--blog-accent-40, rgba(79,209,199,0.4)); color:var(--blog-text-primary); box-shadow:0 0 20px var(--blog-accent-30, rgba(79,209,199,0.3)); }
 .blog-clear-filters { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:rgba(239,68,68,1); padding:.5rem 1rem; border-radius:20px; cursor:pointer; transition:var(--blog-transition); font-size:.85rem; font-weight:500; margin-left:auto; }
 .blog-clear-filters:hover { background:rgba(239,68,68,0.25); border-color:rgba(239,68,68,0.5); color:var(--blog-text-primary); transform:translateY(-2px); box-shadow:0 4px 15px rgba(239,68,68,0.2); }
-.blog-sort-controls { display:flex; justify-content:center; align-items:center; gap:1rem; margin-bottom:2rem; padding:1rem; background:var(--blog-glass-bg); backdrop-filter:blur(15px); border-radius:15px; border:1px solid var(--blog-glass-border); max-width:400px; margin-left:auto; margin-right:auto; }
-@media (max-width:768px) { .blog-filter-controls { padding:1rem; margin-bottom:1.5rem; } .blog-filter-section { flex-direction:column; align-items:flex-start; gap:.8rem; } .blog-filter-label { font-size:.9rem; } .blog-tag-filter, .blog-clear-filters { padding:.4rem .8rem; font-size:.8rem; } .blog-sort-controls { flex-direction:column; gap:.5rem; padding:.8rem; } }
+@media (max-width:768px) { .blog-filter-controls { padding:1rem; margin-bottom:1.5rem; } .blog-filter-section { flex-direction:column; align-items:flex-start; gap:.8rem; } .blog-filter-label { font-size:.9rem; } .blog-tag-filter, .blog-clear-filters { padding:.4rem .8rem; font-size:.8rem; } }
 
 /* ========================================
    FILTER SYSTEM
