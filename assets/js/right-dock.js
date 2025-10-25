@@ -205,11 +205,26 @@
   }
   
   /**
-   * Gère le toggle du thème
+   * Gère le toggle du thème - DISABLED (Light mode not implemented yet)
    */
   function handleThemeToggle(event) {
     event.preventDefault();
     
+    // FORCE DARK MODE ONLY - Do not allow theme switching
+    // Light mode is not implemented yet
+    console.log('Theme toggle disabled - dark mode only');
+    
+    // Show notification that feature is disabled
+    if (window.NotificationsManager) {
+      window.NotificationsManager.showNotification('🌙 Mode sombre uniquement disponible', 'info');
+    }
+    
+    // Keep dark mode
+    currentTheme = 'dark';
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+    
+    /* ORIGINAL CODE - DISABLED
     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
     // Mise à jour de l'attribut data-theme sur le body
@@ -235,6 +250,7 @@
       window.NotificationsManager.showNotification(themeMessage, 'success');
       window.NotificationsManager.addNotification('Thème changé', themeMessage, 'success');
     }
+    */
   }
   
   /**
@@ -401,14 +417,21 @@
   }
   
   /**
-   * Initialise le thème au chargement
+   * Initialise le thème au chargement - FORCE DARK MODE ONLY
    */
   function initTheme() {
+    // FORCE DARK MODE - Light mode not implemented yet
+    currentTheme = 'dark';
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+    
+    /* ORIGINAL CODE - DISABLED
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     currentTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     document.body.setAttribute('data-theme', currentTheme);
+    */
   }
   
   /**

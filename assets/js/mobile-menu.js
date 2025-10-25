@@ -58,7 +58,8 @@
       clearAllBtn.addEventListener('click', clearAllMobileNotifications);
     }
     
-    // Theme toggle - don't close menu
+    // Theme toggle - DISABLED (Light mode not implemented yet)
+    /*
     const mobileThemeToggle = document.getElementById('mobile-theme-toggle-btn');
     if (mobileThemeToggle) {
       mobileThemeToggle.addEventListener('click', (event) => {
@@ -69,6 +70,7 @@
         }
       });
     }
+    */
     
     // Close menu when clicking on a link (except for buttons that open modals)
     const menuLinks = menuDropdown.querySelectorAll('.mobile-menu-item[href]');

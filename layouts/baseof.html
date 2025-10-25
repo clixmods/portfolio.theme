@@ -5,15 +5,13 @@
 </head>
 <body>
   <!-- Script d'initialisation du thème avant le rendu pour éviter le flash -->
+  <!-- FORCE DARK MODE ONLY - Light mode not implemented yet -->
   <script>
     (function() {
       try {
-        var saved = localStorage.getItem('theme');
-        if(!saved){
-          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          saved = prefersDark ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', saved);
+        // Force dark mode always, ignore localStorage and browser preferences
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
       } catch(e) {}
     })();
   </script>

@@ -120,6 +120,8 @@
           requirement: 'Lire un article de blog',
           condition: () => window.location.pathname.includes('/posts/') && !window.location.pathname.endsWith('/posts/')
         },
+        // DISABLED - Light mode not implemented yet
+        /*
         {
           id: 'night_owl',
           name: 'Oiseau de Nuit',
@@ -129,6 +131,7 @@
           requirement: 'Activer le mode sombre',
           condition: () => localStorage.getItem('theme') === 'dark'
         },
+        */
         {
           id: 'time_keeper',
           name: 'Gardien du Temps',
@@ -204,8 +207,11 @@
         case 'visited_count':
           return this.checkVisitedCount(condition_data);
         
+        // DISABLED - Light mode not implemented yet
+        /*
         case 'theme_change':
           return this.checkTheme(condition_data);
+        */
         
         case 'time_spent':
           return this.checkTimeSpent(condition_data);
@@ -277,13 +283,15 @@
     }
 
     /**
-     * Vérifie le thème actuel
+     * Vérifie le thème actuel - DISABLED (Light mode not implemented yet)
      */
+    /*
     checkTheme(data) {
       // Vérifier que l'utilisateur a activement changé le thème dans cette session
       return sessionStorage.getItem('themeChangedToDark') === 'true' && 
              localStorage.getItem('theme') === data.theme;
     }
+    */
 
     /**
      * Vérifie le temps passé sur le site
