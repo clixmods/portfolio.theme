@@ -35,14 +35,10 @@
 
             <!-- Action Buttons -->
             <div class="hero-actions">
-                <button class="btn-action" onclick="UnifiedModal.create({ type: 'contact', title: 'Contactez-moi', icon: '📬', content: { contacts: [
-                    { icon: '📧', title: 'Email', value: '{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}', link: 'mailto:{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}' },
-                    { icon: '/images/social/linkedin.svg', title: 'LinkedIn', value: '{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', link: 'https://{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', external: true },
-                    { icon: '📍', title: 'Localisation', value: '{{ with $.Site.Data.profile.contact.location }}{{ . }}{{ else }}Montpellier{{ end }}' }
-                ] } })">
+                <a href="mailto:{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}" class="btn-action">
                     {{- partial "icon.html" (dict "iconId" "email" "size" "18") -}}
                     Contact
-                </button>
+                </a>
                 <a href="/cv/" class="btn-action primary cv-choice-trigger">
                     {{- partial "icon.html" (dict "iconId" "document-download" "size" "18") -}}
                     Télécharger CV

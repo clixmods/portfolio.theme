@@ -25,7 +25,8 @@
         {{- partial "icon.html" (dict "iconId" "document-download" "size" "24" "class" "dock-icon") -}}
       </a>
       
-      <button class="dock-button primary-btn contact-btn"
+      <!-- Hidden contact modal button - kept for future use -->
+      <button class="dock-button primary-btn contact-btn" style="display: none;"
               title="{{ i18n "contact_me" | default "Contactez-moi" }}"
               aria-label="{{ i18n "contact_me" | default "Contactez-moi" }}"
               onclick="event.preventDefault(); UnifiedModal.create({ type: 'contact', title: 'Contactez-moi', icon: '📬', content: { contacts: [
@@ -55,7 +56,7 @@
         {{ else if eq .title "GitHub" }}
         {{- partial "icon.html" (dict "iconId" "github" "class" "dock-icon") -}}
         {{ else if eq .title "Email" }}
-        {{- partial "icon.html" (dict "iconId" "email-outline" "class" "dock-icon") -}}
+        {{- partial "icon.html" (dict "iconId" "email" "size" "24" "class" "dock-icon") -}}
         {{ else if eq .title "Discord" }}
         {{- partial "icon.html" (dict "iconId" "discord" "class" "dock-icon") -}}
         {{ else }}
