@@ -71,7 +71,8 @@
       </div>
     </div>
 
-    <!-- Bouton Langue -->
+    <!-- Bouton Langue - DISABLED (English support not implemented yet) -->
+    <!--
     <div class="dock-item language-item">
       <button class="dock-button language-btn" 
         title="Langue" 
@@ -80,7 +81,7 @@
         <span class="language-flag">{{ cond (eq .Site.Language.Lang "fr") "🇫🇷" "🇬🇧" }}</span>
       </button>
       
-      <!-- Dropdown menu -->
+      {{/* Dropdown menu */}}
       <div class="language-dropdown" id="language-dropdown">
         {{/* Build a map of current page translations by lang */}}
         {{ $current := . }}
@@ -108,6 +109,7 @@
         {{ end }}
       </div>
     </div>
+    -->
 
   </div>
 </nav>
