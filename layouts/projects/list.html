@@ -26,7 +26,7 @@
             {{ $modsCount := 0 }}
             {{ $toolsCount := 0 }}
             
-            {{ range where $.Site.RegularPages "Section" "projects" }}
+            {{ range where (where $.Site.RegularPages "Section" "projects") "Draft" false }}
                 {{ $allCount = add $allCount 1 }}
                 {{ if hasPrefix .Params.sector "games" }}
                     {{ $gamesCount = add $gamesCount 1 }}
@@ -124,7 +124,7 @@
 
             <!-- Single Projects Grid with all projects -->
             <div class="projects-grid">
-                {{ range where $.Site.RegularPages "Section" "projects" }}
+                {{ range where (where $.Site.RegularPages "Section" "projects") "Draft" false }}
                     {{- $projectImage := .Params.background_image | default .Params.image | default "images/placeholder-project.jpg" -}}
                     {{- $sector := .Params.sector -}}
                     

@@ -18,7 +18,7 @@
 
     <!-- Projects Grid with filterable cards -->
     <div class="projects-grid" id="projects-grid">
-        {{ range where $.Site.RegularPages "Section" "projects" }}
+        {{ range where (where $.Site.RegularPages "Section" "projects") "Draft" false }}
             {{ if .Params.featured }}
                 {{- $projectImage := .Params.background_image | default .Params.image | default "images/placeholder-project.jpg" -}}
                 {{- $category := "" -}}

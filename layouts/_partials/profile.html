@@ -52,25 +52,26 @@
                     <div class="stat-label">ans d'expérience pro</div>
                 </div>
                 <div class="stat-item">
-                    {{- $gamesPro := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "games-professionnel" -}}
-                    {{- $gamesPerso := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "games-personnel" -}}
-                    {{- $gamesJams := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "games-gamejams" -}}
+                    {{- $allProjects := where (where $.Site.RegularPages "Section" "projects") "Draft" false -}}
+                    {{- $gamesPro := where $allProjects ".Params.sector" "games-professionnel" -}}
+                    {{- $gamesPerso := where $allProjects ".Params.sector" "games-personnel" -}}
+                    {{- $gamesJams := where $allProjects ".Params.sector" "games-gamejams" -}}
                     {{- $gamesCount := add (add (len $gamesPro) (len $gamesPerso)) (len $gamesJams) -}}
                 
                     <div class="stat-value">{{ if eq $gamesCount 0 }}-1{{ else }}{{ $gamesCount }}{{ end }}</div>
                     <div class="stat-label">jeux créés</div>
                 </div>
                 <div class="stat-item">
-                    {{- $appsPro := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "appsweb-professionnel" -}}
-                    {{- $appsEtude := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "appsweb-etude" -}}
+                    {{- $appsPro := where $allProjects ".Params.sector" "appsweb-professionnel" -}}
+                    {{- $appsEtude := where $allProjects ".Params.sector" "appsweb-etude" -}}
                     {{- $appsCount := add (len $appsPro) (len $appsEtude) -}}
                
                     <div class="stat-value">{{ if eq $appsCount 0 }}-1{{ else }}{{ $appsCount }}{{ end }}</div>
                     <div class="stat-label">apps web</div>
                 </div>
                 <div class="stat-item">
-                    {{- $mods := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "mods" -}}
-                    {{- $tools := where (where $.Site.RegularPages "Section" "projects") ".Params.sector" "tools" -}}
+                    {{- $mods := where $allProjects ".Params.sector" "mods" -}}
+                    {{- $tools := where $allProjects ".Params.sector" "tools" -}}
                     {{- $modsCount := add (len $mods) (len $tools) -}}
                 
                     <div class="stat-value">{{ if eq $modsCount 0 }}-1{{ else }}{{ $modsCount }}{{ end }}</div>

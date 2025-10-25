@@ -1,7 +1,7 @@
 {{/* Global portfolio data - loaded once per page */}}
 <script>
 window.portfolioProjects = [
-    {{- range where .Site.RegularPages "Section" "projects" -}}
+    {{- range where (where .Site.RegularPages "Section" "projects") "Draft" false -}}
         {{- $allTechnologies := partial "get-all-technologies.html" . -}}
         {{- $projectImage := .Params.image | default "/images/placeholder-project.jpg" -}}
         {{- $optimizedProjectImage := partial "get-optimized-image.html" (dict "imagePath" $projectImage "width" 600 "quality" 85) -}}

@@ -390,7 +390,7 @@
       <div class="ps5-projects-tiles">
         {{- range .Params.projects -}}
           {{- $projectSlug := . -}}
-          {{- range where $.Site.RegularPages "Section" "projects" -}}
+          {{- range where (where $.Site.RegularPages "Section" "projects") "Draft" false -}}
             {{- if eq .File.BaseFileName $projectSlug -}}
               {{- $allTechnologies := slice -}}
               {{- range .Params.programming_languages -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}

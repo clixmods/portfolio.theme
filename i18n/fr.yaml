@@ -107,7 +107,7 @@ see_all_skills: "Voir toutes les compétences"
 # Experience section
 experience_title: "Expérience Professionnelle"
 experience_subtitle: "Mon parcours professionnel, des projets concrets aux compétences développées en entreprise"
-internships: "Stages & Recherche"
+internships: "Recherche"
 in_progress: "En cours"
 main_projects: "Projets principaux :"
 grid_view: "Affichage grille"
