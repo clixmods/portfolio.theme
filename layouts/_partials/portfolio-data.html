@@ -56,13 +56,31 @@ window.portfolioExperiences = [
     {{- range where .Site.RegularPages "Section" "experiences" -}}
         {{- $allTechnologies := slice -}}
         {{- if .Params.programming_languages -}}
-            {{- $allTechnologies = $allTechnologies | append .Params.programming_languages -}}
+            {{- range .Params.programming_languages -}}
+                {{- if reflect.IsMap . -}}
+                    {{- $allTechnologies = $allTechnologies | append .language -}}
+                {{- else -}}
+                    {{- $allTechnologies = $allTechnologies | append . -}}
+                {{- end -}}
+            {{- end -}}
         {{- end -}}
         {{- if .Params.frameworks_engines -}}
-            {{- $allTechnologies = $allTechnologies | append .Params.frameworks_engines -}}
+            {{- range .Params.frameworks_engines -}}
+                {{- if reflect.IsMap . -}}
+                    {{- $allTechnologies = $allTechnologies | append .framework -}}
+                {{- else -}}
+                    {{- $allTechnologies = $allTechnologies | append . -}}
+                {{- end -}}
+            {{- end -}}
         {{- end -}}
         {{- if .Params.specialties -}}
-            {{- $allTechnologies = $allTechnologies | append .Params.specialties -}}
+            {{- range .Params.specialties -}}
+                {{- if reflect.IsMap . -}}
+                    {{- $allTechnologies = $allTechnologies | append .specialty -}}
+                {{- else -}}
+                    {{- $allTechnologies = $allTechnologies | append . -}}
+                {{- end -}}
+            {{- end -}}
         {{- end -}}
         {{- $allTechnologies = $allTechnologies | uniq -}}
         
@@ -88,16 +106,40 @@ window.portfolioEducations = [
     {{- range where (where .Site.RegularPages "Section" "educations") ".Params.displayedInPortfolio" "!=" false -}}
         {{- $allTechnologies := slice -}}
         {{- if .Params.programming_languages -}}
-            {{- $allTechnologies = $allTechnologies | append .Params.programming_languages -}}
+            {{- range .Params.programming_languages -}}
+                {{- if reflect.IsMap . -}}
+                    {{- $allTechnologies = $allTechnologies | append .language -}}
+                {{- else -}}
+                    {{- $allTechnologies = $allTechnologies | append . -}}
+                {{- end -}}
+            {{- end -}}
         {{- end -}}
         {{- if .Params.frameworks_engines -}}
-            {{- $allTechnologies = $allTechnologies | append .Params.frameworks_engines -}}
+            {{- range .Params.frameworks_engines -}}
+                {{- if reflect.IsMap . -}}
+                    {{- $allTechnologies = $allTechnologies | append .framework -}}
+                {{- else -}}
+                    {{- $allTechnologies = $allTechnologies | append . -}}
+                {{- end -}}
+            {{- end -}}
         {{- end -}}
         {{- if .Params.specialties -}}
-            {{- $allTechnologies = $allTechnologies | append .Params.specialties -}}
+            {{- range .Params.specialties -}}
+                {{- if reflect.IsMap . -}}
+                    {{- $allTechnologies = $allTechnologies | append .specialty -}}
+                {{- else -}}
+                    {{- $allTechnologies = $allTechnologies | append . -}}
+                {{- end -}}
+            {{- end -}}
         {{- end -}}
         {{- if .Params.soft_skills -}}
-            {{- $allTechnologies = $allTechnologies | append .Params.soft_skills -}}
+            {{- range .Params.soft_skills -}}
+                {{- if reflect.IsMap . -}}
+                    {{- $allTechnologies = $allTechnologies | append .skill -}}
+                {{- else -}}
+                    {{- $allTechnologies = $allTechnologies | append . -}}
+                {{- end -}}
+            {{- end -}}
         {{- end -}}
         {{- $allTechnologies = $allTechnologies | uniq -}}
         

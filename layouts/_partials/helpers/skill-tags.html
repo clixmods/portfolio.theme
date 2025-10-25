@@ -46,7 +46,32 @@
 {{- end -}}
 
 {{- range $skillNames -}}
-  {{- $skillName := . -}}
+  {{- /* Support both old format (string) and new format (object with displayInList) */ -}}
+  {{- $skillName := "" -}}
+  {{- $shouldDisplay := true -}}
+  
+  {{- /* Determine skill name and display preference based on format */ -}}
+  {{- if reflect.IsMap . -}}
+    {{- /* New format: object with skill name and display toggles */ -}}
+    {{- if .language -}}
+      {{- $skillName = .language -}}
+    {{- else if .framework -}}
+      {{- $skillName = .framework -}}
+    {{- else if .specialty -}}
+      {{- $skillName = .specialty -}}
+    {{- else if .skill -}}
+      {{- $skillName = .skill -}}
+    {{- else if .tool -}}
+      {{- $skillName = .tool -}}
+    {{- end -}}
+    {{- $shouldDisplay = .displayInList | default true -}}
+  {{- else -}}
+    {{- /* Old format: simple string */ -}}
+    {{- $skillName = . -}}
+  {{- end -}}
+  
+  {{- /* Only render if should be displayed */ -}}
+  {{- if $shouldDisplay -}}
   {{- $found := false -}}
   
   {{- /* Look for skill in data source */ -}}
@@ -85,5 +110,6 @@
   {{- /* If skill not found in data, render as non-clickable tag */ -}}
   {{- if not $found -}}
     <span class="skill-tag {{ $tagClass }}">{{ $skillName }}</span>
+  {{- end -}}
   {{- end -}}
 {{- end -}}

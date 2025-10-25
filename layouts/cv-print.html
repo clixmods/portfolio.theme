@@ -315,17 +315,47 @@
                   <div class="cv-experience-description">{{ . | truncate 180 }}</div>
                 {{ end }}
                 
-                {{/* Technologies utilisées (version simplifiée pour l'impression) */}}
+                {{/* Technologies utilisées (version simplifiée pour l'impression) - support both old format (string) and new format (object with displayInCV) */}}
                 {{ if or $exp.Params.programming_languages $exp.Params.frameworks_engines $exp.Params.specialties }}
                   <div class="cv-experience-tags">
                     {{ with $exp.Params.specialties }}
-                      {{ range first 2 . }}<span class="cv-experience-tag cv-tag-specialty">{{ . }}</span>{{ end }}
+                      {{ range . }}
+                        {{ $skillName := "" }}
+                        {{ $shouldDisplay := true }}
+                        {{ if reflect.IsMap . }}
+                          {{ $skillName = .specialty }}
+                          {{ $shouldDisplay = .displayInCV | default true }}
+                        {{ else }}
+                          {{ $skillName = . }}
+                        {{ end }}
+                        {{ if $shouldDisplay }}<span class="cv-experience-tag cv-tag-specialty">{{ $skillName }}</span>{{ end }}
+                      {{ end }}
                     {{ end }}
                     {{ with $exp.Params.programming_languages }}
-                      {{ range first 2 . }}<span class="cv-experience-tag cv-tag-lang">{{ . }}</span>{{ end }}
+                      {{ range . }}
+                        {{ $skillName := "" }}
+                        {{ $shouldDisplay := true }}
+                        {{ if reflect.IsMap . }}
+                          {{ $skillName = .language }}
+                          {{ $shouldDisplay = .displayInCV | default true }}
+                        {{ else }}
+                          {{ $skillName = . }}
+                        {{ end }}
+                        {{ if $shouldDisplay }}<span class="cv-experience-tag cv-tag-lang">{{ $skillName }}</span>{{ end }}
+                      {{ end }}
                     {{ end }}
                     {{ with $exp.Params.frameworks_engines }}
-                      {{ range first 2 . }}<span class="cv-experience-tag cv-tag-framework">{{ . }}</span>{{ end }}
+                      {{ range . }}
+                        {{ $skillName := "" }}
+                        {{ $shouldDisplay := true }}
+                        {{ if reflect.IsMap . }}
+                          {{ $skillName = .framework }}
+                          {{ $shouldDisplay = .displayInCV | default true }}
+                        {{ else }}
+                          {{ $skillName = . }}
+                        {{ end }}
+                        {{ if $shouldDisplay }}<span class="cv-experience-tag cv-tag-framework">{{ $skillName }}</span>{{ end }}
+                      {{ end }}
                     {{ end }}
                   </div>
                 {{ end }}

@@ -150,9 +150,14 @@
     {{/* Vérifier langages de programmation */}}
     {{- if .Params.programming_languages -}}
       {{- range .Params.programming_languages -}}
-        {{- $currentLang := . -}}
+        {{- $langName := "" -}}
+        {{- if reflect.IsMap . -}}
+          {{- $langName = .language -}}
+        {{- else -}}
+          {{- $langName = . -}}
+        {{- end -}}
         {{- range $.Site.Data.programming_languages -}}
-          {{- if eq .name $currentLang -}}
+          {{- if eq .name $langName -}}
             {{- $hasValidProgrammingLangs = true -}}
           {{- end -}}
         {{- end -}}
@@ -162,9 +167,14 @@
     {{/* Vérifier frameworks */}}
     {{- if .Params.frameworks_engines -}}
       {{- range .Params.frameworks_engines -}}
-        {{- $currentFramework := . -}}
+        {{- $frameworkName := "" -}}
+        {{- if reflect.IsMap . -}}
+          {{- $frameworkName = .framework -}}
+        {{- else -}}
+          {{- $frameworkName = . -}}
+        {{- end -}}
         {{- range $.Site.Data.frameworks_engines -}}
-          {{- if eq .name $currentFramework -}}
+          {{- if eq .name $frameworkName -}}
             {{- $hasValidFrameworks = true -}}
           {{- end -}}
         {{- end -}}
@@ -174,9 +184,14 @@
     {{/* Vérifier spécialités */}}
     {{- if .Params.specialties -}}
       {{- range .Params.specialties -}}
-        {{- $currentSpecialty := . -}}
+        {{- $specialtyName := "" -}}
+        {{- if reflect.IsMap . -}}
+          {{- $specialtyName = .specialty -}}
+        {{- else -}}
+          {{- $specialtyName = . -}}
+        {{- end -}}
         {{- range $.Site.Data.specialties -}}
-          {{- if eq .name $currentSpecialty -}}
+          {{- if eq .name $specialtyName -}}
             {{- $hasValidSpecialties = true -}}
           {{- end -}}
         {{- end -}}
@@ -186,9 +201,14 @@
     {{/* Vérifier soft skills */}}
     {{- if .Params.soft_skills -}}
       {{- range .Params.soft_skills -}}
-        {{- $currentSoftSkill := . -}}
+        {{- $softSkillName := "" -}}
+        {{- if reflect.IsMap . -}}
+          {{- $softSkillName = .skill -}}
+        {{- else -}}
+          {{- $softSkillName = . -}}
+        {{- end -}}
         {{- range $.Site.Data.soft_skills -}}
-          {{- if eq .name $currentSoftSkill -}}
+          {{- if eq .name $softSkillName -}}
             {{- $hasValidSoftSkills = true -}}
           {{- end -}}
         {{- end -}}
@@ -198,9 +218,14 @@
     {{/* Vérifier tools */}}
     {{- if .Params.tools -}}
       {{- range .Params.tools -}}
-        {{- $currentTool := . -}}
+        {{- $toolName := "" -}}
+        {{- if reflect.IsMap . -}}
+          {{- $toolName = .tool -}}
+        {{- else -}}
+          {{- $toolName = . -}}
+        {{- end -}}
         {{- range $.Site.Data.tools -}}
-          {{- if eq .name $currentTool -}}
+          {{- if eq .name $toolName -}}
             {{- $hasValidTools = true -}}
           {{- end -}}
         {{- end -}}
@@ -217,9 +242,14 @@
           <h3>Langages de programmation</h3>
         <div class="skills-grid">
           {{- range .Params.programming_languages -}}
-            {{- $currentLang := . -}}
+            {{- $langName := "" -}}
+            {{- if reflect.IsMap . -}}
+              {{- $langName = .language -}}
+            {{- else -}}
+              {{- $langName = . -}}
+            {{- end -}}
             {{- range $.Site.Data.programming_languages -}}
-              {{- if eq .name $currentLang -}}
+              {{- if eq .name $langName -}}
                 {{- $experienceText := partial "helpers/format-experience.html" .experience -}}
                 <div class="skill-block clickable" 
                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
@@ -249,9 +279,14 @@
         <h3>Frameworks & Moteurs</h3>
         <div class="skills-grid">
           {{- range .Params.frameworks_engines -}}
-            {{- $currentFramework := . -}}
+            {{- $frameworkName := "" -}}
+            {{- if reflect.IsMap . -}}
+              {{- $frameworkName = .framework -}}
+            {{- else -}}
+              {{- $frameworkName = . -}}
+            {{- end -}}
             {{- range $.Site.Data.frameworks_engines -}}
-              {{- if eq .name $currentFramework -}}
+              {{- if eq .name $frameworkName -}}
                 {{- $experienceText := partial "helpers/format-experience.html" .experience -}}
                 <div class="skill-block clickable" 
                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
@@ -281,9 +316,14 @@
         <h3>Spécialités</h3>
         <div class="skills-grid">
           {{- range .Params.specialties -}}
-            {{- $currentSpecialty := . -}}
+            {{- $specialtyName := "" -}}
+            {{- if reflect.IsMap . -}}
+              {{- $specialtyName = .specialty -}}
+            {{- else -}}
+              {{- $specialtyName = . -}}
+            {{- end -}}
             {{- range $.Site.Data.specialties -}}
-              {{- if eq .name $currentSpecialty -}}
+              {{- if eq .name $specialtyName -}}
                 <div class="skill-block clickable" 
                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
                      data-skill-name="{{ .name }}"
@@ -312,9 +352,14 @@
         <h3>Compétences transversales</h3>
         <div class="skills-grid">
           {{- range .Params.soft_skills -}}
-            {{- $currentSoftSkill := . -}}
+            {{- $softSkillName := "" -}}
+            {{- if reflect.IsMap . -}}
+              {{- $softSkillName = .skill -}}
+            {{- else -}}
+              {{- $softSkillName = . -}}
+            {{- end -}}
             {{- range $.Site.Data.soft_skills -}}
-              {{- if eq .name $currentSoftSkill -}}
+              {{- if eq .name $softSkillName -}}
                 <div class="skill-block clickable" 
                      onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
                      data-skill-name="{{ .name }}"
