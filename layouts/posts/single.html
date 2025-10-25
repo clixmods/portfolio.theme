@@ -44,16 +44,16 @@
         </div>
 
         <!-- Tags (if applicable) -->
-        {{ if .Params.tags }}
-        <div class="blog-article-technologies">
+        {{/* if .Params.tags */}}
+        {{/* <div class="blog-article-technologies">
             <h3>{{ i18n "tags" | default "Tags" }}</h3>
             <div class="blog-technologies">
                 {{ range .Params.tags }}
                 <span class="tech-chip">{{ . }}</span>
                 {{ end }}
             </div>
-        </div>
-        {{ end }}
+        </div> */}}
+        {{/* end */}}
 
         <!-- External Links -->
         {{ if or .Params.demo_link .Params.github_link .Params.external_link }}
