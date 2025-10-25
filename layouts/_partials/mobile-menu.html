@@ -39,15 +39,20 @@
             <span class="mobile-menu-label">{{ i18n "download_resume" | default "Télécharger le CV" }}</span>
           </a>
           
-          <button class="mobile-menu-item"
-                  onclick="event.preventDefault(); document.getElementById('mobile-menu-toggle').click(); UnifiedModal.create({ type: 'contact', title: 'Contactez-moi', icon: '📬', content: { contacts: [
-                    { icon: '📧', title: 'Email', value: '{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}', link: 'mailto:{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}' },
-                    { icon: '/images/social/linkedin.svg', title: 'LinkedIn', value: '{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', link: 'https://{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', external: true },
-                    { icon: '📍', title: 'Localisation', value: '{{ with $.Site.Data.profile.contact.location }}{{ . }}{{ else }}Montpellier{{ end }}' }
-                  ] } });">
+          <a href="mailto:{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}"
+             class="mobile-menu-item" 
+             title="Email">
             {{- partial "icon.html" (dict "iconId" "email" "size" "24" "class" "mobile-menu-icon") -}}
-            <span class="mobile-menu-label">{{ i18n "contact_me" | default "Contactez-moi" }}</span>
-          </button>
+            <span class="mobile-menu-label">Email</span>
+          </a>
+          
+          <a href="#"
+             class="mobile-menu-item"
+             title="Téléphone"
+             onclick="event.preventDefault(); document.getElementById('mobile-menu-toggle').click(); UnifiedModal.create({ type: 'phone', title: 'Mon Téléphone', icon: '📱', content: { phoneNumber: '{{ with $.Site.Data.profile.contact.phone }}{{ . }}{{ else }}07 67 83 46 09{{ end }}' } });">
+            {{- partial "icon.html" (dict "iconId" "phone" "size" "24" "class" "mobile-menu-icon") -}}
+            <span class="mobile-menu-label">Téléphone</span>
+          </a>
         </div>
       </div>
       
@@ -56,10 +61,11 @@
       <div class="mobile-menu-section">
         <div class="mobile-menu-actions">
           {{ range .Site.Data.config.social }}
+          {{ if and (ne .title "Email") (ne .title "Phone") }}
           <a href="{{ .url }}" 
              {{ if .external }}target="_blank" rel="noopener noreferrer"{{ end }} 
              class="mobile-menu-item" 
-             title="{{ if eq .title "LinkedIn" }}LinkedIn{{ else if eq .title "GitHub" }}GitHub{{ else if eq .title "Email" }}Email{{ else if eq .title "Discord" }}Discord{{ else }}{{ .title }}{{ end }}"
+             title="{{ if eq .title "LinkedIn" }}LinkedIn{{ else if eq .title "GitHub" }}GitHub{{ else if eq .title "Discord" }}Discord{{ else if eq .title "ArtStation" }}ArtStation{{ else }}{{ .title }}{{ end }}"
              {{ if eq .title "Discord" }}
                onclick="event.preventDefault(); document.getElementById('mobile-menu-toggle').click(); UnifiedModal.create({ type: 'discord', title: 'Mon Discord', icon: '/images/social/discord.svg', content: { discordId: '{{ with $.Site.Data.profile.contact.discord }}{{ . }}{{ else }}clixmods{{ end }}' } });"
              {{ end }}>
@@ -67,15 +73,16 @@
             {{- partial "icon.html" (dict "iconId" "linkedin" "class" "mobile-menu-icon") -}}
             {{ else if eq .title "GitHub" }}
             {{- partial "icon.html" (dict "iconId" "github" "class" "mobile-menu-icon") -}}
-            {{ else if eq .title "Email" }}
-            {{- partial "icon.html" (dict "iconId" "email-outline" "class" "mobile-menu-icon") -}}
             {{ else if eq .title "Discord" }}
             {{- partial "icon.html" (dict "iconId" "discord" "class" "mobile-menu-icon") -}}
+            {{ else if eq .title "ArtStation" }}
+            {{- partial "icon.html" (dict "iconId" "artstation" "size" "24" "class" "mobile-menu-icon") -}}
             {{ else }}
             <span class="mobile-menu-emoji">{{ .icon }}</span>
             {{ end }}
-            <span class="mobile-menu-label">{{ if eq .title "LinkedIn" }}LinkedIn{{ else if eq .title "GitHub" }}GitHub{{ else if eq .title "Email" }}Email{{ else if eq .title "Discord" }}Discord{{ else }}{{ .title }}{{ end }}</span>
+            <span class="mobile-menu-label">{{ if eq .title "LinkedIn" }}LinkedIn{{ else if eq .title "GitHub" }}GitHub{{ else if eq .title "Discord" }}Discord{{ else if eq .title "ArtStation" }}ArtStation{{ else }}{{ .title }}{{ end }}</span>
           </a>
+          {{ end }}
           {{ end }}
         </div>
       </div>
