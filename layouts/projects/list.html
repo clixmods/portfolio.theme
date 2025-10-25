@@ -60,61 +60,83 @@
                         <span class="tab-label">{{ i18n "all" | default "Tous" }}</span>
                         <span class="count">{{ $allCount }}</span>
                     </button>
+                    {{ if gt $gamesCount 0 }}
                     <button class="tab-btn" data-category="games" role="tab" aria-selected="false">
                         <span class="tab-icon">🎮</span>
                         <span class="tab-label">{{ i18n "games" | default "Jeux" }}</span>
                         <span class="count">{{ $gamesCount }}</span>
                     </button>
+                    {{ end }}
+                    {{ if gt $appsWebCount 0 }}
                     <button class="tab-btn" data-category="appsweb" role="tab" aria-selected="false">
                         <span class="tab-icon">💻</span>
                         <span class="tab-label">{{ i18n "apps_web" | default "Apps/Web" }}</span>
                         <span class="count">{{ $appsWebCount }}</span>
                     </button>
+                    {{ end }}
+                    {{ if gt $modsCount 0 }}
                     <button class="tab-btn" data-category="mods" role="tab" aria-selected="false">
                         <span class="tab-icon">🧩</span>
                         <span class="tab-label">{{ i18n "mods" | default "Mods" }}</span>
                         <span class="count">{{ $modsCount }}</span>
                     </button>
+                    {{ end }}
+                    {{ if gt $toolsCount 0 }}
                     <button class="tab-btn" data-category="tools" role="tab" aria-selected="false">
                         <span class="tab-icon">🛠️</span>
                         <span class="tab-label">{{ i18n "tools" | default "Tools" }}</span>
                         <span class="count">{{ $toolsCount }}</span>
                     </button>
+                    {{ end }}
                 </div>
                 
                 <!-- Sub-filters for Games -->
+                {{ if gt $gamesCount 0 }}
                 <div class="sub-tabs" id="games-subtabs">
                     <button class="sub-tab-btn active" data-subcategory="games-all">
                         <span class="subtab-icon">📦</span>{{ i18n "all" | default "Tous" }}
                     </button>
+                    {{ if gt $gamesProfCount 0 }}
                     <button class="sub-tab-btn" data-subcategory="games-professionnel">
                         <span class="subtab-icon">💼</span>{{ i18n "professional" | default "Professionnel" }}
                         <span class="count">{{ $gamesProfCount }}</span>
                     </button>
+                    {{ end }}
+                    {{ if gt $gamesPersoCount 0 }}
                     <button class="sub-tab-btn" data-subcategory="games-personnel">
                         <span class="subtab-icon">🎯</span>{{ i18n "personal" | default "Personnel" }}
                         <span class="count">{{ $gamesPersoCount }}</span>
                     </button>
+                    {{ end }}
+                    {{ if gt $gamesJamsCount 0 }}
                     <button class="sub-tab-btn" data-subcategory="games-gamejams">
                         <span class="subtab-icon">⚡</span>{{ i18n "game_jams" | default "Game Jams" }}
                         <span class="count">{{ $gamesJamsCount }}</span>
                     </button>
+                    {{ end }}
                 </div>
+                {{ end }}
                 
                 <!-- Sub-filters for Apps & Web -->
+                {{ if gt $appsWebCount 0 }}
                 <div class="sub-tabs" id="appsweb-subtabs">
                     <button class="sub-tab-btn active" data-subcategory="appsweb-all">
                         <span class="subtab-icon">📦</span>{{ i18n "all" | default "Tous" }}
                     </button>
+                    {{ if gt $appsWebProfCount 0 }}
                     <button class="sub-tab-btn" data-subcategory="appsweb-professionnel">
                         <span class="subtab-icon">🏢</span>{{ i18n "professional" | default "Professionnel" }}
                         <span class="count">{{ $appsWebProfCount }}</span>
                     </button>
+                    {{ end }}
+                    {{ if gt $appsWebEtudeCount 0 }}
                     <button class="sub-tab-btn" data-subcategory="appsweb-etude">
                         <span class="subtab-icon">🎓</span>{{ i18n "study" | default "Étude" }}
                         <span class="count">{{ $appsWebEtudeCount }}</span>
                     </button>
+                    {{ end }}
                 </div>
+                {{ end }}
             </div>
 
             <!-- Description Text -->
