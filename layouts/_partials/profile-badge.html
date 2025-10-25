@@ -25,6 +25,21 @@
         {{- partial "icon.html" (dict "iconId" "document-download" "size" "24" "class" "dock-icon") -}}
       </a>
       
+      <a href="mailto:{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}"
+         class="dock-button primary-btn" 
+         title="Email"
+         aria-label="Email">
+        {{- partial "icon.html" (dict "iconId" "email" "size" "24" "class" "dock-icon") -}}
+      </a>
+      
+      <a href="#"
+         class="dock-button primary-btn"
+         title="Téléphone"
+         aria-label="Téléphone"
+         onclick="event.preventDefault(); UnifiedModal.create({ type: 'phone', title: 'Mon Téléphone', icon: '📱', content: { phoneNumber: '{{ with $.Site.Data.profile.contact.phone }}{{ . }}{{ else }}07 67 83 46 09{{ end }}' } });">
+        {{- partial "icon.html" (dict "iconId" "phone" "size" "24" "class" "dock-icon") -}}
+      </a>
+      
       <!-- Hidden contact modal button - kept for future use -->
       <button class="dock-button primary-btn contact-btn" style="display: none;"
               title="{{ i18n "contact_me" | default "Contactez-moi" }}"
@@ -43,10 +58,11 @@
     <!-- Social Networks Group -->
     <div class="profile-actions-group social-group">
       {{ range .Site.Data.config.social }}
+      {{ if and (ne .title "Email") (ne .title "Phone") }}
       <a href="{{ .url }}" 
          {{ if .external }}target="_blank" rel="noopener noreferrer"{{ end }} 
          class="dock-button social-btn" 
-         title="{{ if eq .title "LinkedIn" }}LinkedIn{{ else if eq .title "GitHub" }}GitHub{{ else if eq .title "Email" }}Email{{ else if eq .title "Discord" }}Discord{{ else }}{{ .title }}{{ end }}"
+         title="{{ if eq .title "LinkedIn" }}LinkedIn{{ else if eq .title "GitHub" }}GitHub{{ else if eq .title "Discord" }}Discord{{ else if eq .title "ArtStation" }}ArtStation{{ else }}{{ .title }}{{ end }}"
          data-social="{{ lower .title }}"
          {{ if eq .title "Discord" }}
            onclick="event.preventDefault(); UnifiedModal.create({ type: 'discord', title: 'Mon Discord', icon: '/images/social/discord.svg', content: { discordId: '{{ with $.Site.Data.profile.contact.discord }}{{ . }}{{ else }}clixmods{{ end }}' } });"
@@ -55,14 +71,15 @@
         {{- partial "icon.html" (dict "iconId" "linkedin" "class" "dock-icon") -}}
         {{ else if eq .title "GitHub" }}
         {{- partial "icon.html" (dict "iconId" "github" "class" "dock-icon") -}}
-        {{ else if eq .title "Email" }}
-        {{- partial "icon.html" (dict "iconId" "email" "size" "24" "class" "dock-icon") -}}
         {{ else if eq .title "Discord" }}
         {{- partial "icon.html" (dict "iconId" "discord" "class" "dock-icon") -}}
+        {{ else if eq .title "ArtStation" }}
+        {{- partial "icon.html" (dict "iconId" "artstation" "size" "24" "class" "dock-icon") -}}
         {{ else }}
         <span class="dock-emoji">{{ .icon }}</span>
         {{ end }}
       </a>
+      {{ end }}
       {{ end }}
     </div>
   </div>

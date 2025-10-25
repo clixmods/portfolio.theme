@@ -75,6 +75,19 @@ const CONTENT_TEMPLATES = {
         </div>
     `,
     
+    phone: (config) => `
+        <div class="unified-modal-simple-content">
+            <p>Voici mon numéro de téléphone :</p>
+            <div class="discord-id-display">
+                <code class="discord-id">${config.content.phoneNumber}</code>
+                <button class="btn-action" onclick="UnifiedModal.copyToClipboard('${config.content.phoneNumber}', this)" aria-live="polite">
+                    ${UnifiedModal.getCopyIcon(18)} Copier
+                </button>
+            </div>
+            <p class="note">N'hésite pas à m'appeler ou m'envoyer un SMS !</p>
+        </div>
+    `,
+    
     actions: (config) => `
         <div class="unified-modal-simple-content">
             <div class="actions-list">
