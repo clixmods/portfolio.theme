@@ -174,10 +174,30 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Description texts for each category
+        const descriptions = {
+            all: "Découvrez mes projets organisés par secteur d'expertise : jeux vidéo, applications web et outils de développement.",
+            games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
+            appsweb: "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
+            mods: "Mods créatifs pour enrichir et étendre les jeux existants avec de nouvelles fonctionnalités.",
+            tools: "Outils de développement et utilitaires pour améliorer les workflows créatifs."
+        };
+        
+        // Update description text
+        function updateDescription(category) {
+            const descriptionElement = document.getElementById('section-description');
+            if (descriptionElement && descriptions[category]) {
+                descriptionElement.textContent = descriptions[category];
+            }
+        }
+        
         // Filter function
         function filterProjects(category, subcategory = null) {
             console.log('Filtering projects for category:', category, 'subcategory:', subcategory);
             let visibleCount = 0;
+            
+            // Update description text
+            updateDescription(category);
             
             projectCards.forEach(card => {
                 const sector = card.getAttribute('data-sector');
