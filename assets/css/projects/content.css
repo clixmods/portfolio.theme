@@ -122,6 +122,12 @@
     font-weight: 800;
 }
 
+/* Pour creator-praise, rendre toute la valeur bleue */
+.fact-card-hero:has(.fact-icon-hero.creator-praise) .fact-value-hero {
+    color: var(--primary-blue);
+    font-weight: 800;
+}
+
 .fact-label-hero {
     color: var(--text-muted);
     font-size: 0.75rem;
@@ -148,6 +154,14 @@
 }
 
 .fact-icon-hero.feature {
+    background: var(--gradient-blue);
+}
+
+.fact-icon-hero.ladder {
+    background: var(--gradient-blue);
+}
+
+.fact-icon-hero.creator-praise {
     background: var(--gradient-blue);
 }
 
@@ -247,6 +261,12 @@
     font-weight: 800;
 }
 
+/* Pour creator-praise, rendre toute la valeur bleue */
+.fact-card:has(.fact-icon.creator-praise) .fact-value {
+    color: var(--primary-blue);
+    font-weight: 800;
+}
+
 .fact-label {
     color: var(--text-muted);
     font-size: 0.9rem;
@@ -277,6 +297,16 @@
 
 .fact-icon.feature,
 .fact-icon-hero.feature {
+    background: var(--gradient-blue);
+}
+
+.fact-icon.ladder,
+.fact-icon-hero.ladder {
+    background: var(--gradient-blue);
+}
+
+.fact-icon.creator-praise,
+.fact-icon-hero.creator-praise {
     background: var(--gradient-blue);
 }
 
