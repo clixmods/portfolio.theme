@@ -114,8 +114,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update modal content
         document.getElementById('modalPersonName').textContent = person.name || 'Nom non spécifié';
-        document.getElementById('modalPersonPosition').textContent = person.position || 'Non spécifié';
-        document.getElementById('modalPersonCompany').textContent = person.company || '';
+        
+        // Update position chip - hide if empty or unspecified
+        const positionChip = document.getElementById('modalPersonPosition');
+        if (person.position && person.position.trim() !== '') {
+            positionChip.textContent = person.position;
+            positionChip.style.display = '';
+        } else {
+            positionChip.style.display = 'none';
+        }
+        
+        // Update company chip - hide if empty or unspecified
+        const companyChip = document.getElementById('modalPersonCompany');
+        if (person.company && person.company.trim() !== '') {
+            companyChip.textContent = person.company;
+            companyChip.style.display = '';
+        } else {
+            companyChip.style.display = 'none';
+        }
         
         const avatarImg = document.getElementById('modalPersonAvatar');
         const avatarContainer = document.getElementById('personAvatarLarge');
