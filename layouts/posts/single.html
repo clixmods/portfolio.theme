@@ -165,80 +165,9 @@
             {{ end }}
         </nav>
 
-        {{/*
-        <!-- Related Posts -->
-        {{ $related := where (.Site.RegularPages.Related .) "Draft" false }}
-        {{ with $related }}
-        <section class="blog-related-posts">
-            <h3>{{ i18n "related_posts" | default "Articles similaires" }}</h3>
-            <div class="blog-related-grid">
-                {{ range first 3 . }}
-                <article class="blog-card {{ if not .Params.image }}blog-card--no-image{{ end }}" 
-                         data-category="{{ .Params.category | default "tech" | lower }}"
-                         data-tags="{{ if .Params.tags }}{{ delimit .Params.tags "," }}{{ end }}"
-                         data-date="{{ .Date.Format "2006-01-02" }}"
-                         data-title="{{ .Title | lower }}">
-                    
-                    <!-- Blog Category (top left) -->
-                    {{ if .Params.category }}
-                    <span class="post-category">{{ .Params.category | title }}</span>
-                    {{ end }}
-                    
-                    <!-- Reading Time (top right) -->
-                    {{ if .ReadingTime }}
-                    <div class="blog-reading-time">{{ .ReadingTime }} {{ i18n "reading_minutes" | default "min de lecture" }}</div>
-                    {{ end }}
-
-                    {{ if .Params.image }}
-                    <!-- Blog Image -->
-                    <div class="blog-image">
-                        <img src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy">
-                    </div>
-                    {{ end }}
-
-                    <!-- Blog Content -->
-                    <div class="blog-content">
-                        <!-- Blog Title -->
-                        <h2 class="blog-title">
-                            <a href="{{ .Permalink }}" class="blog-title-link">{{ .Title }}</a>
-                        </h2>
-
-                        <!-- Blog Description -->
-                        <p class="blog-description">
-                            {{ if .Params.description }}
-                                {{ .Params.description | truncate 150 "..." }}
-                            {{ else }}
-                                {{ .Summary | truncate 150 "..." }}
-                            {{ end }}
-                        </p>
-                    </div>
-
-                    <!-- Blog Footer -->
-                    <div class="blog-card-footer">
-                        <!-- Date (bottom left) -->
-                        <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                            {{ if eq .Site.Language.Lang "fr" }}
-                                {{ .Date.Day }} {{ index (slice "janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre") (sub .Date.Month 1) }} {{ .Date.Year }}
-                            {{ else }}
-                                {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "Jan 02, 2006") }}
-                            {{ end }}
-                        </time>
-                        
-                        <!-- Read Article Button (bottom right) -->
-                        <a href="{{ .Permalink }}" class="read-more-btn">
-                            {{ i18n "read_article" | default "Lire l'article" }}
-                        </a>
-                    </div>
-                </article>
-                {{ end }}
-            </div>
-        </section>
-        {{ end }}
-        */}}
-
         <!-- Back to Blog -->
         <div class="blog-back-to-list">
-            <a href="{{ "/posts" | relLangURL }}" class="btn-action primary">
+            <a href="{{ "/posts" | relLangURL }}" class="btn-action">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
