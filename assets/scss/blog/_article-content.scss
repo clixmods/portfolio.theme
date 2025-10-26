@@ -184,6 +184,7 @@
       border-radius: 8px;
       overflow: hidden;
       backdrop-filter: blur(10px);
+      display: table;
     }
 
     th, td {
@@ -207,6 +208,10 @@
       overflow-x: auto;
       margin: 1.5rem 0;
       -webkit-overflow-scrolling: touch;
+
+      table {
+        margin: 0;
+      }
     }
   }
 
@@ -289,28 +294,36 @@
         width: 100%;
         margin: 1rem 0;
         -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
+
+        table {
+          margin: 0;
+          width: auto;
+          min-width: 100%;
+        }
       }
 
       table {
         font-size: 0.75rem;
-        margin: 0;
-        width: auto;
-        min-width: 100%;
-        border-collapse: collapse;
-        display: table;
-      }
-
-      thead, tbody {
-        display: table-header-group;
+        display: block;
+        overflow-x: auto;
         width: 100%;
-      }
+        max-width: 100%;
+        border-collapse: collapse;
+        -webkit-overflow-scrolling: touch;
 
-      tbody {
-        display: table-row-group;
-      }
+        thead, tbody {
+          display: table;
+          width: 100%;
+        }
 
-      tr {
-        display: table-row;
+        tr {
+          display: table-row;
+        }
+
+        th, td {
+          display: table-cell;
+        }
       }
 
       th, td {
