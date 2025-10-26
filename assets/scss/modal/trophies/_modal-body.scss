@@ -4,8 +4,8 @@
 
 .trophies-modal-body {
   flex: 1;
-  padding: 40px;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 215, 0, 0.3) transparent;
 }
@@ -33,4 +33,6 @@
   gap: 24px;
   max-width: 1400px;
   margin: 0 auto;
+  padding: 48px 40px;
+  width: 100%;
 }
