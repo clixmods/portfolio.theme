@@ -8,15 +8,13 @@
     </div>
     <div class="profile-info">
       <span class="profile-name">{{ with .Site.Data.profile }}{{ .personal.firstName }}{{ end }}</span>
-      <span class="profile-role">{{ with .Site.Data.profile }}{{ .personal.title }}{{ end }}</span>
     </div>
   </div>
 
-  <!-- Expandable Actions Content (revealed on hover) -->
-  <div class="profile-badge-actions">
+  <!-- Primary Actions (always visible) -->
+  <div class="profile-badge-primary-actions">
     <div class="profile-actions-separator"></div>
     
-    <!-- Main Actions Group -->
     <div class="profile-actions-group">
       <a href="/cv/" 
          class="dock-button primary-btn download-btn" 
@@ -39,20 +37,11 @@
          onclick="event.preventDefault(); UnifiedModal.create({ type: 'phone', title: 'Mon Téléphone', icon: '📱', content: { phoneNumber: '{{ with $.Site.Data.profile.contact.phone }}{{ . }}{{ else }}07 67 83 46 09{{ end }}' } });">
         {{- partial "icon.html" (dict "iconId" "phone" "size" "24" "class" "dock-icon") -}}
       </a>
-      
-      <!-- Hidden contact modal button - kept for future use -->
-      <button class="dock-button primary-btn contact-btn" style="display: none;"
-              title="{{ i18n "contact_me" | default "Contactez-moi" }}"
-              aria-label="{{ i18n "contact_me" | default "Contactez-moi" }}"
-              onclick="event.preventDefault(); UnifiedModal.create({ type: 'contact', title: 'Contactez-moi', icon: '📬', content: { contacts: [
-                { icon: '📧', title: 'Email', value: '{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}', link: 'mailto:{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}' },
-                { icon: '/images/social/linkedin.svg', title: 'LinkedIn', value: '{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', link: 'https://{{ with $.Site.Data.profile.contact.linkedin }}{{ . }}{{ else }}linkedin.com/in/clixmods{{ end }}', external: true },
-                { icon: '📍', title: 'Localisation', value: '{{ with $.Site.Data.profile.contact.location }}{{ . }}{{ else }}Montpellier{{ end }}' }
-              ] } });">
-        {{- partial "icon.html" (dict "iconId" "email" "size" "24" "class" "dock-icon") -}}
-      </button>
     </div>
-    
+  </div>
+
+  <!-- Expandable Social Actions (revealed on hover) -->
+  <div class="profile-badge-social-actions">
     <div class="profile-actions-separator"></div>
     
     <!-- Social Networks Group -->

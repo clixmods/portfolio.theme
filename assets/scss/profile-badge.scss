@@ -42,8 +42,8 @@
   /* Layout - Horizontal container */
   display: flex;
   align-items: center;
-  gap: 0;
-  padding: 12px 16px;
+  gap: 12px;
+  padding: 10px 14px;
   overflow: hidden;
   
   /* Width transition for expansion */
@@ -52,57 +52,42 @@
   /* Transitions */
   transition: 
     transform var(--profile-badge-transition),
-    box-shadow var(--profile-badge-transition),
-    padding var(--profile-badge-transition);
+    box-shadow var(--profile-badge-transition);
   
-  /* Hover effects - hide header, show actions */
+  /* Hover effects - expand to show social actions */
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 32px var(--profile-badge-shadow);
-    padding: 12px;
     
-    .profile-badge-header {
-      max-width: 0;
-      opacity: 0;
-      margin-right: 0;
-      overflow: hidden;
-    }
-    
-    .profile-badge-actions {
-      max-width: 800px; /* Increased to accommodate all buttons */
+    .profile-badge-social-actions {
+      max-width: 300px;
       opacity: 1;
-    }
-    
-    .profile-actions-separator {
-      opacity: 1;
+      
+      .profile-actions-separator {
+        opacity: 1;
+      }
     }
   }
 }
 
-/* Header section (visible by default, hidden on hover) */
+/* Header section (visible by default with name only) */
 .profile-badge-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
-  max-width: 250px;
-  opacity: 1;
-  margin-right: 0;
-  transition: 
-    max-width var(--profile-badge-transition),
-    opacity var(--profile-badge-transition),
-    margin-right var(--profile-badge-transition);
 }
 
 /* Avatar du profil */
 .profile-avatar {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid var(--profile-badge-border);
   flex-shrink: 0;
   position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .profile-avatar .avatar-image {
@@ -113,7 +98,7 @@
 }
 
 #profile-badge:hover .profile-avatar .avatar-image {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 /* Informations du profil */
@@ -125,14 +110,12 @@
 }
 
 .profile-name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--profile-badge-text);
   line-height: 1.2;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 160px;
+  letter-spacing: -0.01em;
 }
 
 .profile-role {
@@ -147,34 +130,79 @@
   max-width: 160px;
 }
 
-/* Actions expandables (cachées par défaut, révélées au hover) */
-.profile-badge-actions {
+/* Primary Actions (always visible) */
+.profile-badge-primary-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  flex-shrink: 0;
+  
+  .profile-actions-separator {
+    opacity: 1;
+  }
+  
+  .profile-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+/* Social Actions (expandable on hover) */
+.profile-badge-social-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   max-width: 0;
   opacity: 0;
   white-space: nowrap;
+  overflow: hidden;
   transition: 
     max-width var(--profile-badge-transition),
     opacity var(--profile-badge-transition);
   
-  /* Allow tooltips to overflow when visible */
-  overflow: visible;
-  
-  /* But clip content when collapsed */
-  #profile-badge:not(:hover) & {
-    overflow: hidden;
+  .profile-actions-separator {
+    opacity: 0;
+    transition: opacity var(--profile-badge-transition);
   }
   
-  /* Override tooltip position for buttons in profile badge */
-  /* Display tooltips below instead of above (since badge is at top of page) */
+  .profile-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+/* Groupes d'actions */
+.profile-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+  &.social-group {
+    gap: 6px;
+  }
+}
+
+/* Séparateurs spécifiques au profile badge */
+.profile-actions-separator {
+  width: 1px;
+  height: 28px;
+  background: var(--profile-badge-border);
+  flex-shrink: 0;
+  transition: opacity var(--profile-badge-transition);
+  opacity: 0.6;
+}
+
+/* Styles des boutons dans le profile badge */
+#profile-badge {
   .dock-button {
     /* Override stroke width for thinner icons in profile badge */
     .dock-icon {
       stroke-width: 0;
     }
     
+    /* Tooltip customization for profile badge */
     &::after {
       content: attr(title);
       position: absolute;
@@ -182,22 +210,22 @@
       bottom: auto;
       left: 50%;
       transform: translateX(-50%) scale(0.9);
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.9);
       color: white;
-      padding: 6px 10px;
+      padding: 6px 12px;
       border-radius: 8px;
-      font-size: 0.875rem;
+      font-size: 0.813rem;
       font-weight: 500;
       white-space: nowrap;
       opacity: 0;
       visibility: hidden;
       transition: 
-        opacity 150ms ease-out,
-        visibility 150ms ease-out,
-        transform 150ms ease-out;
+        opacity 200ms cubic-bezier(0.23, 1, 0.32, 1),
+        visibility 200ms cubic-bezier(0.23, 1, 0.32, 1),
+        transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
       pointer-events: none;
       z-index: 10;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
     
     /* Tooltip arrow pointing up */
@@ -211,12 +239,12 @@
       height: 0;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-bottom: 5px solid rgba(0, 0, 0, 0.85);
+      border-bottom: 5px solid rgba(0, 0, 0, 0.9);
       opacity: 0;
       visibility: hidden;
       transition: 
-        opacity 150ms ease-out,
-        visibility 150ms ease-out;
+        opacity 200ms cubic-bezier(0.23, 1, 0.32, 1),
+        visibility 200ms cubic-bezier(0.23, 1, 0.32, 1);
       pointer-events: none;
       z-index: 11;
     }
@@ -234,30 +262,6 @@
       transform: translateX(-50%) scale(1);
     }
   }
-}
-
-/* Groupes d'actions */
-.profile-actions-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  
-  &.social-group {
-    gap: 6px;
-  }
-  
-  /* Les boutons utilisent les classes .dock-button du dock principal */
-  /* Pas besoin de redéfinir les styles ici */
-}
-
-/* Séparateurs spécifiques au profile badge */
-.profile-actions-separator {
-  width: 1px;
-  height: 32px;
-  background: var(--profile-badge-border);
-  flex-shrink: 0;
-  opacity: 0;
-  transition: opacity var(--profile-badge-transition);
 }
 
 /* Responsive */
