@@ -19,70 +19,56 @@
   const PROJECT_NOTIFICATIONS = {
     'stone-keepers': {
       title: 'Message de Clément',
-      message: 'Stone Keeper est un projet qui me tient énormément à cœur ! C\'est mon premier grand jeu que j\'ai imaginé et dirigé de A à Z. Développé en 2 mois avec une équipe passionnée, il représente pour moi bien plus qu\'un simple projet étudiant.',
+      message: 'Stone Keeper est un projet qui me tient particulièrement à cœur. C\'est le premier jeu que j\'ai imaginé puis mené à terme. Développé en deux mois avec une équipe passionnée, il représente bien plus qu\'un simple projet étudiant.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
     },
     'stone-keeper-2': {
       title: 'Message de Clément',
-      message: 'Stone Keeper 2 a été un vrai challenge ! Réalisé en distanciel pendant mon alternance et mes études à l\'IUT, j\'ai pu pousser encore plus loin les systèmes du premier jeu avec de nouveaux outils et mécaniques.',
+      message: 'Stone Keeper 2 a été un vrai challenge ! Réalisé à distance pendant mon alternance et mes cours à l\'IUT, il m\'a permis d\'aller plus loin dans les systèmes du premier jeu, d\'expérimenter de nouveaux outils et de peaufiner des mécaniques plus avancées, le tout dans des conditions beaucoup plus exigeantes.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
     },
     'terra-memoria': {
       title: 'Message de Clément',
-      message: 'Terra Memoria est mon projet professionnel chez Studio La Moutarde ! Nominé aux Pégases du Jeu Vidéo 2025, c\'est une belle aventure qui m\'a permis de travailler sur un RPG complet avec une équipe incroyable.',
+      message: 'Terra Memoria est mon premier projet professionnel chez La Moutarde, sur lequel j\'ai travaillé en alternance. Je suis arrivé en fin de production, ce qui m\'a demandé beaucoup d\'adaptabilité. J\'ai pu contribuer efficacement à la stabilisation du jeu, corriger des bugs critiques et améliorer l\'expérience utilisateur. Une aventure extrêmement riche aux côtés d\'une équipe talentueuse.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
     },
     'stholen': {
       title: 'Message de Clément',
-      message: 'Stholen est un projet d\'équipe où j\'ai pu me concentrer sur le level design et la programmation gameplay. Une belle expérience de collaboration et de création d\'univers immersif !',
+      message: 'Stholen est un projet un peu spécial. À l\'origine, nous étions partis sur un jeu VR basé sur la destruction d\'objets, mais la complexité technique nous a poussés à réorienter le concept. Stholen est devenu notre plan B… et pourtant, il a été très bien reçu. Je suis fier d\'avoir su rebondir et tirer le meilleur de ce changement de cap !',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
     },
     'nuketown-zombies': {
       title: 'Message de Clément',
-      message: 'Nuketown Zombies est une recréation fidèle de la map emblématique de Call of Duty. Un projet passionnant qui m\'a permis de perfectionner mes compétences en level design et optimisation 3D !',
+      message: 'Nuketown Zombies est le projet qui m\'a vraiment initié intensivement à la programmation. C\'est l\'un de mes travaux les plus aboutis dans le modding, autant sur le plan technique que sur la direction artistique. Une superbe expérience qui m\'a donné envie d\'aller toujours plus loin.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
     },
     'zombies-experience': {
       title: 'Message de Clément',
-      message: 'Zombies Experience est le framework custom que j\'ai développé pour Black Ops 3. C\'est une base technique qui a permis de créer plusieurs maps zombies avec des systèmes complexes !',
+      message: 'Zombies Experience est l\'un de mes plus gros mods sur Black Ops 3. J\'y ai repoussé les limites du moteur : jusqu\'à 8 joueurs sur toutes les cartes du jeu (officielles et communautaires), de nouvelles fonctionnalités complexes et une optimisation poussée. Certaines mécaniques ont même été reprises dans d\'autres mods, ce qui en a fait une petite référence dans la communauté. J\'en suis très fier.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
     },
     'mori-rebirth': {
       title: 'Message de Clément',
-      message: 'Mori Rebirth est l\'une de mes premières maps zombies complètes. Un projet qui m\'a appris énormément sur le level design et la création d\'ambiance immersive !',
-      avatar: '/images/people/clement-garcia.jpg',
-      delay: 2000,
-      duration: 10000
-    },
-    'event-platform': {
-      title: 'Message de Clément',
-      message: 'Ma première grande plateforme fullstack ! Vue.js + ASP.NET Core pour gérer des événements. Un projet qui m\'a fait progresser énormément en architecture logicielle.',
-      avatar: '/images/people/clement-garcia.jpg',
-      delay: 2000,
-      duration: 10000
-    },
-    'portfolio-website': {
-      title: 'Message de Clément',
-      message: 'Mon portfolio actuel ! Conçu avec Hugo et inspiré de macOS, c\'est un projet qui évolue constamment et qui me permet d\'expérimenter avec des designs modernes.',
+      message: 'Mori Rebirth est un projet collaboratif avec Emox, où je me suis concentré sur l\'aide au design, à la programmation et à l\'intégration de ressources. Une expérience très enrichissante autour du partage de compétences, notamment lors de son apprentissage de la programmation.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
     },
     'farm-remastered': {
       title: 'Message de Clément',
-      message: 'FARM Remastered est l\'un de mes premiers gros projets de modding ! Une refonte complète de la map classique avec de nouvelles mécaniques et visuels améliorés.',
+      message: 'FARM Remastered est l\'une de mes premières maps complètes. Je voulais apprendre à bien faire les choses, alors j\'ai choisi une référence solide à remanier. À l\'époque, je ne programmais pas encore : je me suis concentré sur la modélisation 3D, l\'éclairage et l\'ambiance. C\'est ce projet qui m\'a donné envie de pousser plus loin.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
@@ -93,28 +79,14 @@
   const EDUCATION_NOTIFICATIONS = {
     'bachelor-game-developer': {
       title: 'Message de Clément',
-      message: 'Mon Bachelor à e-artsup a été une période incroyable ! 2 ans intensifs avec 13 projets de jeux vidéo réalisés en équipe. C\'est là que j\'ai développé mes bases solides en Unity et C#.',
+      message: 'Mon Bachelor à e-artsup a été une période intense : 13 projets de jeux vidéo réalisés en équipe. Même si tout n\'a pas été simple, c\'est là que j\'ai posé des bases solides en Unity et C#, et que j\'ai confirmé ma passion pour le développement de gameplay.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
     },
     'but-integration-applications-management-si': {
       title: 'Message de Clément',
-      message: 'Le BUT IAMSI à l\'IUT de Montpellier m\'a permis de compléter mes compétences techniques avec une vision plus large du développement d\'applications et du management des SI. Formation que je suis actuellement en alternance !',
-      avatar: '/images/people/clement-garcia.jpg',
-      delay: 2000,
-      duration: 10000
-    },
-    'licence-etude-cinema': {
-      title: 'Message de Clément',
-      message: 'Ma licence en études cinématographiques m\'a apporté une sensibilité artistique et narrative précieuse pour la conception de jeux vidéo. La narration visuelle est essentielle dans le game design !',
-      avatar: '/images/people/clement-garcia.jpg',
-      delay: 2000,
-      duration: 10000
-    },
-    'licence-management-technologies-sciences': {
-      title: 'Message de Clément',
-      message: 'Cette licence m\'a donné une vision plus managériale et organisationnelle du développement, compétences essentielles pour coordonner des projets d\'équipe.',
+      message: 'Le BUT IAMSI à l\'IUT de Montpellier a été la formation qui m\'a réellement ouvert des portes. C\'est grâce à elle que j\'ai pu rejoindre La Moutarde en alternance, élargir mes compétences techniques et gagner en maturité professionnelle.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
@@ -125,7 +97,7 @@
   const EXPERIENCE_NOTIFICATIONS = {
     'studio-la-moutarde': {
       title: 'Message de Clément',
-      message: 'Mon alternance chez Studio La Moutarde est une expérience professionnelle enrichissante ! J\'ai travaillé sur Terra Memoria (nominé aux Pégases 2025) et développé des outils internes. Une équipe passionnée et des projets ambitieux !',
+      message: 'Mon alternance chez La Moutarde est ma première expérience professionnelle ! J\'ai travaillé sur Terra Memoria lors de sa fin de production, j\'ai pu rencontrer une équipe passionnée et apprendre énormément sur le développement de jeux vidéo en studio.',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 2000,
       duration: 10000
@@ -136,35 +108,7 @@
   const PEOPLE_NOTIFICATIONS = {
     'theo-carouge': {
       title: 'Message de Clément',
-      message: 'Théo est un excellent développeur et level designer avec qui j\'ai travaillé sur Stone Keeper. Sa créativité et son sérieux ont été essentiels à la réussite du projet !',
-      avatar: '/images/people/clement-garcia.jpg',
-      delay: 1500,
-      duration: 8000
-    },
-    'jeremy-ferreira': {
-      title: 'Message de Clément',
-      message: 'Jeremy est un développeur talentueux avec qui j\'ai collaboré sur plusieurs projets Unity. Son expertise technique et sa passion pour le développement sont impressionnantes !',
-      avatar: '/images/people/clement-garcia.jpg',
-      delay: 1500,
-      duration: 8000
-    },
-    'lea-hoaraux': {
-      title: 'Message de Clément',
-      message: 'Léa est une artiste 3D incroyablement talentueuse ! Son travail sur Stone Keeper a donné vie à l\'univers du jeu. Une collaboratrice créative et professionnelle !',
-      avatar: '/images/people/clement-garcia.jpg',
-      delay: 1500,
-      duration: 8000
-    },
-    'alix-granlin': {
-      title: 'Message de Clément',
-      message: 'Alix a créé des environnements magnifiques pour Stone Keeper. Son sens artistique et son attention aux détails ont vraiment fait la différence !',
-      avatar: '/images/people/clement-garcia.jpg',
-      delay: 1500,
-      duration: 8000
-    },
-    'xavier-gappe': {
-      title: 'Message de Clément',
-      message: 'Xavier est un artiste 3D et level designer très polyvalent. Sa contribution aux projets a toujours été de grande qualité !',
+      message: 'Théo est un excellent développeur avec qui j\'ai travaillé sur Stone Keeper. Son investissement et son sérieux ont été essentiels à la réussite du projet !',
       avatar: '/images/people/clement-garcia.jpg',
       delay: 1500,
       duration: 8000
