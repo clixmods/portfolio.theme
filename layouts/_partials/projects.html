@@ -5,10 +5,19 @@
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="tabs">
-        <button class="tab-btn active" data-category="games">🎮 {{ i18n "games" | default "Jeux" }}</button>
-        <button class="tab-btn" data-category="apps-web">💻 {{ i18n "apps_web" | default "Apps/Web" }}</button>
-        <button class="tab-btn" data-category="mods-tools">🛠️ {{ i18n "mods_tools" | default "Mods & Tools" }}</button>
+    <div class="tabs" data-can-collapse="true" data-collapse-id="projects">
+        <button class="tab-btn active" data-category="games" data-tab="games">
+            <span class="icon">🎮</span>
+            <span class="tab-label">{{ i18n "games" | default "Jeux" }}</span>
+        </button>
+        <button class="tab-btn" data-category="apps-web" data-tab="apps-web">
+            <span class="icon">💻</span>
+            <span class="tab-label">{{ i18n "apps_web" | default "Apps/Web" }}</span>
+        </button>
+        <button class="tab-btn" data-category="mods-tools" data-tab="mods-tools">
+            <span class="icon">🛠️</span>
+            <span class="tab-label">{{ i18n "mods_tools" | default "Mods & Tools" }}</span>
+        </button>
     </div>
 
     <!-- Description Text -->

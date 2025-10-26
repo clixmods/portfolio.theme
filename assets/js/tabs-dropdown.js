@@ -38,8 +38,15 @@
                 // Insert after the modal header to get full modal width
                 modalHeader.parentNode.insertBefore(mobileContainer, modalHeader.nextSibling);
             } else {
-                // Otherwise insert after tabs container
-                tabsContainer.parentNode.insertBefore(mobileContainer, tabsContainer.nextSibling);
+                // Check if tabs are inside a filters bar (projects list page)
+                const filtersBar = tabsContainer.closest('.projects-filters-bar');
+                if (filtersBar) {
+                    // Insert after the filters bar, not inside it
+                    filtersBar.parentNode.insertBefore(mobileContainer, filtersBar.nextSibling);
+                } else {
+                    // Otherwise insert after tabs container
+                    tabsContainer.parentNode.insertBefore(mobileContainer, tabsContainer.nextSibling);
+                }
             }
         }
         
@@ -309,11 +316,12 @@
         button.setAttribute('aria-expanded', 'true');
         menu.hidden = false;
         
-        // Position dropdown menu using fixed positioning
-        const btnRect = button.getBoundingClientRect();
-        menu.style.top = `${btnRect.bottom + 4}px`;
-        menu.style.left = `${btnRect.left}px`;
-        menu.style.width = `${btnRect.width}px`;
+        // Use simple relative positioning - menu is already positioned relative to button
+        // No need for complex calculations, CSS handles it
+        menu.style.position = '';
+        menu.style.top = '';
+        menu.style.left = '';
+        menu.style.width = '';
     }
     
     /**

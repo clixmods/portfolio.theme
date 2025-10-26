@@ -9,9 +9,10 @@
     </header>
 
     <!-- Blog Navigation Tabs -->
-    <div class="tabs">
-        <button class="tab-btn active" data-category="all">
-            <span>📚</span><span>{{ i18n "all" | default "Tous" }}</span>
+    <div class="tabs" data-can-collapse="true" data-collapse-id="posts">
+        <button class="tab-btn active" data-category="all" data-tab="all">
+            <span class="icon">📚</span>
+            <span class="tab-label">{{ i18n "all" | default "Tous" }}</span>
         </button>
         {{/* Générer les tabs dynamiquement basé sur les catégories des posts publiés */}}
         {{ $publishedPages := where .Pages "Draft" false }}
@@ -37,13 +38,15 @@
         {{ range $uniqueCategories }}
             {{ $config := index $categoryConfig . }}
             {{ if $config }}
-            <button class="tab-btn" data-category="{{ . }}">
-                <span>{{ $config.icon }}</span><span>{{ $config.label }}</span>
+            <button class="tab-btn" data-category="{{ . }}" data-tab="{{ . }}">
+                <span class="icon">{{ $config.icon }}</span>
+                <span class="tab-label">{{ $config.label }}</span>
             </button>
             {{ else }}
             {{/* Fallback pour les catégories non définies */}}
-            <button class="tab-btn" data-category="{{ . }}">
-                <span>📄</span><span>{{ . | title }}</span>
+            <button class="tab-btn" data-category="{{ . }}" data-tab="{{ . }}">
+                <span class="icon">📄</span>
+                <span class="tab-label">{{ . | title }}</span>
             </button>
             {{ end }}
         {{ end }}

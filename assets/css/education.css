@@ -475,24 +475,24 @@
     /* Reposition marker inside the card at top right */
     .timeline-marker {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 0.75rem;
+        right: 0.75rem;
         left: auto;
         transform: none;
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         margin: 0;
         z-index: 10;
     }
     
     .timeline-icon {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
     
     .timeline-school-logo {
-        width: 32px;
-        height: 32px;
-        padding: 3px;
+        width: 24px;
+        height: 24px;
+        padding: 2px;
     }
     
     /* Content takes full width */
@@ -510,8 +510,16 @@
     
     /* Card styling adjustments for mobile */
     .timeline-card {
-        padding: 1.5rem;
-        padding-right: 5rem; /* Space for the icon on the right */
+        padding: 1.25rem;
+        padding-right: 3.5rem; /* Reduced space for smaller icon */
+    }
+    
+    /* Disable hover effects on mobile */
+    .timeline-card:hover,
+    .timeline-item:hover .timeline-card {
+        transform: none;
+        box-shadow: var(--edu-card-shadow, 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1));
+        border-color: var(--edu-card-border, rgba(79,209,199,0.3));
     }
     
     .timeline-header {
@@ -542,9 +550,20 @@
         padding: 0.4rem 0.6rem;
     }
     
+    /* Disable hover effect on badges on mobile */
+    .result-badge:hover {
+        transform: none;
+    }
+    
     /* Adjust skill tags for mobile */
     .skills-tags {
         gap: 0.4rem;
+    }
+    
+    /* Disable hover effect on skill tags on mobile */
+    .skill-tag.clickable:hover {
+        transform: none;
+        box-shadow: 0 2px 8px rgba(79,209,199,0.2);
     }
     
     .skill-tag.clickable {

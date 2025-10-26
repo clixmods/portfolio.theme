@@ -6,10 +6,16 @@
 
     <!-- Navigation Tabs -->
     {{ $hasCertifications := gt (len .Site.Data.certifications) 0 }}
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="education">🎓 {{ i18n "education" | default "Formation" }}</button>
+    <div class="tabs" data-can-collapse="true" data-collapse-id="education">
+        <button class="tab-btn active" data-tab="education">
+            <span class="icon">🎓</span>
+            <span class="tab-label">{{ i18n "education" | default "Formation" }}</span>
+        </button>
         {{ if $hasCertifications }}
-        <button class="tab-btn" data-tab="certifications">📜 {{ i18n "certifications" | default "Certifications" }}</button>
+        <button class="tab-btn" data-tab="certifications">
+            <span class="icon">📜</span>
+            <span class="tab-label">{{ i18n "certifications" | default "Certifications" }}</span>
+        </button>
         {{ end }}
     </div>
 

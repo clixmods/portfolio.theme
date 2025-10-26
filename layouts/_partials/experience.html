@@ -5,9 +5,15 @@
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="experiences">💼 {{ i18n "experiences" | default "Expériences" }}</button>
-        <button class="tab-btn" data-tab="internships">🏢 {{ i18n "internships" | default "Stages & Recherche" }}</button>
+    <div class="tabs" data-can-collapse="true" data-collapse-id="experience">
+        <button class="tab-btn active" data-tab="experiences">
+            <span class="icon">💼</span>
+            <span class="tab-label">{{ i18n "experiences" | default "Expériences" }}</span>
+        </button>
+        <button class="tab-btn" data-tab="internships">
+            <span class="icon">🏢</span>
+            <span class="tab-label">{{ i18n "internships" | default "Stages & Recherche" }}</span>
+        </button>
     </div>
 
     <!-- Experiences Timeline -->

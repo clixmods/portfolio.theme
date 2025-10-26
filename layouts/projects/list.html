@@ -54,36 +54,36 @@
             <!-- Sticky filters bar (main tabs + sub-tabs) -->
             <div class="projects-filters-bar" role="toolbar" aria-label="Project filters">
                 <!-- Main Navigation Tabs -->
-                <div class="tabs projects-tabs" role="tablist" aria-label="Types de projets">
-                    <button class="tab-btn active" data-category="all" role="tab" aria-selected="true">
-                        <span class="tab-icon">📦</span>
+                <div class="tabs projects-tabs" role="tablist" aria-label="Types de projets" data-can-collapse="true" data-collapse-id="projectsList">
+                    <button class="tab-btn active" data-category="all" data-tab="all" role="tab" aria-selected="true">
+                        <span class="tab-icon icon">📦</span>
                         <span class="tab-label">{{ i18n "all" | default "Tous" }}</span>
                         <span class="count">{{ $allCount }}</span>
                     </button>
                     {{ if gt $gamesCount 0 }}
-                    <button class="tab-btn" data-category="games" role="tab" aria-selected="false">
-                        <span class="tab-icon">🎮</span>
+                    <button class="tab-btn" data-category="games" data-tab="games" role="tab" aria-selected="false">
+                        <span class="tab-icon icon">🎮</span>
                         <span class="tab-label">{{ i18n "games" | default "Jeux" }}</span>
                         <span class="count">{{ $gamesCount }}</span>
                     </button>
                     {{ end }}
                     {{ if gt $appsWebCount 0 }}
-                    <button class="tab-btn" data-category="appsweb" role="tab" aria-selected="false">
-                        <span class="tab-icon">💻</span>
+                    <button class="tab-btn" data-category="appsweb" data-tab="appsweb" role="tab" aria-selected="false">
+                        <span class="tab-icon icon">💻</span>
                         <span class="tab-label">{{ i18n "apps_web" | default "Apps/Web" }}</span>
                         <span class="count">{{ $appsWebCount }}</span>
                     </button>
                     {{ end }}
                     {{ if gt $modsCount 0 }}
-                    <button class="tab-btn" data-category="mods" role="tab" aria-selected="false">
-                        <span class="tab-icon">🧩</span>
+                    <button class="tab-btn" data-category="mods" data-tab="mods" role="tab" aria-selected="false">
+                        <span class="tab-icon icon">🧩</span>
                         <span class="tab-label">{{ i18n "mods" | default "Mods" }}</span>
                         <span class="count">{{ $modsCount }}</span>
                     </button>
                     {{ end }}
                     {{ if gt $toolsCount 0 }}
-                    <button class="tab-btn" data-category="tools" role="tab" aria-selected="false">
-                        <span class="tab-icon">🛠️</span>
+                    <button class="tab-btn" data-category="tools" data-tab="tools" role="tab" aria-selected="false">
+                        <span class="tab-icon icon">🛠️</span>
                         <span class="tab-label">{{ i18n "tools" | default "Tools" }}</span>
                         <span class="count">{{ $toolsCount }}</span>
                     </button>

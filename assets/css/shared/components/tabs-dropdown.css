@@ -30,13 +30,13 @@
     gap: 8px;
     padding: 12px 16px;
     
-    /* Tab-like appearance */
-    background: linear-gradient(135deg, rgba(79, 209, 199, 0.15), rgba(79, 209, 199, 0.1));
-    border: 1px solid rgba(79, 209, 199, 0.3);
+    /* Tab-like appearance - more opaque */
+    background: linear-gradient(135deg, rgba(79, 209, 199, 0.3), rgba(79, 209, 199, 0.25));
+    border: 1px solid rgba(79, 209, 199, 0.5);
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(79, 209, 199, 0.2);
+    box-shadow: 0 2px 10px rgba(79, 209, 199, 0.3);
     
-    color: rgba(255, 255, 255, 0.95);
+    color: rgba(255, 255, 255, 1);
     font-size: 14px;
     font-weight: 600;
     font-family: inherit;
@@ -45,9 +45,9 @@
 }
 
 .tabs-dropdown-btn:hover {
-    background: linear-gradient(135deg, rgba(79, 209, 199, 0.2), rgba(79, 209, 199, 0.15));
-    border-color: rgba(79, 209, 199, 0.4);
-    box-shadow: 0 4px 15px rgba(79, 209, 199, 0.3);
+    background: linear-gradient(135deg, rgba(79, 209, 199, 0.4), rgba(79, 209, 199, 0.35));
+    border-color: rgba(79, 209, 199, 0.6);
+    box-shadow: 0 4px 15px rgba(79, 209, 199, 0.4);
     transform: translateY(-1px);
 }
 
@@ -89,10 +89,10 @@
 
 /* Dropdown menu */
 .tabs-dropdown-menu {
-    position: fixed;
-    top: auto;
-    left: auto;
-    right: auto;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
     z-index: 10020;
     
     background: rgba(30, 30, 30, 0.98);

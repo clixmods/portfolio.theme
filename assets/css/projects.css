@@ -59,6 +59,28 @@
  * Migration effectuée vers .unified-tabs dans layouts/_partials/projects.html
  */
 
+/* Tabs container wrapper for consistent spacing */
+.projects-section .tabs-container {
+    margin-bottom: 1rem;
+}
+
+/* Ensure mobile dropdown has proper spacing in projects section */
+@media (max-width: 480px) {
+    .projects-section .tabs-mobile[data-collapse-active="true"] {
+        display: block !important;
+        padding: 8px !important;
+        margin-bottom: 1rem !important;
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 12px;
+        box-sizing: border-box;
+    }
+    
+    .projects-section .tabs-dropdown-btn {
+        padding: 12px 16px !important;
+        min-height: 48px !important;
+    }
+}
+
 /* ========================================
    TECHNOLOGY FILTER BADGES
    ======================================== */
