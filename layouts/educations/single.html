@@ -380,6 +380,43 @@
           </div>
         </div>
         {{- end -}}
+
+        {{- if $hasValidTools -}}
+        <div class="skills-category" data-category="tools">
+        <h3>Outils</h3>
+        <div class="skills-grid">
+          {{- range .Params.tools -}}
+            {{- $toolName := "" -}}
+            {{- if reflect.IsMap . -}}
+              {{- $toolName = .tool -}}
+            {{- else -}}
+              {{- $toolName = . -}}
+            {{- end -}}
+            {{- range $.Site.Data.tools -}}
+              {{- if eq .name $toolName -}}
+                {{- $experienceText := partial "helpers/format-experience.html" .experience -}}
+                <div class="skill-block clickable" 
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     data-skill-name="{{ .name }}"
+                     data-skill-type="tool">
+                  <span class="skill-icon">
+                    {{- if .iconPath -}}
+                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                    {{- else if .icon -}}
+                      <span class="tech-icon-emoji">{{ .icon }}</span>
+                    {{- end -}}
+                  </span>
+                  <span class="skill-name">{{ .name }}</span>
+                  {{- if $experienceText -}}
+                    <span class="skill-level">{{ $experienceText }}</span>
+                  {{- end -}}
+                </div>
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+          </div>
+        </div>
+        {{- end -}}
       </div>
     </div>
     {{- end -}}

@@ -19,6 +19,11 @@
         {{ $allTech = $allTech | append . }}
     {{ end }}
 
+    {{/* Add soft skills */}}
+    {{ with .Params.soft_skills }}
+        {{ $allTech = $allTech | append . }}
+    {{ end }}
+
     {{/* Add development tools */}}
     {{ with .Params.tools }}
         {{ $allTech = $allTech | append . }}
@@ -39,6 +44,10 @@
     {{ end }}
 
     {{ with .specialties }}
+        {{ $allTech = $allTech | append . }}
+    {{ end }}
+
+    {{ with .soft_skills }}
         {{ $allTech = $allTech | append . }}
     {{ end }}
 

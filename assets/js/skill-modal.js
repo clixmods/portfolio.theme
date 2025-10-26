@@ -402,6 +402,7 @@ function displayEducations(educations, skillName, educationsList) {
     const relatedEducations = educations.filter(education => {
    
         let technologies = education.technologies;
+        let tools = education.tools;
         
         // Si c'est une string, essayer de la parser en JSON
         if (typeof technologies === 'string') {
@@ -410,27 +411,55 @@ function displayEducations(educations, skillName, educationsList) {
         
             } catch (e) {
                 console.log(`❌ Erreur de parsing JSON pour "${education.title}":`, e.message);
-                return false;
+                technologies = [];
             }
         }
         
-        if (!technologies || !Array.isArray(technologies)) {
-            console.log(`❌ Formation "${education.title}" rejetée: technologies invalides ou manquantes`);
-            return false;
+        // Parser les outils si c'est une string
+        if (typeof tools === 'string') {
+            try {
+                tools = JSON.parse(tools);
+            } catch (e) {
+                console.log(`❌ Erreur de parsing JSON des outils pour "${education.title}":`, e.message);
+                tools = [];
+            }
         }
         
-        // Recherche exacte et aussi recherche insensible à la casse
-        const hasSkill = technologies.some(tech => {
+        // Assurer que technologies et tools sont des tableaux
+        if (!technologies || !Array.isArray(technologies)) {
+            technologies = [];
+        }
+        
+        if (!tools || !Array.isArray(tools)) {
+            tools = [];
+        }
+        
+        // Recherche dans les technologies
+        const hasSkillInTechnologies = technologies.some(tech => {
             const exactMatch = tech === skillName;
             const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
-            console.log(`  Comparaison: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
+            console.log(`  Comparaison technologies: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
             return exactMatch || caseInsensitiveMatch;
         });
         
-        if (hasSkill) {
+        // Recherche dans les outils (tools)
+        const hasSkillInTools = tools.some(toolItem => {
+            // Les outils peuvent être des objets {tool: "nom", ...} ou des strings
+            const toolName = typeof toolItem === 'object' && toolItem !== null ? toolItem.tool : toolItem;
+            if (!toolName) return false;
+            
+            const exactMatch = toolName === skillName;
+            const caseInsensitiveMatch = toolName.toLowerCase() === skillName.toLowerCase();
+            console.log(`  Comparaison outils: "${toolName}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
+            return exactMatch || caseInsensitiveMatch;
+        });
         
+        const hasSkill = hasSkillInTechnologies || hasSkillInTools;
+        
+        if (hasSkill) {
+            console.log(`✅ Formation "${education.title}" trouvée avec ${hasSkillInTechnologies ? 'technologies' : 'outils'}`);
         } else {
-            console.log(`❌ Formation "${education.title}" rejetée: aucune technologie correspondante`);
+            console.log(`❌ Formation "${education.title}" rejetée: aucune technologie/outil correspondant`);
         }
         return hasSkill;
     });
