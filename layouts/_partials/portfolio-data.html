@@ -183,7 +183,7 @@ window.portfolioEducations = [
             grade: {{ .Params.grade | jsonify }},
             description: {{ .Params.description | jsonify }},
             url: {{ .RelPermalink | jsonify }},
-            logo: {{ .Params.logo | jsonify }},
+            logo: {{ (.Params.logo | default .Params.school_logo) | jsonify }},
             icon: {{ .Params.icon | jsonify }},
             color: {{ .Params.color | jsonify }},
             technologies: {{ $allTechnologies | jsonify }},
