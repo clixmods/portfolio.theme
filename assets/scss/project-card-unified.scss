@@ -266,6 +266,11 @@
     .project-card-unified-title {
         font-size: 1.1rem;
     }
+    
+    /* Hide technology tags on mobile */
+    .project-card-unified-technologies {
+        display: none !important;
+    }
 }
 
 @media (max-width: 480px) {

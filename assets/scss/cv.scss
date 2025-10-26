@@ -853,6 +853,12 @@
     text-align: left;
     align-self: flex-start;
   }
+  
+  /* Hide technology tags on mobile */
+  .cv-project-techs,
+  .cv-project-tags {
+    display: none !important;
+  }
 }
 
 /* ================================

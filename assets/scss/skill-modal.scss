@@ -889,6 +889,12 @@
         font-size: 14px;
     }
     
+    /* Hide technology tags on mobile */
+    .skill-modal-experience-technologies,
+    .skill-modal-education-technologies {
+        display: none !important;
+    }
+    
     /* Empty state messages in responsive */
     .skill-modal-no-projects, .skill-modal-no-experiences, .skill-modal-no-educations {
         padding: 32px 20px;
