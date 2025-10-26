@@ -1160,13 +1160,38 @@
  * ================================ */
 
 @media print {
+  /* A4 Page Configuration - Standard European/International format */
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
   /* Force color printing - preserve ALL colors and backgrounds exactly as on screen */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  /* Hide ONLY navigation elements and site chrome - keep CV exactly as is */
+  /* Preserve two-column layout for print */
+  .cv-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 2fr !important;
+    gap: 0 !important;
+  }
+
+  /* Optimize page layout */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .cv-page {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide navigation elements and site chrome */
   .cv-version-nav,
   .cv-external-controls,
   #dock, #top-dock, #left-dock, #right-dock, #hero-background, 
@@ -1179,7 +1204,7 @@
     display: none !important;
   }
 
-  /* Set page background to match CV header for seamless print appearance */
+  /* Set page background */
   body, main {
     background: var(--cv-primary-bg) !important;
   }
