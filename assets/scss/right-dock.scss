@@ -547,45 +547,6 @@
 }
 
 /* ================================================================
-   BATTERY INDICATOR (Mobile)
-   ================================================================ */
-
-.battery-indicator {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 12px;
-  display: none;
-  align-items: center;
-  gap: 4px;
-  z-index: 1004;
-}
-
-.battery-icon {
-  width: 14px;
-  height: 14px;
-}
-
-.battery-level {
-  font-weight: 600;
-}
-
-.battery-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background: linear-gradient(90deg, #4CAF50, #8BC34A);
-  border-radius: 8px;
-  transition: width 0.3s ease;
-  z-index: -1;
-}
-
-/* ================================================================
    NEW TROPHY NOTIFICATIONS
    Note: Styles are defined in modal/trophies/_notifications.scss
    Toast notifications are now in toasts.scss
