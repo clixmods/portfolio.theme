@@ -68,6 +68,11 @@
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
+  // Force 16:9 aspect ratio on mobile
+  @media (max-width: 768px) {
+    aspect-ratio: 16 / 9;
+  }
+  
   &:hover {
     transform: scale(1.05);
     z-index: 2; // Bring to front when hovering
