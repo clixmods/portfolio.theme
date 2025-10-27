@@ -325,3 +325,55 @@
   0%, 100% { background-position: -200% 0; }
   50% { background-position: 200% 0; }
 }
+
+// =============================================================================
+// MOBILE PERFORMANCE OPTIMIZATIONS
+// =============================================================================
+
+@media (max-width: 768px) {
+  // Disable backdrop-filter
+  .project-widget,
+  .project-widget-header,
+  .project-widget-content,
+  .project-widget-toggle,
+  .project-widget-icon {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  
+  // Remove box-shadows
+  .project-widget,
+  .project-widget-header,
+  .project-widget-icon,
+  .project-widget-toggle {
+    box-shadow: none;
+  }
+  
+  // Disable hover effects
+  .project-widget:hover,
+  .project-widget.expanded:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .project-widget-icon:hover,
+  .project-widget-toggle:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  // Simplify backgrounds
+  .project-widget {
+    background: rgb(20, 25, 35);
+  }
+  
+  .project-widget-toggle,
+  .project-widget-icon {
+    background: rgba(255,255,255,0.05);
+  }
+  
+  // Disable focus overlay
+  .project-widgets-focus-overlay {
+    display: none;
+  }
+}

@@ -268,3 +268,146 @@ $widget-transition-smooth: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     font-size: 0.75rem;
   }
 }
+
+// -----------------------------------------------------------------------------
+// MOBILE OPTIMIZATIONS
+// -----------------------------------------------------------------------------
+
+// Disable expensive visual effects on mobile for better performance
+@media (max-width: 768px) {
+  // Disable all backdrop-filter (blur effects)
+  .widget-card,
+  .widget-stats-bar,
+  .widget-note,
+  .widget-icon,
+  .widget-badge,
+  .project-widget,
+  .project-widget-header,
+  .project-widget-content {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  
+  // Remove all box-shadows
+  .widget-card,
+  .widget-stats-bar,
+  .widget-note,
+  .widget-icon,
+  .widget-badge,
+  .project-widget,
+  .project-widget-header,
+  .project-widget-item,
+  .project-widget-gallery-item,
+  .project-widget-award-item,
+  .project-widget-client-item,
+  .project-widget-contributor-item {
+    box-shadow: none;
+  }
+  
+  // Disable hover effects (transforms, background changes, border changes)
+  .widget-card:hover,
+  .project-widget-gallery-item:hover,
+  .project-widget-award-item:hover,
+  .project-widget-client-item:hover,
+  .project-widget-contributor-item:hover,
+  .project-widget-time-stat:hover,
+  .project-widget-spec-item:hover,
+  .project-widget-phase-item:hover,
+  .tool-card:hover,
+  .specialty-card:hover,
+  .soft-skill-card:hover,
+  .award-card:hover,
+  .contrib-card:hover,
+  .client-card:hover,
+  .platform-card:hover,
+  .testimonial-item:hover,
+  .project-widget:hover,
+  .project-widget-header:hover {
+    transform: none;
+    box-shadow: none;
+    background: inherit;
+    border-color: inherit;
+    
+    &::before,
+    &::after {
+      opacity: 0;
+    }
+  }
+  
+  // Disable icon hover transforms
+  .project-widget-icon:hover,
+  .widget-icon:hover,
+  .project-widget-award-icon:hover,
+  .project-widget-contributor-avatar:hover,
+  .project-widget-gallery-zoom-icon:hover,
+  .project-widget-toggle:hover,
+  .project-widget-client-logo:hover,
+  .contrib-avatar:hover,
+  .client-logo:hover,
+  .platform-icon:hover,
+  .award-icon:hover {
+    transform: none;
+    box-shadow: none;
+    background: inherit;
+  }
+  
+  // Simplify backgrounds - remove gradients for solid colors
+  .widget-card,
+  .project-widget-award-item,
+  .project-widget-client-item,
+  .project-widget-contributor-item,
+  .project-widget-time-stat,
+  .project-widget-spec-item {
+    background: rgba(255,255,255,0.04);
+  }
+  
+  // Disable text-shadow effects
+  .project-widget-downloads-value,
+  .project-widget-grade-value,
+  .project-widget-ranking-position,
+  .project-widget-time-value,
+  .project-widget-contributor-name {
+    text-shadow: none;
+  }
+  
+  // Disable gallery overlay effects
+  .project-widget-gallery-item:hover {
+    .project-widget-gallery-overlay,
+    .gallery-item-overlay {
+      opacity: 0;
+    }
+    
+    .project-widget-gallery-zoom-icon {
+      display: none;
+    }
+    
+    img {
+      transform: none;
+      filter: none;
+    }
+  }
+  
+  // Disable caption animation
+  .project-widget-gallery-caption,
+  .gallery-item-caption {
+    transform: none;
+    position: static;
+  }
+  
+  // Remove cursor pointer (not relevant on touch devices)
+  .project-widget,
+  .widget-card,
+  .project-widget-gallery-item,
+  .project-widget-award-item,
+  .project-widget-client-item,
+  .project-widget-contributor-item,
+  .contrib-card,
+  .client-card,
+  .platform-card,
+  .award-card,
+  .specialty-card,
+  .soft-skill-card,
+  .tool-card {
+    cursor: default;
+  }
+}
