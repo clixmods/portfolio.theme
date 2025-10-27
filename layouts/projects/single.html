@@ -13,6 +13,10 @@
 {{ $sectorBadgeStyles := resources.Get "scss/sector-badge.scss" | css.Sass }}
 <link rel="stylesheet" href="{{ $sectorBadgeStyles.RelPermalink }}">
 
+<!-- Include Image Modal Styles -->
+{{ $imageModalStyles := resources.Get "scss/image-modal.scss" | css.Sass }}
+<link rel="stylesheet" href="{{ $imageModalStyles.RelPermalink }}">
+
 {{ if not .Params.image }}
 <script>
     // Ajouter la classe project-page au body pour gérer les z-index des canvas
@@ -272,6 +276,11 @@
 <div id="imageModal" class="image-modal" onclick="closeImageModal()" style="z-index: 999999 !important;">
     <div class="image-modal-content">
         <span class="image-modal-close" onclick="closeImageModal()" style="z-index: 1000000 !important;">&times;</span>
+        <button class="image-modal-download" onclick="event.stopPropagation(); downloadImage();" title="Télécharger l'image source">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+            </svg>
+        </button>
         <img id="modalImage" src="" alt="">
         <div id="modalCaption" class="image-modal-caption"></div>
     </div>
@@ -417,11 +426,34 @@ function openImageModal(imageUrl, caption) {
     modalCaption.textContent = caption || '';
     modal.style.display = 'flex';
     
+    // Store image URL for download
+    modal.dataset.currentImageUrl = imageUrl;
+    
     // Prevent body scroll
     document.body.style.overflow = 'hidden';
     
     // Add animation
     setTimeout(() => modal.classList.add('active'), 10);
+}
+
+function downloadImage() {
+    const modal = document.getElementById('imageModal');
+    const imageUrl = modal.dataset.currentImageUrl;
+    
+    if (!imageUrl) return;
+    
+    // Extract filename from URL or create a default one
+    const urlParts = imageUrl.split('/');
+    const filename = urlParts[urlParts.length - 1] || 'image.jpg';
+    
+    // Create a temporary link and trigger download
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = filename;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 function closeImageModal() {

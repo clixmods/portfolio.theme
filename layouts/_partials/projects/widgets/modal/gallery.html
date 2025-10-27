@@ -24,8 +24,8 @@
     
     <div class="gallery-modal-grid">
       {{- range $index, $image := $gallery -}}
-        {{- $optimizedImg := partial "get-optimized-image.html" (dict "imagePath" .url "width" 800 "quality" 85) -}}
-        {{- $fullResImg := partial "get-optimized-image.html" (dict "imagePath" .url "width" 2400 "quality" 100) -}}
+        {{- $optimizedImg := partial "get-optimized-image.html" (dict "imagePath" .url "width" 250 "quality" 85) -}}
+        {{- $fullResImg := partial "get-optimized-image.html" (dict "imagePath" .url "width" 1920 "quality" 90) -}}
         <div class="gallery-modal-item" 
              data-index="{{ $index }}"
              onclick="openImageModal('{{ $fullResImg.src }}', '{{ .caption }}')">

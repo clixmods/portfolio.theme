@@ -224,14 +224,14 @@
   {{ else if eq .type "gallery_multiple" }}
     {{/* Affichage galerie multiple individuelle */}}
     {{ if .data.images }}
-    {{- $firstGalleryImg := partial "get-optimized-image.html" (dict "imagePath" (index .data.images 0).url "width" 800 "quality" 85) -}}
+    {{- $firstGalleryImg := partial "get-optimized-image.html" (dict "imagePath" (index .data.images 0).url "width" 500 "quality" 85) -}}
     <div class="project-widget gallery-box multiple-gallery-{{ .index }} {{ .data.size | default "size-large" }}{{ if eq .data.gallery_aspect "16:9" }} gallery-16x9{{ end }}" onclick="toggleInfoBox(this)">
         <!-- Gallery Preview Background pour l'état fermé -->
         <div class="gallery-preview gallery-background"
              style="--count: {{ len .data.images }}; background-image: url('{{ $firstGalleryImg.src }}'); background-size: cover; background-position: center;">
             <div class="gallery-carousel">
                 {{ range $idx, $img := .data.images }}
-                {{- $optimizedGalleryImg := partial "get-optimized-image.html" (dict "imagePath" $img.url "width" 800 "quality" 95) -}}
+                {{- $optimizedGalleryImg := partial "get-optimized-image.html" (dict "imagePath" $img.url "width" 500 "quality" 85) -}}
                 <div class="gallery-mini-item" style="--i: {{$idx}};">
                     <img src="{{ $optimizedGalleryImg.src }}" width="{{ $optimizedGalleryImg.width }}" height="{{ $optimizedGalleryImg.height }}" alt="{{ $img.caption }}" loading="lazy">
                 </div>
