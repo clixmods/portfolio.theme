@@ -619,9 +619,9 @@
     .person-modal-content,
     #personModal .unified-modal-content {
         width: 100vw !important;
-        height: 100vh !important;
+        height: 100dvh !important;
         max-width: 100vw !important;
-        max-height: 100vh !important;
+        max-height: 100dvh !important;
         margin: 0 !important;
         border-radius: 0 !important;
     }
@@ -779,7 +779,7 @@
     #personModal .unified-modal-body,
     #personModal .person-modal-body {
         padding: 0;
-        max-height: calc(100vh - 200px) !important; /* Fullscreen adjusted for header */
+        max-height: calc(100dvh - 200px) !important; /* Fullscreen adjusted for header */
     }
     
     /* Remove padding from content panels on mobile */
