@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.openSkillModal = function(name, icon, level, experience, iconType) {
             originalOpen(name, icon, level, experience, iconType);
 
-            // Level chip: hide if "Non spécifié" or empty
+            // Level chip: hide if "Not specified" or empty
             try {
                 const lvlEl = document.getElementById('modalSkillLevel');
                 if (lvlEl) {
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (e) { /* no-op */ }
 
-            // Update experience chip: hide if "Non spécifié" or 0, else show "X an(s) d'expérience"
+            // Update experience chip: hide if "Not specified" or 0, else show "X year(s) of experience"
             try {
                 const expEl = document.getElementById('modalSkillExperience');
                 if (expEl) {

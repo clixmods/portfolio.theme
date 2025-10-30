@@ -1,10 +1,10 @@
 {{/*
   Partial: Specialties Modal Layout
-  Description: Structure HTML pour l'affichage des spécialités dans les modals de project widget
+  Description: HTML structure for displaying specialties in project widget modals
   Context: 
-    - .specialties (slice) - Liste des spécialités utilisées dans le projet
-    - .projectId (string) - ID du projet pour contextualiser les actions
-    - .profileData (dict) - Données du profil pour la section développeur
+    - .specialties (slice) - List of specialties used in the project
+    - .projectId (string) - Project ID for contextualizing actions
+    - .profileData (dict) - Profile data for the developer section
 */}}
 
 {{- $specialties := .specialties -}}
@@ -16,11 +16,11 @@
   {{- $totalExperience := 0 -}}
   {{- $categories := dict -}}
   
-  {{/* Calculer l'expérience totale et grouper par type/catégorie si nécessaire */}}
+  {{/* Calculate total experience and group by type/category if necessary */}}
   {{- range $specialties -}}
     {{- $experience := .experience | default 0 -}}
     {{- $totalExperience = add $totalExperience $experience -}}
-    {{/* Les spécialités n'ont pas de catégories, mais on pourrait les grouper par domaine d'expertise */}}
+    {{/* Specialties don't have categories, but we could group them by expertise domain */}}
   {{- end -}}
   
   {{- $avgExperience := 0 -}}
@@ -29,14 +29,14 @@
   {{- end -}}
 
   <div class="specialties-modal">
-    {{/* Barre de statistiques */}}
+    {{/* Statistics bar */}}
     <div class="specialties-stats-bar">
       <div class="widget-count">
         <strong>{{ $total }}</strong> spécialité{{ if gt $total 1 }}s{{ end }}
       </div>
     </div>
     
-    {{/* Note développeur */}}
+    {{/* Developer note */}}
     {{- if $profileData -}}
     <div class="developer-profile-note">
       <div class="profile-avatar">
@@ -49,7 +49,7 @@
     </div>
     {{- end -}}
     
-    {{/* Grille des spécialités */}}
+    {{/* Specialties grid */}}
     <div class="specialties-grid">
       {{- range $specialties -}}
         {{- $specialtyName := .name | default "Spécialité" -}}
@@ -65,7 +65,7 @@
              onclick="openSkillModal('{{ $specialtyName }}', '{{ $specialtyIcon }}', 'Spécialité', '{{ $specialtyExperience }} an{{ if gt $specialtyExperience 1 }}s{{ end }}', 'emoji')"
              style="cursor: pointer;">
           
-          {{/* En-tête de spécialité */}}
+          {{/* Specialty header */}}
           <div class="specialty-header">
             <div class="specialty-icon widget-icon widget-icon--lg" aria-hidden="true">{{ $specialtyIcon }}</div>
             <div class="specialty-info">
@@ -76,7 +76,7 @@
             </div>
           </div>
           
-          {{/* Badge simple avec années d'expérience */}}
+          {{/* Simple badge with years of experience */}}
           <div class="specialty-badge widget-badge">
             {{ $specialtyExperience }} an{{ if gt $specialtyExperience 1 }}s{{ end }}
           </div>
@@ -84,7 +84,7 @@
       {{- end -}}
     </div>
     
-    {{/* Note d'interaction */}}
+    {{/* Interaction note */}}
     <div class="specialties-interaction-note">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>

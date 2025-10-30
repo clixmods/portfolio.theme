@@ -1,9 +1,9 @@
 /**
- * Initialisation des widgets avec formatage des nombres et calculs automatiques
+ * Widget initialization with number formatting and automatic calculations
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // S'assurer que NumberFormatter est disponible
+    // Ensure NumberFormatter is available
     if (typeof window.NumberFormatter === 'undefined') {
         console.warn('NumberFormatter not available, skipping number formatting');
         return;
@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const formatter = window.NumberFormatter;
 
     /**
-     * Formate les éléments restants avec data-count (si nécessaire en fallback)
+     * Format remaining elements with data-count (if needed as fallback)
      */
     function formatNumbers() {
-        // Cette fonction est maintenant principalement un fallback
-        // Le formatage principal est fait côté serveur Hugo
+        // This function is now mainly a fallback
+        // Main formatting is done server-side Hugo
         const countElements = document.querySelectorAll('[data-count]:not([data-formatted="true"])');
         
         if (countElements.length === 0) return;
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const formattedNumber = formatter.format(count);
                 const currentText = element.textContent || element.innerText || '';
                 
-                // Remplacer seulement si le nombre brut est encore présent
+                // Replace only if the raw number is still present
                 if (currentText.includes(countString) && !currentText.includes(' ')) {
                     const updatedText = currentText.replace(countString, formattedNumber);
                     element.textContent = updatedText;
@@ -48,11 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /**
-     * Calcule et affiche les pourcentages automatiquement (fallback seulement)
+     * Calculate and display percentages automatically (fallback only)
      */
     function calculatePercentages() {
-        // Cette fonction est maintenant principalement un fallback
-        // Le calcul principal est fait côté serveur Hugo
+        // This function is now mainly a fallback
+        // Main calculation is done server-side Hugo
         const percentageElements = document.querySelectorAll('[data-part][data-total]:empty');
         
         if (percentageElements.length === 0) return;
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /**
-     * Ajoute des classes CSS selon la position dans le ranking
+     * Add CSS classes according to position in ranking
      */
     function enhanceRankingDisplay() {
         const positionElements = document.querySelectorAll('.position-number');
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (isNaN(position)) return;
 
-            // Ajouter des classes pour le styling spécial
+            // Add classes for special styling
             element.classList.remove('position-1', 'position-2', 'position-3', 'position-top10');
             
             if (position === 1) {
@@ -104,28 +104,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /**
-     * Initialise tous les widgets
+     * Initialize all widgets
      */
     function initializeWidgets() {
-        // Le formatage des nombres est maintenant fait côté serveur
-        // Ces fonctions ne servent que de fallback
+        // Number formatting is now done server-side
+        // These functions only serve as fallback
         formatNumbers();
         calculatePercentages();
         enhanceRankingDisplay();
     }
 
-    // Initialisation au chargement
+    // Initialization on load
     initializeWidgets();
 
-    // Réinitialiser quand les modals s'ouvrent (en cas de contenu dynamique)
+    // Reset when modals open (in case of dynamic content)
     document.addEventListener('click', function(e) {
         if (e.target.closest('.project-widget')) {
-            // Délai pour permettre à l'animation d'ouverture de se terminer
+            // Delay to allow opening animation to complete
             setTimeout(initializeWidgets, 100);
         }
     });
 
-    // Observer les changements DOM pour le contenu dynamique
+    // Observe DOM changes for dynamic content
     if (typeof MutationObserver !== 'undefined') {
         const observer = new MutationObserver(function(mutations) {
             let shouldUpdate = false;

@@ -11,14 +11,14 @@ class HeroBackgroundParticles {
     this.particles = [];
     this.animationId = null;
     
-    // Configuration selon les spécifications exactes
+    // Configuration according to exact specifications
     this.config = {
       count: this.getParticleCount(),
-      colors: ['#FFFFFF', '#B0D2FF', '#D8ECFF'], // Blanc à bleu clair
+      colors: ['#FFFFFF', '#B0D2FF', '#D8ECFF'], // White to light blue
       sizes: [1, 1.5, 2, 2.5, 3], // Rayon 1-3px
       opacities: [0.4, 0.5, 0.6, 0.7, 0.8], // 40-80%
-      bokehChance: 0.05, // < 5% des particules floutées
-      ribbonDistribution: 0.6, // 60% près du ruban
+      bokehChance: 0.05, // < 5% of particles blurred
+      ribbonDistribution: 0.6, // 60% near the ribbon
       driftSpeed: 0.2,
       pulseSpeed: 0.02
     };
@@ -28,14 +28,14 @@ class HeroBackgroundParticles {
   }
   
   getParticleCount() {
-    // Adaptation du nombre de particules selon la taille d'écran
+    // Adaptation of particle count according to screen size
     const baseCount = 300;
     const screenRatio = (window.innerWidth * window.innerHeight) / (1920 * 1080);
     return Math.floor(baseCount * Math.min(screenRatio, 1.2));
   }
   
   calculateRibbonPath() {
-    // Calcul du chemin Bézier du ruban selon les spécifications
+    // Calculation of the Bézier path of the ribbon according to specifications
     // P0: -10% / 55%, P1: 45% / 40%, P2: 110% / 30%
     return {
       p0: { x: -0.1, y: 0.55 },
@@ -83,7 +83,7 @@ class HeroBackgroundParticles {
   }
   
   getPointOnRibbon(t) {
-    // Calcul d'un point sur la courbe Bézier quadratique
+    // Calculation of a point on the quadratic Bézier curve
     const { p0, p1, p2 } = this.ribbonPath;
     const invT = 1 - t;
     
@@ -98,18 +98,18 @@ class HeroBackgroundParticles {
     let x, y;
     
     if (isNearRibbon) {
-      // Distribution concentrée autour du ruban avec amplitude d'ondulation ±25px
+      // Concentrated distribution around the ribbon with ±25px wave amplitude
       const t = Math.random();
       const ribbonPoint = this.getPointOnRibbon(t);
       
-      x = ribbonPoint.x + (Math.random() - 0.5) * 200; // Distribution élargie
-      y = ribbonPoint.y + (Math.random() - 0.5) * 150 + Math.sin(t * Math.PI * 4) * 25; // Ondulation
+      x = ribbonPoint.x + (Math.random() - 0.5) * 200; // Extended distribution
+      y = ribbonPoint.y + (Math.random() - 0.5) * 150 + Math.sin(t * Math.PI * 4) * 25; // Wave
     } else {
-      // Distribution dans le quadrant supérieur droit
+      // Distribution in the upper right quadrant
       x = Math.random() * this.canvas.width;
       y = Math.random() * (this.canvas.height * 0.6);
       
-      // Densité plus forte en haut à droite
+      // Higher density in the upper right
       if (Math.random() < 0.7) {
         x = this.canvas.width * 0.3 + Math.random() * this.canvas.width * 0.7;
         y = Math.random() * this.canvas.height * 0.4;
@@ -132,8 +132,8 @@ class HeroBackgroundParticles {
       },
       pulse: Math.random() * Math.PI * 2,
       age: 0,
-      maxAge: 1000 + Math.random() * 2000, // Durée de vie variable
-      shape: Math.random() < 0.3 ? 'hexagon' : 'circle' // 30% hexagonales
+      maxAge: 1000 + Math.random() * 2000, // Variable lifespan
+      shape: Math.random() < 0.3 ? 'hexagon' : 'circle' // 30% hexagonal
     };
   }
   
@@ -147,16 +147,16 @@ class HeroBackgroundParticles {
   updateParticle(particle) {
     particle.age++;
     
-    // Animation de dérive lente
+    // Slow drift animation
     particle.x += particle.drift.x;
     particle.y += particle.drift.y;
     
-    // Animation de pulsation
+    // Pulsation animation
     particle.pulse += this.config.pulseSpeed;
     const pulseOffset = Math.sin(particle.pulse) * 0.1;
     particle.opacity = Math.max(0.1, Math.min(1, particle.baseOpacity + pulseOffset));
     
-    // Effet de fade in/out selon l'âge
+    // Fade in/out effect according to age
     const ageRatio = particle.age / particle.maxAge;
     if (ageRatio < 0.1) {
       particle.opacity *= ageRatio / 0.1; // Fade in
@@ -164,7 +164,7 @@ class HeroBackgroundParticles {
       particle.opacity *= (1 - ageRatio) / 0.1; // Fade out
     }
     
-    // Recyclage des particules
+    // Particle recycling
     if (particle.age >= particle.maxAge || 
         particle.x < -50 || particle.x > this.canvas.width + 50 || 
         particle.y < -50 || particle.y > this.canvas.height + 50) {
@@ -177,7 +177,7 @@ class HeroBackgroundParticles {
     
     this.ctx.globalAlpha = particle.opacity;
     
-    // Effet bokeh (flou gaussien sigma=2px)
+    // Bokeh effect (Gaussian blur sigma=2px)
     if (particle.bokeh) {
       this.ctx.filter = 'blur(2px)';
     }
@@ -186,7 +186,7 @@ class HeroBackgroundParticles {
     this.ctx.beginPath();
     
     if (particle.shape === 'hexagon') {
-      // Forme hexagonale douce
+      // Soft hexagonal shape
       const sides = 6;
       const angle = Math.PI * 2 / sides;
       this.ctx.moveTo(
@@ -200,7 +200,7 @@ class HeroBackgroundParticles {
         );
       }
     } else {
-      // Forme circulaire
+      // Circular shape
       this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
     }
     
@@ -211,7 +211,7 @@ class HeroBackgroundParticles {
   animate() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Mise à jour et rendu des particules
+    // Update and render particles
     this.particles.forEach(particle => {
       this.updateParticle(particle);
       this.drawParticle(particle);
@@ -240,9 +240,9 @@ class HeroBackgroundParticles {
   }
 }
 
-// Initialisation automatique
+// Automatic initialization
 document.addEventListener('DOMContentLoaded', function() {
-  // Vérification si les animations sont autorisées
+  // Check if animations are allowed
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
   if (!prefersReducedMotion) {
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Export pour utilisation en module si nécessaire
+// Export for module usage if necessary
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = HeroBackgroundParticles;
 }

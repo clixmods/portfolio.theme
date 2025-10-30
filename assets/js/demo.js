@@ -1,15 +1,15 @@
 // ============================================================================
 // DEMO PAGE JAVASCRIPT
 // ============================================================================
-// Scripts spécifiques à la page demo.html pour les interactions et fonctionnalités
+// Scripts specific to demo.html page for interactions and functionalities
 
 /**
- * Initialisation de la page demo
+ * Demo page initialization
  */
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🎨 Demo Page - Initialisation des fonctionnalités...');
     
-    // Initialisation des différents systèmes
+    // Initialization of different systems
     initDemoTabs();
     initExperienceTabs();
     initEducationTabs();
@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================================================
-// SYSTÈME D'ONGLETS PRINCIPAL (PROJETS)
+// MAIN TABS SYSTEM (PROJECTS)
 // ============================================================================
 
 /**
- * Initialise le système d'onglets principal avec sous-onglets
+ * Initialize the main tabs system with subtabs
  */
 function initDemoTabs() {
     const demoTabs = document.querySelectorAll('.demo-tabs .tab-btn');
@@ -36,12 +36,12 @@ function initDemoTabs() {
     const demoSubtabBtns = document.querySelectorAll('.sub-tabs .sub-tab-btn');
     const projectsDemoText = document.getElementById('projects-demo-text');
     
-    // Gestionnaire des onglets principaux
+    // Main tabs handler
     demoTabs.forEach(tab => {
         tab.addEventListener('click', () => {
             const category = tab.dataset.demoCategory;
             
-            // Mise à jour des boutons
+            // Update buttons
             demoTabs.forEach(t => {
                 t.classList.remove('active');
                 t.setAttribute('aria-selected', 'false');
@@ -49,20 +49,20 @@ function initDemoTabs() {
             tab.classList.add('active');
             tab.setAttribute('aria-selected', 'true');
             
-            // Gestion des sous-onglets
+            // Subtabs management
             showDemoSubtabs(category);
             
-            // Mise à jour du texte de démonstration
+            // Update demonstration text
             updateDemoText(category);
         });
     });
     
-    // Gestionnaire des sous-onglets
+    // Subtabs handler
     demoSubtabBtns.forEach(subtab => {
         subtab.addEventListener('click', () => {
             const subcategory = subtab.dataset.demoSubcategory;
             
-            // Détermination de la catégorie parent
+            // Determine parent category
             let parentCategory = 'all';
             if (subcategory.startsWith('games-')) {
                 parentCategory = 'games';
@@ -70,39 +70,39 @@ function initDemoTabs() {
                 parentCategory = 'appsweb';
             }
             
-            // Mise à jour des sous-onglets de la même catégorie
+            // Update subtabs of the same category
             const parentContainer = subtab.closest('.sub-tabs');
             const siblings = parentContainer.querySelectorAll('.sub-tab-btn');
             siblings.forEach(s => s.classList.remove('active'));
             subtab.classList.add('active');
             
-            // Mise à jour du texte
+            // Update text
             updateDemoText(parentCategory, subcategory);
         });
     });
     
     /**
-     * Affiche les sous-onglets appropriés selon la catégorie
+     * Displays appropriate subtabs according to category
      */
     function showDemoSubtabs(category) {
         const demoTabsContainer = document.querySelector('.demo-tabs');
         
-        // Masquer tous les sous-onglets
+        // Hide all subtabs
         [demoGamesSubtabs, demoAppswebSubtabs].forEach(container => {
             if (container) container.style.display = 'none';
         });
         
-        // Supprimer la classe d'intégration
+        // Remove integration class
         if (demoTabsContainer) {
             demoTabsContainer.classList.remove('has-subtabs');
         }
         
-        // Afficher les sous-onglets appropriés
+        // Display appropriate subtabs
         if (category === 'games' && demoGamesSubtabs) {
             demoGamesSubtabs.style.display = 'flex';
             if (demoTabsContainer) demoTabsContainer.classList.add('has-subtabs');
             
-            // Réinitialiser à "Tous"
+            // Reset to "All"
             const allBtn = demoGamesSubtabs.querySelector('[data-demo-subcategory="games-all"]');
             demoGamesSubtabs.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
             if (allBtn) allBtn.classList.add('active');
@@ -111,7 +111,7 @@ function initDemoTabs() {
             demoAppswebSubtabs.style.display = 'flex';
             if (demoTabsContainer) demoTabsContainer.classList.add('has-subtabs');
             
-            // Réinitialiser à "Tous"
+            // Reset to "All"
             const allBtn = demoAppswebSubtabs.querySelector('[data-demo-subcategory="appsweb-all"]');
             demoAppswebSubtabs.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
             if (allBtn) allBtn.classList.add('active');
@@ -119,7 +119,7 @@ function initDemoTabs() {
     }
     
     /**
-     * Met à jour le texte de démonstration selon la sélection
+     * Updates the demo text according to the selection
      */
     function updateDemoText(category, subcategory = null) {
         const icons = {
@@ -151,16 +151,16 @@ function initDemoTabs() {
         if (projectsDemoText) projectsDemoText.textContent = text;
     }
 
-    // Initialisation
+    // Initialization
     updateDemoText('all');
 }
 
 // ============================================================================
-// ONGLETS D'EXPÉRIENCE
+// EXPERIENCE TABS
 // ============================================================================
 
 /**
- * Initialise les onglets de la section expérience
+ * Initialize experience section tabs
  */
 function initExperienceTabs() {
     const expTabs = document.querySelectorAll('.experience-tabs .tab-btn');
@@ -170,11 +170,11 @@ function initExperienceTabs() {
         tab.addEventListener('click', () => {
             const tabName = tab.dataset.tab;
             
-            // Mise à jour des boutons
+            // Update buttons
             expTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             
-            // Mise à jour des panneaux (seulement ceux dans la section expérience)
+            // Update panels (only those in the experience section)
             const expSection = tab.closest('.demo-section');
             const panels = expSection.querySelectorAll('.demo-tab-panel[data-tab]');
             panels.forEach(panel => {
@@ -185,11 +185,11 @@ function initExperienceTabs() {
 }
 
 // ============================================================================
-// ONGLETS D'ÉDUCATION
+// EDUCATION TABS
 // ============================================================================
 
 /**
- * Initialise les onglets de la section éducation
+ * Initialize education section tabs
  */
 function initEducationTabs() {
     const eduTabs = document.querySelectorAll('.education-tabs .tab-btn');
@@ -202,11 +202,11 @@ function initEducationTabs() {
 }
 
 // ============================================================================
-// ONGLETS DE BLOG
+// BLOG TABS
 // ============================================================================
 
 /**
- * Initialise les onglets de la section blog
+ * Initialize blog section tabs
  */
 function initBlogTabs() {
     const blogTabs = document.querySelectorAll('.blog-tabs .tab-btn');
@@ -219,11 +219,11 @@ function initBlogTabs() {
 }
 
 // ============================================================================
-// MODALS UNIFIÉS DEMO
+// UNIFIED DEMO MODALS
 // ============================================================================
 
 /**
- * Initialise les onglets des modals unifiés
+ * Initialize unified modal tabs
  */
 function initUnifiedModalTabs() {
     const unifiedModalContainers = document.querySelectorAll('.unified-modal-demo');
@@ -231,7 +231,7 @@ function initUnifiedModalTabs() {
     unifiedModalContainers.forEach(modalContainer => {
         const tabs = modalContainer.querySelectorAll('.unified-modal-tabs .tab-btn');
         
-        // Seulement si ce modal a des onglets
+        // Only if this modal has tabs
         if (tabs.length > 0) {
             tabs.forEach(tab => {
                 tab.addEventListener('click', function(e) {
@@ -239,22 +239,22 @@ function initUnifiedModalTabs() {
                     
                     const targetTab = this.dataset.tab;
                     
-                    // Désactiver tous les onglets de ce modal uniquement
+                    // Deactivate all tabs of this modal only
                     tabs.forEach(t => {
                         t.classList.remove('active');
                         t.setAttribute('aria-selected', 'false');
                     });
                     
-                    // Masquer tous les panneaux de ce modal
+                    // Hide all panels of this modal
                     modalContainer.querySelectorAll('.unified-modal-panel').forEach(p => {
                         p.classList.remove('active');
                     });
                     
-                    // Activer l'onglet cliqué
+                    // Activate the clicked tab
                     this.classList.add('active');
                     this.setAttribute('aria-selected', 'true');
                     
-                    // Afficher le panneau correspondant
+                    // Display the corresponding panel
                     const targetPanel = modalContainer.querySelector(`[data-panel="${targetTab}"]`);
                     if (targetPanel) {
                         targetPanel.classList.add('active');
@@ -266,11 +266,11 @@ function initUnifiedModalTabs() {
 }
 
 // ============================================================================
-// BOUTONS D'ACTION DEMO
+// DEMO ACTION BUTTONS
 // ============================================================================
 
 /**
- * Initialise les gestionnaires des boutons d'action (évite les vraies actions)
+ * Initialize action button handlers (prevents real actions)
  */
 function initDemoActionButtons() {
     const demoActionButtons = document.querySelectorAll('.unified-modal-demo .btn-action');
@@ -279,7 +279,7 @@ function initDemoActionButtons() {
             e.preventDefault();
             const action = this.textContent.trim();
             
-            // Animation de retour visuel
+            // Visual feedback animation
             this.style.transform = 'scale(0.95)';
             this.style.opacity = '0.7';
             setTimeout(() => {
@@ -287,21 +287,21 @@ function initDemoActionButtons() {
                 this.style.opacity = '';
             }, 150);
             
-            // Log pour montrer l'action
+            // Log to show the action
             console.log(`Démo - Action: ${action}`);
             
-            // Notification visuelle optionnelle
+            // Optional visual notification
             showDemoNotification(`Action simulée: ${action}`);
         });
     });
 }
 
 // ============================================================================
-// BOUTONS DE FERMETURE MODAL
+// MODAL CLOSE BUTTONS
 // ============================================================================
 
 /**
- * Initialise les gestionnaires des boutons de fermeture
+ * Initialize close button handlers
  */
 function initModalCloseButtons() {
     const closeButtons = document.querySelectorAll('.unified-modal-demo .unified-modal-close');
@@ -310,7 +310,7 @@ function initModalCloseButtons() {
             e.preventDefault();
             console.log('Démo - Modal fermé');
             
-            // Animation de retour visuel
+            // Visual feedback animation
             this.style.transform = 'scale(0.9)';
             setTimeout(() => {
                 this.style.transform = '';
@@ -322,11 +322,11 @@ function initModalCloseButtons() {
 }
 
 // ============================================================================
-// FONCTIONNALITÉ COPIE DISCORD
+// DISCORD COPY FUNCTIONALITY
 // ============================================================================
 
 /**
- * Initialise la fonctionnalité de copie de l'ID Discord
+ * Initialize Discord ID copy functionality
  */
 function initDiscordCopyFeature() {
     const copyDiscordBtn = document.querySelector('.unified-modal-demo .discord-id-display .btn-action');
@@ -335,7 +335,7 @@ function initDiscordCopyFeature() {
             e.preventDefault();
             const discordId = this.parentElement.querySelector('.discord-id').textContent;
             
-            // Tentative de copie réelle
+            // Attempt real copy
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(discordId).then(() => {
                     showCopySuccess(this);
@@ -350,7 +350,7 @@ function initDiscordCopyFeature() {
 }
 
 /**
- * Affiche le succès de la copie
+ * Display copy success
  */
 function showCopySuccess(button) {
     const originalText = button.innerHTML;
@@ -361,7 +361,7 @@ function showCopySuccess(button) {
 }
 
 /**
- * Affiche la copie de repli (simulation)
+ * Display fallback copy (simulation)
  */
 function showCopyFallback(button, discordId) {
     console.log(`Discord ID copié (simulation): ${discordId}`);
@@ -373,14 +373,14 @@ function showCopyFallback(button, discordId) {
 }
 
 // ============================================================================
-// UTILITAIRES DE NOTIFICATION
+// NOTIFICATION UTILITIES
 // ============================================================================
 
 /**
- * Affiche une notification temporaire pour les démonstrations
+ * Display a temporary notification for demonstrations
  */
 function showDemoNotification(message, duration = 3000) {
-    // Créer l'élément de notification
+    // Create notification element
     const notification = document.createElement('div');
     notification.className = 'demo-notification';
     notification.textContent = message;
@@ -401,16 +401,16 @@ function showDemoNotification(message, duration = 3000) {
         transition: all 0.3s ease;
     `;
     
-    // Ajouter au DOM
+    // Add to DOM
     document.body.appendChild(notification);
     
-    // Animation d'entrée
+    // Entry animation
     setTimeout(() => {
         notification.style.opacity = '1';
         notification.style.transform = 'translateX(0)';
     }, 10);
     
-    // Animation de sortie et suppression
+    // Exit animation and removal
     setTimeout(() => {
         notification.style.opacity = '0';
         notification.style.transform = 'translateX(100%)';
@@ -423,11 +423,11 @@ function showDemoNotification(message, duration = 3000) {
 }
 
 // ============================================================================
-// UTILITAIRES DE DÉBOGAGE
+// DEBUG UTILITIES
 // ============================================================================
 
 /**
- * Fonction de débogage pour afficher les informations de la demo
+ * Debug function to display demo information
  */
 function debugDemo() {
     console.group('🎨 Demo Page - Informations de débogage');
@@ -442,11 +442,11 @@ function debugDemo() {
 window.debugDemo = debugDemo;
 
 // ============================================================================
-// FONCTIONS DE TEST POUR LES MODALS
+// MODAL TEST FUNCTIONS
 // ============================================================================
 
 /**
- * Teste l'ouverture du modal de compétence
+ * Test opening the skill modal
  */
 function openTestSkillModal() {
     if (typeof openSkillModal === 'function') {
@@ -457,7 +457,7 @@ function openTestSkillModal() {
 }
 
 /**
- * Teste l'ouverture du modal de contact
+ * Test opening the contact modal
  */
 function openTestContactModal() {
     if (typeof window.UnifiedModal !== 'undefined') {
@@ -479,7 +479,7 @@ function openTestContactModal() {
 }
 
 /**
- * Teste l'ouverture du modal de personne
+ * Test opening the person modal
  */
 function openTestPersonModal() {
     if (typeof openPersonModal === 'function') {
@@ -491,7 +491,7 @@ function openTestPersonModal() {
 }
 
 /**
- * Teste l'ouverture du modal Discord
+ * Test opening the Discord modal
  */
 function openTestDiscordModal() {
     if (typeof window.UnifiedModal !== 'undefined') {
@@ -505,10 +505,10 @@ function openTestDiscordModal() {
 }
 
 /**
- * Teste l'ouverture du popup d'actions
+ * Test opening the actions popup
  */
 function openTestActionsPopup() {
-    // Chercher un bouton "..." dans la page ou créer un popup de test
+    // Look for a "..." button in the page or create a test popup
     const moreButton = document.querySelector('.btn-more, .more-actions-btn');
     if (moreButton) {
         moreButton.click();

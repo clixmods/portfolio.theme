@@ -7,7 +7,7 @@
 (function() {
   'use strict';
   
-  // Protection contre les exécutions multiples
+  // Protection against multiple executions
   if (window.rightDockInitialized) {
     return;
   }
@@ -99,7 +99,7 @@
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     isReducedMotion = mediaQuery.matches;
     
-    // Écoute les changements de préférence
+    // Listen for preference changes
     mediaQuery.addEventListener('change', function(e) {
       isReducedMotion = e.matches;
       updateAnimationDuration();
@@ -179,7 +179,7 @@
     const selectedText = selectedOption.querySelector('span:last-child').textContent;
     const selectedFlag = selectedOption.querySelector('.flag').textContent;
     
-    // Mise à jour du bouton
+    // Update the button
     updateLanguageButton(selectedText, selectedFlag);
     
     // Marquer l'option comme active
@@ -227,13 +227,13 @@
     /* ORIGINAL CODE - DISABLED
     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
-    // Mise à jour de l'attribut data-theme sur le body
+    // Update the data-theme attribute on the body
     document.body.setAttribute('data-theme', currentTheme);
     
     // Sauvegarde dans localStorage
     localStorage.setItem('theme', currentTheme);
     
-    // Marquer que l'utilisateur a changé le thème manuellement (session uniquement)
+    // Mark that the user changed the theme manually (session only)
     if (currentTheme === 'dark') {
       sessionStorage.setItem('themeChangedToDark', 'true');
     }
@@ -300,7 +300,7 @@
     notificationsBtn.classList.remove('active');
     notificationsDropdown.classList.remove('active');
     
-    // Enlever classe sur body pour réafficher les toasts
+    // Remove class on body to redisplay toasts
     document.body.classList.remove('notifications-menu-open');
     
     // Retirer l'event listener
@@ -392,7 +392,7 @@
    * Système de notifications intégré au right-dock
    */
   function createTrophyNotificationCompat(trophy) {
-    // Créer la notification dans le style du système de trophées
+    // Create the notification in the style of the trophy system
     const notification = document.createElement('div');
     notification.className = 'new-trophy-notification';
     notification.innerHTML = `
@@ -447,7 +447,7 @@
     }
 
     
-    // Éléments du right dock
+    // Right dock elements
     languageBtn = rightDock.querySelector('.language-btn');
     languageDropdown = document.getElementById('language-dropdown');
     themeToggle = rightDock.querySelector('.theme-toggle');
@@ -468,7 +468,7 @@
     // Langue
     if (languageBtn && languageDropdown) {
    
-      // Supprimer les anciens listeners au cas où
+      // Remove old listeners just in case
       languageBtn.removeEventListener('click', toggleLanguageDropdown);
       languageBtn.addEventListener('click', toggleLanguageDropdown);
       
@@ -478,7 +478,7 @@
       console.log('❌ Language elements missing - Button:', !!languageBtn, 'Dropdown:', !!languageDropdown);
     }
     
-    // Thème
+    // Theme
     if (themeToggle) {
   
       themeToggle.removeEventListener('click', handleThemeToggle);
@@ -511,7 +511,7 @@
    * Initialisation principale
    */
   function init() {
-    // Attendre que le DOM soit prêt
+    // Wait for DOM to be ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', init);
       return;
@@ -529,7 +529,7 @@
     updateAnimationDuration();
     setupWillChangeOptimization();
     
-    // Marquer comme initialisé
+    // Mark as initialized
     window.rightDockInitialized = true;
     
     console.log('✅ Right Dock initialized');
@@ -550,7 +550,7 @@
   window.showNotification = showNotification;
   window.clearAllNotifications = clearAllNotifications;
   
-  // Démarrer l'initialisation
+  // Start initialization
   init();
   
 })();

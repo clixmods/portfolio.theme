@@ -313,7 +313,7 @@ function displayProjects(projects, skillName, projectsList) {
     });
 }
 
-// Fonction pour afficher les expériences professionnelles filtrées
+// Function to display filtered professional experiences
 function displayExperiences(experiences, skillName, experiencesList) {
     
     const relatedExperiences = experiences.filter(experience => {
@@ -321,7 +321,7 @@ function displayExperiences(experiences, skillName, experiencesList) {
         
         let technologies = experience.technologies;
         
-        // Si c'est une string, essayer de la parser en JSON
+        // If it's a string, try to parse it as JSON
         if (typeof technologies === 'string') {
             try {
                 technologies = JSON.parse(technologies);
@@ -337,7 +337,7 @@ function displayExperiences(experiences, skillName, experiencesList) {
             return false;
         }
         
-        // Recherche exacte et aussi recherche insensible à la casse
+        // Exact search and also case-insensitive search
         const hasSkill = technologies.some(tech => {
             const exactMatch = tech === skillName;
             const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
@@ -360,7 +360,7 @@ function displayExperiences(experiences, skillName, experiencesList) {
         return;
     }
     
-    // Vider la liste et créer les éléments DOM proprement
+    // Empty the list and create DOM elements properly
     experiencesList.classList.remove('empty-state');
     experiencesList.innerHTML = '';
     
@@ -375,18 +375,18 @@ function displayExperiences(experiences, skillName, experiencesList) {
             }
         }
         
-        // Nettoyer l'expérience avant de l'utiliser
+        // Clean the experience before using it
         const cleanedExperience = cleanExperience(experience);
         
   
         
-        // Créer l'élément principal de l'expérience
+        // Create the main experience element
         const experienceItem = createExperienceItem(cleanedExperience, technologies);
         experiencesList.appendChild(experienceItem);
     });
 }
 
-// Fonction pour nettoyer un objet expérience de tous ses guillemets superflus
+// Function to clean an experience object of all its superfluous quotes
 function cleanExperience(experience) {
     const cleaned = {};
     for (const [key, value] of Object.entries(experience)) {
@@ -395,7 +395,7 @@ function cleanExperience(experience) {
     return cleaned;
 }
 
-// Fonction pour afficher les formations filtrées
+// Function to display filtered educations
 function displayEducations(educations, skillName, educationsList) {
   
     
@@ -444,7 +444,7 @@ function displayEducations(educations, skillName, educationsList) {
         
         // Recherche dans les outils (tools)
         const hasSkillInTools = tools.some(toolItem => {
-            // Les outils peuvent être des objets {tool: "nom", ...} ou des strings
+            // Tools can be objects {tool: "name", ...} or strings
             const toolName = typeof toolItem === 'object' && toolItem !== null ? toolItem.tool : toolItem;
             if (!toolName) return false;
             
@@ -472,7 +472,7 @@ function displayEducations(educations, skillName, educationsList) {
         return;
     }
     
-    // Vider la liste et créer les éléments DOM proprement
+    // Empty the list and create DOM elements properly
     educationsList.classList.remove('empty-state');
     educationsList.innerHTML = '';
     
@@ -487,16 +487,16 @@ function displayEducations(educations, skillName, educationsList) {
             }
         }
         
-        // Nettoyer la formation avant de l'utiliser
+        // Clean the education before using it
         const cleanedEducation = cleanEducation(education);
         
-        // Créer l'élément principal de la formation
+        // Create the main education element
         const educationItem = createEducationItem(cleanedEducation, technologies);
         educationsList.appendChild(educationItem);
     });
 }
 
-// Fonction pour nettoyer un objet formation de tous ses guillemets superflus
+// Function to clean an education object of all its superfluous quotes
 function cleanEducation(education) {
     const cleaned = {};
     for (const [key, value] of Object.entries(education)) {
@@ -505,7 +505,7 @@ function cleanEducation(education) {
     return cleaned;
 }
 
-// Fonction pour créer un élément d'expérience professionnelle
+// Function to create a professional experience element
 function createExperienceItem(cleanedExperience, technologies) {
    
     
@@ -513,7 +513,7 @@ function createExperienceItem(cleanedExperience, technologies) {
     const experienceItem = document.createElement('div');
     experienceItem.className = 'skill-modal-experience-item';
     
-    // En-tête avec logo et informations principales
+    // Header with logo and main information
     const header = document.createElement('div');
     header.className = 'skill-modal-experience-header';
     
@@ -592,7 +592,7 @@ function createExperienceItem(cleanedExperience, technologies) {
     
     // Technologies section removed - no longer displayed in skill modal
     
-    // Lien vers l'expérience détaillée
+    // Link to detailed experience
     if (cleanedExperience.url) {
         const linkContainer = document.createElement('div');
         linkContainer.className = 'skill-modal-experience-actions';
@@ -609,7 +609,7 @@ function createExperienceItem(cleanedExperience, technologies) {
     return experienceItem;
 }
 
-// Fonction pour créer un élément de formation
+// Function to create an education element
 function createEducationItem(cleanedEducation, technologies) {
 
     
@@ -617,11 +617,11 @@ function createEducationItem(cleanedEducation, technologies) {
     const educationItem = document.createElement('div');
     educationItem.className = 'skill-modal-education-item';
     
-    // En-tête avec icône et informations principales
+    // Header with icon and main information
     const header = document.createElement('div');
     header.className = 'skill-modal-education-header';
     
-    // Logo/Icône de la formation
+    // Education logo/icon
     const iconContainer = document.createElement('div');
     iconContainer.className = 'skill-modal-education-icon';
     
@@ -637,7 +637,7 @@ function createEducationItem(cleanedEducation, technologies) {
         iconContainer.innerHTML = '<span class="skill-modal-education-icon-placeholder">🎓</span>';
     }
     
-    // Si une couleur est définie, l'appliquer comme bordure
+    // If a color is defined, apply it as border
     if (cleanedEducation.color) {
         iconContainer.style.borderColor = cleanedEducation.color;
         iconContainer.style.boxShadow = `0 0 10px ${cleanedEducation.color}33`;
@@ -699,7 +699,7 @@ function createEducationItem(cleanedEducation, technologies) {
     
     // Technologies section removed - no longer displayed in skill modal
     
-    // Lien vers la formation détaillée
+    // Link to detailed education
     if (cleanedEducation.url) {
         const linkContainer = document.createElement('div');
         linkContainer.className = 'skill-modal-education-actions';
@@ -719,12 +719,12 @@ function createEducationItem(cleanedEducation, technologies) {
 // Fonction pour nettoyer les guillemets superflus des valeurs JSON
 function cleanJsonValue(value) {
     if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
-        return value.slice(1, -1); // Supprimer le premier et dernier caractère
+        return value.slice(1, -1); // Remove the first and last character
     }
     return value;
 }
 
-// Fonction pour nettoyer un objet projet de tous ses guillemets superflus
+// Function to clean a project object of all its superfluous quotes
 function cleanProject(project) {
     const cleaned = {};
     for (const [key, value] of Object.entries(project)) {
@@ -733,7 +733,7 @@ function cleanProject(project) {
     return cleaned;
 }
 
-// Fonction pour créer une tuile de projet avec des éléments DOM
+// Function to create a project tile with DOM elements
 function createProjectTile(cleanedProject, technologies) {
     
     // Conteneur principal
@@ -755,7 +755,7 @@ function createProjectTile(cleanedProject, technologies) {
     imageContainer.appendChild(image);
     projectTile.appendChild(imageContainer);
     
-    // Contenu par défaut (visible par défaut)
+    // Default content (visible by default)
     const defaultContent = document.createElement('div');
     defaultContent.className = 'project-card-unified-content';
     
@@ -771,7 +771,7 @@ function createProjectTile(cleanedProject, technologies) {
     defaultContent.appendChild(subtitle);
     projectTile.appendChild(defaultContent);
     
-    // Informations détaillées (affichées au hover)
+    // Detailed information (displayed on hover)
     const detailedInfo = document.createElement('div');
     detailedInfo.className = 'project-card-unified-detailed-info';
     
@@ -797,7 +797,7 @@ function createProjectTile(cleanedProject, technologies) {
             event.stopPropagation();
         };
         
-        // Créer le SVG
+        // Create the SVG
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svg.setAttribute('viewBox', '0 0 24 24');
         svg.setAttribute('fill', 'none');
@@ -818,7 +818,7 @@ function createProjectTile(cleanedProject, technologies) {
         confidentialSpan.style.opacity = '0.6';
         confidentialSpan.style.cursor = 'default';
         
-        // Créer le SVG pour confidentiel
+        // Create the SVG for confidential
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svg.setAttribute('viewBox', '0 0 24 24');
         svg.setAttribute('fill', 'currentColor');
@@ -838,14 +838,14 @@ function createProjectTile(cleanedProject, technologies) {
     return projectTile;
 }
 
-// Fermer la modal en cliquant sur Échap
+// Close the modal by pressing Escape
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeSkillModal();
     }
 });
 
-// Empêcher la fermeture de la modal en cliquant à l'intérieur
+// Prevent closing the modal by clicking inside
 document.addEventListener('DOMContentLoaded', function() {
     const modalContent = document.querySelector('.modal-content');
     if (modalContent) {
@@ -854,7 +854,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Normaliser les données des projets pour s'assurer que les technologies sont des tableaux
+    // Normalize project data to ensure technologies are arrays
     if (window.portfolioProjects && Array.isArray(window.portfolioProjects)) {
         window.portfolioProjects = window.portfolioProjects.map(project => {
             if (project.technologies && typeof project.technologies === 'string') {
@@ -870,7 +870,7 @@ document.addEventListener('DOMContentLoaded', function() {
        
     }
     
-    // Normaliser les données des expériences pour s'assurer que les technologies sont des tableaux
+    // Normalize experience data to ensure technologies are arrays
     if (window.portfolioExperiences && Array.isArray(window.portfolioExperiences)) {
         window.portfolioExperiences = window.portfolioExperiences.map(experience => {
             if (experience.technologies && typeof experience.technologies === 'string') {
@@ -886,7 +886,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
     }
     
-    // Normaliser les données des formations pour s'assurer que les technologies sont des tableaux
+    // Normalize education data to ensure technologies are arrays
     if (window.portfolioEducations && Array.isArray(window.portfolioEducations)) {
         window.portfolioEducations = window.portfolioEducations.map(education => {
             if (education.technologies && typeof education.technologies === 'string') {

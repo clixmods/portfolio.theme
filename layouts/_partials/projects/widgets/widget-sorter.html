@@ -1,6 +1,6 @@
 {{/*
   Partial: Widget Sorter
-  Description: Trie et affiche tous les widgets selon leur ordre défini
+  Description: Sorts and displays all widgets according to their defined order
   Context: Page du projet (.Params)
   
   Ce partial centralise l'affichage de tous les widgets en les triant selon:
@@ -24,7 +24,7 @@
   - ranking: 130
 */}}
 
-{{/* Créer une liste de tous les widgets avec leur ordre */}}
+{{/* Create a list of all widgets with their order */}}
 {{ $widgets := slice }}
 
 {{/* Widgets uniques */}}
@@ -167,6 +167,7 @@
 {{ end }}
 
 {{/* Widgets multiples - Vidéos YouTube individuelles */}}
+{{/* Widgets multiples - Individual YouTube videos */}}
 {{ range $videoIndex, $video := .Params.youtube_singles }}
   {{/* Fallback to file order when no explicit order is set */}}
   {{ $order := add 90 $videoIndex }}
@@ -192,6 +193,7 @@
 {{ $sortedWidgets := sort $widgets "order" }}
 
 {{/* Afficher les widgets triés */}}
+{{/* Display sorted widgets */}}
 {{ range $sortedWidgets }}
   {{ if eq .type "contributors" }}
     {{ partial "projects/widgets/contributors.html" .data }}

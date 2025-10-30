@@ -1,9 +1,9 @@
 {{/*
   Partial: Contributors Modal Enhanced Layout
-  Description: Structure HTML pour l'affichage amélioré des contributeurs dans les modals de project widget
+  Description: HTML structure for enhanced display of contributors in project widget modals
   Context: 
-    - .contributors (slice) - Liste des contributeurs avec leurs données
-    - .projectId (string) - ID du projet pour contextualiser les actions
+    - .contributors (slice) - List of contributors with their data
+    - .projectId (string) - Project ID for contextualizing actions
 */}}
 
 {{- $contributors := .contributors -}}
@@ -14,30 +14,30 @@
   {{- $groups := dict -}}
   {{- $distinctRoles := slice -}}
   
-  {{/* Charger les poids des rôles depuis le fichier JSON d'abord */}}
+  {{/* Load role weights from JSON file first */}}
   {{- $rolesData := site.Data.role_contributor -}}
   {{- $roleWeights := dict -}}
   {{- range $rolesData -}}
     {{- $roleWeights = merge $roleWeights (dict .name (.weight | default 50)) -}}
   {{- end -}}
   
-  {{/* Assigner chaque contributeur à son rôle le plus important */}}
+  {{/* Assign each contributor to their most important role */}}
   {{- range $contributor := $contributors -}}
     {{/* Support des deux formats: roles (tableau) et role (string legacy) */}}
     {{- $contributorRoles := slice -}}
     
-    {{/* Vérifier d'abord si roles existe et n'est pas vide */}}
+    {{/* Check first if roles exists and is not empty */}}
     {{- if $contributor.roles -}}
       {{- $contributorRoles = $contributor.roles -}}
     {{- else if $contributor.role -}}
-      {{/* Fallback sur l'ancien format role */}}
+      {{/* Fallback to old role format */}}
       {{- $contributorRoles = slice $contributor.role -}}
     {{- else -}}
-      {{/* Par défaut si aucun rôle n'est défini */}}
+      {{/* Default if no role is defined */}}
       {{- $contributorRoles = slice "Contributeur" -}}
     {{- end -}}
     
-    {{/* Trouver le rôle avec le poids le plus élevé */}}
+    {{/* Find the role with the highest weight */}}
     {{- $highestWeight := 0 -}}
     {{- $primaryRole := "" -}}
     {{- range $role := $contributorRoles -}}
@@ -48,11 +48,11 @@
       {{- end -}}
     {{- end -}}
     
-    {{/* Assigner le contributeur à son rôle principal uniquement */}}
+    {{/* Assign contributor to their primary role only */}}
     {{- if $primaryRole -}}
       {{- $existing := index $groups $primaryRole | default (slice) -}}
       {{- $groups = merge $groups (dict $primaryRole ($existing | append $contributor)) -}}
-      {{/* Ajouter le rôle à la liste s'il n'y est pas déjà */}}
+      {{/* Add role to list if not already present */}}
       {{- if not (in $distinctRoles $primaryRole) -}}
         {{- $distinctRoles = $distinctRoles | append $primaryRole -}}
       {{- end -}}
@@ -72,7 +72,7 @@
       </div>
     </div>
     
-    {{/* Note développeur - Chercher Clément dans les contributeurs */}}
+    {{/* Developer note - Search for Clément among contributors */}}
     {{- $ownerContributor := dict -}}
     {{- range $contributors -}}
       {{- if eq .id "clement-garcia" -}}
@@ -100,14 +100,14 @@
     </div>
     {{- end -}}
     
-    {{/* Trier les rôles par poids (du plus important au moins important) */}}
+    {{/* Sort roles by weight (from most important to least important) */}}
     {{- $sortedRoles := slice -}}
     {{- range $distinctRoles -}}
       {{- $weight := index $roleWeights . | default 50 -}}
       {{- $sortedRoles = $sortedRoles | append (dict "name" . "weight" $weight) -}}
     {{- end -}}
     
-    {{/* Tri par poids décroissant */}}
+    {{/* Sort by descending weight */}}
     {{- $sortedRoles = sort $sortedRoles "weight" "desc" -}}
     
     {{- range $roleData := $sortedRoles -}}
@@ -133,7 +133,7 @@
                  aria-label="Voir le profil de {{ $personName }}"
                  style="cursor: pointer;">
               
-              {{/* Avatar du contributeur */}}
+              {{/* Contributor avatar */}}
               <div class="contrib-avatar{{ if not $hasAvatar }} placeholder{{ end }}">
                 {{- if $hasAvatar -}}
                   {{- $contribAvatar := partial "get-optimized-image.html" (dict "imagePath" $avatarPath "width" 80 "quality" 90) -}}
@@ -143,7 +143,7 @@
                 {{- end -}}
               </div>
               
-              {{/* Informations du contributeur */}}
+              {{/* Contributor information */}}
               <div class="contrib-info">
                 <div class="contrib-name">{{ $personName }}</div>
                 {{- if $personRole -}}

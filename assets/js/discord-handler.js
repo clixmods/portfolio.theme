@@ -21,19 +21,19 @@
 
   // Configuration
   const DISCORD_ID = window.discordData ? window.discordData.id : "clixmods";
-  const NOTIFICATION_DURATION = 3000; // 3 secondes
+  const NOTIFICATION_DURATION = 3000; // 3 seconds
 
   /**
-   * Crée une modal pour afficher l'ID Discord
+   * Creates a modal to display the Discord ID
    */
   function createDiscordModal() {
-    // Vérifier si la modal existe déjà
+    // Check if modal already exists
     const existingModal = document.querySelector('#discord-modal');
     if (existingModal) {
       existingModal.remove();
     }
 
-    // Créer la modal
+    // Create the modal
     const modal = document.createElement('div');
     modal.id = 'discord-modal';
     modal.className = 'modal-overlay';
@@ -58,14 +58,14 @@
       </div>
     `;
 
-    // Ajouter au DOM
+    // Add to DOM
     document.body.appendChild(modal);
 
-    // Gestionnaires d'événements pour la modal
+    // Event handlers for the modal
     const closeBtn = modal.querySelector('.modal-close');
     const copyBtn = modal.querySelector('.copy-btn');
 
-    // Fermer la modal
+    // Close the modal
     closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', function(e) {
       if (e.target === modal) {
@@ -73,23 +73,23 @@
       }
     });
 
-    // Copier l'ID
+    // Copy the ID
     copyBtn.addEventListener('click', function() {
       copyToClipboard(DISCORD_ID);
       closeModal();
     });
 
-    // Fermer avec Échap
+    // Close with Escape
     document.addEventListener('keydown', handleEscapeKey);
 
-    // Afficher la modal avec animation
+    // Display modal with animation
     setTimeout(() => {
       modal.classList.add('active');
     }, 10);
   }
 
   /**
-   * Ferme la modal Discord
+   * Closes the Discord modal
    */
   function closeModal() {
     const modal = document.querySelector('#discord-modal');
@@ -112,18 +112,18 @@
   }
 
   /**
-   * Copie du texte dans le presse-papier
+   * Copy text to clipboard
    */
   function copyToClipboard(text) {
     if (navigator.clipboard && window.isSecureContext) {
-      // Méthode moderne
+      // Modern method
       navigator.clipboard.writeText(text).then(() => {
         showDiscordNotification('ID Discord copié dans le presse-papier !', 'success');
       }).catch(() => {
         fallbackCopyToClipboard(text);
       });
     } else {
-      // Méthode de fallback
+      // Fallback method
       fallbackCopyToClipboard(text);
     }
   }
@@ -152,38 +152,38 @@
   }
 
   /**
-   * Affiche une notification en utilisant le système existant du site
+   * Displays a notification using the site's existing system
    */
   function showDiscordNotification(message, type = 'success') {
-    // Utiliser le système de notifications existant du site
+    // Use the site's existing notification system
     if (window.showNotification && typeof window.showNotification === 'function') {
       window.showNotification(message, type, { duration: 3000 });
     } else if (window.rightDockManager && window.rightDockManager.showNotification) {
       window.rightDockManager.showNotification(message, type);
     } else {
-      // Fallback simple si les systèmes ne sont pas disponibles
-      alert(message); // Fallback très simple
+      // Simple fallback if systems are not available
+      alert(message); // Very simple fallback
     }
   }
 
   /**
-   * Gère le clic sur le bouton Discord
+   * Handles Discord button click
    */
   function handleDiscordClick(e) {
     e.preventDefault();
     
-    // Option 1: Copier directement (pour test rapide)
+    // Option 1: Copy directly (for quick test)
     // copyToClipboard(DISCORD_ID);
     
-    // Option 2: Ouvrir la modal (par défaut)
+    // Option 2: Open the modal (default)
     createDiscordModal();
   }
 
   /**
-   * Initialise le gestionnaire Discord
+   * Initialize Discord handler
    */
   function initDiscordHandler() {
-    // Attendre que le DOM soit chargé
+    // Wait for DOM to be loaded
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', setupDiscordButton);
     } else {
@@ -201,7 +201,7 @@
     }
   }
 
-  // Initialiser quand le script se charge
+  // Initialize when the script loads
   initDiscordHandler();
 
 })();

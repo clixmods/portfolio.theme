@@ -1,10 +1,10 @@
 {{/*
   Partial: Soft Skills Modal Layout
-  Description: Structure HTML pour l'affichage des soft skills dans les modals de project widget
+  Description: HTML structure for displaying soft skills in project widget modals
   Context: 
-    - .softSkills (slice) - Liste des soft skills utilisées dans le projet
-    - .projectId (string) - ID du projet pour contextualiser les actions
-    - .profileData (dict) - Données du profil pour la section développeur
+    - .softSkills (slice) - List of soft skills used in the project
+    - .projectId (string) - Project ID for contextualizing actions
+    - .profileData (dict) - Profile data for the developer section
 */}}
 
 {{- $softSkills := .softSkills -}}
@@ -15,14 +15,14 @@
   {{- $total := len $softSkills -}}
 
   <div class="soft-skills-modal">
-    {{/* Barre de statistiques */}}
+    {{/* Statistics bar */}}
     <div class="soft-skills-stats-bar">
       <div class="widget-count">
         <strong>{{ $total }}</strong> compétence{{ if gt $total 1 }}s{{ end }} transversale{{ if gt $total 1 }}s{{ end }}
       </div>
     </div>
     
-    {{/* Note développeur */}}
+    {{/* Developer note */}}
     {{- if $profileData -}}
     <div class="developer-profile-note">
       <div class="profile-avatar">
@@ -35,7 +35,7 @@
     </div>
     {{- end -}}
     
-    {{/* Grille des soft skills */}}
+    {{/* Soft skills grid */}}
     <div class="soft-skills-grid">
       {{- range $softSkills -}}
         {{- $skillName := .name | default "Compétence" -}}
@@ -52,7 +52,7 @@
              onclick="openSkillModal('{{ $skillName }}', '{{ if $skillIconPath }}{{ $skillIconPath }}{{ else }}{{ $skillIcon }}{{ end }}', 'Soft Skill', '', '{{ if $skillIconPath }}svg{{ else }}emoji{{ end }}')"
              style="cursor: pointer; --skill-color: {{ $skillColor }};">
           
-          {{/* En-tête de soft skill */}}
+          {{/* Soft skill header */}}
           <div class="soft-skill-header">
             <div class="soft-skill-icon widget-icon widget-icon--lg" aria-hidden="true">
               {{- if $skillIconPath -}}
@@ -69,7 +69,7 @@
             </div>
           </div>
           
-          {{/* Badge avec indicateur visuel */}}
+          {{/* Badge with visual indicator */}}
           <div class="soft-skill-badge widget-badge" style="background-color: {{ $skillColor }}20; color: {{ $skillColor }};">
             Compétence clé
           </div>
@@ -77,7 +77,7 @@
       {{- end -}}
     </div>
     
-    {{/* Note d'interaction */}}
+    {{/* Interaction note */}}
     <div class="soft-skills-interaction-note">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>

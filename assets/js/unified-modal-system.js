@@ -23,20 +23,20 @@ const MODAL_TEMPLATES = {
         actions: '600px',
         discord: '500px',
         cv: '580px',
-        projectWidget: '1154px', // Largeur par défaut pour tous les widgets de projet
-        // Largeurs spécifiques par type de widget (ajustez selon vos besoins) :
-        'projectWidget-youtube': '1154px',     // Widget YouTube videos - grille 3x3
-        'projectWidget-contributors': '860px', // Widget contributeurs
-        'projectWidget-gallery': '860px',     // Widget galerie
-        'projectWidget-specs': '860px',       // Widget spécifications techniques
-        'projectWidget-awards': '860px',      // Widget récompenses
-        'projectWidget-testimonials': '960px', // Widget témoignages
-        'projectWidget-tools': '860px',       // Widget outils
-        'projectWidget-specialties': '860px', // Widget spécialités
-        'projectWidget-clients': '900px',     // Widget clients
-        'projectWidget-grade': '700px',       // Widget note académique
-        'projectWidget-downloads': '850px',   // Widget téléchargements
-        'projectWidget-ranking': '800px',     // Widget classement
+        projectWidget: '1154px', // Default width for all project widgets
+        // Specific widths by widget type (adjust according to your needs):
+        'projectWidget-youtube': '1154px',     // YouTube videos widget - 3x3 grid
+        'projectWidget-contributors': '860px', // Contributors widget
+        'projectWidget-gallery': '860px',     // Gallery widget
+        'projectWidget-specs': '860px',       // Technical specifications widget
+        'projectWidget-awards': '860px',      // Awards widget
+        'projectWidget-testimonials': '960px', // Testimonials widget
+        'projectWidget-tools': '860px',       // Tools widget
+        'projectWidget-specialties': '860px', // Specialties widget
+        'projectWidget-clients': '900px',     // Clients widget
+        'projectWidget-grade': '700px',       // Academic grade widget
+        'projectWidget-downloads': '850px',   // Downloads widget
+        'projectWidget-ranking': '800px',     // Ranking widget
         default: '600px'
     }
 };
@@ -628,7 +628,7 @@ class UnifiedModal {
 
         const html = clone.innerHTML;
         
-        // Détection du type de widget pour la largeur spécifique
+        // Detection of widget type for specific width
         let widgetType = 'projectWidget'; // default
         if (widgetClasses.includes('youtube')) {
             widgetType = 'projectWidget-youtube';
@@ -656,10 +656,10 @@ class UnifiedModal {
             widgetType = 'projectWidget-ranking';
         }
         
-        // Utiliser la largeur spécifique au type de widget ou la largeur par défaut
+        // Use the width specific to the widget type or the default width
         const desiredWidth = MODAL_TEMPLATES.widths[widgetType] || MODAL_TEMPLATES.widths.projectWidget;
 
-        // Vérifier s'il y a un titre de modal spécifique défini
+        // Check if there is a specific modal title defined
         const modalTitle = widgetElem.getAttribute('data-modal-title') || 
                           widgetElem.querySelector('.project-widget-title')?.textContent?.trim() || 
                           'Widget';
@@ -823,7 +823,7 @@ class UnifiedModal {
             closeBtn.onclick = () => this.hideModal(modal);
         }
 
-        // Fermeture en cliquant à l'extérieur
+        // Close by clicking outside
         modal.onclick = (e) => {
             if (e.target === modal) {
                 this.hideModal(modal);
@@ -914,11 +914,11 @@ class UnifiedModal {
             btn.onclick = () => {
                 const targetTab = btn.dataset.tab;
                 
-                // Désactiver tous les tabs et panels
+                // Deactivate all tabs and panels
                 tabButtons.forEach(b => b.classList.remove('active'));
                 panels.forEach(p => p.classList.remove('active'));
                 
-                // Activer le tab et panel sélectionnés
+                // Activate the selected tab and panel
                 btn.classList.add('active');
                 const targetPanel = modal.querySelector(`[data-panel="${targetTab}"]`);
                 if (targetPanel) {
@@ -1178,7 +1178,7 @@ class UnifiedModal {
         
         console.log('Contact form submitted:', data);
         
-        // TODO: Implémenter l'envoi réel du formulaire
+        // TODO: Implement actual form submission
         alert('Message envoyé ! (TODO: implémenter l\'envoi réel)');
     }
 

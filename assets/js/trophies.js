@@ -14,12 +14,12 @@
       this.sessionStartTime = Date.now();
       this.visitStartTime = parseInt(localStorage.getItem('visitStartTime')) || Date.now();
       
-      // Si c'est une nouvelle session, sauvegarder le temps de début
+      // If it's a new session, save the start time
       if (!localStorage.getItem('visitStartTime')) {
         localStorage.setItem('visitStartTime', this.visitStartTime.toString());
       }
       
-      // Charger les données depuis le JSON et initialiser
+      // Load data from JSON and initialize
       this.loadTrophiesData().then(() => {
         this.init();
       });
@@ -67,7 +67,7 @@
         this.renderTrophies();
       } catch (error) {
         console.error('Erreur lors du chargement des trophées:', error);
-        // Fallback avec les trophées existants
+        // Fallback with existing trophies
         this.trophies = this.getFallbackTrophies();
         this.checkTrophies();
         this.updateTrophyDisplay();
@@ -250,17 +250,17 @@
       const currentPath = window.location.pathname;
       const { paths, exclude_paths } = data;
       
-      // Vérifier l'exclusion d'abord
+      // Check exclusion first
       if (exclude_paths) {
         for (const excludePath of exclude_paths) {
-          // Si le chemin actuel correspond exactement à un chemin exclu, on exclut
+          // If the current path exactly matches an excluded path, exclude it
           if (currentPath === excludePath || currentPath.endsWith(excludePath)) {
             return false;
           }
         }
       }
       
-      // Vérifier l'inclusion
+      // Check inclusion
       return paths.some(path => {
         // Pour les posts, on veut seulement les articles individuels, pas la liste
         if (path === '/posts/') {
@@ -287,7 +287,7 @@
      */
     /*
     checkTheme(data) {
-      // Vérifier que l'utilisateur a activement changé le thème dans cette session
+      // Check that the user actively changed the theme in this session
       return sessionStorage.getItem('themeChangedToDark') === 'true' && 
              localStorage.getItem('theme') === data.theme;
     }
@@ -370,7 +370,7 @@
      * Vérifie si l'utilisateur a scrollé jusqu'en bas d'une page
      */
     checkScrolledToBottom(data) {
-      // Toujours retourner true si déjà scrollé, peu importe la page actuelle
+      // Always return true if already scrolled, regardless of current page
       return localStorage.getItem('scrolledToBottomHome') === 'true';
     }
 
@@ -393,7 +393,7 @@
       this.updateProgress();
       this.checkTrophies();
       
-      // Vérifier les trophées toutes les 30 secondes
+      // Check trophies every 30 seconds
       setInterval(() => this.checkTrophies(), 30000);
     }
 
@@ -402,7 +402,7 @@
      */
     setupScrollListener() {
       const currentPath = window.location.pathname;
-      // Vérifier que c'est UNIQUEMENT la page d'accueil (racine ou index.html), PAS /portfolio/
+      // Check that it's ONLY the homepage (root or index.html), NOT /portfolio/
       const isHomePage = currentPath === '/' || 
                          currentPath === '/index.html' || 
                          currentPath === '/fr/' ||
@@ -415,7 +415,7 @@
       
       console.log('📊 Scroll listener: Setup sur la page d\'accueil', currentPath);
       
-      // Déjà scrollé jusqu'en bas
+      // Already scrolled to bottom
       if (localStorage.getItem('scrolledToBottomHome') === 'true') return;
       
       let scrollTimeout;
@@ -426,7 +426,7 @@
           const windowHeight = window.innerHeight;
           const documentHeight = document.documentElement.scrollHeight;
           
-          // Vérifier si on est à moins de 100px du bas
+          // Check if we are less than 100px from the bottom
           if (scrollTop + windowHeight >= documentHeight - 100) {
             localStorage.setItem('scrolledToBottomHome', 'true');
             window.removeEventListener('scroll', checkScroll);
@@ -442,7 +442,7 @@
      * Configure les écouteurs d'événements
      */
     setupEventListeners() {
-      // Toggle modal plein écran
+      // Toggle full screen modal
       const trophiesBtn = document.querySelector('.trophies-btn');
       const modal = document.querySelector('.trophies-modal');
       const closeBtn = document.querySelector('#trophies-modal-close');
@@ -563,7 +563,7 @@
         localStorage.setItem('visitedSections', JSON.stringify(visitedSections));
         console.log(`📊 Section visitée: ${currentSection} (Total: ${visitedSections.length})`, visitedSections);
         
-        // Vérifier les trophées après avoir visité une nouvelle section
+        // Check trophies after visiting a new section
         setTimeout(() => this.checkTrophies(), 500);
       }
 
@@ -573,7 +573,7 @@
         const pathParts = currentPath.split('/').filter(part => part.length > 0);
         const projectIndex = pathParts.indexOf('projects');
         
-        // Vérifier qu'il y a un slug après /projects/
+        // Check that there is a slug after /projects/
         if (projectIndex >= 0 && projectIndex < pathParts.length - 1) {
           const projectSlug = pathParts[projectIndex + 1];
           
@@ -585,7 +585,7 @@
               localStorage.setItem('visitedProjects', JSON.stringify(visitedProjects));
               console.log(`📊 Projet visité: ${projectSlug} (Total: ${visitedProjects.length})`);
               
-              // Vérifier les trophées immédiatement
+              // Check trophies immediately
               setTimeout(() => this.checkTrophies(), 500);
             }
           }
@@ -629,13 +629,13 @@
       
       this.trophies.forEach(trophy => {
         if (!this.unlockedTrophies.includes(trophy.id)) {
-          // Utiliser la nouvelle méthode d'évaluation ou l'ancienne condition en fallback
+          // Use the new evaluation method or the old condition as fallback
           const isUnlocked = trophy.condition_type ? 
             this.evaluateCondition(trophy) : 
             (trophy.condition && trophy.condition());
             
           if (isUnlocked) {
-            // unlockTrophy retourne true si le trophée a été réellement débloqué
+            // unlockTrophy returns true if the trophy was actually unlocked
             const wasUnlocked = this.unlockTrophy(trophy.id);
             if (wasUnlocked) {
               newTrophies.push(trophy);
@@ -708,7 +708,7 @@
      * Débloque un trophée
      */
     unlockTrophy(trophyId) {
-      // Double vérification pour éviter les doublons
+      // Double check to avoid duplicates
       if (this.unlockedTrophies.includes(trophyId)) {
         console.warn(`⚠️ Trophée déjà débloqué, notification ignorée: ${trophyId}`);
         return false;
@@ -755,7 +755,7 @@
       }
       
       console.log(`🧪 Test: Déblocage forcé du trophée "${trophy.name}"`);
-      // unlockTrophy ajoute déjà la notification persistante
+      // unlockTrophy already adds the persistent notification
       const wasUnlocked = this.unlockTrophy(trophyId);
       
       if (wasUnlocked) {
@@ -770,21 +770,21 @@
      * Affiche la notification de nouveau trophée
      */
     showTrophyNotification(trophy) {
-      // Animation du bouton de trophées
+      // Trophy button animation
       const trophyBtn = document.querySelector('.trophies-btn');
       if (trophyBtn) {
         trophyBtn.classList.add('new-trophy');
-        // Retirer la classe après l'animation
+        // Remove class after animation
         setTimeout(() => {
           trophyBtn.classList.remove('new-trophy');
         }, 2000);
       }
       
-      // Utiliser le système de notifications standard avec icône de trophée
+      // Use the standard notification system with trophy icon
       const message = trophy.name;
       
       if (window.NotificationsManager) {
-        // Créer un data URL avec l'emoji du trophée comme "avatar"
+        // Create a data URL with the trophy emoji as "avatar"
         // On utilise un SVG avec un grand emoji comme image
         const emojiSvg = `data:image/svg+xml,${encodeURIComponent(`
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
@@ -793,14 +793,14 @@
           </svg>
         `)}`;
         
-        // Afficher la notification toast avec l'emoji du trophée et style doré
+        // Display the toast notification with the trophy emoji and golden style
         window.NotificationsManager.showNotification(message, 'trophy', {
           avatar: emojiSvg,
           title: '🏆 Trophée débloqué !',
           duration: 8000
         });
         
-        // Ajouter aussi à la liste persistante des notifications
+        // Also add to the persistent notifications list
         window.NotificationsManager.addNotification('🏆 Trophée débloqué', `${trophy.icon} ${message}`, 'trophy');
       } else {
         console.warn('⚠️ NotificationsManager non disponible');
@@ -844,8 +844,8 @@
      * Rend les trophées dans le dropdown (optionnel)
      */
     renderTrophies() {
-      // Cette méthode peut être utilisée si vous voulez garder un petit dropdown
-      // En plus de la modal plein écran
+      // This method can be used if you want to keep a small dropdown
+      // In addition to the full screen modal
     }
 
     /**
@@ -902,7 +902,7 @@
         completion: this.trophies.length > 0 ? Math.round((this.unlockedTrophies.length / this.trophies.length) * 100) : 0
       };
 
-      // Mettre à jour les valeurs des statistiques
+      // Update the statistics values
       const totalStat = document.querySelector('[data-stat="total"]');
       const unlockedStat = document.querySelector('[data-stat="unlocked"]');
       const completionStat = document.querySelector('[data-stat="completion"]');
@@ -980,7 +980,7 @@
     }
   }
 
-  // Initialisation du système de trophées quand le DOM est chargé
+  // Initialization of the trophy system when the DOM is loaded
   document.addEventListener('DOMContentLoaded', () => {
     console.log('🏆 Initializing Trophy System...');
     window.trophySystem = new TrophySystem();

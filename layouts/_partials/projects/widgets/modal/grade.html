@@ -1,6 +1,6 @@
 {{/*
   Partial: Grade Modal Enhanced Layout
-  Description: Structure HTML pour l'affichage amélioré des notes académiques dans les modals de project widget
+  Description: HTML structure for enhanced display of academic grades in project widget modals
   Context: 
     - .Project (Page) - Project page context
     - .Title (string) - Modal title
@@ -9,7 +9,7 @@
 {{- $grade := .Project.Params.grade -}}
 {{- if $grade -}}
   <div class="grade-modal-enhanced">
-    {{/* Stats bar avec informations contextuelles */}}
+    {{/* Stats bar with contextual information */}}
     <div class="grade-stats-bar">
       <div class="grade-context">
         <strong>{{ $grade.subject | default "Évaluation académique" }}</strong>
@@ -24,7 +24,7 @@
       </div>
     </div>
     
-    {{/* Affichage principal de la note */}}
+    {{/* Main grade display */}}
     <div class="grade-display-card">
       <div class="grade-score-section">
         <div class="grade-value-large">{{ $grade.value }}</div>
@@ -35,7 +35,7 @@
       </div>
     </div>
     
-    {{/* Détails organisés en grille */}}
+    {{/* Details organized in grid */}}
     {{- if or $grade.institution $grade.semester $grade.academic_year $grade.comment -}}
     <div class="grade-details-grid">
       {{- if $grade.institution -}}

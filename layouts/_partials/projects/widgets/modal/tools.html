@@ -1,34 +1,34 @@
 {{/*
   Partial: Tools Modal Layout
-  Description: Structure HTML pour l'affichage des outils utilisés dans les modals de project widget
+  Description: HTML structure for displaying tools used in project widget modals
   Context: 
-    - .tools (slice) - Liste des outils utilisés dans le projet
-    - .projectId (string) - ID du projet pour contextualiser les actions
-    - .profileData (dict) - Données du profil pour la section développeur
+    - .tools (slice) - List of tools used in the project
+    - .projectId (string) - Project ID for contextualizing actions
+    - .profileData (dict) - Profile data for the developer section
 */}}
 
 {{- $tools := .tools -}}
 {{- $projectId := .projectId | default "" -}}
 {{- $profileData := .profileData -}}
 
-{{/* DEBUG - Affichage des outils reçus */}}
+{{/* DEBUG - Display received tools */}}
 <!-- DEBUG: Tools received: {{ $tools }} -->
 <!-- DEBUG: Total tools in data: {{ len site.Data.tools }} -->
 
-{{/* Récupération des données des outils depuis site.Data.tools */}}
+{{/* Fetch tool data from site.Data.tools */}}
 {{- $allTools := site.Data.tools -}}
 {{- $usedTools := slice -}}
 {{- $totalExperience := 0 -}}
 {{- $toolCategories := dict -}}
 
-{{/* Traitement des outils utilisés */}}
+{{/* Process used tools */}}
 {{- range $toolName := $tools -}}
   {{- range $allTools -}}
     {{- if eq .name $toolName -}}
       {{- $usedTools = $usedTools | append . -}}
       {{- $totalExperience = add $totalExperience .experience -}}
       
-      {{/* Groupement par catégorie */}}
+      {{/* Group by category */}}
       {{- $category := .category | default "other" -}}
       {{- $categoryTools := index $toolCategories $category | default slice -}}
       {{- $categoryTools = $categoryTools | append . -}}
@@ -41,12 +41,12 @@
 
 {{- if gt $total 0 -}}
   <div class="tools-modal">
-    {{/* Barre de statistiques */}}
+    {{/* Statistics bar */}}
     <div class="tools-stats-bar">
       <div class="widget-count">
         <strong>{{ $total }}</strong> outil{{ if gt $total 1 }}s{{ end }}
       </div>
-      {{/* Affichage des catégories regroupées */}}
+      {{/* Display grouped categories */}}
       <div class="tools-categories">
         {{- $displayedCategories := dict -}}
         {{- range $category, $categoryTools := $toolCategories -}}
@@ -59,13 +59,13 @@
           {{- else -}}{{ $categoryName = "Autres" }}
           {{- end -}}
           
-          {{/* Regroupement des catégories avec le même nom */}}
+          {{/* Group categories with the same name */}}
           {{- $existingTools := index $displayedCategories $categoryName | default slice -}}
           {{- $existingTools = $existingTools | append $categoryTools -}}
           {{- $displayedCategories = merge $displayedCategories (dict $categoryName $existingTools) -}}
         {{- end -}}
         
-        {{/* Affichage des catégories regroupées */}}
+        {{/* Display grouped categories */}}
         {{- range $displayName, $toolGroups := $displayedCategories -}}
           {{- $totalTools := 0 -}}
           {{- range $toolGroups -}}
@@ -78,7 +78,7 @@
       </div>
     </div>
     
-    {{/* Note développeur */}}
+    {{/* Developer note */}}
     {{- if $profileData -}}
     <div class="developer-profile-note">
       <div class="profile-avatar widget-icon widget-icon--lg">
@@ -91,7 +91,7 @@
     </div>
     {{- end -}}
     
-    {{/* Grille des outils par catégorie - regroupées par nom de catégorie */}}
+    {{/* Tools grid by category - grouped by category name */}}
     {{- $sectionsByName := dict -}}
     {{- range $category, $categoryTools := $toolCategories -}}
       {{- $categoryName := "" -}}

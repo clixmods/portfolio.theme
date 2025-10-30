@@ -24,7 +24,7 @@
 {{- end -}}
 
 {{- if $videos -}}
-  {{/* Widget youtube-box pour toutes les vidéos (une ou plusieurs) avec taille fixe 3x1 */}}
+  {{/* YouTube widget for all videos (one or more) with fixed 3x1 size */}}
 <div class="project-widget youtube-box {{ $gallerySize }}">
   <div class="project-widget-header" onclick="toggleInfoBox(this)">
     <div class="project-widget-icon youtube">
@@ -63,7 +63,7 @@
     </div>
   </div>
   <div class="project-widget-content">
-    {{/* Contenu modal enhanced - utilise la nouvelle partial modal pour YouTube */}}
+    {{/* Enhanced modal content - uses the new YouTube modal partial */}}
     {{ partial "projects/widgets/modal/youtube-videos.html" (dict "videos" $videos "projectId" $.File.BaseFileName) }}
   </div>
 </div>

@@ -1,5 +1,5 @@
 // Person Modal Logic
-// Gestion complète du modal des personnes
+// Complete management of the person modal
 
 // Tab management & person modal stats
 document.addEventListener('DOMContentLoaded', function() {
@@ -472,10 +472,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const contributor = project.contributors.find(c => c.person === personId);
                 const role = contributor ? contributor.role : 'Contributeur';
                 
-                // Fonction pour nettoyer les valeurs avec guillemets en trop
+                // Function to clean values with extra quotes
                 const clean = (value) => {
                     if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
-                        return value.slice(1, -1); // Enlève les guillemets du début et de la fin
+                        return value.slice(1, -1); // Remove quotes from beginning and end
                     }
                     return value || '';
                 };
