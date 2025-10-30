@@ -32,19 +32,19 @@
 {{ partial "helpers/load-css.html" "css/profile-stats.css" }}
 
 {{/* Dock Styles */}}
-{{ partial "helpers/load-scss.html" "scss/dock.scss" }}
+{{ partial "helpers/load-scss.html" "scss/navigation/dock/dock.scss" }}
 
 {{/* Mobile Menu Styles */}}
-{{ partial "helpers/load-scss.html" "scss/mobile-menu.scss" }}
+{{ partial "helpers/load-scss.html" "scss/navigation/mobile-menu/mobile-menu.scss" }}
 
 {{/* Profile Badge Styles (with integrated actions) */}}
-{{ partial "helpers/load-scss.html" "scss/profile-badge.scss" }}
+{{ partial "helpers/load-scss.html" "scss/components/badges/profile-badge.scss" }}
 
 {{/* Right Dock Styles */}}
-{{ partial "helpers/load-scss.html" "scss/right-dock.scss" }}
+{{ partial "helpers/load-scss.html" "scss/navigation/right-dock/right-dock.scss" }}
 
 {{/* Toast Notifications Styles */}}
-{{ partial "helpers/load-scss.html" "scss/toasts.scss" }}
+{{ partial "helpers/load-scss.html" "scss/components/notifications/toasts.scss" }}
 
 {{/* CSS Fix for dropdowns only */}}
 {{- if hugo.IsDevelopment }}
@@ -58,13 +58,13 @@
 
 
 {{/* Skill Modal Styles */}}
-{{ partial "helpers/load-scss.html" "scss/skill-modal.scss" }}
+{{ partial "helpers/load-scss.html" "scss/modals/skill/skill-modal.scss" }}
 
 {{/* Project Card Unified Styles - Used in skill modal, person modal, and experiences */}}
-{{ partial "helpers/load-scss.html" "scss/project-card-unified.scss" }}
+{{ partial "helpers/load-scss.html" "scss/components/cards/project-card-unified.scss" }}
 
 {{/* Projects List Page Styles - Specific to /projects/ page */}}
-{{ partial "helpers/load-scss.html" "scss/projects-list.scss" }}
+{{ partial "helpers/load-scss.html" "scss/projects/projects-list.scss" }}
 
 {{/* Skills Page Styles 
      IMPORTANT: This CSS must be loaded on both the home page (.IsHome) and the skills page (Section "competences")
@@ -77,7 +77,7 @@
 {{- end }}
 
 {{/* Unified Modal Styles (replaces legacy Discord modal styles) */}}
-{{ partial "helpers/load-scss.html" "scss/unified-modal.scss" }}
+{{ partial "helpers/load-scss.html" "scss/modals/unified/unified-modal.scss" }}
 
 {{/* Image Modal Styles - Loaded via css/shared/components/*.css pattern (line 158) - DO NOT DUPLICATE */}}
 
@@ -116,10 +116,10 @@
 {{ partial "helpers/load-css.html" "css/technical-specs.css" }}
 
 {{/* Blog Styles (SCSS) */}}
-{{ partial "helpers/load-scss.html" "scss/blog.scss" }}
+{{ partial "helpers/load-scss.html" "scss/blog/blog.scss" }}
 
 {{/* Dropdown Styles for Blog Sort Controls */}}
-{{ partial "helpers/load-scss.html" "scss/dropdown.scss" }}
+{{ partial "helpers/load-scss.html" "scss/components/dropdowns/dropdown.scss" }}
 
 {{ partial "helpers/load-css.html" "css/shortcodes.css" }}
 
@@ -168,5 +168,5 @@
   (and .File (or (in .File.Path "content/cv.md") (in .File.Path "/cv.md")))
  -}}
 {{- if $isCV }}
-  {{ partial "helpers/load-scss.html" "scss/cv.scss" }}
+  {{ partial "helpers/load-scss.html" "scss/pages/cv/cv.scss" }}
 {{- end }}

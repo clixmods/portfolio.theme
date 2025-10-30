@@ -8,11 +8,11 @@
 {{ partial "person-modal.html" . }}
 
 {{/* Include the CSS */}}
-{{ $personModalCSS := resources.Get "scss/person-modal.scss" | css.Sass | resources.Minify }}
+{{ $personModalCSS := resources.Get "scss/modals/person/person-modal.scss" | css.Sass | resources.Minify }}
 <link rel="stylesheet" href="{{ $personModalCSS.RelPermalink }}">
 
 {{/* Include unified project card CSS */}}
-{{ $projectCardCSS := resources.Get "scss/project-card-unified.scss" | css.Sass | resources.Minify }}
+{{ $projectCardCSS := resources.Get "scss/components/cards/project-card-unified.scss" | css.Sass | resources.Minify }}
 <link rel="stylesheet" href="{{ $projectCardCSS.RelPermalink }}">
 
 {{/* Include the utility JavaScript */}}

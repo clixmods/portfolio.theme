@@ -11,7 +11,7 @@
   {{/* Certifications removed from CV */}}
 
   {{/* Ensure CV stylesheet is loaded for this page */}}
-  {{ $cvStyles := resources.Get "scss/cv.scss" | toCSS | minify }}
+  {{ $cvStyles := resources.Get "scss/pages/cv/cv.scss" | toCSS | minify }}
   <link rel="stylesheet" href="{{ $cvStyles.RelPermalink }}" />
   
   <!-- Print optimization meta tags for color preservation -->

@@ -10,7 +10,7 @@
   {{ $technologies := site.Data.technologies }}
 
   {{/* Use same styles as normal CV but with different colors */}}
-  {{ $cvStyles := resources.Get "scss/cv.scss" | toCSS | minify }}
+  {{ $cvStyles := resources.Get "scss/pages/cv/cv.scss" | toCSS | minify }}
   <link rel="stylesheet" href="{{ $cvStyles.RelPermalink }}" />
   
   <!-- Print optimization meta tags for black and white -->

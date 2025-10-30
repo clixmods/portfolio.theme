@@ -10,11 +10,11 @@
 {{ end }}
 
 <!-- Include Sector Badge Styles -->
-{{ $sectorBadgeStyles := resources.Get "scss/sector-badge.scss" | css.Sass }}
+{{ $sectorBadgeStyles := resources.Get "scss/components/badges/sector-badge.scss" | css.Sass }}
 <link rel="stylesheet" href="{{ $sectorBadgeStyles.RelPermalink }}">
 
 <!-- Include Image Modal Styles -->
-{{ $imageModalStyles := resources.Get "scss/image-modal.scss" | css.Sass }}
+{{ $imageModalStyles := resources.Get "scss/modals/image/image-modal.scss" | css.Sass }}
 <link rel="stylesheet" href="{{ $imageModalStyles.RelPermalink }}">
 
 {{ if not .Params.image }}
