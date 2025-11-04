@@ -1,0 +1,218 @@
+/* 
+ * Projects Section - Carousel display
+ * Logo left with preview stack, visual right, info below
+ */
+
+.projects-section {
+  .projects-content {
+    width: 100%;
+    max-width: 1600px;
+  }
+}
+
+.projects-carousel-wrapper {
+  position: relative;
+}
+
+/* Project Display Grid */
+.project-display {
+  display: grid;
+  grid-template-columns: 450px 1fr;
+  gap: 60px;
+  margin-bottom: 40px;
+  align-items: center;
+}
+
+/* Left Side - Logo + Preview Stack */
+.project-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.project-logo-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  perspective: 1000px;
+}
+
+.project-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: relative;
+  z-index: 3;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Carousel Preview Stack Behind Logo */
+.carousel-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.preview-item {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 20px;
+  opacity: 0.3;
+  filter: blur(3px);
+  transition: all 0.5s ease;
+  
+  &.prev {
+    top: 5%;
+    left: -15%;
+    transform: rotate(-8deg) scale(0.85);
+  }
+  
+  &.next {
+    top: 5%;
+    right: -15%;
+    transform: rotate(8deg) scale(0.85);
+  }
+}
+
+/* Project Sector Badge */
+.project-sector {
+  display: inline-block;
+  padding: 10px 20px;
+  background: rgba(0, 255, 255, 0.15);
+  border: 2px solid rgba(0, 255, 255, 0.4);
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
+  text-align: center;
+}
+
+/* Right Side - Visual Element */
+.project-right {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-visual {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(0, 255, 255, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s ease;
+  
+  img, iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+  }
+  
+  &:hover {
+    border-color: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 15px 50px rgba(0, 255, 255, 0.2);
+  }
+}
+
+/* Project Info Below */
+.project-info {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.project-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.project-stats {
+  font-size: 18px;
+  color: #b0d2ff;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.carousel-btn {
+  width: 60px;
+  height: 60px;
+  border: 2px solid rgba(0, 255, 255, 0.4);
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #00ffff;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Carousel Dots */
+.carousel-dots {
+  display: flex;
+  gap: 12px;
+}
+
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(0, 255, 255, 0.5);
+    border-color: rgba(0, 255, 255, 0.8);
+  }
+  
+  &.active {
+    background: #00ffff;
+    border-color: #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    transform: scale(1.3);
+  }
+}

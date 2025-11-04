@@ -1,0 +1,99 @@
+/* 
+ * Presentation Base - Foundation styles
+ * Container, sections, transitions setup
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #ffffff;
+}
+
+/* Presentation Container - manages section transitions */
+.presentation-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Presentation Sections - full viewport slides */
+.presentation-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+/* Active section state */
+.presentation-section.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: scale(1);
+  z-index: 2;
+}
+
+/* Exiting section state */
+.presentation-section.exiting {
+  opacity: 0;
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+/* Common section content wrapper */
+.hero-content,
+.projects-content,
+.contact-content {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 3;
+}
+
+/* Section titles */
+.section-title {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 60px;
+  background: linear-gradient(135deg, #00ffff 0%, #ffffff 50%, #00ffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+/* Highlight text */
+.highlight {
+  color: #00ffff;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+/* Smooth scrolling hint */
+body {
+  scroll-behavior: smooth;
+}

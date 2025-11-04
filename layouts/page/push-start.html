@@ -9,7 +9,22 @@
   {{ $heroCSS := resources.Get "css/hero-background.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $heroCSS.RelPermalink }}" />
   
-  <!-- Load CSS variables needed for hero background -->
+  <!-- Load presentation CSS -->
+  {{ with resources.Get "scss/presentation/presentation.scss" }}
+    {{ $presentationCSS := . | css.Sass | minify }}
+    <link rel="stylesheet" href="{{ $presentationCSS.RelPermalink }}" />
+  {{ else }}
+    <!-- ERROR: presentation.scss not found - using inline fallback -->
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { margin: 0; padding: 0; overflow: hidden; background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      .presentation-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 10; }
+      .presentation-section { position: absolute; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; padding: 60px; opacity: 0; transition: opacity 0.8s; }
+      .presentation-section.active { opacity: 1; pointer-events: all; }
+    </style>
+  {{ end }}
+  
+  <!-- Load CSS variables -->
   <style>
     :root {
       /* Hero Background Gradients */
@@ -25,17 +40,179 @@
       --hero-wave-color-6: rgba(135, 206, 235, 0.15);
       --hero-wave-color-7: rgba(100, 149, 237, 0.12);
     }
-    
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: #000;
-    }
   </style>
 </head>
 <body>
-  <!-- Hero Background only - no other content -->
+  <!-- Hero Background (persistent across all sections) -->
   {{ partial "hero-background.html" . }}
+  
+  <!-- Presentation Container -->
+  <div class="presentation-container">
+    
+    <!-- Section 1: Hero Introduction -->
+    <section class="presentation-section hero-section active" data-section="hero">
+      <div class="hero-content">
+        <div class="hero-intro">
+          <h1 class="hero-title">
+            <span class="greeting">Bonsoir Push Start 👋</span>
+            <span class="name">Clément <span class="highlight">"Clix"</span> GARCIA</span>
+          </h1>
+          <p class="hero-subtitle">Développeur Jeu Vidéo & Créateur d'Outils</p>
+          <div class="hero-tags">
+            <span class="tag">Unity</span>
+            <span class="tag">C#</span>
+            <span class="tag">Unreal Engine</span>
+            <span class="tag">Modding</span>
+          </div>
+        </div>
+        <div class="scroll-indicator">
+          <span>Scroller pour continuer</span>
+          <div class="scroll-arrow">↓</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 2: Projects Carousel -->
+    <section class="presentation-section projects-section" data-section="projects">
+      <div class="projects-content">
+        <h2 class="section-title">Mon Parcours</h2>
+        
+        <div class="projects-carousel-wrapper">
+          <!-- Project Display Area -->
+          <div class="project-display">
+            <!-- Left: Logo + Carousel Preview -->
+            <div class="project-left">
+              <div class="project-logo-container">
+                <!-- Background logos (previous and next projects) -->
+                <div class="project-logo-bg prev" id="prevProjectLogo"></div>
+                <div class="project-logo-bg next" id="nextProjectLogo"></div>
+                <!-- Main current project logo -->
+                <img src="" alt="" class="project-logo" id="currentProjectLogo">
+                <!-- Sector badge overlaid on logo -->
+                <div class="project-logo-badge" id="projectSector"></div>
+              </div>
+            </div>
+            
+            <!-- Right: Visual Element (image/video) -->
+            <div class="project-right">
+              <div class="project-visual" id="projectVisual">
+                <!-- Image or video will be inserted here -->
+              </div>
+            </div>
+          </div>
+          
+          <!-- Project Info Below -->
+          <div class="project-info">
+            <h3 class="project-title" id="projectTitle"></h3>
+            <p class="project-stats" id="projectStats"></p>
+          </div>
+          
+          <!-- Carousel Navigation -->
+          <div class="carousel-controls">
+            <button class="carousel-btn prev-btn" id="carouselPrev">←</button>
+            <div class="carousel-dots" id="carouselDots"></div>
+            <button class="carousel-btn next-btn" id="carouselNext">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 3: Contact & Final -->
+    <section class="presentation-section contact-section" data-section="contact">
+      <div class="contact-content">
+        <h2 class="section-title">Restons en contact</h2>
+        
+        <div class="contact-grid">
+          <!-- QR Code -->
+          <div class="qr-code-container">
+            <div class="qr-code">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ .Site.BaseURL | absURL }}" alt="QR Code Portfolio">
+            </div>
+            <p class="qr-label">Scannez pour accéder au portfolio</p>
+          </div>
+          
+          <!-- Contact Info -->
+          <div class="contact-info">
+            <div class="contact-item">
+              <span class="contact-icon">📧</span>
+              <a href="mailto:clement.g.developer@gmail.com">clement.g.developer@gmail.com</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">💼</span>
+              <a href="https://linkedin.com/in/clixmods" target="_blank">linkedin.com/in/clixmods</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">🐙</span>
+              <a href="https://github.com/clixmods" target="_blank">github.com/clixmods</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">🌐</span>
+              <a href="{{ .Site.BaseURL | absURL }}" target="_blank">{{ replace (.Site.BaseURL | absURL) "https://" "" | replace "http://" "" | replace "/" "" }}</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="final-message">
+          <p>Je suis disponible ce soir pour discuter</p>
+          <p class="highlight">N'hésitez pas à venir me parler, je ne mords pas 😄</p>
+        </div>
+      </div>
+    </section>
+    
+  </div>
+  
+  <!-- Projects Data (MUST be loaded BEFORE presentation.js) -->
+  <script>
+    window.projectsData = [
+      {
+        title: "Zombies Experience",
+        logo: "/images/projects/zombies-experience/ze-logo.png",
+        visual: "/images/projects/zombies-experience/téléchargement.jpg",
+        visualType: "image",
+        sector: "mods",
+        stats: "270 000+ téléchargements • 120ème place sur 6000+ mods Steam Workshop • Modification avancée du moteur",
+        description: "Mod avancé qui étend Black Ops 3 avec nouvelles fonctionnalités multijoueur et intégration Discord"
+      },
+      {
+        title: "Nuketown Zombies",
+        logo: "/images/projects/nuketown/nuketown-steam-logo.jpg",
+        visual: "https://www.youtube.com/embed/e3KIFgqdaKg",
+        visualType: "video",
+        sector: "mods",
+        stats: "600 000+ téléchargements • 10ème place sur 6000+ mods Steam Workshop • Remake fidèle",
+        description: "Recréation améliorée de Nuketown Zombies de Black Ops 2 sur Black Ops 3"
+      },
+      {
+        title: "Terra Memoria",
+        logo: "/images/projects/terra-memoria/terra-memoria-logo.png",
+        visual: "https://www.youtube.com/embed/SLd_fCFqm80",
+        visualType: "video",
+        sector: "games-professionnel",
+        stats: "JRPG commercial sorti en 2024 • Multi-plateformes (PC, Switch, Xbox, PS, Epic) • 2 ans d'alternance chez La Moutarde",
+        description: "Participation à la fin de production, débogage, portage console et maintenance post-release"
+      },
+      {
+        title: "Stone Keeper 2",
+        logo: "/images/projects/stone-keeper-2/stone-keeper2-logo.png",
+        visual: "https://www.youtube.com/embed/j4MpNqSn3YQ",
+        visualType: "video",
+        sector: "games-personnel",
+        stats: "Projet étudiant • Inspiré de Tunic et L'Atlantide (mon Disney préféré) • Unity & C#",
+        description: "Jeu isométrique d'action-aventure avec mécaniques de découverte et atmosphère immersive"
+      },
+      {
+        title: "My Game Showcase",
+        logo: "/images/projects/my-game-showcase/My Game Showcase.webp",
+        visual: "/images/projects/my-game-showcase/artbook.webp",
+        visualType: "image",
+        sector: "tools",
+        stats: "Outil SaaS en production • Développé chez La Moutarde • Blazor + FastEndpoint + SignalR",
+        description: "Application permettant aux studios de générer automatiquement des artbooks digitaux et vitrines pour consoles"
+      }
+    ];
+  </script>
+  
+  <!-- Presentation JavaScript -->
+  <script src="{{ (resources.Get "js/presentation.js" | resources.Minify | resources.Fingerprint).RelPermalink }}"></script>
 </body>
 </html>

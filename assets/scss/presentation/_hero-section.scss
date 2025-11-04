@@ -1,0 +1,116 @@
+/* 
+ * Hero Section - Introduction slide
+ * Name, title, tags, scroll indicator
+ */
+
+.hero-section {
+  .hero-content {
+    text-align: center;
+  }
+}
+
+.hero-intro {
+  margin-bottom: 80px;
+}
+
+.hero-title {
+  font-size: 72px;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  
+  .greeting {
+    display: block;
+    font-size: 32px;
+    font-weight: 600;
+    color: #b0d2ff;
+    margin-bottom: 15px;
+    opacity: 0.9;
+  }
+  
+  .name {
+    display: block;
+    background: linear-gradient(135deg, #ffffff 0%, #00ffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleShine 3s ease-in-out infinite;
+  }
+}
+
+@keyframes titleShine {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.2);
+  }
+}
+
+.hero-subtitle {
+  font-size: 28px;
+  font-weight: 500;
+  color: #b0d2ff;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+.hero-tags {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 12px 24px;
+  background: rgba(0, 255, 255, 0.1);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #00ffff;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  animation: scrollBounce 2s ease-in-out infinite;
+  
+  span {
+    display: block;
+    font-size: 14px;
+    color: #b0d2ff;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .scroll-arrow {
+    font-size: 32px;
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+  }
+}
+
+@keyframes scrollBounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}

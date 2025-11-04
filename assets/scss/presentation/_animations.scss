@@ -1,0 +1,135 @@
+/* 
+ * Animations - Keyframes and transitions
+ */
+
+/* Fade in animation for elements */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Zoom in animation */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Glow animation */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
+  }
+}
+
+/* Slide from left */
+@keyframes slideFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide from right */
+@keyframes slideFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Rotate in animation */
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+/* Apply animations when section becomes active */
+.presentation-section.active {
+  .hero-title,
+  .section-title {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+  
+  .hero-subtitle,
+  .project-info {
+    animation: slideUp 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+  
+  .hero-tags,
+  .carousel-controls {
+    animation: slideUp 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+  
+  .project-display {
+    animation: fadeIn 0.8s ease-out 0.3s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+  
+  .contact-grid {
+    animation: fadeIn 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+  
+  .final-message {
+    animation: slideUp 0.8s ease-out 0.5s forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+}
