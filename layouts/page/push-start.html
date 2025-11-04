@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ .Title }} - {{ .Site.Title }}</title>
+  
+  <!-- Load hero background CSS -->
+  {{ $heroCSS := resources.Get "css/hero-background.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $heroCSS.RelPermalink }}" />
+  
+  <!-- Load CSS variables needed for hero background -->
+  <style>
+    :root {
+      /* Hero Background Gradients */
+      --hero-radial-gradient: radial-gradient(ellipse 80% 50% at 50% 30%, rgba(20, 40, 100, 0.3) 0%, transparent 60%);
+      --hero-linear-gradient: linear-gradient(180deg, #0a1e54 0%, #050a1e 50%, #000000 100%);
+      
+      /* Hero Wave Colors - Dark Theme */
+      --hero-wave-color-1: rgba(30, 144, 255, 0.35);
+      --hero-wave-color-2: rgba(0, 191, 255, 0.30);
+      --hero-wave-color-3: rgba(135, 206, 250, 0.25);
+      --hero-wave-color-4: rgba(176, 224, 230, 0.20);
+      --hero-wave-color-5: rgba(173, 216, 230, 0.18);
+      --hero-wave-color-6: rgba(135, 206, 235, 0.15);
+      --hero-wave-color-7: rgba(100, 149, 237, 0.12);
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Background only - no other content -->
+  {{ partial "hero-background.html" . }}
+</body>
+</html>
