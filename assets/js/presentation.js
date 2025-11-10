@@ -65,11 +65,16 @@
     console.log('Initializing presentation with', projects.length, 'projects');
     
     setupEventListeners();
+    initializePS5Header();
     initializeCarousel();
     updateCarousel();
+    updateTime();
     
     // Set first section as active
     sections[0].classList.add('active');
+    
+    // Update time every second
+    setInterval(updateTime, 1000);
     
     console.log('Presentation initialized successfully');
   }
@@ -251,7 +256,79 @@
   }
   
   /**
-   * Initialize carousel
+   * Initialize PS5-style header with project icons
+   */
+  function initializePS5Header() {
+    const iconsRow = document.getElementById('projectsIconsRow');
+    const cardsRow = document.getElementById('projectsCardsRow');
+    
+    if (!iconsRow) return;
+    
+    // Clear existing icons
+    iconsRow.innerHTML = '';
+    if (cardsRow) cardsRow.innerHTML = '';
+    
+    // Create icon for each project
+    projects.forEach((project, index) => {
+      // Top icons row
+      const icon = document.createElement('div');
+      icon.className = 'ps5-project-icon';
+      if (index === 0) icon.classList.add('active');
+      
+      const img = document.createElement('img');
+      img.src = project.logo;
+      img.alt = project.title;
+      
+      icon.appendChild(img);
+      
+      icon.addEventListener('click', () => {
+        goToProject(index);
+      });
+      
+      iconsRow.appendChild(icon);
+      
+      // Bottom cards row
+      if (cardsRow) {
+        const card = document.createElement('div');
+        card.className = 'ps5-project-card';
+        
+        const cardImg = document.createElement('img');
+        cardImg.src = project.visual.includes('youtube') ? 
+          `https://img.youtube.com/vi/${project.visual.match(/embed\/([^?]+)/)?.[1]}/maxresdefault.jpg` : 
+          project.visual;
+        cardImg.alt = project.title;
+        
+        const cardTitle = document.createElement('div');
+        cardTitle.className = 'card-title';
+        cardTitle.textContent = project.title;
+        
+        card.appendChild(cardImg);
+        card.appendChild(cardTitle);
+        
+        card.addEventListener('click', () => {
+          goToProject(index);
+        });
+        
+        cardsRow.appendChild(card);
+      }
+    });
+  }
+  
+  /**
+   * Update time display
+   */
+  function updateTime() {
+    const timeEl = document.getElementById('currentTime');
+    if (!timeEl) return;
+    
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    timeEl.textContent = `${hours}:${minutes}`;
+  }
+  
+  /**
+   * Initialize carousel (deprecated - kept for compatibility)
    */
   function initializeCarousel() {
     const dotsContainer = document.getElementById('carouselDots');
@@ -304,6 +381,26 @@
     if (projectDisplay) projectDisplay.classList.add('transitioning');
     if (projectInfo) projectInfo.classList.add('transitioning');
     
+    // Update PS5 header icons
+    const icons = document.querySelectorAll('.ps5-project-icon');
+    icons.forEach((icon, i) => {
+      if (i === index) {
+        icon.classList.add('active');
+      } else {
+        icon.classList.remove('active');
+      }
+    });
+    
+    // Update carousel dots (if present)
+    const dots = document.querySelectorAll('.carousel-dot');
+    dots.forEach((dot, i) => {
+      if (i === index) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+    
     // Update after a short delay to allow fade out
     setTimeout(() => {
       currentProject = index;
@@ -318,7 +415,7 @@
   }
   
   /**
-   * Update carousel display
+   * Update carousel display (PS5 Hero style)
    */
   function updateCarousel() {
     const project = projects[currentProject];
@@ -328,95 +425,49 @@
       return;
     }
     
-    console.log('Updating carousel to project:', project.title);
+    console.log('Updating PS5 hero to project:', project.title);
     
-    // Calculate previous and next project indices with wraparound
-    const prevIndex = (currentProject - 1 + projects.length) % projects.length;
-    const nextIndex = (currentProject + 1) % projects.length;
-    
-    // Update main logo
-    const logoEl = document.getElementById('currentProjectLogo');
-    if (logoEl) {
-      logoEl.src = project.logo;
-      logoEl.alt = project.title;
-      console.log('Logo updated:', project.logo);
-    } else {
-      console.error('Logo element not found');
+    // Update hero background
+    const heroBackground = document.getElementById('ps5HeroBackground');
+    if (heroBackground) {
+      heroBackground.innerHTML = '';
+      
+      if (project.visualType === 'video') {
+        const iframe = document.createElement('iframe');
+        iframe.src = project.visual + '?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&playlist=' + project.visual.match(/embed\/([^?]+)/)?.[1];
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.setAttribute('frameborder', '0');
+        heroBackground.appendChild(iframe);
+        console.log('Hero video loaded:', project.visual);
+      } else {
+        heroBackground.style.backgroundImage = `url(${project.visual})`;
+        console.log('Hero image loaded:', project.visual);
+      }
     }
     
-    // Update background logos (previous and next projects)
-    const prevLogoEl = document.getElementById('prevProjectLogo');
-    const nextLogoEl = document.getElementById('nextProjectLogo');
-    
-    if (prevLogoEl && projects[prevIndex].logo) {
-      prevLogoEl.style.backgroundImage = `url(${projects[prevIndex].logo})`;
-      console.log('Previous logo updated:', projects[prevIndex].title);
+    // Update hero logo
+    const heroLogo = document.getElementById('heroLogo');
+    if (heroLogo) {
+      heroLogo.src = project.logo;
+      heroLogo.alt = project.title;
     }
     
-    if (nextLogoEl && projects[nextIndex].logo) {
-      nextLogoEl.style.backgroundImage = `url(${projects[nextIndex].logo})`;
-      console.log('Next logo updated:', projects[nextIndex].title);
+    // Update hero subtitle
+    const heroSubtitle = document.getElementById('heroSubtitle');
+    if (heroSubtitle) {
+      heroSubtitle.textContent = project.stats.split('•')[0].trim();
     }
     
     // Update sector badge
     const sectorEl = document.getElementById('projectSector');
     if (sectorEl) {
       sectorEl.innerHTML = generateSectorBadge(project.sector);
-    } else {
-      console.error('Sector element not found');
     }
-    
-    // Update visual (image or video)
-    const visualEl = document.getElementById('projectVisual');
-    if (visualEl) {
-      visualEl.innerHTML = '';
-      
-      if (project.visualType === 'video') {
-        const iframe = document.createElement('iframe');
-        // Add autoplay, muted, loop, and hide controls for seamless presentation
-        iframe.src = project.visual + '?autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3';
-        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-        iframe.allowFullscreen = true;
-        iframe.setAttribute('frameborder', '0');
-        visualEl.appendChild(iframe);
-        console.log('Video loaded with autoplay:', project.visual);
-      } else {
-        const img = document.createElement('img');
-        img.src = project.visual;
-        img.alt = project.title;
-        img.onerror = () => console.error('Failed to load image:', project.visual);
-        img.onload = () => console.log('Image loaded:', project.visual);
-        visualEl.appendChild(img);
-      }
-    } else {
-      console.error('Visual element not found');
-    }
-    
-    // Update title
-    const titleEl = document.getElementById('projectTitle');
-    if (titleEl) {
-      titleEl.textContent = project.title;
-    } else {
-      console.error('Title element not found');
-    }
-    
-    // Update stats
-    const statsEl = document.getElementById('projectStats');
-    if (statsEl) {
-      statsEl.textContent = project.stats;
-    } else {
-      console.error('Stats element not found');
-    }
-    
-    // Update preview items (previous and next)
-    updatePreviewItems();
-    
-    // Update dots
-    updateCarouselDots();
   }
   
   /**
-   * Update preview items in background
+   * Update preview items in background (deprecated - kept for compatibility)
    */
   function updatePreviewItems() {
     const prevIndex = (currentProject - 1 + projects.length) % projects.length;

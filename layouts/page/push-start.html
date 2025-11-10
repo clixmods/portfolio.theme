@@ -72,49 +72,56 @@
       </div>
     </section>
     
-    <!-- Section 2: Projects Carousel -->
+    <!-- Section 2: Projects PS5 Hub -->
     <section class="presentation-section projects-section" data-section="projects">
-      <div class="projects-content">
-        <h2 class="section-title">Mon Parcours</h2>
+      
+      <!-- PS5 Top Bar (very thin, at the very top) -->
+      <div class="ps5-top-bar">
+        <div class="ps5-nav-tabs">
+          <span class="ps5-tab active">Games</span>
+          <span class="ps5-tab">Media</span>
+        </div>
         
-        <div class="projects-carousel-wrapper">
-          <!-- Project Display Area -->
-          <div class="project-display">
-            <!-- Left: Logo + Carousel Preview -->
-            <div class="project-left">
-              <div class="project-logo-container">
-                <!-- Background logos (previous and next projects) -->
-                <div class="project-logo-bg prev" id="prevProjectLogo"></div>
-                <div class="project-logo-bg next" id="nextProjectLogo"></div>
-                <!-- Main current project logo -->
-                <img src="" alt="" class="project-logo" id="currentProjectLogo">
-                <!-- Sector badge overlaid on logo -->
-                <div class="project-logo-badge" id="projectSector"></div>
-              </div>
-            </div>
-            
-            <!-- Right: Visual Element (image/video) -->
-            <div class="project-right">
-              <div class="project-visual" id="projectVisual">
-                <!-- Image or video will be inserted here -->
-              </div>
-            </div>
+        <div class="ps5-system-icons">
+          <button class="ps5-icon-btn" title="Search">🔍</button>
+          <button class="ps5-icon-btn" title="Settings">⚙️</button>
+          <div class="ps5-profile-icon">
+            <div class="ps5-profile-avatar"></div>
           </div>
-          
-          <!-- Project Info Below -->
-          <div class="project-info">
-            <h3 class="project-title" id="projectTitle"></h3>
-            <p class="project-stats" id="projectStats"></p>
-          </div>
-          
-          <!-- Carousel Navigation -->
-          <div class="carousel-controls">
-            <button class="carousel-btn prev-btn" id="carouselPrev">←</button>
-            <div class="carousel-dots" id="carouselDots"></div>
-            <button class="carousel-btn next-btn" id="carouselNext">→</button>
-          </div>
+          <span class="ps5-time" id="currentTime">18:18</span>
         </div>
       </div>
+      
+      <!-- PS5 Icons Row (horizontal scrolling games) -->
+      <div class="ps5-icons-container">
+        <button class="ps5-special-icon ps5-plus-icon">+</button>
+        <div class="ps5-projects-row" id="projectsIconsRow">
+          <!-- Project icons will be dynamically inserted here -->
+        </div>
+      </div>
+      
+      <!-- PS5 Hero Background (full screen with current project visual) -->
+      <div class="ps5-hero-background" id="ps5HeroBackground">
+        <!-- Background image/video will be set here -->
+      </div>
+      
+      <!-- PS5 Hero Content (overlay with project info) -->
+      <div class="ps5-hero-content">
+        <div class="ps5-hero-logo-container">
+          <img src="" alt="" class="ps5-hero-logo" id="heroLogo">
+          <div class="project-logo-badge" id="projectSector"></div>
+        </div>
+        <p class="ps5-hero-subtitle" id="heroSubtitle">Out now</p>
+      </div>
+      
+      <!-- PS5 Bottom Section (Must see carousel) -->
+      <div class="ps5-bottom-section">
+        <h3 class="ps5-section-title">Mon Parcours</h3>
+        <div class="ps5-cards-row" id="projectsCardsRow">
+          <!-- Project cards will be dynamically inserted here -->
+        </div>
+      </div>
+      
     </section>
     
     <!-- Section 3: Contact & Final -->
