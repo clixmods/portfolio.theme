@@ -2,6 +2,15 @@
 <!-- Profile section outside of main container for full width -->
 {{ partial "profile.html" . }}
 
+<script>
+// Localized project descriptions - injected from Hugo i18n
+window.PROJECT_DESCRIPTIONS = {
+    games: "{{ i18n "projects_description_games" | default "Projets de développement de jeux vidéo, du prototypage à la production commerciale." }}",
+    "apps-web": "{{ i18n "projects_description_appsweb" | default "Applications web modernes et solutions full-stack utilisant les dernières technologies." }}",
+    "mods-tools": "{{ i18n "projects_description_tools" | default "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs." }}"
+};
+</script>
+
 <div class="container">
     <!-- Progress bar pour indiquer le défilement -->
     <div class="scroll-progress">
