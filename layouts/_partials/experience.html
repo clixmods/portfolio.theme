@@ -231,7 +231,8 @@
 
     <!-- Internships Timeline -->
     <div class="experience-timeline" id="internships-timeline" data-tab="internships" style="display: none;">
-        {{ range $index, $int := .Site.Data.internships }}
+        {{- $internshipsData := partial "get-localized-data.html" (dict "context" . "dataName" "internships") -}}
+        {{ range $index, $int := $internshipsData }}
         <div class="experience-card seeking">
             <div class="experience-header-card">
                 <div class="company-info">
