@@ -1,0 +1,34 @@
+{{- /*
+  Get Localized Data Utility
+  
+  Usage:
+    {{ $profile := partial "get-localized-data.html" (dict "context" . "dataName" "profile") }}
+    {{ $config := partial "get-localized-data.html" (dict "context" . "dataName" "config") }}
+  
+  Parameters:
+    - context: The page context (usually .)
+    - dataName: The name of the data file (without extension)
+  
+  Returns:
+    The appropriate data file based on current language
+    - For FR (default): data/{dataName}.json
+    - For EN: data/{dataName}.en.json
+    - For other languages: data/{dataName}.{lang}.json
+*/ -}}
+
+{{- $context := .context -}}
+{{- $dataName := .dataName -}}
+{{- $currentLang := $context.Language.Lang -}}
+
+{{- /* Start with default language data */ -}}
+{{- $data := index $context.Site.Data $dataName -}}
+
+{{- /* If current language is not French (default), try to load localized version */ -}}
+{{- if ne $currentLang "fr" -}}
+    {{- $localizedKey := printf "%s.%s" $dataName $currentLang -}}
+    {{- with index $context.Site.Data $localizedKey -}}
+        {{- $data = . -}}
+    {{- end -}}
+{{- end -}}
+
+{{- return $data -}}
