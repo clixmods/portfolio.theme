@@ -148,6 +148,11 @@ results: "Résultats :"
 validated: "Validée"
 not_taken: "Non suivie"
 skipped: "Admis directement"
+view_education: "Voir la formation"
+education_description: "Description de la formation"
+year_progression: "Progression par année"
+acquired_skills: "Compétences acquises"
+completed_projects: "Projets réalisés"
 
 # Footer
 powered_by: "Propulsé par"
