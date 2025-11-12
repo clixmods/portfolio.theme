@@ -109,6 +109,10 @@ projects_description_games: "Projets de développement de jeux vidéo, du protot
 projects_description_appsweb: "Applications web modernes et solutions full-stack utilisant les dernières technologies."
 projects_description_mods: "Mods créatifs pour enrichir et étendre les jeux existants avec de nouvelles fonctionnalités."
 projects_description_tools: "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs."
+professional: "Professionnel"
+personal: "Personnel"
+game_jams: "Game Jams"
+study: "Étude"
 see_project: "Voir le projet"
 see_all_projects: "Voir tous les projets"
 

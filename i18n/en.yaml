@@ -95,6 +95,10 @@ projects_description_appsweb: "Modern web applications and full-stack solutions 
 projects_description_mods: "Creative mods to enrich and extend existing games with new features."
 projects_description_tools: "Development tools, mods, and utilities to improve creative workflows."
 all: "All"
+professional: "Professional"
+personal: "Personal"
+game_jams: "Game Jams"
+study: "Study"
 see_project: "See project"
 see_all_projects: "See all projects"
 
