@@ -308,5 +308,9 @@ no_specific_tool: "No specific tool"
 no_tool_used: "This project does not use any specific tools listed in the portfolio."
 tools_lowercase: "tools"
 
+# Navigation
+previous_project: "Previous project"
+next_project: "Next project"
+
 # Education section
 view_all_educations: "View all education"

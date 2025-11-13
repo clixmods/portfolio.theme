@@ -318,5 +318,9 @@ no_specific_tool: "Aucun outil spécifique"
 no_tool_used: "Ce projet n'utilise pas d'outils spécifiques répertoriés dans le portfolio."
 tools_lowercase: "outils"
 
+# Navigation
+previous_project: "Projet précédent"
+next_project: "Projet suivant"
+
 # Education section
 view_all_educations: "Voir toutes les formations"

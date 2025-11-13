@@ -224,7 +224,7 @@
         {{ if .Params.notable_facts }}
         <aside class="project-sidebar">
             <div class="notable-facts">
-                <h3 class="notable-facts-title">Faits notables</h3>
+                <h3 class="notable-facts-title">{{ i18n "notable_facts" | default "Faits notables" }}</h3>
                 {{ range .Params.notable_facts }}
                 <div class="fact-card">
                     <div class="fact-icon {{ .type }}">{{ .icon }}</div>
