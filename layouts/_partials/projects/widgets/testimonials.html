@@ -7,7 +7,7 @@
 */}}
 
 {{- if .Params.testimonials -}}
-<div class="project-widget widget-testimonials-box {{ .Params.testimonials_size | default "size-large" }}" data-modal-title="Témoignages">
+<div class="project-widget widget-testimonials-box {{ .Params.testimonials_size | default "size-large" }}" data-modal-title="{{ i18n "project_testimonials" | default "Témoignages" }}">
   <div class="project-widget-header" onclick="toggleInfoBox(this)">
     <div class="project-widget-header-content">
       {{- if .Params.testimonials -}}
@@ -38,7 +38,7 @@
           <div class="widget-testimonial-preview-content">
             <div class="widget-testimonial-preview-quote">
               {{- $firstTestimonial := index .Params.testimonials 0 -}}
-              {{ $firstTestimonial.quote | markdownify | default "Témoignage en cours de chargement..." }}
+              {{ $firstTestimonial.quote | markdownify | default (i18n "testimonial_loading" | default "Témoignage en cours de chargement...") }}
             </div>
           </div>
           

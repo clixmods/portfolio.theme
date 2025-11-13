@@ -29,13 +29,21 @@
       </svg>
     </div>
     <div class="project-widget-header-content">
-      <h3 class="project-widget-title">Outils utilisés</h3>
-      <div class="project-widget-summary">{{ len $usedTools }} outil{{ if gt (len $usedTools) 1 }}s{{ end }} employé{{ if gt (len $usedTools) 1 }}s{{ end }}</div>
+      <h3 class="project-widget-title">{{ i18n "tools_used" | default "Outils utilisés" }}</h3>
+      <div class="project-widget-summary">{{ len $usedTools }} {{ i18n "tools_employed" | default "outils employés" }}</div>
       <!-- Aperçu des outils -->
       <div class="tools-preview">
         <div class="tool-icons-preview">
           {{- range first 5 $usedTools -}}
-          <div class="tool-icon-mini clickable" onclick="openSkillModal('{{ .name }}', '/{{ .iconPath }}', 'Outil', '{{ .experience }} an{{ if gt .experience 1 }}s{{ end }}', 'svg')" title="{{ .name }} - Cliquez pour voir les détails">
+          {{- $toolLabel := i18n "tool" | default "Outil" -}}
+          {{- $yearLabel := "" -}}
+          {{- if eq .experience 1 -}}
+            {{- $yearLabel = i18n "year_singular" | default "an" -}}
+          {{- else -}}
+            {{- $yearLabel = i18n "years_plural" | default "ans" -}}
+          {{- end -}}
+          {{- $clickDetails := i18n "click_to_see_details" | default "Cliquez pour voir les détails" -}}
+          <div class="tool-icon-mini clickable" onclick="openSkillModal('{{ .name }}', '/{{ .iconPath }}', '{{ $toolLabel }}', '{{ .experience }} {{ $yearLabel }}', 'svg')" title="{{ .name }} - {{ $clickDetails }}">
             {{- if .iconPath -}}
             <img src="/{{ .iconPath }}" alt="{{ .name }}">
             {{- else -}}

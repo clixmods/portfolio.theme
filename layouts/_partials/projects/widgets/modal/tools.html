@@ -44,7 +44,7 @@
     {{/* Barre de statistiques */}}
     <div class="tools-stats-bar">
       <div class="widget-count">
-        <strong>{{ $total }}</strong> outil{{ if gt $total 1 }}s{{ end }}
+        <strong>{{ $total }}</strong> {{ if eq $total 1 }}{{ i18n "tool_lowercase" | default "outil" }}{{ else }}{{ i18n "tools_lowercase" | default "outils" }}{{ end }}
       </div>
       {{/* Affichage des catégories regroupées */}}
       <div class="tools-categories">
@@ -85,7 +85,7 @@
         <img src="{{ $profileData.media.profileImage }}" alt="{{ $profileData.personal.fullName }}" loading="lazy">
       </div>
       <div class="profile-note-content">
-        <div class="profile-note-title">Outils utilisés par {{ $profileData.personal.firstName }} pour ce projet</div>
+        <div class="profile-note-title">{{ i18n "tools_used" | default "Outils utilisés" }} {{ i18n "by" | default "par" }} {{ $profileData.personal.firstName }} {{ i18n "for_this_project" | default "pour ce projet" }}</div>
         <div class="profile-note-subtitle">{{ $profileData.personal.title }}</div>
       </div>
     </div>
@@ -164,24 +164,24 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
       </svg>
-      Cliquez sur un outil pour voir les projets associés et plus de détails
+      {{ i18n "click_tool_see_projects" | default "Cliquez sur un outil pour voir les projets associés et plus de détails" }}
     </div>
   </div>
 {{- else -}}
   <div class="tools-modal">
     <div class="tools-stats-bar">
       <div class="widget-count">
-        <strong>0</strong> outils
+        <strong>0</strong> {{ i18n "tools_lowercase" | default "outils" }}
       </div>
     </div>
     
     <div class="tools-empty-state widget-note">
       <div class="widget-note-header">
         <div class="widget-note-icon widget-icon widget-icon--md">🛠️</div>
-        <div class="widget-note-title">Aucun outil spécifique</div>
+        <div class="widget-note-title">{{ i18n "no_specific_tool" | default "Aucun outil spécifique" }}</div>
       </div>
       <div class="widget-note-content">
-        <p>Ce projet n'utilise pas d'outils spécifiques répertoriés dans le portfolio.</p>
+        <p>{{ i18n "no_tool_used" | default "Ce projet n'utilise pas d'outils spécifiques répertoriés dans le portfolio." }}</p>
       </div>
     </div>
   </div>

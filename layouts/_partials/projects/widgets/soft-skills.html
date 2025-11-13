@@ -29,13 +29,13 @@
       </svg>
     </div>
     <div class="project-widget-header-content">
-      <h3 class="project-widget-title">Compétences transversales</h3>
-      <div class="project-widget-summary">{{ len $usedSoftSkills }} compétence{{ if gt (len $usedSoftSkills) 1 }}s{{ end }} mobilisée{{ if gt (len $usedSoftSkills) 1 }}s{{ end }}</div>
+      <h3 class="project-widget-title">{{ i18n "soft_skills_cross" | default "Compétences transversales" }}</h3>
+      <div class="project-widget-summary">{{ len $usedSoftSkills }} {{ i18n "skills_mobilized" | default "compétences mobilisées" }}</div>
       <!-- Aperçu des soft skills -->
       <div class="soft-skills-preview">
         <div class="soft-skill-badges-preview">
           {{- range first 3 $usedSoftSkills -}}
-          <div class="soft-skill-badge-mini clickable" onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', 'Soft Skill', '', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')" title="Cliquez pour voir les détails">
+          <div class="soft-skill-badge-mini clickable" onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', 'Soft Skill', '', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')" title="{{ i18n "click_to_see_details" | default "Cliquez pour voir les détails" }}">
             <span class="soft-skill-icon">{{ .icon }}</span>
             <span class="soft-skill-name">{{ .name }}</span>
           </div>

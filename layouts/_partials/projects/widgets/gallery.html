@@ -27,8 +27,8 @@
       {{- partial "icon.html" (dict "iconId" "image") -}}
     </div>
     <div class="project-widget-header-content">
-      <h3 class="project-widget-title">Galerie du projet</h3>
-      <div class="project-widget-summary">{{ len .Params.gallery }} image{{ if gt (len .Params.gallery) 1 }}s{{ end }}</div>
+      <h3 class="project-widget-title">{{ i18n "project_gallery" | default "Galerie du projet" }}</h3>
+      <div class="project-widget-summary">{{ len .Params.gallery }} {{ if eq (len .Params.gallery) 1 }}{{ i18n "image" | default "image" }}{{ else }}{{ i18n "images" | default "images" }}{{ end }}</div>
     </div>
     <div class="project-widget-toggle">
       {{- partial "icon.html" (dict "iconId" "chevron-down") -}}

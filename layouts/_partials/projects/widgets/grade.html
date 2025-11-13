@@ -13,8 +13,8 @@
       {{- partial "icon.html" (dict "iconId" "grade") -}}
     </div>
     <div class="project-widget-header-content">
-      <h3 class="project-widget-title">Note académique</h3>
-      <div class="project-widget-summary">{{ .Params.grade.subject | default "Évaluation" }}</div>
+      <h3 class="project-widget-title">{{ i18n "academic_grade" | default "Note académique" }}</h3>
+      <div class="project-widget-summary">{{ .Params.grade.subject | default (i18n "evaluation" | default "Évaluation") }}</div>
       <!-- Aperçu simple de la note -->
       <div class="project-widget-grade-preview">
         <div class="project-widget-grade-preview-value">
@@ -33,7 +33,7 @@
   </div>
   <div class="project-widget-content">
     {{/* Contenu modal enhanced - uniquement ce qui doit apparaître dans le modal */}}
-    {{ partial "projects/widgets/modal/grade.html" (dict "Project" . "Title" "Note académique") }}
+    {{ partial "projects/widgets/modal/grade.html" (dict "Project" . "Title" (i18n "academic_grade" | default "Note académique")) }}
   </div>
 </div>
 {{- end -}}

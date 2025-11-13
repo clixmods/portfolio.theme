@@ -14,7 +14,7 @@
     </div>
     <div class="project-widget-header-content">
       {{- $total := default 0 .Params.downloads.total -}}
-      <h3 class="project-widget-title">{{ partial "helpers/format-number.html" $total }} {{ if eq $total 1 }}téléchargement{{ else }}téléchargements{{ end }}</h3>
+      <h3 class="project-widget-title">{{ partial "helpers/format-number.html" $total }} {{ if eq $total 1 }}{{ i18n "download" | default "téléchargement" }}{{ else }}{{ i18n "downloads_plural" | default "téléchargements" }}{{ end }}</h3>
     </div>
     <div class="project-widget-toggle">
       {{- partial "icon.html" (dict "iconId" "chevron-down") -}}
@@ -22,7 +22,7 @@
   </div>
   <div class="project-widget-content">
     {{/* Contenu modal enhanced - uniquement ce qui doit apparaître dans le modal */}}
-    {{ partial "projects/widgets/modal/downloads.html" (dict "Project" . "Title" "Téléchargements") }}
+    {{ partial "projects/widgets/modal/downloads.html" (dict "Project" . "Title" (i18n "downloads_plural" | default "Téléchargements")) }}
   </div>
 </div>
 {{- end -}}

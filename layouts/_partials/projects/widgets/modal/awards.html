@@ -18,7 +18,7 @@
     {{/* Barre de statistiques */}}
     <div class="awards-stats-bar">
       <div class="widget-count">
-        <strong>{{ $total }}</strong> récompense{{ if gt $total 1 }}s{{ end }}
+        <strong>{{ $total }}</strong> {{ if eq $total 1 }}{{ i18n "reward" | default "récompense" }}{{ else }}{{ i18n "rewards" | default "récompenses" }}{{ end }}
       </div>
       {{/* Années des récompenses */}}
       {{- $years := slice -}}
@@ -42,7 +42,7 @@
     {{/* Grille des récompenses */}}
     <div class="awards-grid">
       {{- range $index, $award := $awards -}}
-        {{- $awardTitle := $award.title | default "Récompense" -}}
+        {{- $awardTitle := $award.title | default (i18n "reward" | default "Récompense") -}}
         {{- $awardOrganization := $award.organization | default "" -}}
         {{- $awardDate := $award.date | default "" -}}
         {{- $awardDescription := $award.description | default "" -}}
@@ -82,17 +82,17 @@
   <div class="awards-modal">
     <div class="awards-stats-bar">
       <div class="widget-count">
-        <strong>0</strong> récompenses
+        <strong>0</strong> {{ i18n "rewards" | default "récompenses" }}
       </div>
     </div>
     
     <div class="awards-empty-state widget-note">
       <div class="widget-note-header">
         <div class="widget-note-icon widget-icon widget-icon--md">🏆</div>
-        <div class="widget-note-title">Aucune récompense</div>
+        <div class="widget-note-title">{{ i18n "no_reward" | default "Aucune récompense" }}</div>
       </div>
       <div class="widget-note-content">
-        <p>Ce projet n'a pas encore reçu de récompenses officielles.</p>
+        <p>{{ i18n "no_official_reward_yet" | default "Ce projet n'a pas encore reçu de récompenses officielles." }}</p>
       </div>
     </div>
   </div>
