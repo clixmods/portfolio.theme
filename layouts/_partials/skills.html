@@ -1,3 +1,9 @@
+{{- /* Load localized data files */ -}}
+{{- $programmingLanguages := partial "get-localized-data.html" (dict "context" . "dataName" "programming_languages") -}}
+{{- $frameworksEngines := partial "get-localized-data.html" (dict "context" . "dataName" "frameworks_engines") -}}
+{{- $specialties := partial "get-localized-data.html" (dict "context" . "dataName" "specialties") -}}
+{{- $softSkills := partial "get-localized-data.html" (dict "context" . "dataName" "soft_skills") -}}
+
 <section id="competences" class="skills-section">
     <div class="skills-header section-header-unified">
         <h2 class="section-title-unified">{{ i18n "technical_skills" | default "Compétences techniques" }}</h2>
@@ -6,11 +12,11 @@
     
     <div class="skills-categories-grid">
         
-        {{/* Programming Languages - direct data */}}
+        {{/* Programming Languages - localized data */}}
         <div class="skills-category">
             <h4>{{ i18n "programming_languages" | default "Langages de programmation" }}</h4>
             <div class="skills-grid">
-                {{ range sort .Site.Data.programming_languages "experience" "desc" }}
+                {{ range sort $programmingLanguages "experience" "desc" }}
                     {{ if .displayedInPortfolio }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "programming-language" "context" $) }}
                     {{ end }}
@@ -18,11 +24,11 @@
             </div>
         </div>
 
-        {{/* Frameworks & Game Engines - direct data */}}
+        {{/* Frameworks & Game Engines - localized data */}}
         <div class="skills-category">
             <h4>{{ i18n "frameworks_engines" | default "Frameworks & Moteurs" }}</h4>
             <div class="skills-grid">
-                {{ range .Site.Data.frameworks_engines }}
+                {{ range $frameworksEngines }}
                     {{ if .displayedInPortfolio }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "framework-engine" "context" $) }}
                     {{ end }}
@@ -30,11 +36,11 @@
             </div>
         </div>
 
-        {{/* Specialties - direct data */}}
+        {{/* Specialties - localized data */}}
         <div class="skills-category">
             <h4>{{ i18n "specialties" | default "Spécialités" }}</h4>
             <div class="skills-grid">
-                {{ range .Site.Data.specialties }}
+                {{ range $specialties }}
                     {{ if .displayedInPortfolio }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "specialty" "context" $ "showExperience" false) }}
                     {{ end }}
@@ -42,11 +48,11 @@
             </div>
         </div>
 
-        {{/* Soft Skills - direct data */}}
+        {{/* Soft Skills - localized data */}}
         <div class="skills-category">
             <h4>{{ i18n "soft_skills" | default "Soft Skills" }}</h4>
             <div class="skills-grid">
-                {{ range .Site.Data.soft_skills }}
+                {{ range $softSkills }}
                 {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "soft-skill" "context" $ "showExperience" false) }}
                 {{ end }}
             </div>

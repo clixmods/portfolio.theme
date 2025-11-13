@@ -223,8 +223,11 @@ window.portfolioPeople = [
     {{- end -}}
 ];
 
+{{- /* Load localized testimonials data */ -}}
+{{- $testimonials := partial "get-localized-data.html" (dict "context" . "dataName" "testimonials") -}}
+
 window.portfolioTestimonials = [
-    {{- range .Site.Data.testimonials -}}
+    {{- range $testimonials -}}
     {
         personId: "{{ .personId }}",
         company: "{{ .company }}",

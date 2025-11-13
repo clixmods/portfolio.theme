@@ -3,13 +3,13 @@
   Description: Widget compact pour afficher les spécialités utilisées dans un projet
   Context: 
     - .Params (dict) - Paramètres du projet avec .specialties
-    - .Site.Data.specialties (slice) - Données des spécialités
+    - specialties data (loaded from localized data files)
     - .File.BaseFileName (string) - ID du projet
 */}}
 
 {{- if .Params.specialties -}}
   {{- $projectSpecialities := .Params.specialties -}}
-  {{- $allSpecialities := .Site.Data.specialties -}}
+  {{- $allSpecialities := partial "get-localized-data.html" (dict "context" . "dataName" "specialties") -}}
   {{- $usedSpecialities := slice -}}
   {{- range $projectSpecialities -}}
     {{- $specialty := . -}}

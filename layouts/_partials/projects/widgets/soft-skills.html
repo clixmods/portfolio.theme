@@ -3,13 +3,13 @@
   Description: Widget compact pour afficher les soft skills utilisées dans un projet
   Context: 
     - .Params (dict) - Paramètres du projet avec .soft_skills
-    - .Site.Data.soft_skills (slice) - Données des soft skills
+    - soft_skills data (loaded from localized data files)
     - .File.BaseFileName (string) - ID du projet
 */}}
 
 {{- if .Params.soft_skills -}}
   {{- $projectSoftSkills := .Params.soft_skills -}}
-  {{- $allSoftSkills := .Site.Data.soft_skills -}}
+  {{- $allSoftSkills := partial "get-localized-data.html" (dict "context" . "dataName" "soft_skills") -}}
   {{- $usedSoftSkills := slice -}}
   {{- range $projectSoftSkills -}}
     {{- $softSkill := . -}}

@@ -1,3 +1,6 @@
+{{- /* Load localized testimonials data */ -}}
+{{- $testimonials := partial "get-localized-data.html" (dict "context" . "dataName" "testimonials") -}}
+
 <div class="testimonials-section">
     <div class="section-header section-header-unified">
     <h2 class="section-title-unified">{{ i18n "testimonials" | default "Recommandations" }}</h2>
@@ -8,7 +11,7 @@
     
     <div class="testimonials-slider">
         <div class="testimonials-track">
-            {{ range .Site.Data.testimonials }}
+            {{ range $testimonials }}
             {{ $person := partial "helpers/get-person.html" (dict "context" $ "personId" .personId) }}
             <div class="testimonial-card aero-glass">
                 <div class="testimonial-content">
@@ -54,7 +57,7 @@
         <div class="slider-controls">
             <button class="slider-btn prev" aria-label="{{ i18n "previous" | default "Précédent" }}">‹</button>
             <div class="slider-indicators">
-                {{ range $index, $testimonial := .Site.Data.testimonials }}
+                {{ range $index, $testimonial := $testimonials }}
                 <span class="indicator{{ if eq $index 0 }} active{{ end }}"></span>
                 {{ end }}
             </div>

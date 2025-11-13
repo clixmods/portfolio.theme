@@ -191,7 +191,7 @@
       {{- end -}}
     {{- end -}}
     
-    {{/* Vérifier spécialités */}}
+    {{/* Check specialties */}}
     {{- if .Params.specialties -}}
       {{- range .Params.specialties -}}
         {{- $specialtyName := "" -}}
@@ -200,9 +200,11 @@
         {{- else -}}
           {{- $specialtyName = . -}}
         {{- end -}}
-        {{- range $.Site.Data.specialties -}}
-          {{- if eq .name $specialtyName -}}
-            {{- $hasValidSpecialties = true -}}
+        {{- if $specialtyName -}}
+          {{- range $.Site.Data.specialties -}}
+            {{- if eq .name $specialtyName -}}
+              {{- $hasValidSpecialties = true -}}
+            {{- end -}}
           {{- end -}}
         {{- end -}}
       {{- end -}}
@@ -332,24 +334,26 @@
             {{- else -}}
               {{- $specialtyName = . -}}
             {{- end -}}
-            {{- range $.Site.Data.specialties -}}
-              {{- if eq .name $specialtyName -}}
-                <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                     data-skill-name="{{ .name }}"
-                     data-skill-type="specialty">
-                  <span class="skill-icon">
-                    {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                    {{- else if .icon -}}
-                      <span class="tech-icon-emoji">{{ .icon }}</span>
+            {{- if $specialtyName -}}
+              {{- range $.Site.Data.specialties -}}
+                {{- if eq .name $specialtyName -}}
+                  <div class="skill-block clickable" 
+                       onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                       data-skill-name="{{ .name }}"
+                       data-skill-type="specialty">
+                    <span class="skill-icon">
+                      {{- if .iconPath -}}
+                        <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                      {{- else if .icon -}}
+                        <span class="tech-icon-emoji">{{ .icon }}</span>
+                      {{- end -}}
+                    </span>
+                    <span class="skill-name">{{ .name }}</span>
+                    {{- if .subtitle -}}
+                      <span class="skill-level">{{ .subtitle }}</span>
                     {{- end -}}
-                  </span>
-                  <span class="skill-name">{{ .name }}</span>
-                  {{- if .subtitle -}}
-                    <span class="skill-level">{{ .subtitle }}</span>
-                  {{- end -}}
-                </div>
+                  </div>
+                {{- end -}}
               {{- end -}}
             {{- end -}}
           {{- end -}}

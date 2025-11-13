@@ -3,13 +3,13 @@
   Description: Widget compact pour afficher les outils utilisés dans un projet
   Context: 
     - .Params (dict) - Paramètres du projet avec .tools
-    - .Site.Data.tools (slice) - Données des outils
+    - tools data (loaded from localized data files)
     - .File.BaseFileName (string) - ID du projet
 */}}
 
 {{- if .Params.tools -}}
   {{- $projectTools := .Params.tools -}}
-  {{- $allTools := .Site.Data.tools -}}
+  {{- $allTools := partial "get-localized-data.html" (dict "context" . "dataName" "tools") -}}
   {{- $usedTools := slice -}}
   {{- range $projectTools -}}
     {{- $tool := . -}}

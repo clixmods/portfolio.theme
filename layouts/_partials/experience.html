@@ -1,3 +1,10 @@
+{{- /* Load localized skills data at the top */ -}}
+{{- $programmingLanguages := partial "get-localized-data.html" (dict "context" . "dataName" "programming_languages") -}}
+{{- $frameworksEngines := partial "get-localized-data.html" (dict "context" . "dataName" "frameworks_engines") -}}
+{{- $tools := partial "get-localized-data.html" (dict "context" . "dataName" "tools") -}}
+{{- $specialties := partial "get-localized-data.html" (dict "context" . "dataName" "specialties") -}}
+{{- $softSkills := partial "get-localized-data.html" (dict "context" . "dataName" "soft_skills") -}}
+
 <section class="experience-section">
     <div class="experience-header section-header-unified">
     <h2 class="section-title-unified">{{ i18n "experience_title" | default "Expérience Professionnelle" }}</h2>
@@ -121,13 +128,16 @@
                 </div>
                 {{ end }}
 
+                {{- /* Load localized skills data */ -}}
+                {{- $programmingLanguages := partial "get-localized-data.html" (dict "context" $ "dataName" "programming_languages") -}}
+
                 <div class="experience-skills">
                     <h5>{{ i18n "technical_skills" | default "Compétences techniques :" }}</h5>
                     <div class="skills-tags">
                         {{ range $exp.Params.programming_languages }}
                         {{ $skillName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.programming_languages }}
+                        {{ range $programmingLanguages }}
                         {{ if eq .name $skillName }}
                         <span class="skill-tag clickable" 
                               onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
@@ -163,7 +173,7 @@
                         {{ range $exp.Params.tools }}
                         {{ $skillName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.tools }}
+                        {{ range $tools }}
                         {{ if eq .name $skillName }}
                         <span class="skill-tag clickable" 
                               onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
@@ -188,7 +198,7 @@
                         {{ range $exp.Params.specialties }}
                         {{ $skillName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.specialties }}
+                        {{ range $specialties }}
                         {{ if eq .name $skillName }}
                         <span class="skill-tag clickable" 
                               onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
@@ -206,7 +216,7 @@
                         {{ range $exp.Params.soft_skills }}
                         {{ $skillName := . }}
                         {{ $found := false }}
-                        {{ range $.Site.Data.soft_skills }}
+                        {{ range $softSkills }}
                         {{ if eq .name $skillName }}
                         <span class="skill-tag clickable" 
                               onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
@@ -275,7 +285,7 @@
                         {{ range $int.skills }}
                         {{ $skillName := . }}
                         {{ $found := false }}
-                        {{ range ($.Site.Data.programming_languages | append $.Site.Data.frameworks_engines | append $.Site.Data.specialties | append $.Site.Data.tools) }}
+                        {{ range ($programmingLanguages | append $frameworksEngines | append $specialties | append $tools) }}
                         {{ if eq .name $skillName }}
                         <span class="skill-tag clickable" 
                               onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
