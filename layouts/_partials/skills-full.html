@@ -38,7 +38,7 @@
             <h4>{{ i18n "frameworks" | default "Frameworks" }}</h4>
             <div class="skills-grid">
                 {{ range $frameworksEngines }}
-                    {{ if not (or (in .name "Unity") (in .name "Unreal") (in .name "engine") (in .name "Engine")) }}
+                    {{ if not (or (eq .key "fw_unity") (eq .key "fw_unreal_engine") (eq .key "fw_black_ops_iii_engine")) }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "framework" "skillCategory" "frameworks" "context" $ "useRelURL" true) }}
                     {{ end }}
                 {{ end }}
@@ -50,7 +50,7 @@
             <h4>{{ i18n "game_engines" | default "Moteurs de jeu" }}</h4>
             <div class="skills-grid">
                 {{ range $frameworksEngines }}
-                    {{ if or (in .name "Unity") (in .name "Unreal") (in .name "engine") (in .name "Engine") }}
+                    {{ if or (eq .key "fw_unity") (eq .key "fw_unreal_engine") (eq .key "fw_black_ops_iii_engine") }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "engine" "skillCategory" "engines" "context" $ "useRelURL" true) }}
                     {{ end }}
                 {{ end }}
@@ -96,21 +96,23 @@
             <h4>{{ i18n "soft_skills" | default "Soft Skills" }}</h4>
             <div class="skills-grid">
                 {{ range $softSkills }}
+                {{- $skillName := i18n .key -}}
+                {{- $skillSubtitle := i18n (printf "%s_subtitle" .key) -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                     data-skill-name="{{ .name }}"
+                     onclick="openSkillModal('{{ $skillName }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     data-skill-name="{{ $skillName }}"
                      data-skill-type="soft-skill"
                      data-skill-category="soft-skills">
                     <span class="skill-icon">
                         {{ if .iconPath }}
-                          <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                          <img src="{{ .iconPath | absURL }}" alt="{{ $skillName }}" class="tech-icon-svg" width="28" height="28">
                         {{ else }}
                           <span class="tech-icon-emoji">{{ .icon }}</span>
                         {{ end }}
                     </span>
-                    <span class="skill-name">{{ .name }}</span>
-                    {{ if .subtitle }}
-                    <span class="skill-level">{{ .subtitle }}</span>
+                    <span class="skill-name">{{ $skillName }}</span>
+                    {{ if $skillSubtitle }}
+                    <span class="skill-level">{{ $skillSubtitle }}</span>
                     {{ end }}
                 </div>
                 {{ end }}

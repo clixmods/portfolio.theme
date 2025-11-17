@@ -264,12 +264,12 @@
               {{- if eq .name $langName -}}
                 {{- $experienceText := partial "helpers/format-experience.html" .experience -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
                      data-skill-name="{{ .name }}"
                      data-skill-type="programming-language">
                   <span class="skill-icon">
                     {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                      <img src="{{ .iconPath | absURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
                     {{- else if .icon -}}
                       <span class="tech-icon-emoji">{{ .icon }}</span>
                     {{- end -}}
@@ -301,12 +301,12 @@
               {{- if eq .name $frameworkName -}}
                 {{- $experienceText := partial "helpers/format-experience.html" .experience -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
                      data-skill-name="{{ .name }}"
                      data-skill-type="framework">
                   <span class="skill-icon">
                     {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                      <img src="{{ .iconPath | absURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
                     {{- else if .icon -}}
                       <span class="tech-icon-emoji">{{ .icon }}</span>
                     {{- end -}}
@@ -338,12 +338,12 @@
               {{- range $.Site.Data.specialties -}}
                 {{- if eq .name $specialtyName -}}
                   <div class="skill-block clickable" 
-                       onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                       onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
                        data-skill-name="{{ .name }}"
                        data-skill-type="specialty">
                     <span class="skill-icon">
                       {{- if .iconPath -}}
-                        <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                        <img src="{{ .iconPath | absURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
                       {{- else if .icon -}}
                         <span class="tech-icon-emoji">{{ .icon }}</span>
                       {{- end -}}
@@ -375,12 +375,12 @@
             {{- range $.Site.Data.soft_skills -}}
               {{- if eq .name $softSkillName -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
                      data-skill-name="{{ .name }}"
                      data-skill-type="soft-skill">
                   <span class="skill-icon">
                     {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                      <img src="{{ .iconPath | absURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
                     {{- else if .icon -}}
                       <span class="tech-icon-emoji">{{ .icon }}</span>
                     {{- end -}}
@@ -412,12 +412,12 @@
               {{- if eq .name $toolName -}}
                 {{- $experienceText := partial "helpers/format-experience.html" .experience -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
                      data-skill-name="{{ .name }}"
                      data-skill-type="tool">
                   <span class="skill-icon">
                     {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                      <img src="{{ .iconPath | absURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
                     {{- else if .icon -}}
                       <span class="tech-icon-emoji">{{ .icon }}</span>
                     {{- end -}}

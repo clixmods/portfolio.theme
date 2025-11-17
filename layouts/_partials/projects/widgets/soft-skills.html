@@ -12,9 +12,9 @@
   {{- $allSoftSkills := partial "get-localized-data.html" (dict "context" . "dataName" "soft_skills") -}}
   {{- $usedSoftSkills := slice -}}
   {{- range $projectSoftSkills -}}
-    {{- $softSkill := . -}}
+    {{- $softSkillKey := . -}}
     {{- range $allSoftSkills -}}
-      {{- if eq .name $softSkill -}}
+      {{- if eq .key $softSkillKey -}}
         {{- $usedSoftSkills = $usedSoftSkills | append . -}}
       {{- end -}}
     {{- end -}}
@@ -35,9 +35,10 @@
       <div class="soft-skills-preview">
         <div class="soft-skill-badges-preview">
           {{- range first 3 $usedSoftSkills -}}
-          <div class="soft-skill-badge-mini clickable" onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', 'Soft Skill', '', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')" title="{{ i18n "click_to_see_details" | default "Cliquez pour voir les détails" }}">
+          {{- $softSkillName := i18n .key -}}
+          <div class="soft-skill-badge-mini clickable" onclick="openSkillModal('{{ $softSkillName }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', 'Soft Skill', '', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')" title="{{ i18n "click_to_see_details" | default "Cliquez pour voir les détails" }}">
             <span class="soft-skill-icon">{{ .icon }}</span>
-            <span class="soft-skill-name">{{ .name }}</span>
+            <span class="soft-skill-name">{{ $softSkillName }}</span>
           </div>
           {{- end -}}
           {{- if gt (len $usedSoftSkills) 3 -}}

@@ -12,9 +12,9 @@
   {{- $allSpecialities := partial "get-localized-data.html" (dict "context" . "dataName" "specialties") -}}
   {{- $usedSpecialities := slice -}}
   {{- range $projectSpecialities -}}
-    {{- $specialty := . -}}
+    {{- $specialtyKey := . -}}
     {{- range $allSpecialities -}}
-      {{- if eq .name $specialty -}}
+      {{- if eq .key $specialtyKey -}}
         {{- $usedSpecialities = $usedSpecialities | append . -}}
       {{- end -}}
     {{- end -}}

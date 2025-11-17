@@ -9,7 +9,8 @@
   - context: Hugo context for accessing site data (required)
   - additionalClasses: Additional CSS classes (optional)
   - showExperience: Whether to show experience text (optional, default: true)
-  - useRelURL: Whether to use relURL for icon paths (optional, default: false)
+  
+  Note: Icon paths always use absURL to prevent language prefix addition for non-localized images
 */}}
 
 {{- $skill := .skill -}}
@@ -18,7 +19,6 @@
 {{- $context := .context -}}
 {{- $additionalClasses := .additionalClasses | default "" -}}
 {{- $showExperience := .showExperience | default true -}}
-{{- $useRelURL := .useRelURL | default false -}}
 
 {{- if not $skill -}}
   {{- errorf "skill-block helper: 'skill' parameter is required" -}}
@@ -38,14 +38,10 @@
   {{- $experienceText = partial "helpers/format-experience.html" $skill.experience -}}
 {{- end -}}
 
-{{- /* Determine icon path */ -}}
+{{- /* Determine icon path - always use absURL for non-localized images */ -}}
 {{- $iconPath := "" -}}
 {{- if $skill.iconPath -}}
-  {{- if $useRelURL -}}
-    {{- $iconPath = $skill.iconPath | relURL -}}
-  {{- else -}}
-    {{- $iconPath = $skill.iconPath -}}
-  {{- end -}}
+  {{- $iconPath = $skill.iconPath | absURL -}}
 {{- else -}}
   {{- $iconPath = $skill.icon -}}
 {{- end -}}
@@ -59,22 +55,26 @@
 {{- /* Build description parameter */ -}}
 {{- $description := $skill.description | default "" -}}
 
+{{- /* Get localized skill name and subtitle using i18n */ -}}
+{{- $skillName := i18n $skill.key | default $skill.key -}}
+{{- $skillSubtitle := i18n (printf "%s_subtitle" $skill.key) -}}
+
 <div class="skill-block clickable{{ with $additionalClasses }} {{ . }}{{ end }}" 
-     onclick="openSkillModal('{{ $skill.name }}', '{{ $iconPath }}', '{{ $description }}', '{{ $skill.experience }}', '{{ $iconType }}')"
-     data-skill-name="{{ $skill.name }}"
+     onclick="openSkillModal('{{ $skillName }}', '{{ $iconPath }}', '{{ $description }}', '{{ $skill.experience }}', '{{ $iconType }}')"
+     data-skill-name="{{ $skillName }}"
      data-skill-type="{{ $skillType }}"{{ if $skillCategory }}
      data-skill-category="{{ $skillCategory }}"{{ end }}>
     <span class="skill-icon">
         {{ if $skill.iconPath }}
-          <img src="{{ $iconPath }}" alt="{{ $skill.name }}" class="tech-icon-svg" width="28" height="28">
+          <img src="{{ $iconPath }}" alt="{{ $skillName }}" class="tech-icon-svg" width="28" height="28">
         {{ else }}
           <span class="tech-icon-emoji">{{ $skill.icon }}</span>
         {{ end }}
     </span>
-    <span class="skill-name">{{ $skill.name }}</span>
+    <span class="skill-name">{{ $skillName }}</span>
     {{- if and $showExperience $experienceText -}}
     <span class="skill-level">{{ $experienceText }}</span>
-    {{- else if $skill.subtitle -}}
-    <span class="skill-level">{{ $skill.subtitle }}</span>
+    {{- else if $skillSubtitle -}}
+    <span class="skill-level">{{ $skillSubtitle }}</span>
     {{- end -}}
 </div>

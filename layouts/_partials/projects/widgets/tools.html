@@ -12,9 +12,9 @@
   {{- $allTools := partial "get-localized-data.html" (dict "context" . "dataName" "tools") -}}
   {{- $usedTools := slice -}}
   {{- range $projectTools -}}
-    {{- $tool := . -}}
+    {{- $toolKey := . -}}
     {{- range $allTools -}}
-      {{- if eq .name $tool -}}
+      {{- if eq .key $toolKey -}}
         {{- $usedTools = $usedTools | append . -}}
       {{- end -}}
     {{- end -}}
@@ -35,6 +35,7 @@
       <div class="tools-preview">
         <div class="tool-icons-preview">
           {{- range first 5 $usedTools -}}
+          {{- $toolName := i18n .key -}}
           {{- $toolLabel := i18n "tool" | default "Outil" -}}
           {{- $yearLabel := "" -}}
           {{- if eq .experience 1 -}}
@@ -43,11 +44,11 @@
             {{- $yearLabel = i18n "years_plural" | default "ans" -}}
           {{- end -}}
           {{- $clickDetails := i18n "click_to_see_details" | default "Cliquez pour voir les détails" -}}
-          <div class="tool-icon-mini clickable" onclick="openSkillModal('{{ .name }}', '/{{ .iconPath }}', '{{ $toolLabel }}', '{{ .experience }} {{ $yearLabel }}', 'svg')" title="{{ .name }} - {{ $clickDetails }}">
+          <div class="tool-icon-mini clickable" onclick="openSkillModal('{{ $toolName }}', '/{{ .iconPath }}', '{{ $toolLabel }}', '{{ .experience }} {{ $yearLabel }}', 'svg')" title="{{ $toolName }} - {{ $clickDetails }}">
             {{- if .iconPath -}}
-            <img src="/{{ .iconPath }}" alt="{{ .name }}">
+            <img src="/{{ .iconPath }}" alt="{{ $toolName }}">
             {{- else -}}
-            <span>{{ substr .name 0 2 | upper }}</span>
+            <span>{{ substr $toolName 0 2 | upper }}</span>
             {{- end -}}
           </div>
           {{- end -}}
