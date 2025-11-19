@@ -361,6 +361,25 @@
   }
 }
 
+/* Portfolio link */
+.cv-portfolio-link {
+  margin-top: var(--cv-margin-lg);
+  text-align: right;
+  font-size: var(--cv-font-size-lg);
+  
+  a {
+    color: var(--cv-accent);
+    text-decoration: none;
+    font-weight: var(--cv-font-weight-medium);
+    transition: color var(--cv-transition-fast);
+    
+    &:hover {
+      color: var(--cv-accent-hover);
+      text-decoration: underline;
+    }
+  }
+}
+
 /* ================================
  * EXPORT CONTROLS - Action Buttons
  * ================================ */
