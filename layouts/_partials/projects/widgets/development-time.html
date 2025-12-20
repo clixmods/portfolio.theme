@@ -6,7 +6,7 @@
     - .File.BaseFileName (string) - ID du projet
 */}}
 
-{{- if .Params.development_time -}}
+{{- if and .Params.development_time .Params.development_time.total (ne .Params.development_time.total "") -}}
 <div class="project-widget development-time-box {{ .Params.development_time_size | default "size-medium" }}">
   <div class="project-widget-header" onclick="toggleInfoBox(this)">
     <div class="project-widget-icon time">

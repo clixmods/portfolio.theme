@@ -6,7 +6,7 @@
     - .File.BaseFileName (string) - ID du projet
 */}}
 
-{{- if .Params.ranking -}}
+{{- if and .Params.ranking (gt .Params.ranking.position 0) -}}
 <div class="project-widget ranking-box {{ .Params.ranking_size | default "size-small" }}" onclick="toggleInfoBox(this)">
   <div class="project-widget-header">
     <div class="project-widget-icon ranking">

@@ -6,7 +6,7 @@
     - .File.BaseFileName (string) - ID du projet
 */}}
 
-{{- if .Params.grade -}}
+{{- if and .Params.grade .Params.grade.value (ne .Params.grade.value "") -}}
 <div class="project-widget grade-box {{ .Params.grade_size | default "size-small" }}" onclick="toggleInfoBox(this)">
   <div class="project-widget-header">
     <div class="project-widget-icon grade">
