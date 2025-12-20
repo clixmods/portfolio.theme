@@ -2,6 +2,7 @@
  * Personal Notifications System V2
  * Automatically triggers personalized notifications when visiting project pages
  * Messages from Clément about each specific project
+ * Supports FR and EN languages
  */
 
 (function() {
@@ -15,8 +16,16 @@
   // Storage key for tracking shown notifications
   const STORAGE_KEY = 'personalNotifications_shown';
   
-  // Configuration for project notifications
-  const PROJECT_NOTIFICATIONS = {
+  /**
+   * Detects the current language from the URL
+   */
+  function detectLanguage() {
+    const path = window.location.pathname;
+    return path.startsWith('/en/') || path === '/en' ? 'en' : 'fr';
+  }
+  
+  // Configuration for project notifications - French
+  const PROJECT_NOTIFICATIONS_FR = {
     'stone-keepers': {
       title: 'Message de Clément',
       message: 'Stone Keeper est un projet qui me tient particulièrement à cœur. C\'est le premier jeu que j\'ai imaginé puis mené à terme. Développé en deux mois avec une équipe passionnée, il représente bien plus qu\'un simple projet étudiant.',
@@ -75,8 +84,68 @@
     }
   };
   
-  // Configuration for education page notifications
-  const EDUCATION_NOTIFICATIONS = {
+  // Configuration for project notifications - English
+  const PROJECT_NOTIFICATIONS_EN = {
+    'stone-keepers': {
+      title: 'Message from Clément',
+      message: 'Stone Keeper is a project very close to my heart. It\'s the first game I imagined and then completed. Developed in two months with a passionate team, it represents much more than just a student project.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    },
+    'stone-keeper-2': {
+      title: 'Message from Clément',
+      message: 'Stone Keeper 2 was a real challenge! Made remotely during my work-study program and IUT courses, it allowed me to go further with the first game\'s systems, experiment with new tools and refine more advanced mechanics, all under much more demanding conditions.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    },
+    'terra-memoria': {
+      title: 'Message from Clément',
+      message: 'Terra Memoria is my first professional project at La Moutarde, where I worked as a work-study student. I joined at the end of production, which required a lot of adaptability. I was able to effectively contribute to stabilizing the game, fix critical bugs and improve the user experience. An extremely rich adventure alongside a talented team.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    },
+    'stholen': {
+      title: 'Message from Clément',
+      message: 'Stholen is a somewhat special project. Originally, we started with a VR game based on object destruction, but the technical complexity pushed us to redirect the concept. Stholen became our plan B... and yet, it was very well received. I\'m proud to have bounced back and made the best of this change of direction!',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    },
+    'nuketown-zombies': {
+      title: 'Message from Clément',
+      message: 'Nuketown Zombies is the project that really got me intensively into programming. It\'s one of my most accomplished works in modding, both technically and artistically. A great experience that made me want to go even further.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    },
+    'zombies-experience': {
+      title: 'Message from Clément',
+      message: 'Zombies Experience is one of my biggest mods on Black Ops 3. I pushed the engine\'s limits: up to 8 players on all game maps (official and community), new complex features and deep optimization. Some mechanics have even been reused in other mods, making it a small reference in the community. I\'m very proud of it.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    },
+    'mori-rebirth': {
+      title: 'Message from Clément',
+      message: 'Mori Rebirth is a collaborative project with Emox, where I focused on helping with design, programming and resource integration. A very enriching experience around sharing skills, especially during his programming learning journey.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    },
+    'farm-remastered': {
+      title: 'Message from Clément',
+      message: 'FARM Remastered is one of my first complete maps. I wanted to learn to do things right, so I chose a solid reference to rework. At the time, I wasn\'t programming yet: I focused on 3D modeling, lighting and atmosphere. This project is what made me want to push further.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    }
+  };
+  
+  // Configuration for education page notifications - French
+  const EDUCATION_NOTIFICATIONS_FR = {
     'bachelor-game-developer': {
       title: 'Message de Clément',
       message: 'Mon Bachelor à e-artsup a été une période intense : 13 projets de jeux vidéo réalisés en équipe. Même si tout n\'a pas été simple, c\'est là que j\'ai posé des bases solides en Unity et C#, et que j\'ai confirmé ma passion pour le développement de gameplay.',
@@ -93,8 +162,26 @@
     }
   };
   
-  // Configuration for experience page notifications
-  const EXPERIENCE_NOTIFICATIONS = {
+  // Configuration for education page notifications - English
+  const EDUCATION_NOTIFICATIONS_EN = {
+    'bachelor-game-developer': {
+      title: 'Message from Clément',
+      message: 'My Bachelor\'s at e-artsup was an intense period: 13 video game projects completed as a team. Even if everything wasn\'t simple, that\'s where I built solid foundations in Unity and C#, and confirmed my passion for gameplay development.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    },
+    'but-integration-applications-management-si': {
+      title: 'Message from Clément',
+      message: 'The BUT IAMSI at IUT Montpellier was the program that really opened doors for me. Thanks to it, I was able to join La Moutarde as a work-study student, broaden my technical skills and gain professional maturity.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    }
+  };
+  
+  // Configuration for experience page notifications - French
+  const EXPERIENCE_NOTIFICATIONS_FR = {
     'studio-la-moutarde': {
       title: 'Message de Clément',
       message: 'Mon alternance chez La Moutarde est ma première expérience professionnelle ! J\'ai travaillé sur Terra Memoria lors de sa fin de production, j\'ai pu rencontrer une équipe passionnée et apprendre énormément sur le développement de jeux vidéo en studio.',
@@ -104,8 +191,19 @@
     }
   };
   
-  // Configuration for people modal notifications
-  const PEOPLE_NOTIFICATIONS = {
+  // Configuration for experience page notifications - English
+  const EXPERIENCE_NOTIFICATIONS_EN = {
+    'studio-la-moutarde': {
+      title: 'Message from Clément',
+      message: 'My work-study at La Moutarde is my first professional experience! I worked on Terra Memoria during its end of production, I got to meet a passionate team and learn a lot about video game development in a studio.',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 2000,
+      duration: 10000
+    }
+  };
+  
+  // Configuration for people modal notifications - French
+  const PEOPLE_NOTIFICATIONS_FR = {
     'theo-carouge': {
       title: 'Message de Clément',
       message: 'Théo est un excellent développeur avec qui j\'ai travaillé sur Stone Keeper. Son investissement et son sérieux ont été essentiels à la réussite du projet !',
@@ -114,6 +212,37 @@
       duration: 8000
     }
   };
+  
+  // Configuration for people modal notifications - English
+  const PEOPLE_NOTIFICATIONS_EN = {
+    'theo-carouge': {
+      title: 'Message from Clément',
+      message: 'Théo is an excellent developer I worked with on Stone Keeper. His dedication and professionalism were essential to the project\'s success!',
+      avatar: '/images/people/clement-garcia.jpg',
+      delay: 1500,
+      duration: 8000
+    }
+  };
+  
+  /**
+   * Gets the appropriate notification config based on language
+   */
+  function getNotificationConfig(type, slug) {
+    const lang = detectLanguage();
+    
+    switch (type) {
+      case 'project':
+        return lang === 'en' ? PROJECT_NOTIFICATIONS_EN[slug] : PROJECT_NOTIFICATIONS_FR[slug];
+      case 'education':
+        return lang === 'en' ? EDUCATION_NOTIFICATIONS_EN[slug] : EDUCATION_NOTIFICATIONS_FR[slug];
+      case 'experience':
+        return lang === 'en' ? EXPERIENCE_NOTIFICATIONS_EN[slug] : EXPERIENCE_NOTIFICATIONS_FR[slug];
+      case 'person':
+        return lang === 'en' ? PEOPLE_NOTIFICATIONS_EN[slug] : PEOPLE_NOTIFICATIONS_FR[slug];
+      default:
+        return null;
+    }
+  }
   
   /**
    * Gets the current page slug and type from URL
@@ -209,7 +338,7 @@
   function handlePersonModalNotification(personId) {
     console.log('🔔 Person modal opened:', personId);
     
-    const notificationConfig = PEOPLE_NOTIFICATIONS[personId];
+    const notificationConfig = getNotificationConfig('person', personId);
     
     if (!notificationConfig) {
       console.log('🔔 No notification configured for this person');
@@ -246,19 +375,8 @@
       return;
     }
     
-    // Get the appropriate notification config based on page type
-    let notificationConfig = null;
-    switch (pageInfo.type) {
-      case 'project':
-        notificationConfig = PROJECT_NOTIFICATIONS[pageInfo.slug];
-        break;
-      case 'education':
-        notificationConfig = EDUCATION_NOTIFICATIONS[pageInfo.slug];
-        break;
-      case 'experience':
-        notificationConfig = EXPERIENCE_NOTIFICATIONS[pageInfo.slug];
-        break;
-    }
+    // Get the appropriate notification config based on page type and language
+    const notificationConfig = getNotificationConfig(pageInfo.type, pageInfo.slug);
     
     console.log('🔔 Notification config found:', notificationConfig ? 'Yes' : 'No');
     

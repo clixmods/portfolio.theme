@@ -68,7 +68,13 @@ notifications: "Notifications"
 view_notifications: "Voir les notifications"
 clear_all: "Tout effacer"
 no_notifications: "Aucune notification"
+no_notifications_yet: "Aucune notification pour le moment"
 change_language: "Changer de langue"
+phone: "Téléphone"
+my_phone: "Mon Téléphone"
+my_discord: "Mon Discord"
+back: "Retour"
+open_menu: "Ouvrir le menu"
 select_language: "Sélectionner la langue"
 
 # Trophies
@@ -118,6 +124,7 @@ see_all_projects: "Voir tous les projets"
 
 # Skills section (extra)
 skills_subtitle: "Maîtrise des technologies modernes pour créer des expériences utilisateur exceptionnelles et des solutions techniques robustes. 💻"
+skills_clickable_info: "Cliquez sur une compétence pour découvrir les projets, formations et expériences où elle a été utilisée !"
 see_all_skills: "Voir toutes les compétences"
 
 # Experience section
@@ -258,12 +265,20 @@ tool_lowercase: "outil"
 tools_employed: "outils employés"
 year_singular: "an"
 years_plural: "ans"
+month_singular: "mois"
+months_plural: "mois"
+and_connector: "et"
 click_to_see_details: "Cliquez pour voir les détails"
 youtube_videos: "Vidéos YouTube"
 youtube_gallery: "Galerie de vidéos YouTube"
 video: "vidéo"
 videos: "vidéos"
 image_gallery: "Galerie d'images"
+
+# Skill modal tabs
+skill_modal_tab_projects: "Projets"
+skill_modal_tab_experiences: "Expériences"
+skill_modal_tab_educations: "Formations"
 
 # Project widgets modals
 partner_companies: "entreprises partenaires"

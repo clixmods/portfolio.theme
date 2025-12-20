@@ -5,6 +5,130 @@
  */
 
 // ================================
+// LOCALIZATION SYSTEM
+// ================================
+
+/**
+ * Detect current language from HTML lang attribute or URL
+ */
+function getCurrentLanguage() {
+    // Check HTML lang attribute first
+    const htmlLang = document.documentElement.lang;
+    if (htmlLang && htmlLang.startsWith('en')) return 'en';
+    if (htmlLang && htmlLang.startsWith('fr')) return 'fr';
+    
+    // Fallback: check URL for /en/ prefix
+    if (window.location.pathname.startsWith('/en/') || window.location.pathname === '/en') return 'en';
+    
+    // Default to French
+    return 'fr';
+}
+
+/**
+ * Translations for the modal system
+ */
+const MODAL_TRANSLATIONS = {
+    fr: {
+        // Contact modal
+        my_coordinates: "Mes coordonnées",
+        send_message: "Envoyez-moi un message",
+        full_name: "Nom complet",
+        your_name: "Votre nom",
+        email: "Email",
+        subject: "Sujet",
+        message_subject: "Objet de votre message",
+        message: "Message",
+        your_message: "Votre message...",
+        send: "Envoyer",
+        location: "Localisation",
+        
+        // Discord modal
+        discord_intro: "Voici mon ID Discord :",
+        copy: "Copier",
+        discord_note: "Tu peux m'ajouter sur Discord ou m'envoyer un message !",
+        
+        // Phone modal
+        phone_intro: "Voici mon numéro de téléphone :",
+        phone_note: "N'hésite pas à m'appeler ou m'envoyer un SMS !",
+        
+        // CV modal
+        cv_choose: "Choisissez la version à télécharger :",
+        cv_color_title: "Version couleur",
+        cv_color_desc: "PDF avec design complet et couleurs",
+        cv_color_badge: "Recommandée écran",
+        cv_print_title: "Version imprimable",
+        cv_print_desc: "PDF noir et blanc, optimisé pour l'impression",
+        cv_print_badge: "Économise l'encre",
+        
+        // Project widget
+        widget_no_content: "Aucun contenu disponible pour ce widget.",
+        no_content_available: "Aucun contenu disponible",
+        
+        // Buttons & actions
+        view_project: "Voir le projet",
+        view_experience: "Voir l'expérience",
+        close: "Fermer",
+        
+        // Copy feedback
+        copied: "Copié !",
+        copy_error: "Erreur de copie"
+    },
+    en: {
+        // Contact modal
+        my_coordinates: "My contact info",
+        send_message: "Send me a message",
+        full_name: "Full name",
+        your_name: "Your name",
+        email: "Email",
+        subject: "Subject",
+        message_subject: "Message subject",
+        message: "Message",
+        your_message: "Your message...",
+        send: "Send",
+        location: "Location",
+        
+        // Discord modal
+        discord_intro: "Here is my Discord ID:",
+        copy: "Copy",
+        discord_note: "Feel free to add me on Discord or send me a message!",
+        
+        // Phone modal
+        phone_intro: "Here is my phone number:",
+        phone_note: "Feel free to call or text me!",
+        
+        // CV modal
+        cv_choose: "Choose the version to download:",
+        cv_color_title: "Color version",
+        cv_color_desc: "PDF with full design and colors",
+        cv_color_badge: "Recommended for screen",
+        cv_print_title: "Printable version",
+        cv_print_desc: "Black and white PDF, optimized for printing",
+        cv_print_badge: "Saves ink",
+        
+        // Project widget
+        widget_no_content: "No content available for this widget.",
+        no_content_available: "No content available",
+        
+        // Buttons & actions
+        view_project: "View project",
+        view_experience: "View experience",
+        close: "Close",
+        
+        // Copy feedback
+        copied: "Copied!",
+        copy_error: "Copy error"
+    }
+};
+
+/**
+ * Get a translated string
+ */
+function t(key) {
+    const lang = getCurrentLanguage();
+    return MODAL_TRANSLATIONS[lang]?.[key] || MODAL_TRANSLATIONS['fr'][key] || key;
+}
+
+// ================================
 // CONFIGURATION AND TEMPLATES
 // ================================
 
@@ -48,13 +172,13 @@ const CONTENT_TEMPLATES = {
     contact: (config) => `
         <div class="unified-modal-two-columns">
             <div class="contact-info-column">
-                <h4>📋 Mes coordonnées</h4>
+                <h4>📋 ${t('my_coordinates')}</h4>
                 <div class="contact-info">
                     ${generateContactItems(config.content?.contacts || getDefaultContactData())}
                 </div>
             </div>
             <div class="contact-form-column">
-                <h4>✉️ Envoyez-moi un message</h4>
+                <h4>✉️ ${t('send_message')}</h4>
                 <div class="contact-form-content">
                     ${generateContactForm(config.content?.form)}
                 </div>
@@ -64,27 +188,27 @@ const CONTENT_TEMPLATES = {
     
     discord: (config) => `
         <div class="unified-modal-simple-content">
-            <p>Voici mon ID Discord :</p>
+            <p>${t('discord_intro')}</p>
             <div class="discord-id-display">
                 <code class="discord-id">${config.content.discordId}</code>
                 <button class="btn-action" onclick="UnifiedModal.copyToClipboard('${config.content.discordId}', this)" aria-live="polite">
-                    ${UnifiedModal.getCopyIcon(18)} Copier
+                    ${UnifiedModal.getCopyIcon(18)} ${t('copy')}
                 </button>
             </div>
-            <p class="note">Tu peux m'ajouter sur Discord ou m'envoyer un message !</p>
+            <p class="note">${t('discord_note')}</p>
         </div>
     `,
     
     phone: (config) => `
         <div class="unified-modal-simple-content">
-            <p>Voici mon numéro de téléphone :</p>
+            <p>${t('phone_intro')}</p>
             <div class="discord-id-display">
                 <code class="discord-id">${config.content.phoneNumber}</code>
                 <button class="btn-action" onclick="UnifiedModal.copyToClipboard('${config.content.phoneNumber}', this)" aria-live="polite">
-                    ${UnifiedModal.getCopyIcon(18)} Copier
+                    ${UnifiedModal.getCopyIcon(18)} ${t('copy')}
                 </button>
             </div>
-            <p class="note">N'hésite pas à m'appeler ou m'envoyer un SMS !</p>
+            <p class="note">${t('phone_note')}</p>
         </div>
     `,
     
@@ -112,22 +236,22 @@ const CONTENT_TEMPLATES = {
 
     cv: (config) => `
         <div class="unified-modal-simple-content cv-content">
-            <p>Choisissez la version à télécharger :</p>
+            <p>${t('cv_choose')}</p>
             <div class="cv-options">
                 <button class="btn-action cv-option" onclick="UnifiedModal.downloadFile('/cv/clement-garcia-cv-couleur.pdf','Clément_GARCIA_CV_Couleur.pdf')">
                     <div class="cv-icon">${getDocumentIcon(32)}</div>
                     <div class="cv-text">
-                        <div class="cv-title">Version couleur</div>
-                        <div class="cv-desc">PDF avec design complet et couleurs</div>
-                        <span class="badge">Recommandée écran</span>
+                        <div class="cv-title">${t('cv_color_title')}</div>
+                        <div class="cv-desc">${t('cv_color_desc')}</div>
+                        <span class="badge">${t('cv_color_badge')}</span>
                     </div>
                 </button>
                 <button class="btn-action cv-option" onclick="UnifiedModal.downloadFile('/cv/clement-garcia-cv-impression.pdf','Clément_GARCIA_CV_Impression.pdf')">
                     <div class="cv-icon">${getPrinterIcon(32)}</div>
                     <div class="cv-text">
-                        <div class="cv-title">Version imprimable</div>
-                        <div class="cv-desc">PDF noir et blanc, optimisé pour l'impression</div>
-                        <span class="badge">Économise l'encre</span>
+                        <div class="cv-title">${t('cv_print_title')}</div>
+                        <div class="cv-desc">${t('cv_print_desc')}</div>
+                        <span class="badge">${t('cv_print_badge')}</span>
                     </div>
                 </button>
             </div>
@@ -137,7 +261,7 @@ const CONTENT_TEMPLATES = {
     // New dynamic template for project widgets opened fullscreen
     projectWidget: (config) => `
         <div class="unified-modal-project-widget-wrapper" data-original-widget-id="${config.content?.widgetId || ''}">
-            ${config.content?.html || '<div class="project-widget-error">Aucun contenu disponible pour ce widget.</div>'}
+            ${config.content?.html || `<div class="project-widget-error">${t('widget_no_content')}</div>`}
         </div>
     `
 };
@@ -277,24 +401,24 @@ function generateContactForm(formConfig = {}) {
     return `
         <form class="contact-form" onsubmit="UnifiedModal.handleContactSubmit(event)">
             <div class="form-group">
-                <label>Nom complet</label>
-                <input type="text" name="name" placeholder="Votre nom" required />
+                <label>${t('full_name')}</label>
+                <input type="text" name="name" placeholder="${t('your_name')}" required />
             </div>
             <div class="form-group">
-                <label>Email</label>
+                <label>${t('email')}</label>
                 <input type="email" name="email" placeholder="votre@email.com" required />
             </div>
             <div class="form-group">
-                <label>Sujet</label>
-                <input type="text" name="subject" placeholder="Objet de votre message" />
+                <label>${t('subject')}</label>
+                <input type="text" name="subject" placeholder="${t('message_subject')}" />
             </div>
             <div class="form-group">
-                <label>Message</label>
-                <textarea name="message" rows="4" placeholder="Votre message..." required></textarea>
+                <label>${t('message')}</label>
+                <textarea name="message" rows="4" placeholder="${t('your_message')}" required></textarea>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn-action primary">
-                    <span class="icon">📤</span> Envoyer
+                    <span class="icon">📤</span> ${t('send')}
                 </button>
             </div>
         </form>
@@ -305,7 +429,7 @@ function generateContactForm(formConfig = {}) {
  * Génère le contenu pour un modal de compétence
  */
 function generateSkillContent(content) {
-    if (!content) return '<p>Aucun contenu disponible</p>';
+    if (!content) return `<p>${t('no_content_available')}</p>`;
     
     return `
         <div class="skill-content">
@@ -320,7 +444,7 @@ function generateSkillContent(content) {
  * Génère le contenu pour un modal de personne
  */
 function generatePersonContent(content) {
-    if (!content) return '<p>Aucun contenu disponible</p>';
+    if (!content) return `<p>${t('no_content_available')}</p>`;
     
     return `
         <div class="person-content">
@@ -356,7 +480,7 @@ function getDefaultContactData() {
     return [
         {
             icon: '📧',
-            title: 'Email',
+            title: t('email'),
             value: 'clement.g.developer@gmail.com',
             link: 'mailto:clement.g.developer@gmail.com'
         },
@@ -375,7 +499,7 @@ function getDefaultContactData() {
         },
         {
             icon: '📍',
-            title: 'Localisation',
+            title: t('location'),
             value: 'Montpellier, France'
         }
     ];
@@ -392,7 +516,7 @@ function generateProjectsGrid(projects) {
                     <p>${project.description}</p>
                     <div class="card-actions">
                         <button class="btn-action primary" onclick="UnifiedModal.viewProject('${project.slug}')">
-                            Voir le projet
+                            ${t('view_project')}
                         </button>
                     </div>
                 </div>
@@ -412,7 +536,7 @@ function generateExperiencesList(experiences) {
                     <p>${exp.description}</p>
                     <div class="item-actions">
                         <button class="btn-action accent" onclick="UnifiedModal.viewExperience('${exp.slug}')">
-                            Voir l'expérience
+                            ${t('view_experience')}
                         </button>
                     </div>
                 </div>
@@ -508,7 +632,7 @@ class UnifiedModal {
     static generateModalHeader(config) {
         return `
             <div class="unified-modal-header">
-                <button class="unified-modal-close" aria-label="Fermer">&times;</button>
+                <button class="unified-modal-close" aria-label="${t('close')}">&times;</button>
                 ${this.generateContentHeader(config)}
             </div>
         `;
@@ -967,8 +1091,8 @@ class UnifiedModal {
                 const originalHTML = triggerEl.innerHTML;
                 triggerEl.dataset.originalHtml = originalHTML;
                 triggerEl.classList.add('copied');
-                triggerEl.innerHTML = UnifiedModal.getCheckIcon(18) + ' Copié !';
-                triggerEl.setAttribute('aria-label', 'Copié dans le presse-papiers');
+                triggerEl.innerHTML = UnifiedModal.getCheckIcon(18) + ` ${t('copied')}`;
+                triggerEl.setAttribute('aria-label', t('copied'));
                 // Revert after a short delay
                 setTimeout(() => {
                     triggerEl.classList.remove('copied');
@@ -976,7 +1100,7 @@ class UnifiedModal {
                 }, 1800);
             }
             // Screen reader announcement
-            this.announce('Copié dans le presse-papiers');
+            this.announce(t('copied'));
         };
 
         const doErrorFeedback = (err) => {
@@ -985,14 +1109,14 @@ class UnifiedModal {
                 const originalHTML = triggerEl.innerHTML;
                 triggerEl.dataset.originalHtml = originalHTML;
                 triggerEl.classList.add('copy-error');
-                triggerEl.innerHTML = UnifiedModal.getWarningIcon(18) + ' Échec';
-                triggerEl.setAttribute('aria-label', 'Échec de la copie');
+                triggerEl.innerHTML = UnifiedModal.getWarningIcon(18) + ` ${t('copy_error')}`;
+                triggerEl.setAttribute('aria-label', t('copy_error'));
                 setTimeout(() => {
                     triggerEl.classList.remove('copy-error');
                     triggerEl.innerHTML = triggerEl.dataset.originalHtml || originalHTML;
                 }, 1800);
             }
-            this.announce('Échec de la copie');
+            this.announce(t('copy_error'));
         };
 
         if (navigator.clipboard && navigator.clipboard.writeText) {

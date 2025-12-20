@@ -2,7 +2,7 @@
 <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
 
 <!-- Mobile Menu Button (visible only on mobile) -->
-<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="{{ i18n "open_menu" | default "Ouvrir le menu" }}" aria-expanded="false">
   <span class="hamburger-icon">
     <span class="hamburger-line"></span>
     <span class="hamburger-line"></span>
@@ -48,10 +48,10 @@
           
           <a href="#"
              class="mobile-menu-item"
-             title="Téléphone"
-             onclick="event.preventDefault(); document.getElementById('mobile-menu-toggle').click(); UnifiedModal.create({ type: 'phone', title: 'Mon Téléphone', icon: '📱', content: { phoneNumber: '{{ with $.Site.Data.profile.contact.phone }}{{ . }}{{ else }}07 67 83 46 09{{ end }}' } });">
+             title="{{ i18n "phone" | default "Téléphone" }}"
+             onclick="event.preventDefault(); document.getElementById('mobile-menu-toggle').click(); UnifiedModal.create({ type: 'phone', title: '{{ i18n "my_phone" | default "Mon Téléphone" }}', icon: '📱', content: { phoneNumber: '{{ with $.Site.Data.profile.contact.phone }}{{ . }}{{ else }}07 67 83 46 09{{ end }}' } });">
             {{- partial "icon.html" (dict "iconId" "phone" "size" "24" "class" "mobile-menu-icon") -}}
-            <span class="mobile-menu-label">Téléphone</span>
+            <span class="mobile-menu-label">{{ i18n "phone" | default "Téléphone" }}</span>
           </a>
         </div>
       </div>
@@ -67,7 +67,7 @@
              class="mobile-menu-item" 
              title="{{ if eq .title "LinkedIn" }}LinkedIn{{ else if eq .title "GitHub" }}GitHub{{ else if eq .title "Discord" }}Discord{{ else if eq .title "ArtStation" }}ArtStation{{ else }}{{ .title }}{{ end }}"
              {{ if eq .title "Discord" }}
-               onclick="event.preventDefault(); document.getElementById('mobile-menu-toggle').click(); UnifiedModal.create({ type: 'discord', title: 'Mon Discord', icon: '/images/social/discord.svg', content: { discordId: '{{ with $.Site.Data.profile.contact.discord }}{{ . }}{{ else }}clixmods{{ end }}' } });"
+               onclick="event.preventDefault(); document.getElementById('mobile-menu-toggle').click(); UnifiedModal.create({ type: 'discord', title: '{{ i18n "my_discord" | default "Mon Discord" }}', icon: '/images/social/discord.svg', content: { discordId: '{{ with $.Site.Data.profile.contact.discord }}{{ . }}{{ else }}clixmods{{ end }}' } });"
              {{ end }}>
             {{ if eq .title "LinkedIn" }}
             {{- partial "icon.html" (dict "iconId" "linkedin" "class" "mobile-menu-icon") -}}
@@ -171,19 +171,19 @@
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
           </svg>
-          <span>Retour</span>
+          <span>{{ i18n "back" | default "Retour" }}</span>
         </button>
         <div class="mobile-notifications-title-row">
           <h2 class="mobile-notifications-title">
             {{- partial "icon.html" (dict "iconId" "bell" "size" "24" "class" "title-icon") -}}
-            <span>Notifications</span>
+            <span>{{ i18n "notifications" | default "Notifications" }}</span>
           </h2>
           <button class="mobile-clear-all-btn" id="mobile-clear-all-btn" style="display: none;">
             <svg class="clear-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6"></polyline>
               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
             </svg>
-            <span>Tout effacer</span>
+            <span>{{ i18n "clear_all" | default "Tout effacer" }}</span>
           </button>
         </div>
       </div>
@@ -192,7 +192,7 @@
         <!-- Notifications will be dynamically loaded here -->
         <div class="mobile-notifications-empty">
           <div class="empty-state-icon">🔔</div>
-          <p class="empty-state-text">Aucune notification pour le moment</p>
+          <p class="empty-state-text">{{ i18n "no_notifications_yet" | default "Aucune notification pour le moment" }}</p>
         </div>
       </div>
     </div>

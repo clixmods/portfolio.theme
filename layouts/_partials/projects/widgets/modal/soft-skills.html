@@ -49,7 +49,7 @@
              tabindex="0" 
              role="button" 
              aria-label="Voir les détails de {{ $skillName }}"
-             onclick="openSkillModal('{{ $skillName }}', '{{ if $skillIconPath }}{{ $skillIconPath }}{{ else }}{{ $skillIcon }}{{ end }}', 'Soft Skill', '', '{{ if $skillIconPath }}svg{{ else }}emoji{{ end }}')"
+             onclick="openSkillModal('{{ $skillName }}', '{{ if $skillIconPath }}{{ $skillIconPath }}{{ else }}{{ $skillIcon }}{{ end }}', 'Soft Skill', '', '{{ if $skillIconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
              style="cursor: pointer; --skill-color: {{ $skillColor }};">
           
           {{/* En-tête de soft skill */}}

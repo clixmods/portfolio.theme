@@ -12,6 +12,29 @@
     return;
   }
   
+  /**
+   * Detects the current language from the URL
+   */
+  function detectLanguage() {
+    const path = window.location.pathname;
+    return path.startsWith('/en/') || path === '/en' ? 'en' : 'fr';
+  }
+  
+  // Localized strings
+  const STRINGS = {
+    fr: {
+      trophy_unlocked: 'Trophée débloqué !'
+    },
+    en: {
+      trophy_unlocked: 'Trophy Unlocked!'
+    }
+  };
+  
+  function getString(key) {
+    const lang = detectLanguage();
+    return STRINGS[lang][key] || STRINGS['fr'][key];
+  }
+  
   // Variables globales
   let isReducedMotion = false;
   let rightDock = null;
@@ -397,7 +420,7 @@
     notification.className = 'new-trophy-notification';
     notification.innerHTML = `
       <span class="trophy-emoji">${trophy.icon}</span>
-      <div class="trophy-name">Trophée débloqué !</div>
+      <div class="trophy-name">${getString('trophy_unlocked')}</div>
       <div class="trophy-desc">${trophy.name}</div>
     `;
     

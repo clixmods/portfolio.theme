@@ -53,7 +53,13 @@ notifications: "Notifications"
 view_notifications: "View notifications"
 clear_all: "Clear all"
 no_notifications: "No notifications"
+no_notifications_yet: "No notifications yet"
 change_language: "Change language"
+phone: "Phone"
+my_phone: "My Phone"
+my_discord: "My Discord"
+back: "Back"
+open_menu: "Open menu"
 select_language: "Select language"
 
 # Trophies
@@ -104,6 +110,7 @@ see_all_projects: "See all projects"
 
 # Skills section (extra)
 skills_subtitle: "Mastering modern technologies to build great user experiences and robust solutions. 💻"
+skills_clickable_info: "Click on a skill to discover related projects, educations and experiences!"
 see_all_skills: "See all skills"
 
 # Experience section
@@ -248,12 +255,20 @@ tool_lowercase: "tool"
 tools_employed: "tools employed"
 year_singular: "year"
 years_plural: "years"
+month_singular: "month"
+months_plural: "months"
+and_connector: "and"
 click_to_see_details: "Click to see details"
 youtube_videos: "YouTube Videos"
 youtube_gallery: "YouTube Video Gallery"
 video: "video"
 videos: "videos"
 image_gallery: "Image Gallery"
+
+# Skill modal tabs
+skill_modal_tab_projects: "Projects"
+skill_modal_tab_experiences: "Experiences"
+skill_modal_tab_educations: "Educations"
 
 # Project widgets modals
 partner_companies: "partner companies"

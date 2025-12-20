@@ -74,10 +74,11 @@
   {{- if $shouldDisplay -}}
   {{- $found := false -}}
   
-  {{- /* Look for skill in data source */ -}}
+  {{- /* Look for skill in data source by key */ -}}
   {{- range $siteData -}}
-    {{- if eq .name $skillName -}}
+    {{- if eq .key $skillName -}}
       {{- $found = true -}}
+      {{- $localizedName := i18n .key | default .key -}}
       
       {{- /* Determine icon path and type */ -}}
       {{- $iconPath := "" -}}
@@ -91,25 +92,25 @@
       
       {{- /* Render clickable skill tag */ -}}
       <span class="skill-tag clickable" 
-            onclick="openSkillModal('{{ .name }}', '{{ $iconPath }}', '{{ .description | default `` }}', '{{ .experience | default `` }}', '{{ $iconType }}')"
-            data-skill-name="{{ .name }}"
+            onclick="openSkillModal('{{ $localizedName }}', '{{ $iconPath }}', '{{ .description | default `` }}', '{{ .experience | default `` }}', '{{ $iconType }}', '{{ .key }}')"
+            data-skill-name="{{ .key }}"
             data-skill-type="{{ $skillType }}">
         {{- if $usePartialTechIcon -}}
-          {{ partial "tech-icon.html" . }} {{ .name }}
+          {{ partial "tech-icon.html" . }} {{ $localizedName }}
         {{- else -}}
           {{- if .iconPath -}}
-            <img src="{{ .iconPath }}" alt="{{ .name }}" class="tech-icon-svg" width="16" height="16"> {{ .name }}
+            <img src="{{ .iconPath }}" alt="{{ $localizedName }}" class="tech-icon-svg" width="16" height="16"> {{ $localizedName }}
           {{- else -}}
-            {{ .icon }} {{ .name }}
+            {{ .icon }} {{ $localizedName }}
           {{- end -}}
         {{- end -}}
       </span>
     {{- end -}}
   {{- end -}}
   
-  {{- /* If skill not found in data, render as non-clickable tag */ -}}
+  {{- /* If skill not found in data, render as non-clickable tag with i18n fallback */ -}}
   {{- if not $found -}}
-    <span class="skill-tag {{ $tagClass }}">{{ $skillName }}</span>
+    <span class="skill-tag {{ $tagClass }}">{{ i18n $skillName | default $skillName }}</span>
   {{- end -}}
   {{- end -}}
 {{- end -}}

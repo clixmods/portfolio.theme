@@ -99,7 +99,7 @@
                 {{- $skillName := i18n .key -}}
                 {{- $skillSubtitle := i18n (printf "%s_subtitle" .key) -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ $skillName }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
+                     onclick="openSkillModal('{{ $skillName }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
                      data-skill-name="{{ $skillName }}"
                      data-skill-type="soft-skill"
                      data-skill-category="soft-skills">

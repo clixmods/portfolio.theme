@@ -19,7 +19,7 @@
                 {{ $displayName := i18n .key }}
                 <span class="tech-chip clickable" 
                       style="--tech-color: {{ .color | default "#666" }}"
-                      onclick="openSkillModal('{{ $displayName }}', '{{ .iconPath }}', '{{ .color }}', '{{ .experience }} {{ if eq .experience 1 }}an{{ else }}ans{{ end }}', 'svg')"
+                      onclick="openSkillModal('{{ $displayName }}', '{{ .iconPath }}', '{{ .color }}', '{{ .experience }} {{ if eq .experience 1 }}an{{ else }}ans{{ end }}', 'svg', '{{ .key }}')"
                       data-skill-name="{{ $displayName }}"
                       data-skill-type="programming-language">
                     {{ partial "tech-icon.html" . }} {{ $displayName }}
@@ -36,7 +36,7 @@
                 {{ $displayName := i18n .key }}
                 <span class="tech-chip clickable" 
                       style="--tech-color: {{ .color | default "#666" }}"
-                      onclick="openSkillModal('{{ $displayName }}', '{{ .iconPath }}', '{{ .color }}', '{{ .experience }} {{ if eq .experience 1 }}an{{ else }}ans{{ end }}', 'svg')"
+                      onclick="openSkillModal('{{ $displayName }}', '{{ .iconPath }}', '{{ .color }}', '{{ .experience }} {{ if eq .experience 1 }}an{{ else }}ans{{ end }}', 'svg', '{{ .key }}')"
                       data-skill-name="{{ $displayName }}"
                       data-skill-type="framework-engine">
                     {{ partial "tech-icon.html" . }} {{ $displayName }}
@@ -48,7 +48,7 @@
     {{/* If not found, display the key as fallback */}}
     {{ if not $found }}
     <span class="tech-chip clickable" 
-          onclick="openSkillModal('{{ $techKey }}', '', '', 'Non spécifié', 'emoji')"
+          onclick="openSkillModal('{{ $techKey }}', '', '', 'Non spécifié', 'emoji', '{{ $techKey }}')"
           data-skill-name="{{ $techKey }}"
           data-skill-type="unknown">
         {{ i18n $techKey | default $techKey }}

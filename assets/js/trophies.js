@@ -26,15 +26,53 @@
     }
 
     /**
+     * Detects the current language from the URL
+     */
+    detectLanguage() {
+      const path = window.location.pathname;
+      return path.startsWith('/en/') || path === '/en' ? 'en' : 'fr';
+    }
+
+    /**
+     * Gets a localized string
+     */
+    getString(key) {
+      const lang = this.detectLanguage();
+      const strings = {
+        fr: {
+          trophy_unlocked: 'Trophée débloqué !',
+          trophy_unlocked_short: 'Trophée débloqué',
+          trophy_unlocked_log: 'Trophée débloqué',
+          trophy_not_found: 'Trophée introuvable',
+          trophy_already_unlocked: 'Trophée déjà débloqué',
+          test_force_unlock: 'Test: Déblocage forcé du trophée'
+        },
+        en: {
+          trophy_unlocked: 'Trophy Unlocked!',
+          trophy_unlocked_short: 'Trophy Unlocked',
+          trophy_unlocked_log: 'Trophy unlocked',
+          trophy_not_found: 'Trophy not found',
+          trophy_already_unlocked: 'Trophy already unlocked',
+          test_force_unlock: 'Test: Force unlocking trophy'
+        }
+      };
+      return strings[lang][key] || strings['fr'][key];
+    }
+
+    /**
      * Charge les données des trophées depuis le JSON
      */
     async loadTrophiesData() {
       try {
+        // Detect language and select appropriate JSON file
+        const lang = this.detectLanguage();
+        const jsonFile = lang === 'en' ? 'trophies.en.json' : 'trophies.json';
+        
         // Essayer plusieurs chemins possibles pour le fichier JSON
         const possiblePaths = [
-          '/data/trophies.json',
-          '/portfolio/data/trophies.json',
-          'data/trophies.json'
+          `/data/${jsonFile}`,
+          `/portfolio/data/${jsonFile}`,
+          `data/${jsonFile}`
         ];
         
         let response = null;
@@ -53,20 +91,20 @@
         }
         
         if (!response || !response.ok) {
-          throw new Error(`Impossible de charger les trophées depuis tous les chemins testés. Dernière erreur: ${lastError?.message || 'Inconnue'}`);
+          throw new Error(`Unable to load trophies from all tested paths. Last error: ${lastError?.message || 'Unknown'}`);
         }
         
         const trophiesData = await response.json();
         this.trophies = trophiesData.filter(trophy => trophy.enabled)
                                    .sort((a, b) => a.order - b.order);
         
-        console.log(`${this.trophies.length} trophées chargés depuis le JSON`);
+        console.log(`${this.trophies.length} trophies loaded from JSON (${lang})`);
         this.checkTrophies();
         this.updateTrophyDisplay();
         this.updateProgress();
         this.renderTrophies();
       } catch (error) {
-        console.error('Erreur lors du chargement des trophées:', error);
+        console.error('Error loading trophies:', error);
         // Fallback avec les trophées existants
         this.trophies = this.getFallbackTrophies();
         this.checkTrophies();
@@ -733,7 +771,7 @@
         navigator.vibrate(200);
       }
       
-      console.log(`🏆 Trophée débloqué: ${trophyId}`);
+      console.log(`🏆 ${this.getString('trophy_unlocked_log')}: ${trophyId}`);
       return true;
     }
 
@@ -744,17 +782,17 @@
     testUnlockTrophy(trophyId) {
       const trophy = this.trophies.find(t => t.id === trophyId);
       if (!trophy) {
-        console.error(`❌ Trophée introuvable: ${trophyId}`);
-        console.log('Trophées disponibles:', this.trophies.map(t => t.id));
+        console.error(`❌ ${this.getString('trophy_not_found')}: ${trophyId}`);
+        console.log('Trophies available:', this.trophies.map(t => t.id));
         return;
       }
       
       if (this.unlockedTrophies.includes(trophyId)) {
-        console.warn(`⚠️ Trophée déjà débloqué: ${trophyId}`);
+        console.warn(`⚠️ ${this.getString('trophy_already_unlocked')}: ${trophyId}`);
         return;
       }
       
-      console.log(`🧪 Test: Déblocage forcé du trophée "${trophy.name}"`);
+      console.log(`🧪 ${this.getString('test_force_unlock')} "${trophy.name}"`);
       // unlockTrophy ajoute déjà la notification persistante
       const wasUnlocked = this.unlockTrophy(trophyId);
       
@@ -796,14 +834,14 @@
         // Afficher la notification toast avec l'emoji du trophée et style doré
         window.NotificationsManager.showNotification(message, 'trophy', {
           avatar: emojiSvg,
-          title: '🏆 Trophée débloqué !',
+          title: `🏆 ${this.getString('trophy_unlocked')}`,
           duration: 8000
         });
         
         // Ajouter aussi à la liste persistante des notifications
-        window.NotificationsManager.addNotification('🏆 Trophée débloqué', `${trophy.icon} ${message}`, 'trophy');
+        window.NotificationsManager.addNotification(`🏆 ${this.getString('trophy_unlocked_short')}`, `${trophy.icon} ${message}`, 'trophy');
       } else {
-        console.warn('⚠️ NotificationsManager non disponible');
+        console.warn('⚠️ NotificationsManager not available');
       }
     }
 

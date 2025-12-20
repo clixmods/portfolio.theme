@@ -44,7 +44,7 @@
             {{- $yearLabel = i18n "years_plural" | default "ans" -}}
           {{- end -}}
           {{- $clickDetails := i18n "click_to_see_details" | default "Cliquez pour voir les détails" -}}
-          <div class="tool-icon-mini clickable" onclick="openSkillModal('{{ $toolName }}', '/{{ .iconPath }}', '{{ $toolLabel }}', '{{ .experience }} {{ $yearLabel }}', 'svg')" title="{{ $toolName }} - {{ $clickDetails }}">
+          <div class="tool-icon-mini clickable" onclick="openSkillModal('{{ $toolName }}', '/{{ .iconPath }}', '{{ $toolLabel }}', '{{ .experience }} {{ $yearLabel }}', 'svg', '{{ .key }}')" title="{{ $toolName }} - {{ $clickDetails }}">
             {{- if .iconPath -}}
             <img src="/{{ .iconPath }}" alt="{{ $toolName }}">
             {{- else -}}

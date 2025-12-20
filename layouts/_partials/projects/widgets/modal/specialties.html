@@ -62,7 +62,7 @@
              tabindex="0" 
              role="button" 
              aria-label="Voir les détails de {{ $specialtyName }}"
-             onclick="openSkillModal('{{ $specialtyName }}', '{{ $specialtyIcon }}', 'Spécialité', '{{ $specialtyExperience }} an{{ if gt $specialtyExperience 1 }}s{{ end }}', 'emoji')"
+             onclick="openSkillModal('{{ $specialtyName }}', '{{ $specialtyIcon }}', 'Spécialité', '{{ $specialtyExperience }} an{{ if gt $specialtyExperience 1 }}s{{ end }}', 'emoji', '{{ .key }}')"
              style="cursor: pointer;">
           
           {{/* En-tête de spécialité */}}

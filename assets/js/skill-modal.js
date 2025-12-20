@@ -1,6 +1,117 @@
 // Skill/technology modal management
 let skillModalData = null;
 
+// ================================
+// LOCALIZATION SYSTEM
+// ================================
+
+/**
+ * Detect current language from HTML lang attribute or URL
+ */
+function getSkillModalLang() {
+    // Check HTML lang attribute first
+    const htmlLang = document.documentElement.lang;
+    if (htmlLang && htmlLang.startsWith('en')) return 'en';
+    if (htmlLang && htmlLang.startsWith('fr')) return 'fr';
+    
+    // Fallback: check URL for /en/ prefix
+    if (window.location.pathname.startsWith('/en/') || window.location.pathname === '/en') return 'en';
+    
+    // Default to French
+    return 'fr';
+}
+
+/**
+ * Translations for the skill modal
+ */
+const SKILL_MODAL_TRANSLATIONS = {
+    fr: {
+        // Loading states
+        loading_projects: "Chargement des projets...",
+        loading_experiences: "Chargement des expériences...",
+        loading_educations: "Chargement des formations...",
+        
+        // Empty states
+        no_projects: "Aucun projet trouvé pour cette technologie.",
+        no_projects_sub: "De nouveaux projets arrivent bientôt !",
+        no_experiences: "Aucune expérience professionnelle trouvée pour cette technologie.",
+        no_experiences_sub: "Cette compétence a été développée dans un contexte personnel ou académique.",
+        no_educations: "Aucune formation trouvée pour cette technologie.",
+        no_educations_sub: "Cette compétence a été développée de manière autodidacte ou professionnelle.",
+        
+        // Error states
+        error_loading_projects: "Erreur lors du chargement des projets.",
+        error_loading_experiences: "Erreur lors du chargement des expériences.",
+        error_loading_educations: "Erreur lors du chargement des formations.",
+        please_refresh: "Veuillez rafraîchir la page.",
+        
+        // Experience info
+        years_experience_singular: "an d'expérience",
+        years_experience_plural: "ans d'expérience",
+        position: "Poste",
+        present: "Présent",
+        education_label: "Formation",
+        
+        // Actions
+        view_details: "Voir les détails",
+        view_project: "Voir le projet",
+        confidential: "Confidentiel",
+        
+        // Default descriptions
+        default_project_description: "Découvrez ce projet innovant et ses fonctionnalités."
+    },
+    en: {
+        // Loading states
+        loading_projects: "Loading projects...",
+        loading_experiences: "Loading experiences...",
+        loading_educations: "Loading educations...",
+        
+        // Empty states
+        no_projects: "No project found for this technology.",
+        no_projects_sub: "New projects coming soon!",
+        no_experiences: "No professional experience found for this technology.",
+        no_experiences_sub: "This skill was developed in a personal or academic context.",
+        no_educations: "No education found for this technology.",
+        no_educations_sub: "This skill was developed through self-learning or professionally.",
+        
+        // Error states
+        error_loading_projects: "Error loading projects.",
+        error_loading_experiences: "Error loading experiences.",
+        error_loading_educations: "Error loading educations.",
+        please_refresh: "Please refresh the page.",
+        
+        // Experience info
+        years_experience_singular: "year of experience",
+        years_experience_plural: "years of experience",
+        position: "Position",
+        present: "Present",
+        education_label: "Education",
+        
+        // Actions
+        view_details: "View details",
+        view_project: "View project",
+        confidential: "Confidential",
+        
+        // Default descriptions
+        default_project_description: "Discover this innovative project and its features."
+    }
+};
+
+/**
+ * Get a translated string for skill modal
+ */
+function ts(key) {
+    const lang = getSkillModalLang();
+    return SKILL_MODAL_TRANSLATIONS[lang]?.[key] || SKILL_MODAL_TRANSLATIONS['fr'][key] || key;
+}
+
+/**
+ * Get locale string for date formatting
+ */
+function getDateLocale() {
+    return getSkillModalLang() === 'en' ? 'en-US' : 'fr-FR';
+}
+
 // Utility: check if ANY overlay modal (unified / skill / person) remains open
 function isAnyOverlayModalStillOpen(excludeId) {
     const ids = ['unifiedModal','skillModal','personModal'];
@@ -14,12 +125,16 @@ function isAnyOverlayModalStillOpen(excludeId) {
 }
 
 // Function to open modal with skill details
-function openSkillModal(name, icon, level, experience, iconType) {
+// skillKey is the data key (e.g., 'lang_csharp') used for filtering - optional for backward compatibility
+function openSkillModal(name, icon, level, experience, iconType, skillKey) {
     const modal = document.getElementById('skillModal');
     const modalName = document.getElementById('modalSkillName');
     const modalIcon = document.getElementById('modalSkillIcon');
     const modalLevel = document.getElementById('modalSkillLevel');
     const modalExperience = document.getElementById('modalSkillExperience');
+    
+    // Store the skill key for filtering (use name as fallback for backward compatibility)
+    const searchKey = skillKey || name;
     
     // Track skill modal opened for trophy system
     localStorage.setItem('skillModalOpened', 'true');
@@ -97,8 +212,8 @@ function openSkillModal(name, icon, level, experience, iconType) {
                 modalExperience.hidden = true;
             } else {
                 const isOne = Math.abs(years - 1) < 1e-9;
-                const yearsStr = Number.isInteger(years) ? years.toString() : years.toLocaleString('fr-FR', { maximumFractionDigits: 1 });
-                modalExperience.textContent = `${yearsStr} ${isOne ? 'an' : 'ans'} d'expérience`;
+                const yearsStr = Number.isInteger(years) ? years.toString() : years.toLocaleString(getDateLocale(), { maximumFractionDigits: 1 });
+                modalExperience.textContent = `${yearsStr} ${isOne ? ts('years_experience_singular') : ts('years_experience_plural')}`;
                 modalExperience.style.display = '';
                 modalExperience.hidden = false;
             }
@@ -114,14 +229,14 @@ function openSkillModal(name, icon, level, experience, iconType) {
         modalIcon.innerHTML = `<span class="skill-modal-tech-icon-emoji">${icon}</span>`;
     }
     
-    // Load associated projects
-    loadProjectsForSkill(name);
+    // Load associated projects (use searchKey for filtering)
+    loadProjectsForSkill(searchKey);
     
-    // Load associated professional experiences
-    loadExperiencesForSkill(name);
+    // Load associated professional experiences (use searchKey for filtering)
+    loadExperiencesForSkill(searchKey);
     
-    // Load associated educations
-    loadEducationsForSkill(name);
+    // Load associated educations (use searchKey for filtering)
+    loadEducationsForSkill(searchKey);
     
     // Pause all testimonials before showing modal
     if (typeof window.pauseAllTestimonials === 'function') {
@@ -194,7 +309,7 @@ function closeSkillModal() {
 // Function to load projects associated with a skill/technology
 function loadProjectsForSkill(skillName) {
     const projectsList = document.getElementById('modalProjectsList');
-    projectsList.innerHTML = '<div class="loading">Chargement des projets...</div>';
+    projectsList.innerHTML = `<div class="loading">${ts('loading_projects')}</div>`;
     
     try {
         // Use data embedded in page instead of making API request
@@ -203,14 +318,14 @@ function loadProjectsForSkill(skillName) {
         displayProjects(projects, skillName, projectsList);
     } catch (error) {
         console.error('Error loading projects:', error);
-        projectsList.innerHTML = '<div class="no-projects">❌ Error loading projects.<br/>Please refresh the page.</div>';
+        projectsList.innerHTML = `<div class="no-projects">❌ ${ts('error_loading_projects')}<br/>${ts('please_refresh')}</div>`;
     }
 }
 
 // Function to load professional experiences associated with a skill/technology
 function loadExperiencesForSkill(skillName) {
     const experiencesList = document.getElementById('modalExperiencesList');
-    experiencesList.innerHTML = '<div class="loading">Loading experiences...</div>';
+    experiencesList.innerHTML = `<div class="loading">${ts('loading_experiences')}</div>`;
     
     try {
         // Use data embedded in page instead of making API request
@@ -219,14 +334,14 @@ function loadExperiencesForSkill(skillName) {
         displayExperiences(experiences, skillName, experiencesList);
     } catch (error) {
         console.error('Error loading experiences:', error);
-        experiencesList.innerHTML = '<div class="skill-modal-no-experiences">❌ Error loading experiences.<br/>Please refresh the page.</div>';
+        experiencesList.innerHTML = `<div class="skill-modal-no-experiences">❌ ${ts('error_loading_experiences')}<br/>${ts('please_refresh')}</div>`;
     }
 }
 
 // Function to load educations associated with a skill/technology
 function loadEducationsForSkill(skillName) {
     const educationsList = document.getElementById('modalEducationsList');
-    educationsList.innerHTML = '<div class="loading">Loading educations...</div>';
+    educationsList.innerHTML = `<div class="loading">${ts('loading_educations')}</div>`;
     
     try {
         // Use data embedded in page instead of making API request
@@ -235,7 +350,7 @@ function loadEducationsForSkill(skillName) {
         displayEducations(educations, skillName, educationsList);
     } catch (error) {
         console.error('Error loading educations:', error);
-        educationsList.innerHTML = '<div class="skill-modal-no-educations">❌ Error loading educations.<br/>Please refresh the page.</div>';
+        educationsList.innerHTML = `<div class="skill-modal-no-educations">❌ ${ts('error_loading_educations')}<br/>${ts('please_refresh')}</div>`;
     }
 }
 
@@ -283,7 +398,7 @@ function displayProjects(projects, skillName, projectsList) {
     
     if (relatedProjects.length === 0) {
         projectsList.classList.add('empty-state');
-        projectsList.innerHTML = '<div class="skill-modal-no-projects">🚀 Aucun projet trouvé pour cette technologie.<br/>De nouveaux projets arrivent bientôt !</div>';
+        projectsList.innerHTML = `<div class="skill-modal-no-projects">🚀 ${ts('no_projects')}<br/>${ts('no_projects_sub')}</div>`;
         return;
     }
     
@@ -356,7 +471,7 @@ function displayExperiences(experiences, skillName, experiencesList) {
     
     if (relatedExperiences.length === 0) {
         experiencesList.classList.add('empty-state');
-        experiencesList.innerHTML = '<div class="skill-modal-no-experiences">💼 Aucune expérience professionnelle trouvée pour cette technologie.<br/>Cette compétence a été développée dans un contexte personnel ou académique.</div>';
+        experiencesList.innerHTML = `<div class="skill-modal-no-experiences">💼 ${ts('no_experiences')}<br/>${ts('no_experiences_sub')}</div>`;
         return;
     }
     
@@ -468,7 +583,7 @@ function displayEducations(educations, skillName, educationsList) {
     
     if (relatedEducations.length === 0) {
         educationsList.classList.add('empty-state');
-        educationsList.innerHTML = '<div class="skill-modal-no-educations">🎓 Aucune formation trouvée pour cette technologie.<br/>Cette compétence a été développée de manière autodidacte ou professionnelle.</div>';
+        educationsList.innerHTML = `<div class="skill-modal-no-educations">🎓 ${ts('no_educations')}<br/>${ts('no_educations_sub')}</div>`;
         return;
     }
     
@@ -554,7 +669,7 @@ function createExperienceItem(cleanedExperience, technologies) {
     
     const type = document.createElement('span');
     type.className = 'skill-modal-experience-type';
-    type.textContent = cleanedExperience.type || 'Poste';
+    type.textContent = cleanedExperience.type || ts('position');
     
     const period = document.createElement('span');
     period.className = 'skill-modal-experience-period';
@@ -563,13 +678,13 @@ function createExperienceItem(cleanedExperience, technologies) {
     let periodText = '';
     if (cleanedExperience.start_date) {
         const startDate = new Date(cleanedExperience.start_date);
-        periodText = startDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+        periodText = startDate.toLocaleDateString(getDateLocale(), { year: 'numeric', month: 'long' });
         
         if (cleanedExperience.end_date) {
             const endDate = new Date(cleanedExperience.end_date);
-            periodText += ' - ' + endDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+            periodText += ' - ' + endDate.toLocaleDateString(getDateLocale(), { year: 'numeric', month: 'long' });
         } else {
-            periodText += ' - Présent';
+            periodText += ` - ${ts('present')}`;
         }
     }
     period.textContent = periodText;
@@ -600,7 +715,7 @@ function createExperienceItem(cleanedExperience, technologies) {
         const experienceLink = document.createElement('a');
         experienceLink.href = cleanedExperience.url;
         experienceLink.className = 'skill-modal-experience-link btn-action';
-        experienceLink.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Voir les détails';
+        experienceLink.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> ${ts('view_details')}`;
         
         linkContainer.appendChild(experienceLink);
         experienceItem.appendChild(linkContainer);
@@ -663,7 +778,7 @@ function createEducationItem(cleanedEducation, technologies) {
     
     const status = document.createElement('span');
     status.className = 'skill-modal-education-status';
-    status.textContent = cleanedEducation.status || cleanedEducation.grade || 'Formation';
+    status.textContent = cleanedEducation.status || cleanedEducation.grade || ts('education_label');
     
     const period = document.createElement('span');
     period.className = 'skill-modal-education-period';
@@ -672,11 +787,11 @@ function createEducationItem(cleanedEducation, technologies) {
     let periodText = '';
     if (cleanedEducation.start_date) {
         const startDate = new Date(cleanedEducation.start_date);
-        periodText = startDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+        periodText = startDate.toLocaleDateString(getDateLocale(), { year: 'numeric', month: 'long' });
         
         if (cleanedEducation.end_date) {
             const endDate = new Date(cleanedEducation.end_date);
-            periodText += ' - ' + endDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+            periodText += ' - ' + endDate.toLocaleDateString(getDateLocale(), { year: 'numeric', month: 'long' });
         }
     }
     period.textContent = periodText;
@@ -707,7 +822,7 @@ function createEducationItem(cleanedEducation, technologies) {
         const educationLink = document.createElement('a');
         educationLink.href = cleanedEducation.url;
         educationLink.className = 'skill-modal-education-link btn-action';
-        educationLink.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Voir les détails';
+        educationLink.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg> ${ts('view_details')}`;
         
         linkContainer.appendChild(educationLink);
         educationItem.appendChild(linkContainer);
@@ -765,7 +880,7 @@ function createProjectTile(cleanedProject, technologies) {
     
     const subtitle = document.createElement('p');
     subtitle.className = 'project-card-unified-subtitle';
-    subtitle.textContent = cleanedProject.subtitle || cleanedProject.description || 'Découvrez ce projet innovant et ses fonctionnalités.';
+    subtitle.textContent = cleanedProject.subtitle || cleanedProject.description || ts('default_project_description');
     
     defaultContent.appendChild(title);
     defaultContent.appendChild(subtitle);
@@ -781,7 +896,7 @@ function createProjectTile(cleanedProject, technologies) {
     
     const detailDescription = document.createElement('p');
     detailDescription.className = 'project-card-unified-detailed-description';
-    detailDescription.textContent = cleanedProject.description || cleanedProject.subtitle || 'Découvrez ce projet innovant et ses fonctionnalités.';
+    detailDescription.textContent = cleanedProject.description || cleanedProject.subtitle || ts('default_project_description');
     
     detailedInfo.appendChild(detailTitle);
     detailedInfo.appendChild(detailDescription);
@@ -808,7 +923,7 @@ function createProjectTile(cleanedProject, technologies) {
         path.setAttribute('d', 'M7 17L17 7M17 7H7M17 7V17');
         
         svg.appendChild(path);
-        projectLink.appendChild(document.createTextNode('Voir le projet '));
+        projectLink.appendChild(document.createTextNode(`${ts('view_project')} `));
         projectLink.appendChild(svg);
         
         detailedInfo.appendChild(projectLink);
@@ -827,7 +942,7 @@ function createProjectTile(cleanedProject, technologies) {
         path.setAttribute('d', 'M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10.1V11.1C14.8,11.6 14.4,12 13.9,12H10.1C9.6,12 9.2,11.6 9.2,11.1V10.1C9.2,8.6 10.6,7 12,7Z');
         
         svg.appendChild(path);
-        confidentialSpan.appendChild(document.createTextNode('Confidentiel '));
+        confidentialSpan.appendChild(document.createTextNode(`${ts('confidential')} `));
         confidentialSpan.appendChild(svg);
         
         detailedInfo.appendChild(confidentialSpan);

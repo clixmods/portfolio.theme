@@ -12,6 +12,28 @@
     return;
   }
   
+  /**
+   * Detects the current language from the URL
+   */
+  function detectLanguage() {
+    const path = window.location.pathname;
+    return path.startsWith('/en/') || path === '/en' ? 'en' : 'fr';
+  }
+  
+  // Localized strings
+  const STRINGS = {
+    fr: {
+      just_now: 'À l\'instant',
+      minutes_ago: 'il y a {0}m',
+      hours_ago: 'il y a {0}h'
+    },
+    en: {
+      just_now: 'Just now',
+      minutes_ago: '{0}m ago',
+      hours_ago: '{0}h ago'
+    }
+  };
+  
   // State
   let notifications = [];
   
@@ -205,10 +227,12 @@
     const diff = now - date;
     const minutes = Math.floor(diff / 60000);
     const hours = Math.floor(diff / 3600000);
+    const lang = detectLanguage();
+    const strings = STRINGS[lang];
     
-    if (minutes < 1) return 'À l\'instant';
-    if (minutes < 60) return `il y a ${minutes}m`;
-    if (hours < 24) return `il y a ${hours}h`;
+    if (minutes < 1) return strings.just_now;
+    if (minutes < 60) return strings.minutes_ago.replace('{0}', minutes);
+    if (hours < 24) return strings.hours_ago.replace('{0}', hours);
     return date.toLocaleDateString();
   }
   
