@@ -117,43 +117,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (e) { /* no-op */ }
 
-            // Update experience chip: hide if "Non spécifié" or 0, else show "X an(s) d'expérience"
-            try {
-                const expEl = document.getElementById('modalSkillExperience');
-                if (expEl) {
-                    let shouldHide = false;
-                    if (experience === null || experience === undefined) {
-                        shouldHide = true;
-                    } else if (typeof experience === 'number') {
-                        shouldHide = !(experience > 0);
-                    } else {
-                        const raw = String(experience).trim();
-                        if (!raw) {
-                            shouldHide = true;
-                        } else {
-                            const normalized = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-                            if (normalized === 'non specifie') {
-                                shouldHide = true;
-                            } else {
-                                const parsed = parseFloat(raw.replace(/[^0-9.,-]/g, '').replace(',', '.'));
-                                shouldHide = !(parsed > 0);
-                            }
-                        }
-                    }
-
-                    if (shouldHide) {
-                        expEl.textContent = '';
-                        expEl.style.display = 'none';
-                    } else {
-                        const yearsNum = typeof experience === 'number' ? experience : parseFloat(String(experience).replace(/[^0-9.,-]/g, '').replace(',', '.'));
-                        const years = isNaN(yearsNum) ? 0 : yearsNum;
-                        const isOne = Math.abs(years - 1) < 1e-9;
-                        const yearsStr = Number.isInteger(years) ? years.toString() : years.toLocaleString('fr-FR', { maximumFractionDigits: 1 });
-                        expEl.textContent = `${yearsStr} ${isOne ? 'an' : 'ans'} d'expérience`;
-                        expEl.style.display = '';
-                    }
-                }
-            } catch (e) { /* no-op */ }
+            // Experience chip is now handled entirely by skill-modal.js with i18n support
+            // No need to update it here - the JavaScript handles it properly
 
             updateStats(searchKey);
             skillModalTabs.activateTab('projects');

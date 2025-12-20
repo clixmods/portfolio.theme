@@ -45,7 +45,8 @@
           trophy_unlocked_log: 'Trophée débloqué',
           trophy_not_found: 'Trophée introuvable',
           trophy_already_unlocked: 'Trophée déjà débloqué',
-          test_force_unlock: 'Test: Déblocage forcé du trophée'
+          test_force_unlock: 'Test: Déblocage forcé du trophée',
+          unlocked_on: 'Débloqué le'
         },
         en: {
           trophy_unlocked: 'Trophy Unlocked!',
@@ -53,7 +54,8 @@
           trophy_unlocked_log: 'Trophy unlocked',
           trophy_not_found: 'Trophy not found',
           trophy_already_unlocked: 'Trophy already unlocked',
-          test_force_unlock: 'Test: Force unlocking trophy'
+          test_force_unlock: 'Test: Force unlocking trophy',
+          unlocked_on: 'Unlocked on'
         }
       };
       return strings[lang][key] || strings['fr'][key];
@@ -910,7 +912,7 @@
             </div>
             <p class="trophy-card-description">${trophy.description}</p>
             <p class="trophy-card-requirement">${trophy.requirement || trophy.description}</p>
-            ${isUnlocked && unlockDate ? `<div class="trophy-card-date">Débloqué le ${unlockDate}</div>` : ''}
+            ${isUnlocked && unlockDate ? `<div class="trophy-card-date">${this.getString('unlocked_on')} ${unlockDate}</div>` : ''}
           </div>
         `;
       }).join('');

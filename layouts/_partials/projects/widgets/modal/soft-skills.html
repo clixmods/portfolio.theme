@@ -38,10 +38,11 @@
     {{/* Grille des soft skills */}}
     <div class="soft-skills-grid">
       {{- range $softSkills -}}
-        {{- $skillName := .name | default "Compétence" -}}
+        {{- $skillName := i18n .key | default .key -}}
         {{- $skillIcon := .icon | default "💡" -}}
         {{- $skillIconPath := .iconPath | default "" -}}
-        {{- $skillSubtitle := .subtitle | default "" -}}
+        {{- $subtitleKey := printf "%s_subtitle" .key -}}
+        {{- $skillSubtitle := i18n $subtitleKey | default "" -}}
         {{- $skillColor := .color | default "#9C27B0" -}}
         
         <div class="soft-skill-card" 

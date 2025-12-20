@@ -9,16 +9,19 @@ let skillModalData = null;
  * Detect current language from HTML lang attribute or URL
  */
 function getSkillModalLang() {
-    // Check HTML lang attribute first
-    const htmlLang = document.documentElement.lang;
-    if (htmlLang && htmlLang.startsWith('en')) return 'en';
-    if (htmlLang && htmlLang.startsWith('fr')) return 'fr';
+    // Check URL for /en/ prefix first (most reliable)
+    const pathname = window.location.pathname;
+    if (pathname.startsWith('/en/') || pathname === '/en') return 'en';
     
-    // Fallback: check URL for /en/ prefix
-    if (window.location.pathname.startsWith('/en/') || window.location.pathname === '/en') return 'en';
+    // Check HTML lang attribute
+    const htmlLang = document.documentElement.getAttribute('lang');
+    if (htmlLang) {
+        if (htmlLang.startsWith('en')) return 'en';
+        if (htmlLang.startsWith('fr')) return 'fr';
+    }
     
     // Default to French
-    return 'fr';
+    return 'fr';    
 }
 
 /**
@@ -213,7 +216,11 @@ function openSkillModal(name, icon, level, experience, iconType, skillKey) {
             } else {
                 const isOne = Math.abs(years - 1) < 1e-9;
                 const yearsStr = Number.isInteger(years) ? years.toString() : years.toLocaleString(getDateLocale(), { maximumFractionDigits: 1 });
-                modalExperience.textContent = `${yearsStr} ${isOne ? ts('years_experience_singular') : ts('years_experience_plural')}`;
+                const lang = getSkillModalLang();
+                const singularText = ts('years_experience_singular');
+                const pluralText = ts('years_experience_plural');
+                console.log('🔍 Skill Modal Debug:', { lang, years, isOne, singularText, pluralText });
+                modalExperience.textContent = `${yearsStr} ${isOne ? singularText : pluralText}`;
                 modalExperience.style.display = '';
                 modalExperience.hidden = false;
             }

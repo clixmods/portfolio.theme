@@ -52,17 +52,18 @@
     {{/* Grille des spécialités */}}
     <div class="specialties-grid">
       {{- range $specialties -}}
-        {{- $specialtyName := .name | default "Spécialité" -}}
+        {{- $specialtyName := i18n .key | default (.name | default "Spécialité") -}}
         {{- $specialtyIcon := .icon | default "🧩" -}}
         {{- $specialtySubtitle := .subtitle | default "" -}}
         {{- $specialtyExperience := .experience | default 0 -}}
+        {{- $yearLabel := cond (eq $specialtyExperience 1) (i18n "year_singular" | default "year") (i18n "years_plural" | default "years") -}}
         
         <div class="specialty-card" 
              data-specialty="{{ $specialtyName }}" 
              tabindex="0" 
              role="button" 
-             aria-label="Voir les détails de {{ $specialtyName }}"
-             onclick="openSkillModal('{{ $specialtyName }}', '{{ $specialtyIcon }}', 'Spécialité', '{{ $specialtyExperience }} an{{ if gt $specialtyExperience 1 }}s{{ end }}', 'emoji', '{{ .key }}')"
+             aria-label="{{ i18n "view_details_of" | default "Voir les détails de" }} {{ $specialtyName }}"
+             onclick="openSkillModal('{{ $specialtyName }}', '{{ $specialtyIcon }}', '{{ i18n "specialty" | default "Spécialité" }}', '{{ $specialtyExperience }}', 'emoji', '{{ .key }}')"
              style="cursor: pointer;">
           
           {{/* En-tête de spécialité */}}
@@ -78,7 +79,7 @@
           
           {{/* Badge simple avec années d'expérience */}}
           <div class="specialty-badge widget-badge">
-            {{ $specialtyExperience }} an{{ if gt $specialtyExperience 1 }}s{{ end }}
+            {{ $specialtyExperience }} {{ $yearLabel | upper }}
           </div>
         </div>
       {{- end -}}

@@ -19,7 +19,7 @@
                 {{ $displayName := i18n .key }}
                 <span class="tech-chip clickable" 
                       style="--tech-color: {{ .color | default "#666" }}"
-                      onclick="openSkillModal('{{ $displayName }}', '{{ .iconPath }}', '{{ .color }}', '{{ .experience }} {{ if eq .experience 1 }}an{{ else }}ans{{ end }}', 'svg', '{{ .key }}')"
+                      onclick="openSkillModal('{{ $displayName }}', '{{ .iconPath }}', '', '{{ .experience }}', 'svg', '{{ .key }}')"
                       data-skill-name="{{ $displayName }}"
                       data-skill-type="programming-language">
                     {{ partial "tech-icon.html" . }} {{ $displayName }}
@@ -36,7 +36,7 @@
                 {{ $displayName := i18n .key }}
                 <span class="tech-chip clickable" 
                       style="--tech-color: {{ .color | default "#666" }}"
-                      onclick="openSkillModal('{{ $displayName }}', '{{ .iconPath }}', '{{ .color }}', '{{ .experience }} {{ if eq .experience 1 }}an{{ else }}ans{{ end }}', 'svg', '{{ .key }}')"
+                      onclick="openSkillModal('{{ $displayName }}', '{{ .iconPath }}', '', '{{ .experience }}', 'svg', '{{ .key }}')"
                       data-skill-name="{{ $displayName }}"
                       data-skill-type="framework-engine">
                     {{ partial "tech-icon.html" . }} {{ $displayName }}

@@ -21,10 +21,10 @@
 {{- $totalExperience := 0 -}}
 {{- $toolCategories := dict -}}
 
-{{/* Traitement des outils utilisés */}}
-{{- range $toolName := $tools -}}
+{{/* Traitement des outils utilisés - matching by .key */}}
+{{- range $toolKey := $tools -}}
   {{- range $allTools -}}
-    {{- if eq .name $toolName -}}
+    {{- if eq .key $toolKey -}}
       {{- $usedTools = $usedTools | append . -}}
       {{- $totalExperience = add $totalExperience .experience -}}
       
@@ -50,14 +50,8 @@
       <div class="tools-categories">
         {{- $displayedCategories := dict -}}
         {{- range $category, $categoryTools := $toolCategories -}}
-          {{- $categoryName := "" -}}
-          {{- if eq $category "version_control" -}}{{ $categoryName = "Contrôle de version" }}
-          {{- else if eq $category "development" -}}{{ $categoryName = "Développement" }}
-          {{- else if eq $category "design" -}}{{ $categoryName = "Design" }}
-          {{- else if eq $category "productivity" -}}{{ $categoryName = "Productivité" }}
-          {{- else if eq $category "communication" -}}{{ $categoryName = "Communication" }}
-          {{- else -}}{{ $categoryName = "Autres" }}
-          {{- end -}}
+          {{- $categoryKey := printf "tool_category_%s" $category -}}
+          {{- $categoryName := i18n $categoryKey | default $category -}}
           
           {{/* Regroupement des catégories avec le même nom */}}
           {{- $existingTools := index $displayedCategories $categoryName | default slice -}}
@@ -94,14 +88,8 @@
     {{/* Grille des outils par catégorie - regroupées par nom de catégorie */}}
     {{- $sectionsByName := dict -}}
     {{- range $category, $categoryTools := $toolCategories -}}
-      {{- $categoryName := "" -}}
-      {{- if eq $category "version_control" -}}{{ $categoryName = "Contrôle de version" }}
-      {{- else if eq $category "development" -}}{{ $categoryName = "Développement" }}
-      {{- else if eq $category "design" -}}{{ $categoryName = "Design" }}
-      {{- else if eq $category "productivity" -}}{{ $categoryName = "Productivité" }}
-      {{- else if eq $category "communication" -}}{{ $categoryName = "Communication" }}
-      {{- else -}}{{ $categoryName = "Autres" }}
-      {{- end -}}
+      {{- $categoryKey := printf "tool_category_%s" $category -}}
+      {{- $categoryName := i18n $categoryKey | default $category -}}
       
       {{/* Regrouper les outils par nom de catégorie affiché */}}
       {{- $existingTools := index $sectionsByName $categoryName | default slice -}}
@@ -118,8 +106,9 @@
         
         <div class="tools-grid">
           {{- range $sectionTools -}}
-            {{- $toolName := .name | default "Outil" -}}
-            {{- $toolDescription := .description | default "" -}}
+            {{- $toolName := i18n .key | default .key -}}
+            {{- $descKey := printf "%s_desc" .key -}}
+            {{- $toolDescription := i18n $descKey | default .description -}}
             {{- $toolExperience := .experience | default 0 -}}
             {{- $toolIcon := .iconPath | default "" -}}
             {{- $toolColor := .color | default "#666" -}}
@@ -128,8 +117,8 @@
                  data-tool="{{ $toolName }}" 
                  tabindex="0" 
                  role="button" 
-                 aria-label="Voir les détails de {{ $toolName }}"
-                 onclick="openSkillModal('{{ $toolName }}', '{{ if $toolIcon }}/{{ $toolIcon }}{{ else }}🛠️{{ end }}', 'Outil', '{{ $toolExperience }} an{{ if gt $toolExperience 1 }}s{{ end }}', '{{ if $toolIcon }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
+                 aria-label="{{ i18n "view_details_of" | default "Voir les détails de" }} {{ $toolName }}"
+                 onclick="openSkillModal('{{ $toolName }}', '{{ if $toolIcon }}/{{ $toolIcon }}{{ else }}🛠️{{ end }}', '{{ i18n "tool" | default "Outil" }}', '{{ $toolExperience }}', '{{ if $toolIcon }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
                  style="cursor: pointer;">
               
               {{/* En-tête de l'outil */}}
@@ -151,7 +140,7 @@
               
               {{/* Badge avec années d'expérience */}}
               <div class="tool-badge widget-badge">
-                {{ $toolExperience }} an{{ if gt $toolExperience 1 }}s{{ end }}
+                {{ $toolExperience }} {{ if eq $toolExperience 1 }}{{ i18n "year" | default "year" }}{{ else }}{{ i18n "years" | default "years" }}{{ end }}
               </div>
             </div>
           {{- end -}}

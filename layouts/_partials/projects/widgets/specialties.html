@@ -39,8 +39,10 @@
     </div>
   </div>
   <div class="project-widget-content">
+    {{/* Load localized profile data */}}
+    {{- $profileData := partial "get-localized-data.html" (dict "context" . "dataName" "profile") -}}
     {{/* Utiliser le partial pour l'affichage modal */}}
-    {{ partial "projects/widgets/modal/specialties.html" (dict "specialties" $usedSpecialities "projectId" .File.BaseFileName "profileData" .Site.Data.profile) }}
+    {{ partial "projects/widgets/modal/specialties.html" (dict "specialties" $usedSpecialities "projectId" .File.BaseFileName "profileData" $profileData) }}
   </div>
 </div>
   {{- end -}}

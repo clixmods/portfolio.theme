@@ -37,14 +37,8 @@
           {{- range first 5 $usedTools -}}
           {{- $toolName := i18n .key -}}
           {{- $toolLabel := i18n "tool" | default "Outil" -}}
-          {{- $yearLabel := "" -}}
-          {{- if eq .experience 1 -}}
-            {{- $yearLabel = i18n "year_singular" | default "an" -}}
-          {{- else -}}
-            {{- $yearLabel = i18n "years_plural" | default "ans" -}}
-          {{- end -}}
           {{- $clickDetails := i18n "click_to_see_details" | default "Cliquez pour voir les détails" -}}
-          <div class="tool-icon-mini clickable" onclick="openSkillModal('{{ $toolName }}', '/{{ .iconPath }}', '{{ $toolLabel }}', '{{ .experience }} {{ $yearLabel }}', 'svg', '{{ .key }}')" title="{{ $toolName }} - {{ $clickDetails }}">
+          <div class="tool-icon-mini clickable" onclick="openSkillModal('{{ $toolName }}', '/{{ .iconPath }}', '{{ $toolLabel }}', '{{ .experience }}', 'svg', '{{ .key }}')" title="{{ $toolName }} - {{ $clickDetails }}">
             {{- if .iconPath -}}
             <img src="/{{ .iconPath }}" alt="{{ $toolName }}">
             {{- else -}}
@@ -67,8 +61,10 @@
     </div>
   </div>
   <div class="project-widget-content">
+    {{/* Load localized profile data */}}
+    {{- $profileData := partial "get-localized-data.html" (dict "context" . "dataName" "profile") -}}
     {{/* Utiliser le partial tools pour l'affichage modal */}}
-    {{ partial "projects/widgets/modal/tools.html" (dict "tools" $projectTools "projectId" .File.BaseFileName "profileData" .Site.Data.profile) }}
+    {{ partial "projects/widgets/modal/tools.html" (dict "tools" $projectTools "projectId" .File.BaseFileName "profileData" $profileData) }}
   </div>
 </div>
   {{- end -}}

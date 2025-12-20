@@ -94,23 +94,29 @@
 
     {{/* Testimonials Section */}}
     {{- if .Params.testimonials -}}
+    {{- $localizedTestimonials := .Site.Data.testimonials -}}
+    {{- if eq .Language.Lang "en" -}}
+      {{- with .Site.Data.en.testimonials -}}
+        {{- $localizedTestimonials = . -}}
+      {{- end -}}
+    {{- end -}}
     <div class="testimonials-education-section">
       <h2>{{ i18n "testimonials" | default "Témoignages" }}</h2>
       <div class="testimonials-education-slider">
         <div class="testimonials-education-track">
           {{- range .Params.testimonials -}}
             {{- $testimonialId := . -}}
-            {{- $testimonialResults := where $.Site.Data.testimonials "personId" $testimonialId -}}
+            {{- $testimonialResults := where $localizedTestimonials "personId" $testimonialId -}}
             {{- $testimonial := index $testimonialResults 0 -}}
             {{- if $testimonial -}}
               {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" $testimonial.personId) -}}
-              {{- if $person -}}
               <div class="testimonial-education-card aero-glass">
                 <div class="testimonial-education-content">
                   <p class="testimonial-education-text">
                     "{{ $testimonial.text }}"
                   </p>
-                  <div class="testimonial-education-author{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ $testimonial.personId }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
+                  {{- if $person -}}
+                  <div class="testimonial-education-author clickable-person" data-person-id="{{ $testimonial.personId }}" title="{{ i18n "view_profile_of" | default "Voir le profil de" }} {{ $person.Params.title }}">
                     <div class="testimonial-education-avatar {{ if not $person.Params.avatar }}placeholder{{ end }}">
                       {{- if $person.Params.avatar -}}
                         <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
@@ -123,9 +129,19 @@
                       <div class="testimonial-education-role">{{ $testimonial.position }} - {{ $testimonial.company }}</div>
                     </div>
                   </div>
+                  {{- else -}}
+                  <div class="testimonial-education-author">
+                    <div class="testimonial-education-avatar placeholder">
+                      <span>?</span>
+                    </div>
+                    <div class="testimonial-education-info">
+                      <div class="testimonial-education-name">{{ $testimonial.personId }}</div>
+                      <div class="testimonial-education-role">{{ $testimonial.position }} - {{ $testimonial.company }}</div>
+                    </div>
+                  </div>
+                  {{- end -}}
                 </div>
               </div>
-              {{- end -}}
             {{- end -}}
           {{- end -}}
         </div>
@@ -450,8 +466,13 @@
       <div class="ps5-projects-tiles">
         {{- range .Params.projects -}}
           {{- $projectSlug := . -}}
-          {{- range where (where $.Site.RegularPages "Section" "projects") "Draft" false -}}
-            {{- if eq .File.BaseFileName $projectSlug -}}
+          {{- $siteProjects := where $.Site.RegularPages "Section" "projects" -}}
+          {{- $languageProjects := where $siteProjects "Lang" $.Site.Language.Lang -}}
+          {{- range where $languageProjects "Draft" false -}}
+            {{- $baseFileName := .File.BaseFileName -}}
+            {{- $cleanSlug := replace $baseFileName ".en" "" -}}
+            {{- $cleanSlug = replace $cleanSlug ".fr" "" -}}
+            {{- if eq $cleanSlug $projectSlug -}}
               {{- $allTechnologies := slice -}}
               {{- range .Params.programming_languages -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}
               {{- range .Params.frameworks_engines -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}

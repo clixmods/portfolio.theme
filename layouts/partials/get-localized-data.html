@@ -12,8 +12,7 @@
   Returns:
     The appropriate data file based on current language
     - For FR (default): data/{dataName}.json
-    - For EN: data/{dataName}.en.json
-    - For other languages: data/{dataName}.{lang}.json
+    - For EN: data/en/{dataName}.json (accessed via .Site.Data.en.{dataName})
 */ -}}
 
 {{- $context := .context -}}
@@ -25,9 +24,21 @@
 
 {{- /* If current language is not French (default), try to load localized version */ -}}
 {{- if ne $currentLang "fr" -}}
-    {{- $localizedKey := printf "%s.%s" $dataName $currentLang -}}
-    {{- with index $context.Site.Data $localizedKey -}}
-        {{- $data = . -}}
+    {{- /* Try method 1: Hugo stores data/en/{dataName}.json as .Site.Data.en.{dataName} */ -}}
+    {{- $foundData := false -}}
+    {{- with index $context.Site.Data $currentLang -}}
+        {{- with index . $dataName -}}
+            {{- $data = . -}}
+            {{- $foundData = true -}}
+        {{- end -}}
+    {{- end -}}
+    
+    {{- /* Try method 2: Hugo stores data/{dataName}.en.json as .Site.Data.{dataName}_en (replaces . with _) */ -}}
+    {{- if not $foundData -}}
+        {{- $dataNameWithLang := printf "%s_%s" $dataName $currentLang -}}
+        {{- with index $context.Site.Data $dataNameWithLang -}}
+            {{- $data = . -}}
+        {{- end -}}
     {{- end -}}
 {{- end -}}
 

@@ -91,7 +91,7 @@
         {{- end -}}
       </div>
       <div class="profile-note-content">
-        <div class="profile-note-title">Rôle{{ if gt (len ($ownerContributor.roles | default (slice))) 1 }}s{{ end }} de {{ $ownerContributor.name }} dans ce projet</div>
+        <div class="profile-note-title">{{ i18n "role_of_in_project" | default "Role of {0} in this project" | replaceRE "\\{0\\}" $ownerContributor.name }}</div>
         <div class="profile-note-subtitle">
           {{- $ownerRoles := $ownerContributor.roles | default (slice ($ownerContributor.role | default (i18n "contributor" | default "Contributeur"))) -}}
           {{- delimit $ownerRoles ", " -}}

@@ -196,8 +196,10 @@ window.portfolioEducations = [
     {{- end -}}
 ];
 
+{{/* Get people from default language site (French) - people are NOT localized */}}
+{{- $defaultSite := index .Sites 0 -}}
 window.portfolioPeople = [
-    {{- range where .Site.RegularPages "Section" "people" -}}
+    {{- range where $defaultSite.RegularPages "Section" "people" -}}
         {{- $avatarPath := .Params.avatar | default "" -}}
         {{- $optimizedAvatar := dict "src" $avatarPath "width" 0 "height" 0 -}}
         {{- if $avatarPath -}}
