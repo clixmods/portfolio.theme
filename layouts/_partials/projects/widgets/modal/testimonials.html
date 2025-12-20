@@ -43,12 +43,12 @@
       {{- range $index, $testimonial := $testimonials -}}
         {{- $person := partial "helpers/get-person.html" (dict "context" $context "personId" $testimonial.person) -}}
         
-        <div class="testimonial-item{{ if $person }} clickable-person{{ end }}" data-testimonial-index="{{ $index }}"{{ if $person }} data-person-id="{{ $testimonial.person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }} tabindex="0">
+        <div class="testimonial-item{{ if and $person (ne $person "") }} clickable-person{{ end }}" data-testimonial-index="{{ $index }}"{{ if and $person (ne $person "") }} data-person-id="{{ $testimonial.person }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }} tabindex="0">
           <div class="testimonial-header">
             {{/* Photo et informations de la personne */}}
             <div class="testimonial-author">
-              <div class="author-avatar {{ if not $person.Params.avatar }}author-avatar--placeholder{{ end }}">
-                {{- if $person -}}
+              <div class="author-avatar {{ if or (not $person) (not $person.Params.avatar) }}author-avatar--placeholder{{ end }}">
+                {{- if and $person (ne $person "") -}}
                   {{- if $person.Params.avatar -}}
                     {{- $testimonialAvatar := partial "get-optimized-image.html" (dict "imagePath" $person.Params.avatar "width" 80 "quality" 90) -}}
                     <img src="{{ $testimonialAvatar.src }}" 
@@ -65,7 +65,7 @@
               </div>
               
               <div class="author-info">
-                <h4 class="author-name">{{ if $person }}{{ $person.Params.title }}{{ else }}{{ $testimonial.person }}{{ end }}</h4>
+                <h4 class="author-name">{{ if and $person (ne $person "") }}{{ $person.Params.title }}{{ else }}{{ $testimonial.person | humanize | title }}{{ end }}</h4>
                 {{- if $testimonial.role -}}
                   <div class="author-position">{{ $testimonial.role }}</div>
                 {{- end -}}
