@@ -53,6 +53,7 @@
     {{- range .Params.contributors -}}
       {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" .person) -}}
       {{- if $person -}}
+        {{/* Contributor with profile */}}
         {{- $contributorsData = $contributorsData | append (dict 
             "id" .person
             "name" $person.Params.title
@@ -60,6 +61,17 @@
             "roles" (.roles | default slice)
             "hasAvatar" (ne $person.Params.avatar nil)
             "avatarPath" ($person.Params.avatar | default "")
+        ) -}}
+      {{- else -}}
+        {{/* Contributor without profile - use person ID as display name */}}
+        {{- $displayName := .person | humanize | title -}}
+        {{- $contributorsData = $contributorsData | append (dict 
+            "id" .person
+            "name" $displayName
+            "role" (.role | default "")
+            "roles" (.roles | default slice)
+            "hasAvatar" false
+            "avatarPath" ""
         ) -}}
       {{- end -}}
     {{- end -}}
