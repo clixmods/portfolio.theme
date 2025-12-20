@@ -155,7 +155,8 @@
   {{ $widgets = $widgets | append $widget }}
 {{ end }}
 
-{{/* Widgets multiples - Galeries individuelles */}}
+{{/* Multiple widgets - Individual galleries */}}
+{{ if reflect.IsSlice .Params.galleries }}
 {{ range $galleryIndex, $gallery := .Params.galleries }}
   {{/* Fallback to file order when no explicit order is set */}}
   {{ $order := add 30 $galleryIndex }}
@@ -165,8 +166,10 @@
   {{ $widget := dict "type" "gallery_multiple" "order" $order "data" $gallery "index" $galleryIndex "context" $ }}
   {{ $widgets = $widgets | append $widget }}
 {{ end }}
+{{ end }}
 
-{{/* Widgets multiples - Vidéos YouTube individuelles */}}
+{{/* Multiple widgets - Individual YouTube videos */}}
+{{ if reflect.IsSlice .Params.youtube_singles }}
 {{ range $videoIndex, $video := .Params.youtube_singles }}
   {{/* Fallback to file order when no explicit order is set */}}
   {{ $order := add 90 $videoIndex }}
@@ -176,8 +179,10 @@
   {{ $widget := dict "type" "youtube_single" "order" $order "data" $video "index" $videoIndex "context" $ }}
   {{ $widgets = $widgets | append $widget }}
 {{ end }}
+{{ end }}
 
-{{/* Widgets multiples - Galeries YouTube */}}
+{{/* Multiple widgets - YouTube galleries */}}
+{{ if reflect.IsSlice .Params.youtube_galleries }}
 {{ range $galleryIndex, $gallery := .Params.youtube_galleries }}
   {{/* Fallback to file order when no explicit order is set */}}
   {{ $order := add 65 $galleryIndex }}
@@ -187,8 +192,9 @@
   {{ $widget := dict "type" "youtube_gallery" "order" $order "data" $gallery "index" $galleryIndex "context" $ }}
   {{ $widgets = $widgets | append $widget }}
 {{ end }}
+{{ end }}
 
-{{/* Trier les widgets par ordre croissant */}}
+{{/* Sort widgets by ascending order */}}
 {{ $sortedWidgets := sort $widgets "order" }}
 
 {{/* Afficher les widgets triés */}}
