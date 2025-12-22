@@ -60,16 +60,7 @@
 {{- end }}
 
 
-{{/* Skill Modal Script */}}
-{{- with resources.Get "js/modals/skill/skill-modal.js" }}
-  {{- if hugo.IsDevelopment }}
-    <script src="{{ .RelPermalink }}"></script>
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{/* Skill Modal Script - Loaded in baseof.html after portfolio-data.html */}}
 
 {{/* Unified Tabs Dropdown System Script */}}
 {{- with resources.Get "js/components/tabs-dropdown.js" }}

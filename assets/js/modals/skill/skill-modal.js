@@ -1,5 +1,7 @@
 // Skill/technology modal management
 let skillModalData = null;
+// Store the current skill key for filtering
+let currentSkillKey = null;
 
 // Utility: check if ANY overlay modal (unified / skill / person) remains open
 function isAnyOverlayModalStillOpen(excludeId) {
@@ -14,12 +16,16 @@ function isAnyOverlayModalStillOpen(excludeId) {
 }
 
 // Function to open modal with skill details
-function openSkillModal(name, icon, level, experience, iconType) {
+// skillKey is the i18n key (e.g., 'lang_csharp') used for filtering projects/experiences
+function openSkillModal(name, icon, level, experience, iconType, skillKey) {
     const modal = document.getElementById('skillModal');
     const modalName = document.getElementById('modalSkillName');
     const modalIcon = document.getElementById('modalSkillIcon');
     const modalLevel = document.getElementById('modalSkillLevel');
     const modalExperience = document.getElementById('modalSkillExperience');
+    
+    // Store skillKey for filtering (fallback to name if not provided)
+    currentSkillKey = skillKey || name;
     
     // Track skill modal opened for trophy system
     localStorage.setItem('skillModalOpened', 'true');
@@ -114,14 +120,14 @@ function openSkillModal(name, icon, level, experience, iconType) {
         modalIcon.innerHTML = `<span class="skill-modal-tech-icon-emoji">${icon}</span>`;
     }
     
-    // Load associated projects
-    loadProjectsForSkill(name);
+    // Load associated projects (use skillKey for filtering)
+    loadProjectsForSkill(currentSkillKey, name);
     
-    // Load associated professional experiences
-    loadExperiencesForSkill(name);
+    // Load associated professional experiences (use skillKey for filtering)
+    loadExperiencesForSkill(currentSkillKey, name);
     
-    // Load associated educations
-    loadEducationsForSkill(name);
+    // Load associated educations (use skillKey for filtering)
+    loadEducationsForSkill(currentSkillKey, name);
     
     // Pause all testimonials before showing modal
     if (typeof window.pauseAllTestimonials === 'function') {
@@ -192,7 +198,8 @@ function closeSkillModal() {
 }
 
 // Function to load projects associated with a skill/technology
-function loadProjectsForSkill(skillName) {
+// skillKey is used for filtering, displayName is for logging
+function loadProjectsForSkill(skillKey, displayName) {
     const projectsList = document.getElementById('modalProjectsList');
     projectsList.innerHTML = '<div class="loading">Chargement des projets...</div>';
     
@@ -200,7 +207,7 @@ function loadProjectsForSkill(skillName) {
         // Use data embedded in page instead of making API request
         const projects = window.portfolioProjects || [];
 
-        displayProjects(projects, skillName, projectsList);
+        displayProjects(projects, skillKey, displayName, projectsList);
     } catch (error) {
         console.error('Error loading projects:', error);
         projectsList.innerHTML = '<div class="no-projects">❌ Error loading projects.<br/>Please refresh the page.</div>';
@@ -208,7 +215,8 @@ function loadProjectsForSkill(skillName) {
 }
 
 // Function to load professional experiences associated with a skill/technology
-function loadExperiencesForSkill(skillName) {
+// skillKey is used for filtering, displayName is for logging
+function loadExperiencesForSkill(skillKey, displayName) {
     const experiencesList = document.getElementById('modalExperiencesList');
     experiencesList.innerHTML = '<div class="loading">Loading experiences...</div>';
     
@@ -216,7 +224,7 @@ function loadExperiencesForSkill(skillName) {
         // Use data embedded in page instead of making API request
         const experiences = window.portfolioExperiences || [];
 
-        displayExperiences(experiences, skillName, experiencesList);
+        displayExperiences(experiences, skillKey, displayName, experiencesList);
     } catch (error) {
         console.error('Error loading experiences:', error);
         experiencesList.innerHTML = '<div class="skill-modal-no-experiences">❌ Error loading experiences.<br/>Please refresh the page.</div>';
@@ -224,7 +232,8 @@ function loadExperiencesForSkill(skillName) {
 }
 
 // Function to load educations associated with a skill/technology
-function loadEducationsForSkill(skillName) {
+// skillKey is used for filtering, displayName is for logging
+function loadEducationsForSkill(skillKey, displayName) {
     const educationsList = document.getElementById('modalEducationsList');
     educationsList.innerHTML = '<div class="loading">Loading educations...</div>';
     
@@ -232,7 +241,7 @@ function loadEducationsForSkill(skillName) {
         // Use data embedded in page instead of making API request
         const educations = window.portfolioEducations || [];
 
-        displayEducations(educations, skillName, educationsList);
+        displayEducations(educations, skillKey, displayName, educationsList);
     } catch (error) {
         console.error('Error loading educations:', error);
         educationsList.innerHTML = '<div class="skill-modal-no-educations">❌ Error loading educations.<br/>Please refresh the page.</div>';
@@ -240,7 +249,8 @@ function loadEducationsForSkill(skillName) {
 }
 
 // Function to display filtered projects with new PS5 design
-function displayProjects(projects, skillName, projectsList) {
+// skillKey is the i18n key for filtering, displayName is for UI/logging
+function displayProjects(projects, skillKey, displayName, projectsList) {
     
     const relatedProjects = projects.filter(project => {
 
@@ -263,12 +273,14 @@ function displayProjects(projects, skillName, projectsList) {
             return false;
         }
         
-        // Exact search and also case-insensitive search
+        // Match by skillKey (i18n key) or displayName (for backwards compatibility)
         const hasSkill = technologies.some(tech => {
-            const exactMatch = tech === skillName;
-            const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
+            const exactMatch = tech === skillKey;
+            const caseInsensitiveMatch = tech.toLowerCase() === skillKey.toLowerCase();
+            // Also check displayName for backwards compatibility
+            const nameMatch = displayName && (tech === displayName || tech.toLowerCase() === displayName.toLowerCase());
     
-            return exactMatch || caseInsensitiveMatch;
+            return exactMatch || caseInsensitiveMatch || nameMatch;
         });
         
         if (hasSkill) {
@@ -314,7 +326,8 @@ function displayProjects(projects, skillName, projectsList) {
 }
 
 // Fonction pour afficher les expériences professionnelles filtrées
-function displayExperiences(experiences, skillName, experiencesList) {
+// skillKey is the i18n key for filtering, displayName is for UI/logging
+function displayExperiences(experiences, skillKey, displayName, experiencesList) {
     
     const relatedExperiences = experiences.filter(experience => {
      
@@ -337,12 +350,14 @@ function displayExperiences(experiences, skillName, experiencesList) {
             return false;
         }
         
-        // Recherche exacte et aussi recherche insensible à la casse
+        // Match by skillKey (i18n key) or displayName (for backwards compatibility)
         const hasSkill = technologies.some(tech => {
-            const exactMatch = tech === skillName;
-            const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
+            const exactMatch = tech === skillKey;
+            const caseInsensitiveMatch = tech.toLowerCase() === skillKey.toLowerCase();
+            // Also check displayName for backwards compatibility
+            const nameMatch = displayName && (tech === displayName || tech.toLowerCase() === displayName.toLowerCase());
          
-            return exactMatch || caseInsensitiveMatch;
+            return exactMatch || caseInsensitiveMatch || nameMatch;
         });
         
         if (hasSkill) {
@@ -396,7 +411,8 @@ function cleanExperience(experience) {
 }
 
 // Fonction pour afficher les formations filtrées
-function displayEducations(educations, skillName, educationsList) {
+// skillKey is the i18n key for filtering, displayName is for UI/logging
+function displayEducations(educations, skillKey, displayName, educationsList) {
   
     
     const relatedEducations = educations.filter(education => {
@@ -434,24 +450,26 @@ function displayEducations(educations, skillName, educationsList) {
             tools = [];
         }
         
-        // Recherche dans les technologies
+        // Recherche dans les technologies - match by skillKey or displayName
         const hasSkillInTechnologies = technologies.some(tech => {
-            const exactMatch = tech === skillName;
-            const caseInsensitiveMatch = tech.toLowerCase() === skillName.toLowerCase();
-            console.log(`  Comparaison technologies: "${tech}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
-            return exactMatch || caseInsensitiveMatch;
+            const exactMatch = tech === skillKey;
+            const caseInsensitiveMatch = tech.toLowerCase() === skillKey.toLowerCase();
+            // Also check displayName for backwards compatibility
+            const nameMatch = displayName && (tech === displayName || tech.toLowerCase() === displayName.toLowerCase());
+            return exactMatch || caseInsensitiveMatch || nameMatch;
         });
         
-        // Recherche dans les outils (tools)
+        // Recherche dans les outils (tools) - match by skillKey or displayName
         const hasSkillInTools = tools.some(toolItem => {
             // Les outils peuvent être des objets {tool: "nom", ...} ou des strings
             const toolName = typeof toolItem === 'object' && toolItem !== null ? toolItem.tool : toolItem;
             if (!toolName) return false;
             
-            const exactMatch = toolName === skillName;
-            const caseInsensitiveMatch = toolName.toLowerCase() === skillName.toLowerCase();
-            console.log(`  Comparaison outils: "${toolName}" vs "${skillName}" -> exact: ${exactMatch}, insensible: ${caseInsensitiveMatch}`);
-            return exactMatch || caseInsensitiveMatch;
+            const exactMatch = toolName === skillKey;
+            const caseInsensitiveMatch = toolName.toLowerCase() === skillKey.toLowerCase();
+            // Also check displayName for backwards compatibility
+            const nameMatch = displayName && (toolName === displayName || toolName.toLowerCase() === displayName.toLowerCase());
+            return exactMatch || caseInsensitiveMatch || nameMatch;
         });
         
         const hasSkill = hasSkillInTechnologies || hasSkillInTools;

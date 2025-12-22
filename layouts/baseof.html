@@ -45,6 +45,9 @@
   <!-- Dock de navigation -->
   {{ partial "dock.html" . }}
   
+  <!-- Global portfolio data for skill modal and other components - MUST be loaded first -->
+  {{ partial "portfolio-data.html" . }}
+
   <!-- Scripts pour le menu mobile -->
   {{ $mobileMenuJs := resources.Get "js/navigation/mobile-menu.js" }}
   {{ if $mobileMenuJs }}
@@ -80,9 +83,6 @@
   {{ if $widgetsFormatterJs }}
     <script>{{ $widgetsFormatterJs.Content | safeJS }}</script>
   {{ end }}
-  
-  <!-- Global portfolio data for skill modal and other components -->
-  {{ partial "portfolio-data.html" . }}
   
 </body>
 </html>
