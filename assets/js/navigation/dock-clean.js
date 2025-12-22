@@ -1,6 +1,6 @@
 /**
  * Dock de navigation - Gestion des interactions
- * Version: 1.0.0
+ * Version: 1.1.0 - Now uses shared utility modules
  * Taille: < 1kB minifié
  */
 
@@ -8,29 +8,15 @@
   'use strict';
   
   // Global variables
-  let isReducedMotion = false;
   let dock = null;
   let dockButtons = [];
   
   /**
-   * Detects if user prefers reduced animations
-   */
-  function detectReducedMotion() {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    isReducedMotion = mediaQuery.matches;
-    
-    // Listen for preference changes
-    mediaQuery.addEventListener('change', function(e) {
-      isReducedMotion = e.matches;
-      updateAnimationDuration();
-    });
-  }
-  
-  /**
    * Updates animation duration according to preferences
+   * Now uses AccessibilityUtils
    */
   function updateAnimationDuration() {
-    const duration = isReducedMotion ? '50ms' : '150ms';
+    const duration = window.AccessibilityUtils?.prefersReducedMotion ? '50ms' : '150ms';
     document.documentElement.style.setProperty('--dock-transition', `${duration} ease-out`);
   }
   
@@ -241,9 +227,11 @@
     // Handle mobile scroll
     handleMobileScroll();
     
-    // Detect animation preferences
-    detectReducedMotion();
+    // Setup animation preferences using shared AccessibilityUtils
     updateAnimationDuration();
+    if (window.AccessibilityUtils) {
+      window.AccessibilityUtils.onReducedMotionChange(updateAnimationDuration);
+    }
     
     // Handle window resize
     let resizeTimeout;

@@ -1,6 +1,7 @@
 /**
  * Mobile Menu - Hamburger menu for top dock on mobile devices
  * Handles opening/closing of mobile navigation menu
+ * Version: 1.1.0 - Now uses shared utility modules
  */
 
 (function() {
@@ -38,8 +39,19 @@
     // Close menu when clicking outside
     document.addEventListener('click', handleClickOutside);
     
-    // Close menu on escape key
-    document.addEventListener('keydown', handleEscapeKey);
+    // Close menu on Escape key
+    KeyboardManager.onEscape(() => {
+      if (currentView === 'notifications') {
+        showMainView();
+      } else {
+        closeMenu();
+        menuToggle.focus();
+      }
+      return true;
+    }, {
+      priority: 50,
+      condition: () => isOpen
+    });
     
     // Notifications view navigation
     const showNotificationsBtn = document.getElementById('mobile-show-notifications-btn');

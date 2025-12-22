@@ -112,62 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
     updateScrollProgress();
 });
 
-// Fonction utilitaire pour afficher des notifications
-function showNotification(message, type = 'info', duration = 5000) {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        ${getNotificationIcon(type)} ${message}
-        <button onclick="this.parentElement.remove()" style="margin-left: 10px; background: none; border: none; color: inherit; cursor: pointer; font-size: 16px;">✕</button>
-    `;
-    
-    const baseStyles = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 12px 16px;
-        border-radius: 8px;
-        z-index: 10002;
-        font-size: 14px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        animation: slideInRight 0.3s ease;
-        max-width: 300px;
-        word-wrap: break-word;
-    `;
-    
-    const typeStyles = {
-        info: 'background: #007acc; color: white;',
-        success: 'background: #28a745; color: white;',
-        warning: 'background: #ffc107; color: #212529;',
-        error: 'background: #dc3545; color: white;'
-    };
-    
-    notification.style.cssText = baseStyles + typeStyles[type];
-    
-    document.body.appendChild(notification);
-    
-    // Auto-supprimer après la durée spécifiée
-    setTimeout(() => {
-        if (notification.parentElement) {
-            notification.style.animation = 'slideOutRight 0.3s ease';
-            setTimeout(() => {
-                if (notification.parentElement) {
-                    notification.remove();
-                }
-            }, 300);
-        }
-    }, duration);
-}
-
-function getNotificationIcon(type) {
-    const icons = {
-        info: 'ℹ️',
-        success: '✅',
-        warning: '⚠️',
-        error: '❌'
-    };
-    return icons[type] || icons.info;
-}
+// Notification system - uses NotificationsManager from notifications-manager.js
+// The actual showNotification function is defined in notifications-manager.js
+// and exposed globally via window.showNotification
 
 // Expose functions globally for inline onclick handlers
 window.openYouTubeModal = openYouTubeModal;
@@ -179,7 +126,7 @@ window.showMoreActions = showMoreActions;
 window.hideMoreActions = hideMoreActions;
 window.handleYouTubeAction = handleYouTubeAction;
 window.extractYouTubeVideoId = extractYouTubeVideoId;
-window.showNotification = showNotification;
+// window.showNotification is now provided by notifications-manager.js
 
 // Projects Section Functionality
 document.addEventListener('DOMContentLoaded', function() {
@@ -366,107 +313,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Notification system - Utilise le système du right-dock si disponible
-function showNotification(message, type = 'info') {
-    // Vérifier si le système de notifications du right-dock est disponible
-    if (window.rightDockManager && window.rightDockManager.showNotification) {
-        window.rightDockManager.showNotification(message, type);
-        return;
-    }
-    
-    // Fallback : système de notifications simple
-    // Remove existing notifications
-    const existingNotifications = document.querySelectorAll('.notification');
-    existingNotifications.forEach(notification => notification.remove());
-    
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
-            <span class="notification-message">${message}</span>
-            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">✕</button>
-        </div>
-    `;
-    
-    // Add styles for notification
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? 'rgba(34, 197, 94, 0.9)' : type === 'error' ? 'rgba(239, 68, 68, 0.9)' : 'rgba(59, 130, 246, 0.9)'};
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        padding: 1rem;
-        color: white;
-        z-index: 10000;
-        animation: slideInRight 0.3s ease;
-        max-width: 400px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    `;
-    
-    // Add notification styles to document if not already present
-    if (!document.querySelector('#notification-styles')) {
-        const style = document.createElement('style');
-        style.id = 'notification-styles';
-        style.textContent = `
-            @keyframes slideInRight {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-            
-            .notification-content {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-            }
-            
-            .notification-close {
-                background: none;
-                border: none;
-                color: white;
-                cursor: pointer;
-                font-size: 1.2rem;
-                padding: 0;
-                margin-left: auto;
-                opacity: 0.7;
-                transition: opacity 0.2s ease;
-            }
-            
-            .notification-close:hover {
-                opacity: 1;
-            }
-            
-            .notification-icon {
-                font-size: 1.2rem;
-            }
-            
-            .notification-message {
-                flex: 1;
-                font-size: 0.95rem;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    // Add to page
-    document.body.appendChild(notification);
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        if (notification.parentElement) {
-            notification.style.animation = 'slideInRight 0.3s ease reverse';
-            setTimeout(() => notification.remove(), 300);
-        }
-    }, 5000);
-}
+// Notification system handled by notifications-manager.js
+// showNotification is exposed globally via window.showNotification from that module
 
 // Project Actions - Show More functionality
 // DEPRECATED: Old action popup system - now using unified modal
@@ -1007,10 +855,7 @@ function openYouTubeModal(videoId, title) {
         // Définir la source de l'iframe
         iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
         
-        // Pause all testimonials before showing modal
-        if (typeof window.pauseAllTestimonials === 'function') {
-            window.pauseAllTestimonials();
-        }
+        ModalUtils.pauseTestimonials();
         
         // Afficher le modal
         modal.classList.add('active');
@@ -1035,10 +880,7 @@ function closeYouTubeModal() {
     const modalContent = modal.querySelector('.youtube-modal-content');
     
     if (modal && iframe && modalContent) {
-        // Resume all testimonials when closing modal
-        if (typeof window.resumeAllTestimonials === 'function') {
-            window.resumeAllTestimonials();
-        }
+        ModalUtils.resumeTestimonials();
         
         modal.classList.remove('active');
         
@@ -1081,29 +923,26 @@ function toggleYouTubeEmbed(element, videoId, title) {
         embedContainer.style.display = 'block';
         thumbnail.style.display = 'none';
         
-        // Pause all testimonials when showing video
-        if (typeof window.pauseAllTestimonials === 'function') {
-            window.pauseAllTestimonials();
-        }
+        ModalUtils.pauseTestimonials();
     } else {
         // Masquer la vidéo intégrée
         iframe.src = '';
         embedContainer.style.display = 'none';
         thumbnail.style.display = 'block';
         
-        // Resume all testimonials when hiding video
-        if (typeof window.resumeAllTestimonials === 'function') {
-            window.resumeAllTestimonials();
-        }
+        ModalUtils.resumeTestimonials();
     }
 }
 
-// Fermer le modal avec la touche Échap
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
+// Close modal on Escape key
+KeyboardManager.onEscape(() => {
+    const modal = document.getElementById('youtubeModal');
+    if (modal && modal.classList.contains('active')) {
         closeYouTubeModal();
+        return true;
     }
-});
+    return false;
+}, { priority: 80 });
 
 // ========================================
 // INITIALIZATION

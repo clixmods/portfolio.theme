@@ -1,18 +1,15 @@
-// Skill/technology modal management
+/**
+ * Skill/Technology Modal Management
+ * Version: 1.2.0 - Uses shared utility modules directly
+ */
+
 let skillModalData = null;
 // Store the current skill key for filtering
 let currentSkillKey = null;
 
-// Utility: check if ANY overlay modal (unified / skill / person) remains open
+// Utility: check if ANY overlay modal remains open
 function isAnyOverlayModalStillOpen(excludeId) {
-    const ids = ['unifiedModal','skillModal','personModal'];
-    return ids.some(id => {
-        if (id === excludeId) return false; // ignore the one we are closing
-        const el = document.getElementById(id);
-        if (!el) return false;
-        const display = (el.style && el.style.display) ? el.style.display : window.getComputedStyle(el).display;
-        return display && display !== 'none';
-    });
+    return ModalUtils.isAnyModalOpen(excludeId);
 }
 
 // Function to open modal with skill details
@@ -28,7 +25,7 @@ function openSkillModal(name, icon, level, experience, iconType, skillKey) {
     currentSkillKey = skillKey || name;
     
     // Track skill modal opened for trophy system
-    localStorage.setItem('skillModalOpened', 'true');
+    Storage.setRaw('skillModalOpened', 'true');
     
     // Check trophies after a short delay
     if (window.trophySystem) {
@@ -129,10 +126,7 @@ function openSkillModal(name, icon, level, experience, iconType, skillKey) {
     // Load associated educations (use skillKey for filtering)
     loadEducationsForSkill(currentSkillKey, name);
     
-    // Pause all testimonials before showing modal
-    if (typeof window.pauseAllTestimonials === 'function') {
-        window.pauseAllTestimonials();
-    }
+    ModalUtils.pauseTestimonials();
     
     // If a unified modal is currently open, mark this as nested and reduce parent backdrop intensity
     try {
@@ -166,10 +160,7 @@ function openSkillModal(name, icon, level, experience, iconType, skillKey) {
 function closeSkillModal() {
     const modal = document.getElementById('skillModal');
     
-    // Resume all testimonials when closing modal
-    if (typeof window.resumeAllTestimonials === 'function') {
-        window.resumeAllTestimonials();
-    }
+    ModalUtils.resumeTestimonials();
     
     // Animate close like unified modal
     modal.classList.remove('fade-enter', 'fade-enter-active');
@@ -856,12 +847,15 @@ function createProjectTile(cleanedProject, technologies) {
     return projectTile;
 }
 
-// Fermer la modal en cliquant sur Échap
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
+// Close modal on Escape
+KeyboardManager.onEscape(() => {
+    const modal = document.getElementById('skillModal');
+    if (modal && modal.style.display !== 'none') {
         closeSkillModal();
+        return true;
     }
-});
+    return false;
+}, { priority: 100 });
 
 // Empêcher la fermeture de la modal en cliquant à l'intérieur
 document.addEventListener('DOMContentLoaded', function() {
@@ -872,57 +866,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Normaliser les données des projets pour s'assurer que les technologies sont des tableaux
+    // Normalize project data using DataUtils
     if (window.portfolioProjects && Array.isArray(window.portfolioProjects)) {
-        window.portfolioProjects = window.portfolioProjects.map(project => {
-            if (project.technologies && typeof project.technologies === 'string') {
-                try {
-                    project.technologies = JSON.parse(project.technologies);
-                } catch (e) {
-                    console.error(`Erreur lors du parsing des technologies pour ${project.title}:`, e);
-                    project.technologies = [];
-                }
-            }
-            return project;
-        });
-       
+        window.portfolioProjects = window.portfolioProjects.map(project => ({
+            ...project,
+            technologies: DataUtils.parseTechnologies(project.technologies)
+        }));
     }
     
-    // Normaliser les données des expériences pour s'assurer que les technologies sont des tableaux
+    // Normalize experience data using DataUtils
     if (window.portfolioExperiences && Array.isArray(window.portfolioExperiences)) {
-        window.portfolioExperiences = window.portfolioExperiences.map(experience => {
-            if (experience.technologies && typeof experience.technologies === 'string') {
-                try {
-                    experience.technologies = JSON.parse(experience.technologies);
-                } catch (e) {
-                    console.error(`Erreur lors du parsing des technologies pour ${experience.title}:`, e);
-                    experience.technologies = [];
-                }
-            }
-            return experience;
-        });
-        
+        window.portfolioExperiences = window.portfolioExperiences.map(experience => ({
+            ...experience,
+            technologies: DataUtils.parseTechnologies(experience.technologies)
+        }));
     }
     
-    // Normaliser les données des formations pour s'assurer que les technologies sont des tableaux
+    // Normalize education data using DataUtils
     if (window.portfolioEducations && Array.isArray(window.portfolioEducations)) {
-        window.portfolioEducations = window.portfolioEducations.map(education => {
-            if (education.technologies && typeof education.technologies === 'string') {
-                try {
-                    education.technologies = JSON.parse(education.technologies);
-                } catch (e) {
-                    console.error(`Erreur lors du parsing des technologies pour ${education.title}:`, e);
-                    education.technologies = [];
-                }
-            }
-            return education;
-        });
-        
+        window.portfolioEducations = window.portfolioEducations.map(education => ({
+            ...education,
+            technologies: DataUtils.parseTechnologies(education.technologies)
+        }));
     }
-    
-  
-    
-  
-    
-
 });

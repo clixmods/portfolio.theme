@@ -2,6 +2,7 @@
  * UNIFIED MODAL SYSTEM - REFACTORED
  * Modular and reusable system for all modal types
  * Replaces old specific modals with a unified and configurable system
+ * Version: 1.1.0 - Now uses shared utility modules
  */
 
 // ================================
@@ -744,11 +745,8 @@ class UnifiedModal {
         // Prepare and show with CSS-driven animation
     modal.classList.remove('fade-exit', 'fade-exit-active');
     modal.style.display = 'flex';
-        modal.offsetHeight; // force reflow
-        modal.classList.add('fade-enter');
-        requestAnimationFrame(() => {
-            modal.classList.add('fade-enter-active');
-        });
+        
+        AnimationUtils.fadeEnter(modal);
         
         document.body.style.overflow = 'hidden';
         // Tie label for a11y
@@ -768,30 +766,17 @@ class UnifiedModal {
         const targetModal = modal || this.currentModal;
         if (!targetModal) return;
 
-        // Animation de sortie via classes
-        targetModal.classList.remove('fade-enter', 'fade-enter-active');
-        targetModal.classList.add('fade-exit');
-        targetModal.offsetHeight; // reflow
-        targetModal.classList.add('fade-exit-active');
-        
-        setTimeout(() => {
+        // Exit animation via AnimationUtils
+        AnimationUtils.fadeExit(targetModal, () => {
             targetModal.style.display = 'none';
             // Only restore body scroll if no other overlay modal is still visible
             try {
-                const ids = ['unifiedModal','skillModal','personModal'];
-                const anyOpen = ids.some(id => {
-                    if (id === 'unifiedModal' && targetModal.id !== 'unifiedModal') return true; // skip current only
-                    const el = document.getElementById(id);
-                    if (!el) return false;
-                    const display = (el.style && el.style.display) ? el.style.display : window.getComputedStyle(el).display;
-                    return display && display !== 'none' && el !== targetModal;
-                });
+                const anyOpen = ModalUtils.isAnyModalOpen(targetModal.id);
                 document.body.style.overflow = anyOpen ? 'hidden' : 'auto';
             } catch(e) {
                 document.body.style.overflow = 'auto';
             }
-            targetModal.classList.remove('fade-exit', 'fade-exit-active');
-        }, 300);
+        });
         
         document.removeEventListener('keydown', this.handleKeyDown);
         this.disableFocusTrap(targetModal);

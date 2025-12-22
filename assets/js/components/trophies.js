@@ -1,22 +1,28 @@
 /**
  * Système de Trophées - Portfolio
- * Version: 2.0.0
+ * Version: 2.2.0 - Uses shared utility modules directly
  * Description: Système de gamification avec trophées débloquables
  */
 
 (function() {
   'use strict';
 
+  // Direct usage of Storage utility (always available via js.html)
+  const getStorageValue = (key, defaultValue) => Storage.get(key, defaultValue);
+  const setStorageValue = (key, value) => Storage.set(key, value);
+  const getStorageRaw = (key, defaultValue = '') => Storage.getRaw(key, defaultValue);
+  const setStorageRaw = (key, value) => Storage.setRaw(key, value);
+
   class TrophySystem {
     constructor() {
       this.trophies = [];
-      this.unlockedTrophies = JSON.parse(localStorage.getItem('unlockedTrophies') || '[]');
+      this.unlockedTrophies = getStorageValue('unlockedTrophies', []);
       this.sessionStartTime = Date.now();
-      this.visitStartTime = parseInt(localStorage.getItem('visitStartTime')) || Date.now();
+      this.visitStartTime = parseInt(getStorageRaw('visitStartTime')) || Date.now();
       
       // Si c'est une nouvelle session, sauvegarder le temps de début
-      if (!localStorage.getItem('visitStartTime')) {
-        localStorage.setItem('visitStartTime', this.visitStartTime.toString());
+      if (!getStorageRaw('visitStartTime')) {
+        setStorageRaw('visitStartTime', this.visitStartTime.toString());
       }
       
       // Charger les données depuis le JSON et initialiser
@@ -107,7 +113,7 @@
           rarity: 'rare',
           requirement: 'Visiter 3 projets différents',
           condition: () => {
-            const visitedProjects = JSON.parse(localStorage.getItem('visitedProjects') || '[]');
+            const visitedProjects = getStorageValue('visitedProjects', []);
             return visitedProjects.length >= 3;
           }
         },
@@ -152,7 +158,7 @@
           icon: '📄',
           rarity: 'rare',
           requirement: 'Télécharger le CV',
-          condition: () => localStorage.getItem('cvDownloaded') === 'true'
+          condition: () => getStorageRaw('cvDownloaded') === 'true'
         },
         {
           id: 'social_networker',
@@ -162,7 +168,7 @@
           rarity: 'rare',
           requirement: 'Visiter 2 réseaux sociaux',
           condition: () => {
-            const socialClicks = JSON.parse(localStorage.getItem('socialClicks') || '[]');
+            const socialClicks = getStorageValue('socialClicks', []);
             return socialClicks.length >= 2;
           }
         },
@@ -174,7 +180,7 @@
           rarity: 'epic',
           requirement: 'Visiter toutes les sections',
           condition: () => {
-            const visitedSections = JSON.parse(localStorage.getItem('visitedSections') || '[]');
+            const visitedSections = getStorageValue('visitedSections', []);
             const requiredSections = ['home', 'portfolio', 'projects', 'posts'];
             return requiredSections.every(section => visitedSections.includes(section));
           }
@@ -187,7 +193,7 @@
           rarity: 'legendary',
           requirement: 'Débloquer tous les trophées',
           condition: () => {
-            const unlockedTrophies = JSON.parse(localStorage.getItem('unlockedTrophies') || '[]');
+            const unlockedTrophies = getStorageValue('unlockedTrophies', []);
             return unlockedTrophies.length >= 9; // Tous sauf celui-ci
           }
         }
@@ -278,7 +284,7 @@
      */
     checkVisitedCount(data) {
       const { storage_key, min_count } = data;
-      const visited = JSON.parse(localStorage.getItem(storage_key) || '[]');
+      const visited = getStorageValue(storage_key, []);
       return visited.length >= min_count;
     }
 
@@ -305,7 +311,7 @@
      * Vérifie si une action a été effectuée
      */
     checkActionPerformed(data) {
-      const value = localStorage.getItem(data.action);
+      const value = getStorageRaw(data.action);
       const result = value === 'true';
       console.log('📊 Check action performed:', data.action, '=', value, 'Result:', result);
       return result;
@@ -315,7 +321,7 @@
      * Vérifie si une section a été vue
      */
     checkSectionViewed(data) {
-      const visitedSections = JSON.parse(localStorage.getItem('visitedSections') || '[]');
+      const visitedSections = getStorageValue('visitedSections', []);
       return visitedSections.includes(data.section);
     }
 
@@ -323,7 +329,7 @@
      * Vérifie si toutes les sections requises ont été visitées
      */
     checkAllSectionsVisited(data) {
-      const visitedSections = JSON.parse(localStorage.getItem('visitedSections') || '[]');
+      const visitedSections = getStorageValue('visitedSections', []);
       console.log('📊 Checking all sections visited:', {
         required: data.required_sections,
         visited: visitedSections,
@@ -344,7 +350,7 @@
      * Vérifie la navigation rapide
      */
     checkSpeedNavigation(data) {
-      const navigationData = JSON.parse(localStorage.getItem('speedNavigation') || '{"pages": 0, "startTime": null}');
+      const navigationData = getStorageValue('speedNavigation', {"pages": 0, "startTime": null});
       
       if (!navigationData.startTime) {
         return false;
@@ -371,14 +377,14 @@
      */
     checkScrolledToBottom(data) {
       // Toujours retourner true si déjà scrollé, peu importe la page actuelle
-      return localStorage.getItem('scrolledToBottomHome') === 'true';
+      return getStorageRaw('scrolledToBottomHome') === 'true';
     }
 
     /**
      * Vérifie si une modal de compétence a été ouverte
      */
     checkSkillModalOpened(data) {
-      return localStorage.getItem('skillModalOpened') === 'true';
+      return getStorageRaw('skillModalOpened') === 'true';
     }
 
     /**
@@ -416,7 +422,7 @@
       console.log('📊 Scroll listener: Setup sur la page d\'accueil', currentPath);
       
       // Déjà scrollé jusqu'en bas
-      if (localStorage.getItem('scrolledToBottomHome') === 'true') return;
+      if (getStorageRaw('scrolledToBottomHome') === 'true') return;
       
       let scrollTimeout;
       const checkScroll = () => {
@@ -428,7 +434,7 @@
           
           // Vérifier si on est à moins de 100px du bas
           if (scrollTop + windowHeight >= documentHeight - 100) {
-            localStorage.setItem('scrolledToBottomHome', 'true');
+            setStorageRaw('scrolledToBottomHome', 'true');
             window.removeEventListener('scroll', checkScroll);
             setTimeout(() => this.checkTrophies(), 500);
           }
@@ -467,12 +473,14 @@
           });
         }
 
-        // Fermer avec Escape
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && modal.classList.contains('active')) {
+        // Close on Escape key
+        KeyboardManager.onEscape(() => {
+          if (modal.classList.contains('active')) {
             this.closeModal();
+            return true;
           }
-        });
+          return false;
+        }, { priority: 90 });
       }
 
       // Note: CV download tracking is handled by UnifiedModal.downloadFile()
@@ -500,10 +508,10 @@
           
           console.log('📊 Social click tracked:', platform);
           
-          const socialClicks = JSON.parse(localStorage.getItem('socialClicks') || '[]');
+          const socialClicks = getStorageValue('socialClicks', []);
           if (!socialClicks.includes(platform)) {
             socialClicks.push(platform);
-            localStorage.setItem('socialClicks', JSON.stringify(socialClicks));
+            setStorageValue('socialClicks', socialClicks);
             console.log('📊 Social clicks count:', socialClicks.length, socialClicks);
             setTimeout(() => this.checkTrophies(), 500);
           }
@@ -517,11 +525,7 @@
     openModal() {
       const modal = document.querySelector('.trophies-modal');
       if (modal) {
-        // Pause all testimonials before showing modal
-        if (typeof window.pauseAllTestimonials === 'function') {
-          window.pauseAllTestimonials();
-        }
-        
+        ModalUtils.pauseTestimonials();
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         this.renderModalTrophies();
@@ -536,11 +540,7 @@
     closeModal() {
       const modal = document.querySelector('.trophies-modal');
       if (modal) {
-        // Resume all testimonials when closing modal
-        if (typeof window.resumeAllTestimonials === 'function') {
-          window.resumeAllTestimonials();
-        }
-        
+        ModalUtils.resumeTestimonials();
         modal.classList.remove('active');
         document.body.style.overflow = '';
       }
@@ -556,11 +556,11 @@
       }
 
       // Track visited sections
-      const visitedSections = JSON.parse(localStorage.getItem('visitedSections') || '[]');
+      const visitedSections = getStorageValue('visitedSections', []);
       const currentSection = this.getCurrentSection();
       if (currentSection && !visitedSections.includes(currentSection)) {
         visitedSections.push(currentSection);
-        localStorage.setItem('visitedSections', JSON.stringify(visitedSections));
+        setStorageValue('visitedSections', visitedSections);
         console.log(`📊 Section visitée: ${currentSection} (Total: ${visitedSections.length})`, visitedSections);
         
         // Vérifier les trophées après avoir visité une nouvelle section
@@ -578,11 +578,11 @@
           const projectSlug = pathParts[projectIndex + 1];
           
           if (projectSlug && projectSlug.length > 0) {
-            const visitedProjects = JSON.parse(localStorage.getItem('visitedProjects') || '[]');
+            const visitedProjects = getStorageValue('visitedProjects', []);
             
             if (!visitedProjects.includes(projectSlug)) {
               visitedProjects.push(projectSlug);
-              localStorage.setItem('visitedProjects', JSON.stringify(visitedProjects));
+              setStorageValue('visitedProjects', visitedProjects);
               console.log(`📊 Projet visité: ${projectSlug} (Total: ${visitedProjects.length})`);
               
               // Vérifier les trophées immédiatement
@@ -593,13 +593,13 @@
       }
 
       // Track speed navigation
-      const navigationData = JSON.parse(localStorage.getItem('speedNavigation') || '{"pages": 0, "startTime": null}');
+      const navigationData = getStorageValue('speedNavigation', {"pages": 0, "startTime": null});
       if (!navigationData.startTime) {
         navigationData.startTime = Date.now();
         navigationData.pages = 0;
       }
       navigationData.pages = (navigationData.pages || 0) + 1;
-      localStorage.setItem('speedNavigation', JSON.stringify(navigationData));
+      setStorageValue('speedNavigation', navigationData);
       
       console.log('📊 Speed Navigation Tracked:', {
         pages: navigationData.pages,
@@ -675,10 +675,10 @@
       const completionPercentage = totalEnabled > 0 ? (unlockedCount / totalEnabled) * 100 : 0;
       
       // Check if 100% reached and not already shown
-      if (completionPercentage === 100 && !localStorage.getItem('completion100Shown')) {
+      if (completionPercentage === 100 && !getStorageRaw('completion100Shown')) {
         console.log('🎉 100% completion reached! Showing special notification...');
         
-        localStorage.setItem('completion100Shown', 'true');
+        setStorageRaw('completion100Shown', 'true');
         
         // Show personal notification from Clément
         if (typeof window.showNotification === 'function') {
@@ -715,12 +715,12 @@
       }
       
       this.unlockedTrophies.push(trophyId);
-      localStorage.setItem('unlockedTrophies', JSON.stringify(this.unlockedTrophies));
+      setStorageValue('unlockedTrophies', this.unlockedTrophies);
       
       // Store unlock date
       const now = new Date();
       const dateStr = now.toLocaleDateString('fr-FR');
-      localStorage.setItem(`trophy_${trophyId}_date`, dateStr);
+      setStorageRaw(`trophy_${trophyId}_date`, dateStr);
       
       // Update trophy display immediately
       this.updateTrophyDisplay();
@@ -857,7 +857,7 @@
 
       trophiesGrid.innerHTML = this.trophies.map(trophy => {
         const isUnlocked = this.unlockedTrophies.includes(trophy.id);
-        const unlockDate = localStorage.getItem(`trophy_${trophy.id}_date`);
+        const unlockDate = getStorageRaw(`trophy_${trophy.id}_date`);
         
         return `
           <div class="trophy-card ${isUnlocked ? 'unlocked' : 'locked'}">
@@ -919,11 +919,11 @@
     resetAllTrophies() {
       console.log('🔄 Réinitialisation de tous les trophées...');
       this.unlockedTrophies = [];
-      localStorage.setItem('unlockedTrophies', '[]');
+      setStorageValue('unlockedTrophies', []);
       
       // Remove all trophy dates
       this.trophies.forEach(trophy => {
-        localStorage.removeItem(`trophy_${trophy.id}_date`);
+        Storage.remove(`trophy_${trophy.id}_date`);
       });
       
       this.updateTrophyDisplay();
@@ -947,7 +947,7 @@
         console.log(`   Description: ${trophy.description}`);
         console.log(`   Rareté: ${trophy.rarity}`);
         if (isUnlocked) {
-          const date = localStorage.getItem(`trophy_${trophy.id}_date`);
+          const date = getStorageRaw(`trophy_${trophy.id}_date`);
           if (date) console.log(`   Débloqué le: ${date}`);
         }
         console.log('-'.repeat(50));

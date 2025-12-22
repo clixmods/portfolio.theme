@@ -1,6 +1,7 @@
 /**
  * CV Version Choice Modal
  * Allows users to choose between color or print-friendly version
+ * Version: 1.1.0 - Now uses shared utility modules
  */
 
 class CVChoiceModal {
@@ -88,23 +89,20 @@ class CVChoiceModal {
       }
     }, true); // Use capture to intercept before other handlers
 
-    // Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.modal && this.modal.classList.contains('active')) {
-        this.closeModal();
-      }
-    });
+    // Escape key handling
+    ModalUtils.registerEscapeHandler(
+      () => this.closeModal(),
+      () => this.modal && this.modal.classList.contains('active'),
+      100
+    );
   }
 
   openModal() {
     if (this.modal) {
-      // Pause other modals if necessary
-      if (typeof window.pauseAllTestimonials === 'function') {
-        window.pauseAllTestimonials();
-      }
+      ModalUtils.pauseTestimonials();
+      ModalUtils.lockBodyScroll();
       
       this.modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
       
       // Focus on first option
       setTimeout(() => {
@@ -119,12 +117,9 @@ class CVChoiceModal {
   closeModal() {
     if (this.modal) {
       this.modal.classList.remove('active');
-      document.body.style.overflow = '';
       
-      // Resume testimonials if necessary
-      if (typeof window.resumeAllTestimonials === 'function') {
-        window.resumeAllTestimonials();
-      }
+      ModalUtils.unlockBodyScroll('cv-choice-modal');
+      ModalUtils.resumeTestimonials();
     }
   }
 

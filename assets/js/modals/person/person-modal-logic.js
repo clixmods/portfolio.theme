@@ -1,5 +1,8 @@
-// Person Modal Logic
-// Gestion complète du modal des personnes
+/**
+ * Person Modal Logic
+ * Gestion complète du modal des personnes
+ * Version: 1.1.0 - Now uses shared utility modules
+ */
 
 // Tab management & person modal stats
 document.addEventListener('DOMContentLoaded', function() {
@@ -266,10 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.classList.remove('loading');
         }, 100);
         
-        // Pause all testimonials before showing modal
-        if (typeof window.pauseAllTestimonials === 'function') {
-            window.pauseAllTestimonials();
-        }
+        ModalUtils.pauseTestimonials();
         
         // Align opening animation with unified modal (fade + content transform)
         modal.classList.remove('fade-exit', 'fade-exit-active');
@@ -291,10 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Create closePersonModal function
     window.closePersonModal = function() {
-        // Resume all testimonials when closing modal
-        if (typeof window.resumeAllTestimonials === 'function') {
-            window.resumeAllTestimonials();
-        }
+        ModalUtils.resumeTestimonials();
         
         // Animate close like unified modal
         modal.classList.remove('fade-enter', 'fade-enter-active');
@@ -318,26 +315,20 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch(e) { /* no-op */ }
             // Body scroll control: only restore if no other modal still open
             try {
-                const anyOpen = (function(){
-                    const ids = ['unifiedModal','skillModal','personModal'];
-                    return ids.some(id => {
-                        const el = document.getElementById(id);
-                        if (!el) return false;
-                        const display = (el.style && el.style.display) ? el.style.display : window.getComputedStyle(el).display;
-                        return display && display !== 'none';
-                    });
-                })();
+                const anyOpen = ModalUtils.isAnyModalOpen('personModal');
                 document.body.style.overflow = anyOpen ? 'hidden' : 'auto';
             } catch(e) { /* no-op */ }
         }, 300);
     };
 
     // Close modal on Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
+    KeyboardManager.onEscape(() => {
+        if (modal.style.display === 'flex') {
             window.closePersonModal();
+            return true;
         }
-    });
+        return false;
+    }, { priority: 100 });
 
     function updateStats(personId) {
         // Find testimonials for this person

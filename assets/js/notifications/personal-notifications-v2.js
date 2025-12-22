@@ -2,6 +2,7 @@
  * Personal Notifications System V2
  * Automatically triggers personalized notifications when visiting project pages
  * Messages from Clément about each specific project
+ * Version: 2.1.0 - Now uses shared Storage utility
  */
 
 (function() {
@@ -145,30 +146,24 @@
   
   /**
    * Checks if notification was already shown for this page
+   * Uses Storage utility if available
    */
   function wasNotificationShown(pageType, pageSlug) {
-    try {
-      const shown = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-      const key = `${pageType}-${pageSlug}`;
-      return shown[key] === true;
-    } catch (error) {
-      console.warn('Error checking notification status:', error);
-      return false;
-    }
+    const shown = window.Storage 
+      ? window.Storage.get(STORAGE_KEY, {})
+      : JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const key = `${pageType}-${pageSlug}`;
+    return shown[key] === true;
   }
   
   /**
    * Marks notification as shown for a page
    */
   function markNotificationAsShown(pageType, pageSlug) {
-    try {
-      const shown = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-      const key = `${pageType}-${pageSlug}`;
-      shown[key] = true;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(shown));
-    } catch (error) {
-      console.warn('Error saving notification status:', error);
-    }
+    const key = `${pageType}-${pageSlug}`;
+    const shown = Storage.get(STORAGE_KEY, {});
+    shown[key] = true;
+    Storage.set(STORAGE_KEY, shown);
   }
   
   /**

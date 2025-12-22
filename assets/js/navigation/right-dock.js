@@ -1,19 +1,18 @@
 /**
  * Right Dock Navigation - Gestion des interactions
- * Version: 2.0.0
+ * Version: 2.1.0 - Now uses shared utility modules
  * Now uses NotificationsManager for notification logic
  */
 
 (function() {
   'use strict';
   
-  // Protection contre les exécutions multiples
+  // Protection against multiple executions using initGuard pattern
   if (window.rightDockInitialized) {
     return;
   }
   
   // Variables globales
-  let isReducedMotion = false;
   let rightDock = null;
   let languageBtn = null;
   let languageDropdown = null;
@@ -25,19 +24,9 @@
   
   /**
    * Performance optimization: Apply will-change only during animations
-   * This prevents excessive GPU memory consumption (budget exceeded warning)
    */
   function optimizeWillChange(element, properties) {
-    if (!element) return;
-    
-    // Apply will-change before animation
-    element.style.willChange = properties;
-    
-    // Remove will-change after animation completes
-    // Use a timeout matching the longest transition duration
-    setTimeout(() => {
-      element.style.willChange = 'auto';
-    }, 300);
+    AnimationUtils.optimizeWillChange(element, properties, 300);
   }
   
   /**
@@ -93,23 +82,11 @@
   }
   
   /**
-   * Détecte si l'utilisateur préfère les animations réduites
-   */
-  function detectReducedMotion() {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    isReducedMotion = mediaQuery.matches;
-    
-    // Écoute les changements de préférence
-    mediaQuery.addEventListener('change', function(e) {
-      isReducedMotion = e.matches;
-      updateAnimationDuration();
-    });
-  }
-  
-  /**
-   * Met à jour la durée des animations selon les préférences
+   * Updates animation duration according to preferences
+   * Now uses AccessibilityUtils
    */
   function updateAnimationDuration() {
+    const isReducedMotion = window.AccessibilityUtils?.prefersReducedMotion ?? false;
     const duration = isReducedMotion ? '50ms' : '150ms';
     document.documentElement.style.setProperty('--right-dock-transition', `${duration} ease-out`);
   }
@@ -517,7 +494,12 @@
       return;
     }
     
-    detectReducedMotion();
+    // Setup animation preferences using shared AccessibilityUtils
+    updateAnimationDuration();
+    if (window.AccessibilityUtils) {
+      window.AccessibilityUtils.onReducedMotionChange(updateAnimationDuration);
+    }
+    
     initTheme();
     
     if (!initElements()) {
@@ -526,7 +508,6 @@
     }
     
     initEventListeners();
-    updateAnimationDuration();
     setupWillChangeOptimization();
     
     // Marquer comme initialisé

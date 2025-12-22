@@ -1,7 +1,7 @@
 /**
  * Notifications Manager
  * Centralized notification system for toast notifications and notification center
- * Version: 1.0.0
+ * Version: 1.1.0 - Now uses shared Storage utility
  */
 
 (function() {
@@ -16,24 +16,21 @@
   let notifications = [];
   
   /**
-   * Loads notifications from localStorage
+   * Loads notifications from localStorage using Storage utility
    */
   function loadNotificationsFromStorage() {
-    try {
-      const stored = localStorage.getItem('notifications');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        // Convert timestamp strings to Date objects
-        notifications = parsed.map(notification => ({
-          ...notification,
-          timestamp: new Date(notification.timestamp)
-        }));
-        
-        // Clean up old notifications (older than 7 days)
-        cleanupOldNotifications();
-      }
-    } catch (error) {
-      console.warn('⚠️ Error loading notifications:', error);
+    const stored = window.Storage ? window.Storage.get('notifications', []) : [];
+    
+    if (Array.isArray(stored) && stored.length > 0) {
+      // Convert timestamp strings to Date objects
+      notifications = stored.map(notification => ({
+        ...notification,
+        timestamp: new Date(notification.timestamp)
+      }));
+      
+      // Clean up old notifications (older than 7 days)
+      cleanupOldNotifications();
+    } else {
       notifications = [];
     }
   }
@@ -56,14 +53,10 @@
   }
   
   /**
-   * Saves notifications to localStorage
+   * Saves notifications to localStorage using Storage utility
    */
   function saveNotificationsToStorage() {
-    try {
-      localStorage.setItem('notifications', JSON.stringify(notifications));
-    } catch (error) {
-      console.warn('⚠️ Error saving notifications:', error);
-    }
+    Storage.set('notifications', notifications);
   }
   
   /**
