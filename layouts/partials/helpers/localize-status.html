@@ -1,0 +1,33 @@
+{{/*
+    Helper to get localized status text.
+    Converts English status keys to French display text.
+    
+    Usage: {{ partial "helpers/localize-status.html" .Params.status }}
+    
+    Supported statuses:
+    - "completed", "terminé" → "Terminé"
+    - "in-progress", "in_progress", "en cours" → "En cours"
+    - "validated", "validé", "obtenu" → "Validé"
+    - "not_taken" → "Non suivie"
+    - "skipped" → "Admis directement"
+    - Other → Original value
+*/}}
+
+{{- $status := lower (. | default "") -}}
+{{- $localized := . -}}
+
+{{- if or (eq $status "completed") (eq $status "terminé") -}}
+    {{- $localized = i18n "completed" | default "Terminé" -}}
+{{- else if or (eq $status "in-progress") (eq $status "in_progress") (eq $status "en cours") -}}
+    {{- $localized = i18n "in_progress" | default "En cours" -}}
+{{- else if or (eq $status "validated") (eq $status "validé") (eq $status "validée") (eq $status "obtenu") (eq $status "obtained") -}}
+    {{- $localized = i18n "validated" | default "Validé" -}}
+{{- else if eq $status "not_taken" -}}
+    {{- $localized = i18n "not_taken" | default "Non suivie" -}}
+{{- else if eq $status "skipped" -}}
+    {{- $localized = i18n "skipped" | default "Admis directement" -}}
+{{- else if eq $status "in preparation" -}}
+    {{- $localized = i18n "in_preparation" | default "En préparation" -}}
+{{- end -}}
+
+{{- return $localized -}}

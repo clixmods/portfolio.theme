@@ -1,0 +1,31 @@
+{{/*
+    Helper to format dates with French localization support.
+    
+    Usage: {{ partial "helpers/format-date-fr.html" (dict "date" .Date "context" .) }}
+    
+    Parameters:
+    - date: (time.Time) The date to format
+    - context: Hugo context for accessing .Site.Language and .Site.Data
+    - format: (string, optional) Custom date format for non-French, default: "Jan 02, 2006"
+    
+    Returns:
+    - French: "15 janvier 2024"
+    - English (or other): "Jan 15, 2024" (or custom format)
+*/}}
+
+{{- $date := .date -}}
+{{- $context := .context -}}
+{{- $format := .format | default "Jan 02, 2006" -}}
+
+{{- /* French month names */ -}}
+{{- $frenchMonths := slice "janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre" -}}
+
+{{- if eq $context.Site.Language.Lang "fr" -}}
+    {{- $monthIndex := sub $date.Month 1 -}}
+    {{- $frenchMonth := index $frenchMonths $monthIndex -}}
+    {{- printf "%d %s %d" $date.Day $frenchMonth $date.Year -}}
+{{- else -}}
+    {{- /* Use config format if available, otherwise use provided format */ -}}
+    {{- $configFormat := $context.Site.Data.config.blog.dateFormat | default $format -}}
+    {{- $date.Format $configFormat -}}
+{{- end -}}

@@ -1,0 +1,144 @@
+<section class="education-section">
+    {{ partial "components/section-header.html" (dict "titleKey" "education_title" "subtitleKey" "education_subtitle" "class" "education" "title" "Formation & Certifications" "subtitle" "Mon parcours académique et professionnel, construisant les fondations de mon expertise technique") }}
+
+    <!-- Navigation Tabs -->
+    {{- $certificationsData := partial "get-localized-data.html" (dict "context" . "dataName" "certifications") -}}
+    {{ $hasCertifications := gt (len $certificationsData) 0 }}
+    <div class="tabs" data-can-collapse="true" data-collapse-id="education">
+        <button class="tab-btn active" data-tab="education">
+            <span class="icon">🎓</span>
+            <span class="tab-label">{{ i18n "education" | default "Formation" }}</span>
+        </button>
+        {{ if $hasCertifications }}
+        <button class="tab-btn" data-tab="certifications">
+            <span class="icon">📜</span>
+            <span class="tab-label">{{ i18n "certifications" | default "Certifications" }}</span>
+        </button>
+        {{ end }}
+    </div>
+
+    <!-- Education Timeline -->
+    <div class="timeline-container" id="education-timeline" data-tab="education">
+        <div class="timeline-line"></div>
+        
+        {{ range ((where (where .Site.RegularPages "Section" "educations") ".Params.displayedInPortfolio" "!=" false).ByParam "end_date").Reverse }}
+        {{ if ne .File.BaseFileName "_index" }}
+        <div class="timeline-item education-item" data-category="education">
+            {{ partial "components/timeline-marker.html" (dict "color" .Params.color "logo" .Params.school_logo "icon" .Params.icon "alt" .Params.institution) }}
+            
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div class="timeline-period">
+                            {{ partial "helpers/format-period.html" (dict "startDate" .Params.start_date "endDate" .Params.end_date "context" .) }}
+                        </div>
+                        {{/* Use helper partial for status CSS class */}}
+                        {{- $cssClass := partial "helpers/get-status-class.html" .Params.status -}}
+                        <div class="timeline-status status-{{ $cssClass }}">{{ .Params.status }}</div>
+                    </div>
+                    
+                    <h3 class="timeline-title">{{ .Title }}</h3>
+                    <h4 class="timeline-institution">{{ .Params.institution }}{{ if .Params.city }} - {{ .Params.city }}{{ end }}</h4>
+                    
+                    <p class="timeline-description">{{ .Params.description }}</p>
+                    
+                    <div class="timeline-details">
+                        <div class="timeline-results">
+                            <strong>{{ i18n "results" | default "Résultats :" }}</strong>
+                            <div class="results-badges">
+                                {{ if .Params.years_detail }}
+                                    {{/* Use custom year details with year-badge component */}}
+                                    {{ range .Params.years_detail }}
+                                        {{ partial "components/year-badge.html" (dict "year" .year "status" .status "showIcon" (ne .status "validated")) }}
+                                    {{ end }}
+                                    {{/* Final badge removed - no need for additional "Training" badge */}}
+                                {{ else }}
+                                    {{/* Classic automatic logic using year-badge component */}}
+                                    {{ if or (eq .Params.status "Obtenu") (eq .Params.status "Obtained") }}
+                                        {{ $startYear := dateFormat "2006" .Params.start_date }}
+                                        {{ $endYear := dateFormat "2006" .Params.end_date }}
+                                        {{ $duration := sub (int $endYear) (int $startYear) }}
+                                        {{ range seq $duration }}
+                                            {{ partial "components/year-badge.html" (dict "year" . "status" "validated" "showIcon" false) }}
+                                        {{ end }}
+                                        {{/* Final badge removed - no need for additional "Training" badge */}}
+                                    {{ else if or (eq .Params.status "En cours") (eq .Params.status "In progress") }}
+                                        {{ $startYear := dateFormat "2006" .Params.start_date }}
+                                        {{ $currentYear := now.Format "2006" }}
+                                        {{ $yearsCompleted := sub (int $currentYear) (int $startYear) }}
+                                        {{ if gt $yearsCompleted 0 }}
+                                            {{ range seq $yearsCompleted }}
+                                                {{ partial "components/year-badge.html" (dict "year" . "status" "validated" "showIcon" false) }}
+                                            {{ end }}
+                                        {{ end }}
+                                        {{ partial "components/year-badge.html" (dict "year" (add $yearsCompleted 1) "status" "in_progress" "showIcon" true) }}
+                                    {{ else }}
+                                        <div class="result-badge general">
+                                            <span class="badge-icon">📚</span>
+                                            <span class="badge-text">{{ i18n "education" | default "Formation" }}</span>
+                                            <span class="badge-status">{{ .Params.grade }}</span>
+                                        </div>
+                                    {{ end }}
+                                {{ end }}
+                            </div>
+                        </div>
+                        
+                        {{ if or .Params.programming_languages .Params.frameworks_engines .Params.tools }}
+                        <div class="timeline-skills">
+                            <strong>{{ i18n "technical_skills_label" | default "Compétences techniques :" }}</strong>
+                            <div class="skills-tags">
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.programming_languages "dataSource" "programming_languages" "skillType" "programming-language" "tagClass" "programming" "context" $ "usePartialTechIcon" true) }}
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.frameworks_engines "dataSource" "frameworks_engines" "skillType" "framework-engine" "tagClass" "framework" "context" $ "usePartialTechIcon" true) }}
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.tools "dataSource" "tools" "skillType" "tool" "tagClass" "tool" "context" $ "usePartialTechIcon" true) }}
+                            </div>
+                        </div>
+                        {{ end }}
+                        
+                        {{ if or .Params.specialties .Params.soft_skills }}
+                        <div class="timeline-skills">
+                            <strong>{{ i18n "cross_skills_label" | default "Compétences transversales :" }}</strong>
+                            <div class="skills-tags">
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.specialties "dataSource" "specialties" "skillType" "specialty" "tagClass" "specialty" "context" $ "usePartialTechIcon" true) }}
+                                {{ partial "helpers/skill-tags.html" (dict "skillNames" .Params.soft_skills "dataSource" "soft_skills" "skillType" "soft-skill" "tagClass" "soft" "context" $ "usePartialTechIcon" true) }}
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+        {{ end }}
+    </div>
+
+    <!-- Certifications Timeline -->
+    {{ if $hasCertifications }}
+    <div class="timeline-container" id="certifications-timeline" data-tab="certifications" style="display: none;">
+        <div class="timeline-line"></div>
+        
+        {{- $certificationsData := partial "get-localized-data.html" (dict "context" . "dataName" "certifications") -}}
+        {{ range $index, $cert := $certificationsData }}
+        <div class="timeline-item certification-item" data-category="certifications">
+            {{ partial "components/timeline-marker.html" (dict "color" $cert.color "icon" $cert.icon "alt" $cert.title) }}
+            
+            <div class="timeline-content">
+                <div class="timeline-card">
+                    <div class="timeline-header">
+                        <div class="timeline-period">{{ $cert.date }}</div>
+                        <div class="timeline-status status-{{ lower $cert.status }}">{{ $cert.status }}</div>
+                    </div>
+                    
+                    <h3 class="timeline-title">{{ $cert.title }}</h3>
+                    <h4 class="timeline-institution">{{ $cert.issuer }}</h4>
+                    
+                    <p class="timeline-description">{{ $cert.description }}</p>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+    {{ end }}
+
+    <!-- Bouton voir toutes les formations -->
+    {{ partial "components/see-all-button.html" (dict "url" "/educations/" "labelKey" "view_all_educations" "labelDefault" "Voir toutes les formations" "wrapperClass" "education-footer") }}
+</section>

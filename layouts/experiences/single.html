@@ -48,10 +48,10 @@
             {{ $projectPage = $.Site.GetPage (printf "/projects/%s" .project_ref) }}
           {{ end }}
           {{ if $projectPage }}
-            {{ $allTechnologies := partial "get-all-technologies.html" $projectPage }}
+            {{ $allTechnologies := partial "tech/get-all-technologies.html" $projectPage }}
             {{ $projectImage := $projectPage.Params.image | default "images/placeholder-project.jpg" }}
             
-            {{ partial "project-card-unified.html" (dict 
+            {{ partial "cards/project-card-unified.html" (dict 
               "title" $projectPage.Title
               "subtitle" ($projectPage.Params.description | default $projectPage.Params.subtitle)
               "description" (cond .role_description .role_description $projectPage.Params.description)

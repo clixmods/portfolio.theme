@@ -1,0 +1,91 @@
+<section id="profil" class="profile-section hero-centered">
+    {{ with .Site.Data.profile }}
+    <!-- Main Hero Content -->
+    <div class="hero-main">
+        <!-- Avatar Circle with Status Badge -->
+        <div class="hero-avatar">
+            <div class="avatar-container">
+                {{- $profileImage := partial "helpers/get-optimized-image.html" (dict "imagePath" .media.profileImage "width" 400 "quality" 90) -}}
+                <img src="{{ $profileImage.src }}" 
+                     alt="{{ .personal.fullName }}" 
+                     class="hero-profile-image"
+                     {{- if and $profileImage.isResource (gt $profileImage.width 0) }} width="{{ $profileImage.width }}"{{ end -}}
+                     {{- if and $profileImage.isResource (gt $profileImage.height 0) }} height="{{ $profileImage.height }}"{{ end -}}>
+                <div class="status-badge {{ if .availability.available }}available{{ else }}unavailable{{ end }}">
+                    {{ i18n .availability.status | default .availability.status }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Text -->
+        <div class="hero-content">
+            <p class="hero-greeting">{{ i18n "hero_greeting" | default "👋 Bonjour, je suis" }} <span class="hero-name">Clément</span></p>
+            <h1 class="hero-title">
+                <span class="hero-action">Game</span>
+                <span class="hero-action">Creator</span>
+                <span class="hero-action">+</span>
+                <span class="hero-action">Developer</span>
+            </h1>
+            
+            <p class="hero-description">
+                {{ i18n "hero_description" | default "Développeur polyvalent (web, logiciel) spécialisé en jeu vidéo avec C# et Unity. De la conception à la production, je transforme des idées en expériences interactives captivantes qui marquent les joueurs." }}
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="hero-actions">
+                <a href="mailto:{{ with $.Site.Data.profile.contact.email }}{{ . }}{{ else }}clement.g.developer@gmail.com{{ end }}" class="btn-action">
+                    {{- partial "icon.html" (dict "iconId" "email" "size" "18") -}}
+                    Contact
+                </a>
+                <a href="/cv/" class="btn-action primary cv-choice-trigger">
+                    {{- partial "icon.html" (dict "iconId" "document-download" "size" "18") -}}
+                    {{ i18n "download_cv" | default "Télécharger CV" }}
+                </a>
+            </div>
+
+            <!-- Statistics Indicators -->
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-value">2+</div>
+                    <div class="stat-label">{{ i18n "years_pro_experience" | default "ans d'expérience pro" }}</div>
+                </div>
+                <div class="stat-item">
+                    {{- $allProjects := where (where $.Site.RegularPages "Section" "projects") "Draft" false -}}
+                    {{- $gamesPro := where $allProjects ".Params.sector" "games-professionnel" -}}
+                    {{- $gamesPerso := where $allProjects ".Params.sector" "games-personnel" -}}
+                    {{- $gamesJams := where $allProjects ".Params.sector" "games-gamejams" -}}
+                    {{- $gamesCount := add (add (len $gamesPro) (len $gamesPerso)) (len $gamesJams) -}}
+                
+                    <div class="stat-value">{{ if eq $gamesCount 0 }}-1{{ else }}{{ $gamesCount }}{{ end }}</div>
+                    <div class="stat-label">{{ i18n "games_created" | default "jeux créés" }}</div>
+                </div>
+                <div class="stat-item">
+                    {{- $appsPro := where $allProjects ".Params.sector" "appsweb-professionnel" -}}
+                    {{- $appsEtude := where $allProjects ".Params.sector" "appsweb-etude" -}}
+                    {{- $appsCount := add (len $appsPro) (len $appsEtude) -}}
+               
+                    <div class="stat-value">{{ if eq $appsCount 0 }}-1{{ else }}{{ $appsCount }}{{ end }}</div>
+                    <div class="stat-label">{{ i18n "apps_web_created" | default "apps web" }}</div>
+                </div>
+                <div class="stat-item">
+                    {{- $mods := where $allProjects ".Params.sector" "mods" -}}
+                    {{- $tools := where $allProjects ".Params.sector" "tools" -}}
+                    {{- $modsCount := add (len $mods) (len $tools) -}}
+                
+                    <div class="stat-value">{{ if eq $modsCount 0 }}-1{{ else }}{{ $modsCount }}{{ end }}</div>
+                    <div class="stat-label">{{ i18n "mods_tools_created" | default "mods & tools" }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="hero-bottom" onclick="(function(){const target=document.querySelector('main.main-content section:first-child') || document.querySelector('#recommandations');if(target){const rect=target.getBoundingClientRect();const pos=rect.top+window.pageYOffset;window.scrollTo({top:pos-100,behavior:'smooth'});}else{console.log('No target section found');}})()">
+        <div class="hero-scroll-indicator">
+            {{- partial "icon.html" (dict "iconId" "arrow-down" "size" "48") -}}
+        </div>
+    </div>
+
+    {{- end }}
+</section>
+

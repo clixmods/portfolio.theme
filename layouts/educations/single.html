@@ -477,7 +477,7 @@
               {{- range .Params.programming_languages -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}
               {{- range .Params.frameworks_engines -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}
               
-              {{ partial "project-card-unified.html" (dict 
+              {{ partial "cards/project-card-unified.html" (dict 
                   "title" .Title
                   "subtitle" .Params.subtitle
                   "description" .Params.description

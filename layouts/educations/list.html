@@ -22,7 +22,8 @@
     </div>
 
     <!-- Navigation Tabs -->
-    {{ $hasCertifications := gt (len .Site.Data.certifications) 0 }}
+    {{- $certificationsData := partial "get-localized-data.html" (dict "context" . "dataName" "certifications") -}}
+    {{ $hasCertifications := gt (len $certificationsData) 0 }}
     <div class="tabs" data-can-collapse="true" data-collapse-id="educationsList">
         <button class="tab-btn active" data-tab="education">
             <span class="icon">🎓</span>
@@ -43,35 +44,16 @@
         {{ range ((where .Site.RegularPages "Section" "educations").ByParam "end_date").Reverse }}
         {{ if ne .File.BaseFileName "_index" }}
         <div class="timeline-item education-item" data-category="education">
-            <div class="timeline-marker" style="background-color: {{ .Params.color }};">
-                {{ if .Params.school_logo }}
-                    <img src="{{ .Params.school_logo }}" alt="{{ .Params.institution }}" class="timeline-school-logo">
-                {{ else }}
-                    <span class="timeline-icon">{{ .Params.icon }}</span>
-                {{ end }}
-            </div>
+            {{ partial "components/timeline-marker.html" (dict "color" .Params.color "logo" .Params.school_logo "icon" .Params.icon "alt" .Params.institution) }}
             
             <div class="timeline-content">
                 <div class="timeline-card">
                     <div class="timeline-header">
                         <div class="timeline-period">
-                            {{ if .Params.start_date }}
-                                {{ dateFormat "2006" .Params.start_date }} - 
-                                {{ if .Params.end_date }}
-                                    {{ dateFormat "2006" .Params.end_date }}
-                                {{ else }}
-                                    {{ i18n "present" | default "Présent" }}
-                                {{ end }}
-                            {{ end }}
+                            {{ partial "helpers/format-period.html" (dict "startDate" .Params.start_date "endDate" .Params.end_date "context" .) }}
                         </div>
-                        {{/* Map status to generic CSS class */}}
-                        {{- $status := lower .Params.status -}}
-                        {{- $cssClass := "info" -}}
-                        {{- if or (eq $status "validé") (eq $status "obtenu") (eq $status "obtained") (eq $status "validée") -}}
-                            {{- $cssClass = "success" -}}
-                        {{- else if or (eq $status "en cours") (eq $status "in progress") (eq $status "en préparation") (eq $status "in preparation") -}}
-                            {{- $cssClass = "warning" -}}
-                        {{- end -}}
+                        {{/* Use helper partial for status CSS class */}}
+                        {{- $cssClass := partial "helpers/get-status-class.html" .Params.status -}}
                         <div class="timeline-status status-{{ $cssClass }}">{{ .Params.status }}</div>
                     </div>
                     
@@ -87,37 +69,9 @@
                             <strong>{{ i18n "results" | default "Résultats :" }}</strong>
                             <div class="results-badges">
                                 {{ if .Params.years_detail }}
-                                    {{/* Use custom year details */}}
+                                    {{/* Use custom year details with year-badge component */}}
                                     {{ range .Params.years_detail }}
-                                        {{ if eq .status "validated" }}
-                                            <div class="result-badge validated">
-                                                <span class="badge-text">{{ i18n "year" | default "Année" }} {{ .year }}</span>
-                                                <span class="badge-status">{{ i18n "validated" | default "Validée" }}</span>
-                                            </div>
-                                        {{ else if eq .status "in_progress" }}
-                                            <div class="result-badge in-progress">
-                                                <span class="badge-icon">⏳</span>
-                                                <span class="badge-text">{{ i18n "year" | default "Année" }} {{ .year }}</span>
-                                                <span class="badge-status">{{ i18n "in_progress" | default "En cours" }}</span>
-                                            </div>
-                                        {{ else if eq .status "not_taken" }}
-                                            <div class="result-badge not-taken">
-                                                <span class="badge-icon">🚫</span>
-                                                <span class="badge-text">{{ i18n "year" | default "Année" }} {{ .year }}</span>
-                                                <span class="badge-status">{{ i18n "not_taken" | default "Non suivie" }}</span>
-                                            </div>
-                                        {{ else if eq .status "skipped" }}
-                                            <div class="result-badge skipped">
-                                                <span class="badge-text">{{ i18n "year" | default "Année" }} {{ .year }}</span>
-                                                <span class="badge-status">{{ i18n "skipped" | default "Admis directement" }}</span>
-                                            </div>
-                                        {{ else if eq .status "completed" }}
-                                            <div class="result-badge completed">
-                                                <span class="badge-icon">🎓</span>
-                                                <span class="badge-text">{{ i18n "year" | default "Année" }} {{ .year }}</span>
-                                                <span class="badge-status">{{ i18n "completed" | default "Terminé" }}</span>
-                                            </div>
-                                        {{ end }}
+                                        {{ partial "components/year-badge.html" (dict "year" .year "status" .status) }}
                                     {{ end }}
                                 {{ else }}
                                     {{/* Classic automatic logic */}}
@@ -126,10 +80,7 @@
                                         {{ $endYear := dateFormat "2006" .Params.end_date }}
                                         {{ $duration := sub (int $endYear) (int $startYear) }}
                                         {{ range seq $duration }}
-                                            <div class="result-badge validated">
-                                                <span class="badge-text">{{ i18n "year" | default "Année" }} {{ . }}</span>
-                                                <span class="badge-status">{{ i18n "validated" | default "Validée" }}</span>
-                                            </div>
+                                            {{ partial "components/year-badge.html" (dict "year" . "status" "validated") }}
                                         {{ end }}
                                     {{ else if or (eq .Params.status "En cours") (eq .Params.status "In progress") }}
                                         {{ $startYear := dateFormat "2006" .Params.start_date }}
@@ -137,17 +88,10 @@
                                         {{ $yearsCompleted := sub (int $currentYear) (int $startYear) }}
                                         {{ if gt $yearsCompleted 0 }}
                                             {{ range seq $yearsCompleted }}
-                                                <div class="result-badge validated">
-                                                    <span class="badge-text">{{ i18n "year" | default "Année" }} {{ . }}</span>
-                                                    <span class="badge-status">{{ i18n "validated" | default "Validée" }}</span>
-                                                </div>
+                                                {{ partial "components/year-badge.html" (dict "year" . "status" "validated") }}
                                             {{ end }}
                                         {{ end }}
-                                        <div class="result-badge in-progress">
-                                            <span class="badge-icon">⏳</span>
-                                            <span class="badge-text">{{ i18n "year" | default "Année" }} {{ add $yearsCompleted 1 }}</span>
-                                            <span class="badge-status">{{ i18n "in_progress" | default "En cours" }}</span>
-                                        </div>
+                                        {{ partial "components/year-badge.html" (dict "year" (add $yearsCompleted 1) "status" "in_progress") }}
                                     {{ else }}
                                         <div class="result-badge general">
                                             <span class="badge-icon">📚</span>
@@ -182,7 +126,7 @@
                                       onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
                                       data-skill-name="{{ .key }}"
                                       data-skill-type="programming-language">
-                                    {{ partial "tech-icon.html" . }} {{ $localizedName }}
+                                    {{ partial "tech/tech-icon.html" . }} {{ $localizedName }}
                                 </span>
                                 {{ $found = true }}
                                 {{ end }}
@@ -210,7 +154,7 @@
                                       onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
                                       data-skill-name="{{ .key }}"
                                       data-skill-type="framework-engine">
-                                    {{ partial "tech-icon.html" . }} {{ $localizedName }}
+                                    {{ partial "tech/tech-icon.html" . }} {{ $localizedName }}
                                 </span>
                                 {{ $found = true }}
                                 {{ end }}
@@ -238,7 +182,7 @@
                                       onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '{{ .description }}', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
                                       data-skill-name="{{ .key }}"
                                       data-skill-type="tool">
-                                    {{ partial "tech-icon.html" . }} {{ $localizedName }}
+                                    {{ partial "tech/tech-icon.html" . }} {{ $localizedName }}
                                 </span>
                                 {{ $found = true }}
                                 {{ end }}
@@ -274,7 +218,7 @@
                                       onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
                                       data-skill-name="{{ .key }}"
                                       data-skill-type="specialty">
-                                    {{ partial "tech-icon.html" . }} {{ $localizedName }}
+                                    {{ partial "tech/tech-icon.html" . }} {{ $localizedName }}
                                 </span>
                                 {{ $found = true }}
                                 {{ end }}
@@ -302,7 +246,7 @@
                                       onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
                                       data-skill-name="{{ .key }}"
                                       data-skill-type="soft-skill">
-                                    {{ partial "tech-icon.html" . }} {{ $localizedName }}
+                                    {{ partial "tech/tech-icon.html" . }} {{ $localizedName }}
                                 </span>
                                 {{ $found = true }}
                                 {{ end }}
@@ -328,11 +272,9 @@
     <div class="timeline-container" id="certifications-timeline" data-tab="certifications" style="display: none;">
         <div class="timeline-line"></div>
         
-        {{ range $index, $cert := .Site.Data.certifications }}
+        {{ range $index, $cert := $certificationsData }}
         <div class="timeline-item certification-item" data-category="certifications">
-            <div class="timeline-marker" style="background-color: {{ $cert.color }};">
-                <span class="timeline-icon">{{ $cert.icon }}</span>
-            </div>
+            {{ partial "components/timeline-marker.html" (dict "color" $cert.color "icon" $cert.icon "alt" $cert.title) }}
             
             <div class="timeline-content">
                 <div class="timeline-card">

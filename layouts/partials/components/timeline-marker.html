@@ -1,0 +1,41 @@
+{{/*
+    Timeline Marker Component - Displays colored marker with logo or icon.
+    
+    Usage: {{ partial "components/timeline-marker.html" (dict 
+        "color" .Params.color 
+        "logo" .Params.school_logo 
+        "icon" .Params.icon 
+        "alt" .Params.institution
+    ) }}
+    
+    Parameters:
+    - color: (string) Background color for the marker
+    - logo: (string, optional) Path to logo image
+    - icon: (string, optional) Emoji/icon to display if no logo
+    - alt: (string) Alt text for the logo image
+    - width: (int, optional) Image optimization width, default: 150
+    - quality: (int, optional) Image optimization quality, default: 90
+    
+    Outputs a div.timeline-marker with either an optimized image or icon span
+*/}}
+
+{{- $color := .color | default "#666" -}}
+{{- $logo := .logo -}}
+{{- $icon := .icon | default "📚" -}}
+{{- $alt := .alt | default "" -}}
+{{- $width := .width | default 150 -}}
+{{- $quality := .quality | default 90 -}}
+
+<div class="timeline-marker" style="background-color: {{ $color }};">
+    {{- if $logo -}}
+        {{- $optimized := partial "helpers/get-optimized-image.html" (dict "imagePath" $logo "width" $width "quality" $quality) -}}
+        <img src="{{ $optimized.src }}" 
+             alt="{{ $alt }}" 
+             class="timeline-school-logo"
+             {{- if and $optimized.isResource (gt $optimized.width 0) }} width="{{ $optimized.width }}"{{ end -}}
+             {{- if and $optimized.isResource (gt $optimized.height 0) }} height="{{ $optimized.height }}"{{ end -}}
+             loading="lazy">
+    {{- else -}}
+        <span class="timeline-icon">{{ $icon }}</span>
+    {{- end -}}
+</div>

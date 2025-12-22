@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{ if eq .Section "posts" }}
   <!-- Use posts/list.html template for posts section -->
-  {{ partial "posts-list.html" . }}
+  {{ partial "sections/blog.html" . }}
 {{ else }}
   <!-- Default section template -->
   <h1>{{ .Title }}</h1>

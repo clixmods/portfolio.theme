@@ -1,20 +1,15 @@
-﻿{{ define "main" }}
+{{ define "main" }}
 <div class="blog-theme posts-list-page">
     <!-- Blog Header -->
-    <header class="blog-header section-header-unified">
-    <h1 class="section-title-unified">{{ .Title | default (i18n "blog" | default "Blog") }}</h1>
-        <p class="blog-subtitle section-subtitle-unified">
-            {{ .Params.description | default (i18n "blog_list_subtitle" | default "Découvrez tous mes articles et réflexions sur le développement, les technologies et l'innovation") }}
-        </p>
-    </header>
+    {{ partial "components/section-header.html" (dict "titleKey" "blog" "subtitleKey" "blog_list_subtitle" "class" "blog" "title" "Blog" "subtitle" "Découvrez tous mes articles et réflexions sur le développement, les technologies et l'innovation") }}
 
     <!-- Blog Navigation Tabs -->
     <div class="tabs" data-can-collapse="true" data-collapse-id="posts">
         <button class="tab-btn active" data-category="all" data-tab="all">
-            <span class="icon">📚</span>
+            <span class="icon">??</span>
             <span class="tab-label">{{ i18n "all" | default "Tous" }}</span>
         </button>
-        {{/* Générer les tabs dynamiquement basé sur les catégories des posts publiés */}}
+        {{/* G�n�rer les tabs dynamiquement bas� sur les cat�gories des posts publi�s */}}
         {{ $publishedPages := where .Pages "Draft" false }}
         {{ $categories := slice }}
         {{ range $publishedPages }}
@@ -24,15 +19,15 @@
         {{ end }}
         {{ $uniqueCategories := $categories | uniq | sort }}
         
-        {{/* Définir les icônes et labels pour chaque catégorie */}}
+        {{/* D�finir les ic�nes et labels pour chaque cat�gorie */}}
         {{ $categoryConfig := dict 
-            "tech" (dict "icon" "💻" "label" (i18n "category_tech" | default "Tech"))
-            "parcours" (dict "icon" "🚀" "label" (i18n "category_parcours" | default "Parcours")) 
-            "culture" (dict "icon" "🎭" "label" (i18n "category_culture" | default "Culture"))
-            "demo" (dict "icon" "🔬" "label" (i18n "category_demo" | default "Demo"))
-            "dev" (dict "icon" "⚡" "label" (i18n "category_dev" | default "Développement"))
-            "design" (dict "icon" "🎨" "label" (i18n "category_design" | default "Design"))
-            "opinion" (dict "icon" "💭" "label" (i18n "category_opinion" | default "Opinion"))
+            "tech" (dict "icon" "??" "label" (i18n "category_tech" | default "Tech"))
+            "parcours" (dict "icon" "??" "label" (i18n "category_parcours" | default "Parcours")) 
+            "culture" (dict "icon" "??" "label" (i18n "category_culture" | default "Culture"))
+            "demo" (dict "icon" "??" "label" (i18n "category_demo" | default "Demo"))
+            "dev" (dict "icon" "?" "label" (i18n "category_dev" | default "D�veloppement"))
+            "design" (dict "icon" "??" "label" (i18n "category_design" | default "Design"))
+            "opinion" (dict "icon" "??" "label" (i18n "category_opinion" | default "Opinion"))
         }}
         
         {{ range $uniqueCategories }}
@@ -43,27 +38,27 @@
                 <span class="tab-label">{{ $config.label }}</span>
             </button>
             {{ else }}
-            {{/* Fallback pour les catégories non définies */}}
+            {{/* Fallback pour les cat�gories non d�finies */}}
             <button class="tab-btn" data-category="{{ . }}" data-tab="{{ . }}">
-                <span class="icon">📄</span>
+                <span class="icon">??</span>
                 <span class="tab-label">{{ . | title }}</span>
             </button>
             {{ end }}
         {{ end }}
     </div>
 
-    <!-- Blog Sort Controls - Temporairement caché -->
+    <!-- Blog Sort Controls - Temporairement cach� -->
     <div class="blog-sort-controls" style="display: none;">
         <label for="blog-sort" class="blog-filter-label">{{ i18n "sort_by" | default "Trier par :" }}</label>
         <select id="blog-sort" class="blog-sort-select">
-            <option value="date-desc">{{ i18n "newest" | default "Plus récent" }}</option>
+            <option value="date-desc">{{ i18n "newest" | default "Plus r�cent" }}</option>
             <option value="date-asc">{{ i18n "oldest" | default "Plus ancien" }}</option>
             <option value="title-asc">{{ i18n "title_az" | default "Titre A-Z" }}</option>
             <option value="title-desc">{{ i18n "title_za" | default "Titre Z-A" }}</option>
         </select>
     </div>
 
-    <!-- Blog Search - Temporairement caché -->
+    <!-- Blog Search - Temporairement cach� -->
     <div class="blog-search" style="display: none;">
         <input type="text" 
                class="blog-search-input" 
@@ -92,7 +87,7 @@
 
             {{ if .Params.image }}
             <!-- Blog Image -->
-            {{- $blogImg := partial "get-optimized-image.html" (dict "imagePath" .Params.image "width" 800 "quality" 85) -}}
+            {{- $blogImg := partial "helpers/get-optimized-image.html" (dict "imagePath" .Params.image "width" 800 "quality" 85) -}}
             <div class="blog-image">
                 <img src="{{ $blogImg.src }}" 
                      width="{{ $blogImg.width }}" 
@@ -123,11 +118,7 @@
             <div class="blog-card-footer">
                 <!-- Date (bottom left) -->
                 <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                    {{ if eq .Site.Language.Lang "fr" }}
-                        {{ .Date.Day }} {{ index (slice "janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre") (sub .Date.Month 1) }} {{ .Date.Year }}
-                    {{ else }}
-                        {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "Jan 02, 2006") }}
-                    {{ end }}
+                    {{ partial "helpers/format-date-fr.html" (dict "date" .Date "context" .) }}
                 </time>
                 
                 <!-- Read Article Button (bottom right) -->
@@ -142,7 +133,7 @@
     <!-- Blog Footer -->
     <footer class="blog-footer">
         <div class="blog-stats">
-            <p>{{ len .Pages }} {{ i18n "posts_published" | default "articles publiés" }}</p>
+            <p>{{ len .Pages }} {{ i18n "posts_published" | default "articles publi�s" }}</p>
         </div>
     </footer>
 </div>

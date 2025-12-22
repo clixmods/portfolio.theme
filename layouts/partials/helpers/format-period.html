@@ -1,0 +1,39 @@
+{{/*
+    Helper to format a date period (start - end year).
+    
+    Usage: {{ partial "helpers/format-period.html" (dict "startDate" .Params.start_date "endDate" .Params.end_date "context" .) }}
+    
+    Parameters:
+    - startDate: (time.Time or string) Start date
+    - endDate: (time.Time or string, optional) End date - if nil/empty, shows "Present"
+    - context: Hugo context for accessing i18n
+    - format: (string, optional) Date format, default: "2006" (year only)
+    - separator: (string, optional) Separator between dates, default: " - "
+    
+    Returns: "2022 - 2024" or "2022 - Présent"
+*/}}
+
+{{- $startDate := .startDate -}}
+{{- $endDate := .endDate -}}
+{{- $context := .context -}}
+{{- $format := .format | default "2006" -}}
+{{- $separator := .separator | default " - " -}}
+
+{{- $startFormatted := "" -}}
+{{- $endFormatted := "" -}}
+
+{{/* Format start date */}}
+{{- if $startDate -}}
+    {{- $startFormatted = dateFormat $format $startDate -}}
+{{- end -}}
+
+{{/* Format end date or show "Present" */}}
+{{- if $endDate -}}
+    {{- $endFormatted = dateFormat $format $endDate -}}
+{{- else -}}
+    {{- $endFormatted = i18n "present" | default "Présent" -}}
+{{- end -}}
+
+{{- if $startFormatted -}}
+    {{- printf "%s%s%s" $startFormatted $separator $endFormatted -}}
+{{- end -}}

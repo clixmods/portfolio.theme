@@ -1,7 +1,7 @@
 {{ define "main" }}
 <!-- Project Hero Section -->
 {{ if .Params.image }}
-{{- $heroImg := partial "get-optimized-image.html" (dict "imagePath" .Params.image "width" 1920 "quality" 100) -}}
+{{- $heroImg := partial "helpers/get-optimized-image.html" (dict "imagePath" .Params.image "width" 1920 "quality" 100) -}}
 <style>
     body {
         --hero-bg-image: url('{{ $heroImg.src }}');
@@ -145,7 +145,7 @@
                         </div>
                         
                         <!-- Technologies Pills -->
-                        {{ partial "project-technologies-detailed.html" . }}
+                        {{ partial "tech/project-technologies-detailed.html" . }}
                     </div>
                 </div>
                 
@@ -532,8 +532,8 @@ document.addEventListener('DOMContentLoaded', function() {
 {{ end }}
 
 <!-- Auto-include person modal if needed -->
-{{ partial "auto-person-modal.html" . }}
+{{ partial "modals/auto-person-modal.html" . }}
 
 <!-- Include skill modal for specialties and tools -->
-{{ partial "skill-modal.html" . }}
+{{ partial "modals/skill-modal.html" . }}
 {{ end }}

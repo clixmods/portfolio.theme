@@ -1,0 +1,23 @@
+{{/*
+    Helper to get CSS class based on status value.
+    Supports both French and English status values.
+    
+    Usage: {{ partial "helpers/get-status-class.html" .Params.status }}
+    Returns: "success", "warning", or "info"
+    
+    Examples:
+    - "validé", "obtenu", "obtained", "validated", "completed" → "success"
+    - "en cours", "in progress", "en préparation", "in_progress" → "warning"
+    - Everything else → "info"
+*/}}
+
+{{- $status := lower (. | default "") -}}
+{{- $cssClass := "info" -}}
+
+{{- if or (eq $status "validé") (eq $status "obtenu") (eq $status "obtained") (eq $status "validée") (eq $status "validated") (eq $status "completed") (eq $status "terminé") -}}
+    {{- $cssClass = "success" -}}
+{{- else if or (eq $status "en cours") (eq $status "in progress") (eq $status "in_progress") (eq $status "en préparation") (eq $status "in preparation") -}}
+    {{- $cssClass = "warning" -}}
+{{- end -}}
+
+{{- return $cssClass -}}

@@ -4,11 +4,7 @@
     <header class="blog-article-header">
         <div class="blog-article-meta">
             <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                {{ if eq .Site.Language.Lang "fr" }}
-                    {{ .Date.Day }} {{ index (slice "janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre") (sub .Date.Month 1) }} {{ .Date.Year }}
-                {{ else }}
-                    {{ .Date.Format (.Site.Data.config.blog.dateFormat | default "Jan 02, 2006") }}
-                {{ end }}
+                {{ partial "helpers/format-date-fr.html" (dict "date" .Date "context" .) }}
             </time>
             {{ if .Params.category }}
             <span class="post-category">{{ .Params.category | title }}</span>
@@ -26,7 +22,7 @@
 
         <!-- Featured Image -->
         {{ if .Params.image }}
-        {{- $featuredImg := partial "get-optimized-image.html" (dict "imagePath" .Params.image "width" 1200 "quality" 90) -}}
+        {{- $featuredImg := partial "helpers/get-optimized-image.html" (dict "imagePath" .Params.image "width" 1200 "quality" 90) -}}
         <div class="blog-article-image">
             <img src="{{ $featuredImg.src }}" 
                  width="{{ $featuredImg.width }}" 
@@ -95,7 +91,7 @@
         {{- /* Load localized profile data */ -}}
         {{- $profileData := partial "get-localized-data.html" (dict "context" . "dataName" "profile") -}}
         
-        {{- $authorAvatar := partial "get-optimized-image.html" (dict "imagePath" $profileData.media.profileImage "width" 200 "quality" 90) -}}
+        {{- $authorAvatar := partial "helpers/get-optimized-image.html" (dict "imagePath" $profileData.media.profileImage "width" 200 "quality" 90) -}}
         <div class="blog-author-info clickable-person" data-person-id="clement-garcia" title="{{ i18n "view_profile_of" | default "Voir le profil de" }} {{ $profileData.personal.fullName }}">
             <div class="blog-author-avatar">
                 <img src="{{ $authorAvatar.src }}" 

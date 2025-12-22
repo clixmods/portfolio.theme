@@ -9,10 +9,7 @@
     <main class="main-content projects-list-content">
         <!-- Projects Section -->
         <section class="projects-section projects-page">
-            <div class="projects-header section-header-unified">
-                <h1 class="section-title-unified">{{ i18n "projects_title" | default (i18n "projects") }}</h1>
-                <p class="projects-subtitle section-subtitle-unified">{{ i18n "projects_subtitle" | default "Construire des applications utiles qui simplifient la vie." }}</p>
-            </div>
+            {{ partial "components/section-header.html" (dict "titleKey" "projects_title" "subtitleKey" "projects_subtitle" "class" "projects" "title" "Projets" "subtitle" "Construire des applications utiles qui simplifient la vie.") }}
 
             {{/* Calculate project counts for each category */}}
             {{ $allCount := 0 }}
@@ -152,7 +149,7 @@
                     
                     {{- if ne $sector "" -}}
                         <div class="project-card-wrapper" data-sector="{{ $sector }}">
-                            {{ partial "project-card-unified.html" (dict 
+                            {{ partial "cards/project-card-unified.html" (dict 
                                 "title" .Title
                                 "subtitle" .Params.subtitle
                                 "description" .Params.description
@@ -169,7 +166,7 @@
 </div>
 
 <!-- Auto-include person modal if needed -->
-{{ partial "auto-person-modal.html" . }}
+{{ partial "modals/auto-person-modal.html" . }}
 
 <script>
 // Initialize tab system for projects

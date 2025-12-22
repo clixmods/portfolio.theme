@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Language.Lang }}" dir="{{ cond (eq .Site.Language.LanguageDirection `rtl`) `rtl` `ltr` }}" data-theme="dark" data-page="{{ if .IsHome }}portfolio{{ else if eq .Section "posts" }}blog{{ else if eq .Section "projects" }}projects{{ else }}portfolio{{ end }}">
 <head>
-  {{ partial "head.html" . }}
+  {{ partial "head/head.html" . }}
 </head>
 <body>
   <!-- Script d'initialisation du thème avant le rendu pour éviter le flash -->
@@ -18,35 +18,35 @@
   <!-- Hero Background - Deep Space Aesthetic -->
   <!-- Désactiver les waves si le projet a une image background pour optimiser les ressources -->
   {{ if not (and (eq .Section "projects") .Params.image) }}
-    {{ partial "hero-background.html" . }}
+    {{ partial "components/hero-background.html" . }}
   {{ end }}
   
   <!-- Mobile Menu - Menu hamburger pour mobile -->
-  {{ partial "mobile-menu.html" . }}
+  {{ partial "components/mobile-menu.html" . }}
   
   <!-- Profile Badge - Badge de profil avec actions intégrées -->
-  {{ partial "profile-badge.html" . }}
+  {{ partial "components/profile-badge.html" . }}
   
   <!-- Right Dock - Trophées et langue -->
-  {{ partial "right-dock.html" . }}
+  {{ partial "components/right-dock.html" . }}
   <!-- Modal des compétences -->
-  {{ partial "skill-modal.html" . }}
+  {{ partial "modals/skill-modal.html" . }}
   
   <!-- Auto Person Modal -->
-  {{ partial "auto-person-modal.html" . }}
+  {{ partial "modals/auto-person-modal.html" . }}
   
   <main>
     {{ block "main" . }}{{ end }}
   </main>
   <footer>
-    {{ partial "footer.html" . }}
+    {{ partial "components/footer.html" . }}
   </footer>
   
   <!-- Dock de navigation -->
-  {{ partial "dock.html" . }}
+  {{ partial "components/dock.html" . }}
   
   <!-- Global portfolio data for skill modal and other components - MUST be loaded first -->
-  {{ partial "portfolio-data.html" . }}
+  {{ partial "data/portfolio-data.html" . }}
 
   <!-- Scripts pour le menu mobile -->
   {{ $mobileMenuJs := resources.Get "js/navigation/mobile-menu.js" }}

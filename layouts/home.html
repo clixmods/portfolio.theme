@@ -1,6 +1,6 @@
 {{ define "main" }}
 <!-- Profile section outside of main container for full width -->
-{{ partial "profile.html" . }}
+{{ partial "sections/profile.html" . }}
 
 <script>
 // Localized project descriptions - injected from Hugo i18n
@@ -21,33 +21,33 @@ window.PROJECT_DESCRIPTIONS = {
 
         <!-- Section Projects -->
         <section id="projets">
-            {{ partial "projects.html" . }}
+            {{ partial "sections/projects.html" . }}
         </section>
 
         <!-- Section Expérience -->
         <section id="experiences">
-            {{ partial "experience.html" . }}
+            {{ partial "sections/experience.html" . }}
         </section>
 
         <!-- Section Recommandations -->
         <section id="recommandations">
-            {{ partial "testimonials.html" . }}
+            {{ partial "sections/testimonials.html" . }}
         </section>
 
-        {{ partial "skills.html" . }}
+        {{ partial "sections/skills.html" . }}
 
           <!-- Section Formation -->
         <section id="formation">
-            {{ partial "education.html" . }}
+            {{ partial "sections/education.html" . }}
         </section>
 
-        {{ partial "blog.html" . }}
+        {{ partial "sections/blog.html" . }}
         
     </main>
 </div>
 
 <!-- Auto-include person modal if needed -->
-{{ partial "auto-person-modal.html" . }}
+{{ partial "modals/auto-person-modal.html" . }}
     
 {{ end }}
 

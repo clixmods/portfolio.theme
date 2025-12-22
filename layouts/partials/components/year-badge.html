@@ -1,0 +1,66 @@
+{{/*
+    Year Badge Component for education progression display.
+    Renders a badge with year number and status.
+    
+    Usage: 
+    {{ partial "components/year-badge.html" (dict 
+        "year" 1 
+        "status" "validated"
+        "showIcon" true
+    ) }}
+    
+    Parameters:
+    - year: (int) Year number to display
+    - status: (string) One of: "validated", "in_progress", "not_taken", "skipped", "completed"
+    - showIcon: (bool, optional) Whether to show status icon. Default: true
+    
+    Outputs a div with classes: result-badge {status-class}
+*/}}
+
+{{- $year := .year -}}
+{{- $status := .status | default "validated" -}}
+{{- $showIcon := .showIcon | default true -}}
+
+{{/* Map status to CSS class */}}
+{{- $cssClass := $status -}}
+{{- if eq $status "in_progress" -}}
+    {{- $cssClass = "in-progress" -}}
+{{- else if eq $status "not_taken" -}}
+    {{- $cssClass = "not-taken" -}}
+{{- end -}}
+
+{{/* Map status to icon */}}
+{{- $icon := "" -}}
+{{- if eq $status "validated" -}}
+    {{- $icon = "✅" -}}
+{{- else if eq $status "in_progress" -}}
+    {{- $icon = "⏳" -}}
+{{- else if eq $status "not_taken" -}}
+    {{- $icon = "🚫" -}}
+{{- else if eq $status "skipped" -}}
+    {{- $icon = "⏭️" -}}
+{{- else if eq $status "completed" -}}
+    {{- $icon = "🎓" -}}
+{{- end -}}
+
+{{/* Map status to localized text */}}
+{{- $statusText := "" -}}
+{{- if eq $status "validated" -}}
+    {{- $statusText = i18n "validated" | default "Validée" -}}
+{{- else if eq $status "in_progress" -}}
+    {{- $statusText = i18n "in_progress" | default "En cours" -}}
+{{- else if eq $status "not_taken" -}}
+    {{- $statusText = i18n "not_taken" | default "Non suivie" -}}
+{{- else if eq $status "skipped" -}}
+    {{- $statusText = i18n "skipped" | default "Admis directement" -}}
+{{- else if eq $status "completed" -}}
+    {{- $statusText = i18n "completed" | default "Terminé" -}}
+{{- end -}}
+
+<div class="result-badge {{ $cssClass }}">
+    {{- if and $showIcon $icon -}}
+    <span class="badge-icon">{{ $icon }}</span>
+    {{- end -}}
+    <span class="badge-text">{{ i18n "year" | default "Année" }} {{ $year }}</span>
+    <span class="badge-status">{{ $statusText }}</span>
+</div>

@@ -1,0 +1,62 @@
+{{/*
+    Section Header Component - Unified header for all page sections.
+    
+    Usage:
+    {{ partial "components/section-header.html" (dict 
+        "titleKey" "experience_title"
+        "subtitleKey" "experience_subtitle"
+        "class" "experience"
+        "title" "Fallback Title"
+        "subtitle" "Fallback subtitle text"
+    ) }}
+    
+    Parameters:
+    - titleKey: (string, optional) i18n key for the title
+    - subtitleKey: (string, optional) i18n key for the subtitle
+    - title: (string, optional) Fallback title if no i18n key or key not found
+    - subtitle: (string, optional) Fallback subtitle if no i18n key or key not found
+    - class: (string, optional) Additional CSS class prefix for the header
+    - id: (string, optional) HTML id attribute for the header
+    
+    Outputs a div with classes: {class}-header section-header-unified
+*/}}
+
+{{- $titleKey := .titleKey | default "" -}}
+{{- $subtitleKey := .subtitleKey | default "" -}}
+{{- $title := .title | default "" -}}
+{{- $subtitle := .subtitle | default "" -}}
+{{- $class := .class | default "" -}}
+{{- $id := .id | default "" -}}
+
+{{/* Resolve title */}}
+{{- $resolvedTitle := $title -}}
+{{- if $titleKey -}}
+    {{- $i18nTitle := i18n $titleKey -}}
+    {{- if $i18nTitle -}}
+        {{- $resolvedTitle = $i18nTitle -}}
+    {{- end -}}
+{{- end -}}
+
+{{/* Resolve subtitle */}}
+{{- $resolvedSubtitle := $subtitle -}}
+{{- if $subtitleKey -}}
+    {{- $i18nSubtitle := i18n $subtitleKey -}}
+    {{- if $i18nSubtitle -}}
+        {{- $resolvedSubtitle = $i18nSubtitle -}}
+    {{- end -}}
+{{- end -}}
+
+{{/* Build class string */}}
+{{- $headerClass := "section-header-unified" -}}
+{{- if $class -}}
+    {{- $headerClass = printf "%s-header %s" $class $headerClass -}}
+{{- end -}}
+
+<div class="{{ $headerClass }}"{{ with $id }} id="{{ . }}"{{ end }}>
+    {{- if $resolvedTitle -}}
+    <h2 class="section-title-unified">{{ $resolvedTitle }}</h2>
+    {{- end -}}
+    {{- if $resolvedSubtitle -}}
+    <p class="{{ with $class }}{{ . }}-subtitle {{ end }}section-subtitle-unified">{{ $resolvedSubtitle }}</p>
+    {{- end -}}
+</div>

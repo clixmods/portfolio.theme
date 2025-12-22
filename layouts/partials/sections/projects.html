@@ -1,0 +1,75 @@
+<section class="projects-section">
+    {{ partial "components/section-header.html" (dict "titleKey" "projects_title" "subtitleKey" "projects_subtitle" "class" "projects" "title" "Projets" "subtitle" "Construire des applications utiles qui simplifient la vie.") }}
+
+    <!-- Navigation Tabs -->
+    <div class="tabs" data-can-collapse="true" data-collapse-id="projects">
+        <button class="tab-btn active" data-category="games" data-tab="games">
+            <span class="icon">🎮</span>
+            <span class="tab-label">{{ i18n "games" | default "Jeux" }}</span>
+        </button>
+        <button class="tab-btn" data-category="apps-web" data-tab="apps-web">
+            <span class="icon">💻</span>
+            <span class="tab-label">{{ i18n "apps_web" | default "Apps/Web" }}</span>
+        </button>
+        <button class="tab-btn" data-category="mods-tools" data-tab="mods-tools">
+            <span class="icon">🛠️</span>
+            <span class="tab-label">{{ i18n "mods_tools" | default "Mods & Tools" }}</span>
+        </button>
+    </div>
+
+    <!-- Description Text -->
+    <div class="projects-description">
+    <p id="section-description">{{ i18n "projects_description" | default "Découvrez mes projets organisés par secteur d'expertise : jeux vidéo, applications web et outils de développement." }}</p>
+    </div>
+
+    <!-- Projects Grid with filterable cards -->
+    <div class="projects-grid" id="projects-grid">
+        {{ range where (where $.Site.RegularPages "Section" "projects") "Draft" false }}
+            {{ if .Params.featured }}
+                {{- $projectImage := .Params.background_image | default .Params.image | default "images/placeholder-project.jpg" -}}
+                {{- $category := "" -}}
+                {{- if hasPrefix .Params.sector "games" -}}
+                    {{- $category = "games" -}}
+                {{- else if hasPrefix .Params.sector "appsweb" -}}
+                    {{- $category = "apps-web" -}}
+                {{- else if or (eq .Params.sector "mods") (eq .Params.sector "tools") -}}
+                    {{- $category = "mods-tools" -}}
+                {{- end -}}
+                
+                {{- if ne $category "" -}}
+                    {{/* Get all technologies for this project */}}
+                    {{ $allTechnologies := slice }}
+                    {{ with .Params.programming_languages }}
+                        {{ $allTechnologies = $allTechnologies | append . }}
+                    {{ end }}
+                    {{ with .Params.frameworks_engines }}
+                        {{ $allTechnologies = $allTechnologies | append . }}
+                    {{ end }}
+                    {{ $allTechnologies = $allTechnologies | uniq }}
+                    
+                    <div class="project-card-wrapper"
+                         data-project-id="{{ .File.BaseFileName }}"
+                         data-background-image="{{ $projectImage }}"
+                         data-sector="{{ .Params.sector }}"
+                         data-category="{{ $category }}"
+                         data-technologies='{{ partial "tech/combined-technologies.html" . }}'>
+                        
+                        {{ partial "cards/project-card-unified.html" (dict 
+                            "title" .Title
+                            "subtitle" .Params.subtitle
+                            "description" .Params.description
+                            "image" $projectImage
+                            "url" .Permalink
+                            "status" (cond (eq .Params.status "completed") "Terminé" (cond (eq .Params.status "in-progress") "En cours" ""))
+                            "technologies" $allTechnologies
+                            "maxTechnologies" 4
+                        ) }}
+                    </div>
+                {{- end -}}
+            {{ end }}
+        {{ end }}
+    </div>
+    
+    <!-- See All Projects Button -->
+    {{ partial "components/see-all-button.html" (dict "url" "/projects/" "labelKey" "see_all_projects" "labelDefault" "Voir tous les projets" "wrapperClass" "projects-see-all") }}
+</section>

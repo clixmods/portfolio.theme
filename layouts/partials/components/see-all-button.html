@@ -1,0 +1,34 @@
+{{/*
+    See All Button Component - Consistent CTA button for section footers.
+    
+    Usage: {{ partial "components/see-all-button.html" (dict 
+        "url" "/projects/" 
+        "labelKey" "see_all_projects" 
+        "labelDefault" "Voir tous les projets"
+        "wrapperClass" "projects-see-all"
+    ) }}
+    
+    Parameters:
+    - url: (string) URL path (will be passed through relLangURL)
+    - labelKey: (string) i18n key for the button label
+    - labelDefault: (string) Default label if i18n key not found
+    - wrapperClass: (string, optional) CSS class for the wrapper div
+    - iconId: (string, optional) Icon ID, default: "arrow-right"
+    - iconSize: (string, optional) Icon size, default: "18"
+    
+    Outputs a div with btn-action link containing label and arrow icon
+*/}}
+
+{{- $url := .url -}}
+{{- $labelKey := .labelKey -}}
+{{- $labelDefault := .labelDefault | default "Voir plus" -}}
+{{- $wrapperClass := .wrapperClass | default "section-footer" -}}
+{{- $iconId := .iconId | default "arrow-right" -}}
+{{- $iconSize := .iconSize | default "18" -}}
+
+<div class="{{ $wrapperClass }}">
+    <a href="{{ $url | relLangURL }}" class="btn-action">
+        <span>{{ i18n $labelKey | default $labelDefault }}</span>
+        {{- partial "icon.html" (dict "iconId" $iconId "size" $iconSize) -}}
+    </a>
+</div>

@@ -3,11 +3,11 @@
     <main class="main-content">
         <!-- Experience Section - Identical to homepage -->
         <section id="experiences">
-            {{ partial "experience.html" . }}
+            {{ partial "sections/experience.html" . }}
         </section>
     </main>
 </div>
 
 <!-- Auto-include person modal if needed -->
-{{ partial "auto-person-modal.html" . }}
+{{ partial "modals/auto-person-modal.html" . }}
 {{- end -}}
