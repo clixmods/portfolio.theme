@@ -1,5 +1,29 @@
 // Person Modal Logic
-// Gestion complète du modal des personnes
+// Complete person modal management
+
+// Translations for person modal
+const PERSON_MODAL_TRANSLATIONS = {
+    fr: {
+        no_projects_title: "Aucun projet trouvé",
+        no_projects_text: "Cette personne n'a pas encore de projets référencés en tant que contributeur."
+    },
+    en: {
+        no_projects_title: "No projects found",
+        no_projects_text: "This person doesn't have any projects listed as a contributor yet."
+    }
+};
+
+// Detect current language
+function getPersonModalLang() {
+    const path = window.location.pathname;
+    return path.startsWith('/en/') || path.startsWith('/en') ? 'en' : 'fr';
+}
+
+// Get translation
+function tPersonModal(key) {
+    const lang = getPersonModalLang();
+    return PERSON_MODAL_TRANSLATIONS[lang][key] || PERSON_MODAL_TRANSLATIONS.fr[key] || key;
+}
 
 // Tab management & person modal stats
 document.addEventListener('DOMContentLoaded', function() {
@@ -527,8 +551,8 @@ document.addEventListener('DOMContentLoaded', function() {
             projectsContent.innerHTML = `
                 <div class="person-modal-no-projects">
                     <div class="no-projects-icon">🚀</div>
-                    <h3>Aucun projet trouvé</h3>
-                    <p>Cette personne n'a pas encore de projets référencés en tant que contributeur.</p>
+                    <h3>${tPersonModal('no_projects_title')}</h3>
+                    <p>${tPersonModal('no_projects_text')}</p>
                 </div>
             `;
         }

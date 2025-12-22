@@ -10,14 +10,14 @@
 <div class="ranking-modal-enhanced">
   <div class="ranking-stats-bar">
     <div class="event-info">
-      <span class="event-type-chip">{{ .Project.Params.ranking.event_type | default "Classement" }}</span>
+      <span class="event-type-chip">{{ .Project.Params.ranking.event_type | default (i18n "ranking" | default "Classement") }}</span>
       {{- if .Project.Params.ranking.event -}}
       <span class="event-name-chip"> {{ .Project.Params.ranking.event }}</span>
       {{- end -}}
     </div>
     {{- if .Project.Params.ranking.total_participants -}}
     <div class="participants-info">
-      {{ partial "helpers/format-number.html" .Project.Params.ranking.total_participants }} participants
+      {{ partial "helpers/format-number.html" .Project.Params.ranking.total_participants }} {{ i18n "participants" | default "participants" }}
     </div>
     {{- end -}}
   </div>
@@ -35,7 +35,7 @@
     
     {{- if .Project.Params.ranking.competitors -}}
     <div class="competitors-podium">
-      <div class="podium-title">Classement général</div>
+      <div class="podium-title">{{ i18n "general_ranking" | default "Classement général" }}</div>
       <div class="podium-grid">
         {{- range .Project.Params.ranking.competitors -}}
         <div class="competitor-card">
@@ -52,14 +52,14 @@
           <div class="competitor-details">
             {{- if .score -}}
             <div class="detail-item">
-              <span class="detail-label">Score:</span>
+              <span class="detail-label">{{ i18n "score" | default "Score" }}:</span>
               <span class="detail-value">{{ .score }}</span>
             </div>
             {{- end -}}
             
             {{- if .team -}}
             <div class="detail-item">
-              <span class="detail-label">Équipe:</span>
+              <span class="detail-label">{{ i18n "team" | default "Équipe" }}:</span>
               <span class="detail-value">{{ .team }}</span>
             </div>
             {{- end -}}
@@ -72,25 +72,25 @@
     
     {{- if or .Project.Params.ranking.total_participants .Project.Params.ranking.date .Project.Params.ranking.category -}}
     <div class="ranking-details">
-      <div class="details-title">Détails de l'événement</div>
+      <div class="details-title">{{ i18n "event_details" | default "Détails de l'événement" }}</div>
       <div class="details-grid">
         {{- if .Project.Params.ranking.total_participants -}}
         <div class="detail-card">
-          <div class="detail-label">Participants</div>
+          <div class="detail-label">{{ i18n "participants" | default "Participants" }}</div>
           <div class="detail-value">{{ partial "helpers/format-number.html" .Project.Params.ranking.total_participants }}</div>
         </div>
         {{- end -}}
         
         {{- if .Project.Params.ranking.date -}}
         <div class="detail-card">
-          <div class="detail-label">Date</div>
+          <div class="detail-label">{{ i18n "event_date" | default "Date" }}</div>
           <div class="detail-value">{{ .Project.Params.ranking.date | dateFormat "January 2006" }}</div>
         </div>
         {{- end -}}
         
         {{- if .Project.Params.ranking.category -}}
         <div class="detail-card">
-          <div class="detail-label">Catégorie</div>
+          <div class="detail-label">{{ i18n "event_category" | default "Catégorie" }}</div>
           <div class="detail-value">{{ .Project.Params.ranking.category }}</div>
         </div>
         {{- end -}}

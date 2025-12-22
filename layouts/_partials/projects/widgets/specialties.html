@@ -3,18 +3,18 @@
   Description: Widget compact pour afficher les spécialités utilisées dans un projet
   Context: 
     - .Params (dict) - Paramètres du projet avec .specialties
-    - .Site.Data.specialties (slice) - Données des spécialités
+    - specialties data (loaded from localized data files)
     - .File.BaseFileName (string) - ID du projet
 */}}
 
 {{- if .Params.specialties -}}
   {{- $projectSpecialities := .Params.specialties -}}
-  {{- $allSpecialities := .Site.Data.specialties -}}
+  {{- $allSpecialities := partial "get-localized-data.html" (dict "context" . "dataName" "specialties") -}}
   {{- $usedSpecialities := slice -}}
   {{- range $projectSpecialities -}}
-    {{- $specialty := . -}}
+    {{- $specialtyKey := . -}}
     {{- range $allSpecialities -}}
-      {{- if eq .name $specialty -}}
+      {{- if eq .key $specialtyKey -}}
         {{- $usedSpecialities = $usedSpecialities | append . -}}
       {{- end -}}
     {{- end -}}
@@ -29,8 +29,8 @@
       </svg>
     </div>
     <div class="project-widget-header-content">
-      <h3 class="project-widget-title">Spécialités utilisées</h3>
-      <div class="project-widget-summary">{{ len $usedSpecialities }} domaine{{ if gt (len $usedSpecialities) 1 }}s{{ end }} appliqué{{ if gt (len $usedSpecialities) 1 }}s{{ end }}</div>
+      <h3 class="project-widget-title">{{ i18n "specialties_used" | default "Spécialités utilisées" }}</h3>
+      <div class="project-widget-summary">{{ len $usedSpecialities }} {{ i18n "domains_applied" | default "domaines appliqués" }}</div>
     </div>
     <div class="project-widget-toggle">
       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -39,8 +39,10 @@
     </div>
   </div>
   <div class="project-widget-content">
+    {{/* Load localized profile data */}}
+    {{- $profileData := partial "get-localized-data.html" (dict "context" . "dataName" "profile") -}}
     {{/* Utiliser le partial pour l'affichage modal */}}
-    {{ partial "projects/widgets/modal/specialties.html" (dict "specialties" $usedSpecialities "projectId" .File.BaseFileName "profileData" .Site.Data.profile) }}
+    {{ partial "projects/widgets/modal/specialties.html" (dict "specialties" $usedSpecialities "projectId" .File.BaseFileName "profileData" $profileData) }}
   </div>
 </div>
   {{- end -}}

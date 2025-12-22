@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cardAnimationDelay: 50,
             updateDescription: true,
             descriptionSelector: '#section-description',
-            descriptions: {
+            descriptions: window.PROJECT_DESCRIPTIONS || {
                 games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
                 "apps-web": "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
                 "mods-tools": "Outils de développement, mods et utilitaires pour améliorer les workflows créatifs."

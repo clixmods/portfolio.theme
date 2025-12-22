@@ -252,8 +252,8 @@
                 </svg>
             </div>
             <div class="project-widget-header-content">
-                <h3 class="project-widget-title">{{ .data.title | default "Galerie d'images" }}</h3>
-                <div class="project-widget-summary">{{ len .data.images }} image{{ if gt (len .data.images) 1 }}s{{ end }}</div>
+                <h3 class="project-widget-title">{{ .data.title | default (i18n "image_gallery" | default "Galerie d'images") }}</h3>
+                <div class="project-widget-summary">{{ len .data.images }} {{ if eq (len .data.images) 1 }}{{ i18n "image" | default "image" }}{{ else }}{{ i18n "images" | default "images" }}{{ end }}</div>
                 {{ if .data.description }}
                 <div class="project-widget-description">{{ .data.description }}</div>
                 {{ end }}

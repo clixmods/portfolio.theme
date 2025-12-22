@@ -23,7 +23,7 @@
   {{- $endYear := $endDate.Year -}}
   {{- $period = printf "%d - %d" $startYear $endYear -}}
 {{- else -}}
-  {{- $period = printf "%d - Présent" $startYear -}}
+  {{- $period = printf "%d - %s" $startYear (i18n "present" | default "Présent") -}}
 {{- end -}}
 
 {{/* Calculate duration */}}
@@ -42,9 +42,9 @@
 {{- $duration := "" -}}
 {{- if eq $years 0 -}}
   {{- if eq $months 1 -}}
-    {{- $duration = "1 mois" -}}
+    {{- $duration = printf "1 %s" (i18n "month" | default "mois") -}}
   {{- else -}}
-    {{- $duration = printf "%d mois" $months -}}
+    {{- $duration = printf "%d %s" $months (i18n "months" | default "mois") -}}
   {{- end -}}
 {{- else if or (eq $months 0) (ge $months 10) -}}
   {{/* Si pas de mois ou >= 10 mois, afficher seulement les années (arrondies) */}}
@@ -53,22 +53,22 @@
     {{- $finalYears = add $years 1 -}}
   {{- end -}}
   {{- if eq $finalYears 1 -}}
-    {{- $duration = "1 an" -}}
+    {{- $duration = printf "1 %s" (i18n "year" | default "an") -}}
   {{- else -}}
-    {{- $duration = printf "%d ans" $finalYears -}}
+    {{- $duration = printf "%d %s" $finalYears (i18n "years" | default "ans") -}}
   {{- end -}}
 {{- else -}}
   {{- $yearText := "" -}}
   {{- if eq $years 1 -}}
-    {{- $yearText = "1 an" -}}
+    {{- $yearText = printf "1 %s" (i18n "year" | default "an") -}}
   {{- else -}}
-    {{- $yearText = printf "%d ans" $years -}}
+    {{- $yearText = printf "%d %s" $years (i18n "years" | default "ans") -}}
   {{- end -}}
   {{- $monthText := "" -}}
   {{- if eq $months 1 -}}
-    {{- $monthText = "1 mois" -}}
+    {{- $monthText = printf "1 %s" (i18n "month" | default "mois") -}}
   {{- else -}}
-    {{- $monthText = printf "%d mois" $months -}}
+    {{- $monthText = printf "%d %s" $months (i18n "months" | default "mois") -}}
   {{- end -}}
   {{- $duration = printf "%s %s" $yearText $monthText -}}
 {{- end -}}

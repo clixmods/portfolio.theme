@@ -8,8 +8,8 @@
 
 {{- if .gallery -}}
   {{- $gallery := .gallery -}}
-  {{- $videos := $gallery.videos -}}
-  {{- $galleryTitle := ($gallery.title | default "Galerie de vidéos YouTube") -}}
+  {{- $videos := .gallery.videos -}}
+  {{- $galleryTitle := ($gallery.title | default (i18n "youtube_gallery" | default "Galerie de vidéos YouTube")) -}}
   {{- $gallerySize := ($gallery.size | default "size-large") -}}
 
 {{- if $videos -}}
@@ -22,7 +22,7 @@
     </div>
     <div class="project-widget-header-content">
       <h3 class="project-widget-title">{{ $galleryTitle }}</h3>
-      <div class="project-widget-summary">{{ len $videos }} vidéo{{ if gt (len $videos) 1 }}s{{ end }}</div>
+      <div class="project-widget-summary">{{ len $videos }} {{ if eq (len $videos) 1 }}{{ i18n "video" | default "vidéo" }}{{ else }}{{ i18n "videos" | default "vidéos" }}{{ end }}</div>
       {{ if $gallery.description }}
       <div class="project-widget-description">{{ $gallery.description }}</div>
       {{ end }}

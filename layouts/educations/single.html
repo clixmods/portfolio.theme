@@ -22,15 +22,23 @@
           {{- if .Params.end_date -}}
             {{- $endYear = (time .Params.end_date).Format "2006" -}}
           {{- else -}}
-            {{- $endYear = "En cours" -}}
+            {{- $endYear = i18n "present" | default "En cours" -}}
           {{- end -}}
           <span class="period">📅 {{ $startYear }} - {{ $endYear }}</span>
         {{- end -}}
         
-        <span class="status status-{{ if eq .Params.status "Obtenu" }}completed{{ else if eq .Params.status "En cours" }}current{{ else }}unknown{{ end }}">
-          {{- if eq .Params.status "Obtenu" -}}
+        {{/* Map status to generic CSS class */}}
+        {{- $status := lower .Params.status -}}
+        {{- $cssClass := "unknown" -}}
+        {{- if or (eq $status "validé") (eq $status "obtenu") (eq $status "obtained") (eq $status "validée") -}}
+            {{- $cssClass = "completed" -}}
+        {{- else if or (eq $status "en cours") (eq $status "in progress") (eq $status "en préparation") (eq $status "in preparation") -}}
+            {{- $cssClass = "current" -}}
+        {{- end -}}
+        <span class="status status-{{ $cssClass }}">
+          {{- if eq $cssClass "completed" -}}
             ✅ {{ .Params.status }}
-          {{- else if eq .Params.status "En cours" -}}
+          {{- else if eq $cssClass "current" -}}
             🟢 {{ .Params.status }}
           {{- else -}}
             {{ .Params.icon | default "🎓" }} {{ .Params.status }}
@@ -39,7 +47,7 @@
         
         {{- if .Params.external_link -}}
           <a href="{{ .Params.external_link }}" target="_blank" rel="noopener noreferrer" class="external-link-btn">
-            🔗 Voir la formation
+            🔗 {{ i18n "view_education" | default "Voir la formation" }}
           </a>
         {{- end -}}
       </div>
@@ -48,7 +56,7 @@
 
   <main class="education-content">
     <div class="description">
-      <h2>Description de la formation</h2>
+      <h2>{{ i18n "education_description" | default "Description de la formation" }}</h2>
       <p>{{ .Params.description }}</p>
     </div>
 
@@ -56,19 +64,23 @@
 
     {{- if .Params.years_detail -}}
     <div class="progression-section">
-      <h2>Progression par année</h2>
+      <h2>{{ i18n "year_progression" | default "Progression par année" }}</h2>
       <div class="years-progress">
         <div class="years-grid">
           {{- range .Params.years_detail -}}
             <div class="year-item status-{{ .status }}">
-              <span class="year-number">Année {{ .year }}</span>
+              <span class="year-number">{{ i18n "year" | default "Année" }} {{ .year }}</span>
               <span class="year-status">
                 {{- if eq .status "validated" -}}
-                  ✅ {{ .label }}
+                  ✅ {{ i18n "validated" | default "Validée" }}
                 {{- else if eq .status "in_progress" -}}
-                  🟢 {{ .label }}
+                  🟢 {{ i18n "in_progress" | default "En cours" }}
                 {{- else if eq .status "skipped" -}}
-                  ⏭️ {{ .label }}
+                  ⏭️ {{ i18n "skipped" | default "Admis directement" }}
+                {{- else if eq .status "not_taken" -}}
+                  📋 {{ i18n "not_taken" | default "Non suivie" }}
+                {{- else if eq .status "completed" -}}
+                  🎓 {{ i18n "completed" | default "Terminé" }}
                 {{- else -}}
                   📋 {{ .label }}
                 {{- end -}}
@@ -82,23 +94,29 @@
 
     {{/* Testimonials Section */}}
     {{- if .Params.testimonials -}}
+    {{- $localizedTestimonials := .Site.Data.testimonials -}}
+    {{- if eq .Language.Lang "en" -}}
+      {{- with .Site.Data.en.testimonials -}}
+        {{- $localizedTestimonials = . -}}
+      {{- end -}}
+    {{- end -}}
     <div class="testimonials-education-section">
-      <h2>Témoignages</h2>
+      <h2>{{ i18n "testimonials" | default "Témoignages" }}</h2>
       <div class="testimonials-education-slider">
         <div class="testimonials-education-track">
           {{- range .Params.testimonials -}}
             {{- $testimonialId := . -}}
-            {{- $testimonialResults := where $.Site.Data.testimonials "personId" $testimonialId -}}
+            {{- $testimonialResults := where $localizedTestimonials "personId" $testimonialId -}}
             {{- $testimonial := index $testimonialResults 0 -}}
             {{- if $testimonial -}}
               {{- $person := partial "helpers/get-person.html" (dict "context" $ "personId" $testimonial.personId) -}}
-              {{- if $person -}}
               <div class="testimonial-education-card aero-glass">
                 <div class="testimonial-education-content">
                   <p class="testimonial-education-text">
                     "{{ $testimonial.text }}"
                   </p>
-                  <div class="testimonial-education-author{{ if $person }} clickable-person{{ end }}"{{ if $person }} data-person-id="{{ $testimonial.personId }}" title="Voir le profil de {{ $person.Params.title }}"{{ end }}>
+                  {{- if $person -}}
+                  <div class="testimonial-education-author clickable-person" data-person-id="{{ $testimonial.personId }}" title="{{ i18n "view_profile_of" | default "Voir le profil de" }} {{ $person.Params.title }}">
                     <div class="testimonial-education-avatar {{ if not $person.Params.avatar }}placeholder{{ end }}">
                       {{- if $person.Params.avatar -}}
                         <img src="{{ $person.Params.avatar }}" alt="{{ $person.Params.title }}">
@@ -111,9 +129,19 @@
                       <div class="testimonial-education-role">{{ $testimonial.position }} - {{ $testimonial.company }}</div>
                     </div>
                   </div>
+                  {{- else -}}
+                  <div class="testimonial-education-author">
+                    <div class="testimonial-education-avatar placeholder">
+                      <span>?</span>
+                    </div>
+                    <div class="testimonial-education-info">
+                      <div class="testimonial-education-name">{{ $testimonial.personId }}</div>
+                      <div class="testimonial-education-role">{{ $testimonial.position }} - {{ $testimonial.company }}</div>
+                    </div>
+                  </div>
+                  {{- end -}}
                 </div>
               </div>
-              {{- end -}}
             {{- end -}}
           {{- end -}}
         </div>
@@ -148,14 +176,14 @@
     {{/* Vérifier langages de programmation */}}
     {{- if .Params.programming_languages -}}
       {{- range .Params.programming_languages -}}
-        {{- $langName := "" -}}
+        {{- $langKey := "" -}}
         {{- if reflect.IsMap . -}}
-          {{- $langName = .language -}}
+          {{- $langKey = .language -}}
         {{- else -}}
-          {{- $langName = . -}}
+          {{- $langKey = . -}}
         {{- end -}}
         {{- range $.Site.Data.programming_languages -}}
-          {{- if eq .name $langName -}}
+          {{- if eq .key $langKey -}}
             {{- $hasValidProgrammingLangs = true -}}
           {{- end -}}
         {{- end -}}
@@ -165,32 +193,34 @@
     {{/* Vérifier frameworks */}}
     {{- if .Params.frameworks_engines -}}
       {{- range .Params.frameworks_engines -}}
-        {{- $frameworkName := "" -}}
+        {{- $frameworkKey := "" -}}
         {{- if reflect.IsMap . -}}
-          {{- $frameworkName = .framework -}}
+          {{- $frameworkKey = .framework -}}
         {{- else -}}
-          {{- $frameworkName = . -}}
+          {{- $frameworkKey = . -}}
         {{- end -}}
         {{- range $.Site.Data.frameworks_engines -}}
-          {{- if eq .name $frameworkName -}}
+          {{- if eq .key $frameworkKey -}}
             {{- $hasValidFrameworks = true -}}
           {{- end -}}
         {{- end -}}
       {{- end -}}
     {{- end -}}
     
-    {{/* Vérifier spécialités */}}
+    {{/* Check specialties */}}
     {{- if .Params.specialties -}}
       {{- range .Params.specialties -}}
-        {{- $specialtyName := "" -}}
+        {{- $specialtyKey := "" -}}
         {{- if reflect.IsMap . -}}
-          {{- $specialtyName = .specialty -}}
+          {{- $specialtyKey = .specialty -}}
         {{- else -}}
-          {{- $specialtyName = . -}}
+          {{- $specialtyKey = . -}}
         {{- end -}}
-        {{- range $.Site.Data.specialties -}}
-          {{- if eq .name $specialtyName -}}
-            {{- $hasValidSpecialties = true -}}
+        {{- if $specialtyKey -}}
+          {{- range $.Site.Data.specialties -}}
+            {{- if eq .key $specialtyKey -}}
+              {{- $hasValidSpecialties = true -}}
+            {{- end -}}
           {{- end -}}
         {{- end -}}
       {{- end -}}
@@ -199,14 +229,14 @@
     {{/* Vérifier soft skills */}}
     {{- if .Params.soft_skills -}}
       {{- range .Params.soft_skills -}}
-        {{- $softSkillName := "" -}}
+        {{- $softSkillKey := "" -}}
         {{- if reflect.IsMap . -}}
-          {{- $softSkillName = .skill -}}
+          {{- $softSkillKey = .skill -}}
         {{- else -}}
-          {{- $softSkillName = . -}}
+          {{- $softSkillKey = . -}}
         {{- end -}}
         {{- range $.Site.Data.soft_skills -}}
-          {{- if eq .name $softSkillName -}}
+          {{- if eq .key $softSkillKey -}}
             {{- $hasValidSoftSkills = true -}}
           {{- end -}}
         {{- end -}}
@@ -216,14 +246,14 @@
     {{/* Vérifier tools */}}
     {{- if .Params.tools -}}
       {{- range .Params.tools -}}
-        {{- $toolName := "" -}}
+        {{- $toolKey := "" -}}
         {{- if reflect.IsMap . -}}
-          {{- $toolName = .tool -}}
+          {{- $toolKey = .tool -}}
         {{- else -}}
-          {{- $toolName = . -}}
+          {{- $toolKey = . -}}
         {{- end -}}
         {{- range $.Site.Data.tools -}}
-          {{- if eq .name $toolName -}}
+          {{- if eq .key $toolKey -}}
             {{- $hasValidTools = true -}}
           {{- end -}}
         {{- end -}}
@@ -233,34 +263,35 @@
     {{- $hasAnySkills := or $hasValidProgrammingLangs $hasValidFrameworks $hasValidSpecialties $hasValidSoftSkills $hasValidTools -}}
     {{- if $hasAnySkills -}}
     <div class="technologies">
-      <h2>Compétences acquises</h2>
+      <h2>{{ i18n "acquired_skills" | default "Compétences acquises" }}</h2>
       <div class="skills-categories-grid">
         {{- if $hasValidProgrammingLangs -}}
         <div class="skills-category" data-category="programming-languages">
-          <h3>Langages de programmation</h3>
+          <h3>{{ i18n "programming_languages" | default "Langages de programmation" }}</h3>
         <div class="skills-grid">
           {{- range .Params.programming_languages -}}
-            {{- $langName := "" -}}
+            {{- $langKey := "" -}}
             {{- if reflect.IsMap . -}}
-              {{- $langName = .language -}}
+              {{- $langKey = .language -}}
             {{- else -}}
-              {{- $langName = . -}}
+              {{- $langKey = . -}}
             {{- end -}}
             {{- range $.Site.Data.programming_languages -}}
-              {{- if eq .name $langName -}}
-                {{- $experienceText := partial "helpers/format-experience.html" .experience -}}
+              {{- if eq .key $langKey -}}
+                {{- $localizedName := i18n .key | default .key -}}
+                {{- $experienceText := partial "helpers/format-experience.html" (dict "experience" .experience "context" $) -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                     data-skill-name="{{ .name }}"
+                     onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
+                     data-skill-name="{{ .key }}"
                      data-skill-type="programming-language">
                   <span class="skill-icon">
                     {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                      <img src="{{ .iconPath | absURL }}" alt="{{ $localizedName }}" class="tech-icon-svg" width="28" height="28">
                     {{- else if .icon -}}
                       <span class="tech-icon-emoji">{{ .icon }}</span>
                     {{- end -}}
                   </span>
-                  <span class="skill-name">{{ .name }}</span>
+                  <span class="skill-name">{{ $localizedName }}</span>
                   {{- if $experienceText -}}
                     <span class="skill-level">{{ $experienceText }}</span>
                   {{- end -}}
@@ -274,30 +305,31 @@
 
         {{- if $hasValidFrameworks -}}
         <div class="skills-category" data-category="frameworks-engines">
-        <h3>Frameworks & Moteurs</h3>
+        <h3>{{ i18n "frameworks_engines" | default "Frameworks & Moteurs" }}</h3>
         <div class="skills-grid">
           {{- range .Params.frameworks_engines -}}
-            {{- $frameworkName := "" -}}
+            {{- $frameworkKey := "" -}}
             {{- if reflect.IsMap . -}}
-              {{- $frameworkName = .framework -}}
+              {{- $frameworkKey = .framework -}}
             {{- else -}}
-              {{- $frameworkName = . -}}
+              {{- $frameworkKey = . -}}
             {{- end -}}
             {{- range $.Site.Data.frameworks_engines -}}
-              {{- if eq .name $frameworkName -}}
-                {{- $experienceText := partial "helpers/format-experience.html" .experience -}}
+              {{- if eq .key $frameworkKey -}}
+                {{- $localizedName := i18n .key | default .key -}}
+                {{- $experienceText := partial "helpers/format-experience.html" (dict "experience" .experience "context" $) -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                     data-skill-name="{{ .name }}"
+                     onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
+                     data-skill-name="{{ .key }}"
                      data-skill-type="framework">
                   <span class="skill-icon">
                     {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                      <img src="{{ .iconPath | absURL }}" alt="{{ $localizedName }}" class="tech-icon-svg" width="28" height="28">
                     {{- else if .icon -}}
                       <span class="tech-icon-emoji">{{ .icon }}</span>
                     {{- end -}}
                   </span>
-                  <span class="skill-name">{{ .name }}</span>
+                  <span class="skill-name">{{ $localizedName }}</span>
                   {{- if $experienceText -}}
                     <span class="skill-level">{{ $experienceText }}</span>
                   {{- end -}}
@@ -311,33 +343,37 @@
 
         {{- if $hasValidSpecialties -}}
         <div class="skills-category" data-category="specialties">
-        <h3>Spécialités</h3>
+        <h3>{{ i18n "specialties" | default "Spécialités" }}</h3>
         <div class="skills-grid">
           {{- range .Params.specialties -}}
-            {{- $specialtyName := "" -}}
+            {{- $specialtyKey := "" -}}
             {{- if reflect.IsMap . -}}
-              {{- $specialtyName = .specialty -}}
+              {{- $specialtyKey = .specialty -}}
             {{- else -}}
-              {{- $specialtyName = . -}}
+              {{- $specialtyKey = . -}}
             {{- end -}}
-            {{- range $.Site.Data.specialties -}}
-              {{- if eq .name $specialtyName -}}
-                <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                     data-skill-name="{{ .name }}"
-                     data-skill-type="specialty">
-                  <span class="skill-icon">
-                    {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
-                    {{- else if .icon -}}
-                      <span class="tech-icon-emoji">{{ .icon }}</span>
+            {{- if $specialtyKey -}}
+              {{- range $.Site.Data.specialties -}}
+                {{- if eq .key $specialtyKey -}}
+                  {{- $localizedName := i18n .key | default .key -}}
+                  {{- $localizedSubtitle := i18n (printf "%s_subtitle" .key) -}}
+                  <div class="skill-block clickable" 
+                       onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
+                       data-skill-name="{{ .key }}"
+                       data-skill-type="specialty">
+                    <span class="skill-icon">
+                      {{- if .iconPath -}}
+                        <img src="{{ .iconPath | absURL }}" alt="{{ $localizedName }}" class="tech-icon-svg" width="28" height="28">
+                      {{- else if .icon -}}
+                        <span class="tech-icon-emoji">{{ .icon }}</span>
+                      {{- end -}}
+                    </span>
+                    <span class="skill-name">{{ $localizedName }}</span>
+                    {{- if $localizedSubtitle -}}
+                      <span class="skill-level">{{ $localizedSubtitle }}</span>
                     {{- end -}}
-                  </span>
-                  <span class="skill-name">{{ .name }}</span>
-                  {{- if .subtitle -}}
-                    <span class="skill-level">{{ .subtitle }}</span>
-                  {{- end -}}
-                </div>
+                  </div>
+                {{- end -}}
               {{- end -}}
             {{- end -}}
           {{- end -}}
@@ -347,31 +383,33 @@
 
         {{- if $hasValidSoftSkills -}}
         <div class="skills-category" data-category="soft-skills">
-        <h3>Compétences transversales</h3>
+        <h3>{{ i18n "cross_functional_skills" | default "Compétences transversales" }}</h3>
         <div class="skills-grid">
           {{- range .Params.soft_skills -}}
-            {{- $softSkillName := "" -}}
+            {{- $softSkillKey := "" -}}
             {{- if reflect.IsMap . -}}
-              {{- $softSkillName = .skill -}}
+              {{- $softSkillKey = .skill -}}
             {{- else -}}
-              {{- $softSkillName = . -}}
+              {{- $softSkillKey = . -}}
             {{- end -}}
             {{- range $.Site.Data.soft_skills -}}
-              {{- if eq .name $softSkillName -}}
+              {{- if eq .key $softSkillKey -}}
+                {{- $localizedName := i18n .key | default .key -}}
+                {{- $localizedSubtitle := i18n (printf "%s_subtitle" .key) -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                     data-skill-name="{{ .name }}"
+                     onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
+                     data-skill-name="{{ .key }}"
                      data-skill-type="soft-skill">
                   <span class="skill-icon">
                     {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                      <img src="{{ .iconPath | absURL }}" alt="{{ $localizedName }}" class="tech-icon-svg" width="28" height="28">
                     {{- else if .icon -}}
                       <span class="tech-icon-emoji">{{ .icon }}</span>
                     {{- end -}}
                   </span>
-                  <span class="skill-name">{{ .name }}</span>
-                  {{- if .subtitle -}}
-                    <span class="skill-level">{{ .subtitle }}</span>
+                  <span class="skill-name">{{ $localizedName }}</span>
+                  {{- if $localizedSubtitle -}}
+                    <span class="skill-level">{{ $localizedSubtitle }}</span>
                   {{- end -}}
                 </div>
               {{- end -}}
@@ -383,30 +421,31 @@
 
         {{- if $hasValidTools -}}
         <div class="skills-category" data-category="tools">
-        <h3>Outils</h3>
+        <h3>{{ i18n "tools" | default "Outils" }}</h3>
         <div class="skills-grid">
           {{- range .Params.tools -}}
-            {{- $toolName := "" -}}
+            {{- $toolKey := "" -}}
             {{- if reflect.IsMap . -}}
-              {{- $toolName = .tool -}}
+              {{- $toolKey = .tool -}}
             {{- else -}}
-              {{- $toolName = . -}}
+              {{- $toolKey = . -}}
             {{- end -}}
             {{- range $.Site.Data.tools -}}
-              {{- if eq .name $toolName -}}
-                {{- $experienceText := partial "helpers/format-experience.html" .experience -}}
+              {{- if eq .key $toolKey -}}
+                {{- $localizedName := i18n .key | default .key -}}
+                {{- $experienceText := partial "helpers/format-experience.html" (dict "experience" .experience "context" $) -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                     data-skill-name="{{ .name }}"
+                     onclick="openSkillModal('{{ $localizedName }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
+                     data-skill-name="{{ .key }}"
                      data-skill-type="tool">
                   <span class="skill-icon">
                     {{- if .iconPath -}}
-                      <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                      <img src="{{ .iconPath | absURL }}" alt="{{ $localizedName }}" class="tech-icon-svg" width="28" height="28">
                     {{- else if .icon -}}
                       <span class="tech-icon-emoji">{{ .icon }}</span>
                     {{- end -}}
                   </span>
-                  <span class="skill-name">{{ .name }}</span>
+                  <span class="skill-name">{{ $localizedName }}</span>
                   {{- if $experienceText -}}
                     <span class="skill-level">{{ $experienceText }}</span>
                   {{- end -}}
@@ -423,12 +462,17 @@
 
     {{- if .Params.projects -}}
     <div class="projects-section">
-      <h2>Projets réalisés</h2>
+      <h2>{{ i18n "completed_projects" | default "Projets réalisés" }}</h2>
       <div class="ps5-projects-tiles">
         {{- range .Params.projects -}}
           {{- $projectSlug := . -}}
-          {{- range where (where $.Site.RegularPages "Section" "projects") "Draft" false -}}
-            {{- if eq .File.BaseFileName $projectSlug -}}
+          {{- $siteProjects := where $.Site.RegularPages "Section" "projects" -}}
+          {{- $languageProjects := where $siteProjects "Lang" $.Site.Language.Lang -}}
+          {{- range where $languageProjects "Draft" false -}}
+            {{- $baseFileName := .File.BaseFileName -}}
+            {{- $cleanSlug := replace $baseFileName ".en" "" -}}
+            {{- $cleanSlug = replace $cleanSlug ".fr" "" -}}
+            {{- if eq $cleanSlug $projectSlug -}}
               {{- $allTechnologies := slice -}}
               {{- range .Params.programming_languages -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}
               {{- range .Params.frameworks_engines -}}{{ $allTechnologies = $allTechnologies | append . }}{{- end -}}

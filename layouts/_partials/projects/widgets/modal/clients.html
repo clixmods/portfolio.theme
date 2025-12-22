@@ -24,7 +24,7 @@
   <div class="clients-modal-enhanced">
     <div class="clients-stats-bar">
       <div class="clients-count">
-        <strong>{{ $total }}</strong> entreprise{{ if gt $total 1 }}s{{ end }} partenaire{{ if gt $total 1 }}s{{ end }}
+        <strong>{{ $total }}</strong> {{ i18n "partner_companies" | default "entreprises partenaires" }}
       </div>
       <div class="clients-sectors">
         {{- range first 3 $distinctSectors -}}
@@ -34,11 +34,11 @@
     </div>
     
     <div class="clients-group">
-      <div class="clients-group-title">Partenaires</div>
+      <div class="clients-group-title">{{ i18n "partners" | default "Partenaires" }}</div>
       <div class="clients-grid">
         {{- range $clients -}}
           {{- $initials := substr (.name | default "?") 0 1 | upper -}}
-          {{- $clientName := .name | default "Client" -}}
+          {{- $clientName := .name | default (i18n "clients" | default "Client") -}}
           {{- $hasLogo := .logo | default false -}}
           
           <div class="client-card" 
@@ -79,13 +79,13 @@
   <div class="clients-modal-enhanced">
     <div class="clients-stats-bar">
       <div class="clients-count">
-        <strong>0</strong> clients
+        <strong>0</strong> {{ i18n "clients" | default "clients" }}
       </div>
     </div>
     <div class="clients-group">
-      <div class="clients-group-title">Aucun client</div>
+      <div class="clients-group-title">{{ i18n "no_client" | default "Aucun client" }}</div>
       <div class="clients-grid">
-        <p>Aucun client n'a été trouvé pour ce projet.</p>
+        <p>{{ i18n "no_client_found" | default "Aucun client n'a été trouvé pour ce projet." }}</p>
       </div>
     </div>
   </div>

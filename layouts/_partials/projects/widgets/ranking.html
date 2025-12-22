@@ -15,8 +15,8 @@
       </svg>
     </div>
     <div class="project-widget-header-content">
-      <h3 class="project-widget-title">{{ .Params.ranking.event_type | default "Classement" }}</h3>
-      <div class="project-widget-summary">{{ .Params.ranking.event | default (.Params.ranking.event_type | default "Événement") }}</div>
+      <h3 class="project-widget-title">{{ .Params.ranking.event_type | default (i18n "ranking" | default "Classement") }}</h3>
+      <div class="project-widget-summary">{{ .Params.ranking.event | default (.Params.ranking.event_type | default (i18n "event" | default "Événement")) }}</div>
       <!-- Aperçu du classement -->
       <div class="project-widget-ranking-preview">
         <div class="project-widget-ranking-preview-position">{{ .Params.ranking.position }}</div>
@@ -33,7 +33,7 @@
   </div>
   <div class="project-widget-content">
     {{/* Contenu modal enhanced - uniquement ce qui doit apparaître dans le modal */}}
-    {{ partial "projects/widgets/modal/ranking.html" (dict "Project" . "Title" "Classement") }}
+    {{ partial "projects/widgets/modal/ranking.html" (dict "Project" . "Title" (i18n "ranking" | default "Classement")) }}
   </div>
 </div>
 {{- end -}}

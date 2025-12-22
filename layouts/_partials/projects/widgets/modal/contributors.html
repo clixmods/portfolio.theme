@@ -34,7 +34,7 @@
       {{- $contributorRoles = slice $contributor.role -}}
     {{- else -}}
       {{/* Par défaut si aucun rôle n'est défini */}}
-      {{- $contributorRoles = slice "Contributeur" -}}
+      {{- $contributorRoles = slice (i18n "contributor" | default "Contributeur") -}}
     {{- end -}}
     
     {{/* Trouver le rôle avec le poids le plus élevé */}}
@@ -62,7 +62,7 @@
   <div class="contributors-modal-enhanced">
     <div class="contributors-stats-bar">
       <div class="contributors-count">
-        <strong>{{ $total }}</strong> contributeur{{ if gt $total 1 }}s{{ end }}
+        <strong>{{ $total }}</strong> {{ if eq $total 1 }}{{ i18n "contributor" | default "contributeur" }}{{ else }}{{ i18n "contributors_plural" | default "contributeurs" }}{{ end }}
       </div>
       <div class="contributors-roles">
         {{- range $role := $distinctRoles -}}
@@ -91,9 +91,9 @@
         {{- end -}}
       </div>
       <div class="profile-note-content">
-        <div class="profile-note-title">Rôle{{ if gt (len ($ownerContributor.roles | default (slice))) 1 }}s{{ end }} de {{ $ownerContributor.name }} dans ce projet</div>
+        <div class="profile-note-title">{{ i18n "role_of_in_project" | default "Role of {0} in this project" | replaceRE "\\{0\\}" $ownerContributor.name }}</div>
         <div class="profile-note-subtitle">
-          {{- $ownerRoles := $ownerContributor.roles | default (slice ($ownerContributor.role | default "Contributeur")) -}}
+          {{- $ownerRoles := $ownerContributor.roles | default (slice ($ownerContributor.role | default (i18n "contributor" | default "Contributeur"))) -}}
           {{- delimit $ownerRoles ", " -}}
         </div>
       </div>
@@ -119,7 +119,7 @@
           {{- range $roleContributors -}}
             {{- $initials := substr (.name | default "?") 0 1 | upper -}}
             {{- $personId := .id | default "" -}}
-            {{- $personName := .name | default "Contributeur" -}}
+            {{- $personName := .name | default (i18n "contributor" | default "Contributeur") -}}
             {{- $personRoles := .roles | default (slice (.role | default "")) -}}
             {{- $personRole := delimit $personRoles ", " -}}
             {{- $hasAvatar := .hasAvatar | default false -}}
@@ -160,13 +160,13 @@
   <div class="contributors-modal-enhanced">
     <div class="contributors-stats-bar">
       <div class="contributors-count">
-        <strong>0</strong> contributeurs
+        <strong>0</strong> {{ i18n "contributors_plural" | default "contributeurs" }}
       </div>
     </div>
     <div class="contributors-group">
-      <div class="contributors-group-title">Aucun contributeur</div>
+      <div class="contributors-group-title">{{ i18n "no_contributors" | default "Aucun contributeur" }}</div>
       <div class="contributors-grid">
-        <p>Aucun contributeur n'a été trouvé pour ce projet.</p>
+        <p>{{ i18n "no_contributors_found" | default "Aucun contributeur n'a été trouvé pour ce projet." }}</p>
       </div>
     </div>
   </div>

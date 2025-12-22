@@ -1,3 +1,10 @@
+{{- /* Load localized data files */ -}}
+{{- $programmingLanguages := partial "get-localized-data.html" (dict "context" . "dataName" "programming_languages") -}}
+{{- $frameworksEngines := partial "get-localized-data.html" (dict "context" . "dataName" "frameworks_engines") -}}
+{{- $tools := partial "get-localized-data.html" (dict "context" . "dataName" "tools") -}}
+{{- $specialties := partial "get-localized-data.html" (dict "context" . "dataName" "specialties") -}}
+{{- $softSkills := partial "get-localized-data.html" (dict "context" . "dataName" "soft_skills") -}}
+
 <section class="skills-section">
     <!-- Skills Header -->
     <header class="skills-header section-header-unified">
@@ -20,7 +27,7 @@
         <div class="skills-category" data-category="programming-languages">
             <h4>{{ i18n "programming_languages" | default "Langages de programmation" }}</h4>
             <div class="skills-grid">
-                {{ range .Site.Data.programming_languages }}
+                {{ range $programmingLanguages }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "programming-language" "skillCategory" "programming-languages" "context" $ "useRelURL" true) }}
                 {{ end }}
             </div>
@@ -30,8 +37,8 @@
         <div class="skills-category" data-category="frameworks">
             <h4>{{ i18n "frameworks" | default "Frameworks" }}</h4>
             <div class="skills-grid">
-                {{ range .Site.Data.frameworks_engines }}
-                    {{ if not (or (in .name "Unity") (in .name "Unreal") (in .name "engine") (in .name "Engine")) }}
+                {{ range $frameworksEngines }}
+                    {{ if not (or (eq .key "fw_unity") (eq .key "fw_unreal_engine") (eq .key "fw_black_ops_iii_engine")) }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "framework" "skillCategory" "frameworks" "context" $ "useRelURL" true) }}
                     {{ end }}
                 {{ end }}
@@ -42,8 +49,8 @@
         <div class="skills-category" data-category="engines">
             <h4>{{ i18n "game_engines" | default "Moteurs de jeu" }}</h4>
             <div class="skills-grid">
-                {{ range .Site.Data.frameworks_engines }}
-                    {{ if or (in .name "Unity") (in .name "Unreal") (in .name "engine") (in .name "Engine") }}
+                {{ range $frameworksEngines }}
+                    {{ if or (eq .key "fw_unity") (eq .key "fw_unreal_engine") (eq .key "fw_black_ops_iii_engine") }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "engine" "skillCategory" "engines" "context" $ "useRelURL" true) }}
                     {{ end }}
                 {{ end }}
@@ -54,7 +61,7 @@
         <div class="skills-category" data-category="environments">
             <h4>{{ i18n "environments" | default "Environnements de développement" }}</h4>
             <div class="skills-grid">
-                {{ range sort .Site.Data.tools "experience" "desc" }}
+                {{ range sort $tools "experience" "desc" }}
                     {{ if eq .category "ide" }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "environment" "skillCategory" "environments" "context" $ "useRelURL" true) }}
                     {{ end }}
@@ -66,7 +73,7 @@
         <div class="skills-category" data-category="tools">
             <h4>{{ i18n "tools" | default "Outils" }}</h4>
             <div class="skills-grid">
-                {{ range sort .Site.Data.tools "experience" "desc" }}
+                {{ range sort $tools "experience" "desc" }}
                     {{ if ne .category "ide" }}
                     {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "tool" "skillCategory" "tools" "context" $ "useRelURL" true) }}
                     {{ end }}
@@ -78,7 +85,7 @@
         <div class="skills-category" data-category="specialties">
             <h4>{{ i18n "specialties" | default "Spécialités" }}</h4>
             <div class="skills-grid">
-                {{ range .Site.Data.specialties }}
+                {{ range $specialties }}
                 {{ partial "helpers/skill-block.html" (dict "skill" . "skillType" "specialty" "skillCategory" "specialties" "context" $ "useRelURL" true "showExperience" false) }}
                 {{ end }}
             </div>
@@ -88,22 +95,24 @@
         <div class="skills-category" data-category="soft-skills">
             <h4>{{ i18n "soft_skills" | default "Soft Skills" }}</h4>
             <div class="skills-grid">
-                {{ range .Site.Data.soft_skills }}
+                {{ range $softSkills }}
+                {{- $skillName := i18n .key -}}
+                {{- $skillSubtitle := i18n (printf "%s_subtitle" .key) -}}
                 <div class="skill-block clickable" 
-                     onclick="openSkillModal('{{ .name }}', '{{ if .iconPath }}{{ .iconPath | relURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}')"
-                     data-skill-name="{{ .name }}"
+                     onclick="openSkillModal('{{ $skillName }}', '{{ if .iconPath }}{{ .iconPath | absURL }}{{ else }}{{ .icon }}{{ end }}', '', '{{ .experience }}', '{{ if .iconPath }}svg{{ else }}emoji{{ end }}', '{{ .key }}')"
+                     data-skill-name="{{ $skillName }}"
                      data-skill-type="soft-skill"
                      data-skill-category="soft-skills">
                     <span class="skill-icon">
                         {{ if .iconPath }}
-                          <img src="{{ .iconPath | relURL }}" alt="{{ .name }}" class="tech-icon-svg" width="28" height="28">
+                          <img src="{{ .iconPath | absURL }}" alt="{{ $skillName }}" class="tech-icon-svg" width="28" height="28">
                         {{ else }}
                           <span class="tech-icon-emoji">{{ .icon }}</span>
                         {{ end }}
                     </span>
-                    <span class="skill-name">{{ .name }}</span>
-                    {{ if .subtitle }}
-                    <span class="skill-level">{{ .subtitle }}</span>
+                    <span class="skill-name">{{ $skillName }}</span>
+                    {{ if $skillSubtitle }}
+                    <span class="skill-level">{{ $skillSubtitle }}</span>
                     {{ end }}
                 </div>
                 {{ end }}

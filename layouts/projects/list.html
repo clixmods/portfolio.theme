@@ -196,13 +196,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Description texts for each category
+        // Localized descriptions - injected from Hugo i18n
         const descriptions = {
-            all: "Découvrez mes projets organisés par secteur d'expertise : jeux vidéo, applications web et outils de développement.",
-            games: "Projets de développement de jeux vidéo, du prototypage à la production commerciale.",
-            appsweb: "Applications web modernes et solutions full-stack utilisant les dernières technologies.",
-            mods: "Mods créatifs pour enrichir et étendre les jeux existants avec de nouvelles fonctionnalités.",
-            tools: "Outils de développement et utilitaires pour améliorer les workflows créatifs."
+            all: "{{ i18n "projects_description" | default "Découvrez mes projets organisés par secteur d'expertise : jeux vidéo, applications web et outils de développement." }}",
+            games: "{{ i18n "projects_description_games" | default "Projets de développement de jeux vidéo, du prototypage à la production commerciale." }}",
+            appsweb: "{{ i18n "projects_description_appsweb" | default "Applications web modernes et solutions full-stack utilisant les dernières technologies." }}",
+            mods: "{{ i18n "projects_description_mods" | default "Mods créatifs pour enrichir et étendre les jeux existants avec de nouvelles fonctionnalités." }}",
+            tools: "{{ i18n "projects_description_tools" | default "Outils de développement et utilitaires pour améliorer les workflows créatifs." }}"
         };
         
         // Update description text
@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Add active to clicked subtab
                 subtab.classList.add('active');
                 
-                // Filter projects with subcategory
+                // Filter projects with subcategory (this will also update the description)
                 filterProjects(parentCategory, subcategory);
             });
         });
