@@ -1,7 +1,7 @@
 ﻿{{ define "main" }}
 {{ $unifiedModalCSS := resources.Get "scss/unified-modal.scss" | css.Sass | resources.Minify }}
 {{ $demoCSS := resources.Get "scss/demo.scss" | css.Sass | resources.Minify }}
-{{ $demoJS := resources.Get "js/demo.js" | resources.Minify }}
+{{ $demoJS := resources.Get "js/pages/demo.js" | resources.Minify }}
 <link rel="stylesheet" href="{{ $unifiedModalCSS.RelPermalink }}">
 <link rel="stylesheet" href="{{ $demoCSS.RelPermalink }}">
 <script src="{{ $demoJS.RelPermalink }}" defer></script>

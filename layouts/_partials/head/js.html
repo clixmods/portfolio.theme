@@ -1,5 +1,5 @@
 {{/* Tab Controller Script - MUST be loaded before main.js */}}
-{{- with resources.Get "js/tab-controller.js" }}
+{{- with resources.Get "js/components/tab-controller.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -38,7 +38,7 @@
 {{- end }}
 
 {{/* Trophies System Script */}}
-{{- with resources.Get "js/trophies.js" }}
+{{- with resources.Get "js/components/trophies.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -49,7 +49,7 @@
 {{- end }}
 
 {{/* Dock Script */}}
-{{- with resources.Get "js/dock-clean.js" }}
+{{- with resources.Get "js/navigation/dock-clean.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -61,7 +61,7 @@
 
 
 {{/* Skill Modal Script */}}
-{{- with resources.Get "js/skill-modal.js" }}
+{{- with resources.Get "js/modals/skill/skill-modal.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -72,7 +72,7 @@
 {{- end }}
 
 {{/* Unified Tabs Dropdown System Script */}}
-{{- with resources.Get "js/tabs-dropdown.js" }}
+{{- with resources.Get "js/components/tabs-dropdown.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -93,8 +93,8 @@
   {{- end }}
 {{- end }}
 
-{{/* Right Dock Script */}}
-{{- with resources.Get "js/notifications-manager.js" }}
+{{/* Notifications Manager Script */}}
+{{- with resources.Get "js/notifications/notifications-manager.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -105,7 +105,7 @@
 {{- end }}
 
 {{/* Right Dock Script */}}
-{{- with resources.Get "js/right-dock.js" }}
+{{- with resources.Get "js/navigation/right-dock.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -116,7 +116,7 @@
 {{- end }}
 
 {{/* Personal Notifications Script - MUST load after notifications-manager.js */}}
-{{- with resources.Get "js/personal-notifications-v2.js" }}
+{{- with resources.Get "js/notifications/personal-notifications-v2.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -127,7 +127,7 @@
 {{- end }}
 
 {{/* Carousel Controller Script */}}
-{{- with resources.Get "js/carousel-controller.js" }}
+{{- with resources.Get "js/components/carousel-controller.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}
@@ -138,7 +138,7 @@
 {{- end }}
 
 {{/* Gallery Slideshow Script */}}
-{{- with resources.Get "js/gallery-slideshow.js" }}
+{{- with resources.Get "js/components/gallery-slideshow.js" }}
   {{- if hugo.IsDevelopment }}
     <script src="{{ .RelPermalink }}"></script>
   {{- else }}

@@ -46,25 +46,25 @@
   {{ partial "dock.html" . }}
   
   <!-- Scripts pour le menu mobile -->
-  {{ $mobileMenuJs := resources.Get "js/mobile-menu.js" }}
+  {{ $mobileMenuJs := resources.Get "js/navigation/mobile-menu.js" }}
   {{ if $mobileMenuJs }}
     <script>{{ $mobileMenuJs.Content | safeJS }}</script>
   {{ end }}
   
   <!-- Scripts pour la modal des compétences -->
-  {{ $skillModalJs := resources.Get "js/skill-modal.js" }}
+  {{ $skillModalJs := resources.Get "js/modals/skill/skill-modal.js" }}
   {{ if $skillModalJs }}
     <script>{{ $skillModalJs.Content | safeJS }}</script>
   {{ end }}
   
   <!-- Scripts pour la modal des personnes -->
-  {{ $personModalLogic := resources.Get "js/person-modal-logic.js" }}
+  {{ $personModalLogic := resources.Get "js/modals/person/person-modal-logic.js" }}
   {{ if $personModalLogic }}
     <script>{{ $personModalLogic.Content | safeJS }}</script>
   {{ end }}
 
   <!-- Unified Modal System (replaces legacy Discord modal and others) -->
-  {{ $unifiedModalJs := resources.Get "js/unified-modal-system.js" }}
+  {{ $unifiedModalJs := resources.Get "js/modals/unified-modal-system.js" }}
   {{ if $unifiedModalJs }}
     <script>{{ $unifiedModalJs.Content | safeJS }}</script>
   {{ end }}
@@ -76,7 +76,7 @@
   {{ end }}
 
   <!-- Widgets Formatter (pour ranking, downloads, etc.) -->
-  {{ $widgetsFormatterJs := resources.Get "js/widgets-formatter.js" }}
+  {{ $widgetsFormatterJs := resources.Get "js/utils/widgets-formatter.js" }}
   {{ if $widgetsFormatterJs }}
     <script>{{ $widgetsFormatterJs.Content | safeJS }}</script>
   {{ end }}

@@ -16,5 +16,5 @@
 <link rel="stylesheet" href="{{ $projectCardCSS.RelPermalink }}">
 
 {{/* Include the utility JavaScript */}}
-{{ $personModalJS := resources.Get "js/person-modal-utils.js" | resources.Minify }}
+{{ $personModalJS := resources.Get "js/modals/person/person-modal-utils.js" | resources.Minify }}
 <script src="{{ $personModalJS.RelPermalink }}"></script>
