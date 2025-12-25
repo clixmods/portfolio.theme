@@ -177,6 +177,7 @@
 
 /* Old PS5 project tile animations removed - now handled by project-card-unified.scss */
 
+/*
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -186,4 +187,5 @@
         opacity: 1;
         transform: translateY(0);
     }
-} */
+}
+*/

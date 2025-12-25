@@ -5,6 +5,11 @@
   
   Params:
   - . (string): Glob pattern to match CSS files
+  
+  Production mode:
+  - Runs PostCSS (including PurgeCSS) to remove unused CSS
+  - Minifies and fingerprints for cache busting
+  - Adds integrity attribute for security
 */}}
 {{- $resources := resources.Match . }}
 {{- if not $resources }}
@@ -14,7 +19,7 @@
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ .RelPermalink }}">
   {{- else }}
-    {{- with . | minify | fingerprint }}
+    {{- with . | css.PostCSS | minify | fingerprint | resources.PostProcess }}
       <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
     {{- end }}
   {{- end }}

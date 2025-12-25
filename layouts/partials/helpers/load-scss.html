@@ -1,18 +1,24 @@
 {{/*
-  Helper to load SCSS file with compilation, minify and fingerprint handling
+  Helper to load SCSS file with compilation, PostCSS, minify and fingerprint handling
   
   Usage: {{ partial "helpers/load-scss.html" "scss/dock.scss" }}
   
   Params:
   - . (string): Path to SCSS file in assets/
+  
+  Production mode:
+  - Compiles SCSS to CSS
+  - Runs PostCSS (including PurgeCSS) to remove unused CSS
+  - Minifies and fingerprints for cache busting
+  - Adds integrity attribute for security
 */}}
 {{- $resource := resources.Get . }}
 {{- if $resource }}
-  {{- with $resource | toCSS | minify }}
+  {{- with $resource | toCSS }}
     {{- if hugo.IsDevelopment }}
       <link rel="stylesheet" href="{{ .RelPermalink }}">
     {{- else }}
-      {{- with . | fingerprint }}
+      {{- with . | css.PostCSS | minify | fingerprint | resources.PostProcess }}
         <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
       {{- end }}
     {{- end }}

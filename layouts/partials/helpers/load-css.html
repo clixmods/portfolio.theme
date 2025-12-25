@@ -1,17 +1,22 @@
 {{/*
-  Helper to load CSS file with automatic dev/prod, minify and fingerprint handling
+  Helper to load CSS file with automatic dev/prod, PostCSS, minify and fingerprint handling
   
   Usage: {{ partial "helpers/load-css.html" "css/main.css" }}
   
   Params:
   - . (string): Path to CSS file in assets/
+  
+  Production mode:
+  - Runs PostCSS (including PurgeCSS) to remove unused CSS
+  - Minifies and fingerprints for cache busting
+  - Adds integrity attribute for security
 */}}
 {{- $resource := resources.Get . }}
 {{- if $resource }}
   {{- if hugo.IsDevelopment }}
     <link rel="stylesheet" href="{{ $resource.RelPermalink }}">
   {{- else }}
-    {{- with $resource | minify | fingerprint }}
+    {{- with $resource | css.PostCSS | minify | fingerprint | resources.PostProcess }}
       <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
     {{- end }}
   {{- end }}
