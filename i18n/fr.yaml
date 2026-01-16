@@ -468,6 +468,7 @@ tool_sublime_text: "Sublime Text"
 tool_trello: "Trello"
 tool_visual_studio: "Visual Studio"
 tool_visual_studio_code: "Visual Studio Code"
+tool_google_play_console: "Google Play Console"
 # Tool category names
 tool_category_version_control: "Contrôle de version"
 tool_category_development: "Développement"
@@ -482,6 +483,7 @@ tool_category_devops: "DevOps"
 tool_category_ai_tools: "Outils IA"
 tool_category_level_editor: "Éditeur de niveaux"
 tool_category_quality_tools: "Outils qualité"
+tool_category_deployment: "Déploiement"
 tool_category_other: "Autres"
 
 # Year labels
@@ -503,6 +505,7 @@ tool_hacknplan_desc: "Gestion de projets spécialisée pour le développement de
 tool_notion_desc: "Espace de travail collaboratif et documentation"
 tool_photoshop_desc: "Retouche d'images et création graphique"
 tool_sonyvegas_desc: "Montage vidéo professionnel"
+tool_google_play_console_desc: "Gestion des builds, tests et releases pour Android"
 tool_davinci_resolve_desc: "Montage vidéo et étalonnage de couleurs"
 tool_docker_desc: "Environnements isolés et reproductibles via conteneurs"
 tool_visual_studio_code_desc: "Éditeur de code léger et polyvalent"

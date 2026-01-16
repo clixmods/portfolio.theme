@@ -520,6 +520,7 @@ tool_category_devops: "DevOps"
 tool_category_ai_tools: "AI Tools"
 tool_category_level_editor: "Level Editor"
 tool_category_quality_tools: "Quality Tools"
+tool_category_deployment: "Deployment"
 tool_category_other: "Other"
 
 # Tool names
@@ -545,6 +546,7 @@ tool_chatgpt: "ChatGPT"
 tool_copilot: "GitHub Copilot"
 tool_radiant: "Radiant"
 tool_autodesk_maya: "Autodesk Maya"
+tool_google_play_console: "Google Play Console"
 
 # Tool descriptions
 tool_gitlab_desc: "Version control, CI/CD, team collaboration"
@@ -563,6 +565,7 @@ tool_photoshop_desc: "Image editing and graphic creation"
 tool_sonyvegas_desc: "Professional video editing"
 tool_davinci_resolve_desc: "Video editing and color grading"
 tool_docker_desc: "Isolated and reproducible environments via containers"
+tool_google_play_console_desc: "Build management, testing and releases for Android"
 tool_visual_studio_code_desc: "Lightweight and versatile code editor"
 tool_sublime_text_desc: "Advanced text editor for development"
 tool_chatgpt_desc: "AI assistant for development and research"
