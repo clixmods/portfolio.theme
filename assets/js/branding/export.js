@@ -2,13 +2,15 @@
 // BRANDING - EXPORT MODULE
 // ============================================================================
 // PNG export and clipboard functionality
-// Uses html2canvas for high-quality rendering at actual dimensions
+// Uses html-to-image for high-quality rendering with better SVG support
+// Fallback to manual Canvas API if needed
 
 window.BrandingEditor = window.BrandingEditor || {};
 
 window.BrandingEditor.export = {
     isExporting: false,
     imageCache: new Map(), // Cache for converted images
+    libraryLoaded: false,
     
     init: function() {
         const exportPngBtn = document.getElementById('export-png');
@@ -21,6 +23,9 @@ window.BrandingEditor.export = {
         if (copyClipboardBtn) {
             copyClipboardBtn.addEventListener('click', this.copyToClipboard.bind(this));
         }
+        
+        // Preload library
+        this.loadHtmlToImage().catch(() => {});
     },
     
     /**
@@ -35,13 +40,17 @@ window.BrandingEditor.export = {
         const originalStyles = {
             transform: elements.previewCanvas.style.transform,
             margin: elements.previewCanvas.style.margin,
-            transformOrigin: elements.previewCanvas.style.transformOrigin
+            transformOrigin: elements.previewCanvas.style.transformOrigin,
+            position: elements.previewCanvas.style.position,
+            top: elements.previewCanvas.style.top,
+            left: elements.previewCanvas.style.left
         };
         
         // Reset to actual size for capture
         elements.previewCanvas.style.transform = 'none';
         elements.previewCanvas.style.margin = '0';
         elements.previewCanvas.style.transformOrigin = 'top left';
+        elements.previewCanvas.style.position = 'relative';
         
         return originalStyles;
     },
@@ -56,6 +65,9 @@ window.BrandingEditor.export = {
         elements.previewCanvas.style.transform = originalStyles.transform;
         elements.previewCanvas.style.margin = originalStyles.margin;
         elements.previewCanvas.style.transformOrigin = originalStyles.transformOrigin;
+        elements.previewCanvas.style.position = originalStyles.position;
+        elements.previewCanvas.style.top = originalStyles.top;
+        elements.previewCanvas.style.left = originalStyles.left;
     },
     
     /**
@@ -78,18 +90,17 @@ window.BrandingEditor.export = {
                     this.imageCache.set(url, base64);
                     resolve(base64);
                 };
-                reader.onerror = () => resolve(url); // Fallback to original URL
+                reader.onerror = () => resolve(url);
                 reader.readAsDataURL(blob);
             });
         } catch (e) {
             console.warn('Could not convert image to base64:', url, e);
-            return url; // Fallback to original URL
+            return url;
         }
     },
     
     /**
      * Pre-convert all images in the preview to base64
-     * This ensures html2canvas can render them correctly
      */
     preloadImages: async function() {
         const elements = window.BrandingEditor.elements;
@@ -108,15 +119,13 @@ window.BrandingEditor.export = {
             }
         }
         
-        // Convert all images
         const results = await Promise.all(conversions.map(c => c.promise));
         
-        // Apply base64 sources
         conversions.forEach((conv, i) => {
             conv.element.src = results[i];
         });
         
-        return conversions; // Return for restoration
+        return conversions;
     },
     
     /**
@@ -130,204 +139,188 @@ window.BrandingEditor.export = {
     
     /**
      * Generate a canvas-based grain texture for export
-     * (html2canvas doesn't support SVG feTurbulence filters)
-     * Creates a subtle film grain effect matching the original SVG filter
      */
     generateGrainCanvas: function(width, height) {
         const canvas = document.createElement('canvas');
-        // Use actual dimensions to avoid tiling artifacts
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         
-        // Create fine noise pattern similar to feTurbulence fractalNoise
         const imageData = ctx.createImageData(width, height);
         const data = imageData.data;
         
-        // Multi-octave noise for more natural grain
         for (let y = 0; y < height; y++) {
             for (let x = 0; x < width; x++) {
                 const i = (y * width + x) * 4;
-                // Create varied noise with multiple frequencies
                 const noise1 = Math.random();
                 const noise2 = Math.random() * 0.5;
                 const combined = (noise1 + noise2) / 1.5;
                 const value = Math.floor(combined * 255);
                 
-                data[i] = value;     // R
-                data[i + 1] = value; // G
-                data[i + 2] = value; // B
-                data[i + 3] = 255;   // Full alpha
+                data[i] = value;
+                data[i + 1] = value;
+                data[i + 2] = value;
+                data[i + 3] = 255;
             }
         }
         
         ctx.putImageData(imageData, 0, 0);
-        return canvas.toDataURL('image/png');
+        return canvas;
     },
     
     /**
-     * Convert SVG to base64 data URL for reliable rendering
+     * Load html-to-image library dynamically
      */
-    svgToDataUrl: async function(svgElement) {
-        return new Promise((resolve) => {
-            try {
-                const svgData = new XMLSerializer().serializeToString(svgElement);
-                const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-                const url = URL.createObjectURL(svgBlob);
-                
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = img.width || 32;
-                    canvas.height = img.height || 32;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0);
-                    URL.revokeObjectURL(url);
-                    resolve(canvas.toDataURL('image/png'));
-                };
-                img.onerror = function() {
-                    URL.revokeObjectURL(url);
-                    resolve(null);
-                };
-                img.src = url;
-            } catch (e) {
-                resolve(null);
+    async loadHtmlToImage() {
+        if (this.libraryLoaded && window.htmlToImage) {
+            return;
+        }
+        
+        return new Promise((resolve, reject) => {
+            if (window.htmlToImage) {
+                this.libraryLoaded = true;
+                resolve();
+                return;
             }
+            
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js';
+            script.onload = () => {
+                this.libraryLoaded = true;
+                resolve();
+            };
+            script.onerror = () => reject(new Error('Failed to load html-to-image'));
+            document.head.appendChild(script);
         });
     },
     
     /**
-     * Generate the canvas using html2canvas
+     * Capture particles canvas content as image
+     */
+    captureParticlesCanvas: function() {
+        const particlesCanvas = document.getElementById('branding-particles-canvas');
+        if (!particlesCanvas || particlesCanvas.width === 0) {
+            return null;
+        }
+        
+        try {
+            return particlesCanvas.toDataURL('image/png');
+        } catch (e) {
+            console.warn('Could not capture particles canvas:', e);
+            return null;
+        }
+    },
+    
+    /**
+     * Generate the final image using html-to-image with manual composition
      */
     generateCanvas: async function() {
         const state = window.BrandingEditor.state;
         const elements = window.BrandingEditor.elements;
-        const self = this;
         
-        if (typeof html2canvas === 'undefined') {
-            throw new Error('html2canvas not loaded');
+        await this.loadHtmlToImage();
+        
+        if (!window.htmlToImage) {
+            throw new Error('html-to-image not loaded');
         }
         
-        // Pre-convert all images to base64 (fixes CORS issues with SVGs)
+        // Pre-convert all images to base64
         const imageConversions = await this.preloadImages();
+        
+        // Capture particles before modifying DOM
+        const particlesDataUrl = this.captureParticlesCanvas();
         
         // Prepare for export (remove scale transform)
         const originalStyles = this.prepareForExport();
         
-        // Pre-generate grain texture (will use DOM opacity)
-        const grainDataUrl = this.generateGrainCanvas(state.width, state.height);
+        // Hide grain overlay temporarily (will composite manually)
+        const grainOverlay = document.getElementById('template-grain');
+        const grainWasVisible = grainOverlay && !grainOverlay.classList.contains('hidden');
+        const grainOpacity = grainOverlay ? window.getComputedStyle(grainOverlay).opacity : '0.15';
+        if (grainOverlay) {
+            grainOverlay.style.visibility = 'hidden';
+        }
         
         // Wait for DOM reflow
         await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         
         try {
-            const canvas = await html2canvas(elements.previewCanvas, {
+            // Use html-to-image with high quality settings
+            const dataUrl = await window.htmlToImage.toPng(elements.previewCanvas, {
                 width: state.width,
                 height: state.height,
-                scale: 2, // 2x resolution for crisp output
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: null, // Preserve transparency if any
-                logging: false,
-                x: 0,
-                y: 0,
-                scrollX: 0,
-                scrollY: 0,
-                windowWidth: state.width,
-                windowHeight: state.height,
-                // Handle cloned document modifications
-                onclone: function(clonedDoc) {
-                    const clonedCanvas = clonedDoc.getElementById('preview-canvas');
-                    if (clonedCanvas) {
-                        // Ensure cloned element has correct dimensions and positioning
-                        clonedCanvas.style.width = state.width + 'px';
-                        clonedCanvas.style.height = state.height + 'px';
-                        clonedCanvas.style.transform = 'none';
-                        clonedCanvas.style.margin = '0';
-                        clonedCanvas.style.position = 'absolute';
-                        clonedCanvas.style.top = '0';
-                        clonedCanvas.style.left = '0';
-                        clonedCanvas.style.overflow = 'hidden';
+                pixelRatio: 2,
+                backgroundColor: null,
+                cacheBust: true,
+                skipAutoScale: true,
+                style: {
+                    transform: 'none',
+                    margin: '0',
+                    width: state.width + 'px',
+                    height: state.height + 'px'
+                },
+                filter: (node) => {
+                    // Skip hidden elements
+                    if (node.classList && node.classList.contains('hidden')) {
+                        return false;
                     }
-                    
-                    // Copy grain settings from original DOM
-                    const originalGrain = document.getElementById('template-grain');
-                    const clonedGrain = clonedDoc.getElementById('template-grain');
-                    if (clonedGrain && originalGrain) {
-                        const isHidden = originalGrain.classList.contains('hidden') || 
-                                        window.getComputedStyle(originalGrain).display === 'none';
-                        if (!isHidden) {
-                            // Get computed opacity from original
-                            const computedOpacity = window.getComputedStyle(originalGrain).opacity;
-                            clonedGrain.style.backgroundImage = `url(${grainDataUrl})`;
-                            clonedGrain.style.backgroundSize = 'cover';
-                            clonedGrain.style.backgroundRepeat = 'no-repeat';
-                            clonedGrain.style.opacity = computedOpacity;
-                            clonedGrain.style.mixBlendMode = 'overlay';
-                        } else {
-                            clonedGrain.style.display = 'none';
-                        }
+                    // Skip grain (will composite manually)
+                    if (node.id === 'template-grain') {
+                        return false;
                     }
-                    
-                    // Copy tech stack icon sizes from original DOM
-                    const originalTechIcons = document.querySelectorAll('.template-tech-stack img');
-                    const clonedTechIcons = clonedDoc.querySelectorAll('.template-tech-stack img');
-                    clonedTechIcons.forEach(function(icon, index) {
-                        if (originalTechIcons[index]) {
-                            const computed = window.getComputedStyle(originalTechIcons[index]);
-                            icon.style.width = computed.width;
-                            icon.style.height = computed.height;
-                            icon.style.objectFit = 'contain';
-                        }
-                    });
-                    
-                    // Copy wave settings from original DOM (not recalculate)
-                    const originalWaves = document.getElementById('template-waves');
-                    const clonedWaves = clonedDoc.getElementById('template-waves');
-                    if (clonedWaves && originalWaves) {
-                        const isHidden = originalWaves.classList.contains('hidden');
-                        if (!isHidden) {
-                            clonedWaves.classList.remove('hidden');
-                            // Copy computed styles from original
-                            const computedWaves = window.getComputedStyle(originalWaves);
-                            clonedWaves.style.opacity = computedWaves.opacity;
-                            clonedWaves.style.transform = computedWaves.transform;
-                            
-                            // Copy wave SVG heights
-                            const originalSvgs = originalWaves.querySelectorAll('.wave-svg');
-                            const clonedSvgs = clonedWaves.querySelectorAll('.wave-svg');
-                            clonedSvgs.forEach(function(svg, index) {
-                                if (originalSvgs[index]) {
-                                    svg.style.height = window.getComputedStyle(originalSvgs[index]).height;
-                                }
-                            });
-                        } else {
-                            clonedWaves.classList.add('hidden');
-                        }
-                    }
-                    
-                    // Copy canvas content from particles
-                    const originalParticles = document.getElementById('branding-particles-canvas');
-                    const clonedParticles = clonedDoc.getElementById('branding-particles-canvas');
-                    if (originalParticles && clonedParticles && originalParticles.width > 0) {
-                        try {
-                            const ctx = clonedParticles.getContext('2d');
-                            clonedParticles.width = originalParticles.width;
-                            clonedParticles.height = originalParticles.height;
-                            ctx.drawImage(originalParticles, 0, 0);
-                        } catch (e) {
-                            console.warn('Could not copy particles canvas:', e);
-                        }
-                    }
+                    return true;
                 }
             });
             
-            return canvas;
+            // Now composite with grain and particles manually
+            const finalCanvas = document.createElement('canvas');
+            finalCanvas.width = state.width * 2;
+            finalCanvas.height = state.height * 2;
+            const ctx = finalCanvas.getContext('2d');
+            
+            // Draw base image
+            const baseImage = await this.loadImage(dataUrl);
+            ctx.drawImage(baseImage, 0, 0);
+            
+            // Draw particles if visible
+            const particlesContainer = document.getElementById('template-particles');
+            const particlesVisible = particlesContainer && !particlesContainer.classList.contains('hidden');
+            if (particlesVisible && particlesDataUrl) {
+                const particlesImage = await this.loadImage(particlesDataUrl);
+                ctx.drawImage(particlesImage, 0, 0, finalCanvas.width, finalCanvas.height);
+            }
+            
+            // Composite grain overlay
+            if (grainWasVisible) {
+                const grainCanvas = this.generateGrainCanvas(finalCanvas.width, finalCanvas.height);
+                ctx.globalCompositeOperation = 'overlay';
+                ctx.globalAlpha = parseFloat(grainOpacity) || 0.15;
+                ctx.drawImage(grainCanvas, 0, 0);
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.globalAlpha = 1;
+            }
+            
+            return finalCanvas;
         } finally {
-            // Always restore original styles and images
+            // Restore everything
             this.restoreAfterExport(originalStyles);
             this.restoreImages(imageConversions);
+            if (grainOverlay) {
+                grainOverlay.style.visibility = '';
+            }
         }
+    },
+    
+    /**
+     * Helper to load image from data URL
+     */
+    loadImage: function(dataUrl) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = dataUrl;
+        });
     },
     
     /**
@@ -364,12 +357,6 @@ window.BrandingEditor.export = {
         }
         
         try {
-            if (typeof html2canvas === 'undefined') {
-                utils.showNotification('Chargement de la bibliotheque d\'export...', 'info');
-                // Try loading dynamically
-                await this.loadHtml2Canvas();
-            }
-
             utils.showNotification('Generation de l\'image...', 'info');
             
             const canvas = await this.generateCanvas();
@@ -414,11 +401,6 @@ window.BrandingEditor.export = {
         }
         
         try {
-            if (typeof html2canvas === 'undefined') {
-                utils.showNotification('Chargement de la bibliotheque...', 'info');
-                await this.loadHtml2Canvas();
-            }
-            
             // Check clipboard API support
             if (!navigator.clipboard || !navigator.clipboard.write) {
                 utils.showNotification('Votre navigateur ne supporte pas la copie d\'images', 'error');
@@ -458,23 +440,5 @@ window.BrandingEditor.export = {
                 copyBtn.classList.remove('loading');
             }
         }
-    },
-    
-    /**
-     * Dynamically load html2canvas if not available
-     */
-    async loadHtml2Canvas() {
-        return new Promise((resolve, reject) => {
-            if (typeof html2canvas !== 'undefined') {
-                resolve();
-                return;
-            }
-            
-            const script = document.createElement('script');
-            script.src = 'https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js';
-            script.onload = resolve;
-            script.onerror = () => reject(new Error('Failed to load html2canvas'));
-            document.head.appendChild(script);
-        });
     }
 };
