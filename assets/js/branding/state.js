@@ -71,7 +71,14 @@ const defaultState = {
         },
         'linkedin-header': {
             title: 'Unity & C# Game Developer',
-            highlights: ['Commercial Game Releases', 'Console Porting Expert', '870K+ Downloads']
+            highlights: ['Commercial Game Releases', 'Console Porting Expert', '870K+ Downloads'],
+            // Size properties
+            nameSize: 2,
+            titleSize: 1,
+            highlightSize: 0.85,
+            avatarSize: 100,
+            techIconSize: 44,
+            contentPadding: 2
         }
     },
     // Store current project data

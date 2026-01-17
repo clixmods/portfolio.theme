@@ -4,18 +4,21 @@ Interactive branding thumbnail editor with modular architecture.
 
 ## Module Structure
 
-| File | Lines | Description |
-|------|-------|-------------|
-| `state.js` | ~40 | Centralized state management |
-| `utils.js` | ~80 | Helper functions, DOM caching, notifications |
-| `sidebar.js` | ~50 | Sidebar toggle functionality |
-| `preview.js` | ~30 | Preview canvas updates |
-| `templates.js` | ~200 | Template switching and content rendering |
-| `editor.js` | ~180 | Text editor and project selector |
-| `technologies.js` | ~180 | Technology selection and reordering |
-| `controls.js` | ~200 | Resolution, zoom, and style controls |
-| `export.js` | ~120 | PNG export and clipboard copy |
-| `branding.js` | ~50 | Main entry point, initialization |
+| File | Description |
+|------|-------------|
+| `state.js` | Centralized state management with localStorage persistence |
+| `utils.js` | Helper functions, DOM caching, notifications |
+| `sidebar.js` | Sidebar toggle functionality |
+| `preview.js` | Preview canvas updates |
+| `templates.js` | Template switching and content rendering |
+| `editor.js` | Text editor and project selector |
+| `technologies.js` | Technology selection and reordering |
+| `controls.js` | Main controls entry point, gradient, accent, visibility |
+| `controls-effects.js` | Grain, Waves, Particles effect controls |
+| `controls-linkedin.js` | LinkedIn template-specific size controls |
+| `controls-resolution.js` | Resolution presets, custom size, zoom |
+| `export.js` | PNG export and clipboard copy |
+| `branding.js` | Main entry point, initialization |
 
 ## Architecture
 
@@ -23,16 +26,19 @@ Uses a namespaced module pattern with `window.BrandingEditor`:
 
 ```javascript
 window.BrandingEditor = {
-    state: { ... },      // Application state
-    elements: { ... },   // Cached DOM elements
-    utils: { ... },      // Helper functions
-    sidebar: { ... },    // Sidebar module
-    preview: { ... },    // Preview module
-    templates: { ... },  // Templates module
-    editor: { ... },     // Editor module
-    technologies: { ... }, // Technologies module
-    controls: { ... },   // Controls module
-    export: { ... }      // Export module
+    state: { ... },           // Application state
+    elements: { ... },        // Cached DOM elements
+    utils: { ... },           // Helper functions
+    sidebar: { ... },         // Sidebar module
+    preview: { ... },         // Preview module
+    templates: { ... },       // Templates module
+    editor: { ... },          // Editor module
+    technologies: { ... },    // Technologies module
+    controls: { ... },        // Main controls (orchestrator)
+    controlsEffects: { ... }, // Grain, Waves, Particles
+    controlsLinkedin: { ... },// LinkedIn-specific controls
+    controlsResolution: { ... }, // Resolution and zoom
+    export: { ... }           // Export module
 };
 ```
 
@@ -47,7 +53,10 @@ Scripts must be loaded in this order (handled by Hugo template):
 5. `templates.js` - Template management
 6. `editor.js` - Text and project editing
 7. `technologies.js` - Tech selection
-8. `controls.js` - UI controls
+8. `controls-effects.js` - Effect controls (before main controls)
+9. `controls-linkedin.js` - LinkedIn controls (before main controls)
+10. `controls-resolution.js` - Resolution controls (before main controls)
+11. `controls.js` - Main controls orchestrator
 9. `export.js` - Export functionality
 10. `branding.js` - Main initialization
 

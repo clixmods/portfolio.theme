@@ -4,6 +4,7 @@
 <div class="editor-section template-params hidden" id="params-linkedin-header">
     <h3>Parametres LinkedIn</h3>
     <div class="editor-fields">
+        {{/* Text content */}}
         <div class="field-group">
             <label for="linkedin-title-input">Titre professionnel</label>
             <input type="text" id="linkedin-title-input" value="Unity & C# Game Developer" placeholder="Votre titre">
@@ -13,6 +14,65 @@
             <textarea id="linkedin-highlights-input" rows="3" placeholder="Commercial Game Releases&#10;Console Porting Expert&#10;870K+ Downloads">Commercial Game Releases
 Console Porting Expert
 870K+ Downloads</textarea>
+        </div>
+
+        {{/* Size controls section */}}
+        <div class="field-group-separator">
+            <span>Tailles des elements</span>
+        </div>
+
+        {{/* Name size slider */}}
+        <div class="field-group">
+            <label for="linkedin-name-size">
+                Taille du nom
+                <span class="slider-value" id="linkedin-name-size-display">2rem</span>
+            </label>
+            <input type="range" id="linkedin-name-size" min="1" max="4" step="0.1" value="2">
+        </div>
+
+        {{/* Title size slider */}}
+        <div class="field-group">
+            <label for="linkedin-title-size">
+                Taille du titre
+                <span class="slider-value" id="linkedin-title-size-display">1rem</span>
+            </label>
+            <input type="range" id="linkedin-title-size" min="0.5" max="2" step="0.1" value="1">
+        </div>
+
+        {{/* Highlight size slider */}}
+        <div class="field-group">
+            <label for="linkedin-highlight-size">
+                Taille des highlights
+                <span class="slider-value" id="linkedin-highlight-size-display">0.85rem</span>
+            </label>
+            <input type="range" id="linkedin-highlight-size" min="0.5" max="1.5" step="0.05" value="0.85">
+        </div>
+
+        {{/* Avatar size slider */}}
+        <div class="field-group">
+            <label for="linkedin-avatar-size">
+                Taille de l'avatar
+                <span class="slider-value" id="linkedin-avatar-size-display">100px</span>
+            </label>
+            <input type="range" id="linkedin-avatar-size" min="50" max="200" step="5" value="100">
+        </div>
+
+        {{/* Tech icon size slider */}}
+        <div class="field-group">
+            <label for="linkedin-tech-size">
+                Taille des icones tech
+                <span class="slider-value" id="linkedin-tech-size-display">44px</span>
+            </label>
+            <input type="range" id="linkedin-tech-size" min="24" max="80" step="2" value="44">
+        </div>
+
+        {{/* Content padding slider */}}
+        <div class="field-group">
+            <label for="linkedin-padding">
+                Espacement du contenu
+                <span class="slider-value" id="linkedin-padding-display">2rem</span>
+            </label>
+            <input type="range" id="linkedin-padding" min="0.5" max="5" step="0.25" value="2">
         </div>
     </div>
 </div>
