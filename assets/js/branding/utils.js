@@ -35,7 +35,7 @@ window.BrandingEditor.utils = {
         elements.showSidebarBtn = document.getElementById('show-sidebar');
         elements.toggleSidebarBtn = document.getElementById('toggle-sidebar');
         
-        // Template elements
+        // Service Card template elements
         elements.templateBg = document.getElementById('template-bg');
         elements.templateTitle = document.getElementById('template-title');
         elements.templateSubtitle = document.getElementById('template-subtitle');
@@ -48,15 +48,6 @@ window.BrandingEditor.utils = {
         elements.authorTitle = document.getElementById('author-title');
         elements.codeBlockContent = document.getElementById('code-block-content');
         
-        // Editor inputs
-        elements.editBadge = document.getElementById('edit-badge');
-        elements.editTitle = document.getElementById('edit-title');
-        elements.editSubtitle = document.getElementById('edit-subtitle');
-        elements.editFeatures = document.getElementById('edit-features');
-        elements.editAuthorTitle = document.getElementById('edit-author-title');
-        elements.editCodeBlock = document.getElementById('edit-code-block');
-        elements.codeBlockField = document.getElementById('code-block-field');
-        
         // Style inputs
         elements.showGradient = document.getElementById('show-gradient');
         elements.gradientOptions = document.getElementById('gradient-options');
@@ -68,8 +59,6 @@ window.BrandingEditor.utils = {
         elements.accentColor = document.getElementById('accent-color');
         elements.showAuthor = document.getElementById('show-author');
         elements.showDecoration = document.getElementById('show-decoration');
-        elements.showLogoTitle = document.getElementById('show-logo-title');
-        elements.logoTitleOption = document.getElementById('logo-title-option');
         
         // Selected techs display
         elements.selectedTechsList = document.getElementById('selected-techs-list');

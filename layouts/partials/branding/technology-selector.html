@@ -1,0 +1,112 @@
+{{/* ============================================================ */}}
+{{/* TECHNOLOGY SELECTOR */}}
+{{/* ============================================================ */}}
+{{ $programmingLanguages := .programmingLanguages }}
+{{ $frameworksEngines := .frameworksEngines }}
+{{ $tools := .tools }}
+{{ $specialties := .specialties }}
+
+<div class="editor-section">
+    <h3>Technologies</h3>
+    <div class="tech-tabs">
+        <button class="tech-tab active" data-tab="languages">Langages</button>
+        <button class="tech-tab" data-tab="frameworks">Frameworks</button>
+        <button class="tech-tab" data-tab="tools">Outils</button>
+        <button class="tech-tab" data-tab="specialties">Specialites</button>
+    </div>
+    
+    {{/* Languages */}}
+    <div class="tech-list" id="tech-languages">
+        {{ range $programmingLanguages }}
+        {{ if .displayedInPortfolio }}
+        <button class="tech-item" 
+                data-key="{{ .key }}"
+                data-icon="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}"
+                data-color="{{ .color }}"
+                data-name="{{ T .key | default .key }}">
+            {{ if .iconPath }}
+            <img src="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}" alt="{{ .key }}">
+            {{ else }}
+            <span class="tech-emoji">{{ .icon }}</span>
+            {{ end }}
+            <span>{{ T .key | default .key }}</span>
+        </button>
+        {{ end }}
+        {{ end }}
+    </div>
+
+    {{/* Frameworks */}}
+    <div class="tech-list hidden" id="tech-frameworks">
+        {{ range $frameworksEngines }}
+        {{ if .displayedInPortfolio }}
+        <button class="tech-item" 
+                data-key="{{ .key }}"
+                data-icon="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}"
+                data-color="{{ .color }}"
+                data-name="{{ T .key | default .key }}">
+            {{ if .iconPath }}
+            <img src="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}" alt="{{ .key }}">
+            {{ else }}
+            <span class="tech-emoji">{{ .icon }}</span>
+            {{ end }}
+            <span>{{ T .key | default .key }}</span>
+        </button>
+        {{ end }}
+        {{ end }}
+    </div>
+
+    {{/* Tools */}}
+    <div class="tech-list hidden" id="tech-tools">
+        {{ range $tools }}
+        {{ if .displayedInPortfolio }}
+        <button class="tech-item" 
+                data-key="{{ .key }}"
+                data-icon="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}"
+                data-color="{{ .color }}"
+                data-name="{{ T .key | default .key }}">
+            {{ if .iconPath }}
+            <img src="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}" alt="{{ .key }}">
+            {{ else }}
+            <span class="tech-emoji">{{ .icon }}</span>
+            {{ end }}
+            <span>{{ T .key | default .key }}</span>
+        </button>
+        {{ end }}
+        {{ end }}
+    </div>
+
+    {{/* Specialties */}}
+    <div class="tech-list hidden" id="tech-specialties">
+        {{ range $specialties }}
+        {{ if .displayedInPortfolio }}
+        <button class="tech-item" 
+                data-key="{{ .key }}"
+                data-icon="{{ if .iconPath }}{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}{{ end }}"
+                data-color="{{ .color | default "#00d4ff" }}"
+                data-name="{{ T .key | default .key }}"
+                data-emoji="{{ .icon }}">
+            {{ if .iconPath }}
+            <img src="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}" alt="{{ .key }}">
+            {{ else }}
+            <span class="tech-emoji">{{ .icon }}</span>
+            {{ end }}
+            <span>{{ T .key | default .key }}</span>
+        </button>
+        {{ end }}
+        {{ end }}
+    </div>
+
+    {{/* Selected Technologies Display */}}
+    <div class="selected-techs" id="selected-techs">
+        <span class="selected-label">Selectionnees:</span>
+        <div class="selected-techs-list" id="selected-techs-list">
+            {{/* Populated by JS */}}
+        </div>
+        <button class="clear-techs-btn" id="clear-techs" title="Tout effacer">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+</div>

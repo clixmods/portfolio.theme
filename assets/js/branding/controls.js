@@ -76,14 +76,6 @@ window.BrandingEditor.controls = {
                 self.updateStyle();
             });
         }
-        
-        // Logo/title toggle for project template
-        if (elements.showLogoTitle) {
-            elements.showLogoTitle.addEventListener('change', function() {
-                state.style.showLogoTitle = this.checked;
-                templates.updateProjectTitleVisibility();
-            });
-        }
     },
     
     updateStyle: function() {

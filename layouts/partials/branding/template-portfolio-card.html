@@ -1,0 +1,22 @@
+{{/* ============================================== */}}
+{{/* TEMPLATE: Portfolio Card */}}
+{{/* ============================================== */}}
+{{ $profile := .profile }}
+
+<div class="branding-template hidden" id="template-portfolio-card">
+    <div class="template-bg" id="portfolio-bg"></div>
+    <div class="template-content centered">
+        <img src="{{ $profile.media.profileImage }}" alt="{{ $profile.personal.fullName }}" class="large-avatar">
+        <h2 class="template-title centered" id="portfolio-name">{{ $profile.personal.fullName }}</h2>
+        <p class="template-subtitle" id="portfolio-title">Unity & C# Game Developer</p>
+        <div class="template-tech-stack" id="portfolio-tech-stack">
+            <img src="/images/technologies/Unity.svg" alt="Unity" title="Unity">
+            <img src="/images/technologies/CSharp.svg" alt="C#" title="C#">
+        </div>
+        <div class="template-highlights" id="portfolio-highlights">
+            <span class="highlight-tag">Terra Memoria - Commercial Release</span>
+            <span class="highlight-tag">870K+ Downloads</span>
+            <span class="highlight-tag">Nintendo Switch Porting</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+{{/* ============================================== */}}
+{{/* TEMPLATE: Service Card (Fiverr Gig) */}}
+{{/* ============================================== */}}
+{{ $profile := .profile }}
+
+<div class="branding-template" id="template-service-card">
+    <div class="template-bg" id="template-bg"></div>
+    <div class="template-content">
+        <div class="template-badge" id="template-badge-container">
+            <img src="/images/technologies/Unity.svg" alt="Unity" class="tech-icon" id="badge-icon">
+            <span class="badge-text" id="badge-text">Unity Expert</span>
+        </div>
+        <h2 class="template-title" id="template-title">
+            <span class="highlight">Bug Fixes</span> & Debugging
+        </h2>
+        <p class="template-subtitle" id="template-subtitle">Professional Unity & C# Code Repair</p>
+        <div class="template-features" id="template-features">
+            <div class="feature">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Console Errors</span>
+            </div>
+            <div class="feature">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Performance Issues</span>
+            </div>
+            <div class="feature">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>All Platforms</span>
+            </div>
+        </div>
+        <div class="template-tech-stack" id="template-tech-stack">
+            {{/* Technologies will be added here by JS */}}
+        </div>
+        <div class="template-author" id="template-author">
+            <img src="{{ $profile.media.profileImage }}" alt="{{ $profile.personal.fullName }}" class="author-avatar">
+            <div class="author-info">
+                <span class="author-name">{{ $profile.personal.fullName }}</span>
+                <span class="author-title" id="author-title">Commercial Game Developer</span>
+            </div>
+        </div>
+    </div>
+    <div class="template-decoration" id="template-decoration">
+        <div class="code-snippet" id="code-snippet">
+            <pre><code id="code-block-content">void FixBug() {
+  Debug.Log("Fixed!");
+}</code></pre>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+{{/* ============================================== */}}
+{{/* TEMPLATE: Project Showcase */}}
+{{/* ============================================== */}}
+{{ $profile := .profile }}
+
+<div class="branding-template hidden" id="template-project-showcase">
+    <div class="template-bg" id="project-bg"></div>
+    <div class="project-image-overlay" id="project-image-overlay"></div>
+    <div class="template-content project-content">
+        <div class="project-logo-container" id="project-logo-container">
+            <img src="" alt="" class="project-logo" id="project-logo">
+        </div>
+        <h2 class="template-title project-title" id="project-title">Terra Memoria</h2>
+        <p class="template-subtitle project-subtitle" id="project-subtitle">JRPG developpe par Studio La Moutarde</p>
+        <div class="project-techs" id="project-techs">
+            {{/* Project technologies */}}
+        </div>
+        <div class="project-status" id="project-status">
+            <span class="status-badge">Termine</span>
+        </div>
+        <div class="template-author" id="project-author">
+            <img src="{{ $profile.media.profileImage }}" alt="{{ $profile.personal.fullName }}" class="author-avatar">
+            <div class="author-info">
+                <span class="author-name">{{ $profile.personal.fullName }}</span>
+                <span class="author-title">Unity & C# Developer</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+// ============================================================================
+// BRANDING TEMPLATES - Main Entry Point
+// ============================================================================
+// Imports all template-specific stylesheets
+//
+// Structure:
+// - _base.scss             : Foundation styles (container, backgrounds, content)
+// - _shared.scss           : Shared components (author, tech-stack, highlights)
+// - _service-card.scss     : Fiverr gig template
+// - _project-showcase.scss : Project thumbnail template
+// - _portfolio-card.scss   : Personal branding card template
+// - _skill-highlight.scss  : Skills showcase template
+// - _linkedin-header.scss  : LinkedIn banner template (1584x396)
+// ============================================================================
+
+@import 'base';
+@import 'shared';
+@import 'service-card';
+@import 'project-showcase';
+@import 'portfolio-card';
+@import 'skill-highlight';
+@import 'linkedin-header';

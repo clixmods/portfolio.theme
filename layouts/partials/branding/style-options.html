@@ -1,0 +1,39 @@
+{{/* ============================================================ */}}
+{{/* STYLE OPTIONS */}}
+{{/* ============================================================ */}}
+<div class="editor-section">
+    <h3>Style</h3>
+    <div class="style-options">
+        <div class="field-group checkbox-field">
+            <input type="checkbox" id="show-gradient" checked>
+            <label for="show-gradient">Afficher gradient</label>
+        </div>
+        <div class="field-group" id="gradient-options">
+            <label>Gradient</label>
+            <div class="gradient-picker">
+                <input type="color" id="gradient-start" value="#1a1a2e" title="Couleur de depart">
+                <span class="gradient-arrow">→</span>
+                <input type="color" id="gradient-end" value="#0f3460" title="Couleur de fin">
+            </div>
+        </div>
+        <div class="field-group" id="angle-options">
+            <label>Angle du gradient</label>
+            <div class="angle-control">
+                <input type="range" id="gradient-angle" min="0" max="360" value="135">
+                <span id="angle-display">135°</span>
+            </div>
+        </div>
+        <div class="field-group">
+            <label>Couleur d'accent</label>
+            <input type="color" id="accent-color" value="#00d4ff">
+        </div>
+        <div class="field-group checkbox-field">
+            <input type="checkbox" id="show-author" checked>
+            <label for="show-author">Afficher l'auteur</label>
+        </div>
+        <div class="field-group checkbox-field">
+            <input type="checkbox" id="show-decoration" checked>
+            <label for="show-decoration">Afficher decorations</label>
+        </div>
+    </div>
+</div>

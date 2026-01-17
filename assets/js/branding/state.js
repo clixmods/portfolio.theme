@@ -19,16 +19,34 @@ window.BrandingEditor.state = {
         gradientAngle: 135,
         accentColor: '#00d4ff',
         showAuthor: true,
-        showDecoration: true,
-        showLogoTitle: true
+        showDecoration: true
     },
-    content: {
-        badge: 'Unity Expert',
-        title: 'Bug Fixes & Debugging',
-        subtitle: 'Professional Unity & C# Code Repair',
-        features: ['Console Errors', 'Performance Issues', 'All Platforms'],
-        authorTitle: 'Commercial Game Developer',
-        codeBlock: 'void FixBug() {\n  Debug.Log("Fixed!");\n}'
+    // Template-specific content
+    templates: {
+        'service-card': {
+            badge: 'Unity Expert',
+            title: 'Bug Fixes & Debugging',
+            subtitle: 'Professional Unity & C# Code Repair',
+            features: ['Console Errors', 'Performance Issues', 'All Platforms'],
+            authorTitle: 'Commercial Game Developer',
+            codeBlock: 'void FixBug() {\n  Debug.Log("Fixed!");\n}'
+        },
+        'project-showcase': {
+            showLogoTitle: true
+        },
+        'portfolio-card': {
+            title: 'Unity & C# Game Developer',
+            highlights: ['Terra Memoria - Commercial Release', '870K+ Downloads', 'Nintendo Switch Porting']
+        },
+        'skill-highlight': {
+            title: 'Specialise en',
+            subtitle: 'Developpement de jeux video professionnels',
+            authorTitle: 'Game Developer'
+        },
+        'linkedin-header': {
+            title: 'Unity & C# Game Developer',
+            highlights: ['Commercial Game Releases', 'Console Porting Expert', '870K+ Downloads']
+        }
     },
     // Store current project data
     currentProject: null

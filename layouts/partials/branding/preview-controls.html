@@ -1,0 +1,58 @@
+{{/* ============================================================ */}}
+{{/* PREVIEW CONTROLS BAR */}}
+{{/* ============================================================ */}}
+<div class="branding-controls">
+    <div class="controls-row">
+        <div class="controls-group">
+            <label>Resolution:</label>
+            <div class="resolution-presets">
+                <button class="preset-btn active" data-width="1280" data-height="720">Fiverr (1280x720)</button>
+                <button class="preset-btn" data-width="1920" data-height="1080">Full HD</button>
+                <button class="preset-btn" data-width="1080" data-height="1080">Instagram</button>
+                <button class="preset-btn" data-width="1200" data-height="628">LinkedIn Post</button>
+                <button class="preset-btn" data-width="1584" data-height="396">LinkedIn Header</button>
+            </div>
+        </div>
+
+        <div class="controls-group custom-size-group">
+            <input type="number" id="custom-width" placeholder="W" min="100" max="3840" value="1280">
+            <span>x</span>
+            <input type="number" id="custom-height" placeholder="H" min="100" max="2160" value="720">
+            <button class="btn-apply" id="apply-custom-size">OK</button>
+        </div>
+
+        <div class="controls-group">
+            <label>Zoom:</label>
+            <div class="zoom-controls">
+                <button class="zoom-btn" data-zoom="0.5">50%</button>
+                <button class="zoom-btn active" data-zoom="0.75">75%</button>
+                <button class="zoom-btn" data-zoom="1">100%</button>
+                <button class="zoom-btn" data-zoom="fit">Fit</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls-row actions-row">
+        <div class="preview-info">
+            <span class="current-size">1280 x 720</span>
+            <span class="current-zoom">75%</span>
+        </div>
+        <div class="action-buttons">
+            <button class="btn-action primary" id="export-png">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Exporter PNG
+            </button>
+            <button class="btn-action accent" id="copy-clipboard">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                Copier
+            </button>
+        </div>
+    </div>
+</div>

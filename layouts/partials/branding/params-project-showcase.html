@@ -1,0 +1,42 @@
+{{/* ============================================================ */}}
+{{/* PROJECT SHOWCASE PARAMETERS */}}
+{{/* ============================================================ */}}
+{{ $projects := .projects }}
+
+<div class="editor-section template-params hidden" id="params-project-showcase">
+    <h3>Parametres Projet</h3>
+    <div class="search-field">
+        <input type="text" id="project-search" placeholder="Rechercher un projet...">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="M21 21l-4.35-4.35"></path>
+        </svg>
+    </div>
+    <div class="project-list" id="project-list">
+        {{ range $projects }}
+        {{ if not .Draft }}
+        <button class="project-item" 
+                data-title="{{ .Title }}"
+                data-subtitle="{{ .Params.subtitle | default .Params.description }}"
+                data-image="{{ .Params.image }}"
+                data-logo="{{ .Params.logo }}"
+                data-languages="{{ with .Params.programming_languages }}{{ delimit . "," }}{{ end }}"
+                data-frameworks="{{ with .Params.frameworks_engines }}{{ delimit . "," }}{{ end }}"
+                data-status="{{ .Params.status }}">
+            {{ if .Params.logo }}
+            <img src="{{ .Params.logo }}" alt="{{ .Title }}" class="project-thumb">
+            {{ else if .Params.image }}
+            <img src="{{ .Params.image }}" alt="{{ .Title }}" class="project-thumb">
+            {{ else }}
+            <div class="project-thumb-placeholder">{{ substr .Title 0 1 }}</div>
+            {{ end }}
+            <span class="project-name">{{ .Title }}</span>
+        </button>
+        {{ end }}
+        {{ end }}
+    </div>
+    <div class="field-group checkbox-field" id="logo-title-option">
+        <input type="checkbox" id="show-logo-title" checked>
+        <label for="show-logo-title">Afficher titre avec logo</label>
+    </div>
+</div>

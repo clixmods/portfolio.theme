@@ -1,0 +1,26 @@
+{{/* ============================================== */}}
+{{/* TEMPLATE: Skill Highlight */}}
+{{/* ============================================== */}}
+{{ $profile := .profile }}
+
+<div class="branding-template hidden" id="template-skill-highlight">
+    <div class="template-bg" id="skill-bg"></div>
+    <div class="template-content skill-content">
+        <h2 class="template-title skill-title" id="skill-title">
+            <span class="highlight">Specialise</span> en
+        </h2>
+        <div class="skill-icons-grid" id="skill-icons-grid">
+            {{/* Large skill icons */}}
+        </div>
+        <p class="template-subtitle skill-subtitle" id="skill-subtitle">
+            Developpement de jeux video professionnels
+        </p>
+        <div class="template-author" id="skill-author">
+            <img src="{{ $profile.media.profileImage }}" alt="{{ $profile.personal.fullName }}" class="author-avatar">
+            <div class="author-info">
+                <span class="author-name">{{ $profile.personal.fullName }}</span>
+                <span class="author-title">Game Developer</span>
+            </div>
+        </div>
+    </div>
+</div>

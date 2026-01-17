@@ -1,0 +1,48 @@
+// ============================================================================
+// BRANDING TEMPLATES - SKILL HIGHLIGHT
+// ============================================================================
+// Skills showcase with large icon grid
+
+// Skill content layout
+.template-content.skill-content {
+  width: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+// Skill title variant
+.template-title.skill-title {
+  font-size: 3rem;
+}
+
+// Skill icons grid
+.skill-icons-grid {
+  display: flex;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  justify-content: center;
+
+  .skill-icon-large {
+    width: 100px;
+    height: 100px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    .skill-emoji {
+      font-size: 3rem;
+      line-height: 1;
+    }
+  }
+}

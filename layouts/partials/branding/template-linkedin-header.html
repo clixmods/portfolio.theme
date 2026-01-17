@@ -1,0 +1,25 @@
+{{/* ============================================== */}}
+{{/* TEMPLATE: LinkedIn Header (Banner) */}}
+{{/* ============================================== */}}
+{{ $profile := .profile }}
+
+<div class="branding-template hidden" id="template-linkedin-header">
+    <div class="template-bg" id="linkedin-header-bg"></div>
+    <div class="template-content linkedin-header-content">
+        <div class="linkedin-header-left">
+            <img src="{{ $profile.media.profileImage }}" alt="{{ $profile.personal.fullName }}" class="linkedin-header-avatar">
+            <div class="linkedin-header-info">
+                <h2 class="template-title linkedin-header-name" id="linkedin-header-name">{{ $profile.personal.fullName }}</h2>
+                <p class="template-subtitle linkedin-header-title" id="linkedin-header-title">Unity & C# Game Developer</p>
+            </div>
+        </div>
+        <div class="linkedin-header-techs" id="linkedin-header-techs">
+            {{/* Technologies will be added here by JS */}}
+        </div>
+        <div class="linkedin-header-highlights">
+            <span class="linkedin-highlight" id="linkedin-highlight-1">Commercial Game Releases</span>
+            <span class="linkedin-highlight" id="linkedin-highlight-2">Console Porting Expert</span>
+            <span class="linkedin-highlight" id="linkedin-highlight-3">870K+ Downloads</span>
+        </div>
+    </div>
+</div>

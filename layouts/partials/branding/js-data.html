@@ -1,0 +1,64 @@
+{{/* ============================================================ */}}
+{{/* JAVASCRIPT DATA INJECTION */}}
+{{/* ============================================================ */}}
+{{ $profile := .profile }}
+{{ $programmingLanguages := .programmingLanguages }}
+{{ $frameworksEngines := .frameworksEngines }}
+{{ $tools := .tools }}
+{{ $specialties := .specialties }}
+
+<script>
+    window.BRANDING_DATA = {
+        profile: {
+            name: "{{ $profile.personal.fullName }}",
+            avatar: "{{ $profile.media.profileImage }}"
+        },
+        technologies: {
+            languages: [
+                {{ range $index, $lang := $programmingLanguages }}
+                {{ if $index }},{{ end }}
+                {
+                    key: "{{ .key }}",
+                    icon: "{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}",
+                    color: "{{ .color }}",
+                    name: "{{ T .key | default .key }}"
+                }
+                {{ end }}
+            ],
+            frameworks: [
+                {{ range $index, $fw := $frameworksEngines }}
+                {{ if $index }},{{ end }}
+                {
+                    key: "{{ .key }}",
+                    icon: "{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}",
+                    color: "{{ .color }}",
+                    name: "{{ T .key | default .key }}"
+                }
+                {{ end }}
+            ],
+            tools: [
+                {{ range $index, $tool := $tools }}
+                {{ if $index }},{{ end }}
+                {
+                    key: "{{ .key }}",
+                    icon: "{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}",
+                    color: "{{ .color }}",
+                    name: "{{ T .key | default .key }}"
+                }
+                {{ end }}
+            ],
+            specialties: [
+                {{ range $index, $spec := $specialties }}
+                {{ if $index }},{{ end }}
+                {
+                    key: "{{ .key }}",
+                    icon: "{{ if .iconPath }}{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}{{ end }}",
+                    emoji: "{{ .icon }}",
+                    color: "{{ .color | default "#00d4ff" }}",
+                    name: "{{ T .key | default .key }}"
+                }
+                {{ end }}
+            ]
+        }
+    };
+</script>
