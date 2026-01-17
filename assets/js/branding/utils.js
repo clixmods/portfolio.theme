@@ -7,15 +7,23 @@ window.BrandingEditor = window.BrandingEditor || {};
 
 window.BrandingEditor.utils = {
     showNotification: function(message, type = 'info') {
-        if (typeof window.NotificationsManager !== 'undefined') {
+        // Check if NotificationsManager exists AND has a show method
+        if (typeof window.NotificationsManager !== 'undefined' && 
+            typeof window.NotificationsManager.show === 'function') {
             window.NotificationsManager.show(message, type);
             return;
         }
 
+        // Fallback: create custom notification
         const notification = document.createElement('div');
         notification.className = `branding-notification ${type}`;
         notification.textContent = message;
         document.body.appendChild(notification);
+
+        // Trigger animation
+        requestAnimationFrame(() => {
+            notification.classList.add('visible');
+        });
 
         setTimeout(() => {
             notification.classList.add('fade-out');

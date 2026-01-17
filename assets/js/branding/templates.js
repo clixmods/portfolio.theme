@@ -342,6 +342,10 @@ window.BrandingEditor.templates = {
                         img.src = tech.icon;
                         img.alt = tech.name;
                         img.title = tech.name;
+                        // Set explicit dimensions for consistent sizing
+                        img.style.width = '40px';
+                        img.style.height = '40px';
+                        img.style.objectFit = 'contain';
                         elements.templateTechStack.appendChild(img);
                     } else if (tech.emoji) {
                         const emojiSpan = document.createElement('span');

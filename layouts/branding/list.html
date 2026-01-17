@@ -17,6 +17,9 @@
 {{/* - js-data.html                 : JavaScript data injection */}}
 {{/* ============================================================================ */}}
 
+{{/* Load html2canvas library for PNG export - using unpkg for reliability */}}
+<script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 {{/* Load SCSS assets */}}
 {{ $brandingCSSResource := resources.Get "scss/branding/branding.scss" }}
 {{ if $brandingCSSResource }}
