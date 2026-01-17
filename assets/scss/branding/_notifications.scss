@@ -1,0 +1,57 @@
+// ============================================================================
+// BRANDING - NOTIFICATIONS
+// ============================================================================
+// Toast notifications for export feedback
+
+.branding-notification {
+  position: fixed;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  z-index: 10000;
+  animation: branding-slideUp 0.3s ease;
+  backdrop-filter: blur(10px);
+
+  &.success {
+    background: rgba(16, 185, 129, 0.9);
+    color: white;
+  }
+
+  &.error {
+    background: rgba(239, 68, 68, 0.9);
+    color: white;
+  }
+
+  &.info {
+    background: rgba(52, 152, 219, 0.9);
+    color: white;
+  }
+
+  &.fade-out {
+    animation: branding-fadeOut 0.3s ease forwards;
+  }
+}
+
+@keyframes branding-slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes branding-fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

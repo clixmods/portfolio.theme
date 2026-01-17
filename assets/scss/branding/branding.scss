@@ -1,0 +1,27 @@
+// ============================================================================
+// BRANDING PREVIEW PAGE STYLES - Main Entry Point
+// ============================================================================
+// Interactive branding thumbnail preview system with full editor sidebar
+// Uses site theme variables and glassmorphism aesthetic
+//
+// Structure:
+// - _variables.scss    : CSS custom properties
+// - _layout.scss       : Page layout and sidebar
+// - _editor.scss       : Editor sections, fields, template grid
+// - _technologies.scss : Technology tabs, lists, selected display
+// - _controls.scss     : Preview controls, resolution, zoom
+// - _preview.scss      : Preview container and canvas
+// - _templates.scss    : All branding template styles
+// - _notifications.scss: Toast notifications
+// - _responsive.scss   : Media queries
+// ============================================================================
+
+@import 'variables';
+@import 'layout';
+@import 'editor';
+@import 'technologies';
+@import 'controls';
+@import 'preview';
+@import 'templates';
+@import 'notifications';
+@import 'responsive';

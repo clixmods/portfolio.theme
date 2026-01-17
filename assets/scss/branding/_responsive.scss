@@ -1,0 +1,101 @@
+// ============================================================================
+// BRANDING - RESPONSIVE
+// ============================================================================
+// Media queries for responsive design
+
+@media (max-width: 1200px) {
+  :root {
+    --sidebar-width: 320px;
+  }
+
+  .template-title {
+    font-size: 2.5rem;
+  }
+
+  .template-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .template-content {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .branding-layout {
+    flex-direction: column;
+  }
+
+  .branding-editor-sidebar {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    max-height: 50vh;
+    position: relative;
+    top: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--branding-glass-border);
+
+    &.collapsed {
+      transform: translateY(-100%);
+      margin-top: -50vh;
+      margin-left: 0;
+    }
+  }
+
+  .sidebar-show-btn {
+    left: 50%;
+    top: auto;
+    bottom: 100px;
+    transform: translateX(-50%);
+    border-radius: 8px;
+    border: 1px solid var(--branding-glass-border);
+
+    svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  .controls-row {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .branding-preview-area {
+    padding: 0.75rem;
+    padding-bottom: 100px;
+  }
+
+  .branding-controls {
+    padding: 0.75rem;
+  }
+
+  .controls-group {
+    flex-wrap: wrap;
+  }
+
+  .resolution-presets {
+    flex-wrap: wrap;
+  }
+
+  .preset-btn {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .template-decoration {
+    display: none;
+  }
+
+  .template-content {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .template-title {
+    font-size: 2rem;
+  }
+}

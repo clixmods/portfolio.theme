@@ -1,9 +1,32 @@
 {{ define "main" }}
-{{/* Load SCSS and JS assets for the branding preview page */}}
-{{ $brandingCSS := resources.Get "scss/branding-preview.scss" | css.Sass | resources.Minify }}
-{{ $brandingJS := resources.Get "js/branding-preview.js" | resources.Minify }}
+{{/* Load SCSS assets for the branding preview page */}}
+{{ $brandingCSSResource := resources.Get "scss/branding/branding.scss" }}
+{{ if $brandingCSSResource }}
+{{ $brandingCSS := $brandingCSSResource | css.Sass | resources.Minify }}
 <link rel="stylesheet" href="{{ $brandingCSS.RelPermalink }}">
-<script src="{{ $brandingJS.RelPermalink }}" defer></script>
+{{ end }}
+
+{{/* Load JS modules for the branding editor */}}
+{{/* Order matters: state first, then utils, then feature modules, then main entry */}}
+{{ $jsModules := slice 
+    "js/branding/state.js"
+    "js/branding/utils.js"
+    "js/branding/sidebar.js"
+    "js/branding/preview.js"
+    "js/branding/templates.js"
+    "js/branding/editor.js"
+    "js/branding/technologies.js"
+    "js/branding/controls.js"
+    "js/branding/export.js"
+    "js/branding/branding.js"
+}}
+{{ range $jsModules }}
+{{ $jsResource := resources.Get . }}
+{{ if $jsResource }}
+{{ $js := $jsResource | resources.Minify }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+{{ end }}
+{{ end }}
 
 {{/* Load all data sources for the editor */}}
 {{ $profile := partial "get-localized-data.html" (dict "context" . "dataName" "profile") }}
@@ -82,6 +105,12 @@ All Platforms</textarea>
                         <label for="edit-author-title">Titre auteur</label>
                         <input type="text" id="edit-author-title" value="Commercial Game Developer" placeholder="Votre titre">
                     </div>
+                    <div class="field-group" id="code-block-field">
+                        <label>Code decoratif</label>
+                        <textarea id="edit-code-block" rows="4" placeholder="void FixBug() {&#10;  Debug.Log(&quot;Fixed!&quot;);&#10;}">void FixBug() {
+  Debug.Log("Fixed!");
+}</textarea>
+                    </div>
                 </div>
             </div>
 
@@ -127,6 +156,7 @@ All Platforms</textarea>
                     <button class="tech-tab active" data-tab="languages">Langages</button>
                     <button class="tech-tab" data-tab="frameworks">Frameworks</button>
                     <button class="tech-tab" data-tab="tools">Outils</button>
+                    <button class="tech-tab" data-tab="specialties">Specialites</button>
                 </div>
                 
                 {{/* Languages */}}
@@ -135,11 +165,11 @@ All Platforms</textarea>
                     {{ if .displayedInPortfolio }}
                     <button class="tech-item" 
                             data-key="{{ .key }}"
-                            data-icon="{{ .iconPath }}"
+                            data-icon="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}"
                             data-color="{{ .color }}"
                             data-name="{{ T .key | default .key }}">
                         {{ if .iconPath }}
-                        <img src="{{ .iconPath }}" alt="{{ .key }}">
+                        <img src="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}" alt="{{ .key }}">
                         {{ else }}
                         <span class="tech-emoji">{{ .icon }}</span>
                         {{ end }}
@@ -155,11 +185,11 @@ All Platforms</textarea>
                     {{ if .displayedInPortfolio }}
                     <button class="tech-item" 
                             data-key="{{ .key }}"
-                            data-icon="{{ .iconPath }}"
+                            data-icon="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}"
                             data-color="{{ .color }}"
                             data-name="{{ T .key | default .key }}">
                         {{ if .iconPath }}
-                        <img src="{{ .iconPath }}" alt="{{ .key }}">
+                        <img src="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}" alt="{{ .key }}">
                         {{ else }}
                         <span class="tech-emoji">{{ .icon }}</span>
                         {{ end }}
@@ -175,11 +205,32 @@ All Platforms</textarea>
                     {{ if .displayedInPortfolio }}
                     <button class="tech-item" 
                             data-key="{{ .key }}"
-                            data-icon="{{ .iconPath }}"
+                            data-icon="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}"
                             data-color="{{ .color }}"
                             data-name="{{ T .key | default .key }}">
                         {{ if .iconPath }}
-                        <img src="{{ .iconPath }}" alt="{{ .key }}">
+                        <img src="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}" alt="{{ .key }}">
+                        {{ else }}
+                        <span class="tech-emoji">{{ .icon }}</span>
+                        {{ end }}
+                        <span>{{ T .key | default .key }}</span>
+                    </button>
+                    {{ end }}
+                    {{ end }}
+                </div>
+
+                {{/* Specialties */}}
+                <div class="tech-list hidden" id="tech-specialties">
+                    {{ range $specialties }}
+                    {{ if .displayedInPortfolio }}
+                    <button class="tech-item" 
+                            data-key="{{ .key }}"
+                            data-icon="{{ if .iconPath }}{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}{{ end }}"
+                            data-color="{{ .color | default "#00d4ff" }}"
+                            data-name="{{ T .key | default .key }}"
+                            data-emoji="{{ .icon }}">
+                        {{ if .iconPath }}
+                        <img src="{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}" alt="{{ .key }}">
                         {{ else }}
                         <span class="tech-emoji">{{ .icon }}</span>
                         {{ end }}
@@ -208,7 +259,11 @@ All Platforms</textarea>
             <div class="editor-section">
                 <h3>Style</h3>
                 <div class="style-options">
-                    <div class="field-group">
+                    <div class="field-group checkbox-field">
+                        <input type="checkbox" id="show-gradient" checked>
+                        <label for="show-gradient">Afficher gradient</label>
+                    </div>
+                    <div class="field-group" id="gradient-options">
                         <label>Gradient</label>
                         <div class="gradient-picker">
                             <input type="color" id="gradient-start" value="#1a1a2e" title="Couleur de depart">
@@ -216,7 +271,7 @@ All Platforms</textarea>
                             <input type="color" id="gradient-end" value="#0f3460" title="Couleur de fin">
                         </div>
                     </div>
-                    <div class="field-group">
+                    <div class="field-group" id="angle-options">
                         <label>Angle du gradient</label>
                         <div class="angle-control">
                             <input type="range" id="gradient-angle" min="0" max="360" value="135">
@@ -234,6 +289,10 @@ All Platforms</textarea>
                     <div class="field-group checkbox-field">
                         <input type="checkbox" id="show-decoration" checked>
                         <label for="show-decoration">Afficher decorations</label>
+                    </div>
+                    <div class="field-group checkbox-field" id="logo-title-option" style="display: none;">
+                        <input type="checkbox" id="show-logo-title" checked>
+                        <label for="show-logo-title">Afficher titre avec logo</label>
                     </div>
                 </div>
             </div>
@@ -350,8 +409,8 @@ All Platforms</textarea>
                                 </div>
                             </div>
                             <div class="template-decoration" id="template-decoration">
-                                <div class="code-snippet">
-                                    <pre><code>void FixBug() {
+                                <div class="code-snippet" id="code-snippet">
+                                    <pre><code id="code-block-content">void FixBug() {
   Debug.Log("Fixed!");
 }</code></pre>
                                 </div>
@@ -460,7 +519,7 @@ All Platforms</textarea>
                 {{ if $index }},{{ end }}
                 {
                     key: "{{ .key }}",
-                    icon: "{{ .iconPath }}",
+                    icon: "{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}",
                     color: "{{ .color }}",
                     name: "{{ T .key | default .key }}"
                 }
@@ -471,7 +530,7 @@ All Platforms</textarea>
                 {{ if $index }},{{ end }}
                 {
                     key: "{{ .key }}",
-                    icon: "{{ .iconPath }}",
+                    icon: "{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}",
                     color: "{{ .color }}",
                     name: "{{ T .key | default .key }}"
                 }
@@ -482,8 +541,20 @@ All Platforms</textarea>
                 {{ if $index }},{{ end }}
                 {
                     key: "{{ .key }}",
-                    icon: "{{ .iconPath }}",
+                    icon: "{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}",
                     color: "{{ .color }}",
+                    name: "{{ T .key | default .key }}"
+                }
+                {{ end }}
+            ],
+            specialties: [
+                {{ range $index, $spec := $specialties }}
+                {{ if $index }},{{ end }}
+                {
+                    key: "{{ .key }}",
+                    icon: "{{ if .iconPath }}{{ if hasPrefix .iconPath "/" }}{{ .iconPath }}{{ else }}/{{ .iconPath }}{{ end }}{{ end }}",
+                    emoji: "{{ .icon }}",
+                    color: "{{ .color | default "#00d4ff" }}",
                     name: "{{ T .key | default .key }}"
                 }
                 {{ end }}

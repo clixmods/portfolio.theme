@@ -1,0 +1,19 @@
+// ============================================================================
+// BRANDING - VARIABLES
+// ============================================================================
+// CSS custom properties and SCSS variables for branding page
+
+:root {
+  --branding-primary: var(--primary-blue-text, #3498db);
+  --branding-accent: var(--accent-color, #00d4ff);
+  --branding-success: #10b981;
+  --branding-error: #ef4444;
+  --branding-glass-bg: var(--glass-bg, rgba(30, 30, 40, 0.8));
+  --branding-glass-border: var(--glass-border, rgba(255, 255, 255, 0.1));
+  --branding-text-primary: var(--text-primary, #ffffff);
+  --branding-text-secondary: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  --branding-border-radius: var(--border-radius-lg, 16px);
+  --branding-border-radius-md: var(--border-radius-md, 12px);
+  --branding-border-radius-sm: var(--border-radius-sm, 8px);
+  --sidebar-width: 380px;
+}

@@ -1,0 +1,73 @@
+// ============================================================================
+// BRANDING - PREVIEW
+// ============================================================================
+// Preview area and canvas container
+
+.branding-preview-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1rem;
+  padding-bottom: 120px;
+}
+
+// Preview wrapper and container
+.preview-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-container {
+  background: var(--branding-glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--branding-glass-border);
+  border-radius: var(--branding-border-radius);
+  padding: 20px;
+  overflow: auto;
+  flex: 1;
+  display: flex;
+  // Center horizontally only - vertical handled by wrapper
+  justify-content: center;
+  align-items: flex-start;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--branding-primary);
+    border-radius: 5px;
+
+    &:hover {
+      background: var(--branding-accent);
+    }
+  }
+}
+
+// Wrapper to handle scaled canvas centering
+.preview-canvas-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+}
+
+.preview-canvas {
+  position: relative;
+  background: #1a1a2e;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  transition: width 0.3s ease, height 0.3s ease;
+  flex-shrink: 0;
+  // Use center origin for proper centering with scale
+  transform-origin: center center;
+}
