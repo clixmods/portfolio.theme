@@ -21,8 +21,10 @@
   }
 }
 
-// Hero Background - Animated waves
-.template-hero {
+// Hero Background - Paper.js Fluid Waves + Particles (matching main hero-background system)
+
+// Particles container - separate from waves
+.template-particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -33,46 +35,105 @@
     display: none;
   }
   
-  .hero-waves {
+  #branding-particles-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.8;
+    
+    // GPU acceleration
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+}
+
+// Waves container - SVG animated waves
+.template-waves {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+  
+  // Default speed values (can be overridden via JS)
+  --wave-speed-1: 12s;
+  --wave-speed-2: 10s;
+  --wave-speed-3: 14s;
+  
+  &.hidden {
+    display: none;
+  }
+  
+  // SVG Wave styling
+  .wave-svg {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 120px;
-    min-height: 40px;
-    max-height: 200px;
+    height: 40%;
+    min-height: 80px;
+    
+    .wave-path {
+      fill: var(--branding-accent, #00d4ff);
+    }
   }
   
-  .wave {
-    fill: var(--branding-accent, #00d4ff);
-    transition: opacity 0.3s ease;
-  }
-  
-  // Different base opacities for layered depth effect
+  // Staggered wave layers with animations
   .wave-1 {
-    opacity: 0.2;
-    animation: wave-drift 8s ease-in-out infinite;
+    opacity: 0.4;
+    animation: wave-drift var(--wave-speed-1) ease-in-out infinite;
+    
+    .wave-path {
+      fill: var(--branding-accent, #00d4ff);
+    }
   }
   
   .wave-2 {
     opacity: 0.3;
-    animation: wave-drift 8s ease-in-out infinite;
-    animation-delay: -2s;
+    animation: wave-drift var(--wave-speed-2) ease-in-out infinite reverse;
+    bottom: 5%;
+    
+    .wave-path {
+      fill: var(--branding-accent, #00d4ff);
+      filter: brightness(1.2);
+    }
   }
   
   .wave-3 {
-    opacity: 0.4;
-    animation: wave-drift 8s ease-in-out infinite;
-    animation-delay: -4s;
+    opacity: 0.2;
+    animation: wave-drift var(--wave-speed-3) ease-in-out infinite;
+    bottom: 10%;
+    
+    .wave-path {
+      fill: var(--branding-accent, #00d4ff);
+      filter: brightness(0.8);
+    }
   }
 }
 
+// Wave drift animation
 @keyframes wave-drift {
   0%, 100% {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(-25px);
+    transform: translateX(-5%);
+  }
+}
+
+// Legacy .template-hero support (combines both)
+.template-hero {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  
+  &.hidden {
+    display: none;
   }
 }
 

@@ -29,11 +29,23 @@ const defaultState = {
         showGrain: true,
         grainOpacity: 0.15,
         grainSize: 1,
-        // Hero background (animated waves)
+        // Hero background (SVG waves)
         showHero: false,
-        heroWaveHeight: 120,
-        heroWaveSpeed: 8,
-        heroOpacity: 0.3
+        heroOpacity: 0.3,
+        heroWaveSpeed: 12,
+        heroWaveHeight: 40,
+        heroWaveScale: 1,
+        heroPositionX: 0,
+        heroPositionY: 0,
+        // Particles
+        showParticles: true,
+        particlesOpacity: 0.8,
+        particlesSeed: 123,
+        particlesCount: 60,
+        particlesSpeed: 1.0,
+        particlesSize: 1,
+        particlesPositionX: 0,
+        particlesPositionY: 0
     },
     // Template-specific content
     templates: {

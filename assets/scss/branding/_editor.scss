@@ -331,3 +331,44 @@
     border-color: rgba(255, 100, 100, 0.5);
   }
 }
+
+// Seed input with random button
+.seed-input {
+  width: 80px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--branding-glass-border);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  color: var(--branding-text-primary);
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
+  
+  &:focus {
+    outline: none;
+    border-color: var(--branding-accent);
+  }
+  
+  // Hide number spinners
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
+}
+
+.seed-random-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--branding-glass-border);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--branding-accent);
+  }
+}

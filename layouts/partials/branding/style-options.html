@@ -48,30 +48,106 @@
             </div>
         </div>
 
-        {{/* Hero Background */}}
+        {{/* Hero Background - SVG Waves */}}
         <div class="field-group checkbox-field">
             <input type="checkbox" id="show-hero">
-            <label for="show-hero">Fond anime (vagues)</label>
+            <label for="show-hero">Vagues</label>
         </div>
-        <div class="field-group hidden" id="hero-options">
-            <label>Hauteur des vagues</label>
+        <div class="field-group hidden" id="hero-opacity-options">
+            <label>Opacite</label>
             <div class="slider-control">
-                <input type="range" id="hero-wave-height" min="40" max="200" step="10" value="120">
-                <span id="hero-wave-height-display">120px</span>
+                <input type="range" id="hero-opacity" min="0.1" max="1" step="0.05" value="0.3">
+                <span id="hero-opacity-display">30%</span>
             </div>
         </div>
         <div class="field-group hidden" id="hero-speed-options">
-            <label>Vitesse d'animation</label>
+            <label>Vitesse</label>
             <div class="slider-control">
-                <input type="range" id="hero-wave-speed" min="2" max="20" step="1" value="8">
-                <span id="hero-wave-speed-display">8s</span>
+                <input type="range" id="hero-wave-speed" min="4" max="30" step="1" value="12">
+                <span id="hero-wave-speed-display">12s</span>
             </div>
         </div>
-        <div class="field-group hidden" id="hero-opacity-options">
-            <label>Opacite des vagues</label>
+        <div class="field-group hidden" id="hero-height-options">
+            <label>Hauteur</label>
             <div class="slider-control">
-                <input type="range" id="hero-opacity" min="0.1" max="0.8" step="0.05" value="0.3">
-                <span id="hero-opacity-display">30%</span>
+                <input type="range" id="hero-wave-height" min="5" max="100" step="5" value="40">
+                <span id="hero-wave-height-display">40%</span>
+            </div>
+        </div>
+        <div class="field-group hidden" id="hero-scale-options">
+            <label>Echelle</label>
+            <div class="slider-control">
+                <input type="range" id="hero-wave-scale" min="0.5" max="3" step="0.1" value="1">
+                <span id="hero-wave-scale-display">1x</span>
+            </div>
+        </div>
+        <div class="field-group hidden" id="hero-position-x-options">
+            <label>Position X</label>
+            <div class="slider-control">
+                <input type="range" id="hero-position-x" min="-50" max="50" step="1" value="0">
+                <span id="hero-position-x-display">0%</span>
+            </div>
+        </div>
+        <div class="field-group hidden" id="hero-position-y-options">
+            <label>Position Y</label>
+            <div class="slider-control">
+                <input type="range" id="hero-position-y" min="-50" max="50" step="1" value="0">
+                <span id="hero-position-y-display">0%</span>
+            </div>
+        </div>
+
+        {{/* Particles */}}
+        <div class="field-group checkbox-field">
+            <input type="checkbox" id="show-particles" checked>
+            <label for="show-particles">Particules</label>
+        </div>
+        <div class="field-group" id="particles-seed-options">
+            <label>Seed</label>
+            <div class="slider-control">
+                <input type="number" id="particles-seed" min="1" max="9999" value="123" class="seed-input">
+                <button type="button" id="particles-seed-random" class="seed-random-btn" title="Seed aleatoire">🎲</button>
+            </div>
+        </div>
+        <div class="field-group" id="particles-count-options">
+            <label>Nombre</label>
+            <div class="slider-control">
+                <input type="range" id="particles-count" min="10" max="200" step="5" value="60">
+                <span id="particles-count-display">60</span>
+            </div>
+        </div>
+        <div class="field-group" id="particles-speed-options">
+            <label>Vitesse</label>
+            <div class="slider-control">
+                <input type="range" id="particles-speed" min="0.1" max="5" step="0.1" value="1.0">
+                <span id="particles-speed-display">1.0x</span>
+            </div>
+        </div>
+        <div class="field-group" id="particles-opacity-options">
+            <label>Opacite</label>
+            <div class="slider-control">
+                <input type="range" id="particles-opacity" min="0.1" max="1" step="0.05" value="0.8">
+                <span id="particles-opacity-display">80%</span>
+            </div>
+        </div>
+        <div class="field-group" id="particles-size-options">
+            <label>Taille</label>
+            <div class="slider-control">
+                <input type="range" id="particles-size" min="0.5" max="5" step="0.25" value="1">
+                <span id="particles-size-display">1x</span>
+            </div>
+        </div>
+        <div class="field-group" id="particles-position-x-options">
+            <label>Position X</label>
+            <div class="slider-control">
+                <input type="range" id="particles-position-x" min="-50" max="50" step="1" value="0">
+                <span id="particles-position-x-display">0%</span>
+            </div>
+        </div>
+        <div class="field-group" id="particles-position-y-options">
+            <label>Position Y</label>
+            <div class="slider-control">
+                <input type="range" id="particles-position-y" min="-50" max="50" step="1" value="0">
+                <span id="particles-position-y-display">0%</span>
             </div>
         </div>
 

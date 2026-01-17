@@ -63,33 +63,91 @@ window.BrandingEditor.controls = {
         if (grainOptions) grainOptions.classList.toggle('hidden', !state.style.showGrain);
         if (grainSizeOptions) grainSizeOptions.classList.toggle('hidden', !state.style.showGrain);
         
-        // Sync hero controls
+        // Sync hero/waves controls (SVG waves)
         const showHero = document.getElementById('show-hero');
-        const heroWaveHeight = document.getElementById('hero-wave-height');
-        const heroWaveHeightDisplay = document.getElementById('hero-wave-height-display');
-        const heroWaveSpeed = document.getElementById('hero-wave-speed');
-        const heroWaveSpeedDisplay = document.getElementById('hero-wave-speed-display');
         const heroOpacity = document.getElementById('hero-opacity');
         const heroOpacityDisplay = document.getElementById('hero-opacity-display');
-        const heroOptions = document.getElementById('hero-options');
-        const heroSpeedOptions = document.getElementById('hero-speed-options');
-        const heroOpacityOptions = document.getElementById('hero-opacity-options');
+        const heroWaveSpeed = document.getElementById('hero-wave-speed');
+        const heroWaveSpeedDisplay = document.getElementById('hero-wave-speed-display');
+        const heroWaveHeight = document.getElementById('hero-wave-height');
+        const heroWaveHeightDisplay = document.getElementById('hero-wave-height-display');
+        const heroWaveScale = document.getElementById('hero-wave-scale');
+        const heroWaveScaleDisplay = document.getElementById('hero-wave-scale-display');
+        const heroPositionX = document.getElementById('hero-position-x');
+        const heroPositionXDisplay = document.getElementById('hero-position-x-display');
+        const heroPositionY = document.getElementById('hero-position-y');
+        const heroPositionYDisplay = document.getElementById('hero-position-y-display');
+        
+        // All wave option containers
+        const waveOptionContainers = [
+            'hero-opacity-options', 'hero-speed-options', 'hero-height-options',
+            'hero-scale-options', 'hero-position-x-options', 'hero-position-y-options'
+        ];
         
         if (showHero) showHero.checked = state.style.showHero;
-        if (heroWaveHeight) heroWaveHeight.value = state.style.heroWaveHeight;
-        if (heroWaveHeightDisplay) heroWaveHeightDisplay.textContent = `${state.style.heroWaveHeight}px`;
-        if (heroWaveSpeed) heroWaveSpeed.value = state.style.heroWaveSpeed;
-        if (heroWaveSpeedDisplay) heroWaveSpeedDisplay.textContent = `${state.style.heroWaveSpeed}s`;
         if (heroOpacity) heroOpacity.value = state.style.heroOpacity;
         if (heroOpacityDisplay) heroOpacityDisplay.textContent = `${Math.round(state.style.heroOpacity * 100)}%`;
-        if (heroOptions) heroOptions.classList.toggle('hidden', !state.style.showHero);
-        if (heroSpeedOptions) heroSpeedOptions.classList.toggle('hidden', !state.style.showHero);
-        if (heroOpacityOptions) heroOpacityOptions.classList.toggle('hidden', !state.style.showHero);
+        if (heroWaveSpeed) heroWaveSpeed.value = state.style.heroWaveSpeed || 12;
+        if (heroWaveSpeedDisplay) heroWaveSpeedDisplay.textContent = `${state.style.heroWaveSpeed || 12}s`;
+        if (heroWaveHeight) heroWaveHeight.value = state.style.heroWaveHeight || 40;
+        if (heroWaveHeightDisplay) heroWaveHeightDisplay.textContent = `${state.style.heroWaveHeight || 40}%`;
+        if (heroWaveScale) heroWaveScale.value = state.style.heroWaveScale || 1;
+        if (heroWaveScaleDisplay) heroWaveScaleDisplay.textContent = `${state.style.heroWaveScale || 1}x`;
+        if (heroPositionX) heroPositionX.value = state.style.heroPositionX || 0;
+        if (heroPositionXDisplay) heroPositionXDisplay.textContent = `${state.style.heroPositionX || 0}%`;
+        if (heroPositionY) heroPositionY.value = state.style.heroPositionY || 0;
+        if (heroPositionYDisplay) heroPositionYDisplay.textContent = `${state.style.heroPositionY || 0}%`;
+        waveOptionContainers.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden', !state.style.showHero);
+        });
+        
+        // Sync particles controls
+        const showParticles = document.getElementById('show-particles');
+        const particlesSeed = document.getElementById('particles-seed');
+        const particlesCount = document.getElementById('particles-count');
+        const particlesCountDisplay = document.getElementById('particles-count-display');
+        const particlesSpeed = document.getElementById('particles-speed');
+        const particlesSpeedDisplay = document.getElementById('particles-speed-display');
+        const particlesOpacity = document.getElementById('particles-opacity');
+        const particlesOpacityDisplay = document.getElementById('particles-opacity-display');
+        const particlesSize = document.getElementById('particles-size');
+        const particlesSizeDisplay = document.getElementById('particles-size-display');
+        const particlesPositionX = document.getElementById('particles-position-x');
+        const particlesPositionXDisplay = document.getElementById('particles-position-x-display');
+        const particlesPositionY = document.getElementById('particles-position-y');
+        const particlesPositionYDisplay = document.getElementById('particles-position-y-display');
+        
+        // All particle option containers
+        const particleOptionContainers = [
+            'particles-seed-options', 'particles-count-options', 'particles-speed-options', 'particles-opacity-options',
+            'particles-size-options', 'particles-position-x-options', 'particles-position-y-options'
+        ];
+        
+        if (showParticles) showParticles.checked = state.style.showParticles;
+        if (particlesSeed) particlesSeed.value = state.style.particlesSeed || 123;
+        if (particlesCount) particlesCount.value = state.style.particlesCount || 60;
+        if (particlesCountDisplay) particlesCountDisplay.textContent = state.style.particlesCount || 60;
+        if (particlesSpeed) particlesSpeed.value = state.style.particlesSpeed || 1.0;
+        if (particlesSpeedDisplay) particlesSpeedDisplay.textContent = `${state.style.particlesSpeed || 1.0}x`;
+        if (particlesOpacity) particlesOpacity.value = state.style.particlesOpacity;
+        if (particlesOpacityDisplay) particlesOpacityDisplay.textContent = `${Math.round(state.style.particlesOpacity * 100)}%`;
+        if (particlesSize) particlesSize.value = state.style.particlesSize || 1;
+        if (particlesSizeDisplay) particlesSizeDisplay.textContent = `${state.style.particlesSize || 1}x`;
+        if (particlesPositionX) particlesPositionX.value = state.style.particlesPositionX || 0;
+        if (particlesPositionXDisplay) particlesPositionXDisplay.textContent = `${state.style.particlesPositionX || 0}%`;
+        if (particlesPositionY) particlesPositionY.value = state.style.particlesPositionY || 0;
+        if (particlesPositionYDisplay) particlesPositionYDisplay.textContent = `${state.style.particlesPositionY || 0}%`;
+        particleOptionContainers.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden', !state.style.showParticles);
+        });
         
         // Apply all effects (skipSave=true to avoid saving during init)
         this.updateStyle(true);
         this.updateGrainEffect(true);
-        this.updateHeroEffect(true);
+        this.updateWavesEffect(true);
+        this.updateParticlesEffect(true);
     },
     
     initStyleOptions: function() {
@@ -226,33 +284,37 @@ window.BrandingEditor.controls = {
         const state = window.BrandingEditor.state;
         const self = this;
         
-        // Hero toggle
+        // All wave option containers
+        const waveOptionContainers = [
+            'hero-opacity-options', 'hero-speed-options', 'hero-height-options',
+            'hero-scale-options', 'hero-position-x-options', 'hero-position-y-options'
+        ];
+        
+        // Waves toggle
         const showHero = document.getElementById('show-hero');
-        const heroOptions = document.getElementById('hero-options');
-        const heroSpeedOptions = document.getElementById('hero-speed-options');
-        const heroOpacityOptions = document.getElementById('hero-opacity-options');
         
         if (showHero) {
             showHero.addEventListener('change', function() {
                 state.style.showHero = this.checked;
-                if (heroOptions) heroOptions.classList.toggle('hidden', !this.checked);
-                if (heroSpeedOptions) heroSpeedOptions.classList.toggle('hidden', !this.checked);
-                if (heroOpacityOptions) heroOpacityOptions.classList.toggle('hidden', !this.checked);
-                self.updateHeroEffect();
+                waveOptionContainers.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.toggle('hidden', !this.checked);
+                });
+                self.updateWavesEffect();
             });
         }
         
-        // Wave height
-        const heroWaveHeight = document.getElementById('hero-wave-height');
-        const heroWaveHeightDisplay = document.getElementById('hero-wave-height-display');
+        // Wave opacity
+        const heroOpacity = document.getElementById('hero-opacity');
+        const heroOpacityDisplay = document.getElementById('hero-opacity-display');
         
-        if (heroWaveHeight) {
-            heroWaveHeight.addEventListener('input', function() {
-                state.style.heroWaveHeight = parseInt(this.value);
-                if (heroWaveHeightDisplay) {
-                    heroWaveHeightDisplay.textContent = `${this.value}px`;
+        if (heroOpacity) {
+            heroOpacity.addEventListener('input', function() {
+                state.style.heroOpacity = parseFloat(this.value);
+                if (heroOpacityDisplay) {
+                    heroOpacityDisplay.textContent = `${Math.round(this.value * 100)}%`;
                 }
-                self.updateHeroEffect();
+                self.updateWavesEffect();
             });
         }
         
@@ -266,21 +328,187 @@ window.BrandingEditor.controls = {
                 if (heroWaveSpeedDisplay) {
                     heroWaveSpeedDisplay.textContent = `${this.value}s`;
                 }
-                self.updateHeroEffect();
+                self.updateWavesEffect();
             });
         }
         
-        // Hero opacity
-        const heroOpacity = document.getElementById('hero-opacity');
-        const heroOpacityDisplay = document.getElementById('hero-opacity-display');
+        // Wave height
+        const heroWaveHeight = document.getElementById('hero-wave-height');
+        const heroWaveHeightDisplay = document.getElementById('hero-wave-height-display');
         
-        if (heroOpacity) {
-            heroOpacity.addEventListener('input', function() {
-                state.style.heroOpacity = parseFloat(this.value);
-                if (heroOpacityDisplay) {
-                    heroOpacityDisplay.textContent = `${Math.round(this.value * 100)}%`;
+        if (heroWaveHeight) {
+            heroWaveHeight.addEventListener('input', function() {
+                state.style.heroWaveHeight = parseInt(this.value);
+                if (heroWaveHeightDisplay) {
+                    heroWaveHeightDisplay.textContent = `${this.value}%`;
                 }
-                self.updateHeroEffect();
+                self.updateWavesEffect();
+            });
+        }
+        
+        // Wave scale
+        const heroWaveScale = document.getElementById('hero-wave-scale');
+        const heroWaveScaleDisplay = document.getElementById('hero-wave-scale-display');
+        
+        if (heroWaveScale) {
+            heroWaveScale.addEventListener('input', function() {
+                state.style.heroWaveScale = parseFloat(this.value);
+                if (heroWaveScaleDisplay) {
+                    heroWaveScaleDisplay.textContent = `${this.value}x`;
+                }
+                self.updateWavesEffect();
+            });
+        }
+        
+        // Wave position X
+        const heroPositionX = document.getElementById('hero-position-x');
+        const heroPositionXDisplay = document.getElementById('hero-position-x-display');
+        
+        if (heroPositionX) {
+            heroPositionX.addEventListener('input', function() {
+                state.style.heroPositionX = parseInt(this.value);
+                if (heroPositionXDisplay) {
+                    heroPositionXDisplay.textContent = `${this.value}%`;
+                }
+                self.updateWavesEffect();
+            });
+        }
+        
+        // Wave position Y
+        const heroPositionY = document.getElementById('hero-position-y');
+        const heroPositionYDisplay = document.getElementById('hero-position-y-display');
+        
+        if (heroPositionY) {
+            heroPositionY.addEventListener('input', function() {
+                state.style.heroPositionY = parseInt(this.value);
+                if (heroPositionYDisplay) {
+                    heroPositionYDisplay.textContent = `${this.value}%`;
+                }
+                self.updateWavesEffect();
+            });
+        }
+        
+        // All particle option containers
+        const particleOptionContainers = [
+            'particles-seed-options', 'particles-count-options', 'particles-speed-options', 'particles-opacity-options',
+            'particles-size-options', 'particles-position-x-options', 'particles-position-y-options'
+        ];
+        
+        // Particles toggle
+        const showParticles = document.getElementById('show-particles');
+        
+        if (showParticles) {
+            showParticles.addEventListener('change', function() {
+                state.style.showParticles = this.checked;
+                particleOptionContainers.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.toggle('hidden', !this.checked);
+                });
+                self.updateParticlesEffect();
+            });
+        }
+        
+        // Particles seed
+        const particlesSeed = document.getElementById('particles-seed');
+        const particlesSeedRandom = document.getElementById('particles-seed-random');
+        
+        if (particlesSeed) {
+            particlesSeed.addEventListener('change', function() {
+                state.style.particlesSeed = parseInt(this.value);
+                self.updateParticlesEffect(false, true); // Force recreate
+            });
+        }
+        
+        if (particlesSeedRandom) {
+            particlesSeedRandom.addEventListener('click', function() {
+                const newSeed = Math.floor(Math.random() * 9999) + 1;
+                particlesSeed.value = newSeed;
+                state.style.particlesSeed = newSeed;
+                self.updateParticlesEffect(false, true); // Force recreate
+            });
+        }
+        
+        // Particles count
+        const particlesCount = document.getElementById('particles-count');
+        const particlesCountDisplay = document.getElementById('particles-count-display');
+        
+        if (particlesCount) {
+            particlesCount.addEventListener('input', function() {
+                state.style.particlesCount = parseInt(this.value);
+                if (particlesCountDisplay) {
+                    particlesCountDisplay.textContent = this.value;
+                }
+                self.updateParticlesEffect(false, true); // Force recreate
+            });
+        }
+        
+        // Particles speed
+        const particlesSpeed = document.getElementById('particles-speed');
+        const particlesSpeedDisplay = document.getElementById('particles-speed-display');
+        
+        if (particlesSpeed) {
+            particlesSpeed.addEventListener('input', function() {
+                state.style.particlesSpeed = parseFloat(this.value);
+                if (particlesSpeedDisplay) {
+                    particlesSpeedDisplay.textContent = `${this.value}x`;
+                }
+                self.updateParticlesEffect();
+            });
+        }
+        
+        // Particles opacity
+        const particlesOpacity = document.getElementById('particles-opacity');
+        const particlesOpacityDisplay = document.getElementById('particles-opacity-display');
+        
+        if (particlesOpacity) {
+            particlesOpacity.addEventListener('input', function() {
+                state.style.particlesOpacity = parseFloat(this.value);
+                if (particlesOpacityDisplay) {
+                    particlesOpacityDisplay.textContent = `${Math.round(this.value * 100)}%`;
+                }
+                self.updateParticlesEffect();
+            });
+        }
+        
+        // Particles size
+        const particlesSize = document.getElementById('particles-size');
+        const particlesSizeDisplay = document.getElementById('particles-size-display');
+        
+        if (particlesSize) {
+            particlesSize.addEventListener('input', function() {
+                state.style.particlesSize = parseFloat(this.value);
+                if (particlesSizeDisplay) {
+                    particlesSizeDisplay.textContent = `${this.value}x`;
+                }
+                self.updateParticlesEffect(false, true); // Force recreate
+            });
+        }
+        
+        // Particles position X
+        const particlesPositionX = document.getElementById('particles-position-x');
+        const particlesPositionXDisplay = document.getElementById('particles-position-x-display');
+        
+        if (particlesPositionX) {
+            particlesPositionX.addEventListener('input', function() {
+                state.style.particlesPositionX = parseInt(this.value);
+                if (particlesPositionXDisplay) {
+                    particlesPositionXDisplay.textContent = `${this.value}%`;
+                }
+                self.updateParticlesEffect();
+            });
+        }
+        
+        // Particles position Y
+        const particlesPositionY = document.getElementById('particles-position-y');
+        const particlesPositionYDisplay = document.getElementById('particles-position-y-display');
+        
+        if (particlesPositionY) {
+            particlesPositionY.addEventListener('input', function() {
+                state.style.particlesPositionY = parseInt(this.value);
+                if (particlesPositionYDisplay) {
+                    particlesPositionYDisplay.textContent = `${this.value}%`;
+                }
+                self.updateParticlesEffect();
             });
         }
     },
@@ -303,35 +531,101 @@ window.BrandingEditor.controls = {
         if (!skipSave) window.BrandingEditor.saveState();
     },
     
-    updateHeroEffect: function(skipSave) {
+    updateWavesEffect: function(skipSave) {
         const state = window.BrandingEditor.state;
-        const heroOverlay = document.getElementById('template-hero');
+        const wavesOverlay = document.getElementById('template-waves');
         
-        if (!heroOverlay) return;
+        if (!wavesOverlay) {
+            console.warn('Waves overlay not found');
+            return;
+        }
         
         if (state.style.showHero) {
-            heroOverlay.classList.remove('hidden');
+            wavesOverlay.classList.remove('hidden');
             
-            // Update wave height
-            const waves = heroOverlay.querySelector('.hero-waves');
-            if (waves) {
-                waves.style.height = `${state.style.heroWaveHeight}px`;
-            }
+            // Apply opacity
+            wavesOverlay.style.opacity = state.style.heroOpacity;
             
-            // Update wave opacity
-            const wavePaths = heroOverlay.querySelectorAll('.wave');
-            wavePaths.forEach(wave => {
-                wave.style.opacity = state.style.heroOpacity;
+            // Apply height
+            const waveSvgs = wavesOverlay.querySelectorAll('.wave-svg');
+            waveSvgs.forEach(svg => {
+                svg.style.height = `${state.style.heroWaveHeight}%`;
             });
             
-            // Update animation speed
-            wavePaths.forEach((wave, index) => {
-                const delay = index * -2;
-                wave.style.animation = `wave-drift ${state.style.heroWaveSpeed}s ease-in-out infinite`;
-                wave.style.animationDelay = `${delay}s`;
+            // Apply scale
+            const scale = state.style.heroWaveScale || 1;
+            wavesOverlay.style.transform = `scale(${scale}) translate(${state.style.heroPositionX || 0}%, ${state.style.heroPositionY || 0}%)`;
+            
+            // Apply animation speed via CSS variable
+            const baseSpeed = state.style.heroWaveSpeed;
+            wavesOverlay.style.setProperty('--wave-speed-1', `${baseSpeed}s`);
+            wavesOverlay.style.setProperty('--wave-speed-2', `${baseSpeed * 0.83}s`);
+            wavesOverlay.style.setProperty('--wave-speed-3', `${baseSpeed * 1.17}s`);
+            
+        } else {
+            wavesOverlay.classList.add('hidden');
+        }
+        
+        if (!skipSave) window.BrandingEditor.saveState();
+    },
+    
+    updateParticlesEffect: function(skipSave, forceRecreate) {
+        const state = window.BrandingEditor.state;
+        const particlesOverlay = document.getElementById('template-particles');
+        
+        if (!particlesOverlay) {
+            console.warn('Particles overlay not found');
+            return;
+        }
+        
+        if (state.style.showParticles) {
+            // Show container FIRST so dimensions can be calculated
+            particlesOverlay.classList.remove('hidden');
+            
+            // Apply position transform
+            const posX = state.style.particlesPositionX || 0;
+            const posY = state.style.particlesPositionY || 0;
+            particlesOverlay.style.transform = `translate(${posX}%, ${posY}%)`;
+            
+            // Use requestAnimationFrame to ensure DOM has updated before initializing
+            requestAnimationFrame(() => {
+                // Destroy and recreate if forceRecreate is true (seed/params changed)
+                if (forceRecreate && this.particles) {
+                    this.particles.destroy();
+                    this.particles = null;
+                }
+                
+                // Initialize BrandingParticles if not already done
+                if (!this.particles && window.BrandingParticles) {
+                    try {
+                        this.particles = new window.BrandingParticles(particlesOverlay, {
+                            seed: state.style.particlesSeed,
+                            count: state.style.particlesCount,
+                            speed: state.style.particlesSpeed,
+                            size: state.style.particlesSize || 1
+                        });
+                    } catch (e) {
+                        console.warn('Failed to initialize BrandingParticles:', e);
+                    }
+                }
+                
+                // Update particles settings
+                if (this.particles) {
+                    this.particles.play();
+                    this.particles.setOpacity(state.style.particlesOpacity);
+                    this.particles.setSpeed(state.style.particlesSpeed);
+                    if (this.particles.setSize) {
+                        this.particles.setSize(state.style.particlesSize || 1);
+                    }
+                }
             });
         } else {
-            heroOverlay.classList.add('hidden');
+            particlesOverlay.classList.add('hidden');
+            
+            // Pause particles when hidden for performance
+            if (this.particles) {
+                this.particles.pause();
+            }
         }
         
         if (!skipSave) window.BrandingEditor.saveState();
@@ -357,6 +651,11 @@ window.BrandingEditor.controls = {
         document.querySelectorAll('.branding-template .highlight').forEach(el => {
             el.style.color = state.style.accentColor;
         });
+        
+        // Update fluid waves accent color if initialized
+        if (this.fluidWaves) {
+            this.fluidWaves.updateAccentColor(state.style.accentColor);
+        }
 
         // Show/hide author sections
         document.querySelectorAll('.template-author').forEach(author => {
