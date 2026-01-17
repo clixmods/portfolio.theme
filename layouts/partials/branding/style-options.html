@@ -27,6 +27,54 @@
             <label>Couleur d'accent</label>
             <input type="color" id="accent-color" value="#00d4ff">
         </div>
+
+        {{/* Grain Effect */}}
+        <div class="field-group checkbox-field">
+            <input type="checkbox" id="show-grain" checked>
+            <label for="show-grain">Effet grain</label>
+        </div>
+        <div class="field-group" id="grain-options">
+            <label>Opacite du grain</label>
+            <div class="slider-control">
+                <input type="range" id="grain-opacity" min="0" max="0.5" step="0.01" value="0.15">
+                <span id="grain-opacity-display">15%</span>
+            </div>
+        </div>
+        <div class="field-group" id="grain-size-options">
+            <label>Taille du grain</label>
+            <div class="slider-control">
+                <input type="range" id="grain-size" min="0.5" max="3" step="0.1" value="1">
+                <span id="grain-size-display">1x</span>
+            </div>
+        </div>
+
+        {{/* Hero Background */}}
+        <div class="field-group checkbox-field">
+            <input type="checkbox" id="show-hero">
+            <label for="show-hero">Fond anime (vagues)</label>
+        </div>
+        <div class="field-group hidden" id="hero-options">
+            <label>Hauteur des vagues</label>
+            <div class="slider-control">
+                <input type="range" id="hero-wave-height" min="40" max="200" step="10" value="120">
+                <span id="hero-wave-height-display">120px</span>
+            </div>
+        </div>
+        <div class="field-group hidden" id="hero-speed-options">
+            <label>Vitesse d'animation</label>
+            <div class="slider-control">
+                <input type="range" id="hero-wave-speed" min="2" max="20" step="1" value="8">
+                <span id="hero-wave-speed-display">8s</span>
+            </div>
+        </div>
+        <div class="field-group hidden" id="hero-opacity-options">
+            <label>Opacite des vagues</label>
+            <div class="slider-control">
+                <input type="range" id="hero-opacity" min="0.1" max="0.8" step="0.05" value="0.3">
+                <span id="hero-opacity-display">30%</span>
+            </div>
+        </div>
+
         <div class="field-group checkbox-field">
             <input type="checkbox" id="show-author" checked>
             <label for="show-author">Afficher l'auteur</label>
@@ -34,6 +82,17 @@
         <div class="field-group checkbox-field">
             <input type="checkbox" id="show-decoration" checked>
             <label for="show-decoration">Afficher decorations</label>
+        </div>
+        
+        {{/* Reset Button */}}
+        <div class="field-group reset-section">
+            <button type="button" class="reset-btn" id="reset-editor" title="Remettre les valeurs par defaut">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                    <path d="M3 3v5h5"/>
+                </svg>
+                Reinitialiser
+            </button>
         </div>
     </div>
 </div>

@@ -46,6 +46,7 @@ window.BrandingEditor.technologies = {
                 
                 self.updateDisplay();
                 templates.updateContent();
+                window.BrandingEditor.saveState();
             });
         });
 
@@ -58,6 +59,7 @@ window.BrandingEditor.technologies = {
                 });
                 self.updateDisplay();
                 templates.updateContent();
+                window.BrandingEditor.saveState();
             });
         }
     },
@@ -146,6 +148,7 @@ window.BrandingEditor.technologies = {
                 document.querySelector(`.tech-item[data-key="${tech.key}"]`)?.classList.remove('selected');
                 self.updateDisplay();
                 templates.updateContent();
+                window.BrandingEditor.saveState();
             });
             chip.appendChild(removeBtn);
             
@@ -162,5 +165,6 @@ window.BrandingEditor.technologies = {
         state.selectedTechnologies.splice(toIndex, 0, tech);
         this.updateDisplay();
         templates.updateContent();
+        window.BrandingEditor.saveState();
     }
 };

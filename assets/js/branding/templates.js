@@ -55,6 +55,7 @@ window.BrandingEditor.templates = {
             showLogoTitle.addEventListener('change', function() {
                 state.templates['project-showcase'].showLogoTitle = this.checked;
                 self.updateProjectTitleVisibility();
+                window.BrandingEditor.saveState();
             });
         }
     },
@@ -67,6 +68,7 @@ window.BrandingEditor.templates = {
             el.addEventListener('input', function() {
                 state.templates[templateKey][propKey] = this.value;
                 self.updateContent();
+                window.BrandingEditor.saveState();
             });
         }
     },
@@ -83,6 +85,7 @@ window.BrandingEditor.templates = {
                     state.templates[templateKey][propKey] = this.value;
                 }
                 self.updateContent();
+                window.BrandingEditor.saveState();
             });
         }
     },
@@ -116,6 +119,9 @@ window.BrandingEditor.templates = {
 
         // Update template-specific content
         this.updateContent();
+        
+        // Save state
+        window.BrandingEditor.saveState();
     },
     
     updateProjectTitleVisibility: function() {
@@ -134,6 +140,9 @@ window.BrandingEditor.templates = {
         const state = window.BrandingEditor.state;
         const elements = window.BrandingEditor.elements;
         const currentTemplateData = state.templates[state.currentTemplate] || {};
+        
+        console.log('[BrandingEditor] updateContent called for:', state.currentTemplate);
+        console.log('[BrandingEditor] Template data:', state.templates[state.currentTemplate]);
 
         // ================================================================
         // SERVICE CARD TEMPLATE

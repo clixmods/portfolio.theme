@@ -126,6 +126,9 @@
             <div class="preview-wrapper">
                 <div class="preview-container" id="preview-container">
                     <div class="preview-canvas" id="preview-canvas" style="width: 1280px; height: 720px;">
+                        {{/* Global overlays - applied on top of all templates */}}
+                        {{ partial "branding/template-overlays.html" . }}
+                        
                         {{ partial "branding/template-service-card.html" (dict "profile" $profile) }}
                         {{ partial "branding/template-project-showcase.html" (dict "profile" $profile) }}
                         {{ partial "branding/template-portfolio-card.html" (dict "profile" $profile) }}

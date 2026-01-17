@@ -1,0 +1,116 @@
+// ============================================================================
+// BRANDING - OVERLAYS (Grain & Hero Background)
+// ============================================================================
+// Visual effects applied on top of templates
+
+// Grain Overlay - Film noise effect
+.template-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.15;
+  
+  // SVG noise pattern via CSS
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  
+  &.hidden {
+    display: none;
+  }
+}
+
+// Hero Background - Animated waves
+.template-hero {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  
+  &.hidden {
+    display: none;
+  }
+  
+  .hero-waves {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    min-height: 40px;
+    max-height: 200px;
+  }
+  
+  .wave {
+    fill: var(--branding-accent, #00d4ff);
+    transition: opacity 0.3s ease;
+  }
+  
+  // Different base opacities for layered depth effect
+  .wave-1 {
+    opacity: 0.2;
+    animation: wave-drift 8s ease-in-out infinite;
+  }
+  
+  .wave-2 {
+    opacity: 0.3;
+    animation: wave-drift 8s ease-in-out infinite;
+    animation-delay: -2s;
+  }
+  
+  .wave-3 {
+    opacity: 0.4;
+    animation: wave-drift 8s ease-in-out infinite;
+    animation-delay: -4s;
+  }
+}
+
+@keyframes wave-drift {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-25px);
+  }
+}
+
+// Additional grain animation for more realistic effect
+@keyframes grain-shift {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-2%, -2%);
+  }
+  20% {
+    transform: translate(2%, 2%);
+  }
+  30% {
+    transform: translate(-1%, 1%);
+  }
+  40% {
+    transform: translate(1%, -1%);
+  }
+  50% {
+    transform: translate(-2%, 2%);
+  }
+  60% {
+    transform: translate(2%, -2%);
+  }
+  70% {
+    transform: translate(-1%, -1%);
+  }
+  80% {
+    transform: translate(1%, 1%);
+  }
+  90% {
+    transform: translate(-2%, -1%);
+  }
+}
+
+// Animated grain variant (optional, more dynamic)
+.template-grain.animated {
+  animation: grain-shift 0.5s steps(10) infinite;
+}

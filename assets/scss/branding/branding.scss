@@ -11,6 +11,7 @@
 // - _technologies.scss    : Technology tabs, lists, selected display
 // - _controls.scss        : Preview controls, resolution, zoom
 // - _preview.scss         : Preview container and canvas
+// - _overlays.scss        : Grain and hero background effects
 // - templates/_index.scss : All branding template styles (modular)
 // - _notifications.scss   : Toast notifications
 // - _responsive.scss      : Media queries
@@ -22,6 +23,7 @@
 @import 'technologies';
 @import 'controls';
 @import 'preview';
+@import 'overlays';
 @import 'templates/index';
 @import 'notifications';
 @import 'responsive';
