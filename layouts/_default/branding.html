@@ -1,0 +1,495 @@
+{{ define "main" }}
+{{/* Load SCSS and JS assets for the branding preview page */}}
+{{ $brandingCSS := resources.Get "scss/branding-preview.scss" | css.Sass | resources.Minify }}
+{{ $brandingJS := resources.Get "js/branding-preview.js" | resources.Minify }}
+<link rel="stylesheet" href="{{ $brandingCSS.RelPermalink }}">
+<script src="{{ $brandingJS.RelPermalink }}" defer></script>
+
+{{/* Load all data sources for the editor */}}
+{{ $profile := partial "get-localized-data.html" (dict "context" . "dataName" "profile") }}
+{{ $programmingLanguages := .Site.Data.programming_languages }}
+{{ $frameworksEngines := .Site.Data.frameworks_engines }}
+{{ $tools := .Site.Data.tools }}
+{{ $specialties := .Site.Data.specialties }}
+{{ $softSkills := .Site.Data.soft_skills }}
+
+{{/* Get all projects */}}
+{{ $projects := where .Site.RegularPages "Section" "projects" }}
+
+<div class="branding-page">
+    {{/* Main layout: Editor sidebar + Preview area */}}
+    <div class="branding-layout">
+        
+        {{/* ================================================================ */}}
+        {{/* EDITOR SIDEBAR */}}
+        {{/* ================================================================ */}}
+        <aside class="branding-editor-sidebar" id="editor-sidebar">
+            <div class="sidebar-header">
+                <h2>Editeur</h2>
+                <button class="sidebar-toggle" id="toggle-sidebar" title="Masquer l'editeur">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+
+            {{/* Template Selection */}}
+            <div class="editor-section">
+                <h3>Template</h3>
+                <div class="template-grid">
+                    <button class="template-card active" data-template="service-card">
+                        <span class="template-icon">🎯</span>
+                        <span class="template-name">Service Fiverr</span>
+                    </button>
+                    <button class="template-card" data-template="project-showcase">
+                        <span class="template-icon">🎮</span>
+                        <span class="template-name">Projet</span>
+                    </button>
+                    <button class="template-card" data-template="portfolio-card">
+                        <span class="template-icon">👤</span>
+                        <span class="template-name">Portfolio</span>
+                    </button>
+                    <button class="template-card" data-template="skill-highlight">
+                        <span class="template-icon">⚡</span>
+                        <span class="template-name">Competences</span>
+                    </button>
+                </div>
+            </div>
+
+            {{/* Text Content Editor */}}
+            <div class="editor-section" id="text-editor-section">
+                <h3>Textes</h3>
+                <div class="editor-fields">
+                    <div class="field-group">
+                        <label for="edit-badge">Badge</label>
+                        <input type="text" id="edit-badge" value="Unity Expert" placeholder="Texte du badge">
+                    </div>
+                    <div class="field-group">
+                        <label for="edit-title">Titre</label>
+                        <input type="text" id="edit-title" value="Bug Fixes & Debugging" placeholder="Titre principal">
+                    </div>
+                    <div class="field-group">
+                        <label for="edit-subtitle">Sous-titre</label>
+                        <input type="text" id="edit-subtitle" value="Professional Unity & C# Code Repair" placeholder="Sous-titre">
+                    </div>
+                    <div class="field-group">
+                        <label>Features (une par ligne)</label>
+                        <textarea id="edit-features" rows="4" placeholder="Console Errors&#10;Performance Issues&#10;All Platforms">Console Errors
+Performance Issues
+All Platforms</textarea>
+                    </div>
+                    <div class="field-group">
+                        <label for="edit-author-title">Titre auteur</label>
+                        <input type="text" id="edit-author-title" value="Commercial Game Developer" placeholder="Votre titre">
+                    </div>
+                </div>
+            </div>
+
+            {{/* Project Selector */}}
+            <div class="editor-section" id="project-selector-section">
+                <h3>Projet</h3>
+                <div class="search-field">
+                    <input type="text" id="project-search" placeholder="Rechercher un projet...">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="M21 21l-4.35-4.35"></path>
+                    </svg>
+                </div>
+                <div class="project-list" id="project-list">
+                    {{ range $projects }}
+                    {{ if not .Draft }}
+                    <button class="project-item" 
+                            data-title="{{ .Title }}"
+                            data-subtitle="{{ .Params.subtitle | default .Params.description }}"
+                            data-image="{{ .Params.image }}"
+                            data-logo="{{ .Params.logo }}"
+                            data-languages="{{ with .Params.programming_languages }}{{ delimit . "," }}{{ end }}"
+                            data-frameworks="{{ with .Params.frameworks_engines }}{{ delimit . "," }}{{ end }}"
+                            data-status="{{ .Params.status }}">
+                        {{ if .Params.logo }}
+                        <img src="{{ .Params.logo }}" alt="{{ .Title }}" class="project-thumb">
+                        {{ else if .Params.image }}
+                        <img src="{{ .Params.image }}" alt="{{ .Title }}" class="project-thumb">
+                        {{ else }}
+                        <div class="project-thumb-placeholder">{{ substr .Title 0 1 }}</div>
+                        {{ end }}
+                        <span class="project-name">{{ .Title }}</span>
+                    </button>
+                    {{ end }}
+                    {{ end }}
+                </div>
+            </div>
+
+            {{/* Technology Selector */}}
+            <div class="editor-section">
+                <h3>Technologies</h3>
+                <div class="tech-tabs">
+                    <button class="tech-tab active" data-tab="languages">Langages</button>
+                    <button class="tech-tab" data-tab="frameworks">Frameworks</button>
+                    <button class="tech-tab" data-tab="tools">Outils</button>
+                </div>
+                
+                {{/* Languages */}}
+                <div class="tech-list" id="tech-languages">
+                    {{ range $programmingLanguages }}
+                    {{ if .displayedInPortfolio }}
+                    <button class="tech-item" 
+                            data-key="{{ .key }}"
+                            data-icon="{{ .iconPath }}"
+                            data-color="{{ .color }}"
+                            data-name="{{ T .key | default .key }}">
+                        {{ if .iconPath }}
+                        <img src="{{ .iconPath }}" alt="{{ .key }}">
+                        {{ else }}
+                        <span class="tech-emoji">{{ .icon }}</span>
+                        {{ end }}
+                        <span>{{ T .key | default .key }}</span>
+                    </button>
+                    {{ end }}
+                    {{ end }}
+                </div>
+
+                {{/* Frameworks */}}
+                <div class="tech-list hidden" id="tech-frameworks">
+                    {{ range $frameworksEngines }}
+                    {{ if .displayedInPortfolio }}
+                    <button class="tech-item" 
+                            data-key="{{ .key }}"
+                            data-icon="{{ .iconPath }}"
+                            data-color="{{ .color }}"
+                            data-name="{{ T .key | default .key }}">
+                        {{ if .iconPath }}
+                        <img src="{{ .iconPath }}" alt="{{ .key }}">
+                        {{ else }}
+                        <span class="tech-emoji">{{ .icon }}</span>
+                        {{ end }}
+                        <span>{{ T .key | default .key }}</span>
+                    </button>
+                    {{ end }}
+                    {{ end }}
+                </div>
+
+                {{/* Tools */}}
+                <div class="tech-list hidden" id="tech-tools">
+                    {{ range $tools }}
+                    {{ if .displayedInPortfolio }}
+                    <button class="tech-item" 
+                            data-key="{{ .key }}"
+                            data-icon="{{ .iconPath }}"
+                            data-color="{{ .color }}"
+                            data-name="{{ T .key | default .key }}">
+                        {{ if .iconPath }}
+                        <img src="{{ .iconPath }}" alt="{{ .key }}">
+                        {{ else }}
+                        <span class="tech-emoji">{{ .icon }}</span>
+                        {{ end }}
+                        <span>{{ T .key | default .key }}</span>
+                    </button>
+                    {{ end }}
+                    {{ end }}
+                </div>
+
+                {{/* Selected Technologies Display */}}
+                <div class="selected-techs" id="selected-techs">
+                    <span class="selected-label">Selectionnees:</span>
+                    <div class="selected-techs-list" id="selected-techs-list">
+                        {{/* Populated by JS */}}
+                    </div>
+                    <button class="clear-techs-btn" id="clear-techs" title="Tout effacer">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            {{/* Style Options */}}
+            <div class="editor-section">
+                <h3>Style</h3>
+                <div class="style-options">
+                    <div class="field-group">
+                        <label>Gradient</label>
+                        <div class="gradient-picker">
+                            <input type="color" id="gradient-start" value="#1a1a2e" title="Couleur de depart">
+                            <span class="gradient-arrow">→</span>
+                            <input type="color" id="gradient-end" value="#0f3460" title="Couleur de fin">
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label>Angle du gradient</label>
+                        <div class="angle-control">
+                            <input type="range" id="gradient-angle" min="0" max="360" value="135">
+                            <span id="angle-display">135°</span>
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label>Couleur d'accent</label>
+                        <input type="color" id="accent-color" value="#00d4ff">
+                    </div>
+                    <div class="field-group checkbox-field">
+                        <input type="checkbox" id="show-author" checked>
+                        <label for="show-author">Afficher l'auteur</label>
+                    </div>
+                    <div class="field-group checkbox-field">
+                        <input type="checkbox" id="show-decoration" checked>
+                        <label for="show-decoration">Afficher decorations</label>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        {{/* ================================================================ */}}
+        {{/* PREVIEW AREA */}}
+        {{/* ================================================================ */}}
+        <main class="branding-preview-area">
+            {{/* Top Controls Bar */}}
+            <div class="branding-controls">
+                <div class="controls-row">
+                    <div class="controls-group">
+                        <label>Resolution:</label>
+                        <div class="resolution-presets">
+                            <button class="preset-btn active" data-width="1280" data-height="720">Fiverr (1280x720)</button>
+                            <button class="preset-btn" data-width="1920" data-height="1080">Full HD</button>
+                            <button class="preset-btn" data-width="1080" data-height="1080">Instagram</button>
+                            <button class="preset-btn" data-width="1200" data-height="628">LinkedIn</button>
+                        </div>
+                    </div>
+
+                    <div class="controls-group custom-size-group">
+                        <input type="number" id="custom-width" placeholder="W" min="100" max="3840" value="1280">
+                        <span>x</span>
+                        <input type="number" id="custom-height" placeholder="H" min="100" max="2160" value="720">
+                        <button class="btn-apply" id="apply-custom-size">OK</button>
+                    </div>
+
+                    <div class="controls-group">
+                        <label>Zoom:</label>
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" data-zoom="0.5">50%</button>
+                            <button class="zoom-btn active" data-zoom="0.75">75%</button>
+                            <button class="zoom-btn" data-zoom="1">100%</button>
+                            <button class="zoom-btn" data-zoom="fit">Fit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-row actions-row">
+                    <div class="preview-info">
+                        <span class="current-size">1280 x 720</span>
+                        <span class="current-zoom">75%</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-action primary" id="export-png">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Exporter PNG
+                        </button>
+                        <button class="btn-action accent" id="copy-clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                            Copier
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{/* Preview Container */}}
+            <div class="preview-wrapper">
+                <div class="preview-container" id="preview-container">
+                    <div class="preview-canvas" id="preview-canvas" style="width: 1280px; height: 720px;">
+                        
+                        {{/* ============================================== */}}
+                        {{/* TEMPLATE: Service Card (Fiverr Gig) */}}
+                        {{/* ============================================== */}}
+                        <div class="branding-template" id="template-service-card">
+                            <div class="template-bg" id="template-bg"></div>
+                            <div class="template-content">
+                                <div class="template-badge" id="template-badge-container">
+                                    <img src="/images/technologies/Unity.svg" alt="Unity" class="tech-icon" id="badge-icon">
+                                    <span class="badge-text" id="badge-text">Unity Expert</span>
+                                </div>
+                                <h2 class="template-title" id="template-title">
+                                    <span class="highlight">Bug Fixes</span> & Debugging
+                                </h2>
+                                <p class="template-subtitle" id="template-subtitle">Professional Unity & C# Code Repair</p>
+                                <div class="template-features" id="template-features">
+                                    <div class="feature">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                        <span>Console Errors</span>
+                                    </div>
+                                    <div class="feature">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                        <span>Performance Issues</span>
+                                    </div>
+                                    <div class="feature">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                        <span>All Platforms</span>
+                                    </div>
+                                </div>
+                                <div class="template-tech-stack" id="template-tech-stack">
+                                    {{/* Technologies will be added here by JS */}}
+                                </div>
+                                <div class="template-author" id="template-author">
+                                    <img src="{{ $profile.media.profileImage }}" alt="{{ $profile.personal.fullName }}" class="author-avatar">
+                                    <div class="author-info">
+                                        <span class="author-name">{{ $profile.personal.fullName }}</span>
+                                        <span class="author-title" id="author-title">Commercial Game Developer</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="template-decoration" id="template-decoration">
+                                <div class="code-snippet">
+                                    <pre><code>void FixBug() {
+  Debug.Log("Fixed!");
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{/* ============================================== */}}
+                        {{/* TEMPLATE: Project Showcase */}}
+                        {{/* ============================================== */}}
+                        <div class="branding-template hidden" id="template-project-showcase">
+                            <div class="template-bg" id="project-bg"></div>
+                            <div class="project-image-overlay" id="project-image-overlay"></div>
+                            <div class="template-content project-content">
+                                <div class="project-logo-container" id="project-logo-container">
+                                    <img src="" alt="" class="project-logo" id="project-logo">
+                                </div>
+                                <h2 class="template-title project-title" id="project-title">Terra Memoria</h2>
+                                <p class="template-subtitle project-subtitle" id="project-subtitle">JRPG developpe par Studio La Moutarde</p>
+                                <div class="project-techs" id="project-techs">
+                                    {{/* Project technologies */}}
+                                </div>
+                                <div class="project-status" id="project-status">
+                                    <span class="status-badge">Termine</span>
+                                </div>
+                                <div class="template-author" id="project-author">
+                                    <img src="{{ $profile.media.profileImage }}" alt="{{ $profile.personal.fullName }}" class="author-avatar">
+                                    <div class="author-info">
+                                        <span class="author-name">{{ $profile.personal.fullName }}</span>
+                                        <span class="author-title">Unity & C# Developer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{/* ============================================== */}}
+                        {{/* TEMPLATE: Portfolio Card */}}
+                        {{/* ============================================== */}}
+                        <div class="branding-template hidden" id="template-portfolio-card">
+                            <div class="template-bg" id="portfolio-bg"></div>
+                            <div class="template-content centered">
+                                <img src="{{ $profile.media.profileImage }}" alt="{{ $profile.personal.fullName }}" class="large-avatar">
+                                <h2 class="template-title centered" id="portfolio-name">{{ $profile.personal.fullName }}</h2>
+                                <p class="template-subtitle" id="portfolio-title">Unity & C# Game Developer</p>
+                                <div class="template-tech-stack" id="portfolio-tech-stack">
+                                    <img src="/images/technologies/Unity.svg" alt="Unity" title="Unity">
+                                    <img src="/images/technologies/CSharp.svg" alt="C#" title="C#">
+                                </div>
+                                <div class="template-highlights" id="portfolio-highlights">
+                                    <span class="highlight-tag">Terra Memoria - Commercial Release</span>
+                                    <span class="highlight-tag">870K+ Downloads</span>
+                                    <span class="highlight-tag">Nintendo Switch Porting</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{/* ============================================== */}}
+                        {{/* TEMPLATE: Skill Highlight */}}
+                        {{/* ============================================== */}}
+                        <div class="branding-template hidden" id="template-skill-highlight">
+                            <div class="template-bg" id="skill-bg"></div>
+                            <div class="template-content skill-content">
+                                <h2 class="template-title skill-title" id="skill-title">
+                                    <span class="highlight">Specialise</span> en
+                                </h2>
+                                <div class="skill-icons-grid" id="skill-icons-grid">
+                                    {{/* Large skill icons */}}
+                                </div>
+                                <p class="template-subtitle skill-subtitle" id="skill-subtitle">
+                                    Developpement de jeux video professionnels
+                                </p>
+                                <div class="template-author" id="skill-author">
+                                    <img src="{{ $profile.media.profileImage }}" alt="{{ $profile.personal.fullName }}" class="author-avatar">
+                                    <div class="author-info">
+                                        <span class="author-name">{{ $profile.personal.fullName }}</span>
+                                        <span class="author-title">Game Developer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    {{/* Collapsed sidebar toggle button */}}
+    <button class="sidebar-show-btn hidden" id="show-sidebar" title="Afficher l'editeur">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+        Editeur
+    </button>
+</div>
+
+{{/* Pass data to JavaScript */}}
+<script>
+    window.BRANDING_DATA = {
+        profile: {
+            name: "{{ $profile.personal.fullName }}",
+            avatar: "{{ $profile.media.profileImage }}"
+        },
+        technologies: {
+            languages: [
+                {{ range $index, $lang := $programmingLanguages }}
+                {{ if $index }},{{ end }}
+                {
+                    key: "{{ .key }}",
+                    icon: "{{ .iconPath }}",
+                    color: "{{ .color }}",
+                    name: "{{ T .key | default .key }}"
+                }
+                {{ end }}
+            ],
+            frameworks: [
+                {{ range $index, $fw := $frameworksEngines }}
+                {{ if $index }},{{ end }}
+                {
+                    key: "{{ .key }}",
+                    icon: "{{ .iconPath }}",
+                    color: "{{ .color }}",
+                    name: "{{ T .key | default .key }}"
+                }
+                {{ end }}
+            ],
+            tools: [
+                {{ range $index, $tool := $tools }}
+                {{ if $index }},{{ end }}
+                {
+                    key: "{{ .key }}",
+                    icon: "{{ .iconPath }}",
+                    color: "{{ .color }}",
+                    name: "{{ T .key | default .key }}"
+                }
+                {{ end }}
+            ]
+        }
+    };
+</script>
+
+{{ end }}
