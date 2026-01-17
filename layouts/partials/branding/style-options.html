@@ -4,160 +4,222 @@
 <div class="editor-section">
     <h3>Style</h3>
     <div class="style-options">
-        <div class="field-group checkbox-field">
-            <input type="checkbox" id="show-gradient" checked>
-            <label for="show-gradient">Afficher gradient</label>
-        </div>
-        <div class="field-group" id="gradient-options">
-            <label>Gradient</label>
-            <div class="gradient-picker">
-                <input type="color" id="gradient-start" value="#1a1a2e" title="Couleur de depart">
-                <span class="gradient-arrow">→</span>
-                <input type="color" id="gradient-end" value="#0f3460" title="Couleur de fin">
-            </div>
-        </div>
-        <div class="field-group" id="angle-options">
-            <label>Angle du gradient</label>
-            <div class="angle-control">
-                <input type="range" id="gradient-angle" min="0" max="360" value="135">
-                <span id="angle-display">135°</span>
-            </div>
-        </div>
-        <div class="field-group">
-            <label>Couleur d'accent</label>
-            <input type="color" id="accent-color" value="#00d4ff">
-        </div>
 
-        {{/* Grain Effect */}}
-        <div class="field-group checkbox-field">
-            <input type="checkbox" id="show-grain" checked>
-            <label for="show-grain">Effet grain</label>
-        </div>
-        <div class="field-group" id="grain-options">
-            <label>Opacite du grain</label>
-            <div class="slider-control">
-                <input type="range" id="grain-opacity" min="0" max="0.5" step="0.01" value="0.15">
-                <span id="grain-opacity-display">15%</span>
+        {{/* ==================== GRADIENT GROUP ==================== */}}
+        <div class="style-toggle-group" data-group="gradient">
+            <div class="style-toggle-header">
+                <div class="toggle-header-left">
+                    <input type="checkbox" id="show-gradient" checked>
+                    <label for="show-gradient">Gradient</label>
+                </div>
+                <button type="button" class="toggle-expand-btn" aria-expanded="false" aria-label="Derouler les options">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
             </div>
-        </div>
-        <div class="field-group" id="grain-size-options">
-            <label>Taille du grain</label>
-            <div class="slider-control">
-                <input type="range" id="grain-size" min="0.5" max="3" step="0.1" value="1">
-                <span id="grain-size-display">1x</span>
+            <div class="style-toggle-content">
+                <div class="field-group" id="gradient-options">
+                    <label>Couleurs</label>
+                    <div class="gradient-picker">
+                        <input type="color" id="gradient-start" value="#1a1a2e" title="Couleur de depart">
+                        <span class="gradient-arrow">→</span>
+                        <input type="color" id="gradient-end" value="#0f3460" title="Couleur de fin">
+                    </div>
+                </div>
+                <div class="field-group" id="angle-options">
+                    <label>Angle</label>
+                    <div class="angle-control">
+                        <input type="range" id="gradient-angle" min="0" max="360" value="135">
+                        <span id="angle-display">135°</span>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label>Couleur d'accent</label>
+                    <input type="color" id="accent-color" value="#00d4ff">
+                </div>
             </div>
         </div>
 
-        {{/* Hero Background - SVG Waves */}}
-        <div class="field-group checkbox-field">
-            <input type="checkbox" id="show-hero">
-            <label for="show-hero">Vagues</label>
-        </div>
-        <div class="field-group hidden" id="hero-opacity-options">
-            <label>Opacite</label>
-            <div class="slider-control">
-                <input type="range" id="hero-opacity" min="0.1" max="1" step="0.05" value="0.3">
-                <span id="hero-opacity-display">30%</span>
+        {{/* ==================== GRAIN GROUP ==================== */}}
+        <div class="style-toggle-group" data-group="grain">
+            <div class="style-toggle-header">
+                <div class="toggle-header-left">
+                    <input type="checkbox" id="show-grain" checked>
+                    <label for="show-grain">Grain</label>
+                </div>
+                <button type="button" class="toggle-expand-btn" aria-expanded="false" aria-label="Derouler les options">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
             </div>
-        </div>
-        <div class="field-group hidden" id="hero-speed-options">
-            <label>Vitesse</label>
-            <div class="slider-control">
-                <input type="range" id="hero-wave-speed" min="4" max="30" step="1" value="12">
-                <span id="hero-wave-speed-display">12s</span>
-            </div>
-        </div>
-        <div class="field-group hidden" id="hero-height-options">
-            <label>Hauteur</label>
-            <div class="slider-control">
-                <input type="range" id="hero-wave-height" min="5" max="100" step="5" value="40">
-                <span id="hero-wave-height-display">40%</span>
-            </div>
-        </div>
-        <div class="field-group hidden" id="hero-scale-options">
-            <label>Echelle</label>
-            <div class="slider-control">
-                <input type="range" id="hero-wave-scale" min="0.5" max="3" step="0.1" value="1">
-                <span id="hero-wave-scale-display">1x</span>
-            </div>
-        </div>
-        <div class="field-group hidden" id="hero-position-x-options">
-            <label>Position X</label>
-            <div class="slider-control">
-                <input type="range" id="hero-position-x" min="-50" max="50" step="1" value="0">
-                <span id="hero-position-x-display">0%</span>
-            </div>
-        </div>
-        <div class="field-group hidden" id="hero-position-y-options">
-            <label>Position Y</label>
-            <div class="slider-control">
-                <input type="range" id="hero-position-y" min="-50" max="50" step="1" value="0">
-                <span id="hero-position-y-display">0%</span>
+            <div class="style-toggle-content">
+                <div class="field-group" id="grain-options">
+                    <label>Opacite</label>
+                    <div class="slider-control">
+                        <input type="range" id="grain-opacity" min="0" max="0.5" step="0.01" value="0.15">
+                        <span id="grain-opacity-display">15%</span>
+                    </div>
+                </div>
+                <div class="field-group" id="grain-size-options">
+                    <label>Taille</label>
+                    <div class="slider-control">
+                        <input type="range" id="grain-size" min="0.5" max="3" step="0.1" value="1">
+                        <span id="grain-size-display">1x</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        {{/* Particles */}}
-        <div class="field-group checkbox-field">
-            <input type="checkbox" id="show-particles" checked>
-            <label for="show-particles">Particules</label>
-        </div>
-        <div class="field-group" id="particles-seed-options">
-            <label>Seed</label>
-            <div class="slider-control">
-                <input type="number" id="particles-seed" min="1" max="9999" value="123" class="seed-input">
-                <button type="button" id="particles-seed-random" class="seed-random-btn" title="Seed aleatoire">🎲</button>
+        {{/* ==================== WAVES GROUP ==================== */}}
+        <div class="style-toggle-group" data-group="waves">
+            <div class="style-toggle-header">
+                <div class="toggle-header-left">
+                    <input type="checkbox" id="show-hero">
+                    <label for="show-hero">Vagues</label>
+                </div>
+                <button type="button" class="toggle-expand-btn" aria-expanded="false" aria-label="Derouler les options">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
             </div>
-        </div>
-        <div class="field-group" id="particles-count-options">
-            <label>Nombre</label>
-            <div class="slider-control">
-                <input type="range" id="particles-count" min="10" max="200" step="5" value="60">
-                <span id="particles-count-display">60</span>
-            </div>
-        </div>
-        <div class="field-group" id="particles-speed-options">
-            <label>Vitesse</label>
-            <div class="slider-control">
-                <input type="range" id="particles-speed" min="0.1" max="5" step="0.1" value="1.0">
-                <span id="particles-speed-display">1.0x</span>
-            </div>
-        </div>
-        <div class="field-group" id="particles-opacity-options">
-            <label>Opacite</label>
-            <div class="slider-control">
-                <input type="range" id="particles-opacity" min="0.1" max="1" step="0.05" value="0.8">
-                <span id="particles-opacity-display">80%</span>
-            </div>
-        </div>
-        <div class="field-group" id="particles-size-options">
-            <label>Taille</label>
-            <div class="slider-control">
-                <input type="range" id="particles-size" min="0.5" max="5" step="0.25" value="1">
-                <span id="particles-size-display">1x</span>
-            </div>
-        </div>
-        <div class="field-group" id="particles-position-x-options">
-            <label>Position X</label>
-            <div class="slider-control">
-                <input type="range" id="particles-position-x" min="-50" max="50" step="1" value="0">
-                <span id="particles-position-x-display">0%</span>
-            </div>
-        </div>
-        <div class="field-group" id="particles-position-y-options">
-            <label>Position Y</label>
-            <div class="slider-control">
-                <input type="range" id="particles-position-y" min="-50" max="50" step="1" value="0">
-                <span id="particles-position-y-display">0%</span>
+            <div class="style-toggle-content">
+                <div class="field-group" id="hero-opacity-options">
+                    <label>Opacite</label>
+                    <div class="slider-control">
+                        <input type="range" id="hero-opacity" min="0.1" max="1" step="0.05" value="0.3">
+                        <span id="hero-opacity-display">30%</span>
+                    </div>
+                </div>
+                <div class="field-group" id="hero-speed-options">
+                    <label>Vitesse</label>
+                    <div class="slider-control">
+                        <input type="range" id="hero-wave-speed" min="4" max="30" step="1" value="12">
+                        <span id="hero-wave-speed-display">12s</span>
+                    </div>
+                </div>
+                <div class="field-group" id="hero-height-options">
+                    <label>Hauteur</label>
+                    <div class="slider-control">
+                        <input type="range" id="hero-wave-height" min="5" max="100" step="5" value="40">
+                        <span id="hero-wave-height-display">40%</span>
+                    </div>
+                </div>
+                <div class="field-group" id="hero-scale-options">
+                    <label>Echelle</label>
+                    <div class="slider-control">
+                        <input type="range" id="hero-wave-scale" min="0.5" max="3" step="0.1" value="1">
+                        <span id="hero-wave-scale-display">1x</span>
+                    </div>
+                </div>
+                <div class="field-group" id="hero-position-x-options">
+                    <label>Position X</label>
+                    <div class="slider-control">
+                        <input type="range" id="hero-position-x" min="-50" max="50" step="1" value="0">
+                        <span id="hero-position-x-display">0%</span>
+                    </div>
+                </div>
+                <div class="field-group" id="hero-position-y-options">
+                    <label>Position Y</label>
+                    <div class="slider-control">
+                        <input type="range" id="hero-position-y" min="-50" max="50" step="1" value="0">
+                        <span id="hero-position-y-display">0%</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="field-group checkbox-field">
-            <input type="checkbox" id="show-author" checked>
-            <label for="show-author">Afficher l'auteur</label>
+        {{/* ==================== PARTICLES GROUP ==================== */}}
+        <div class="style-toggle-group" data-group="particles">
+            <div class="style-toggle-header">
+                <div class="toggle-header-left">
+                    <input type="checkbox" id="show-particles" checked>
+                    <label for="show-particles">Particules</label>
+                </div>
+                <button type="button" class="toggle-expand-btn" aria-expanded="false" aria-label="Derouler les options">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="style-toggle-content">
+                <div class="field-group" id="particles-seed-options">
+                    <label>Seed</label>
+                    <div class="slider-control">
+                        <input type="number" id="particles-seed" min="1" max="9999" value="123" class="seed-input">
+                        <button type="button" id="particles-seed-random" class="seed-random-btn" title="Seed aleatoire">🎲</button>
+                    </div>
+                </div>
+                <div class="field-group" id="particles-count-options">
+                    <label>Nombre</label>
+                    <div class="slider-control">
+                        <input type="range" id="particles-count" min="10" max="200" step="5" value="60">
+                        <span id="particles-count-display">60</span>
+                    </div>
+                </div>
+                <div class="field-group" id="particles-speed-options">
+                    <label>Vitesse</label>
+                    <div class="slider-control">
+                        <input type="range" id="particles-speed" min="0.1" max="5" step="0.1" value="1.0">
+                        <span id="particles-speed-display">1.0x</span>
+                    </div>
+                </div>
+                <div class="field-group" id="particles-opacity-options">
+                    <label>Opacite</label>
+                    <div class="slider-control">
+                        <input type="range" id="particles-opacity" min="0.1" max="1" step="0.05" value="0.8">
+                        <span id="particles-opacity-display">80%</span>
+                    </div>
+                </div>
+                <div class="field-group" id="particles-size-options">
+                    <label>Taille</label>
+                    <div class="slider-control">
+                        <input type="range" id="particles-size" min="0.5" max="5" step="0.25" value="1">
+                        <span id="particles-size-display">1x</span>
+                    </div>
+                </div>
+                <div class="field-group" id="particles-position-x-options">
+                    <label>Position X</label>
+                    <div class="slider-control">
+                        <input type="range" id="particles-position-x" min="-50" max="50" step="1" value="0">
+                        <span id="particles-position-x-display">0%</span>
+                    </div>
+                </div>
+                <div class="field-group" id="particles-position-y-options">
+                    <label>Position Y</label>
+                    <div class="slider-control">
+                        <input type="range" id="particles-position-y" min="-50" max="50" step="1" value="0">
+                        <span id="particles-position-y-display">0%</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="field-group checkbox-field">
-            <input type="checkbox" id="show-decoration" checked>
-            <label for="show-decoration">Afficher decorations</label>
+
+        {{/* ==================== DISPLAY OPTIONS GROUP ==================== */}}
+        <div class="style-toggle-group" data-group="display">
+            <div class="style-toggle-header">
+                <div class="toggle-header-left">
+                    <span class="toggle-group-icon">👁</span>
+                    <span class="toggle-group-label">Affichage</span>
+                </div>
+                <button type="button" class="toggle-expand-btn" aria-expanded="false" aria-label="Derouler les options">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="style-toggle-content">
+                <div class="field-group checkbox-field">
+                    <input type="checkbox" id="show-author" checked>
+                    <label for="show-author">Afficher l'auteur</label>
+                </div>
+                <div class="field-group checkbox-field">
+                    <input type="checkbox" id="show-decoration" checked>
+                    <label for="show-decoration">Afficher decorations</label>
+                </div>
+            </div>
         </div>
         
         {{/* Reset Button */}}

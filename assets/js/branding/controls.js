@@ -7,12 +7,43 @@ window.BrandingEditor = window.BrandingEditor || {};
 
 window.BrandingEditor.controls = {
     init: function() {
+        this.initToggleGroups();
         this.initStyleOptions();
         this.initResolutionControls();
         this.initZoomControls();
         
         // Apply initial state values to UI and effects
         this.applyInitialState();
+    },
+    
+    // Initialize collapsible toggle groups for style options
+    initToggleGroups: function() {
+        const toggleGroups = document.querySelectorAll('.style-toggle-group');
+        
+        toggleGroups.forEach(function(group) {
+            const header = group.querySelector('.style-toggle-header');
+            const expandBtn = group.querySelector('.toggle-expand-btn');
+            const checkbox = group.querySelector('input[type="checkbox"]');
+            
+            if (!header || !expandBtn) return;
+            
+            // Toggle expansion when clicking header (except on checkbox)
+            header.addEventListener('click', function(e) {
+                // Don't toggle if clicking on the checkbox itself
+                if (e.target.type === 'checkbox') return;
+                
+                const isExpanded = group.classList.contains('expanded');
+                group.classList.toggle('expanded');
+                expandBtn.setAttribute('aria-expanded', !isExpanded);
+            });
+            
+            // Prevent checkbox click from toggling the group
+            if (checkbox) {
+                checkbox.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+        });
     },
     
     // Synchronize UI inputs with state and apply all effects
@@ -25,16 +56,12 @@ window.BrandingEditor.controls = {
         const gradientEnd = document.getElementById('gradient-end');
         const gradientAngle = document.getElementById('gradient-angle');
         const angleDisplay = document.getElementById('angle-display');
-        const gradientOptions = document.getElementById('gradient-options');
-        const angleOptions = document.getElementById('angle-options');
         
         if (showGradient) showGradient.checked = state.style.showGradient;
         if (gradientStart) gradientStart.value = state.style.gradientStart;
         if (gradientEnd) gradientEnd.value = state.style.gradientEnd;
         if (gradientAngle) gradientAngle.value = state.style.gradientAngle;
         if (angleDisplay) angleDisplay.textContent = `${state.style.gradientAngle}°`;
-        if (gradientOptions) gradientOptions.style.display = state.style.showGradient ? 'flex' : 'none';
-        if (angleOptions) angleOptions.style.display = state.style.showGradient ? 'flex' : 'none';
         
         // Sync accent color
         const accentColor = document.getElementById('accent-color');
@@ -52,16 +79,12 @@ window.BrandingEditor.controls = {
         const grainOpacityDisplay = document.getElementById('grain-opacity-display');
         const grainSize = document.getElementById('grain-size');
         const grainSizeDisplay = document.getElementById('grain-size-display');
-        const grainOptions = document.getElementById('grain-options');
-        const grainSizeOptions = document.getElementById('grain-size-options');
         
         if (showGrain) showGrain.checked = state.style.showGrain;
         if (grainOpacity) grainOpacity.value = state.style.grainOpacity;
         if (grainOpacityDisplay) grainOpacityDisplay.textContent = `${Math.round(state.style.grainOpacity * 100)}%`;
         if (grainSize) grainSize.value = state.style.grainSize;
         if (grainSizeDisplay) grainSizeDisplay.textContent = `${state.style.grainSize}x`;
-        if (grainOptions) grainOptions.classList.toggle('hidden', !state.style.showGrain);
-        if (grainSizeOptions) grainSizeOptions.classList.toggle('hidden', !state.style.showGrain);
         
         // Sync hero/waves controls (SVG waves)
         const showHero = document.getElementById('show-hero');
@@ -78,12 +101,6 @@ window.BrandingEditor.controls = {
         const heroPositionY = document.getElementById('hero-position-y');
         const heroPositionYDisplay = document.getElementById('hero-position-y-display');
         
-        // All wave option containers
-        const waveOptionContainers = [
-            'hero-opacity-options', 'hero-speed-options', 'hero-height-options',
-            'hero-scale-options', 'hero-position-x-options', 'hero-position-y-options'
-        ];
-        
         if (showHero) showHero.checked = state.style.showHero;
         if (heroOpacity) heroOpacity.value = state.style.heroOpacity;
         if (heroOpacityDisplay) heroOpacityDisplay.textContent = `${Math.round(state.style.heroOpacity * 100)}%`;
@@ -97,10 +114,6 @@ window.BrandingEditor.controls = {
         if (heroPositionXDisplay) heroPositionXDisplay.textContent = `${state.style.heroPositionX || 0}%`;
         if (heroPositionY) heroPositionY.value = state.style.heroPositionY || 0;
         if (heroPositionYDisplay) heroPositionYDisplay.textContent = `${state.style.heroPositionY || 0}%`;
-        waveOptionContainers.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.toggle('hidden', !state.style.showHero);
-        });
         
         // Sync particles controls
         const showParticles = document.getElementById('show-particles');
@@ -118,12 +131,6 @@ window.BrandingEditor.controls = {
         const particlesPositionY = document.getElementById('particles-position-y');
         const particlesPositionYDisplay = document.getElementById('particles-position-y-display');
         
-        // All particle option containers
-        const particleOptionContainers = [
-            'particles-seed-options', 'particles-count-options', 'particles-speed-options', 'particles-opacity-options',
-            'particles-size-options', 'particles-position-x-options', 'particles-position-y-options'
-        ];
-        
         if (showParticles) showParticles.checked = state.style.showParticles;
         if (particlesSeed) particlesSeed.value = state.style.particlesSeed || 123;
         if (particlesCount) particlesCount.value = state.style.particlesCount || 60;
@@ -138,10 +145,6 @@ window.BrandingEditor.controls = {
         if (particlesPositionXDisplay) particlesPositionXDisplay.textContent = `${state.style.particlesPositionX || 0}%`;
         if (particlesPositionY) particlesPositionY.value = state.style.particlesPositionY || 0;
         if (particlesPositionYDisplay) particlesPositionYDisplay.textContent = `${state.style.particlesPositionY || 0}%`;
-        particleOptionContainers.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.toggle('hidden', !state.style.showParticles);
-        });
         
         // Apply all effects (skipSave=true to avoid saving during init)
         this.updateStyle(true);
@@ -160,12 +163,6 @@ window.BrandingEditor.controls = {
         if (elements.showGradient) {
             elements.showGradient.addEventListener('change', function() {
                 state.style.showGradient = this.checked;
-                if (elements.gradientOptions) {
-                    elements.gradientOptions.style.display = this.checked ? 'flex' : 'none';
-                }
-                if (elements.angleOptions) {
-                    elements.angleOptions.style.display = this.checked ? 'flex' : 'none';
-                }
                 self.updateStyle();
             });
         }
@@ -239,14 +236,10 @@ window.BrandingEditor.controls = {
         
         // Grain toggle
         const showGrain = document.getElementById('show-grain');
-        const grainOptions = document.getElementById('grain-options');
-        const grainSizeOptions = document.getElementById('grain-size-options');
         
         if (showGrain) {
             showGrain.addEventListener('change', function() {
                 state.style.showGrain = this.checked;
-                if (grainOptions) grainOptions.classList.toggle('hidden', !this.checked);
-                if (grainSizeOptions) grainSizeOptions.classList.toggle('hidden', !this.checked);
                 self.updateGrainEffect();
             });
         }
@@ -284,22 +277,12 @@ window.BrandingEditor.controls = {
         const state = window.BrandingEditor.state;
         const self = this;
         
-        // All wave option containers
-        const waveOptionContainers = [
-            'hero-opacity-options', 'hero-speed-options', 'hero-height-options',
-            'hero-scale-options', 'hero-position-x-options', 'hero-position-y-options'
-        ];
-        
         // Waves toggle
         const showHero = document.getElementById('show-hero');
         
         if (showHero) {
             showHero.addEventListener('change', function() {
                 state.style.showHero = this.checked;
-                waveOptionContainers.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.classList.toggle('hidden', !this.checked);
-                });
                 self.updateWavesEffect();
             });
         }
@@ -388,22 +371,12 @@ window.BrandingEditor.controls = {
             });
         }
         
-        // All particle option containers
-        const particleOptionContainers = [
-            'particles-seed-options', 'particles-count-options', 'particles-speed-options', 'particles-opacity-options',
-            'particles-size-options', 'particles-position-x-options', 'particles-position-y-options'
-        ];
-        
         // Particles toggle
         const showParticles = document.getElementById('show-particles');
         
         if (showParticles) {
             showParticles.addEventListener('change', function() {
                 state.style.showParticles = this.checked;
-                particleOptionContainers.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.classList.toggle('hidden', !this.checked);
-                });
                 self.updateParticlesEffect();
             });
         }
