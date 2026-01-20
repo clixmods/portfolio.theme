@@ -45,6 +45,48 @@
   gap: 0.35rem;
 }
 
+// Resolution category selector
+.resolution-group {
+  flex-wrap: wrap;
+}
+
+.resolution-category-select {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--branding-glass-border);
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  color: var(--branding-text-primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 0.5rem;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--branding-primary);
+  }
+  
+  option {
+    background: var(--branding-bg-secondary);
+    color: var(--branding-text-primary);
+  }
+}
+
+// Preset groups
+.preset-group {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  
+  &.hidden {
+    display: none;
+  }
+}
+
 .preset-btn,
 .zoom-btn {
   background: rgba(255, 255, 255, 0.05);

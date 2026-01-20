@@ -8,8 +8,31 @@ window.BrandingEditor.controlsResolution = {
     
     // Initialize resolution and zoom controls
     init: function() {
+        this.initCategorySelector();
         this.initResolutionControls();
         this.initZoomControls();
+    },
+    
+    // ========================================================================
+    // CATEGORY SELECTOR
+    // ========================================================================
+    
+    initCategorySelector: function() {
+        const categorySelect = document.getElementById('resolution-category');
+        if (!categorySelect) return;
+        
+        categorySelect.addEventListener('change', function() {
+            const selectedCategory = this.value;
+            const presetGroups = document.querySelectorAll('.preset-group');
+            
+            presetGroups.forEach(group => {
+                if (group.dataset.category === selectedCategory) {
+                    group.classList.remove('hidden');
+                } else {
+                    group.classList.add('hidden');
+                }
+            });
+        });
     },
     
     // ========================================================================

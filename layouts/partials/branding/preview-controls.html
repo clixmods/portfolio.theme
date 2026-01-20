@@ -3,27 +3,70 @@
 {{/* ============================================================ */}}
 <div class="branding-controls">
     <div class="controls-row">
-        <div class="controls-group">
+        <div class="controls-group resolution-group">
             <label>Resolution:</label>
             <div class="resolution-presets">
-                <button class="preset-btn active" data-width="1280" data-height="720">Fiverr (1280x720)</button>
-                <button class="preset-btn" data-width="1920" data-height="1080">Full HD</button>
-                <button class="preset-btn" data-width="1080" data-height="1080">Instagram</button>
-                <button class="preset-btn" data-width="1200" data-height="628">LinkedIn Post</button>
-                <button class="preset-btn" data-width="1584" data-height="396">LinkedIn Header</button>
+                {{/* Dropdown for platform categories */}}
+                <select id="resolution-category" class="resolution-category-select">
+                    <option value="freelance">Freelance</option>
+                    <option value="social">Social Media</option>
+                    <option value="video">Video Platforms</option>
+                    <option value="standard">Standard</option>
+                </select>
+                
+                {{/* Freelance platforms */}}
+                <div class="preset-group" data-category="freelance">
+                    <button class="preset-btn active" data-width="1280" data-height="769" title="Fiverr Gig Image">Fiverr Gig</button>
+                    <button class="preset-btn" data-width="1280" data-height="720" title="Fiverr Portfolio">Fiverr Portfolio</button>
+                    <button class="preset-btn" data-width="1400" data-height="600" title="Upwork Profile Banner">Upwork Banner</button>
+                    <button class="preset-btn" data-width="991" data-height="554" title="Malt Profile Cover">Malt Cover</button>
+                </div>
+                
+                {{/* Social media */}}
+                <div class="preset-group hidden" data-category="social">
+                    <button class="preset-btn" data-width="1080" data-height="1080" title="Instagram Square Post">Instagram Post</button>
+                    <button class="preset-btn" data-width="1080" data-height="1350" title="Instagram Portrait">Instagram Portrait</button>
+                    <button class="preset-btn" data-width="1080" data-height="1920" title="Instagram Story/Reels">Instagram Story</button>
+                    <button class="preset-btn" data-width="1200" data-height="628" title="LinkedIn Post Image">LinkedIn Post</button>
+                    <button class="preset-btn" data-width="1584" data-height="396" title="LinkedIn Profile Banner">LinkedIn Header</button>
+                    <button class="preset-btn" data-width="1600" data-height="900" title="X/Twitter Post Image">X/Twitter Post</button>
+                    <button class="preset-btn" data-width="1500" data-height="500" title="X/Twitter Header Banner">X/Twitter Header</button>
+                    <button class="preset-btn" data-width="1200" data-height="630" title="Facebook Post Image">Facebook Post</button>
+                    <button class="preset-btn" data-width="820" data-height="312" title="Facebook Cover Photo">Facebook Cover</button>
+                    <button class="preset-btn" data-width="1000" data-height="1500" title="Pinterest Pin">Pinterest Pin</button>
+                </div>
+                
+                {{/* Video platforms */}}
+                <div class="preset-group hidden" data-category="video">
+                    <button class="preset-btn" data-width="1280" data-height="720" title="YouTube Thumbnail">YouTube Thumbnail</button>
+                    <button class="preset-btn" data-width="2560" data-height="1440" title="YouTube Channel Banner">YouTube Banner</button>
+                    <button class="preset-btn" data-width="1920" data-height="1080" title="Twitch Offline Screen">Twitch Offline</button>
+                    <button class="preset-btn" data-width="1200" data-height="480" title="Twitch Profile Banner">Twitch Banner</button>
+                    <button class="preset-btn" data-width="960" data-height="540" title="Discord Server Banner">Discord Banner</button>
+                </div>
+                
+                {{/* Standard resolutions */}}
+                <div class="preset-group hidden" data-category="standard">
+                    <button class="preset-btn" data-width="1920" data-height="1080" title="Full HD 16:9">Full HD</button>
+                    <button class="preset-btn" data-width="2560" data-height="1440" title="2K QHD">2K QHD</button>
+                    <button class="preset-btn" data-width="3840" data-height="2160" title="4K UHD">4K UHD</button>
+                    <button class="preset-btn" data-width="1920" data-height="1200" title="16:10 Aspect Ratio">16:10</button>
+                    <button class="preset-btn" data-width="2048" data-height="1152" title="2K Cinema">2K Cinema</button>
+                </div>
             </div>
         </div>
 
         <div class="controls-group custom-size-group">
             <input type="number" id="custom-width" placeholder="W" min="100" max="3840" value="1280">
             <span>x</span>
-            <input type="number" id="custom-height" placeholder="H" min="100" max="2160" value="720">
+            <input type="number" id="custom-height" placeholder="H" min="100" max="2160" value="769">
             <button class="btn-apply" id="apply-custom-size">OK</button>
         </div>
 
         <div class="controls-group">
             <label>Zoom:</label>
             <div class="zoom-controls">
+                <button class="zoom-btn" data-zoom="0.25">25%</button>
                 <button class="zoom-btn" data-zoom="0.5">50%</button>
                 <button class="zoom-btn active" data-zoom="0.75">75%</button>
                 <button class="zoom-btn" data-zoom="1">100%</button>
