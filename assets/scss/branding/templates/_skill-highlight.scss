@@ -2,20 +2,72 @@
 // BRANDING TEMPLATES - SKILL HIGHLIGHT
 // ============================================================================
 // Skills showcase with large icon grid
+// Uses CSS custom properties for dynamic sizing via JS controls
 
-// Skill content layout
+// Skill highlight specific styles applied to #template-skill-highlight
+#template-skill-highlight {
+  // Dynamic content padding
+  .template-content {
+    padding: var(--skill-padding, 2rem);
+  }
+  
+  // Dynamic author avatar size
+  .template-author .author-avatar {
+    width: var(--skill-avatar-size, 50px);
+    height: var(--skill-avatar-size, 50px);
+  }
+  
+  // Skill title variant - dynamic size (scoped for CSS custom properties)
+  .template-title.skill-title {
+    // Dynamic font size via CSS variable (default: 2rem)
+    font-size: var(--skill-title-size, 2rem);
+  }
+
+  // Skill subtitle variant - dynamic size (scoped for CSS custom properties)
+  .template-subtitle.skill-subtitle {
+    // Dynamic font size via CSS variable (default: 1.1rem)
+    font-size: var(--skill-subtitle-size, 1.1rem);
+  }
+
+  // Skill icons grid - dynamic sizes and grid customization
+  .skill-icons-grid {
+    // Dynamic gap via CSS variable (default: 1.5rem)
+    gap: var(--skill-grid-gap, 1.5rem);
+    // Dynamic alignment via CSS variable (default: center)
+    justify-content: var(--skill-grid-align, center);
+
+    .skill-icon-large {
+      // Dynamic size via CSS variable (default: 80px)
+      width: var(--skill-icon-size, 80px);
+      height: var(--skill-icon-size, 80px);
+      padding: calc(var(--skill-icon-size, 80px) * 0.2);
+      
+      .skill-emoji {
+        // Scale emoji based on icon size
+        font-size: calc(var(--skill-icon-size, 80px) * 0.5);
+      }
+    }
+  }
+}
+
+// Skill content layout - base styles
 .template-content.skill-content {
   width: 100%;
   align-items: center;
   text-align: center;
 }
 
-// Skill title variant
+// Skill title variant - base styles
 .template-title.skill-title {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
-// Skill icons grid
+// Skill subtitle variant - base styles
+.template-subtitle.skill-subtitle {
+  font-size: 1.1rem;
+}
+
+// Skill icons grid - base styles
 .skill-icons-grid {
   display: flex;
   gap: 1.5rem;
@@ -23,9 +75,9 @@
   justify-content: center;
 
   .skill-icon-large {
-    width: 100px;
-    height: 100px;
-    padding: 20px;
+    width: 80px;
+    height: 80px;
+    padding: 16px;
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
@@ -41,7 +93,7 @@
     }
     
     .skill-emoji {
-      font-size: 3rem;
+      font-size: 2.5rem;
       line-height: 1;
     }
   }

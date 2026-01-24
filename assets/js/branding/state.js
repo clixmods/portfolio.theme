@@ -55,19 +55,61 @@ const defaultState = {
             subtitle: 'Professional Unity & C# Code Repair',
             features: ['Console Errors', 'Performance Issues', 'All Platforms'],
             authorTitle: 'Commercial Game Developer',
-            codeBlock: 'void FixBug() {\n  Debug.Log("Fixed!");\n}'
+            codeBlock: 'void FixBug() {\n  Debug.Log("Fixed!");\n}',
+            // Size properties
+            titleSize: 1.8,
+            subtitleSize: 1,
+            badgeSize: 0.85,
+            featureSize: 0.95,
+            techIconSize: 36,
+            contentPadding: 2,
+            // Grid properties
+            techGap: 0.75,
+            techAlign: 'flex-start',
+            techMaxCols: 0
         },
         'project-showcase': {
-            showLogoTitle: true
+            showLogoTitle: true,
+            // Size properties
+            titleSize: 2.5,
+            subtitleSize: 1.1,
+            logoSize: 120,
+            techIconSize: 40,
+            statusSize: 0.85,
+            contentPadding: 2,
+            // Grid properties
+            techGap: 0.5,
+            techAlign: 'flex-start',
+            techMaxCols: 0
         },
         'portfolio-card': {
             title: 'Unity & C# Game Developer',
-            highlights: ['Terra Memoria - Commercial Release', '870K+ Downloads', 'Nintendo Switch Porting']
+            highlights: ['Terra Memoria - Commercial Release', '870K+ Downloads', 'Nintendo Switch Porting'],
+            // Size properties
+            nameSize: 2.2,
+            titleSize: 1.1,
+            highlightSize: 0.85,
+            avatarSize: 120,
+            techIconSize: 48,
+            contentPadding: 2,
+            // Grid properties
+            techGap: 0.75,
+            techAlign: 'center',
+            techMaxCols: 0
         },
         'skill-highlight': {
             title: 'Specialise en',
             subtitle: 'Developpement de jeux video professionnels',
-            authorTitle: 'Game Developer'
+            authorTitle: 'Game Developer',
+            // Size properties
+            titleSizeValue: 2,
+            subtitleSize: 1.1,
+            iconSize: 80,
+            avatarSize: 50,
+            gridGap: 1.5,
+            gridAlign: 'center',
+            gridMaxCols: 0,
+            contentPadding: 2
         },
         'linkedin-header': {
             title: 'Unity & C# Game Developer',
@@ -78,7 +120,11 @@ const defaultState = {
             highlightSize: 0.85,
             avatarSize: 100,
             techIconSize: 44,
-            contentPadding: 2
+            contentPadding: 2,
+            // Grid properties
+            techGap: 0.5,
+            techAlign: 'center',
+            techMaxCols: 0
         }
     },
     // Store current project data

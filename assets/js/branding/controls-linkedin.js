@@ -87,6 +87,45 @@ window.BrandingEditor.controlsLinkedin = {
             });
         }
         
+        // Tech grid gap slider
+        const techGap = document.getElementById('linkedin-tech-gap');
+        const techGapDisplay = document.getElementById('linkedin-tech-gap-display');
+        if (techGap) {
+            techGap.value = linkedinData.techGap || 0.5;
+            if (techGapDisplay) techGapDisplay.textContent = `${linkedinData.techGap || 0.5}rem`;
+            
+            techGap.addEventListener('input', function() {
+                linkedinData.techGap = parseFloat(this.value);
+                if (techGapDisplay) techGapDisplay.textContent = `${this.value}rem`;
+                self.updateStyles();
+            });
+        }
+        
+        // Tech alignment select
+        const techAlign = document.getElementById('linkedin-tech-align');
+        if (techAlign) {
+            techAlign.value = linkedinData.techAlign || 'center';
+            
+            techAlign.addEventListener('change', function() {
+                linkedinData.techAlign = this.value;
+                self.updateStyles();
+            });
+        }
+        
+        // Tech max columns slider
+        const techCols = document.getElementById('linkedin-tech-cols');
+        const techColsDisplay = document.getElementById('linkedin-tech-cols-display');
+        if (techCols) {
+            techCols.value = linkedinData.techMaxCols || 0;
+            if (techColsDisplay) techColsDisplay.textContent = linkedinData.techMaxCols ? `${linkedinData.techMaxCols}` : 'Auto';
+            
+            techCols.addEventListener('input', function() {
+                linkedinData.techMaxCols = parseInt(this.value);
+                if (techColsDisplay) techColsDisplay.textContent = this.value === '0' ? 'Auto' : this.value;
+                self.updateStyles();
+            });
+        }
+        
         // Content padding slider
         const padding = document.getElementById('linkedin-padding');
         const paddingDisplay = document.getElementById('linkedin-padding-display');
@@ -133,6 +172,20 @@ window.BrandingEditor.controlsLinkedin = {
         if (linkedinAvatarSizeDisplay) linkedinAvatarSizeDisplay.textContent = `${linkedinData.avatarSize || 100}px`;
         if (linkedinTechSize) linkedinTechSize.value = linkedinData.techIconSize || 44;
         if (linkedinTechSizeDisplay) linkedinTechSizeDisplay.textContent = `${linkedinData.techIconSize || 44}px`;
+        
+        // Grid controls sync
+        const techGap = document.getElementById('linkedin-tech-gap');
+        const techGapDisplay = document.getElementById('linkedin-tech-gap-display');
+        const techAlign = document.getElementById('linkedin-tech-align');
+        const techCols = document.getElementById('linkedin-tech-cols');
+        const techColsDisplay = document.getElementById('linkedin-tech-cols-display');
+        
+        if (techGap) techGap.value = linkedinData.techGap || 0.5;
+        if (techGapDisplay) techGapDisplay.textContent = `${linkedinData.techGap || 0.5}rem`;
+        if (techAlign) techAlign.value = linkedinData.techAlign || 'center';
+        if (techCols) techCols.value = linkedinData.techMaxCols || 0;
+        if (techColsDisplay) techColsDisplay.textContent = linkedinData.techMaxCols ? `${linkedinData.techMaxCols}` : 'Auto';
+        
         if (linkedinPadding) linkedinPadding.value = linkedinData.contentPadding || 2;
         if (linkedinPaddingDisplay) linkedinPaddingDisplay.textContent = `${linkedinData.contentPadding || 2}rem`;
     },
@@ -151,7 +204,23 @@ window.BrandingEditor.controlsLinkedin = {
         template.style.setProperty('--linkedin-highlight-size', `${linkedinData.highlightSize || 0.85}rem`);
         template.style.setProperty('--linkedin-avatar-size', `${linkedinData.avatarSize || 100}px`);
         template.style.setProperty('--linkedin-tech-size', `${linkedinData.techIconSize || 44}px`);
+        template.style.setProperty('--linkedin-tech-gap', `${linkedinData.techGap || 0.5}rem`);
+        template.style.setProperty('--linkedin-tech-align', linkedinData.techAlign || 'center');
         template.style.setProperty('--linkedin-padding', `${linkedinData.contentPadding || 2}rem`);
+        
+        // Apply grid layout when max columns is set
+        const techStack = template.querySelector('.linkedin-header-techs');
+        if (techStack) {
+            const maxCols = linkedinData.techMaxCols || 0;
+            if (maxCols > 0) {
+                techStack.style.display = 'grid';
+                techStack.style.gridTemplateColumns = `repeat(${maxCols}, min-content)`;
+                techStack.style.justifyContent = linkedinData.techAlign || 'center';
+            } else {
+                techStack.style.display = 'flex';
+                techStack.style.gridTemplateColumns = '';
+            }
+        }
         
         if (!skipSave) window.BrandingEditor.saveState();
     }

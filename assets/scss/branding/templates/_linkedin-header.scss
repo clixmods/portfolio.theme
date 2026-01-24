@@ -4,19 +4,72 @@
 // Horizontal banner format for LinkedIn profile headers
 // Uses CSS custom properties for dynamic sizing via JS controls
 
-// LinkedIn header content layout (horizontal)
+// LinkedIn header specific styles - scoped for CSS custom properties
+#template-linkedin-header {
+  // LinkedIn header content layout (horizontal) - dynamic padding
+  .linkedin-header-content {
+    // Dynamic padding via CSS variable (default: 2rem 3rem)
+    padding: var(--linkedin-padding, 2rem) calc(var(--linkedin-padding, 2rem) * 1.5);
+  }
+
+  // LinkedIn header avatar - dynamic size
+  .linkedin-header-avatar {
+    // Dynamic size via CSS variable (default: 100px)
+    width: var(--linkedin-avatar-size, 100px);
+    height: var(--linkedin-avatar-size, 100px);
+  }
+
+  // LinkedIn header name - dynamic size
+  .linkedin-header-info .linkedin-header-name {
+    // Dynamic font size via CSS variable (default: 2rem)
+    font-size: var(--linkedin-name-size, 2rem);
+  }
+
+  // LinkedIn header title - dynamic size
+  .linkedin-header-info .linkedin-header-title {
+    // Dynamic font size via CSS variable (default: 1rem)
+    font-size: var(--linkedin-title-size, 1rem);
+  }
+
+  // Center section: technologies - dynamic with grid customization
+  .linkedin-header-techs {
+    gap: var(--linkedin-tech-gap, 0.5rem);
+    justify-content: var(--linkedin-tech-align, center);
+    
+    img {
+      // Dynamic size via CSS variable (default: 44px)
+      width: var(--linkedin-tech-size, 44px);
+      height: var(--linkedin-tech-size, 44px);
+    }
+
+    .tech-emoji-preview {
+      // Dynamic size via CSS variable (default: 44px)
+      width: var(--linkedin-tech-size, 44px);
+      height: var(--linkedin-tech-size, 44px);
+      // Scale emoji font size proportionally
+      font-size: calc(var(--linkedin-tech-size, 44px) * 0.5);
+    }
+  }
+
+  // Right section: highlights - dynamic font size
+  .linkedin-header-highlights .linkedin-highlight {
+    // Dynamic font size via CSS variable (default: 0.85rem)
+    font-size: var(--linkedin-highlight-size, 0.85rem);
+  }
+}
+
+// LinkedIn header content layout (horizontal) - base styles
 .linkedin-header-content {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  // Dynamic padding via CSS variable (default: 2rem 3rem)
-  padding: var(--linkedin-padding, 2rem) calc(var(--linkedin-padding, 2rem) * 1.5);
+  padding: 2rem 3rem;
   gap: 2rem;
 }
 
-// Left section: avatar + info
+// Left section: avatar + info - base styles
 .linkedin-header-left {
   display: flex;
   align-items: center;
@@ -24,26 +77,24 @@
   flex-shrink: 0;
 }
 
-// LinkedIn header avatar - dynamic size
+// LinkedIn header avatar - base styles
 .linkedin-header-avatar {
-  // Dynamic size via CSS variable (default: 100px)
-  width: var(--linkedin-avatar-size, 100px);
-  height: var(--linkedin-avatar-size, 100px);
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: 3px solid var(--branding-accent);
   object-fit: cover;
   box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
 }
 
-// LinkedIn header info (name + title)
+// LinkedIn header info (name + title) - base styles
 .linkedin-header-info {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 
   .linkedin-header-name {
-    // Dynamic font size via CSS variable (default: 2rem)
-    font-size: var(--linkedin-name-size, 2rem);
+    font-size: 2rem;
     font-weight: 700;
     color: white;
     margin: 0;
@@ -56,15 +107,14 @@
   }
 
   .linkedin-header-title {
-    // Dynamic font size via CSS variable (default: 1rem)
-    font-size: var(--linkedin-title-size, 1rem);
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.7);
     margin: 0;
     font-weight: 400;
   }
 }
 
-// Center section: technologies - dynamic icon size
+// Center section: technologies - base styles
 .linkedin-header-techs {
   display: flex;
   gap: 0.5rem;
@@ -73,9 +123,8 @@
   max-width: 300px;
 
   img {
-    // Dynamic size via CSS variable (default: 44px)
-    width: var(--linkedin-tech-size, 44px);
-    height: var(--linkedin-tech-size, 44px);
+    width: 44px;
+    height: 44px;
     padding: 8px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
@@ -83,21 +132,19 @@
   }
 
   .tech-emoji-preview {
-    // Dynamic size via CSS variable (default: 44px)
-    width: var(--linkedin-tech-size, 44px);
-    height: var(--linkedin-tech-size, 44px);
+    width: 44px;
+    height: 44px;
     padding: 8px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    // Scale emoji font size proportionally
-    font-size: calc(var(--linkedin-tech-size, 44px) * 0.5);
+    font-size: 1.4rem;
   }
 }
 
-// Right section: highlights - dynamic font size
+// Right section: highlights - base styles
 .linkedin-header-highlights {
   display: flex;
   flex-direction: column;
@@ -111,8 +158,7 @@
     color: var(--branding-accent);
     padding: 0.4rem 1rem;
     border-radius: 50px;
-    // Dynamic font size via CSS variable (default: 0.85rem)
-    font-size: var(--linkedin-highlight-size, 0.85rem);
+    font-size: 0.85rem;
     font-weight: 500;
     white-space: nowrap;
   }

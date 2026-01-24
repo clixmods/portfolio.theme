@@ -66,6 +66,40 @@ Console Porting Expert
             <input type="range" id="linkedin-tech-size" min="24" max="80" step="2" value="44">
         </div>
 
+        {{/* Grid customization section */}}
+        <div class="field-group-separator">
+            <span>Grille des technologies</span>
+        </div>
+
+        {{/* Tech gap slider */}}
+        <div class="field-group">
+            <label for="linkedin-tech-gap">
+                Espacement entre icones
+                <span class="slider-value" id="linkedin-tech-gap-display">0.5rem</span>
+            </label>
+            <input type="range" id="linkedin-tech-gap" min="0.25" max="2" step="0.25" value="0.5">
+        </div>
+
+        {{/* Tech alignment select */}}
+        <div class="field-group">
+            <label for="linkedin-tech-align">Alignement</label>
+            <select id="linkedin-tech-align" class="field-select">
+                <option value="flex-start">Gauche</option>
+                <option value="center" selected>Centre</option>
+                <option value="flex-end">Droite</option>
+                <option value="space-between">Reparti</option>
+            </select>
+        </div>
+
+        {{/* Tech max columns slider */}}
+        <div class="field-group">
+            <label for="linkedin-tech-cols">
+                Colonnes max
+                <span class="slider-value" id="linkedin-tech-cols-display">Auto</span>
+            </label>
+            <input type="range" id="linkedin-tech-cols" min="0" max="10" step="1" value="0">
+        </div>
+
         {{/* Content padding slider */}}
         <div class="field-group">
             <label for="linkedin-padding">

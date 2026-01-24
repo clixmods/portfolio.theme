@@ -28,6 +28,30 @@ window.BrandingEditor.controls = {
             console.error('[BrandingEditor] controlsLinkedin module not found');
         }
         
+        if (window.BrandingEditor.controlsServiceCard) {
+            window.BrandingEditor.controlsServiceCard.init();
+        } else {
+            console.error('[BrandingEditor] controlsServiceCard module not found');
+        }
+        
+        if (window.BrandingEditor.controlsPortfolioCard) {
+            window.BrandingEditor.controlsPortfolioCard.init();
+        } else {
+            console.error('[BrandingEditor] controlsPortfolioCard module not found');
+        }
+        
+        if (window.BrandingEditor.controlsSkillHighlight) {
+            window.BrandingEditor.controlsSkillHighlight.init();
+        } else {
+            console.error('[BrandingEditor] controlsSkillHighlight module not found');
+        }
+        
+        if (window.BrandingEditor.controlsProjectShowcase) {
+            window.BrandingEditor.controlsProjectShowcase.init();
+        } else {
+            console.error('[BrandingEditor] controlsProjectShowcase module not found');
+        }
+        
         if (window.BrandingEditor.controlsResolution) {
             window.BrandingEditor.controlsResolution.init();
         } else {
@@ -107,6 +131,18 @@ window.BrandingEditor.controls = {
         if (window.BrandingEditor.controlsLinkedin && window.BrandingEditor.controlsLinkedin.syncWithState) {
             window.BrandingEditor.controlsLinkedin.syncWithState();
         }
+        if (window.BrandingEditor.controlsServiceCard && window.BrandingEditor.controlsServiceCard.syncWithState) {
+            window.BrandingEditor.controlsServiceCard.syncWithState();
+        }
+        if (window.BrandingEditor.controlsPortfolioCard && window.BrandingEditor.controlsPortfolioCard.syncWithState) {
+            window.BrandingEditor.controlsPortfolioCard.syncWithState();
+        }
+        if (window.BrandingEditor.controlsSkillHighlight && window.BrandingEditor.controlsSkillHighlight.syncWithState) {
+            window.BrandingEditor.controlsSkillHighlight.syncWithState();
+        }
+        if (window.BrandingEditor.controlsProjectShowcase && window.BrandingEditor.controlsProjectShowcase.syncWithState) {
+            window.BrandingEditor.controlsProjectShowcase.syncWithState();
+        }
         
         // Apply all effects (skipSave=true to avoid saving during init)
         this.updateStyle(true);
@@ -115,6 +151,18 @@ window.BrandingEditor.controls = {
         }
         if (window.BrandingEditor.controlsLinkedin && window.BrandingEditor.controlsLinkedin.updateStyles) {
             window.BrandingEditor.controlsLinkedin.updateStyles(true);
+        }
+        if (window.BrandingEditor.controlsServiceCard && window.BrandingEditor.controlsServiceCard.updateStyles) {
+            window.BrandingEditor.controlsServiceCard.updateStyles(true);
+        }
+        if (window.BrandingEditor.controlsPortfolioCard && window.BrandingEditor.controlsPortfolioCard.updateStyles) {
+            window.BrandingEditor.controlsPortfolioCard.updateStyles(true);
+        }
+        if (window.BrandingEditor.controlsSkillHighlight && window.BrandingEditor.controlsSkillHighlight.updateStyles) {
+            window.BrandingEditor.controlsSkillHighlight.updateStyles(true);
+        }
+        if (window.BrandingEditor.controlsProjectShowcase && window.BrandingEditor.controlsProjectShowcase.updateStyles) {
+            window.BrandingEditor.controlsProjectShowcase.updateStyles(true);
         }
     },
     

@@ -32,5 +32,98 @@ All Platforms</textarea>
   Debug.Log("Fixed!");
 }</textarea>
         </div>
+
+        {{/* Size controls section */}}
+        <div class="field-group-separator">
+            <span>Tailles des elements</span>
+        </div>
+
+        {{/* Title size slider */}}
+        <div class="field-group">
+            <label for="service-title-size">
+                Taille du titre
+                <span class="slider-value" id="service-title-size-display">1.8rem</span>
+            </label>
+            <input type="range" id="service-title-size" min="1" max="3" step="0.1" value="1.8">
+        </div>
+
+        {{/* Subtitle size slider */}}
+        <div class="field-group">
+            <label for="service-subtitle-size">
+                Taille du sous-titre
+                <span class="slider-value" id="service-subtitle-size-display">1rem</span>
+            </label>
+            <input type="range" id="service-subtitle-size" min="0.5" max="2" step="0.1" value="1">
+        </div>
+
+        {{/* Badge size slider */}}
+        <div class="field-group">
+            <label for="service-badge-size">
+                Taille du badge
+                <span class="slider-value" id="service-badge-size-display">0.85rem</span>
+            </label>
+            <input type="range" id="service-badge-size" min="0.5" max="1.5" step="0.05" value="0.85">
+        </div>
+
+        {{/* Feature size slider */}}
+        <div class="field-group">
+            <label for="service-feature-size">
+                Taille des features
+                <span class="slider-value" id="service-feature-size-display">0.95rem</span>
+            </label>
+            <input type="range" id="service-feature-size" min="0.5" max="1.5" step="0.05" value="0.95">
+        </div>
+
+        {{/* Tech icon size slider */}}
+        <div class="field-group">
+            <label for="service-tech-size">
+                Taille des icones tech
+                <span class="slider-value" id="service-tech-size-display">36px</span>
+            </label>
+            <input type="range" id="service-tech-size" min="20" max="60" step="2" value="36">
+        </div>
+
+        {{/* Grid customization section */}}
+        <div class="field-group-separator">
+            <span>Grille des technologies</span>
+        </div>
+
+        {{/* Tech gap slider */}}
+        <div class="field-group">
+            <label for="service-tech-gap">
+                Espacement entre icones
+                <span class="slider-value" id="service-tech-gap-display">0.75rem</span>
+            </label>
+            <input type="range" id="service-tech-gap" min="0.25" max="2" step="0.25" value="0.75">
+        </div>
+
+        {{/* Tech alignment select */}}
+        <div class="field-group">
+            <label for="service-tech-align">Alignement</label>
+            <select id="service-tech-align" class="field-select">
+                <option value="flex-start">Gauche</option>
+                <option value="center">Centre</option>
+                <option value="flex-end">Droite</option>
+                <option value="space-between">Reparti</option>
+            </select>
+        </div>
+
+        {{/* Tech max columns slider */}}
+        <div class="field-group">
+            <label for="service-tech-cols">
+                Colonnes max
+                <span class="slider-value" id="service-tech-cols-display">Auto</span>
+            </label>
+            <input type="range" id="service-tech-cols" min="0" max="10" step="1" value="0">
+        </div>
+
+        {{/* Content padding slider */}}
+        <div class="field-group">
+            <label for="service-padding">
+                Espacement du contenu
+                <span class="slider-value" id="service-padding-display">2rem</span>
+            </label>
+            <input type="range" id="service-padding" min="0.5" max="5" step="0.25" value="2">
+        </div>
     </div>
 </div>

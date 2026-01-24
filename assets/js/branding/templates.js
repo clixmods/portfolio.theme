@@ -267,7 +267,7 @@ window.BrandingEditor.templates = {
             const skillIconsGrid = document.getElementById('skill-icons-grid');
             if (skillIconsGrid) {
                 skillIconsGrid.innerHTML = '';
-                state.selectedTechnologies.slice(0, 4).forEach(tech => {
+                state.selectedTechnologies.forEach(tech => {
                     const container = document.createElement('div');
                     container.className = 'skill-icon-large';
                     if (tech.icon) {
@@ -311,7 +311,7 @@ window.BrandingEditor.templates = {
             const linkedinHeaderTechs = document.getElementById('linkedin-header-techs');
             if (linkedinHeaderTechs) {
                 linkedinHeaderTechs.innerHTML = '';
-                state.selectedTechnologies.slice(0, 6).forEach(tech => {
+                state.selectedTechnologies.forEach(tech => {
                     if (tech.icon) {
                         const img = document.createElement('img');
                         img.src = tech.icon;
@@ -342,10 +342,8 @@ window.BrandingEditor.templates = {
                         img.src = tech.icon;
                         img.alt = tech.name;
                         img.title = tech.name;
-                        // Set explicit dimensions for consistent sizing
-                        img.style.width = '40px';
-                        img.style.height = '40px';
-                        img.style.objectFit = 'contain';
+                        // Size is controlled via CSS custom properties (--service-tech-size)
+                        // Do NOT set inline styles here - they override CSS variables
                         elements.templateTechStack.appendChild(img);
                     } else if (tech.emoji) {
                         const emojiSpan = document.createElement('span');

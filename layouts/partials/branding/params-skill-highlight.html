@@ -16,5 +16,84 @@
             <label for="skill-author-title-input">Titre auteur</label>
             <input type="text" id="skill-author-title-input" value="Game Developer" placeholder="Votre titre">
         </div>
+
+        {{/* Size controls section */}}
+        <div class="field-group-separator">
+            <span>Tailles des elements</span>
+        </div>
+
+        {{/* Title size slider */}}
+        <div class="field-group">
+            <label for="skill-title-size">
+                Taille du titre
+                <span class="slider-value" id="skill-title-size-display">2rem</span>
+            </label>
+            <input type="range" id="skill-title-size" min="1" max="4" step="0.1" value="2">
+        </div>
+
+        {{/* Subtitle size slider */}}
+        <div class="field-group">
+            <label for="skill-subtitle-size">
+                Taille du sous-titre
+                <span class="slider-value" id="skill-subtitle-size-display">1.1rem</span>
+            </label>
+            <input type="range" id="skill-subtitle-size" min="0.5" max="2" step="0.1" value="1.1">
+        </div>
+
+        {{/* Skill icon size slider */}}
+        <div class="field-group">
+            <label for="skill-icon-size">
+                Taille des icones
+                <span class="slider-value" id="skill-icon-size-display">80px</span>
+            </label>
+            <input type="range" id="skill-icon-size" min="40" max="150" step="5" value="80">
+        </div>
+
+        {{/* Avatar size slider */}}
+        <div class="field-group">
+            <label for="skill-avatar-size">
+                Taille de l'avatar
+                <span class="slider-value" id="skill-avatar-size-display">50px</span>
+            </label>
+            <input type="range" id="skill-avatar-size" min="30" max="100" step="5" value="50">
+        </div>
+
+        {{/* Grid gap slider */}}
+        <div class="field-group">
+            <label for="skill-grid-gap">
+                Espacement de la grille
+                <span class="slider-value" id="skill-grid-gap-display">1.5rem</span>
+            </label>
+            <input type="range" id="skill-grid-gap" min="0.5" max="4" step="0.25" value="1.5">
+        </div>
+
+        {{/* Grid alignment select */}}
+        <div class="field-group">
+            <label for="skill-grid-align">Alignement de la grille</label>
+            <select id="skill-grid-align" class="field-select">
+                <option value="flex-start">Gauche</option>
+                <option value="center" selected>Centre</option>
+                <option value="flex-end">Droite</option>
+                <option value="space-between">Reparti</option>
+            </select>
+        </div>
+
+        {{/* Grid max columns slider */}}
+        <div class="field-group">
+            <label for="skill-grid-cols">
+                Colonnes max
+                <span class="slider-value" id="skill-grid-cols-display">Auto</span>
+            </label>
+            <input type="range" id="skill-grid-cols" min="0" max="10" step="1" value="0">
+        </div>
+
+        {{/* Content padding slider */}}
+        <div class="field-group">
+            <label for="skill-padding">
+                Espacement du contenu
+                <span class="slider-value" id="skill-padding-display">2rem</span>
+            </label>
+            <input type="range" id="skill-padding" min="0.5" max="5" step="0.25" value="2">
+        </div>
     </div>
 </div>

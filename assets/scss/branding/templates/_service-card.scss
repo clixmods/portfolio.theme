@@ -2,8 +2,61 @@
 // BRANDING TEMPLATES - SERVICE CARD (Fiverr Gig)
 // ============================================================================
 // Service/gig thumbnail with badge, features, and code decoration
+// Uses CSS custom properties for dynamic sizing via JS controls
 
-// Badge component
+// Service card specific styles applied to #template-service-card
+#template-service-card {
+  // Override base title with dynamic size
+  .template-title {
+    font-size: var(--service-title-size, 1.8rem);
+  }
+  
+  // Override base subtitle with dynamic size
+  .template-subtitle {
+    font-size: var(--service-subtitle-size, 1rem);
+  }
+  
+  // Dynamic content padding
+  .template-content {
+    padding: var(--service-padding, 2rem);
+  }
+  
+  // Dynamic tech stack with grid customization
+  .template-tech-stack {
+    gap: var(--service-tech-gap, 0.75rem);
+    justify-content: var(--service-tech-align, flex-start);
+    // Note: grid display and max columns are applied via JavaScript
+    
+    img {
+      width: var(--service-tech-size, 36px);
+      height: var(--service-tech-size, 36px);
+    }
+    
+    .tech-emoji-preview {
+      width: var(--service-tech-size, 36px);
+      height: var(--service-tech-size, 36px);
+      font-size: calc(var(--service-tech-size, 36px) * 0.5);
+    }
+  }
+  
+  // Badge component - scoped to service card for CSS custom properties
+  .template-badge {
+    .badge-text {
+      // Dynamic badge text size via CSS variable
+      font-size: var(--service-badge-size, 0.85rem);
+    }
+  }
+
+  // Features list - scoped to service card for CSS custom properties
+  .template-features {
+    .feature {
+      // Dynamic feature text size via CSS variable
+      font-size: var(--service-feature-size, 0.95rem);
+    }
+  }
+}
+
+// Badge component - base styles (shared)
 .template-badge {
   display: inline-flex;
   align-items: center;
@@ -30,7 +83,7 @@
   }
 }
 
-// Features list
+// Features list - base styles (shared)
 .template-features {
   display: flex;
   flex-direction: column;

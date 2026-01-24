@@ -39,4 +39,97 @@
         <input type="checkbox" id="show-logo-title" checked>
         <label for="show-logo-title">Afficher titre avec logo</label>
     </div>
+
+    {{/* Size controls section */}}
+    <div class="field-group-separator">
+        <span>Tailles des elements</span>
+    </div>
+
+    {{/* Title size slider */}}
+    <div class="field-group">
+        <label for="project-title-size">
+            Taille du titre
+            <span class="slider-value" id="project-title-size-display">2.5rem</span>
+        </label>
+        <input type="range" id="project-title-size" min="1" max="4" step="0.1" value="2.5">
+    </div>
+
+    {{/* Subtitle size slider */}}
+    <div class="field-group">
+        <label for="project-subtitle-size">
+            Taille du sous-titre
+            <span class="slider-value" id="project-subtitle-size-display">1.1rem</span>
+        </label>
+        <input type="range" id="project-subtitle-size" min="0.5" max="2" step="0.1" value="1.1">
+    </div>
+
+    {{/* Logo size slider */}}
+    <div class="field-group">
+        <label for="project-logo-size">
+            Taille du logo
+            <span class="slider-value" id="project-logo-size-display">120px</span>
+        </label>
+        <input type="range" id="project-logo-size" min="60" max="200" step="5" value="120">
+    </div>
+
+    {{/* Tech icon size slider */}}
+    <div class="field-group">
+        <label for="project-tech-size">
+            Taille des icones tech
+            <span class="slider-value" id="project-tech-size-display">40px</span>
+        </label>
+        <input type="range" id="project-tech-size" min="20" max="80" step="2" value="40">
+    </div>
+
+    {{/* Grid customization section */}}
+    <div class="field-group-separator">
+        <span>Grille des technologies</span>
+    </div>
+
+    {{/* Tech gap slider */}}
+    <div class="field-group">
+        <label for="project-tech-gap">
+            Espacement entre icones
+            <span class="slider-value" id="project-tech-gap-display">0.5rem</span>
+        </label>
+        <input type="range" id="project-tech-gap" min="0.25" max="2" step="0.25" value="0.5">
+    </div>
+
+    {{/* Tech alignment select */}}
+    <div class="field-group">
+        <label for="project-tech-align">Alignement</label>
+        <select id="project-tech-align" class="field-select">
+            <option value="flex-start" selected>Gauche</option>
+            <option value="center">Centre</option>
+            <option value="flex-end">Droite</option>
+            <option value="space-between">Reparti</option>
+        </select>
+    </div>
+
+    {{/* Tech max columns slider */}}
+    <div class="field-group">
+        <label for="project-tech-cols">
+            Colonnes max
+            <span class="slider-value" id="project-tech-cols-display">Auto</span>
+        </label>
+        <input type="range" id="project-tech-cols" min="0" max="10" step="1" value="0">
+    </div>
+
+    {{/* Status size slider */}}
+    <div class="field-group">
+        <label for="project-status-size">
+            Taille du badge statut
+            <span class="slider-value" id="project-status-size-display">0.85rem</span>
+        </label>
+        <input type="range" id="project-status-size" min="0.5" max="1.5" step="0.05" value="0.85">
+    </div>
+
+    {{/* Content padding slider */}}
+    <div class="field-group">
+        <label for="project-padding">
+            Espacement du contenu
+            <span class="slider-value" id="project-padding-display">2rem</span>
+        </label>
+        <input type="range" id="project-padding" min="0.5" max="5" step="0.25" value="2">
+    </div>
 </div>

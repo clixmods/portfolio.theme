@@ -14,5 +14,98 @@
 870K+ Downloads
 Nintendo Switch Porting</textarea>
         </div>
+
+        {{/* Size controls section */}}
+        <div class="field-group-separator">
+            <span>Tailles des elements</span>
+        </div>
+
+        {{/* Name size slider */}}
+        <div class="field-group">
+            <label for="portfolio-name-size">
+                Taille du nom
+                <span class="slider-value" id="portfolio-name-size-display">2.2rem</span>
+            </label>
+            <input type="range" id="portfolio-name-size" min="1" max="4" step="0.1" value="2.2">
+        </div>
+
+        {{/* Title size slider */}}
+        <div class="field-group">
+            <label for="portfolio-title-size">
+                Taille du titre
+                <span class="slider-value" id="portfolio-title-size-display">1.1rem</span>
+            </label>
+            <input type="range" id="portfolio-title-size" min="0.5" max="2" step="0.1" value="1.1">
+        </div>
+
+        {{/* Highlight size slider */}}
+        <div class="field-group">
+            <label for="portfolio-highlight-size">
+                Taille des highlights
+                <span class="slider-value" id="portfolio-highlight-size-display">0.85rem</span>
+            </label>
+            <input type="range" id="portfolio-highlight-size" min="0.5" max="1.5" step="0.05" value="0.85">
+        </div>
+
+        {{/* Avatar size slider */}}
+        <div class="field-group">
+            <label for="portfolio-avatar-size">
+                Taille de l'avatar
+                <span class="slider-value" id="portfolio-avatar-size-display">120px</span>
+            </label>
+            <input type="range" id="portfolio-avatar-size" min="60" max="200" step="5" value="120">
+        </div>
+
+        {{/* Tech icon size slider */}}
+        <div class="field-group">
+            <label for="portfolio-tech-size">
+                Taille des icones tech
+                <span class="slider-value" id="portfolio-tech-size-display">48px</span>
+            </label>
+            <input type="range" id="portfolio-tech-size" min="24" max="80" step="2" value="48">
+        </div>
+
+        {{/* Grid customization section */}}
+        <div class="field-group-separator">
+            <span>Grille des technologies</span>
+        </div>
+
+        {{/* Tech gap slider */}}
+        <div class="field-group">
+            <label for="portfolio-tech-gap">
+                Espacement entre icones
+                <span class="slider-value" id="portfolio-tech-gap-display">0.75rem</span>
+            </label>
+            <input type="range" id="portfolio-tech-gap" min="0.25" max="2" step="0.25" value="0.75">
+        </div>
+
+        {{/* Tech alignment select */}}
+        <div class="field-group">
+            <label for="portfolio-tech-align">Alignement</label>
+            <select id="portfolio-tech-align" class="field-select">
+                <option value="flex-start">Gauche</option>
+                <option value="center" selected>Centre</option>
+                <option value="flex-end">Droite</option>
+                <option value="space-between">Reparti</option>
+            </select>
+        </div>
+
+        {{/* Tech max columns slider */}}
+        <div class="field-group">
+            <label for="portfolio-tech-cols">
+                Colonnes max
+                <span class="slider-value" id="portfolio-tech-cols-display">Auto</span>
+            </label>
+            <input type="range" id="portfolio-tech-cols" min="0" max="10" step="1" value="0">
+        </div>
+
+        {{/* Content padding slider */}}
+        <div class="field-group">
+            <label for="portfolio-padding">
+                Espacement du contenu
+                <span class="slider-value" id="portfolio-padding-display">2rem</span>
+            </label>
+            <input type="range" id="portfolio-padding" min="0.5" max="5" step="0.25" value="2">
+        </div>
     </div>
 </div>

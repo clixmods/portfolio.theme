@@ -232,6 +232,35 @@
     }
   }
 
+  // Select dropdown styling for field groups
+  select,
+  .field-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--branding-glass-border);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    color: var(--branding-text-primary);
+    font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--branding-accent);
+    }
+
+    option {
+      background: #1a1a2e;
+      color: var(--branding-text-primary);
+    }
+  }
+
   textarea {
     resize: vertical;
     min-height: 80px;

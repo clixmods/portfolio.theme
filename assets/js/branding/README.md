@@ -16,6 +16,10 @@ Interactive branding thumbnail editor with modular architecture.
 | `controls.js` | Main controls entry point, gradient, accent, visibility |
 | `controls-effects.js` | Grain, Waves, Particles effect controls |
 | `controls-linkedin.js` | LinkedIn template-specific size controls |
+| `controls-service-card.js` | Service card template-specific size controls |
+| `controls-portfolio-card.js` | Portfolio card template-specific size controls |
+| `controls-skill-highlight.js` | Skill highlight template-specific size controls |
+| `controls-project-showcase.js` | Project showcase template-specific size controls |
 | `controls-resolution.js` | Resolution presets, custom size, zoom |
 | `export.js` | PNG export and clipboard copy |
 | `branding.js` | Main entry point, initialization |
@@ -37,6 +41,10 @@ window.BrandingEditor = {
     controls: { ... },        // Main controls (orchestrator)
     controlsEffects: { ... }, // Grain, Waves, Particles
     controlsLinkedin: { ... },// LinkedIn-specific controls
+    controlsServiceCard: { ... }, // Service card-specific controls
+    controlsPortfolioCard: { ... }, // Portfolio card-specific controls
+    controlsSkillHighlight: { ... }, // Skill highlight-specific controls
+    controlsProjectShowcase: { ... }, // Project showcase-specific controls
     controlsResolution: { ... }, // Resolution and zoom
     export: { ... }           // Export module
 };
@@ -55,10 +63,14 @@ Scripts must be loaded in this order (handled by Hugo template):
 7. `technologies.js` - Tech selection
 8. `controls-effects.js` - Effect controls (before main controls)
 9. `controls-linkedin.js` - LinkedIn controls (before main controls)
-10. `controls-resolution.js` - Resolution controls (before main controls)
-11. `controls.js` - Main controls orchestrator
-9. `export.js` - Export functionality
-10. `branding.js` - Main initialization
+10. `controls-service-card.js` - Service card controls (before main controls)
+11. `controls-portfolio-card.js` - Portfolio card controls (before main controls)
+12. `controls-skill-highlight.js` - Skill highlight controls (before main controls)
+13. `controls-project-showcase.js` - Project showcase controls (before main controls)
+14. `controls-resolution.js` - Resolution controls (before main controls)
+15. `controls.js` - Main controls orchestrator
+16. `export.js` - Export functionality
+17. `branding.js` - Main initialization
 
 ## Data Flow
 
