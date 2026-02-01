@@ -1,8 +1,5 @@
 {{- define "main" -}}
-<!-- Utilisation du CSS education existant -->
-{{ with resources.Get "css/education.css" }}
-<link rel="stylesheet" href="{{ .RelPermalink }}">
-{{ end }}
+<!-- Education styles are loaded via css.html partial -->
 
 <section class="education-section">
     <div class="education-header">

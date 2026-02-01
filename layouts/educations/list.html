@@ -1,11 +1,6 @@
 {{- define "main" -}}
-<!-- Utilisation du CSS education existant -->
-{{ with resources.Get "css/education.css" }}
-<link rel="stylesheet" href="{{ .RelPermalink }}">
-{{ end }}
-{{ with resources.Get "css/tabs.css" }}
-<link rel="stylesheet" href="{{ .RelPermalink }}">
-{{ end }}
+<!-- Education styles are loaded via css.html partial -->
+<!-- Tabs styles are loaded via css/shared/components/*.scss pattern -->
 
 <style>
 /* Ajustement pour le dock en haut */

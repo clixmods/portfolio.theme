@@ -1,26 +1,31 @@
 {{/*
-  Helper to load multiple CSS files matching a pattern
+  Helper to load multiple SCSS files matching a pattern
   
-  Usage: {{ partial "helpers/load-css-pattern.html" "css/shared/widgets/*.css" }}
+  Usage: {{ partial "helpers/load-css-pattern.html" "css/shared/components/*.scss" }}
   
   Params:
-  - . (string): Glob pattern to match CSS files
+  - . (string): Glob pattern to match SCSS files (CSS files renamed to .scss)
+  
+  Note: CSS files are now SCSS (CSS is valid SCSS)
   
   Production mode:
+  - Compiles through SCSS pipeline
   - Runs PostCSS (including PurgeCSS) to remove unused CSS
   - Minifies and fingerprints for cache busting
   - Adds integrity attribute for security
 */}}
 {{- $resources := resources.Match . }}
 {{- if not $resources }}
-  {{- warnf "No CSS files found matching pattern: %s" . }}
+  {{- warnf "No SCSS files found matching pattern: %s" . }}
 {{- end }}
 {{- range sort $resources "Name" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | css.PostCSS | minify | fingerprint | resources.PostProcess }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+  {{- with . | toCSS }}
+    {{- if hugo.IsDevelopment }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- else }}
+      {{- with . | css.PostCSS | minify | fingerprint | resources.PostProcess }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+      {{- end }}
     {{- end }}
   {{- end }}
 {{- end }}

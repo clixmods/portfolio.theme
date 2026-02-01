@@ -1,0 +1,13 @@
+/* FICHIER DEPLACE / DEPRECIE
+   Les variables sont maintenant séparées en:
+   - variables.global.scss
+   - variables.portfolio.scss
+   - variables.blog.scss
+   - variables.projects.scss
+   Ce fichier peut être supprimé après mise à jour des imports. */
+
+/* (Optionnel) Imports de compatibilité temporaire */
+@import '../variables.global.scss';
+@import '../variables.portfolio.scss';
+@import '../variables.blog.scss';
+@import '../variables.projects.scss';

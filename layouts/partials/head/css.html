@@ -1,5 +1,5 @@
 {{/* Global Variables (always) */}}
-{{ partial "helpers/load-css.html" "css/variables.global.css" }}
+{{ partial "helpers/load-css.html" "css/variables.global.scss" }}
 
 {{/* Determine page type to load dedicated variables */}}
 {{- $pageType := "" -}}
@@ -12,24 +12,24 @@
 {{- else -}}
   {{- $pageType = "portfolio" -}}
 {{- end -}}
-{{- $varFile := printf "css/variables.%s.css" $pageType -}}
+{{- $varFile := printf "css/variables.%s.scss" $pageType -}}
 {{ partial "helpers/load-css.html" $varFile }}
 
 {{/* Add global Hero Background */}}
-{{ partial "helpers/load-css.html" "css/hero-background.css" }}
+{{ partial "helpers/load-css.html" "css/hero-background.scss" }}
 
 {{/* Base Stylesheets - Load first */}}
-{{ partial "helpers/load-css.html" "css/style.css" }}
-{{ partial "helpers/load-css.html" "css/main.css" }}
+{{ partial "helpers/load-css.html" "css/style.scss" }}
+{{ partial "helpers/load-css.html" "css/main.scss" }}
 
 {{/* Translucent Footer Styles */}}
-{{ partial "helpers/load-css.html" "css/footer.css" }}
+{{ partial "helpers/load-css.html" "css/footer.scss" }}
 
 {{/* Tech Icons Styles */}}
 <link rel="stylesheet" href="/css/tech-icons.css">
 
 {{/* Profile Stats Styles */}}
-{{ partial "helpers/load-css.html" "css/profile-stats.css" }}
+{{ partial "helpers/load-css.html" "css/profile-stats.scss" }}
 
 {{/* Dock Styles */}}
 {{ partial "helpers/load-scss.html" "scss/dock.scss" }}
@@ -48,9 +48,7 @@
 
 {{/* CSS Fix for dropdowns only */}}
 {{- if hugo.IsDevelopment }}
-  {{- with resources.Get "css/dropdown-fix.css" }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- end }}
+  {{ partial "helpers/load-css.html" "css/dropdown-fix.scss" }}
 {{- end }}
 
 {{/* Trophies Modal Styles */}}
@@ -73,7 +71,7 @@
      will not have their styles applied on the homepage, causing layout issues like uncentered buttons.
 */}}
 {{- if or (eq .Section "competences") (.IsHome) }}
-  {{ partial "helpers/load-css.html" "css/skills.css" }}
+  {{ partial "helpers/load-css.html" "css/skills.scss" }}
 {{- end }}
 
 {{/* Unified Modal Styles (replaces legacy Discord modal styles) */}}
@@ -94,26 +92,26 @@
   {{- end }}
 {{- end }}
 
-{{ partial "helpers/load-css.html" "css/background.css" }}
+{{ partial "helpers/load-css.html" "css/background.scss" }}
 
 {{/* Layout Components */}}
 
 {{/* Section-specific Stylesheets */}}
-{{ partial "helpers/load-css.html" "css/profile-hero.css" }}
+{{ partial "helpers/load-css.html" "css/profile-hero.scss" }}
 
-{{ partial "helpers/load-css.html" "css/info-sections.css" }}
+{{ partial "helpers/load-css.html" "css/info-sections.scss" }}
 
-{{ partial "helpers/load-css.html" "css/projects.css" }}
+{{ partial "helpers/load-css.html" "css/projects.scss" }}
 
 {{/* Projects List Page Styles */}}
 {{ if eq .Section "projects" }}
   {{ if not .IsHome }}
-    {{ partial "helpers/load-css.html" "css/projects-list.css" }}
+    {{ partial "helpers/load-css.html" "css/projects-list.scss" }}
   {{ end }}
 {{ end }}
 
 {{/* Technical Specifications Styles */}}
-{{ partial "helpers/load-css.html" "css/technical-specs.css" }}
+{{ partial "helpers/load-css.html" "css/technical-specs.scss" }}
 
 {{/* Blog Styles (SCSS) */}}
 {{ partial "helpers/load-scss.html" "scss/blog.scss" }}
@@ -121,30 +119,30 @@
 {{/* Dropdown Styles for Blog Sort Controls */}}
 {{ partial "helpers/load-scss.html" "scss/dropdown.scss" }}
 
-{{ partial "helpers/load-css.html" "css/shortcodes.css" }}
+{{ partial "helpers/load-css.html" "css/shortcodes.scss" }}
 
-{{ partial "helpers/load-css.html" "css/section-headers.css" }}
-{{ partial "helpers/load-css.html" "css/experience.css" }}
+{{ partial "helpers/load-css.html" "css/section-headers.scss" }}
+{{ partial "helpers/load-css.html" "css/experience.scss" }}
 
 {{/* Experiences List Page Styles */}}
 {{ if eq .Section "experiences" }}
   {{ if not .IsHome }}
-    {{ partial "helpers/load-css.html" "css/experiences-list.css" }}
+    {{ partial "helpers/load-css.html" "css/experiences-list.scss" }}
   {{ end }}
 {{ end }}
 
-{{ partial "helpers/load-css.html" "css/education.css" }}
-{{ partial "helpers/load-css.html" "css/testimonials.css" }}
+{{ partial "helpers/load-css.html" "css/education.scss" }}
+{{ partial "helpers/load-css.html" "css/testimonials.scss" }}
 
-{{ partial "helpers/load-css.html" "css/forms.css" }}
+{{ partial "helpers/load-css.html" "css/forms.scss" }}
 
 {{/* Project-specific styles - Loaded only on project pages */}}
 {{ if eq .Section "projects" }}
   {{/* Project variables (PS5 and widgets) */}}
-  {{ partial "helpers/load-css.html" "css/projects/variables.widgets.css" }}
-  {{ partial "helpers/load-css.html" "css/projects/variables.ps5.css" }}
+  {{ partial "helpers/load-css.html" "css/projects/variables.widgets.scss" }}
+  {{ partial "helpers/load-css.html" "css/projects/variables.ps5.scss" }}
   {{/* Developer Widgets Styles - Specialties and Tools (used in project widgets) */}}
-  {{ partial "helpers/load-css.html" "css/projects/developer-widgets.css" }}
+  {{ partial "helpers/load-css.html" "css/projects/developer-widgets.scss" }}
 {{ end }}
 
 {{/* Project widgets SCSS (refactored from CSS) - Loaded only on project pages */}}
@@ -153,11 +151,11 @@
 {{ end }}
 
 {{/* Section-specific component */}}
-{{ partial "helpers/load-css-pattern.html" "css/shared/components/*.css" }}
+{{ partial "helpers/load-css-pattern.html" "css/shared/components/*.scss" }}
 
 {{/* Section-specific project page styles (loaded only on project pages) */}}
 {{ if eq .Section "projects" }}
-  {{ partial "helpers/load-css-pattern.html" "css/projects/*.css" }}
+  {{ partial "helpers/load-css-pattern.html" "css/projects/*.scss" }}
 {{ end }}
 
 {{/* CV page styles (loaded only on CV page) */}}
