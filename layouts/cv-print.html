@@ -226,8 +226,19 @@
         <ul class="cv-tags cv-language-tags">
           {{ range first 6 (sort $programmingLanguages "experience" "desc") }}
             {{ $exp := .experience }}
+            {{ $langName := "" }}
+            {{ if .key }}
+              {{ $langName = i18n .key | default .name }}
+            {{ else }}
+              {{ $langName = .name }}
+            {{ end }}
             <li class="cv-language-tag">
-              <span class="cv-lang-name">{{ .name }}</span>
+              {{ if .iconPath }}
+                <img src="{{ .iconPath | absURL }}" alt="{{ $langName }}" class="cv-lang-icon" width="24" height="24">
+              {{ else if .icon }}
+                <span class="cv-lang-icon cv-lang-icon-emoji">{{ .icon }}</span>
+              {{ end }}
+              <span class="cv-lang-name">{{ $langName }}</span>
               <span class="cv-lang-exp">
                 {{ if ge $exp 1 }}
                   {{/* Arrondi intelligent : si >= 1.8 ans, arrondir à l'année supérieure */}}
@@ -390,13 +401,6 @@
               <div class="cv-project-description">
                 13 projets réalisés sur <strong>Unity</strong> et <strong>Unreal</strong> en équipe restreinte pendant les études.
               </div>
-              
-              <div class="cv-project-tags">
-                <span class="cv-project-tag cv-tag-specialty">Gestion de projet</span>
-                <span class="cv-project-tag cv-tag-specialty">Méthode agile</span>
-                <span class="cv-project-tag cv-tag-lang">C#</span>
-                <span class="cv-project-tag cv-tag-framework">Unity</span>
-              </div>
             </div>
             
             {{/* Game Jam section */}}
@@ -411,12 +415,6 @@
               <div class="cv-project-description">
                 Création de jeux vidéo en <strong>temps restreint</strong> et <strong>contrainte</strong>, avec une équipe aléatoire (dernièrement la Global Game Jam 2024 et les Ludum Jam 1to3).
               </div>
-              
-              <div class="cv-project-tags">
-                <span class="cv-project-tag cv-tag-specialty">Création agile</span>
-                <span class="cv-project-tag cv-tag-specialty">Game Design</span>
-                <span class="cv-project-tag cv-tag-specialty">Développement rapide</span>
-              </div>
             </div>
             
             {{/* Modding section */}}
@@ -430,12 +428,7 @@
               
               <div class="cv-project-description">
                 <strong>Contenu de jeu vidéo</strong> pour le Steam Workshop de <strong>Call of Duty Black Ops 3</strong>.
-                <br/>+ 800 000 téléchargements cumulés
-              </div>
-              
-              <div class="cv-project-tags">
-                <span class="cv-project-tag cv-tag-specialty">Steam Workshop</span>
-                <span class="cv-project-tag cv-tag-specialty">Management communautaire</span>
+                <br/>+ 1 000 000 téléchargements cumulés
               </div>
             </div>
             
