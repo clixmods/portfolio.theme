@@ -16,12 +16,16 @@
   {{- $endDate = time $experience.Params.end_date -}}
 {{- end -}}
 
-{{/* Calculate period */}}
+{{/* Calculate period - if same year, show only year */}}
 {{- $startYear := $startDate.Year -}}
 {{- $period := "" -}}
 {{- if $endDate -}}
   {{- $endYear := $endDate.Year -}}
-  {{- $period = printf "%d - %d" $startYear $endYear -}}
+  {{- if eq $startYear $endYear -}}
+    {{- $period = printf "%d" $startYear -}}
+  {{- else -}}
+    {{- $period = printf "%d - %d" $startYear $endYear -}}
+  {{- end -}}
 {{- else -}}
   {{- $period = printf "%d - %s" $startYear (i18n "present" | default "Présent") -}}
 {{- end -}}
@@ -41,6 +45,10 @@
 {{/* Arrondi intelligent: si >= 10 mois, arrondir à l'année supérieure */}}
 {{- $duration := "" -}}
 {{- if eq $years 0 -}}
+  {{/* Minimum 1 month if there's any duration */}}
+  {{- if and (eq $months 0) (gt $diffMonths 0) -}}
+    {{- $months = 1 -}}
+  {{- end -}}
   {{- if eq $months 1 -}}
     {{- $duration = printf "1 %s" (i18n "month" | default "mois") -}}
   {{- else -}}
